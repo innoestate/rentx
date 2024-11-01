@@ -17,6 +17,10 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
-    "express": "^4.21.1"
+    "@nestjs/config": "^3.3.0",
+    "@nestjs/typeorm": "^10.0.2",
+    "express": "^4.21.1",
+    "pg": "^8.13.1",
+    "typeorm": "^0.3.20"
   }
 }
