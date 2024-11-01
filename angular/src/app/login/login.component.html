@@ -1,0 +1,18 @@
+<div class="login-container">
+  <nz-card [nzBordered]="false" class="login-card">
+    <h2 nz-typography class="login-title">Welcome Back</h2>
+    <p nz-typography nzType="secondary" class="login-subtitle">
+      Sign in to continue to your account
+    </p>
+
+    <button
+      nz-button
+      nzType="primary"
+      nzSize="large"
+      class="google-button"
+      (click)="loginWithGoogle()">
+      <span nz-icon nzType="google" nzTheme="outline"></span>
+      Continue with Google
+    </button>
+  </nz-card>
+</div>

@@ -125,3 +125,5 @@ Thumbs.db
 /nestjs/*.seed
 /nestjs/*.pid.lock
 /nestjs/report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+.env
