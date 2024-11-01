@@ -4,6 +4,11 @@ import { JwtAuthGuard } from '../../auth/auth.guard';
 @Controller('api/user')
 export class UserController {
 
+    @Get('hello')
+    sayHello(@Req() req) {
+        return 'hello';
+    }
+
     @UseGuards(JwtAuthGuard)
     @Get('profile')
     getProfile(@Req() req) {
