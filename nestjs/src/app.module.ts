@@ -5,6 +5,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { UserController } from './api/user/user.controller';
 
 console.log(join(__dirname, '../angular/dist/angular'));
 
@@ -19,7 +20,7 @@ console.log(join(__dirname, '../angular/dist/angular'));
     }),
     AuthModule,
   ],
-  controllers: [AppController],
+  controllers: [UserController, AppController],
   providers: [AppService],
 })
 export class AppModule {}

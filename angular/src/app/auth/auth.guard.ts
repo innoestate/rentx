@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { map, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +14,15 @@ export class AuthGuard implements CanActivate {
     private message: NzMessageService
   ) {}
 
-  canActivate(): boolean {
-    if (this.authService.isAuthenticated()) {
-      return true;
-    }
-
-    this.message.warning('Please login to access this page');
-    this.router.navigate(['/login']);
-    return false;
+  canActivate(): Observable<boolean> | boolean {
+    return this.authService.isAuthenticated().pipe(
+      tap(isAuthenticated => {
+        if (!isAuthenticated) {
+          this.message.warning('Please login to access this page');
+          this.router.navigate(['/login']);
+        }
+      }),
+      map(()=> true)
+    );
   }
 }

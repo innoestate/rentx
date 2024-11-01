@@ -1,64 +1,60 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { NzMessageService } from 'ng-zorro-antd/message';
-
-interface User {
-  email: string;
-  firstName: string;
-  lastName: string;
-  picture: string;
-  accessToken: string;
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly API_URL = 'http://localhost:3000/auth';
-  private currentUserSubject = new BehaviorSubject<User | null>(null);
-  public currentUser$ = this.currentUserSubject.asObservable();
+  private readonly API_URL = 'http://localhost:3000/api';
+
+  TOKEN_KEY = 'authToken';
 
   constructor(
     private http: HttpClient,
-    private message: NzMessageService
-  ) {
-    const user = localStorage.getItem('currentUser');
-    if (user) {
-      this.currentUserSubject.next(JSON.parse(user));
-    }
-  }
+  ) {}
 
   initiateGoogleLogin(): void {
-    window.location.href = `${this.API_URL}/google`;
+    window.location.href = `${this.API_URL}/auth/google`;
   }
 
   handleGoogleCallback(code: string): Observable<any> {
-    return this.http.get(`${this.API_URL}/google/callback?code=${code}`).pipe(
-      tap(console.log)
-      // tap(() => {
-      //   next: (user: User) => {
-      //     if (user) {
-      //       localStorage.setItem('currentUser', JSON.stringify(user));
-      //       this.currentUserSubject.next(user);
-      //       this.message.success('Successfully logged in!');
-      //     }
-      //   },
-      //   error: (error) => {
-      //     this.message.error('Login failed. Please try again.');
-      //   }
-      // })
+    return this.http.get(`${this.API_URL}/auth/google/callback?code=${code}`).pipe(
+      tap(console.log),
+      tap(({ user }) => {
+        localStorage.setItem('currentUser', JSON.stringify(user));
+      })
     );
   }
 
-  logout(): void {
-    localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
-    this.message.success('Successfully logged out');
+  logout(): Observable<any> {
+    return this.http.get(`${this.API_URL}/user/logout`).pipe(
+      tap(() => {
+        this.removeToken(this.getToken()!);
+      })
+    )
   }
 
-  isAuthenticated(): boolean {
-    return !!this.currentUserSubject.value;
+  isAuthenticated(): Observable<any> {
+    let token = localStorage.getItem('authToken');
+    if (token) {
+      return this.http.get(`${this.API_URL}/user/profile`);
+    } else {
+      return of(null);
+    }
   }
+
+  setToken(token: string): void {
+    localStorage.setItem(this.TOKEN_KEY, token);
+  }
+
+  removeToken(token: string): void {
+    localStorage.removeItem(this.TOKEN_KEY);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.TOKEN_KEY);
+  }
+
 }

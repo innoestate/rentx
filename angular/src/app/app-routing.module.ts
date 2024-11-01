@@ -8,11 +8,21 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'callback', component: CallbackComponent },
   {
-    path: 'dashboard',
-    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
-    canActivate: [AuthGuard]
+    path: 'me',
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'dashboard',
+        loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+        pathMatch: 'full'
+      },
+      {
+        path: '**',
+        redirectTo: 'dashboard', pathMatch: 'full'
+      },
+    ]
   },
-  { path: '', redirectTo: '/login', pathMatch: 'full' }
+  { path: '', redirectTo: '/me', pathMatch: 'full' }
 ];
 
 @NgModule({
