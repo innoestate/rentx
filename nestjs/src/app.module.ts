@@ -4,7 +4,9 @@ import { AppService } from './app.service';
 import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
-import { UserController } from './api/user/user.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmConfigService } from './config/typeorm.config';
+import { userModule } from './user/user.module';
 
 console.log(join(__dirname, '../angular/dist/angular'));
 
@@ -14,8 +16,13 @@ console.log(join(__dirname, '../angular/dist/angular'));
       isGlobal: true,
     }),
     AuthModule,
+    userModule,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useClass: TypeOrmConfigService,
+    }),
   ],
-  controllers: [UserController, AppController],
+  controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
