@@ -10,7 +10,6 @@ RUN npm audit --fix
 
 # Copy the rest of the application code
 COPY . .
-COPY .env .env
 
 # Build the application
 RUN npm run build
