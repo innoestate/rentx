@@ -11,10 +11,10 @@ console.log(join(__dirname, '../angular/dist/angular'));
 
 @Module({
   imports: [
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../../angular/dist/angular'),
-      exclude: ['/api*'],
-    }),
+    // ServeStaticModule.forRoot({
+    //   rootPath: join(__dirname, '../../angular/dist/angular'),
+    //   exclude: ['/api*'],
+    // }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),

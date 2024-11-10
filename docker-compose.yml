@@ -1,0 +1,57 @@
+version: '3.7'
+services:
+  angular:
+    container_name: angular
+    build:
+      context: ./angular
+      dockerfile: Dockerfile
+    volumes: 
+      - angular_dist_volume:/app/dist/angular
+    depends_on:
+      - nestjs 
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  nestjs:
+    container_name: nestjs
+    build:
+      context: ./nestjs
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - my-network
+
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    expose:
+      - "80"
+    ports:
+      - "80:80"
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+      - angular_dist_volume:/var/www/rentx.fr
+    depends_on:
+      - angular
+    restart: unless-stopped
+    networks:
+      - my-network
+
+volumes:
+  angular_dist_volume: {}
+  pg_data:
+  
+networks:
+  my-network:
+    driver: bridge
