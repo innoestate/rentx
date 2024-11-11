@@ -1,56 +1,65 @@
-version: '3.8'
-
+version: '3.7'
 services:
-  frontend:
-    build: 
+  angular:
+    container_name: angular
+    build:
       context: ./angular
       dockerfile: Dockerfile
-    ports:
-      - "80:80"
+    volumes: 
+      - angular_dist_volume:/app/dist/angular
     depends_on:
-      - backend
-    networks:
-      - app-network
+      - nestjs 
 
-  backend:
-    build: 
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    ports:
+      - "5432:5432"
+    networks:
+      - my-network
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  nestjs:
+    container_name: nestjs
+    build:
       context: ./nestjs
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    environment:
-      - DATABASE_HOST=postgres
-      - DATABASE_PORT=5432
-      - DATABASE_USER=dev
-      - DATABASE_PASSWORD=devpassword
-      - DATABASE_NAME=rentx_dev
+    networks:
+      - my-network
     depends_on:
-      - postgres:
-        condition: service_healthy
-    networks:
-      - app-network
+      - postgres 
+    restart: always
 
-  postgres:
-    image: postgres:13
-    environment:
-      POSTGRES_USER: dev
-      POSTGRES_PASSWORD: devpassword
-      POSTGRES_DB: rentx_dev
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    expose:
+      - "80"
     ports:
-      - "5432:5432"
+      - "80:80"
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+      - angular_dist_volume:/var/www/rentx.fr
+      - /etc/letsencrypt/live/rentx.fr/fullchain.pem:/etc/letsencrypt/live/rentx.fr/fullchain.pem
+      - /etc/letsencrypt/live/rentx.fr/privkey.pem:/etc/letsencrypt/live/rentx.fr/privkey.pem
+
+    depends_on:
+      - angular
+    restart: unless-stopped
     networks:
-      - app-network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U dev -d rentx_dev"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - my-network
 
 volumes:
-  postgres-data:
-
+  angular_dist_volume: {}
+  pg_data:
+  
 networks:
-  app-network:
+  my-network:
     driver: bridge

@@ -7,7 +7,7 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly API_URL = 'http://localhost:3000/api';
+  private readonly API_URL = 'http://localhost/api';
 
   TOKEN_KEY = 'authToken';
 
