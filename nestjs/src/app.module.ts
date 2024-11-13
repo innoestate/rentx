@@ -7,8 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './config/typeorm.config';
 import { userModule } from './user/user.module';
-
-console.log(join(__dirname, '../angular/dist/angular'));
+import { DatabaseInitService } from './services/database-init.service';
 
 @Module({
   imports: [
@@ -23,6 +22,6 @@ console.log(join(__dirname, '../angular/dist/angular'));
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, DatabaseInitService],
 })
 export class AppModule { }
