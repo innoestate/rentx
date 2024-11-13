@@ -12,6 +12,7 @@ import { DatabaseInitService } from './services/database-init.service';
 @Module({
   imports: [
     ConfigModule.forRoot({
+      envFilePath: `.env.${process.env.NODE_ENV || 'development'}`,
       isGlobal: true,
     }),
     AuthModule,

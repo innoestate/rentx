@@ -2,6 +2,8 @@ FOR PRODUCTION
 
 install docker, docker-compose, git and certbot in the VPS
 
+upload project from git and upload .env from your computer on the root project and .env.production in the nestjs folder
+
 run certbot to build certificates for rentx.fr, www.rentx.fr and api.rentx.fr
 
 

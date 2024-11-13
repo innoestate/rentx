@@ -8,10 +8,6 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   constructor(private configService: ConfigService) {}
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
-
-    console.log('postgres config', this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('DB_HOST'));
-
-
     const config = {
       type: 'postgres',
       host: this.configService.get<string>('DB_HOST'),

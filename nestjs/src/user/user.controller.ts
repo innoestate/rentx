@@ -10,7 +10,7 @@ export class UserController {
 
     @Get('hello')
     sayHello(@Req() req) {
-        return 'hello';
+        return 'hello world!';
     }
 
     @UseGuards(JwtAuthGuard)
