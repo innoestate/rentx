@@ -6,7 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: ['http://localhost:4200'], // Add your Angular dev server URL
+    origin: ['http://localhost:4200', 'https://rentx.fr', 'https://www.rentx.fr'], // Add your Angular dev server URL
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     credentials: true, // Important for authentication
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
