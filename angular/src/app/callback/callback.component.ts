@@ -18,14 +18,13 @@ export class CallbackComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      console.log('callback params', params);
       if (params['code']) {
         this.authService.handleGoogleCallback(params['code']).pipe(
           tap(data => {
             this.authService.setToken(data.token);
           })
         ).subscribe({
-          next: () => this.router.navigate(['/me/dashboard']),
+          next: () => this.router.navigate(['/desktop/me/dashboard']),
           error: () => this.router.navigate(['/login'])
         });
       } else {

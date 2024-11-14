@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
-import { NzMessageService } from 'ng-zorro-antd/message';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,19 +9,24 @@ import { Observable } from 'rxjs';
 export class DeviceGuard implements CanActivate {
   constructor(
     private router: Router,
-    private message: NzMessageService
+    private deviceDetector: DeviceDetectorService
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
     if (state.url.includes('desktop')) {
-      console.log('in desktop');
+      if (this.deviceDetector.isMobile()) {
+        const newUrl = state.url.replace('desktop', 'mobile');
+        this.router.navigate([newUrl]);
+        return false;
+      }
       return true;
     }else if (state.url.includes('mobile')) {
-      console.log('in mobile');
+      if(!this.deviceDetector.isMobile()){
+        const newUrl = state.url.replace('mobile', 'desktop');
+        this.router.navigate([newUrl]);
+        return false;
+      }
       return true;
-    }else{
-      this.router.navigate(['/desktop']);
-      console.log('need to check device to redirect');
     }
     return true;
   }

@@ -21,8 +21,7 @@ export class AuthService {
   }
 
   handleGoogleCallback(code: string): Observable<any> {
-    return this.http.get(`${this.API_URL}/auth/google/callback?code=${code}`).pipe(
-      tap(console.log),
+    return this.http.get<{user:any}>(`${this.API_URL}/auth/google/callback?code=${code}`).pipe(
       tap(({ user }) => {
         localStorage.setItem('currentUser', JSON.stringify(user));
       })

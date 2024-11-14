@@ -9,7 +9,6 @@ const routes: Routes = [
 
   // { path: 'login', component: LoginComponent },
   { path: 'callback', component: CallbackComponent },
-
   {
     path: '',
     canActivate: [DeviceGuard],
@@ -22,27 +21,12 @@ const routes: Routes = [
         path: 'desktop',
         loadChildren: () => import('./desktop/desktop.module').then(m => m.DesktopModule),
       },
-      // {
-      //   path: 'me',
-      //   canActivate: [AuthGuard],
-      //   children: [
-      //     {
-      //       path: 'dashboard',
-      //       loadChildren: () => import('./desktop/dashboard/dashboard.module').then(m => m.DashboardModule),
-      //       pathMatch: 'full'
-      //     },
-      //     {
-      //       path: '**',
-      //       redirectTo: 'dashboard', pathMatch: 'full'
-      //     },
-      //   ]
-      // },
       { path: '', redirectTo: '/me', pathMatch: 'full' }
     ]
   },
   {
-    path: '',
-    redirectTo: '/mobile/login',
+    path: '**',
+    redirectTo: 'desktop/login',
     pathMatch: 'full'
   }
 

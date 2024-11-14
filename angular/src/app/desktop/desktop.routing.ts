@@ -21,7 +21,7 @@ const routes: Routes = [
       },
     ]
   },
-  { path: '', redirectTo: '/me', pathMatch: 'full' }
+  { path: '**', redirectTo: '/login', pathMatch: 'full' }
 ];
 
 @NgModule({

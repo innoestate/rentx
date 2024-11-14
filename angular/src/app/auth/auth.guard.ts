@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
       tap(isAuthenticated => {
         if (!isAuthenticated) {
           this.message.warning('Please login to access this page');
-          this.router.navigate(['/login']);
+          this.router.navigate(['/desktop/login']);
         }
       }),
       map(()=> true)
