@@ -6,4 +6,4 @@ COPY . /app
 
 RUN npm install && npm run build
 
-VOLUME -v angular_dist_volume:/app/dist/angular
+# VOLUME -v angular_dist_volume:/app/dist/angular
