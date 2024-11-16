@@ -16,3 +16,8 @@ Problème de connection à l'instance EC2 known_host:
 IF problem of ssh connection after restarting EC2 instance ?
 check /var/root/.ssh/known_host and remove concerned host. (because the local machine try to protect you)
 or run sudo ssh-keygen -R ec2-13-36-119-43.eu-west-3.compute.amazonaws.com (the name of old a)
+
+
+For dev mode run: 
+
+docker-compose -f docker-compose.dev.yml up

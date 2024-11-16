@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from '../login/login.component';
-import { CallbackComponent } from '../callback/callback.component';
 import { AuthGuard } from '../auth/auth.guard';
+import { LoginDesktopGuard } from '../core/guards/Login.desktop.guard';
+import { LoginComponent } from '../login/login.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  { path: 'login', canActivate: [LoginDesktopGuard], component: LoginComponent },
   {
     path: 'me',
     canActivate: [AuthGuard],

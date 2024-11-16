@@ -10,13 +10,15 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   constructor(
     private authService: AuthService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private store: Store
+  ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
@@ -32,7 +34,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
-          this.authService.logout();
+          this.store.dispatch({ type: '[User] Log Out' });
           this.router.navigate(['/login']);
         }
         return throwError(() => error);

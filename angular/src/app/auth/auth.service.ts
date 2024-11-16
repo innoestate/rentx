@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { delay, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -29,19 +29,14 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
-    return this.http.get(`${this.API_URL}/user/logout`).pipe(
-      tap(() => {
-        this.removeToken(this.getToken()!);
-      })
-    )
+    return this.http.get(`${this.API_URL}/user/logout`);
   }
 
-  isAuthenticated(): Observable<any> {
-    let token = localStorage.getItem('authToken');
+  isAuthenticated(token: string | null): Observable<any> {
     if (token) {
       return this.http.get(`${this.API_URL}/user/profile`);
     } else {
-      return of(null);
+      return of(null).pipe(delay(0));
     }
   }
 

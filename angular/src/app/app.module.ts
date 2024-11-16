@@ -4,6 +4,7 @@ import en from '@angular/common/locales/en';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 // ng-zorro
 import { NzAlertModule } from 'ng-zorro-antd/alert';
@@ -21,6 +22,11 @@ import { AppComponent } from './app.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { CallbackComponent } from './callback/callback.component';
 import { LoginComponent } from './login/login.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { userReducer } from './core/store/user/user.reducers';
+import { UserEffects } from './core/store/user/user.effects';
+import { environment } from 'src/environments/environment';
 
 registerLocaleData(en);
 
@@ -42,7 +48,13 @@ registerLocaleData(en);
     NzMessageModule,
     NzTypographyModule,
     NzIconModule,
-    NzLayoutModule
+    NzLayoutModule,
+    StoreModule.forRoot({ user: userReducer }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: !environment.production,
+    }),
+    EffectsModule.forRoot([UserEffects])
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
