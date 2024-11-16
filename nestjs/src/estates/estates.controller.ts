@@ -1,22 +1,33 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
-import { of } from 'rxjs';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { of, catchError } from 'rxjs';
 import { UserMidleweare } from '../guards/user-midleweare.guard';
 import { JwtAuthGuard } from '../auth/auth.guard';
+import { EstatesService } from './estates.service';
+import { Estate_Dto } from './estate-dto.model';
+import { formatEstateDtoToEstateDb } from './estate.utils';
+import { handleTypeormError } from '../utils/error-typeorm-http.handler';
 
 @Controller('api')
 export class EstatesController {
 
-    constructor() { }
+    constructor(private estateService: EstatesService) { }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Get('estates')
     getEstates(@Req() req) {
-        console.log('getEstates', req.user);
-        return of([      {
-            id: '1',
-            street: 'Address 1',
-            zip: 'Zip 1',
-            city: 'City 1'
-          }]);
+        return this.estateService.getByUser(req.user?.id);
     }
+
+    @UseGuards(JwtAuthGuard, UserMidleweare)
+    @Post('estates')
+    postEstates(@Req() req, @Body() estateDto: Estate_Dto) {
+        const estate_db = formatEstateDtoToEstateDb(estateDto, req.user?.id);
+        return this.estateService.create(estate_db).pipe(
+            catchError(err => {
+                handleTypeormError(err);
+                return of(err);
+            })
+        )
+    }
+
 }
