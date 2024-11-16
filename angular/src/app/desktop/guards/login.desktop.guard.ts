@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
-import { DeviceDetectorService } from 'ngx-device-detector';
+import { CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Injectable({

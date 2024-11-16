@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LoginMobileGuard } from './guards/login.mobile.guard';
 import { LoginComponent } from '../login/login.component';
-import { CallbackComponent } from '../callback/callback.component';
-import { AuthGuard } from '../auth/auth.guard';
+import { AuthMobileGuard } from './guards/auth.mobile.guard';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  { path: 'login', canActivate: [LoginMobileGuard], component: LoginComponent },
   {
     path: 'me',
-    canActivate: [AuthGuard],
+    canActivate: [AuthMobileGuard],
     children: [
       {
         path: 'dashboard',

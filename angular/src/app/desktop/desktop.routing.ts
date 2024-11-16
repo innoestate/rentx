@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '../auth/auth.guard';
-import { LoginDesktopGuard } from '../core/guards/Login.desktop.guard';
+import { AuthDesktopGuard } from './guards/auth.desktop.guard';
+import { LoginDesktopGuard } from './guards/login.desktop.guard';
 import { LoginComponent } from '../login/login.component';
 
 const routes: Routes = [
   { path: 'login', canActivate: [LoginDesktopGuard], component: LoginComponent },
   {
     path: 'me',
-    canActivate: [AuthGuard],
+    canActivate: [AuthDesktopGuard],
     children: [
       {
         path: 'dashboard',

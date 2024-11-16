@@ -7,9 +7,7 @@ export class MenuComponent {
 
   user = this.store.selectSignal(selectUser);
 
-  constructor(private store: Store) {
-    console.log(this.user());
-  }
+  constructor(private store: Store) {}
 
   logout() {
     this.store.dispatch({ type: '[User] Log Out' });

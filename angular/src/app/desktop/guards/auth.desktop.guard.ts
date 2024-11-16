@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { AuthService } from './auth.service';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { map, merge, Observable, take, tap } from 'rxjs';
-import { Store } from '@ngrx/store';
 import { Actions, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { map, merge, Observable, take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AuthDesktopGuard implements CanActivate {
   constructor(
-    private authService: AuthService,
     private router: Router,
     private message: NzMessageService,
     private store: Store,
@@ -34,7 +32,6 @@ export class AuthGuard implements CanActivate {
     this.store.dispatch({ type: '[User] Load User' });
 
     return merge(failure$, success$).pipe(
-      tap(console.log),
       take(1)
     );
   }

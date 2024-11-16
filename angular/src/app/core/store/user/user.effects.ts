@@ -15,7 +15,6 @@ export class UserEffects {
     switchMap(token => this.authService.isAuthenticated(token as string | null)),
     map( user => user?({ type: '[User] Load User Success', user }):({ type: '[User] Load User Failure' })),
     catchError(() => {
-      console.log('log user failure error');
       return of({ type: '[User] Load User Failure' });
     })
   ));

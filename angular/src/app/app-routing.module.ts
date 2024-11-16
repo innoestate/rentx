@@ -1,13 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
 import { CallbackComponent } from './callback/callback.component';
-import { AuthGuard } from './auth/auth.guard';
-import { DeviceGuard } from './core/guards/Device.guard';
+import { DeviceGuard } from './core/guards/device.guard';
 
 const routes: Routes = [
-
-  // { path: 'login', component: LoginComponent },
   { path: 'callback', component: CallbackComponent },
   {
     path: '',

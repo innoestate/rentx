@@ -1,0 +1,19 @@
+<div class="logo">rentx</div>
+<ul nz-menu nzTheme="dark" nzMode="horizontal" class="header-menu">
+  <div class="navigation">
+    <li nz-menu-item [routerLink]="['estates']">Biens</li>
+  </div>
+  <li class="right-menu">
+    <div nz-dropdown [nzDropdownMenu]="userDropdown" class="user-avatar">
+      <img [src]="user()?.picture">
+    </div>
+  </li>
+
+  <nz-dropdown-menu #userDropdown="nzDropdownMenu">
+    <ul nz-menu>
+      <li nz-menu-item (click)="logout()">se déconnecter</li>
+    </ul>
+
+  </nz-dropdown-menu>
+
+</ul>
