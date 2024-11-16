@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { delay, Observable, of } from 'rxjs';
 import { Estate_Dto } from '../../core/models/dtos/estate.dto.model';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -9,18 +10,13 @@ import { Estate_Dto } from '../../core/models/dtos/estate.dto.model';
 })
 export class EstatesService {
 
+  private API_URL = environment.apiURL;
+
   constructor(private http: HttpClient) { }
 
   getEstates(): Observable<Estate_Dto[]> {
     console.log('getEstates');
-    return of([
-      {
-        id: '1',
-        street: 'Address 1',
-        zip: 'Zip 1',
-        city: 'City 1'
-      }
-    ]).pipe(delay(1000))
+    return this.http.get<Estate_Dto[]>(`${this.API_URL}/estates`);
   }
 
   createEstate(estate: Estate_Dto): Observable<any> {
