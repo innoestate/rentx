@@ -2,29 +2,22 @@ import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { map } from 'rxjs';
 import { UsersService } from '../user/user.service';
 import { JwtAuthGuard } from '../auth/auth.guard';
+import { UserMidleweare } from 'src/guards/user-midleweare.guard';
 
 @Controller('api/user')
 export class UserController {
 
-    constructor(private usersService: UsersService) { }
+    constructor() { }
 
     @Get('hello')
     sayHello(@Req() req) {
         return 'hello world!';
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, UserMidleweare)
     @Get('profile')
     getProfile(@Req() req) {
-        if( req.user.id ){
-            return this.usersService.findById(req.user.id).pipe(
-                map(user => ({...user, ...req.user}))
-            );
-        }else if (req.user.email) {
-            return this.usersService.create(req.user.email).pipe(
-                map(user => ({...user, ...req.user}))
-            )
-        }
+        return req.user;
     }
 
     @UseGuards(JwtAuthGuard)
