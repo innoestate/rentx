@@ -27,6 +27,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { userReducer } from './core/store/user/user.reducers';
 import { UserEffects } from './core/store/user/user.effects';
 import { environment } from 'src/environments/environment';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+
 
 registerLocaleData(en);
 
@@ -49,6 +51,7 @@ registerLocaleData(en);
     NzTypographyModule,
     NzIconModule,
     NzLayoutModule,
+    NzDropDownModule,
     StoreModule.forRoot({ user: userReducer }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,

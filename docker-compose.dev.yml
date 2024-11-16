@@ -21,8 +21,8 @@ services:
     ports:
       - "4200:4200"
     volumes:
-      - /app # This is the default volume in the container, use it to reinstall node_modules
-      # - ./angular:/app
+      #- /app # This is the default volume in the container, use it to reinstall node_modules
+      - ./angular:/app
       - /app/node_modules
     command: npm run start -- --host 0.0.0.0
     environment:
