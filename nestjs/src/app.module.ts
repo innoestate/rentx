@@ -8,6 +8,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './config/typeorm.config';
 import { userModule } from './user/user.module';
 import { DatabaseInitService } from './services/database-init.service';
+import { EstatesController } from './estates/estates.controller';
+import { EstatesModule } from './estates/estates.module';
 
 @Module({
   imports: [
@@ -17,6 +19,7 @@ import { DatabaseInitService } from './services/database-init.service';
     }),
     AuthModule,
     userModule,
+    EstatesModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useClass: TypeOrmConfigService,

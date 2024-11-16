@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { map, Observable, tap } from "rxjs";
-import { UsersService } from "src/user/user.service";
+import { UsersService } from "../user/user.service";
 
 @Injectable()
 export class UserMidleweare implements CanActivate {
