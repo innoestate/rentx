@@ -3,6 +3,8 @@ import { Actions, createEffect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects'
 import { Store } from "@ngrx/store";
 import { catchError, combineLatest, map, of, switchMap, take, tap } from "rxjs";
 import { EstatesService } from "../../services/estates.service";
+import { Estate_Post_Request } from "../../models/requests/estate-post-request.model";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Injectable()
 export class EstatesEffects {
@@ -21,11 +23,11 @@ export class EstatesEffects {
 
   createEstate$ = createEffect(() => this.actions$.pipe(
     ofType('[Estates] Create Estate'),
-    switchMap(({ estate }) => this.estatesService.createEstate(estate).pipe(
+    switchMap(({ estate }) => this.estatesService.create(estate as Estate_Post_Request).pipe(
       // switchMap(createdEstate => combineLatest([of(createdEstate), this.store.select(ownersSelector).pipe(take(1))])),
       // map(([createdEstate, { owners }]) => setOwner(createdEstate, owners)),
       map(createdEstate => ({ type: '[Estates] Create Estate Success', estate: createdEstate })),
-      catchError(() => of({ type: '[Estates] Create Estate Failure' }))
+      catchError(({error}) => of({ type: '[Estates] Create Estate Failure', error }))
     ))
   ))
 

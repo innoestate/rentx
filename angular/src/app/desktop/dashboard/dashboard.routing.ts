@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard.component';
+import { DashboardDesktopComponent } from './dashboard.component';
 
 const routes: Routes = [
   {
-    path: '', component: DashboardComponent, children: [
+    path: '', component: DashboardDesktopComponent, children: [
       {
         path: 'estates',
         loadChildren: () => import('./pages/estates/estates.module').then(m => m.EstatesModule),
