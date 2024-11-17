@@ -1,18 +1,5 @@
 version: '3.7'
 services:
-  # angular:
-  #   container_name: angular
-  #   build:
-  #     context: ./angular
-  #     dockerfile: Dockerfile.dev
-  #   ports:
-  #     - "4200:4200"
-  #   networks:
-  #     - my-network
-  #   depends_on:
-  #     - nestjs 
-  #   volumes:
-  #     - ./angular:/app
 
   angular:
     build: 

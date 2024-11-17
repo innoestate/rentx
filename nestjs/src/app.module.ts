@@ -1,15 +1,13 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { join } from 'path';
-import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './config/typeorm.config';
-import { userModule } from './user/user.module';
-import { DatabaseInitService } from './services/database-init.service';
-import { EstatesController } from './estates/estates.controller';
 import { EstatesModule } from './estates/estates.module';
+import { DatabaseInitService } from './services/database-init.service';
+import { userModule } from './user/user.module';
 
 @Module({
   imports: [

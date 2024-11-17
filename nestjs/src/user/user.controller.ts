@@ -1,8 +1,6 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
-import { map } from 'rxjs';
-import { UsersService } from '../user/user.service';
 import { JwtAuthGuard } from '../auth/auth.guard';
-import { UserMidleweare } from 'src/guards/user-midleweare.guard';
+import { UserMidleweare } from '../guards/user-midleweare.guard';
 
 @Controller('api/user')
 export class UserController {
