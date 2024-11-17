@@ -11,9 +11,8 @@ export class MockJwtAuthGuard implements CanActivate {
     }
 
     canActivate(context: ExecutionContext): boolean {
-        console.log('mocked guard actived', this.mockUser);
         const request = context.switchToHttp().getRequest();
-        request.user = this.mockUser; // Injecter l'utilisateur simulé
-        return true; // Autoriser l'accès
+        request.user = this.mockUser; 
+        return true;
     }
 }

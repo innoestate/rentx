@@ -1,6 +1,6 @@
 import { Client } from 'pg';
 
-export async function dropAllTables() {
+export const  dropAllTables = async () => {
 
     const client = new Client({
         host: 'postgres',  
@@ -11,11 +11,7 @@ export async function dropAllTables() {
     });
 
     try {
-        // Connect to the database
         await client.connect();
-        console.log('Connected to the database.');
-
-        // Query to get all tables in the 'public' schema
         const query = `
             SELECT tablename
             FROM pg_tables
@@ -28,18 +24,16 @@ export async function dropAllTables() {
         if (tables.length === 0) {
             console.log('No tables found in the database.');
         } else {
-            console.log(`Found ${tables.length} tables. Dropping them...`);
-            // Generate and execute DROP TABLE statements
+            const dropedTables = [];
             for (const table of tables) {
                 await client.query(`DROP TABLE IF EXISTS ${table} CASCADE;`);
-                console.log(`Dropped table: ${table}`);
+                dropedTables.push(table)
             }
-            console.log('All tables dropped successfully.');
+            console.log('All tables dropped successfully.', dropedTables);
         }
     } catch (err) {
         console.error('Error while dropping tables:', err);
     } finally {
-        // Close the database connection
         await client.end();
         console.log('Database connection closed.');
     }

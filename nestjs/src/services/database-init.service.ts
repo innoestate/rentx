@@ -28,9 +28,9 @@ export class DatabaseInitService implements OnModuleInit {
       `);
     }
 
-    await queryRunner.query(`
-      DROP TABLE estates;
-    `);
+    // await queryRunner.query(`
+    //   DROP TABLE estates;
+    // `);
 
     const estatesTableExists = await queryRunner.hasTable('estates');
     if (!estatesTableExists) {

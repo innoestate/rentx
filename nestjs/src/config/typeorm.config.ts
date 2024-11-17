@@ -26,7 +26,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       drpopSchema: this.configService.get<string>('NODE_ENV') === 'test',
       autoLoadEntities: true,
     };
-    console.log('config', config);
+    // console.log('config', config);
     return config as TypeOrmModuleOptions;
   }
 }
