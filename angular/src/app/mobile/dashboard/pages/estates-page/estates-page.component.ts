@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { EstatePage } from 'src/app/common/pages/estates.page.component';
+import { EstatePage } from '../../../../common/pages/estates.page.component';
 import { CreateDesktopEstatePopupComponent } from '../../../../common/popups/create-estate-popup/create-estate-popup.component';
 
 @Component({
-  selector: 'app-estates',
-  templateUrl: './estates.component.html',
-  styleUrl: './estates.component.scss'
+  selector: 'app-estates-page',
+  templateUrl: './estates-page.component.html',
+  styleUrl: './estates-page.component.scss'
 })
-export class EstatesPageDesktopComponent extends EstatePage{
+export class EstatesMobilePageComponent extends EstatePage {
 
   openCreateEstatePopup() {
     this.modalService.create({
