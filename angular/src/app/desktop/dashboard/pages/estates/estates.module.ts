@@ -7,7 +7,10 @@ import { EstatesEffects } from 'src/app/core/store/estate/estates.effects';
 import { EstatesDesktopRoutingModule } from './estates.routing';
 import { EstatesPageDesktopComponent } from './estates.component';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzTableModule } from 'ng-zorro-antd/table';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 
 @NgModule({
@@ -20,7 +23,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     EstatesDesktopRoutingModule,
     StoreModule.forFeature('estates', estatesReducer),
     EffectsModule.forFeature(EstatesEffects),
-    NzModalModule
+    NzButtonModule,
+    NzModalModule,
+    NzTableModule,
+    NzInputNumberModule,
   ]
 })
 export class EstatesModule { }

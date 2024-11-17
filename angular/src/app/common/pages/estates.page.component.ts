@@ -8,6 +8,7 @@ import { selectEstates } from 'src/app/core/store/estate/estates.selectors';
 export class EstatePage implements OnInit {
 
   estates = this.store.selectSignal(selectEstates);
+  editId!: string | null;
 
   constructor(protected store: Store, protected modalService: NzModalService) { }
 
