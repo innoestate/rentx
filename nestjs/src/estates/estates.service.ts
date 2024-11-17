@@ -18,6 +18,11 @@ export class EstatesService {
     return from(this.estateRepository.save(estate));
   }
 
+  update(estateDb: Partial<Estate_Db>): Observable<Estate> {
+    console.log('update estate', estateDb);
+    return from(this.estateRepository.save(estateDb));
+  }
+
   async getByUser(userId: string): Promise<Estate[] | undefined> {
     return this.estateRepository.find({
       where: { user_id: userId }

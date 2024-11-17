@@ -1,4 +1,5 @@
 export interface Estate_Dto {
+    id?: string;
     street: string;
     city: string;
     zip: string;
