@@ -1,4 +1,26 @@
 <div class="estates-container">
-  {{estates() | json}}
-  <button (click)="openCreateEstatePopup()">créer</button>
+  <div class="estates-header">
+    <button nz-button nzType="default" (click)="openCreateEstatePopup()">Ajouter un bien</button>
+  </div>
+  <nz-table #tables [nzData]="estates()">
+    <thead>
+      <tr>
+        <th>adresse</th>
+        <th>lot</th>
+        <th>loyer</th>
+        <th>charges</th>
+        <th>propriétaire</th>
+        <th>locataire</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let estate of tables.data">
+
+        <td>{{estate.address}}</td>
+
+
+      </tr>
+    </tbody>
+  </nz-table>
 </div>
