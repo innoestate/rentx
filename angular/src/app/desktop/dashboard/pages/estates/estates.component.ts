@@ -8,7 +8,7 @@ import { Estate } from 'src/app/core/models/estate.model';
   templateUrl: './estates.component.html',
   styleUrl: './estates.component.scss'
 })
-export class EstatesPageDesktopComponent extends EstatePage{
+export class EstatesPageDesktopComponent extends EstatePage {
 
   openCreateEstatePopup() {
     this.modalService.create({
@@ -33,9 +33,9 @@ export class EstatesPageDesktopComponent extends EstatePage{
 
 
   edit(estate: Estate, fieldName: string, ref: HTMLInputElement) {
-    // const editableEstate: any = { id: estate.id };
-    // editableEstate[fieldName] = ref.value;
-    // this.store.dispatch({ type: '[Estates] Edit Estate', estate: editableEstate })
+    const editableEstate: any = { id: estate.id };
+    editableEstate[fieldName] = ref.value;
+    this.store.dispatch({ type: '[Estates] Edit Estate', estate: editableEstate })
   }
 
 

@@ -24,16 +24,16 @@ export const estatesReducer = createReducer(
       estates: [...state.estates, data.estate]
     }
   }),
+  on(editEstateSuccess, (state, data) => {
+    return {
+      ...state,
+      estates: state.estates.map(estate => estate.id === data.estate.id ? ({...estate, ...data.estate}) : estate)
+    }
+  }),
   on(deleteEstateSuccess, (state, data) => {
     return {
       ...state,
       estates: state.estates.filter(estate => estate.id !== data.estate.id)
     }
   }),
-  on(editEstateSuccess, (state, data) => {
-    return {
-      ...state,
-      estates: state.estates.map(estate => estate.id === data.estate.id ? ({...estate, ...data.estate}) : estate)
-    }
-  })
 )

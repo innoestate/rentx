@@ -15,7 +15,6 @@ export class EstatesEffects {
     ofType('[Estates] Load Estates'),
     // tap(() => this.store.dispatch({ type: '[Owners] Load Owners' })),
     // tap(() => this.store.dispatch({ type: '[Lodgers] Load Lodgers' })),
-
     switchMap(() => this.estatesService.getEstates().pipe(
       map((estates) => ({ type: '[Estates] Load Estates Success', estates })),
       catchError(() => of({ type: '[Estates] Load Estates Failure' })))
