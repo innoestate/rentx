@@ -7,4 +7,6 @@ import { DashboardComponent } from '../../common/dashboard.component';
   styleUrl: './mobile-dashboard.component.scss'
 })
 export class MobileDashboardComponent extends DashboardComponent {
+
+
 }
