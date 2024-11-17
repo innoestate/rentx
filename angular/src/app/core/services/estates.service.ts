@@ -24,7 +24,7 @@ export class EstatesService {
   }
 
   editEstate(estate: Estate_Dto): Observable<any> {
-    return of(estate)
+    return this.http.patch<Estate_Dto>(`${this.API_URL}/estate`, estate);
   }
 
   deleteEstate(estate: Estate_Dto): Observable<any> {

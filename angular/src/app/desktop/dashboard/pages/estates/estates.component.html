@@ -19,6 +19,12 @@
 
         <td>{{estate.address}}</td>
 
+        <td class="editable-cell-number clickable" (click)="startEdit(estate.id! + 'plot', editableParcelInput)">
+          <div [hidden]="editId === estate.id + 'plot'">{{estate.plot}}</div>
+          <input nz-demo-input-text-basic #editableParcelInput [value]="estate.plot"
+            [hidden]="editId !== estate.id + 'plot'" type="text" (blur)="stopEdit()"
+            (change)="edit(estate, 'plot', editableParcelInput)" />
+        </td>
 
       </tr>
     </tbody>
