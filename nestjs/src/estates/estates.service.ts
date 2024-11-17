@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { from, Observable, of, switchMap } from 'rxjs';
-import { Repository } from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 import { Estate } from './estate.entity';
 import { Estate_Db } from './estate-db.model';
+import { Estate_Dto } from './estate-dto.model';
 
 @Injectable()
 export class EstatesService {
@@ -18,9 +19,8 @@ export class EstatesService {
     return from(this.estateRepository.save(estate));
   }
 
-  update(estateDb: Partial<Estate_Db>): Observable<Estate> {
-    console.log('update estate', estateDb);
-    return from(this.estateRepository.save(estateDb));
+  update(estateDto: DeepPartial<Estate>): Observable<any> {
+    return from(this.estateRepository.update(estateDto.id, estateDto));
   }
 
   async getByUser(userId: string): Promise<Estate[] | undefined> {

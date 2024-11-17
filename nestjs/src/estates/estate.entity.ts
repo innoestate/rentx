@@ -17,6 +17,12 @@ export class Estate {
     user_id: string;
 
     @Column()
+    owner_id: string;
+
+    @Column()
+    lodger_id: string;
+
+    @Column()
     street: string;
 
     @Column()
@@ -33,11 +39,5 @@ export class Estate {
 
     @Column()
     charges: number;
-
-    @Column()
-    owner_id: number;
-
-    @Column()
-    lodger_id: number;
 
 }

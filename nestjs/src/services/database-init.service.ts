@@ -39,14 +39,14 @@ export class DatabaseInitService implements OnModuleInit {
         CREATE TABLE estates (
           id SERIAL PRIMARY KEY,
           user_id VARCHAR(100),
+          owner_id VARCHAR(100),
+          lodger_id VARCHAR(100),
           city VARCHAR(100),
           street VARCHAR(100),
           zip VARCHAR(100),
           plot VARCHAR(100),
           rent REAL,
           charges REAL,
-          owner_id INT,
-          lodger_id INT,
           created_at TIMESTAMP DEFAULT NOW(),
           updated_at TIMESTAMP DEFAULT NOW(),
           CONSTRAINT estates_unique UNIQUE (user_id, city, street, zip, plot)
