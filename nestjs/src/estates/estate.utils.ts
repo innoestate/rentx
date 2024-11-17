@@ -3,6 +3,7 @@ import { Estate_Dto } from './estate-dto.model';
 
 export const formatEstateDtoToEstateDb = (estateDto: Estate_Dto, userId: string): Estate_Db => {
     return {
+        id:estateDto.id,
         street: estateDto.street,
         city: estateDto.city,
         zip: estateDto.zip,

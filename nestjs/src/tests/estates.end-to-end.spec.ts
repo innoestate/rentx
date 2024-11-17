@@ -2,13 +2,15 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { User_Db } from '../user/user-db.model';
 import { dropAllTables } from './utils/db.utils';
-import { estate1 } from './utils/estates.utils';
+import { estate1 as estate1Model } from './utils/estates.utils';
 import { buildApp, buildUser } from './utils/user.utils';
+import { Estate_Db } from 'src/estates/estate-db.model';
 
 describe('/api/estates', () => {
 
     let app: INestApplication;
     let user: User_Db;
+    let estate: Estate_Db;
 
     beforeAll(async () => {
 
@@ -25,23 +27,36 @@ describe('/api/estates', () => {
 
     it('POST /api/estates', async () => {
 
-        const estate = await request(app.getHttpServer())
+        const estateResponse = await request(app.getHttpServer())
         .post('/api/estates')
-        .send(estate1)
+        .send(estate1Model)
         .expect(201);
-        expect(estate.body.street).toBe(estate1.street);
-        expect(estate.body.id).toBeTruthy();
-        expect(estate.body.user_id).toBe(user.id);
-
+        expect(estateResponse.body.street).toBe(estate1Model.street);
+        expect(estateResponse.body.id).toBeTruthy();
+        expect(estateResponse.body.user_id).toBe(user.id);
+        estate = estateResponse.body;
     });
 
     it('POST /api/estates', async () => {
 
         const estate = await request(app.getHttpServer())
         .post('/api/estates')
-        .send(estate1)
+        .send(estate1Model)
         .expect(409);
         expect(estate.body.message).toBeTruthy();
+
+    });
+
+    it('PATCH /api/estate', async () => {
+
+        const esateToUpdate = {...estate, plot: 'A1'};
+
+        const estateResponse = await request(app.getHttpServer())
+        .patch('/api/estate')
+        .send(esateToUpdate)
+        .expect(200);
+        expect(estateResponse.body.id).toBe(estate.id);
+        expect(estateResponse.body.plot).toBe('A1');
 
     });
 
