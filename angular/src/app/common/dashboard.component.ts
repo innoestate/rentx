@@ -27,7 +27,6 @@ export class DashboardComponent {
   }
 
   showError(message?: string): void {
-    console.log('error', JSON.stringify(message));
     this.notification.error('Error', message ?? 'Une erreur est survenue.', {
       nzDuration: 3000,
       nzPlacement: 'topRight',
