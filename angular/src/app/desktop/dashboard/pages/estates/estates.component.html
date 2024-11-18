@@ -26,6 +26,20 @@
             (change)="edit(estate, 'plot', editableParcelInput)" />
         </td>
 
+        <td class="editable-cell-number clickable" (click)="startEdit(estate.id! + 'rent', editableRentInput)">
+          <div [hidden]="editId === estate.id + 'rent'">{{estate.rent}}</div>
+          <input nz-demo-input-number-basic #editableRentInput [value]="estate.rent"
+            [hidden]="editId !== estate.id + 'rent'" type="number" (blur)="stopEdit()"
+            (change)="edit(estate, 'rent', editableRentInput)" />
+        </td>
+
+        <td class="editable-cell-number clickable" (click)="startEdit(estate.id! + 'charges', editableChargesInput)">
+          <div [hidden]="editId === estate.id + 'charges'">{{estate.charges}}</div>
+          <input nz-demo-input-number-basic #editableChargesInput [value]="estate.charges"
+            [hidden]="editId !== estate.id + 'charges'" type="number" (blur)="stopEdit()"
+            (change)="edit(estate, 'charges', editableChargesInput)" />
+        </td>
+
       </tr>
     </tbody>
   </nz-table>
