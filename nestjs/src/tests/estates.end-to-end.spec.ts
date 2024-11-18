@@ -17,7 +17,7 @@ describe('/api/estates', () => {
 
         await dropAllTables();
 
-        user = await buildUser('feff.bezos@amazon.com');
+        user = await buildUser('jeff.bezos@amazon.com');
         app = await buildApp(user);
 
     });

@@ -54,6 +54,26 @@ export class DatabaseInitService implements OnModuleInit {
       `);
     }
 
+    const ownerTableExists = await queryRunner.hasTable('owners');
+    if (!ownerTableExists) {
+      console.log('new owners table created');
+      await queryRunner.query(`
+        CREATE TABLE owners (
+          id SERIAL PRIMARY KEY,
+          user_id VARCHAR(100),
+          name VARCHAR(100),
+          street VARCHAR(100),
+          city VARCHAR(100),
+          zip VARCHAR(100),
+          signature VARCHAR(100),
+          email VARCHAR(100),
+          phone VARCHAR(100),
+          created_at TIMESTAMP DEFAULT NOW(),
+          updated_at TIMESTAMP DEFAULT NOW()
+        );
+      `);
+    }
+
     await queryRunner.release();
   }
 }
