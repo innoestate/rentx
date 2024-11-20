@@ -14,8 +14,8 @@ export class OwnersService {
   ) { }
 
   create(ownerDto: Owner_Dto): Observable<Owner_Entity> {
-    const estate = this.ownerRepository.create(ownerDto);
-    return from(this.ownerRepository.save(estate));
+    const owner = this.ownerRepository.create(ownerDto);
+    return from(this.ownerRepository.save(owner));
   }
 
   update(ownerDto: DeepPartial<Owner_Entity>): Observable<any> {

@@ -11,3 +11,4 @@ export interface Owner_Dto {
     created_at?: string;
     updated_at?: string;
 }
+

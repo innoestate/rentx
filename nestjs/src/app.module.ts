@@ -8,6 +8,7 @@ import { TypeOrmConfigService } from './config/typeorm.config';
 import { EstatesModule } from './estates/estates.module';
 import { DatabaseInitService } from './services/database-init.service';
 import { userModule } from './user/user.module';
+import { OwnersModule } from './owners/owners.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { userModule } from './user/user.module';
     AuthModule,
     userModule,
     EstatesModule,
+    OwnersModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useClass: TypeOrmConfigService,

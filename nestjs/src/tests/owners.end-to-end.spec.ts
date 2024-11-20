@@ -2,7 +2,6 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { User_Db } from '../user/user-db.model';
 import { dropAllTables } from './utils/db.utils';
-import { estate1 as estate1Model } from './utils/estates.utils';
 import { buildApp, buildUser } from './utils/user.utils';
 import { Estate_Db } from 'src/estates/estate-db.model';
 
@@ -11,6 +10,7 @@ describe('/api/owners', () => {
     let app: INestApplication;
     let user: User_Db;
     let estate: Estate_Db;
+    let jackDorsay;
 
     beforeAll(async () => {
 
@@ -25,61 +25,53 @@ describe('/api/owners', () => {
         await app.close();
     });
 
-    // it('GET /api/owners', async () => {
-    //     const response = await request(app.getHttpServer())
-    //         .get('/api/owners')
-    //         .expect(200);
-    //     expect(response.body.length).toEqual(1);
-    //     expect(response.body[0].email).toBe('bill.gates@microsoft.com');
-    // });
+    it('GET /api/owners', async () => {
+        const response = await request(app.getHttpServer())
+            .get('/api/owners')
+            .expect(200);
+        expect(response.body.length).toEqual(1);
+        expect(response.body[0].email).toBe('bill.gates@microsoft.com');
+    });
 
-    // it('POST /api/owners', async () => {
-    //     const ownerResponse = await request(app.getHttpServer())
-    //     .post('/api/owners')
-    //     .send(estate1Model)
-    //     .expect(201);
-    //     expect(ownerResponse.body.street).toBe(estate1Model.street);
-    //     expect(ownerResponse.body.id).toBeTruthy();
-    //     expect(ownerResponse.body.user_id).toBe(user.id);
-    //     estate = ownerResponse.body;
-    // });
+    it('POST /api/owners', async () => {
 
-    // it('POST /api/estates', async () => {
+        const owner = {
+            name: 'Jack Dorsey',
+            street: '123 Market Street',
+            city: 'San Francisco',
+            zip: '94107',
+            email: 'bill.gates@microsoft.com',
+        }
 
-    //     const estate = await request(app.getHttpServer())
-    //     .post('/api/estates')
-    //     .send(estate1Model)
-    //     .expect(409);
-    //     expect(estate.body.message).toBeTruthy();
+        const ownerResponse = await request(app.getHttpServer())
+        .post('/api/owners')
+        .send(owner)
+        .expect(201);
 
-    // });
+        jackDorsay = ownerResponse.body;
 
-    // it('PATCH /api/estate', async () => {
-    //     const esateToUpdate = {id: estate.id, plot: 'A1'};
-    //     const estateResponse = await request(app.getHttpServer())
-    //     .patch('/api/estate')
-    //     .send(esateToUpdate)
-    //     .expect(200);
-    // });
+        expect(ownerResponse.body.street).toBe(owner.street);
+        expect(ownerResponse.body.id).toBeTruthy();
+        expect(ownerResponse.body.user_id).toBe(user.id);
+        estate = ownerResponse.body;
+    });
 
-    // it('PATCH /api/estate', async () => {
-    //     const esateToUpdate = {id: estate.id, rent: 1000};
-    //     const estateResponse = await request(app.getHttpServer())
-    //     .patch('/api/estate')
-    //     .send(esateToUpdate)
-    //     .expect(200);
-    // });
+    it('PATCH /api/owners', async () => {
+        await request(app.getHttpServer())
+        .patch('/api/owners')
+        .send({id: jackDorsay.id, signature: 'Jack Dorsey'})
+        .expect(200);
+    });
 
-    // it('GET /api/estates', async () => {
-    //     const response = await request(app.getHttpServer())
-    //         .get('/api/estates')
-    //         .expect(200);
-    //     expect(response.body.length).toEqual(1);
-    //     expect(response.body[0].street).toBe(estate1Model.street);
-    //     expect(response.body[0].city).toBe(estate1Model.city);
-    //     expect(response.body[0].zip).toBe(estate1Model.zip);
-    //     expect(response.body[0].plot).toBe('A1');
-    //     expect(response.body[0].rent).toBe(1000);
-    // });
+    it('GET /api/owners', async () => {
+        const response = await request(app.getHttpServer())
+            .get('/api/owners')
+            .expect(200);
+        expect(response.body.length).toEqual(2);
+        expect(response.body.filter(owner => owner.email === 'bill.gates@microsoft.com').length).toBe(2);
+        expect(response.body.filter(owner => owner.name === 'Jack Dorsey').length).toBe(1);
+        expect(response.body.filter(owner => owner.signature === 'Jack Dorsey').length).toBe(1);
+
+    });
 
 })

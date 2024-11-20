@@ -5,10 +5,11 @@ import { User } from '../user/user.entity';
 import { EstatesController } from './estates.controller';
 import { Estate } from './estate.entity';
 import { EstatesService } from './estates.service';
+import { Owner_Entity } from '../owners/owners.entity';
 
 @Module({
   controllers: [EstatesController],
-  imports: [TypeOrmModule.forFeature([User, Estate])],
+  imports: [TypeOrmModule.forFeature([User, Owner_Entity, Estate])],
   providers: [UsersService, EstatesService],
   exports: [UsersService]
 })

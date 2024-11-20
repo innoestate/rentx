@@ -17,9 +17,9 @@ export class UserMidleweare implements CanActivate {
             tap(user  => req.user = user),
             map(() => req),
         );
-    }else if (req.user.email) {
-        return this.usersService.create(req.user.email).pipe(
-            map(user => ({...user, ...req.user})),
+    }else if (req.user.email) {//we suppose that user is not registered yet
+        return this.usersService.create(req.user.email, req.user).pipe(
+            map(user => ({...user, ...req.user, firstRegistration: true})),
             tap(user  => req.user = user),
             map(() => req),
         )

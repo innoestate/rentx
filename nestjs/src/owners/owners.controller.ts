@@ -6,6 +6,7 @@ import { handleTypeormError } from '../utils/error-typeorm-http.handler';
 import { OwnersService } from './owners.service';
 import { Estate_Dto } from 'src/estates/estate-dto.model';
 import { Owner_Dto } from './owners-dto.model';
+import { formatOwner } from './owners-db.model';
 
 @Controller('api')
 export class OwnerController {
@@ -21,7 +22,7 @@ export class OwnerController {
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Post('owners')
     postEstates(@Req() req, @Body() ownerDto: Owner_Dto) {
-        return this.ownerService.create({...ownerDto, id: req.user?.id}).pipe(
+        return this.ownerService.create(formatOwner({...ownerDto, user_id: req.user?.id})).pipe(
             catchError(err => {
                 handleTypeormError(err);
                 return of(err);
