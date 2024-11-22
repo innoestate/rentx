@@ -11,6 +11,7 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { OwnersModule } from 'src/app/core/modules/owners/owners.module';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     EstatesDesktopRoutingModule,
     StoreModule.forFeature('estates', estatesReducer),
     EffectsModule.forFeature(EstatesEffects),
+    OwnersModule,
     NzButtonModule,
     NzModalModule,
     NzTableModule,
