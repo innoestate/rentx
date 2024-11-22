@@ -29,11 +29,11 @@ export class UsersService {
                 user_id: createdUser.id,
                 email,
                 name: data?.name??'',
-                street: '',
-                city: '',
-                zip: '',
-                signature: '',
-                phone: ''
+                street: data?.street??'',
+                city: data?.city??'',
+                zip: data?.zip??'',
+                signature: data?.signature??'',
+                phone: data?.phone??''
               });
               this.ownerRepository.save(owner);
             })
