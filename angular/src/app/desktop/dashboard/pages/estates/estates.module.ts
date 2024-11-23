@@ -14,6 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { OwnersModule } from 'src/app/core/modules/owners/owners.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { LodgersModule } from 'src/app/core/modules/owners/lodgers.module';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     StoreModule.forFeature('estates', estatesReducer),
     EffectsModule.forFeature(EstatesEffects),
     OwnersModule,
+    LodgersModule,
     NzButtonModule,
     NzModalModule,
     NzTableModule,
