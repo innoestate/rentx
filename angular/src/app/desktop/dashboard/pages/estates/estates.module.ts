@@ -9,6 +9,7 @@ import { EstatesPageDesktopComponent } from './estates.component';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { OwnersModule } from 'src/app/core/modules/owners/owners.module';
@@ -29,6 +30,7 @@ import { OwnersModule } from 'src/app/core/modules/owners/owners.module';
     NzModalModule,
     NzTableModule,
     NzInputNumberModule,
+    NzDropDownModule
   ]
 })
 export class EstatesModule { }

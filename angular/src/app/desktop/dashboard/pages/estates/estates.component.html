@@ -40,7 +40,54 @@
             (change)="edit(estate, 'charges', editableChargesInput)" />
         </td>
 
+        <!-- <td class="clickable">{{estate.owner}}</td> -->
+        @if(estate.owner){
+          <td nz-dropdown [nzDropdownMenu]="menuOwners" class="clickable">{{estate.owner.name}}</td>
+          }@else {
+          @if((owners()).length){
+          <td class="clickable rcc">
+            <div class="empty-field" nz-dropdown [nzDropdownMenu]="menuOwners"><span nz-icon nzType="edit"
+                nzTheme="outline"></span></div>
+          </td>
+          }@else{
+          <td class="clickable rcc">
+            <div class="empty-field create" (click)="createOwner(estate)">+</div>
+          </td>
+          }
+        }
+
+
+        <nz-dropdown-menu #menuOwners="nzDropdownMenu">
+          <ul nz-menu nzSelectable>
+            <ng-container *ngFor="let owner of owners()">
+              <li nz-menu-item (click)="setOwner(estate, owner)">{{owner.name}}</li>
+            </ng-container>
+            @if(owners(); as owners){
+            @if(owners.length){
+            <li nz-menu-item (click)="setOwner(estate, undefined)" class="empty">aucun</li>
+            <li nz-menu-item (click)="createOwner(estate)" class="primary">
+              <button nz-button nzType="primary">ajouter un propriétaire</button>
+            </li>
+            }@else{
+            <li nz-menu-item (click)="createOwner()" class="primary">ajouter un nouveau propriétaire</li>
+            }
+            }
+          </ul>
+        </nz-dropdown-menu>
+
+
+
+        <nz-dropdown-menu #menuActions="nzDropdownMenu">
+          <ul nz-menu nzSelectable>
+            <li nz-menu-item (click)="sendRentReceiptByEmail(estate)">créer une quittance</li>
+            <li nz-menu-item (click)="deleteEstate(estate)" class="error">supprimer</li>
+          </ul>
+        </nz-dropdown-menu>
+
       </tr>
     </tbody>
   </nz-table>
 </div>
+
+
+
