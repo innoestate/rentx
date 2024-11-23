@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { from, Observable } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { DeepPartial, Repository } from 'typeorm';
 import { Owner_Dto } from './owners-dto.model';
 import { Owner_Entity } from './owners.entity';
+import { catchError, tap } from 'rxjs/operators';
 
 @Injectable()
 export class OwnersService {
@@ -22,10 +23,8 @@ export class OwnersService {
     return from(this.ownerRepository.update(ownerDto.id, ownerDto));
   }
 
-  async getByUser(userId: string): Promise<Owner_Entity[] | undefined> {
-    return this.ownerRepository.find({
-      where: { user_id: userId }
-    });
+  getByUser(userId: string): Observable<Owner_Entity[]> {
+    return from(this.ownerRepository.find({ where: { user_id: userId } }));
   }
 
 }

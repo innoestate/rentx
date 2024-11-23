@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Patch, Post, Req, UseGuards } from '@nestjs/common';
-import { catchError, of } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
 import { JwtAuthGuard } from '../auth/auth.guard';
 import { UserMidleweare } from '../guards/user-midleweare.guard';
 import { handleTypeormError } from '../utils/error-typeorm-http.handler';
@@ -15,13 +15,18 @@ export class OwnerController {
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Get('owners')
-    getEstates(@Req() req) {
-        return this.ownerService.getByUser(req.user?.id);
+    getOwners(@Req() req) {
+        return this.ownerService.getByUser(req.user?.id).pipe(
+            catchError(err => {
+                console.error(err);
+                return of(err);
+            })
+        )
     }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Post('owners')
-    postEstates(@Req() req, @Body() ownerDto: Owner_Dto) {
+    postOwner(@Req() req, @Body() ownerDto: Owner_Dto) {
         return this.ownerService.create(formatOwner({...ownerDto, user_id: req.user?.id})).pipe(
             catchError(err => {
                 handleTypeormError(err);
@@ -32,7 +37,7 @@ export class OwnerController {
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Patch('owners')
-    patchEstates(@Req() req, @Body() ownerDto: Partial<Estate_Dto>) {
+    patchOwners(@Req() req, @Body() ownerDto: Partial<Estate_Dto>) {
         return this.ownerService.update(ownerDto as any).pipe(
             catchError(err => {
                 handleTypeormError(err);

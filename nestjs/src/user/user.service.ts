@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { from, Observable, of, switchMap, tap } from 'rxjs';
+import { catchError, from, map, Observable, of, switchMap, tap } from 'rxjs';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { Owner_Entity } from '../owners/owners.entity';
@@ -23,8 +23,7 @@ export class UsersService {
             email
           });
           return from(this.usersRepository.save(user)).pipe(
-            tap( createdUser => {
-              // this.ownerRepository.save({});
+            switchMap( createdUser => {
               const owner = this.ownerRepository.create({
                 user_id: createdUser.id,
                 email,
@@ -35,7 +34,13 @@ export class UsersService {
                 signature: data?.signature??'',
                 phone: data?.phone??''
               });
-              this.ownerRepository.save(owner);
+              return from (this.ownerRepository.save(owner)).pipe(
+                map(() => createdUser),
+                catchError(err => {
+                  console.log('Error creating owner: ', err);
+                  return of(createdUser);
+                })
+              );
             })
           );
         } else {

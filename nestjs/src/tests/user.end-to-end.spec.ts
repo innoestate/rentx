@@ -38,8 +38,8 @@ describe('/api/user/hello', () => {
 
     });
 
-    it('test init', async () => {
-        expect('hello world!').toBe('hello world!');
-    });
+    // it('test init', async () => {
+    //     expect('hello world!').toBe('hello world!');
+    // });
 
 })
