@@ -5,12 +5,13 @@ import { dropAllTables } from './utils/db.utils';
 import { buildApp, buildUser } from './utils/user.utils';
 import { Estate_Db } from 'src/estates/estate-db.model';
 import { delay } from 'rxjs';
+import { Owner_Db } from 'src/owners/owners-db.model';
 
 describe('/api/owners', () => {
 
     let app: INestApplication;
     let user: User_Db;
-    let estate: Estate_Db;
+    let owner: Owner_Db;
     let jackDorsay;
 
     beforeAll(async () => {
@@ -33,6 +34,21 @@ describe('/api/owners', () => {
             .expect(200);
         expect(response.body.length).toEqual(1);
         expect(response.body[0].email).toBe('bill.gates@microsoft.com');
+        owner = response.body[0];
+    });
+
+    it('DELETE /api/owners', async () => {
+
+        await request(app.getHttpServer())
+            .delete(`/api/owners`)
+            .send({ id: owner.id })
+            .expect(200);
+        
+        const response2 = await request(app.getHttpServer())
+            .get('/api/owners')
+            .expect(200);
+        expect(response2.body.length).toEqual(0);
+
     });
 
     // it('POST /api/owners', async () => {

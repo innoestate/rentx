@@ -23,6 +23,11 @@ export class OwnersService {
     return from(this.ownerRepository.update(ownerDto.id, ownerDto));
   }
 
+  delete(id: string): Observable<any> {
+    console.log('delete owner', id);
+    return from(this.ownerRepository.delete(id));
+  }
+
   getByUser(userId: string): Observable<Owner_Entity[]> {
     return from(this.ownerRepository.find({ where: { user_id: userId } }));
   }
