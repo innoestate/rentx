@@ -12,7 +12,7 @@ export class CreateEstateComponent implements OnInit {
   formGroup!: FormGroup<Estate_Form>;
   owners = this.store.selectSignal(selectOwners);
 
-  constructor(protected formBuilder: FormBuilder, private store: Store) { }
+  constructor(protected formBuilder: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
     this.buildFormGroup();
@@ -34,7 +34,6 @@ export class CreateEstateComponent implements OnInit {
     if (this.formGroup.invalid)
       return;
     const estate = formatEstateToEstateFormToEstatePostRequest(this.formGroup);
-    console.log('estate to send', estate);
     this.store.dispatch(createEstate({ estate }))
   }
 

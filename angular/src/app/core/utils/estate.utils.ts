@@ -7,14 +7,12 @@ import { Owner } from '../models/owner.model';
 import { Owner_Dto } from '../models/dtos/owner.dto.model';
 
 export const formatEstateToEstateFormToEstatePostRequest = (estate: FormGroup<Estate_Form>): Estate_Post_Request => {
-  console.log('format estate', estate);
   let ownerId = estate.get('owner')?.value;
   if(typeof ownerId !== 'string' && typeof ownerId !== 'number') {
     if( ownerId ){
       ownerId = (estate.get('owner')?.value as Owner)?.id;
     }
   }
-  console.log('format estate owner', estate.get('owner')?.value);
   return {
     street: estate.get('street')!.value,
     city: estate.get('city')!.value,
@@ -31,7 +29,7 @@ export const formatEstateDtoToEstateUx = (estate: Estate_Dto, owners: Owner_Dto[
   return {
     ...estate,
     address: estate.street + ' ' + estate.city + ' ' + estate.zip,
-    owner: owners.find(owner => owner.id === estate.owner_id)
+    owner: owners.find(owner => owner.id+'' === estate.owner_id+'')
   }
 }
 

@@ -11,3 +11,16 @@
     // max-width: 15px !important;
   }
 }
+
+.form-group-popup{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.select{
+  min-width: 166px;
+}
+.footer{
+  margin: 20px;
+}

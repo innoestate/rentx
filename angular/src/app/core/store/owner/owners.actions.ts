@@ -1,11 +1,12 @@
 import { createAction, props } from "@ngrx/store";
 import { Owner } from "../../models/owner.model";
+import { Owner_Post_Request } from "../../models/requests/owner-post-request.model";
 
 export const loadOwners = createAction('[Owners] Load Owners');
 export const loadOwnersSuccess = createAction('[Owners] Load Owners Success', props<{ owners: any[] }>());
 export const loadOwnersFailure = createAction('[Owners] Load Owners Failure', props<{ error: any }>());
 
-export const addOwner = createAction('[Owners] Add Owner', props<{ owner: Owner }>());
+export const addOwner = createAction('[Owners] Add Owner', props<{ owner: Owner_Post_Request }>());
 export const addOwnerSuccess = createAction('[Owners] Add Owner Success', props<{ owner: any }>());
 export const addOwnerFailure = createAction('[Owners] Add Owner Failure', props<{ error: any }>());
 

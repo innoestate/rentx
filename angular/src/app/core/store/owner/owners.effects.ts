@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from "@ngrx/store";
-import { catchError, map, of, switchMap, withLatestFrom } from "rxjs";
+import { catchError, map, of, switchMap, tap, withLatestFrom } from "rxjs";
 import { OwnersService } from "../../services/owners.service";
 import { selectOwners } from "./owners.selectors";
 
@@ -28,7 +28,8 @@ export class OwnersEffects {
   addOwner$ = createEffect(() => this.actions$.pipe(
     ofType('[Owners] Add Owner'),
     switchMap(({ owner }) => this.ownerService.create(owner).pipe(
-      map(data => ({ type: '[Owners] Add Owner Success', owner: (data as any).data })),
+      tap(data => console.log(data)),
+      map(data => ({ type: '[Owners] Add Owner Success', owner: data })),
       catchError(() => of({ type: '[Owners] Load Owners Failure' }))
     ))
   ))

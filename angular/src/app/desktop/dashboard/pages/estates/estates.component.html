@@ -40,7 +40,6 @@
             (change)="edit(estate, 'charges', editableChargesInput)" />
         </td>
 
-        <!-- <td class="clickable">{{estate.owner}}</td> -->
         @if(estate.owner){
           <td nz-dropdown [nzDropdownMenu]="menuOwners" class="clickable">{{estate.owner.name}}</td>
           }@else {
