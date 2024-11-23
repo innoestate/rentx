@@ -49,10 +49,10 @@ export const ownersReducer = createReducer(
             ...state,
         }
     }),
-    on(deleteOwnerSuccess, (state, data) => {
+    on(deleteOwnerSuccess, (state, {ownerId}) => {
         return {
             ...state,
-            owners: state.owners.filter(owner => owner.id !== data.ownerId),
+            owners: state.owners.filter(owner => owner.id !== ownerId),
         }
     }),
     on(deleteOwnerFailure, (state, error) => {

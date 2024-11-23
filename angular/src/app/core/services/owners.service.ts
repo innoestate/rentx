@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Owner_Dto } from '../../core/models/dtos/owner.dto.model';
 import { Owner_Post_Request } from '../models/requests/owner-post-request.model';
@@ -27,7 +27,9 @@ export class OwnersService {
     return this.http.patch<Owner_Dto>(`${this.API_URL}/owner`, owner);
   }
 
-  delete(owner: Owner_Dto): Observable<any> {
-    return of(owner);
+  delete(ownerId: string): Observable<any> {
+    return this.http.delete<Owner_Dto>(`${this.API_URL}/owners`, {body: {id: ownerId}}).pipe(
+      map( result => ownerId)
+    )
   }
 }

@@ -59,11 +59,15 @@
         <nz-dropdown-menu #menuOwners="nzDropdownMenu">
           <ul nz-menu nzSelectable>
             <ng-container *ngFor="let owner of owners()">
-              <li nz-menu-item (click)="setOwner(estate, owner)">{{owner.name}}</li>
+              <li nz-menu-item>
+                <div class="dropdown-line-content">
+                  <div (click)="setOwner(estate, owner)">{{owner.name}}</div>
+                  <div  class="delete" (click)="deleteOwner(owner)" nz-icon nzType="delete"></div>
+                </div>
+              </li>
             </ng-container>
             @if(owners(); as owners){
             @if(owners.length){
-            <li nz-menu-item (click)="setOwner(estate, undefined)" class="empty">aucun</li>
             <li nz-menu-item (click)="createOwner(estate)" class="primary">
               <button nz-button nzType="primary">ajouter un propriétaire</button>
             </li>

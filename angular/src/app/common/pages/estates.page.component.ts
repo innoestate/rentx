@@ -10,6 +10,7 @@ import { selectOwners } from 'src/app/core/store/owner/owners.selectors';
 import { formatEstatesDtoToEstateUx } from 'src/app/core/utils/estate.utils';
 import { CreateDesktopEstatePopupComponent } from '../popups/create-estate-popup/create-estate-popup.component';
 import { CreateOwnerPopupComponent } from '../popups/create-owner-popup/create-owner-popup.component';
+import { deleteOwner } from 'src/app/core/store/owner/owners.actions';
 
 @Directive()
 export class EstatePage implements OnInit {
@@ -55,6 +56,10 @@ export class EstatePage implements OnInit {
 
   setOwner(estate: Estate, owner?: Owner) {
     this.store.dispatch(editEstate({ estate: { ...estate, owner_id: owner!.id } }));
+  }
+
+  deleteOwner(owner: Owner) {
+    this.store.dispatch(deleteOwner({ ownerId: owner.id }));
   }
 
 }

@@ -13,6 +13,7 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { OwnersModule } from 'src/app/core/modules/owners/owners.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { OwnersModule } from 'src/app/core/modules/owners/owners.module';
     NzModalModule,
     NzTableModule,
     NzInputNumberModule,
-    NzDropDownModule
+    NzDropDownModule,
+    NzIconModule
   ]
 })
 export class EstatesModule { }

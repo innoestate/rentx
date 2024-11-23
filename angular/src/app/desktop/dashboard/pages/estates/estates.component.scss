@@ -38,3 +38,19 @@
   width: 100%;
   margin-bottom: 20px;
 }
+
+.dropdown-line-content{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 200px;
+}
+
+li {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100% !important;
+}

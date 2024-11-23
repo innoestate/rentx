@@ -28,16 +28,15 @@ export class OwnersEffects {
   addOwner$ = createEffect(() => this.actions$.pipe(
     ofType('[Owners] Add Owner'),
     switchMap(({ owner }) => this.ownerService.create(owner).pipe(
-      tap(data => console.log(data)),
       map(data => ({ type: '[Owners] Add Owner Success', owner: data })),
       catchError(() => of({ type: '[Owners] Load Owners Failure' }))
     ))
   ))
 
-  removeOwner$ = createEffect(() => this.actions$.pipe(
+  deleteOwner$ = createEffect(() => this.actions$.pipe(
     ofType('[Owners] Delete Owner'),
     switchMap(data => this.ownerService.delete((data as any).ownerId).pipe(
-      map(data => ({ type: '[Owners] Delete Owner Success', ownerId: data.id })),
+      map(id => ({ type: '[Owners] Delete Owner Success', ownerId: id })),
       catchError(() => of({ type: '[Owners] Delete Owner Failure' }))
     ))
   ))
