@@ -27,7 +27,7 @@ export const lodgersReducer = createReducer(
   on(deleteLodgerSuccess, (state, { lodgerId }) => {
     return {
       ...state,
-      owners: state.lodgers.filter(lodger => lodger.id !== lodgerId),
+      lodgers: state.lodgers.filter(lodger => lodger.id !== lodgerId),
     }
   })
 )

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Owner_Dto } from '../../core/models/dtos/owner.dto.model';
 import { Lodger_Dto } from '../models/dtos/lodger.dto.model';
@@ -29,8 +29,8 @@ export class LodgersService {
   }
 
   delete(lodgerId: string): Observable<any> {
-    return this.http.delete<Owner_Dto>(`${this.API_URL}/lodgers`, {body: {id: lodgerId}}).pipe(
-      map( result => lodgerId)
+    return this.http.delete<Owner_Dto>(`${this.API_URL}/lodgers`, { body: { id: lodgerId } }).pipe(
+      map(() => lodgerId),
     )
   }
 }

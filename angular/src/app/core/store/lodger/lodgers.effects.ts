@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from "@ngrx/store";
-import { catchError, map, of, switchMap, withLatestFrom } from "rxjs";
+import { catchError, map, of, switchMap, tap, withLatestFrom } from "rxjs";
 import { LodgersService } from "../../services/lodgers.service";
 import { loadOwnersFailure } from "../owner/owners.actions";
 import { createLodger, createLodgerFailure, createLodgerSuccess, deleteLodger, deleteLodgerSuccess, loadLodgers, loadLodgersSuccess } from "./lodgers.actions";
@@ -42,10 +42,10 @@ export class LodgersEffects {
       ))
     )))
 
-  deleteOwner$ = createEffect(() => this.actions$.pipe(
+  deleteLodger$ = createEffect(() => this.actions$.pipe(
     ofType(deleteLodger),
-    switchMap(data => this.lodgerService.delete((data as any).ownerId).pipe(
-      map(id => deleteLodgerSuccess(id)),
+    switchMap(data => this.lodgerService.delete((data as any).lodgerId).pipe(
+      map(lodgerId => deleteLodgerSuccess({lodgerId})),
       catchError(() => of(deleteLodgerSuccess((data as any).ownerId)))
     ))
   ))

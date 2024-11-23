@@ -31,7 +31,6 @@ export class CreateLodgerComponent implements OnInit {
     if (this.formGroup.invalid)
       return;
     const lodger = formatLodgerFormValueToEstatePostRequest(this.formGroup);
-    console.log(lodger, this.data);
     this.store.dispatch(createLodger({ lodger, estateId: this.data.estate?.id }));
   }
 

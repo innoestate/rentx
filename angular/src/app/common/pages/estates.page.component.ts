@@ -13,6 +13,8 @@ import { CreateOwnerPopupComponent } from '../popups/create-owner-popup/create-o
 import { deleteOwner } from 'src/app/core/store/owner/owners.actions';
 import { selectLodgers } from 'src/app/core/store/lodger/lodgers.selectors';
 import { CreateLodgerPopupComponent } from '../popups/create-lodger-popup/create-lodger-popup.component';
+import { Lodger } from 'src/app/core/models/lodger.model';
+import { deleteLodger as deleteLodgerInStore} from 'src/app/core/store/lodger/lodgers.actions';
 
 @Directive()
 export class EstatePage implements OnInit {
@@ -27,7 +29,6 @@ export class EstatePage implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(loadEstates());
   }
-
 
   openCreateEstatePopup() {
     this.modalService.create({
@@ -63,9 +64,17 @@ export class EstatePage implements OnInit {
   }
 
   createLodger(estate?: Estate){
-    console.log('create lodger', estate);
     this.openCreateLodgerPopup(estate);
   }
+
+  setLodger(estate: Estate, lodger?: Lodger) {
+    this.store.dispatch(editEstate({ estate: { id: estate.id, lodger_id: lodger!.id } }));
+  }
+
+  deleteLodger(lodger: Lodger) {
+    this.store.dispatch(deleteLodgerInStore({ lodgerId: lodger.id }));
+  }
+
 
   deleteEstate(estate: Estate) {
     // this.store.dispatch({ type: '[Estates] Delete Estate', estateId });

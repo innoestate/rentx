@@ -12,6 +12,6 @@ export const createLodger = createAction('[Lodger] create Lodger', props<{ lodge
 export const createLodgerSuccess = createAction('[Lodger] create Lodger Success', props<{ lodger: Lodger }>());
 export const createLodgerFailure = createAction('[Lodger] create Lodger Failure', props<{ error: any }>());
 
-export const deleteLodger = createAction('[Lodger] Delete Lodger', props<{ LodgerId: string }>());
+export const deleteLodger = createAction('[Lodger] Delete Lodger', props<{ lodgerId: string }>());
 export const deleteLodgerSuccess = createAction('[Lodger] Delete Lodger Success', props<{ lodgerId: string }>());
 export const deleteLodgerFailure = createAction('[Lodger] Delete Lodger Failure', props<{ error: any }>());

@@ -41,42 +41,42 @@
         </td>
 
         @if(estate.owner){
-          <td nz-dropdown [nzDropdownMenu]="menuOwners" class="clickable">{{estate.owner.name}}</td>
+        <td nz-dropdown [nzDropdownMenu]="menuOwners" class="clickable">{{estate.owner.name}}</td>
         }@else {
-          @if((owners()).length){
-          <td class="clickable rcc">
-            <div class="empty-field" nz-dropdown [nzDropdownMenu]="menuOwners"><span nz-icon nzType="edit"
-                nzTheme="outline"></span></div>
-          </td>
-          }@else{
-          <td class="clickable rcc">
-            <div class="empty-field create" (click)="createOwner(estate)">+</div>
-          </td>
-          }
+        @if((owners()).length){
+        <td class="clickable rcc">
+          <div class="empty-field" nz-dropdown [nzDropdownMenu]="menuOwners"><span nz-icon nzType="edit"
+              nzTheme="outline"></span></div>
+        </td>
+        }@else{
+        <td class="clickable rcc">
+          <div class="empty-field create" (click)="createOwner(estate)">+</div>
+        </td>
+        }
         }
 
         @if(estate.lodger){
-          <td>{{estate.lodger.name}}</td>
+        <td nz-dropdown [nzDropdownMenu]="menuLodgers" class="clickable">{{estate.lodger.name}}</td>
         }@else {
-          @if(lodgers().length){
-            <td class="clickable rcc">
-              <div class="empty-field create" (click)="createLodger(estate)">+</div>
-            </td>
-          }@else {
-            <td class="clickable rcc">
-              <div class="empty-field create" (click)="createLodger(estate)">+</div>
-            </td>
-          }
+        @if(lodgers().length){
+        <td class="clickable rcc">
+          <div class="empty-field" nz-dropdown [nzDropdownMenu]="menuLodgers"><span nz-icon nzType="edit"
+              nzTheme="outline"></span></div>
+        </td>
+        }@else {
+        <td class="clickable rcc">
+          <div class="empty-field create" (click)="createLodger(estate)">+</div>
+        </td>
         }
-
+        }
 
         <nz-dropdown-menu #menuOwners="nzDropdownMenu">
           <ul nz-menu nzSelectable>
             <ng-container *ngFor="let owner of owners()">
               <li nz-menu-item>
                 <div class="dropdown-line-content">
-                  <div (click)="setOwner(estate, owner)">{{owner.name}}</div>
-                  <div  class="delete" (click)="deleteOwner(owner)" nz-icon nzType="delete"></div>
+                  <div style="flex: 1" (click)="setOwner(estate, owner)">{{owner.name}}</div>
+                  <div class="delete" (click)="deleteOwner(owner)" nz-icon nzType="delete"></div>
                 </div>
               </li>
             </ng-container>
@@ -92,17 +92,37 @@
           </ul>
         </nz-dropdown-menu>
 
-        <nz-dropdown-menu #menuActions="nzDropdownMenu">
+
+        <nz-dropdown-menu #menuLodgers="nzDropdownMenu">
+          <ul nz-menu nzSelectable>
+            <ng-container *ngFor="let lodger of lodgers()">
+              <li nz-menu-item>
+                <div class="dropdown-line-content">
+                  <div style="flex: 1" (click)="setLodger(estate, lodger)">{{lodger.name}}</div>
+                  <div class="delete" (click)="deleteLodger(lodger)" nz-icon nzType="delete"></div>
+                </div>
+              </li>
+            </ng-container>
+            @if(lodgers(); as lodgers){
+            @if(lodgers.length){
+            <li nz-menu-item (click)="createLodger(estate)" class="primary">
+              <button nz-button nzType="primary">ajouter un locataire</button>
+            </li>
+            }@else{
+            <li nz-menu-item (click)="createLodger()" class="primary">ajouter un nouveau locataire</li>
+            }
+            }
+          </ul>
+        </nz-dropdown-menu>
+
+        <!-- <nz-dropdown-menu #menuActions="nzDropdownMenu">
           <ul nz-menu nzSelectable>
             <li nz-menu-item (click)="sendRentReceiptByEmail(estate)">créer une quittance</li>
             <li nz-menu-item (click)="deleteEstate(estate)" class="error">supprimer</li>
           </ul>
-        </nz-dropdown-menu>
+        </nz-dropdown-menu> -->
 
       </tr>
     </tbody>
   </nz-table>
 </div>
-
-
-
