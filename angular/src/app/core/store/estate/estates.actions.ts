@@ -17,8 +17,8 @@ export const editEstate = createAction('[Estates] Edit Estate', props<{ estate: 
 export const editEstateSuccess = createAction('[Estates] Edit Estate Success', props<{ estate: Estate }>());
 export const editEstateFailure = createAction('[Estates] Edit Estate Failure', props<{ error: any }>());
 
-export const deleteEstate = createAction('[Estates] Delete Estate');
-export const deleteEstateSuccess = createAction('[Estates] Delete Estate Success', props<{ estate: Estate }>());
+export const deleteEstate = createAction('[Estates] Delete Estate', props<{ estateId: string }>());
+export const deleteEstateSuccess = createAction('[Estates] Delete Estate Success', props<{ estateId: string }>());
 export const deleteEstateFailure = createAction('[Estates] Delete Estate Failure', props<{ error: HttpErrorResponse }>());
 
 

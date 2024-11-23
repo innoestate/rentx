@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Estate } from 'src/app/core/models/estate.model';
 import { Owner } from 'src/app/core/models/owner.model';
-import { editEstate, editEstateSuccess, loadEstates } from 'src/app/core/store/estate/estates.actions';
+import { deleteEstate, editEstate, editEstateSuccess, loadEstates } from 'src/app/core/store/estate/estates.actions';
 import { selectEstates } from 'src/app/core/store/estate/estates.selectors';
 import { selectOwners } from 'src/app/core/store/owner/owners.selectors';
 import { formatEstatesDtoToEstateUx } from 'src/app/core/utils/estate.utils';
@@ -77,7 +77,7 @@ export class EstatePage implements OnInit {
 
 
   deleteEstate(estate: Estate) {
-    // this.store.dispatch({ type: '[Estates] Delete Estate', estateId });
+    this.store.dispatch(deleteEstate({ estateId: estate.id }));
   }
 
   setOwner(estate: Estate, owner?: Owner) {

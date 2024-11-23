@@ -1,4 +1,4 @@
-:host{
+:host {
   width: 100%;
   height: 100%;
   display: flex;
@@ -26,11 +26,11 @@
   }
 }
 
-.estates-container{
+.estates-container {
   min-height: 80vh;
 }
 
-.estates-header{
+.estates-header {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -39,7 +39,7 @@
   margin-bottom: 20px;
 }
 
-.dropdown-line-content{
+.dropdown-line-content {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
@@ -53,4 +53,12 @@ li {
   justify-content: space-between;
   align-items: center;
   width: 100% !important;
+}
+
+.action {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }

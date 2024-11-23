@@ -30,10 +30,10 @@ export const estatesReducer = createReducer(
       estates: state.estates.map(estate => estate.id === data.estate.id ? ({...estate, ...data.estate}) : estate)
     }
   }),
-  on(deleteEstateSuccess, (state, data) => {
+  on(deleteEstateSuccess, (state, {estateId}) => {
     return {
       ...state,
-      estates: state.estates.filter(estate => estate.id !== data.estate.id)
+      estates: state.estates.filter(estate => estate.id !== estateId)
     }
   }),
 )

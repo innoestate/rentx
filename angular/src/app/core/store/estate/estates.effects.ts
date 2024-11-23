@@ -5,6 +5,7 @@ import { catchError, combineLatest, map, of, switchMap, take, tap } from "rxjs";
 import { EstatesService } from "../../services/estates.service";
 import { Estate_Post_Request } from "../../models/requests/estate-post-request.model";
 import { HttpErrorResponse } from "@angular/common/http";
+import { deleteEstate, deleteEstateSuccess } from "./estates.actions";
 
 @Injectable()
 export class EstatesEffects {
@@ -42,19 +43,19 @@ export class EstatesEffects {
   //   catchError(() => of({ type: '[Estates] Toogle Set Lodger Failure' }))
   // ))
 
-  deleteEstate$ = createEffect(() => this.actions$.pipe(
-    ofType('[Estates] Delete Estate'),
-    switchMap(({ estate }) => this.estatesService.deleteEstate(estate).pipe(
-      map(() => ({ type: '[Estates] Delete Estate Success', estate })),
-      catchError(() => of({ type: '[Estates] Delete Estate Failure' }))
-    ))
-  ))
-
   editEstate$ = createEffect(() => this.actions$.pipe(
     ofType('[Estates] Edit Estate'),
     switchMap(({ estate }) => this.estatesService.editEstate(estate).pipe(
       map(() => ({ type: '[Estates] Edit Estate Success', estate })),
       catchError(() => of({ type: '[Estates] Edit Estate Failure' }))
+    ))
+  ))
+
+  deleteEstate$ = createEffect(() => this.actions$.pipe(
+    ofType(deleteEstate),
+    switchMap(({ estateId }) => this.estatesService.deleteEstate(estateId).pipe(
+      map(() => (deleteEstateSuccess({estateId}))),
+      catchError(() => of({ type: '[Estates] Delete Estate Failure' }))
     ))
   ))
 
