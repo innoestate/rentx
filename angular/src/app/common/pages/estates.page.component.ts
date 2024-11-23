@@ -12,6 +12,7 @@ import { CreateDesktopEstatePopupComponent } from '../popups/create-estate-popup
 import { CreateOwnerPopupComponent } from '../popups/create-owner-popup/create-owner-popup.component';
 import { deleteOwner } from 'src/app/core/store/owner/owners.actions';
 import { selectLodgers } from 'src/app/core/store/lodger/lodgers.selectors';
+import { CreateLodgerPopupComponent } from '../popups/create-lodger-popup/create-lodger-popup.component';
 
 @Directive()
 export class EstatePage implements OnInit {
@@ -38,8 +39,17 @@ export class EstatePage implements OnInit {
 
   openCreateOwnerPopup() {
     this.modalService.create({
-      nzTitle: 'Créer un nouveau propriétaire',
+      nzTitle: 'Ajouter un nouveau propriétaire',
       nzContent: CreateOwnerPopupComponent,
+      nzFooter: null
+    })
+  }
+
+  openCreateLodgerPopup(estate?: Estate) {
+    this.modalService.create({
+      nzTitle: 'Ajouter un nouveau locataire',
+      nzContent: CreateLodgerPopupComponent,
+      nzData: { estate },
       nzFooter: null
     })
   }
@@ -50,6 +60,11 @@ export class EstatePage implements OnInit {
 
   createOwner(estate?: Estate) {
     this.openCreateOwnerPopup();
+  }
+
+  createLodger(estate?: Estate){
+    console.log('create lodger', estate);
+    this.openCreateLodgerPopup(estate);
   }
 
   deleteEstate(estate: Estate) {

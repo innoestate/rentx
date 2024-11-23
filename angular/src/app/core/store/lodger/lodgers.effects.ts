@@ -6,6 +6,7 @@ import { LodgersService } from "../../services/lodgers.service";
 import { loadOwnersFailure } from "../owner/owners.actions";
 import { createLodger, createLodgerFailure, createLodgerSuccess, deleteLodger, deleteLodgerSuccess, loadLodgers, loadLodgersSuccess } from "./lodgers.actions";
 import { selectLodgers } from "./lodgers.selectors";
+import { editEstate } from "../estate/estates.actions";
 
 @Injectable()
 export class LodgersEffects {
@@ -30,8 +31,13 @@ export class LodgersEffects {
 
   createLodger$ = createEffect(() => this.actions$.pipe(
     ofType(createLodger),
-    switchMap(({ lodger }) => this.lodgerService.create(lodger).pipe(
-      map(lodger => createLodgerSuccess({ lodger })),
+    switchMap(({ lodger, estateId }) => this.lodgerService.create(lodger).pipe(
+      map(lodger => {
+        if (estateId) {
+          this.store.dispatch(editEstate({ estate: { id: estateId, lodger_id: lodger.id } }));
+        }
+        return createLodgerSuccess({ lodger })
+      }),
       catchError(err => of(createLodgerFailure(err))
       ))
     )))

@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Actions, EffectsModule } from '@ngrx/effects';
 import { Store, StoreModule } from '@ngrx/store';
+import { loadLodgers } from '../../store/lodger/lodgers.actions';
 import { LodgersEffects } from '../../store/lodger/lodgers.effects';
 import { lodgersReducer } from '../../store/lodger/lodgers.reducers';
-import { loadOwners } from '../../store/owner/owners.actions';
 
 
 
@@ -18,7 +18,7 @@ import { loadOwners } from '../../store/owner/owners.actions';
 })
 export class LodgersModule {
   constructor(private store: Store, private actions$: Actions) {
-    this.store.dispatch(loadOwners());
+    this.store.dispatch(loadLodgers());
   }
 }
 

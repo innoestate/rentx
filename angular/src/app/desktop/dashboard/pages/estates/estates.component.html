@@ -42,7 +42,7 @@
 
         @if(estate.owner){
           <td nz-dropdown [nzDropdownMenu]="menuOwners" class="clickable">{{estate.owner.name}}</td>
-          }@else {
+        }@else {
           @if((owners()).length){
           <td class="clickable rcc">
             <div class="empty-field" nz-dropdown [nzDropdownMenu]="menuOwners"><span nz-icon nzType="edit"
@@ -52,6 +52,20 @@
           <td class="clickable rcc">
             <div class="empty-field create" (click)="createOwner(estate)">+</div>
           </td>
+          }
+        }
+
+        @if(estate.lodger){
+          <td>{{estate.lodger.name}}</td>
+        }@else {
+          @if(lodgers().length){
+            <td class="clickable rcc">
+              <div class="empty-field create" (click)="createLodger(estate)">+</div>
+            </td>
+          }@else {
+            <td class="clickable rcc">
+              <div class="empty-field create" (click)="createLodger(estate)">+</div>
+            </td>
           }
         }
 

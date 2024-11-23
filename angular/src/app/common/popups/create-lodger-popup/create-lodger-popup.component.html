@@ -1,0 +1,12 @@
+<form [formGroup]="formGroup" class="form-group-popup">
+
+  <label for="name">Nom et prénom</label>
+  <input type="text" class="form-control" formControlName="name">
+
+  <label for="name">Email</label>
+  <input type="text" class="form-control" formControlName="email">
+
+</form>
+<div class="footer">
+  <button nz-button nzType="primary" (click)="create()">créer</button>
+</div>
