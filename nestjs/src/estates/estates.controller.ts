@@ -4,7 +4,7 @@ import { JwtAuthGuard } from '../auth/auth.guard';
 import { UserMidleweare } from '../guards/user-midleweare.guard';
 import { handleTypeormError } from '../utils/error-typeorm-http.handler';
 import { Estate_Dto } from './estate-dto.model';
-import { formatEstateDtoToEstateDb } from './estate.utils';
+import { formatEstateDtoToEstateDb, fromatEstateForPatch } from './estate.utils';
 import { EstatesService } from './estates.service';
 
 @Controller('api')
@@ -33,7 +33,9 @@ export class EstatesController {
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Patch('estate')
     patchEstates(@Req() req, @Body() estateDto: Partial<Estate_Dto>) {
-        return this.estateService.update(estateDto as any).pipe(
+
+        const formatedEstate = fromatEstateForPatch(estateDto as any);
+        return this.estateService.update(formatedEstate as any).pipe(
             catchError(err => {
                 handleTypeormError(err);
                 return of(err);

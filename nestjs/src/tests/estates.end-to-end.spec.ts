@@ -48,7 +48,7 @@ describe('/api/estates', () => {
     });
 
     it('PATCH /api/estate', async () => {
-        const esateToUpdate = {id: estate.id, plot: 'A1'};
+        const esateToUpdate = {id: estate.id, plot: 'A1', noise: { level: 10, description: 'noisy' }, owner_id: 'aoekfnaeflkn09FELFN'};
         const estateResponse = await request(app.getHttpServer())
         .patch('/api/estate')
         .send(esateToUpdate)
@@ -56,7 +56,7 @@ describe('/api/estates', () => {
     });
 
     it('PATCH /api/estate', async () => {
-        const esateToUpdate = {id: estate.id, rent: 1000};
+        const esateToUpdate = {id: estate.id, rent: '1000', charges: '100'};
         const estateResponse = await request(app.getHttpServer())
         .patch('/api/estate')
         .send(esateToUpdate)
@@ -72,6 +72,7 @@ describe('/api/estates', () => {
         expect(response.body[0].city).toBe(estate1Model.city);
         expect(response.body[0].zip).toBe(estate1Model.zip);
         expect(response.body[0].plot).toBe('A1');
+        expect(response.body[0].owner_id).toBe('aoekfnaeflkn09FELFN');
         expect(response.body[0].rent).toBe(1000);
     });
 

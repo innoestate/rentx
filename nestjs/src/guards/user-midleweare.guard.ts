@@ -11,7 +11,6 @@ export class UserMidleweare implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const req = context.switchToHttp().getRequest();
-    console.log('req.user', req.user);
     if (req.user.id) {
       return this.usersService.findById(req.user.id).pipe(
         map(user => ({ ...user, ...req.user })),
