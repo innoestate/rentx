@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from "@ngrx/store";
 import { catchError, map, of, switchMap, withLatestFrom } from "rxjs";
 import { LodgersService } from "../../services/lodgers.service";
-import { loadOwnersFailure, loadOwnersSuccess } from "../owner/owners.actions";
+import { loadOwnersFailure } from "../owner/owners.actions";
 import { createLodger, createLodgerFailure, createLodgerSuccess, deleteLodger, deleteLodgerSuccess, loadLodgers, loadLodgersSuccess } from "./lodgers.actions";
 import { selectLodgers } from "./lodgers.selectors";
 

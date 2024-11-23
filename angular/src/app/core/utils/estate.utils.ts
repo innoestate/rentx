@@ -5,6 +5,7 @@ import { Estate_Dto } from '../models/dtos/estate.dto.model';
 import { Estate } from '../models/estate.model';
 import { Owner } from '../models/owner.model';
 import { Owner_Dto } from '../models/dtos/owner.dto.model';
+import { Lodger_Dto } from '../models/dtos/lodger.dto.model';
 
 export const formatEstateToEstateFormToEstatePostRequest = (estate: FormGroup<Estate_Form>): Estate_Post_Request => {
   let ownerId = estate.get('owner')?.value;
@@ -25,14 +26,15 @@ export const formatEstateToEstateFormToEstatePostRequest = (estate: FormGroup<Es
 
 }
 
-export const formatEstateDtoToEstateUx = (estate: Estate_Dto, owners: Owner_Dto[]): Estate => {
+export const formatEstateDtoToEstateUx = (estate: Estate_Dto, owners: Owner_Dto[], lodgers: Lodger_Dto[]): Estate => {
   return {
     ...estate,
     address: estate.street + ' ' + estate.city + ' ' + estate.zip,
-    owner: owners.find(owner => owner.id+'' === estate.owner_id+'')
+    owner: owners.find(owner => owner.id+'' === estate.owner_id+''),
+    lodger: lodgers.find(lodger => lodger.id+'' === estate.lodger_id+'')
   }
 }
 
-export const formatEstatesDtoToEstateUx = (estates: Estate_Dto[], owners: Owner_Dto[]): Estate[] => {
-  return estates.map(estate => formatEstateDtoToEstateUx(estate, owners));
+export const formatEstatesDtoToEstateUx = (estates: Estate_Dto[], owners: Owner_Dto[], lodgers: Lodger_Dto[]): Estate[] => {
+  return estates.map(estate => formatEstateDtoToEstateUx(estate, owners, lodgers));
 }

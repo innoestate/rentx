@@ -11,12 +11,14 @@ import { formatEstatesDtoToEstateUx } from 'src/app/core/utils/estate.utils';
 import { CreateDesktopEstatePopupComponent } from '../popups/create-estate-popup/create-estate-popup.component';
 import { CreateOwnerPopupComponent } from '../popups/create-owner-popup/create-owner-popup.component';
 import { deleteOwner } from 'src/app/core/store/owner/owners.actions';
+import { selectLodgers } from 'src/app/core/store/lodger/lodgers.selectors';
 
 @Directive()
 export class EstatePage implements OnInit {
 
   owners = this.store.selectSignal(selectOwners);
-  estates = computed(() => formatEstatesDtoToEstateUx(this.store.selectSignal(selectEstates)(), this.owners()));
+  lodgers = this.store.selectSignal(selectLodgers);
+  estates = computed(() => formatEstatesDtoToEstateUx(this.store.selectSignal(selectEstates)(), this.owners(), this.lodgers()));
   editId!: string | null;
 
   constructor(protected store: Store, protected modalService: NzModalService, protected actions$: Actions) {}
