@@ -13,11 +13,6 @@ export class DatabaseInitService implements OnModuleInit {
 
   private async resetTables(queryRunner) {
 
-    if (await queryRunner.hasTable('users')) {
-      await queryRunner.query(`
-        DROP TABLE users;
-        `);
-    }
     if (await queryRunner.hasTable('estates')) {
       await queryRunner.query(`
         DROP TABLE estates;
@@ -32,6 +27,11 @@ export class DatabaseInitService implements OnModuleInit {
       await queryRunner.query(`
       DROP TABLE lodgers;
     `);
+    }
+    if (await queryRunner.hasTable('users')) {
+      await queryRunner.query(`
+        DROP TABLE users;
+        `);
     }
   }
 

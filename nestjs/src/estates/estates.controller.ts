@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { catchError, of } from 'rxjs';
 import { JwtAuthGuard } from '../auth/auth.guard';
 import { UserMidleweare } from '../guards/user-midleweare.guard';
@@ -36,6 +36,17 @@ export class EstatesController {
 
         const formatedEstate = fromatEstateForPatch(estateDto as any);
         return this.estateService.update(formatedEstate as any).pipe(
+            catchError(err => {
+                handleTypeormError(err);
+                return of(err);
+            })
+        )
+    }
+
+    @UseGuards(JwtAuthGuard, UserMidleweare)
+    @Delete('estates')
+    deleteEstates(@Req() req, @Body() estateDto: Partial<Estate_Dto>) {
+        return this.estateService.delete(estateDto.id).pipe(
             catchError(err => {
                 handleTypeormError(err);
                 return of(err);
