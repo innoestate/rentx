@@ -28,6 +28,11 @@ export class DatabaseInitService implements OnModuleInit {
       DROP TABLE owners;
     `);
     }
+    if (await queryRunner.hasTable('lodgers')) {
+      await queryRunner.query(`
+      DROP TABLE lodgers;
+    `);
+    }
   }
 
   private async createTableIfNotExists() {
@@ -91,11 +96,28 @@ export class DatabaseInitService implements OnModuleInit {
           updated_at TIMESTAMP DEFAULT NOW()
         );
       `);
+      // await queryRunner.query(`
+      //   ALTER TABLE owners
+      //   ADD CONSTRAINT fk_owners_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+      // `);
+    }
+
+
+    const lodgersTableExists = await queryRunner.hasTable('lodgers');
+    if (!lodgersTableExists) {
+      console.log('new lodgers table created');
       await queryRunner.query(`
-        ALTER TABLE owners
-        ADD CONSTRAINT fk_owners_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+        CREATE TABLE lodgers (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          user_id UUID NOT NULL,
+          name VARCHAR(100),
+          email VARCHAR(100),
+          created_at TIMESTAMP DEFAULT NOW(),
+          updated_at TIMESTAMP DEFAULT NOW()
+        );
       `);
     }
+
 
     await queryRunner.release();
   }

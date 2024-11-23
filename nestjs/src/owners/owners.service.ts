@@ -24,7 +24,6 @@ export class OwnersService {
   }
 
   delete(id: string): Observable<any> {
-    console.log('delete owner', id);
     return from(this.ownerRepository.delete(id));
   }
 

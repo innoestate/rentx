@@ -9,6 +9,7 @@ export const buildUser = async (email: string, name = 'John Doe'): Promise<User_
     const builderAppRef = await Test.createTestingModule({
         imports: [AppModule],
     }).compile();
+
     const userService = builderAppRef.get<UsersService>(UsersService);
     const user = await userService.create(email, { name }).toPromise();
     return user as any;

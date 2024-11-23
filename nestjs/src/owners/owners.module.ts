@@ -5,10 +5,11 @@ import { Owner_Entity } from './owners.entity';
 import { OwnersService } from './owners.service';
 import { User } from '../user/user.entity';
 import { UsersService } from '../user/user.service';
+import { Lodger_Entity } from '../lodgers/lodger.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Owner_Entity]),
+    TypeOrmModule.forFeature([User, Owner_Entity, Lodger_Entity]),
   ],
   controllers: [OwnerController],
   providers: [UsersService, OwnersService],
