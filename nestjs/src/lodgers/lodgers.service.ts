@@ -4,6 +4,7 @@ import { from, Observable, of } from 'rxjs';
 import { DeepPartial, Repository } from 'typeorm';
 import { Lodger_Entity } from './lodger.entity';
 import { Lodger_Post } from './lodger-post.model';
+import { Lodger_Db } from './lodger-db.model';
 
 @Injectable()
 export class LodgersService {
@@ -18,8 +19,8 @@ export class LodgersService {
     return from(this.lodgerRepository.save(lodger));
   }
 
-  getByUser(userId: string): Observable<Lodger_Entity[]> {
-    return from(this.lodgerRepository.find({ where: { user_id: userId } }));
+  getByUser(userId: string): Observable<Lodger_Db[]> {
+    return from(this.lodgerRepository.find({ where: { user_id: userId } })) as Observable<Lodger_Db[]>;
   }
 
   update(lodger: DeepPartial<Lodger_Entity>): Observable<any> {
