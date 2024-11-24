@@ -6,6 +6,7 @@ import { buildApp, buildUser } from './utils/user.utils';
 import { ownersTests } from './owners-tests';
 import { lodgersTests } from './lodgers-tests';
 import { estatesTests } from './estates-tests';
+import { rentsTests } from './rents-tests';
 
 describe('/api', () => {
 
@@ -28,5 +29,6 @@ describe('/api', () => {
     ownersTests(() => app);
     estatesTests(() => app, () => user);
     lodgersTests(() => app);
+    rentsTests(() => app);
 
 })
