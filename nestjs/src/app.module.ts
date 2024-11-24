@@ -10,6 +10,7 @@ import { DatabaseInitService } from './services/database-init.service';
 import { userModule } from './user/user.module';
 import { OwnersModule } from './owners/owners.module';
 import { LodgersModule } from './lodgers/lodgers.module';
+import { RentsModule } from './rents/rents.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { LodgersModule } from './lodgers/lodgers.module';
     EstatesModule,
     OwnersModule,
     LodgersModule,
+    RentsModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useClass: TypeOrmConfigService,
