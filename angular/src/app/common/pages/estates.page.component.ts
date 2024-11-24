@@ -17,6 +17,7 @@ import { Lodger } from 'src/app/core/models/lodger.model';
 import { deleteLodger as deleteLodgerInStore } from 'src/app/core/store/lodger/lodgers.actions';
 import { RentsService } from 'src/app/core/services/rents.service';
 import { take, tap } from 'rxjs';
+import { EditOwnerPopupComponent } from '../popups/edit-owner-popup/edit-owner-popup.component';
 
 @Directive()
 export class EstatePage implements OnInit {
@@ -44,6 +45,15 @@ export class EstatePage implements OnInit {
     this.modalService.create({
       nzTitle: 'Ajouter un nouveau propriétaire',
       nzContent: CreateOwnerPopupComponent,
+      nzFooter: null
+    })
+  }
+
+  openEditOwnerPopup(owner: Owner) {
+    this.modalService.create({
+      nzTitle: 'éditier un propriétaire',
+      nzContent: EditOwnerPopupComponent,
+      nzData: { owner },
       nzFooter: null
     })
   }
@@ -102,6 +112,10 @@ export class EstatePage implements OnInit {
 
   deleteOwner(owner: Owner) {
     this.store.dispatch(deleteOwner({ ownerId: owner.id }));
+  }
+
+  editOwner(owner: Owner) {
+    this.openEditOwnerPopup(owner);
   }
 
 }

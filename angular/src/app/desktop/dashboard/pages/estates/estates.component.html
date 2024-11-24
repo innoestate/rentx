@@ -56,7 +56,7 @@
         }
 
         @if(estate.lodger){
-          <td nz-dropdown [nzDropdownMenu]="manageLodgers">{{estate.lodger.name}}</td>
+        <td nz-dropdown [nzDropdownMenu]="manageLodgers">{{estate.lodger.name}}</td>
         }@else {
         @if(lodgers().length){
         <td class="clickable rcc">
@@ -72,10 +72,10 @@
 
         <nz-dropdown-menu #manageLodgers="nzDropdownMenu">
           <ul nz-menu nzSelectable>
-            <li  nz-menu-item>
+            <li nz-menu-item>
               <div nz-dropdown [nzDropdownMenu]="manageRentReceipts" class="clickable">gérer les quittances</div>
             </li>
-            <li  nz-menu-item>
+            <li nz-menu-item>
               <td nz-dropdown [nzDropdownMenu]="menuLodgers" class="clickable">changer de locataire</td>
             </li>
           </ul>
@@ -94,9 +94,18 @@
               <li nz-menu-item>
                 <div class="dropdown-line-content">
                   <div style="flex: 1" (click)="setOwner(estate, owner)">{{owner.name}}</div>
-                  <div class="delete" (click)="deleteOwner(owner)" nz-icon nzType="delete"></div>
+                  <div nz-dropdown [nzDropdownMenu]="ownerTools" class="tool" nz-icon nzType="edit"></div>
                 </div>
               </li>
+
+
+              <nz-dropdown-menu #ownerTools="nzDropdownMenu">
+                <ul nz-menu nzSelectable>
+                  <li nz-menu-item (click)="editOwner(owner)" class="warning">éditer</li>
+                  <li nz-menu-item (click)="deleteOwner(owner)" class="error">supprimer</li>
+                </ul>
+              </nz-dropdown-menu>
+
             </ng-container>
             @if(owners(); as owners){
             @if(owners.length){
@@ -109,7 +118,6 @@
             }
           </ul>
         </nz-dropdown-menu>
-
 
         <nz-dropdown-menu #menuLodgers="nzDropdownMenu">
           <ul nz-menu nzSelectable>

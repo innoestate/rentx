@@ -24,7 +24,7 @@ export class OwnersService {
   }
 
   edit(owner: Owner_Dto): Observable<any> {
-    return this.http.patch<Owner_Dto>(`${this.API_URL}/owner`, owner);
+    return this.http.patch<Owner_Dto>(`${this.API_URL}/owners`, owner);
   }
 
   delete(ownerId: string): Observable<any> {
