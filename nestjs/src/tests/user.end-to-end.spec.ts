@@ -7,23 +7,28 @@ import { ownersTests } from './owners-tests';
 import { lodgersTests } from './lodgers-tests';
 import { estatesTests } from './estates-tests';
 import { rentsTests } from './rents-tests';
+import { EstatesService } from '../estates/estates.service';
+import { estatesServiceTests } from './estates-service-tests';
 
 describe('/api', () => {
 
     let app: INestApplication;
     let user: User_Db;
+    let estateService: EstatesService;
 
     beforeAll(async () => {
 
         await dropAllTables();
         user = await buildUser('elon.musk@spacex.io');
         app = await buildApp(user);
-
+        estateService = app.get<EstatesService>(EstatesService);
     });
 
     afterAll(async () => {
         await app.close();
     });
+
+    estatesServiceTests(() => app, () => user, () => estateService);
 
     userTests(() => app, () => user);
     ownersTests(() => app);
