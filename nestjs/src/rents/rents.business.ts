@@ -4,6 +4,7 @@ import { Estate_Db } from '../estates/estate-db.model';
 import { Estate } from '../estates/estate.entity';
 import { Lodger_Db } from '../lodgers/lodger-db.model';
 import { Owner_Db } from '../owners/owners-db.model';
+import { from, map } from 'rxjs';
 
 export const createRentReciptPdf = async (estate: Estate_Db, owner: Owner_Db, lodger: Lodger_Db) => {
 
@@ -120,11 +121,55 @@ export const createRentReciptPdf = async (estate: Estate_Db, owner: Owner_Db, lo
 
 }
 
-const calculateTotalForActualMonth = (estate: Estate_Db) => {
-    const currentDate = new Date();
-    const firstDayOfCurrentMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-    return calculateRent(estate.rent, estate.charges, firstDayOfCurrentMonth);
+export const createRentReceiptEmail = (owners: Owner_Db[], lodgers: Lodger_Db[], estate: Estate_Db) => {
+    const owner = owners.find(owner => owner.id === estate.owner_id);
+    const lodger = lodgers.find(lodger => lodger.id === estate.lodger_id);
+    return from(createRentReciptPdf(estate, owner, lodger)).pipe(
+        map(rentReceipt => {
+
+            const emailParts = [
+                {
+                    mimeType: 'text/plain',
+                    content: 'Votre quittance de loyer est en pièce jointe.'
+                },
+                {
+                    mimeType: 'application/pdf',
+                    filename: 'quittance.pdf',
+                    content: (rentReceipt as any).toString('base64')
+                }
+            ];
+
+            return createEmail(lodger.email, 'Quittance', emailParts);
+
+        })
+    )
 }
+
+const createEmail = (to: string, subject: string, parts: any[]) => {
+    const boundary = 'foo_bar_baz';
+    const messageParts = [
+      `From: me`,
+      `To: ${to}`,
+      `Subject: ${subject}`,
+      `MIME-Version: 1.0`,
+      `Content-Type: multipart/mixed; boundary=${boundary}`,
+      '',
+      `--${boundary}`,
+    ];
+  
+    parts.forEach((part) => {
+      const { mimeType, filename, content } = part;
+      messageParts.push(`Content-Type: ${mimeType}`);
+      if (filename) {
+        messageParts.push(`Content-Disposition: attachment; filename="${filename}"`);
+      }
+      messageParts.push(`Content-Transfer-Encoding: base64`, '', content, `--${boundary}`);
+    });
+  
+    messageParts.push('--');
+  
+    return Buffer.from(messageParts.join('\n')).toString('base64').replace(/\+/g, '-').replace(/\//g, '_');
+  };
 
 const formatDateFromISOString = (dateStr: string): string => {
     const [year, month, day] = dateStr.split('T')[0].split('-');
