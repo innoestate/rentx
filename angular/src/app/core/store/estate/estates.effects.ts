@@ -31,17 +31,6 @@ export class EstatesEffects {
     ))
   ))
 
-  // toogleEstateModal$ = createEffect(() => this.actions$.pipe(
-  //   ofType('[Estates] Toogle Create Estate Modal'),
-  //   map(({ visible }) => ({ type: '[Estates] Toogle Create Estate Modal Success', visible })),
-  //   catchError(() => of({ type: '[Estates] Toogle Create Estate Modal Failure' }))
-  // ))
-
-  // toogleSetLodgerModal$ = createEffect(() => this.actions$.pipe(
-  //   ofType('[Estates] Toogle Set Lodger Modal'),
-  //   map(({ visible }) => ({ type: '[Estates] Toogle Set Lodger Modal Success', visible })),
-  //   catchError(() => of({ type: '[Estates] Toogle Set Lodger Failure' }))
-  // ))
 
   editEstate$ = createEffect(() => this.actions$.pipe(
     ofType('[Estates] Edit Estate'),

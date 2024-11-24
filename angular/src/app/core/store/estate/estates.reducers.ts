@@ -1,6 +1,7 @@
 import { createReducer, on } from "@ngrx/store";
 import { Estate_Dto } from "../../models/dtos/estate.dto.model";
 import { createEstateSuccess, deleteEstateSuccess, editEstateSuccess, loadEstatesSuccess } from "./estates.actions";
+import { updateOwnerSuccess } from "../owner/owners.actions";
 
 export interface State {
   estates: Estate_Dto[];

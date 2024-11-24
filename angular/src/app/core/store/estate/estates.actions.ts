@@ -21,4 +21,6 @@ export const deleteEstate = createAction('[Estates] Delete Estate', props<{ esta
 export const deleteEstateSuccess = createAction('[Estates] Delete Estate Success', props<{ estateId: string }>());
 export const deleteEstateFailure = createAction('[Estates] Delete Estate Failure', props<{ error: HttpErrorResponse }>());
 
-
+export const senddRentReceipt = createAction('[Estates] Send Rent Receipt', props<{ estate: Estate }>());
+export const sendRentReceiptSuccess = createAction('[Estates] Send Rent Receipt Success', props<{ estate: Estate }>());
+export const sendRentReceiptFailure = createAction('[Estates] Send Rent Receipt Failure', props<{ error: HttpErrorResponse }>());

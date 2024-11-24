@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Estate } from 'src/app/core/models/estate.model';
 import { Owner } from 'src/app/core/models/owner.model';
-import { deleteEstate, editEstate, editEstateSuccess, loadEstates } from 'src/app/core/store/estate/estates.actions';
+import { deleteEstate, editEstate, editEstateSuccess, loadEstates, senddRentReceipt } from 'src/app/core/store/estate/estates.actions';
 import { selectEstates } from 'src/app/core/store/estate/estates.selectors';
 import { selectOwners } from 'src/app/core/store/owner/owners.selectors';
 import { formatEstatesDtoToEstateUx } from 'src/app/core/utils/estate.utils';
@@ -41,23 +41,6 @@ export class EstatePage implements OnInit {
     })
   }
 
-  openCreateOwnerPopup() {
-    this.modalService.create({
-      nzTitle: 'Ajouter un nouveau propriétaire',
-      nzContent: CreateOwnerPopupComponent,
-      nzFooter: null
-    })
-  }
-
-  openEditOwnerPopup(owner: Owner) {
-    this.modalService.create({
-      nzTitle: 'éditier un propriétaire',
-      nzContent: EditOwnerPopupComponent,
-      nzData: { owner },
-      nzFooter: null
-    })
-  }
-
   openCreateLodgerPopup(estate?: Estate) {
     this.modalService.create({
       nzTitle: 'Ajouter un nouveau locataire',
@@ -81,12 +64,8 @@ export class EstatePage implements OnInit {
     ).subscribe();
   }
 
-  sendRentReceiptByEmail(estate: Estate) {
-    // this.store.dispatch({ type: '[Estates] Send Rent Receipt By Email', estateId });
-  }
-
-  createOwner(estate?: Estate) {
-    this.openCreateOwnerPopup();
+  senddRentReceipt(estate: Estate) {
+    this.store.dispatch(senddRentReceipt({ estate}));
   }
 
   createLodger(estate?: Estate) {
@@ -104,18 +83,6 @@ export class EstatePage implements OnInit {
 
   deleteEstate(estate: Estate) {
     this.store.dispatch(deleteEstate({ estateId: estate.id }));
-  }
-
-  setOwner(estate: Estate, owner?: Owner) {
-    this.store.dispatch(editEstate({ estate: { ...estate, owner_id: owner!.id } }));
-  }
-
-  deleteOwner(owner: Owner) {
-    this.store.dispatch(deleteOwner({ ownerId: owner.id }));
-  }
-
-  editOwner(owner: Owner) {
-    this.openEditOwnerPopup(owner);
   }
 
 }

@@ -4,6 +4,7 @@ import { Store } from "@ngrx/store";
 import { catchError, map, of, switchMap, tap, withLatestFrom } from "rxjs";
 import { OwnersService } from "../../services/owners.service";
 import { selectOwners } from "./owners.selectors";
+import { updateOwnerSuccess } from "./owners.actions";
 
 @Injectable()
 export class OwnersEffects {
@@ -36,7 +37,7 @@ export class OwnersEffects {
   updateOwner$ = createEffect(() => this.actions$.pipe(
     ofType('[Owners] Update Owner'),
     switchMap(({ owner }) => this.ownerService.edit(owner).pipe(
-      map(data => ({ type: '[Owners] Update Owner Success', owner: data })),
+      map(data => (updateOwnerSuccess({ owner: data }))),
       catchError(() => of({ type: '[Owners] Update Owner Failure' }))
     ))
   ))

@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { Owner } from "../../models/owner.model";
-import { addOwner, addOwnerFailure, addOwnerSuccess, deleteOwner, deleteOwnerFailure, deleteOwnerSuccess, loadOwners, loadOwnersFailure, loadOwnersSuccess } from "./owners.actions";
+import { addOwner, addOwnerFailure, addOwnerSuccess, deleteOwner, deleteOwnerFailure, deleteOwnerSuccess, loadOwners, loadOwnersFailure, loadOwnersSuccess, updateOwnerSuccess } from "./owners.actions";
 
 export interface State {
     owners: Owner[];
@@ -47,6 +47,12 @@ export const ownersReducer = createReducer(
     on(deleteOwner, (state, data) => {
         return {
             ...state,
+        }
+    }),
+    on(updateOwnerSuccess, (state, {owner}) => {
+        return {
+            ...state,
+            owners: state.owners.map(o => o.id === owner.id ? owner : o),
         }
     }),
     on(deleteOwnerSuccess, (state, {ownerId}) => {
