@@ -7,9 +7,10 @@ export const rentsTests = (getApp) => {
         const app = getApp();
 
         const response = await request(app.getHttpServer())
-            .post('/api/rents/pdf')
-            .expect(200);
-        expect(response.body.id).toBeTruthy();
+            .get('/api/rents/pdf')
+            .expect(200)
+            .expect('Content-Type', 'application/pdf')
+            .expect('Content-Disposition', 'attachment; filename=quittance.pdf');
         expect(response.body).toBeTruthy();
     });
 
