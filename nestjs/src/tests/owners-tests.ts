@@ -29,12 +29,30 @@ export const ownersTests = (getApp) => {
             email: 'jackdorsey@twitter.com'
         }
         const response = await request(app.getHttpServer())
-        .post('/api/owners')
-        .send(ownerExample2)
-        .expect(201);
+            .post('/api/owners')
+            .send(ownerExample2)
+            .expect(201);
         expect(response.body.id).toBeTruthy();
         expect(response.body.email).toBe('jackdorsey@twitter.com');
         owner2 = response.body;
+    });
+
+    it('PATCH /api/owners', async () => {
+
+        const app = getApp();
+        const ownerExample2 = {
+            id: owner2.id,
+            name: 'Jack Dorsey',
+            street: '123 Market Street',
+            city: 'San Francisco',
+            zip: '94107',
+            email: 'eafeaf@efef'
+        }
+        const response = await request(app.getHttpServer())
+            .patch('/api/owners')
+            .send(ownerExample2)
+            .expect(200);
+        // expect(response.body.id).toBeTruthy();
     });
 
     it('DELETE /api/owners', async () => {
