@@ -5,12 +5,13 @@ import { catchError, combineLatest, map, of, switchMap, take, tap } from "rxjs";
 import { EstatesService } from "../../services/estates.service";
 import { Estate_Post_Request } from "../../models/requests/estate-post-request.model";
 import { HttpErrorResponse } from "@angular/common/http";
-import { deleteEstate, deleteEstateSuccess } from "./estates.actions";
+import { deleteEstate, deleteEstateSuccess, senddRentReceipt, sendRentReceiptFailure, sendRentReceiptSuccess } from "./estates.actions";
+import { RentsService } from "../../services/rents.service";
 
 @Injectable()
 export class EstatesEffects {
 
-  constructor(private actions$: Actions, private estatesService: EstatesService, private store: Store) { }
+  constructor(private actions$: Actions, private estatesService: EstatesService, private rentsService: RentsService, private store: Store) { }
 
   loadEstates$ = createEffect(() => this.actions$.pipe(
     ofType('[Estates] Load Estates'),
@@ -27,10 +28,9 @@ export class EstatesEffects {
       // switchMap(createdEstate => combineLatest([of(createdEstate), this.store.select(ownersSelector).pipe(take(1))])),
       // map(([createdEstate, { owners }]) => setOwner(createdEstate, owners)),
       map(createdEstate => ({ type: '[Estates] Create Estate Success', estate: createdEstate })),
-      catchError(({error}) => of({ type: '[Estates] Create Estate Failure', error }))
+      catchError(({ error }) => of({ type: '[Estates] Create Estate Failure', error }))
     ))
   ))
-
 
   editEstate$ = createEffect(() => this.actions$.pipe(
     ofType('[Estates] Edit Estate'),
@@ -43,8 +43,16 @@ export class EstatesEffects {
   deleteEstate$ = createEffect(() => this.actions$.pipe(
     ofType(deleteEstate),
     switchMap(({ estateId }) => this.estatesService.deleteEstate(estateId).pipe(
-      map(() => (deleteEstateSuccess({estateId}))),
+      map(() => (deleteEstateSuccess({ estateId }))),
       catchError(() => of({ type: '[Estates] Delete Estate Failure' }))
+    ))
+  ))
+
+  sendRentReceipt$ = createEffect(() => this.actions$.pipe(
+    ofType(senddRentReceipt),
+    switchMap(({ estate }) => this.rentsService.sendRentReceipt(estate.id).pipe(
+      map(estate => (sendRentReceiptSuccess({ estate }))),
+      catchError(err => of(sendRentReceiptFailure(err)))
     ))
   ))
 
