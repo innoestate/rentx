@@ -9,11 +9,16 @@ import { estatesTests } from './estates-tests';
 import { rentsTests } from './rents-tests';
 import { EstatesService } from '../estates/estates.service';
 import { estatesServiceTests } from './estates-service-tests';
+import { OwnersService } from '../owners/owners.service';
+import { LodgersService } from '../lodgers/lodgers.service';
+import { rentsBuisnessTests } from './rents-buisness-tests';
 
 describe('/api', () => {
 
     let app: INestApplication;
     let user: User_Db;
+    let ownerService: OwnersService;
+    let lodgerService: LodgersService;
     let estateService: EstatesService;
 
     beforeAll(async () => {
@@ -21,6 +26,8 @@ describe('/api', () => {
         await dropAllTables();
         user = await buildUser('elon.musk@spacex.io');
         app = await buildApp(user);
+        ownerService = app.get<OwnersService>(OwnersService);
+        lodgerService = app.get<LodgersService>(LodgersService);
         estateService = app.get<EstatesService>(EstatesService);
     });
 
@@ -29,6 +36,7 @@ describe('/api', () => {
     });
 
     estatesServiceTests(() => app, () => user, () => estateService);
+    rentsBuisnessTests(() => estateService, () => ownerService, () => lodgerService);
 
     userTests(() => app, () => user);
     ownersTests(() => app);
