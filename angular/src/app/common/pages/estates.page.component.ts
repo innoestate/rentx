@@ -14,7 +14,7 @@ import { deleteOwner } from 'src/app/core/store/owner/owners.actions';
 import { selectLodgers } from 'src/app/core/store/lodger/lodgers.selectors';
 import { CreateLodgerPopupComponent } from '../popups/create-lodger-popup/create-lodger-popup.component';
 import { Lodger } from 'src/app/core/models/lodger.model';
-import { deleteLodger as deleteLodgerInStore} from 'src/app/core/store/lodger/lodgers.actions';
+import { deleteLodger as deleteLodgerInStore } from 'src/app/core/store/lodger/lodgers.actions';
 
 @Directive()
 export class EstatePage implements OnInit {
@@ -24,7 +24,7 @@ export class EstatePage implements OnInit {
   estates = computed(() => formatEstatesDtoToEstateUx(this.store.selectSignal(selectEstates)(), this.owners(), this.lodgers()));
   editId!: string | null;
 
-  constructor(protected store: Store, protected modalService: NzModalService, protected actions$: Actions) {}
+  constructor(protected store: Store, protected modalService: NzModalService, protected actions$: Actions) { }
 
   ngOnInit(): void {
     this.store.dispatch(loadEstates());
@@ -55,6 +55,10 @@ export class EstatePage implements OnInit {
     })
   }
 
+  downloadRentReceipt(estate: Estate) {
+
+  }
+
   sendRentReceiptByEmail(estate: Estate) {
     // this.store.dispatch({ type: '[Estates] Send Rent Receipt By Email', estateId });
   }
@@ -63,7 +67,7 @@ export class EstatePage implements OnInit {
     this.openCreateOwnerPopup();
   }
 
-  createLodger(estate?: Estate){
+  createLodger(estate?: Estate) {
     this.openCreateLodgerPopup(estate);
   }
 

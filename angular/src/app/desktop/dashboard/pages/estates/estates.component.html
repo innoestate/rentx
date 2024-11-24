@@ -56,7 +56,7 @@
         }
 
         @if(estate.lodger){
-        <td nz-dropdown [nzDropdownMenu]="menuLodgers" class="clickable">{{estate.lodger.name}}</td>
+          <td nz-dropdown [nzDropdownMenu]="manageLodgers">{{estate.lodger.name}}</td>
         }@else {
         @if(lodgers().length){
         <td class="clickable rcc">
@@ -69,6 +69,24 @@
         </td>
         }
         }
+
+        <nz-dropdown-menu #manageLodgers="nzDropdownMenu">
+          <ul nz-menu nzSelectable>
+            <li  nz-menu-item>
+              <div nz-dropdown [nzDropdownMenu]="manageRentReceipts" class="clickable">gérer les quittances</div>
+            </li>
+            <li  nz-menu-item>
+              <td nz-dropdown [nzDropdownMenu]="menuLodgers" class="clickable">changer de locataire</td>
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+
+        <nz-dropdown-menu #manageRentReceipts="nzDropdownMenu">
+          <ul nz-menu nzSelectable>
+            <li nz-menu-item (click)="downloadRentReceipt(estate)">télécharger</li>
+            <li nz-menu-item>envoyer</li>
+          </ul>
+        </nz-dropdown-menu>
 
         <nz-dropdown-menu #menuOwners="nzDropdownMenu">
           <ul nz-menu nzSelectable>
