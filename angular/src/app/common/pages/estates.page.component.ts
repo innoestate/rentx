@@ -15,6 +15,8 @@ import { selectLodgers } from 'src/app/core/store/lodger/lodgers.selectors';
 import { CreateLodgerPopupComponent } from '../popups/create-lodger-popup/create-lodger-popup.component';
 import { Lodger } from 'src/app/core/models/lodger.model';
 import { deleteLodger as deleteLodgerInStore } from 'src/app/core/store/lodger/lodgers.actions';
+import { RentsService } from 'src/app/core/services/rents.service';
+import { take, tap } from 'rxjs';
 
 @Directive()
 export class EstatePage implements OnInit {
@@ -24,7 +26,7 @@ export class EstatePage implements OnInit {
   estates = computed(() => formatEstatesDtoToEstateUx(this.store.selectSignal(selectEstates)(), this.owners(), this.lodgers()));
   editId!: string | null;
 
-  constructor(protected store: Store, protected modalService: NzModalService, protected actions$: Actions) { }
+  constructor(protected store: Store, protected modalService: NzModalService, protected actions$: Actions, private rentsService: RentsService) { }
 
   ngOnInit(): void {
     this.store.dispatch(loadEstates());
@@ -56,7 +58,17 @@ export class EstatePage implements OnInit {
   }
 
   downloadRentReceipt(estate: Estate) {
-
+    this.rentsService.downloadRentReceipt(estate).pipe(
+      take(1),
+      tap( blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'quittance.pdf'; // Set the desired file name
+        a.click();
+        window.URL.revokeObjectURL(url); // Cle
+      })
+    ).subscribe();
   }
 
   sendRentReceiptByEmail(estate: Estate) {
