@@ -18,7 +18,7 @@ export class RentsService {
     return this.http.get<any>(`${this.API_URL}/rents/pdf?estate=${estate.id}`, { responseType: 'blob' as 'json' });
   }
 
-  sendRentReceipt(estate: Estate): Observable<any> {
-    return this.http.get<any>(`${this.API_URL}/rents/email?estate=${estate.id}`);
+  sendRentReceipt(estateId: string): Observable<any> {
+    return this.http.get<any>(`${this.API_URL}/rents/email?estate=${estateId}`);
   }
 }
