@@ -1,5 +1,5 @@
 import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
-import { combineLatest, from, map, switchMap } from 'rxjs';
+import { combineLatest, from, map, switchMap, tap } from 'rxjs';
 import { JwtAuthGuard } from '../auth/auth.guard';
 import { UserMidleweare } from '../guards/user-midleweare.guard';
 import { OwnersService } from '../owners/owners.service';
@@ -14,7 +14,7 @@ export class RentsController {
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Get('pdf')
-    getOwners(@Req() req, @Res() res) {
+    downloadRentReceipt(@Req() req, @Res() res) {
 
         const { id } = req.query;
 
@@ -34,6 +34,29 @@ export class RentsController {
                 res.send(rentReceipt)
             })
         );
+    }
+
+    @UseGuards(JwtAuthGuard, UserMidleweare)
+    @Get('email')
+    sendRentReceipt(@Req() req, @Res() res) {
+
+        const { id } = req.query;
+
+        return combineLatest([
+            this.estateService.getById(id),
+            this.ownerService.getByUser(req.user.id),
+            this.lodgerService.getByUser(req.user.id)
+        ]).pipe(
+            switchMap(([estate, owners, lodgers]) => {
+                const owner = owners.find(owner => owner.id === estate.owner_id);
+                const lodger = lodgers.find(lodger => lodger.id === estate.lodger_id);
+                return from(createRentReciptPdf(estate, owner, lodger));
+            }),
+            tap(rentReceipt => {
+                // send email
+            })
+        );
+
     }
 
 }
