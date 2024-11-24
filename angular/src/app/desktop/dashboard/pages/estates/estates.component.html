@@ -43,76 +43,9 @@
         <td>
           <estate-table-owner-cell [estate]="estate"></estate-table-owner-cell>
         </td>
-
-
-        @if(estate.lodger){
-        <td nz-dropdown [nzDropdownMenu]="manageLodgers">{{estate.lodger.name}}</td>
-        }@else {
-        @if(lodgers().length){
-        <td class="clickable rcc">
-          <div class="empty-field" nz-dropdown [nzDropdownMenu]="menuLodgers"><span nz-icon nzType="edit"
-              nzTheme="outline"></span></div>
+        <td>
+          <estate-table-lodger-cell [estate]="estate"></estate-table-lodger-cell>
         </td>
-        }@else {
-        <td class="clickable rcc">
-          <div class="empty-field create" (click)="createLodger(estate)">+</div>
-        </td>
-        }
-        }
-
-        <nz-dropdown-menu #manageLodgers="nzDropdownMenu">
-          <ul nz-menu nzSelectable>
-            <li nz-menu-item>
-              <!-- <div nz-dropdown [nzDropdownMenu]="manageRentReceipts" class="clickable">gérer les quittances</div> -->
-            </li>
-            <li nz-menu-item>
-              <td nz-dropdown [nzDropdownMenu]="menuLodgers" class="clickable">changer de locataire</td>
-            </li>
-          </ul>
-        </nz-dropdown-menu>
-
-        <nz-dropdown-menu #manageRentReceipts="nzDropdownMenu">
-          <ul nz-menu nzSelectable>
-            <li nz-menu-item (click)="downloadRentReceipt(estate)">télécharger</li>
-            <li nz-menu-item (click)="senddRentReceipt(estate)">envoyer</li>
-            <li nz-menu-item>envoyer</li>
-          </ul>
-        </nz-dropdown-menu>
-
-        <nz-dropdown-menu #menuLodgers="nzDropdownMenu">
-          <ul nz-menu nzSelectable>
-            <ng-container *ngFor="let lodger of lodgers()">
-              <li nz-menu-item>
-                <div class="dropdown-line-content">
-                  <div style="flex: 1" (click)="setLodger(estate, lodger)">{{lodger.name}}</div>
-                  <div class="delete" (click)="deleteLodger(lodger)" nz-icon nzType="delete"></div>
-                </div>
-              </li>
-            </ng-container>
-            @if(lodgers(); as lodgers){
-            @if(lodgers.length){
-            <li nz-menu-item (click)="createLodger(estate)" class="primary">
-              <button nz-button nzType="primary">ajouter un locataire</button>
-            </li>
-            }@else{
-            <li nz-menu-item (click)="createLodger()" class="primary">ajouter un nouveau locataire</li>
-            }
-            }
-          </ul>
-        </nz-dropdown-menu>
-
-        <td (click)="deleteEstate(estate)">
-          <div class="action">
-            <div nz-icon nzType="delete"></div>
-          </div>
-        </td>
-
-        <!-- <nz-dropdown-menu #menuActions="nzDropdownMenu">
-          <ul nz-menu nzSelectable>
-            <li nz-menu-item (click)="sendRentReceiptByEmail(estate)">créer une quittance</li>
-            <li nz-menu-item (click)="deleteEstate(estate)" class="error">supprimer</li>
-          </ul>
-        </nz-dropdown-menu> -->
 
       </tr>
     </tbody>

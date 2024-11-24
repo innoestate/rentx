@@ -16,12 +16,14 @@ import { OwnersModule } from 'src/app/core/modules/owners/owners.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { LodgersModule } from 'src/app/core/modules/owners/lodgers.module';
 import { EstateTableOwnerCellComponent } from './estate-table-owner-cell/estate-table-owner-cell.component';
+import { EstateTableLodgerCellComponent } from './estate-table-lodger-cell/estate-table-lodger-cell.component';
 
 
 @NgModule({
   declarations: [
     EstatesPageDesktopComponent,
     EstateTableOwnerCellComponent,
+    EstateTableLodgerCellComponent,
   ],
   imports: [
     CommonModule,
