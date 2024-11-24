@@ -33,6 +33,14 @@ export class OwnersEffects {
     ))
   ))
 
+  updateOwner$ = createEffect(() => this.actions$.pipe(
+    ofType('[Owners] Update Owner'),
+    switchMap(({ owner }) => this.ownerService.edit(owner).pipe(
+      map(data => ({ type: '[Owners] Update Owner Success', owner: data })),
+      catchError(() => of({ type: '[Owners] Update Owner Failure' }))
+    ))
+  ))
+
   deleteOwner$ = createEffect(() => this.actions$.pipe(
     ofType('[Owners] Delete Owner'),
     switchMap(data => this.ownerService.delete((data as any).ownerId).pipe(
