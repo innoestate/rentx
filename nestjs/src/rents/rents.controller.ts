@@ -7,6 +7,7 @@ import { LodgersService } from '../lodgers/lodgers.service';
 import { OwnersService } from '../owners/owners.service';
 import { createRentReceiptEmail, createRentReciptPdf } from './rents.business';
 import { sendEmail } from 'src/emails/emails.buisness';
+import { ConfigService } from '@nestjs/config';
 
 
 
@@ -14,7 +15,7 @@ import { sendEmail } from 'src/emails/emails.buisness';
 @Controller('api/rents')
 export class RentsController {
 
-    constructor(private estateService: EstatesService, private ownerService: OwnersService, private lodgerService: LodgersService) { }
+    constructor(private estateService: EstatesService, private ownerService: OwnersService, private lodgerService: LodgersService, private configService: ConfigService) { }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Get('pdf')
@@ -52,7 +53,7 @@ export class RentsController {
             this.lodgerService.getByUser(req.user.id)
         ]).pipe(
             switchMap(([estate, owners, lodgers]) => createRentReceiptEmail( owners, lodgers, estate)),
-            switchMap(base64EncodedEmail => sendEmail(req.user.accessToken, req.user.refresh_token, base64EncodedEmail)),
+            switchMap(base64EncodedEmail => sendEmail(req.user.accessToken, req.user.refresh_token, base64EncodedEmail, this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET'))),
             map(() => (res.send({ statusCode: 200, body: 'email sent successfully' })))
         );
 
