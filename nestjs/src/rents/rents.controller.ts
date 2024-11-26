@@ -49,7 +49,7 @@ export class RentsController {
         return combineLatest([
             this.estateService.getById(id),
             this.ownerService.getByUser(req.user.id),
-            this.lodgerService.getByUser(req.user.id).pipe(map(lodgers => lodgers.map(lodger => ({...lodger, email: req.user.email}))))
+            this.lodgerService.getByUser(req.user.id)
         ]).pipe(
             switchMap(([estate, owners, lodgers]) => createRentReceiptEmail( owners, lodgers, estate)),
             switchMap(base64EncodedEmail => sendEmail(req.user.accessToken, req.user.refresh_token, base64EncodedEmail)),

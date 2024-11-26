@@ -15,22 +15,7 @@ export const createRentReciptPdf = async (estate: Estate_Db, owner: Owner_Db, lo
             const doc = initDoc();
             runStream(doc, null, document => resolve(document));
 
-            let startDate = null;
-            let endDate = null;
-            if (!startDate) {
-                const currentDate = new Date();
-                startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-            }
-            const rent = estate.rent;
-            const charges = estate.charges;
-            const totalRent = calculateRent(rent, charges, startDate, endDate);
-            const street = estate.street;
-            const zipAndCity = estate.zip + ' ' + estate.city;
-            const madeAt = estate.city;
-
-            if (!endDate) {
-                endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
-            }
+            const { startDate, endDate, rent, charges, totalRent, street, zipAndCity, madeAt } = getRentReceiptInfos(estate, owner, lodger);
 
             const pageWidth = doc.page.width;
             const marginLeft = 50;
@@ -121,25 +106,60 @@ export const createRentReciptPdf = async (estate: Estate_Db, owner: Owner_Db, lo
 
 }
 
+const getRentReceiptInfos = (estate: Estate_Db, owner: Owner_Db, lodger: Lodger_Db) => {
+    let startDate = null;
+    let endDate = null;
+    if (!startDate) {
+        const currentDate = new Date();
+        startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+    }
+    const rent = estate.rent;
+    const charges = estate.charges;
+    const totalRent = calculateRent(rent, charges, startDate, endDate);
+    const street = estate.street;
+    const zipAndCity = estate.zip + ' ' + estate.city;
+    const madeAt = estate.city;
+
+    if (!endDate) {
+        endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
+    }
+    return { startDate, endDate, rent, charges, totalRent, street, zipAndCity, madeAt };
+}
+
 export const createRentReceiptEmail = (owners: Owner_Db[], lodgers: Lodger_Db[], estate: Estate_Db) => {
     const owner = owners.find(owner => owner.id === estate.owner_id);
     const lodger = lodgers.find(lodger => lodger.id === estate.lodger_id);
+
+    const { startDate, endDate, rent, charges, totalRent, street, zipAndCity, madeAt }  = getRentReceiptInfos(estate, owner, lodger);
+
     return from(createRentReciptPdf(estate, owner, lodger)).pipe(
         map(rentReceipt => {
+
+            const content = `Bonjour,
+
+            Veuillez trouver en pièce jointe votre quittance de loyer pour la période du ${formatDateFromISOString(startDate.toISOString())} au ${formatDateFromISOString(endDate.toISOString())}.
+
+            Cordialement,
+            ${owner.name}`;
+
+            const formattedStartDate = formatDateFromISOString(startDate.toISOString()).replace(/\//g, '-');
+            const formattedEndDate = formatDateFromISOString(endDate.toISOString()).replace(/\//g, '-');
+
+            const filename = `quittance-${formattedStartDate}-${formattedEndDate}_${lodger.name.replace(/\s+/g, '_')}-${street.replace(/\s+/g, '_')}.pdf`;
 
             const emailParts = [
                 {
                     mimeType: 'text/plain',
-                    content: 'Votre quittance de loyer est en pièce jointe.'
+                    content
                 },
                 {
                     mimeType: 'application/pdf',
-                    filename: 'quittance.pdf',
+                    filename,
                     content: (rentReceipt as any).toString('base64')
                 }
             ];
 
-            return createEmail(lodger.email, 'Quittance', emailParts);
+            return createEmail(lodger.email, `Quittance du ${formatDateFromISOString(startDate.toISOString())} au ${formatDateFromISOString(endDate.toISOString())} pour le ${estate.street}`, emailParts);
 
         })
     )
