@@ -90,7 +90,7 @@ export class DatabaseInitService implements OnModuleInit {
           street VARCHAR(100),
           city VARCHAR(100),
           zip VARCHAR(100),
-          signature VARCHAR(100),
+          signature TEXT,
           email VARCHAR(100),
           phone VARCHAR(100),
           created_at TIMESTAMP DEFAULT NOW(),

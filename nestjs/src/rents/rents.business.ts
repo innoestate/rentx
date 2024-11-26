@@ -15,7 +15,7 @@ export const createRentReciptPdf = async (estate: Estate_Db, owner: Owner_Db, lo
             const doc = initDoc();
             runStream(doc, null, document => resolve(document));
 
-            const { startDate, endDate, rent, charges, totalRent, street, zipAndCity, madeAt } = getRentReceiptInfos(estate, owner, lodger);
+            const { startDate, endDate, rent, charges, totalRent, street, zipAndCity, madeAt, signature } = getRentReceiptInfos(estate, owner, lodger);
 
             const pageWidth = doc.page.width;
             const marginLeft = 50;
@@ -95,6 +95,15 @@ export const createRentReciptPdf = async (estate: Estate_Db, owner: Owner_Db, lo
             doc.text('Le bailleur,', pageWidth - marginLeft * 4, y += textHeight * 2);
             doc.text(owner.name, pageWidth - marginLeft * 4, y += textHeight * 1.5);
 
+
+            try {
+                const matches = signature.match(/^data:([A-Za-z-+/]+);base64,(.+)$/);
+                const imageData = Buffer.from(matches![2], 'base64');
+                doc.image(imageData, tabCenter, y += textHeight * 2, { height: 120 });
+              } catch (e) {
+                console.error('error signature', e);
+              }
+
             finish(doc);
 
         } catch (e) {
@@ -119,11 +128,12 @@ const getRentReceiptInfos = (estate: Estate_Db, owner: Owner_Db, lodger: Lodger_
     const street = estate.street;
     const zipAndCity = estate.zip + ' ' + estate.city;
     const madeAt = estate.city;
+    const signature = owner.signature;
 
     if (!endDate) {
         endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
     }
-    return { startDate, endDate, rent, charges, totalRent, street, zipAndCity, madeAt };
+    return { startDate, endDate, rent, charges, totalRent, street, zipAndCity, madeAt, signature };
 }
 
 export const createRentReceiptEmail = (owners: Owner_Db[], lodgers: Lodger_Db[], estate: Estate_Db) => {
