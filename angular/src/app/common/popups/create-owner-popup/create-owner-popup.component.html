@@ -12,6 +12,9 @@
   <label for="name">Code Postal</label>
   <input type="text" class="form-control" formControlName="zip">
 
+  <label for="name">Signature</label>
+  <signature-pad formControlName="signature"></signature-pad>
+
 </form>
 <div class="footer">
   <button nz-button nzType="primary" (click)="create()">créer</button>

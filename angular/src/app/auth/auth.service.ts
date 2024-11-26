@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { delay, tap } from 'rxjs/operators';
+import { catchError, delay, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -51,6 +51,7 @@ export class AuthService {
 
   removeToken(token: string): void {
     localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem('currentUser');
   }
 
   getToken(): string | null {
