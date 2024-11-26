@@ -7,11 +7,12 @@ import { Estate_Post_Request } from "../../models/requests/estate-post-request.m
 import { HttpErrorResponse } from "@angular/common/http";
 import { deleteEstate, deleteEstateSuccess, senddRentReceipt, sendRentReceiptFailure, sendRentReceiptSuccess } from "./estates.actions";
 import { RentsService } from "../../services/rents.service";
+import { NzMessageService } from "ng-zorro-antd/message";
 
 @Injectable()
 export class EstatesEffects {
 
-  constructor(private actions$: Actions, private estatesService: EstatesService, private rentsService: RentsService, private store: Store) { }
+  constructor(private actions$: Actions, private estatesService: EstatesService, private rentsService: RentsService, private message: NzMessageService) { }
 
   loadEstates$ = createEffect(() => this.actions$.pipe(
     ofType('[Estates] Load Estates'),
@@ -55,5 +56,19 @@ export class EstatesEffects {
       catchError(err => of(sendRentReceiptFailure(err)))
     ))
   ))
+
+  sendRentReceiptSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(sendRentReceiptSuccess),
+    tap(({ estate }) => {
+      this.message.success('Votre quittance a bien été envoyée.');
+    })
+  ), { dispatch: false })
+
+  sendRentReceiptFaillure$ = createEffect(() => this.actions$.pipe(
+    ofType(sendRentReceiptFailure),
+    tap(({ error }) => {
+      this.message.error('Failed to send rent receipt');
+    })
+  ), { dispatch: false })
 
 }
