@@ -40,7 +40,7 @@ export class DatabaseInitService implements OnModuleInit {
     await queryRunner.connect();
 
     if(this.configService.get('NODE_ENV') === 'development') {
-      await this.resetTables(queryRunner);
+      // await this.resetTables(queryRunner);
     }
 
     const userTableExists = await queryRunner.hasTable('users');
@@ -50,6 +50,7 @@ export class DatabaseInitService implements OnModuleInit {
         CREATE TABLE users (
           id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
           email VARCHAR(100),
+          refresh_token VARCHAR(100),
           created_at TIMESTAMP DEFAULT NOW(),
           updated_at TIMESTAMP DEFAULT NOW()
         );

@@ -1,5 +1,5 @@
 import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
-import { combineLatest, from, map, of, switchMap } from 'rxjs';
+import { combineLatest, from, map, of, switchMap, tap } from 'rxjs';
 import { JwtAuthGuard } from '../auth/auth.guard';
 import { EstatesService } from '../estates/estates.service';
 import { UserMidleweare } from '../guards/user-midleweare.guard';
@@ -52,8 +52,8 @@ export class RentsController {
             this.lodgerService.getByUser(req.user.id).pipe(map(lodgers => lodgers.map(lodger => ({...lodger, email: req.user.email}))))
         ]).pipe(
             switchMap(([estate, owners, lodgers]) => createRentReceiptEmail( owners, lodgers, estate)),
-            switchMap(base64EncodedEmail => sendEmail(req.user.googleAccessToken, req.user.googleRefreshToken, base64EncodedEmail)),
-            map(() => ({ statusCode: 200, body: 'email sent successfully' }))
+            switchMap(base64EncodedEmail => sendEmail(req.user.accessToken, req.user.refresh_token, base64EncodedEmail)),
+            map(() => (res.send({ statusCode: 200, body: 'email sent successfully' })))
         );
 
     }

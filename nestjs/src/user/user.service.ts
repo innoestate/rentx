@@ -50,6 +50,12 @@ export class UsersService {
       ));
   }
 
+  updateGoogleRefreshToken(id: string, refresh_token: string): Observable<User> {
+    return from(this.usersRepository.update(id, { refresh_token })).pipe(
+      switchMap(() => this.findById(id))
+    );
+  }
+
   async findByEmail(email: string): Promise<User | undefined> {
     return this.usersRepository.findOne({
       where: { email },

@@ -16,9 +16,10 @@ export class AuthService {
       firstName: req.user.firstName,
       lastName: req.user.lastName,
       picture: req.user.picture,
-      googleAccessToken: req.user.accessToken,
-      googleRefreshToken: req.user.refreshToken
+      accessToken: req.user.accessToken,
+      refresh_token: req.user.refreshToken
     });
+
     return {
       message: 'User from google',
       user: req.user,

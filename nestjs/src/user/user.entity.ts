@@ -15,6 +15,9 @@ export class User {
     @Column({ unique: true })
     email: string;
 
+    @Column()
+    refresh_token: string;
+
     @CreateDateColumn()
     created_at: Timestamp;
 
