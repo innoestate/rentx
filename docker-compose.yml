@@ -38,7 +38,7 @@ services:
     restart: always
 
   nginx:
-    container_name: nginx:alpine
+    container_name: nginx
     image: nginx:stable-alpine3.20-perl
     expose:
       - "80"
