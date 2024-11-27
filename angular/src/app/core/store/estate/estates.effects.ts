@@ -5,11 +5,14 @@ import { catchError, combineLatest, map, of, switchMap, take, tap } from "rxjs";
 import { EstatesService } from "../../services/estates.service";
 import { Estate_Post_Request } from "../../models/requests/estate-post-request.model";
 import { HttpErrorResponse } from "@angular/common/http";
+import { deleteEstate, deleteEstateSuccess, senddRentReceipt, sendRentReceiptFailure, sendRentReceiptSuccess } from "./estates.actions";
+import { RentsService } from "../../services/rents.service";
+import { NzMessageService } from "ng-zorro-antd/message";
 
 @Injectable()
 export class EstatesEffects {
 
-  constructor(private actions$: Actions, private estatesService: EstatesService, private store: Store) { }
+  constructor(private actions$: Actions, private estatesService: EstatesService, private rentsService: RentsService, private message: NzMessageService) { }
 
   loadEstates$ = createEffect(() => this.actions$.pipe(
     ofType('[Estates] Load Estates'),
@@ -26,27 +29,7 @@ export class EstatesEffects {
       // switchMap(createdEstate => combineLatest([of(createdEstate), this.store.select(ownersSelector).pipe(take(1))])),
       // map(([createdEstate, { owners }]) => setOwner(createdEstate, owners)),
       map(createdEstate => ({ type: '[Estates] Create Estate Success', estate: createdEstate })),
-      catchError(({error}) => of({ type: '[Estates] Create Estate Failure', error }))
-    ))
-  ))
-
-  // toogleEstateModal$ = createEffect(() => this.actions$.pipe(
-  //   ofType('[Estates] Toogle Create Estate Modal'),
-  //   map(({ visible }) => ({ type: '[Estates] Toogle Create Estate Modal Success', visible })),
-  //   catchError(() => of({ type: '[Estates] Toogle Create Estate Modal Failure' }))
-  // ))
-
-  // toogleSetLodgerModal$ = createEffect(() => this.actions$.pipe(
-  //   ofType('[Estates] Toogle Set Lodger Modal'),
-  //   map(({ visible }) => ({ type: '[Estates] Toogle Set Lodger Modal Success', visible })),
-  //   catchError(() => of({ type: '[Estates] Toogle Set Lodger Failure' }))
-  // ))
-
-  deleteEstate$ = createEffect(() => this.actions$.pipe(
-    ofType('[Estates] Delete Estate'),
-    switchMap(({ estate }) => this.estatesService.deleteEstate(estate).pipe(
-      map(() => ({ type: '[Estates] Delete Estate Success', estate })),
-      catchError(() => of({ type: '[Estates] Delete Estate Failure' }))
+      catchError(({ error }) => of({ type: '[Estates] Create Estate Failure', error }))
     ))
   ))
 
@@ -57,5 +40,35 @@ export class EstatesEffects {
       catchError(() => of({ type: '[Estates] Edit Estate Failure' }))
     ))
   ))
+
+  deleteEstate$ = createEffect(() => this.actions$.pipe(
+    ofType(deleteEstate),
+    switchMap(({ estateId }) => this.estatesService.deleteEstate(estateId).pipe(
+      map(() => (deleteEstateSuccess({ estateId }))),
+      catchError(() => of({ type: '[Estates] Delete Estate Failure' }))
+    ))
+  ))
+
+  sendRentReceipt$ = createEffect(() => this.actions$.pipe(
+    ofType(senddRentReceipt),
+    switchMap(({ estate }) => this.rentsService.sendRentReceipt(estate.id).pipe(
+      map(estate => (sendRentReceiptSuccess({ estate }))),
+      catchError(err => of(sendRentReceiptFailure(err)))
+    ))
+  ))
+
+  sendRentReceiptSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(sendRentReceiptSuccess),
+    tap(({ estate }) => {
+      this.message.success('Votre quittance a bien été envoyée.');
+    })
+  ), { dispatch: false })
+
+  sendRentReceiptFaillure$ = createEffect(() => this.actions$.pipe(
+    ofType(sendRentReceiptFailure),
+    tap(({ error }) => {
+      this.message.error('Failed to send rent receipt');
+    })
+  ), { dispatch: false })
 
 }

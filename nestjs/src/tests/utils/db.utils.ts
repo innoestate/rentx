@@ -2,6 +2,8 @@ import { Client } from 'pg';
 
 export const  dropAllTables = async () => {
 
+    console.log('Dropping all tables in the database...');
+
     const client = new Client({
         host: 'postgres',  
         port: 5432,

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { EstatePage } from 'src/app/common/pages/estates.page.component';
-import { CreateDesktopEstatePopupComponent } from '../../../../common/popups/create-estate-popup/create-estate-popup.component';
 import { Estate } from 'src/app/core/models/estate.model';
 
 @Component({
@@ -9,14 +8,6 @@ import { Estate } from 'src/app/core/models/estate.model';
   styleUrl: './estates.component.scss'
 })
 export class EstatesPageDesktopComponent extends EstatePage {
-
-  openCreateEstatePopup() {
-    this.modalService.create({
-      nzTitle: 'Créer un nouveau bien',
-      nzContent: CreateDesktopEstatePopupComponent,
-      nzFooter: null
-    })
-  }
 
   startEdit(id: string, ref: HTMLInputElement) {
     this.editId = id;

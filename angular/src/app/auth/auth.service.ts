@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { delay, tap } from 'rxjs/operators';
+import { catchError, delay, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -34,7 +34,12 @@ export class AuthService {
 
   isAuthenticated(token: string | null): Observable<any> {
     if (token) {
-      return this.http.get(`${this.API_URL}/user/profile`);
+      return this.http.get(`${this.API_URL}/user/profile`).pipe(
+        catchError(err => {
+          this.removeToken(token);
+          return of(err);
+        })
+      )
     } else {
       return of(null).pipe(delay(0));
     }
@@ -46,6 +51,7 @@ export class AuthService {
 
   removeToken(token: string): void {
     localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem('currentUser');
   }
 
   getToken(): string | null {

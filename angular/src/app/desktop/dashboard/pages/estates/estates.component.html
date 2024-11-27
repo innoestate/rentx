@@ -40,6 +40,13 @@
             (change)="edit(estate, 'charges', editableChargesInput)" />
         </td>
 
+        <td>
+          <estate-table-owner-cell [estate]="estate"></estate-table-owner-cell>
+        </td>
+        <td>
+          <estate-table-lodger-cell [estate]="estate"></estate-table-lodger-cell>
+        </td>
+
       </tr>
     </tbody>
   </nz-table>

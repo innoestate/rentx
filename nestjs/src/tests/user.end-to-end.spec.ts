@@ -1,45 +1,47 @@
 import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
 import { User_Db } from '../user/user-db.model';
-import { buildApp, buildUser } from './utils/user.utils';
 import { dropAllTables } from './utils/db.utils';
+import { userTests } from './user-tests';
+import { buildApp, buildUser } from './utils/user.utils';
+import { ownersTests } from './owners-tests';
+import { lodgersTests } from './lodgers-tests';
+import { estatesTests } from './estates-tests';
+import { rentsTests } from './rents-tests';
+import { EstatesService } from '../estates/estates.service';
+import { estatesServiceTests } from './estates-service-tests';
+import { OwnersService } from '../owners/owners.service';
+import { LodgersService } from '../lodgers/lodgers.service';
+import { rentsBuisnessTests } from './rents-buisness-tests';
 
-describe('/api/user/hello', () => {
+describe('/api', () => {
 
     let app: INestApplication;
     let user: User_Db;
+    let ownerService: OwnersService;
+    let lodgerService: LodgersService;
+    let estateService: EstatesService;
 
     beforeAll(async () => {
 
         await dropAllTables();
         user = await buildUser('elon.musk@spacex.io');
         app = await buildApp(user);
-
+        ownerService = app.get<OwnersService>(OwnersService);
+        lodgerService = app.get<LodgersService>(LodgersService);
+        estateService = app.get<EstatesService>(EstatesService);
     });
 
     afterAll(async () => {
         await app.close();
     });
 
-    it('GET /api/user/hello', async () => {
-        const response = await request(app.getHttpServer())
-            .get('/api/user/hello')
-            .expect(200);
-        expect(response.text).toBe('hello world!');
-    });
+    estatesServiceTests(() => app, () => user, () => estateService);
+    rentsBuisnessTests(() => estateService, () => ownerService, () => lodgerService);
 
-    it('GET /api/user/profile', async () => {
-        const response = await request(app.getHttpServer())
-            .get('/api/user/profile')
-            .expect(200);
-
-        expect(response.body.email).toBe('elon.musk@spacex.io');
-        expect(response.body.id).toBe(user.id); 
-
-    });
-
-    it('test init', async () => {
-        expect('hello world!').toBe('hello world!');
-    });
+    userTests(() => app, () => user);
+    ownersTests(() => app);
+    estatesTests(() => app, () => user);
+    lodgersTests(() => app);
+    rentsTests(() => app);
 
 })

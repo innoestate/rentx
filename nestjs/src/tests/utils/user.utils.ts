@@ -5,12 +5,13 @@ import { MockJwtAuthGuard } from '../../guards/auth.guard.mock';
 import { JwtAuthGuard } from '../../auth/auth.guard';
 import { User_Db } from '../../user/user-db.model';
 
-export const buildUser = async (email: string): Promise<User_Db> => {
+export const buildUser = async (email: string, name = 'John Doe'): Promise<User_Db> => {
     const builderAppRef = await Test.createTestingModule({
         imports: [AppModule],
     }).compile();
+
     const userService = builderAppRef.get<UsersService>(UsersService);
-    const user = await userService.create(email).toPromise();
+    const user = await userService.create(email, { name }).toPromise();
     return user as any;
 }
 

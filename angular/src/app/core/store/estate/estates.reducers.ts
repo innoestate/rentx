@@ -1,6 +1,7 @@
 import { createReducer, on } from "@ngrx/store";
 import { Estate_Dto } from "../../models/dtos/estate.dto.model";
 import { createEstateSuccess, deleteEstateSuccess, editEstateSuccess, loadEstatesSuccess } from "./estates.actions";
+import { updateOwnerSuccess } from "../owner/owners.actions";
 
 export interface State {
   estates: Estate_Dto[];
@@ -30,10 +31,10 @@ export const estatesReducer = createReducer(
       estates: state.estates.map(estate => estate.id === data.estate.id ? ({...estate, ...data.estate}) : estate)
     }
   }),
-  on(deleteEstateSuccess, (state, data) => {
+  on(deleteEstateSuccess, (state, {estateId}) => {
     return {
       ...state,
-      estates: state.estates.filter(estate => estate.id !== data.estate.id)
+      estates: state.estates.filter(estate => estate.id !== estateId)
     }
   }),
 )

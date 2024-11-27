@@ -24,8 +24,10 @@ services:
     volumes:
       - ./nestjs:/app
       - /app/node_modules
-    command: npm run test:watch
+    command: npm run test:watch --detectOpenHandles 
     environment:
+      - GOOGLE_CLIENT_ID=test
+      - GOOGLE_CLIENT_SECRET=test
       - NODE_ENV=test
       - JWT_SECRET=secret
       - DB_HOST=postgres

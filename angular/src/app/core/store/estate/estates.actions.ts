@@ -13,12 +13,14 @@ export const createEstate = createAction('[Estates] Create Estate', props<{ esta
 export const createEstateSuccess = createAction('[Estates] Create Estate Success', props<{ estate: any }>());
 export const createEstateFailure = createAction('[Estates] Create Estate Failure', props<{ error: HttpErrorResponse }>());
 
-export const editEstate = createAction('[Estates] Edit Estate', props<{ estate: Estate }>());
+export const editEstate = createAction('[Estates] Edit Estate', props<{ estate: Partial<Estate> }>());
 export const editEstateSuccess = createAction('[Estates] Edit Estate Success', props<{ estate: Estate }>());
 export const editEstateFailure = createAction('[Estates] Edit Estate Failure', props<{ error: any }>());
 
-export const deleteEstate = createAction('[Estates] Delete Estate');
-export const deleteEstateSuccess = createAction('[Estates] Delete Estate Success', props<{ estate: Estate }>());
+export const deleteEstate = createAction('[Estates] Delete Estate', props<{ estateId: string }>());
+export const deleteEstateSuccess = createAction('[Estates] Delete Estate Success', props<{ estateId: string }>());
 export const deleteEstateFailure = createAction('[Estates] Delete Estate Failure', props<{ error: HttpErrorResponse }>());
 
-
+export const senddRentReceipt = createAction('[Estates] Send Rent Receipt', props<{ estate: Estate }>());
+export const sendRentReceiptSuccess = createAction('[Estates] Send Rent Receipt Success', props<{ estate: Estate }>());
+export const sendRentReceiptFailure = createAction('[Estates] Send Rent Receipt Failure', props<{ error: HttpErrorResponse }>());

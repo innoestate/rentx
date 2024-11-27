@@ -4,6 +4,6 @@ export interface Estate_Post_Request {
   zip: string;
   rent?: number | null;
   charges?: number | null;
-  owner?: string | null;
-  lodger?: string | null;
+  owner_id?: string | null;
+  lodger_id?: string | null;
 }

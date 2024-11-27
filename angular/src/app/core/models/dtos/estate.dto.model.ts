@@ -6,6 +6,6 @@ export interface Estate_Dto {
   plot?: string;
   rent?: number;
   charges?: number;
-  owner?: string;
-  lodger?: string;
+  owner_id?: string;
+  lodger_id?: string;
 }

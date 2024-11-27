@@ -23,6 +23,14 @@ export class EstatesService {
     return from(this.estateRepository.update(estateDto.id, estateDto));
   }
 
+  delete(id: string): Observable<any> {
+    return from(this.estateRepository.delete(id));
+  }
+
+  getById(id: string): Observable<any> {
+    return from(this.estateRepository.findOne({ where: { id } }));
+  }
+
   async getByUser(userId: string): Promise<Estate[] | undefined> {
     return this.estateRepository.find({
       where: { user_id: userId }
