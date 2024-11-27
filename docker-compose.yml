@@ -11,7 +11,7 @@ services:
       - nestjs 
 
   postgres:
-    image: postgres:13
+    image: postgres:13-alpine
     container_name: postgres
     environment:
       POSTGRES_USER: ${DB_USERNAME}
@@ -38,7 +38,7 @@ services:
     restart: always
 
   nginx:
-    container_name: nginx
+    container_name: nginx:alpine
     image: nginx:stable-alpine3.20-perl
     expose:
       - "80"
