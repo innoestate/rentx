@@ -28,6 +28,7 @@ import { userReducer } from './core/store/user/user.reducers';
 import { UserEffects } from './core/store/user/user.effects';
 import { environment } from 'src/environments/environment';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { DeviceGuard } from './core/guards/device.guard';
 
 
 registerLocaleData(en);
@@ -60,6 +61,7 @@ registerLocaleData(en);
     EffectsModule.forRoot([UserEffects])
   ],
   providers: [
+    DeviceGuard,
     { provide: NZ_I18N, useValue: en_US },
     {
       provide: HTTP_INTERCEPTORS,
