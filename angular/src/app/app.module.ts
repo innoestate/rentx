@@ -29,6 +29,7 @@ import { UserEffects } from './core/store/user/user.effects';
 import { environment } from 'src/environments/environment';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { DeviceGuard } from './core/guards/device.guard';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 
 registerLocaleData(en);
@@ -58,10 +59,11 @@ registerLocaleData(en);
       maxAge: 25,
       logOnly: !environment.production,
     }),
-    EffectsModule.forRoot([UserEffects])
+    EffectsModule.forRoot([UserEffects]),
   ],
   providers: [
     DeviceGuard,
+    DeviceDetectorService,
     { provide: NZ_I18N, useValue: en_US },
     {
       provide: HTTP_INTERCEPTORS,
