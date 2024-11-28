@@ -6,4 +6,6 @@ COPY . /app
 
 RUN npm install && npm run build --production && rm -rf node_modules
 
+VOLUME ["/app/dist/angular"]
+
 # VOLUME -v angular_dist_volume:/app/dist/angular
