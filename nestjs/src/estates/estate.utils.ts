@@ -47,8 +47,14 @@ export const fromatEstateForPatch = ( data: any) => {
     if(data.owner_id && typeof data.owner_id === 'string') {
         patchData = {...patchData, owner_id: data.owner_id};
     }
+    if(data.owner_id === null || data.owner_id === '') {
+        patchData = {...patchData, owner_id: ''};
+    }
     if(data.lodger_id && typeof data.lodger_id === 'string') {
         patchData = {...patchData, lodger_id: data.lodger_id};
+    }
+    if(data.lodger_id === null || data.lodger_id === '') {  
+        patchData = {...patchData, lodger_id: ''};
     }
     return patchData;
 }
