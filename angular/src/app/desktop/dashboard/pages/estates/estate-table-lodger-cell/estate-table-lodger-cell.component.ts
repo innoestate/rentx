@@ -54,8 +54,8 @@ export class EstateTableLodgerCellComponent {
     this.openCreateLodgerPopup();
   }
 
-  setLodger(lodger?: Lodger) {
-    this.store.dispatch(editEstate({ estate: { id: this.estate().id, lodger_id: lodger!.id } }));
+  setLodger(lodger?: Lodger | null) {
+    this.store.dispatch(editEstate({ estate: { id: this.estate().id, lodger_id: lodger?.id ?? '' } }));
   }
 
   deleteLodger(lodger: Lodger) {

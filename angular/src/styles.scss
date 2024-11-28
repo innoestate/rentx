@@ -30,3 +30,26 @@
 .delete {
   color: var(--ant-error-color) !important;
 }
+
+.center-field{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-field {
+  background-color: var(--ant-primary-2);
+  border-radius: 15px;
+  border: 1px solid var(--ant-primary-3);
+  with: 100%;
+  height: 100%;
+  padding: 8px 12px;
+  color: var(--ant-primary-7)
+}
+
+.italic {
+  font-style: italic;
+}
