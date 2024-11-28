@@ -47,6 +47,12 @@
           <estate-table-lodger-cell [estate]="estate"></estate-table-lodger-cell>
         </td>
 
+        <td >
+          <div class="action">
+            <div nz-icon nzType="delete" class="delete" (click)="deleteEstate(estate)"></div>
+          </div>
+        </td>
+
       </tr>
     </tbody>
   </nz-table>
