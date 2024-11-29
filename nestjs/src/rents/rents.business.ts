@@ -6,7 +6,7 @@ import { Lodger_Db } from '../lodgers/lodger-db.model';
 import { Owner_Db } from '../owners/owners-db.model';
 import { from, map } from 'rxjs';
 
-export const createRentReciptPdf = async (estate: Estate_Db, owner: Owner_Db, lodger: Lodger_Db) => {
+export const createRentReciptPdf = async (estate: Estate_Db, owner: Owner_Db, lodger: Lodger_Db, startDate_?: string, endDate_?: string) => {
 
     return new Promise((resolve, reject) => {
 
@@ -15,7 +15,7 @@ export const createRentReciptPdf = async (estate: Estate_Db, owner: Owner_Db, lo
             const doc = initDoc();
             runStream(doc, null, document => resolve(document));
 
-            const { startDate, endDate, rent, charges, totalRent, street, zipAndCity, madeAt, signature } = getRentReceiptInfos(estate, owner, lodger);
+            const { startDate, endDate, rent, charges, totalRent, street, zipAndCity, madeAt, signature } = getRentReceiptInfos(estate, owner, lodger, startDate_, endDate_);
 
             const pageWidth = doc.page.width;
             const marginLeft = 50;
@@ -100,9 +100,9 @@ export const createRentReciptPdf = async (estate: Estate_Db, owner: Owner_Db, lo
                 const matches = signature.match(/^data:([A-Za-z-+/]+);base64,(.+)$/);
                 const imageData = Buffer.from(matches![2], 'base64');
                 doc.image(imageData, tabCenter, y += textHeight * 2, { height: 120 });
-              } catch (e) {
+            } catch (e) {
                 console.error('error signature', e);
-              }
+            }
 
             finish(doc);
 
@@ -115,9 +115,9 @@ export const createRentReciptPdf = async (estate: Estate_Db, owner: Owner_Db, lo
 
 }
 
-const getRentReceiptInfos = (estate: Estate_Db, owner: Owner_Db, lodger: Lodger_Db) => {
-    let startDate = null;
-    let endDate = null;
+const getRentReceiptInfos = (estate: Estate_Db, owner: Owner_Db, lodger: Lodger_Db, startDate_?: string, endDate_?: string) => {
+    let startDate = startDate_ ? new Date(startDate_) : null;
+    let endDate = endDate_ ? new Date(endDate_) : null;
     if (!startDate) {
         const currentDate = new Date();
         startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
@@ -140,7 +140,7 @@ export const createRentReceiptEmail = (owners: Owner_Db[], lodgers: Lodger_Db[],
     const owner = owners.find(owner => owner.id === estate.owner_id);
     const lodger = lodgers.find(lodger => lodger.id === estate.lodger_id);
 
-    const { startDate, endDate, rent, charges, totalRent, street, zipAndCity, madeAt }  = getRentReceiptInfos(estate, owner, lodger);
+    const { startDate, endDate, rent, charges, totalRent, street, zipAndCity, madeAt } = getRentReceiptInfos(estate, owner, lodger);
 
     return from(createRentReciptPdf(estate, owner, lodger)).pipe(
         map(rentReceipt => {
@@ -178,28 +178,28 @@ export const createRentReceiptEmail = (owners: Owner_Db[], lodgers: Lodger_Db[],
 const createEmail = (to: string, subject: string, parts: any[]) => {
     const boundary = 'foo_bar_baz';
     const messageParts = [
-      `From: me`,
-      `To: ${to}`,
-      `Subject: ${subject}`,
-      `MIME-Version: 1.0`,
-      `Content-Type: multipart/mixed; boundary=${boundary}`,
-      '',
-      `--${boundary}`,
+        `From: me`,
+        `To: ${to}`,
+        `Subject: ${subject}`,
+        `MIME-Version: 1.0`,
+        `Content-Type: multipart/mixed; boundary=${boundary}`,
+        '',
+        `--${boundary}`,
     ];
-  
+
     parts.forEach((part) => {
-      const { mimeType, filename, content } = part;
-      messageParts.push(`Content-Type: ${mimeType}`);
-      if (filename) {
-        messageParts.push(`Content-Disposition: attachment; filename="${filename}"`);
-      }
-      messageParts.push(`Content-Transfer-Encoding: base64`, '', content, `--${boundary}`);
+        const { mimeType, filename, content } = part;
+        messageParts.push(`Content-Type: ${mimeType}`);
+        if (filename) {
+            messageParts.push(`Content-Disposition: attachment; filename="${filename}"`);
+        }
+        messageParts.push(`Content-Transfer-Encoding: base64`, '', content, `--${boundary}`);
     });
-  
+
     messageParts.push('--');
-  
+
     return Buffer.from(messageParts.join('\n')).toString('base64').replace(/\+/g, '-').replace(/\//g, '_');
-  };
+};
 
 const formatDateFromISOString = (dateStr: string): string => {
     const [year, month, day] = dateStr.split('T')[0].split('-');
