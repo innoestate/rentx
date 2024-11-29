@@ -10,7 +10,7 @@ FOR PRODUCTION
 
 Go in your instance
 
-ex: ssh -i "prod_rentx.pem" admin@ec2-13-36-119-43.eu-west-3.compute.amazonaws.com
+ex: ssh -i "prod_rentx.pem" admin@ec2-13-36-119-43.eu-west-3.compute.amazonaws.com"
 
 
 install docker, docker-compose, git and certbot in the VPS
@@ -109,3 +109,8 @@ cannot load certificate "/etc/letsencrypt/live/rentx.fr/fullchain.pem": PEM_read
 -> sudo mkdir /etc/letsencrypt/live/rentx.fr
 -> sudo cp /etc/letsencrypt/live/www.rentx.fr/privkey.pem /etc/letsencrypt/live/rentx.fr
 -> sudo cp /etc/letsencrypt/live/www.rentx.fr/fullchain.pem /etc/letsencrypt/live/rentx.fr
+
+
+
+PATCH PROD
+
