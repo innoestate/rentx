@@ -4,7 +4,7 @@ import { Store } from "@ngrx/store";
 import { catchError, map, of, switchMap, tap, withLatestFrom } from "rxjs";
 import { LodgersService } from "../../services/lodgers.service";
 import { loadOwnersFailure } from "../owner/owners.actions";
-import { createLodger, createLodgerFailure, createLodgerSuccess, deleteLodger, deleteLodgerSuccess, loadLodgers, loadLodgersSuccess } from "./lodgers.actions";
+import { createLodger, createLodgerFailure, createLodgerSuccess, deleteLodger, deleteLodgerSuccess, loadLodgers, loadLodgersSuccess, updateLodger, updateLodgerFailure, updateLodgerSuccess } from "./lodgers.actions";
 import { selectLodgers } from "./lodgers.selectors";
 import { editEstate } from "../estate/estates.actions";
 
@@ -41,6 +41,14 @@ export class LodgersEffects {
       catchError(err => of(createLodgerFailure(err))
       ))
     )))
+
+  updateLodger$ = createEffect(() => this.actions$.pipe(
+    ofType(updateLodger),
+    switchMap(data => this.lodgerService.update((data as any).lodger).pipe(
+      map(lodger => updateLodgerSuccess({ lodger })),
+      catchError(err => of(updateLodgerFailure(err))
+    ))
+  )))
 
   deleteLodger$ = createEffect(() => this.actions$.pipe(
     ofType(deleteLodger),

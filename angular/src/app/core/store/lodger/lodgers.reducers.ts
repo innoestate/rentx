@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { Lodger } from "../../models/lodger.model";
-import { createLodgerSuccess, deleteLodgerSuccess, loadLodgersSuccess } from "./lodgers.actions";
+import { createLodgerSuccess, deleteLodgerSuccess, loadLodgersSuccess, updateLodgerSuccess } from "./lodgers.actions";
 
 export interface State {
   lodgers: Lodger[];
@@ -22,6 +22,12 @@ export const lodgersReducer = createReducer(
     return {
       ...state,
       lodgers: state.lodgers.concat(lodger)
+    }
+  }),
+  on(updateLodgerSuccess, (state, {lodger}) => {
+    return {
+      ...state,
+      lodgers: state.lodgers.map(actualLodger => actualLodger.id === lodger.id ? {...actualLodger, ...lodger} : actualLodger)
     }
   }),
   on(deleteLodgerSuccess, (state, { lodgerId }) => {
