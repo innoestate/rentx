@@ -52,7 +52,7 @@ export const ownersReducer = createReducer(
     on(updateOwnerSuccess, (state, {owner}) => {
         return {
             ...state,
-            owners: state.owners.map(o => o.id === owner.id ? owner : o),
+            owners: state.owners.map(actualOwner => actualOwner.id === owner.id ? ({...actualOwner, ...owner}) : actualOwner),
         }
     }),
     on(deleteOwnerSuccess, (state, {ownerId}) => {
