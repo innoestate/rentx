@@ -1,8 +1,8 @@
 @if(formGroup && fields() ){
-<form [formGroup]="formGroup">
+<form [formGroup]="formGroup" class="form-group-popup">
 
   @for (field of fields(); track field) {
-    <label for="name">{{field}}</label>
+    <label for="name">{{LABELS[field]}}</label>
     @if(field === 'signature' ){
       <div class="signature-container">
         <signature-pad [formControlName]="field"></signature-pad>

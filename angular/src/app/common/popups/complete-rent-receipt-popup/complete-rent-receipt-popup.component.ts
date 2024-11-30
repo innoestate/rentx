@@ -14,6 +14,14 @@ import { SignatureComponent } from '../../components/signature-pad/signature.com
 })
 export class CompleteRentReceiptPopupComponent {
 
+  LABELS : any = {
+    street: 'Adresse (bailleur)',
+    city: 'Ville (bailleur)',
+    zip: 'Code postal (bailleur)',
+    signature: 'Signature',
+    ownerEmail: 'Email propriétaire',
+    lodgerEmail: 'Email locataire'
+  };
   fields: Signal<string[]>;
   formGroup!: UntypedFormGroup;
 
