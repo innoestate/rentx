@@ -4,20 +4,22 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
+COPY package-lock.json ./ 
+RUN npm ci
 
 COPY . ./
 RUN npm run build
+
 
 # Stage 2: Runtime
 FROM node:20-alpine
 
 WORKDIR /app
 
-COPY --from=builder /app/dist ./
+COPY --from=builder /app/dist ./ 
 
 ENV NODE_ENV production
-CMD ["node", "main"]
+CMD ["node", "main"]  
 
 # FROM node:20-alpine
 
@@ -29,15 +31,4 @@ CMD ["node", "main"]
 
 # EXPOSE 3000
 
-# COPY . ./
-# RUN npm run build
-
-
-# FROM node:20-alpine
-
-# WORKDIR /app
-
-# COPY --from=builder /app/dist ./
-
-# ENV NODE_ENV production
 # CMD ["npm", "run", "start:prod"]
