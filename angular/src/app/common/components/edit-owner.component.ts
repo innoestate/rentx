@@ -21,10 +21,10 @@ export class EditOwnerComponent implements OnInit {
   buildFormGroup() {
     this.formGroup = this.formBuilder.group({
       name: new FormControl(this.data?.owner?.name??'', [Validators.required]),
-      street: new FormControl(this.data?.owner?.street??'', [Validators.required]),
-      city: new FormControl(this.data?.owner?.city??'', [Validators.required]),
-      zip: new FormControl(this.data?.owner?.zip??'', [Validators.required]),
-      signature: new FormControl(this.data?.owner?.signature??''),
+      street: new FormControl(this.data?.owner?.street??''),//, [Validators.required]),
+      city: new FormControl(this.data?.owner?.city??''),//, [Validators.required]),
+      zip: new FormControl(this.data?.owner?.zip??''),//, [Validators.required]),
+      signature: new FormControl(this.data?.owner?.signature??''),//),
     } as Owner_Form);
   }
 
