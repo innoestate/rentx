@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . /app
 
-RUN NODE_OPTIONS="--max-old-space-size=2048" npm install && npm run build --production
+RUN npm install && npm run build
 
 EXPOSE 3000
 
