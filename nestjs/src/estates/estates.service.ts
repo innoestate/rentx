@@ -28,6 +28,9 @@ export class EstatesService {
   }
 
   getById(id: string): Observable<any> {
+    if( !id ) {
+      return of(new NotFoundException('id is required'));
+    }
     return from(this.estateRepository.findOne({ where: { id } }));
   }
 

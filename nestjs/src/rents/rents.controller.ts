@@ -40,7 +40,7 @@ export class RentsController {
     @Get('pdf')
     downloadRentReceipt(@Req() req, @Res() res) {
 
-        const { id } = req.query;
+        const id = req.query.estate;
 
         return combineLatest([
             this.estateService.getById(id),
@@ -64,7 +64,7 @@ export class RentsController {
     @Get('email')
     sendRentReceipt(@Req() req, @Res() res) {
 
-        const { id } = req.query;
+        const id = req.query?.estate;
 
         return combineLatest([
             this.estateService.getById(id),
