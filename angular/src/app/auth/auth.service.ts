@@ -29,7 +29,7 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
-    return this.http.get(`${this.API_URL}/user/logout`);
+    return of(true);//this.http.get(`${this.API_URL}/user/logout`);
   }
 
   isAuthenticated(token: string | null): Observable<any> {
