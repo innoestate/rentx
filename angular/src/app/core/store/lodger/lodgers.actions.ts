@@ -12,7 +12,7 @@ export const createLodger = createAction('[Lodger] create Lodger', props<{ lodge
 export const createLodgerSuccess = createAction('[Lodger] create Lodger Success', props<{ lodger: Lodger }>());
 export const createLodgerFailure = createAction('[Lodger] create Lodger Failure', props<{ error: any }>());
 
-export const updateLodger = createAction('[Lodger] Update Lodger', props<{ lodger: Lodger_Post }>());
+export const updateLodger = createAction('[Lodger] Update Lodger', props<{ lodger: Lodger_Dto }>());
 export const updateLodgerSuccess = createAction('[Lodger] Update Lodger Success', props<{ lodger: Lodger }>());
 export const updateLodgerFailure = createAction('[Lodger] Update Lodger Failure', props<{ error: any }>());
 

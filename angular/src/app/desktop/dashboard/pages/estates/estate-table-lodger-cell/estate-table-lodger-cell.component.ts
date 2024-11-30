@@ -122,6 +122,21 @@ export class EstateTableLodgerCellComponent {
     ).subscribe();
   }
 
+  private updateCoompleteOwnerAndLodger(owner: Owner, lodger: Lodger) {
+    let updates = [];
+    const ownerUpdatedResult = this.getUpdateOwnerResultObserables(owner);
+    if (ownerUpdatedResult) {
+      updates.push(ownerUpdatedResult);
+      this.store.dispatch(updateOwner({ owner: { ...owner, id: this.estate().owner?.id! } }));
+    }
+    const lodgerUpdatedResult = this.getUpdateLodgerResultObserables(lodger);
+    if (lodgerUpdatedResult) {
+      updates.push(lodgerUpdatedResult);
+      this.store.dispatch(updateLodger({ lodger: { ...lodger, id: this.estate().lodger?.id! } }));
+    }
+    return forkJoin(updates);
+  }
+
   downloadRentReceipt() {
 
     let fields = this.getNeededFieldsForDownloadRentReceipt();
@@ -145,27 +160,10 @@ export class EstateTableLodgerCellComponent {
 
       this.openCompletePopupForRentReceipt(fields).pipe(
         take(1),
-        tap(({ owner, lodger }) => {
-
-          let updates = [];
-          const ownerUpdatedResult = this.getUpdateOwnerResultObserables(owner);
-          if (ownerUpdatedResult) {
-            updates.push(ownerUpdatedResult);
-            this.store.dispatch(updateOwner({ owner: { ...owner, id: this.estate().owner?.id } }));
-          }
-          const lodgerUpdatedResult = this.getUpdateLodgerResultObserables(lodger);
-          if (lodgerUpdatedResult) {
-            updates.push(lodgerUpdatedResult);
-            this.store.dispatch(updateLodger({ lodger: { ...lodger, id: this.estate().lodger?.id } }));
-          }
-          forkJoin(updates).pipe(
-            take(1),
-            tap(_ => {
-              this.store.dispatch(senddRentReceipt({ estate: this.estate() }));
-            })
-          ).subscribe();
-        })
+        tap(({ owner, lodger }) => this.updateCoompleteOwnerAndLodger(owner, lodger)),
+        tap(_ => this.store.dispatch(senddRentReceipt({ estate: this.estate() })))
       ).subscribe();
+
     } else {
       this.store.dispatch(senddRentReceipt({ estate: this.estate() }));
     }
