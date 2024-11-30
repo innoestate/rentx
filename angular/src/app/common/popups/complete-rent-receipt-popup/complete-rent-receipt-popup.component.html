@@ -1,0 +1,14 @@
+@if(formGroup && fields() ){
+<form [formGroup]="formGroup">
+
+  @for (field of fields(); track field) {
+    <label for="name">{{field}}</label>
+    <input type="text" class="form-control" [formControlName]="field">
+  }
+
+</form>
+}
+
+<div class="footer">
+  <button nz-button nzType="primary" (click)="complete()">compléter</button>
+</div>

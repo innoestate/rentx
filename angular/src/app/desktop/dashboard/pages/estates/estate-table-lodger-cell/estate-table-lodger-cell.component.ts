@@ -2,6 +2,7 @@ import { Component, input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { take, tap } from 'rxjs';
+import { CompleteRentReceiptPopupComponent } from 'src/app/common/popups/complete-rent-receipt-popup/complete-rent-receipt-popup.component';
 import { CreateLodgerPopupComponent } from 'src/app/common/popups/create-lodger-popup/create-lodger-popup.component';
 import { Estate } from 'src/app/core/models/estate.model';
 import { Lodger } from 'src/app/core/models/lodger.model';
@@ -32,18 +33,30 @@ export class EstateTableLodgerCellComponent {
     })
   }
 
+  openCompletePopupForRentReceipt() {
+    this.modalService.create({
+      nzTitle: 'Compléter les informations pour la quittance',
+      nzContent: CompleteRentReceiptPopupComponent,
+      nzData: { fields: ['street', 'city', 'zip', 'signature'] },
+      nzFooter: null
+    })
+  }
+
   downloadRentReceipt() {
-    this.rentsService.downloadRentReceipt(this.estate()).pipe(
-      take(1),
-      tap(blob => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'quittance.pdf'; // Set the desired file name
-        a.click();
-        window.URL.revokeObjectURL(url); // Cle
-      })
-    ).subscribe();
+
+    this.openCompletePopupForRentReceipt();
+
+    // this.rentsService.downloadRentReceipt(this.estate()).pipe(
+    //   take(1),
+    //   tap(blob => {
+    //     const url = window.URL.createObjectURL(blob);
+    //     const a = document.createElement('a');
+    //     a.href = url;
+    //     a.download = 'quittance.pdf'; // Set the desired file name
+    //     a.click();
+    //     window.URL.revokeObjectURL(url); // Cle
+    //   })
+    // ).subscribe();
   }
 
   senddRentReceipt() {
