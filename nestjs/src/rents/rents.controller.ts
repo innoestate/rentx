@@ -6,7 +6,7 @@ import { UserMidleweare } from '../guards/user-midleweare.guard';
 import { LodgersService } from '../lodgers/lodgers.service';
 import { OwnersService } from '../owners/owners.service';
 import { createRentReceiptEmail, createRentReciptPdf } from './rents.business';
-import { sendEmail } from 'src/emails/emails.buisness';
+import { sendEmail } from '../emails/emails.buisness';
 import { ConfigService } from '@nestjs/config';
 
 

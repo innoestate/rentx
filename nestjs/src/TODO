@@ -1,0 +1,24 @@
+MANAGE MIGRATIONS
+
+1- create a function that create a DataSource ts file with the corresponding .env variables like this: 
+
+import { Estate } from "../estates/estate.entity";
+import { Lodger_Entity } from "../lodgers/lodger.entity";
+import { Owner_Entity } from "../owners/owners.entity";
+import { User } from "../user/user.entity";
+import { DataSource } from "typeorm";
+
+export const config = new DataSource({
+    type: 'postgres',
+    host: 'postgres',
+    port: 5432,
+    username: "dev",
+    password: "devpassword",
+    database: "rentx_dev",
+    entities: [User, Owner_Entity, Lodger_Entity, Estate], 
+    migrations: ['dist/migrations/*.js'],
+    synchronize: process.env.NODE_ENV === 'test', // set to false in production
+});
+
+
+2- update scripts migrations that you can run in the nestjs container

@@ -16,25 +16,25 @@ export class Owner_Entity {
     @Column({ type: 'uuid'})
     user_id: string;
 
-    @Column()
+    @Column({ length: 100})
     name: string;
 
-    @Column()
+    @Column({ length: 100})
     street: string;
 
-    @Column()
+    @Column({ length: 100})
     city: string;
 
-    @Column()
+    @Column({ length: 100})
     zip: string;
 
-    @Column()
+    @Column({ type: 'text'})
     signature: string;
 
-    @Column()
+    @Column({ length: 100})
     email: string;
 
-    @Column()
+    @Column({ length: 100})
     phone: string;
 
 }

@@ -5,10 +5,9 @@ import { userTests } from './user-tests';
 import { buildApp, buildUser } from './utils/user.utils';
 import { ownersTests } from './owners-tests';
 import { lodgersTests } from './lodgers-tests';
-import { estatesTests } from './estates-tests';
 import { rentsTests } from './rents-tests';
 import { EstatesService } from '../estates/estates.service';
-import { estatesServiceTests } from './estates-service-tests';
+import { estateTests } from './estates-tests';
 import { OwnersService } from '../owners/owners.service';
 import { LodgersService } from '../lodgers/lodgers.service';
 import { rentsBuisnessTests } from './rents-buisness-tests';
@@ -35,12 +34,11 @@ describe('/api', () => {
         await app.close();
     });
 
-    estatesServiceTests(() => app, () => user, () => estateService);
+    estateTests(() => app, () => user, () => estateService);
     rentsBuisnessTests(() => estateService, () => ownerService, () => lodgerService);
 
     userTests(() => app, () => user);
     ownersTests(() => app);
-    estatesTests(() => app, () => user);
     lodgersTests(() => app);
     rentsTests(() => app);
 

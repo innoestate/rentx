@@ -4,13 +4,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { TypeOrmConfigService } from './config/typeorm.config';
+import { TypeOrmConfigService } from './services/typeorm.service';
 import { EstatesModule } from './estates/estates.module';
-import { DatabaseInitService } from './services/database-init.service';
 import { userModule } from './user/user.module';
 import { OwnersModule } from './owners/owners.module';
 import { LodgersModule } from './lodgers/lodgers.module';
 import { RentsModule } from './rents/rents.module';
+import { createDataSourceConfig } from './scripts/create-datasource.script';
 
 @Module({
   imports: [
@@ -30,6 +30,12 @@ import { RentsModule } from './rents/rents.module';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService, DatabaseInitService],
+  providers: [AppService],
 })
-export class AppModule { }
+export class AppModule { 
+
+  constructor(){
+    createDataSourceConfig()
+  }
+
+}

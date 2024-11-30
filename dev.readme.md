@@ -22,3 +22,8 @@ DB_USERNAME=admin
 DB_PASSWORD=<a_password>
 DB_DATABASE=rentx
 GOOGLE_CALLBACK_URL=http://localhost:4200/callback
+
+run: 
+docker-compose -f docker-compose.dev.yml up --build
+
+Open the browser on the http://localhost:4200
