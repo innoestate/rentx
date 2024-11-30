@@ -2,7 +2,12 @@ import * as fs from 'fs';
 
 export const createDataSourceConfig = () => {
 
-    const content = `
+    console.log('createDataSourceConfig');
+
+    try {
+
+
+        const content = `
 const { DataSource } = require('typeorm');
 
 const config = new DataSource({
@@ -19,9 +24,12 @@ const config = new DataSource({
 
 module.exports = { config };
     `;
-    
-    if (!fs.existsSync('.data-source.config.js')) {
-        fs.writeFileSync('.data-source.config.js', content, 'utf8');
-        console.log('File has been created');
+
+        if (!fs.existsSync('.data-source.config.js')) {
+            fs.writeFileSync('.data-source.config.js', content, 'utf8');
+            console.log('File has been created');
+        }
+    } catch (e) {
+        console.log('Error: ', e);
     }
 }
