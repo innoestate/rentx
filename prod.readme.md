@@ -10,7 +10,7 @@ FOR PRODUCTION
 
 Go in your instance
 
-ex: ssh -i "prod_rentx.pem" admin@ec2-13-36-119-43.eu-west-3.compute.amazonaws.com"
+ex: sudo ssh -i "prod_rentx.pem" admin@ec2-13-36-119-43.eu-west-3.compute.amazonaws.com
 
 
 install docker, docker-compose, git and certbot in the VPS
@@ -92,10 +92,17 @@ docker-compose -f docker-compose.dev.yml down
 
 then again 
 
-docker-compose -f docker-compose.dev.yml up --build
+docker-compose -f docker-compose.dev.yml up --build -d
 
 
-To update project: 
+go in the container nestj, from the root project:
+    docker exec -ti nestjs sh
+
+run the script to run typeorm migration
+    npm run typeorm migration:run
+
+
+TO UPDATE THE PROJECT
 
 connect on the VPS
 go on the folder rentx.fr
