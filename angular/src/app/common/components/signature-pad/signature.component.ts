@@ -19,17 +19,25 @@ import SignaturePad from 'signature_pad';
 export class SignatureComponent implements AfterViewInit, ControlValueAccessor {
 
   @ViewChild('signatureCanvas', { static: false }) signatureCanvas!: ElementRef;
-  signaturePad: any;
+  signaturePad!: SignaturePad;
   signature: any;
-  onChange: any = () => {};
-  onTouched: any = () => {};
+  onChange: any = () => { };
+  onTouched: any = () => { };
 
 
-  ngAfterViewInit(){
-    this.signaturePad = new SignaturePad(this.signatureCanvas.nativeElement,{
-      minWidth:0.3,
-      maxWidth:1
+  ngAfterViewInit() {
+    this.signaturePad = new SignaturePad(this.signatureCanvas.nativeElement, {
+      minWidth: 0.3,
+      maxWidth: 1
     });
+    if (this.signature) {
+      this.signaturePad.fromDataURL(this.signature, {
+        width: this.signatureCanvas.nativeElement.offsetWidth,
+        height: this.signatureCanvas.nativeElement.offsetHeight
+      } );
+    } else {
+      this.signaturePad.clear();
+    }
     this.signaturePad.on();
     this.signaturePad.addEventListener("endStroke", () => {
       const signature = this.signaturePad.toDataURL();
@@ -42,7 +50,8 @@ export class SignatureComponent implements AfterViewInit, ControlValueAccessor {
     });
   }
 
-  writeValue(obj: any): void {
+  writeValue(signature: string): void {
+    this.signature = signature;
   }
 
   registerOnChange(fn: any): void {
