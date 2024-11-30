@@ -2,7 +2,7 @@ import { Component, input } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { forkJoin, race, take, tap } from 'rxjs';
+import { delay, forkJoin, Observable, of, race, switchMap, take, tap } from 'rxjs';
 import { CompleteRentReceiptPopupComponent } from 'src/app/common/popups/complete-rent-receipt-popup/complete-rent-receipt-popup.component';
 import { CreateLodgerPopupComponent } from 'src/app/common/popups/create-lodger-popup/create-lodger-popup.component';
 import { Estate } from 'src/app/core/models/estate.model';
@@ -70,7 +70,7 @@ export class EstateTableLodgerCellComponent {
     return fields;
   }
 
-  private getUpdateOwnerResultObserables(owner: Owner) {
+  private getUpdateOwnerResultObserables(owner: Owner): Observable<any> {
     if (owner) {
       const ownerUpdateSuccess = this.actions$.pipe(
         ofType(updateOwnerSuccess),
@@ -82,7 +82,15 @@ export class EstateTableLodgerCellComponent {
       );
       return race(ownerUpdateSuccess, ownerUpdateFail);
     }
-    return null;
+    return of(null);
+  }
+
+  private updateCompletedOwner(owner: Owner) {
+    this.store.dispatch(updateOwner({ owner: { ...owner, id: this.estate().owner?.id! } }));
+    return this.getUpdateOwnerResultObserables(owner).pipe(
+      take(1),
+      delay(0)
+    );
   }
 
   private getUpdateLodgerResultObserables(lodger: Lodger) {
@@ -121,22 +129,8 @@ export class EstateTableLodgerCellComponent {
 
       this.openCompletePopupForRentReceipt(fields).pipe(
         take(1),
-        tap(({ owner, lodger }) => {
-
-          let updates = [];
-          const ownerUpdatedResult = this.getUpdateOwnerResultObserables(owner);
-          if (ownerUpdatedResult) {
-            updates.push(ownerUpdatedResult);
-            this.store.dispatch(updateOwner({ owner: { ...owner, id: this.estate().owner?.id } }));
-          }
-
-          forkJoin(updates).pipe(
-            take(1),
-            tap(_ => {
-              this.sendDownloadRentReceiptRequest();
-            })
-          ).subscribe();
-        })
+        switchMap(({ owner }) => this.updateCompletedOwner(owner)),
+        tap(_ => this.sendDownloadRentReceiptRequest())
       ).subscribe();
 
     } else {
