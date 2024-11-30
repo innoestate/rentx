@@ -1,30 +1,25 @@
-import { computed, Directive, effect, OnInit } from '@angular/core';
-import { Actions, ofType } from '@ngrx/effects';
+import { Directive, OnInit } from '@angular/core';
+import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { Estate } from 'src/app/core/models/estate.model';
-import { Owner } from 'src/app/core/models/owner.model';
-import { deleteEstate, editEstate, editEstateSuccess, loadEstates, senddRentReceipt } from 'src/app/core/store/estate/estates.actions';
-import { selectEstates } from 'src/app/core/store/estate/estates.selectors';
-import { selectOwners } from 'src/app/core/store/owner/owners.selectors';
-import { formatEstatesDtoToEstateUx } from 'src/app/core/utils/estate.utils';
-import { CreateDesktopEstatePopupComponent } from '../popups/create-estate-popup/create-estate-popup.component';
-import { CreateOwnerPopupComponent } from '../popups/create-owner-popup/create-owner-popup.component';
-import { deleteOwner } from 'src/app/core/store/owner/owners.actions';
-import { selectLodgers } from 'src/app/core/store/lodger/lodgers.selectors';
-import { CreateLodgerPopupComponent } from '../popups/create-lodger-popup/create-lodger-popup.component';
-import { Lodger } from 'src/app/core/models/lodger.model';
-import { deleteLodger as deleteLodgerInStore } from 'src/app/core/store/lodger/lodgers.actions';
-import { RentsService } from 'src/app/core/services/rents.service';
 import { take, tap } from 'rxjs';
-import { EditOwnerPopupComponent } from '../popups/edit-owner-popup/edit-owner-popup.component';
+import { Estate } from 'src/app/core/models/estate.model';
+import { Lodger } from 'src/app/core/models/lodger.model';
+import { RentsService } from 'src/app/core/services/rents.service';
+import { deleteEstate, editEstate, loadEstates, senddRentReceipt } from 'src/app/core/store/estate/estates.actions';
+import { selectEstates } from 'src/app/core/store/estate/estates.selectors';
+import { deleteLodger as deleteLodgerInStore } from 'src/app/core/store/lodger/lodgers.actions';
+import { selectLodgers } from 'src/app/core/store/lodger/lodgers.selectors';
+import { selectOwners } from 'src/app/core/store/owner/owners.selectors';
+import { CreateDesktopEstatePopupComponent } from '../popups/create-estate-popup/create-estate-popup.component';
+import { CreateLodgerPopupComponent } from '../popups/create-lodger-popup/create-lodger-popup.component';
 
 @Directive()
 export class EstatePage implements OnInit {
 
   owners = this.store.selectSignal(selectOwners);
   lodgers = this.store.selectSignal(selectLodgers);
-  estates = computed(() => formatEstatesDtoToEstateUx(this.store.selectSignal(selectEstates)(), this.owners(), this.lodgers()));
+  estates = this.store.selectSignal(selectEstates);
   editId!: string | null;
 
   constructor(protected store: Store, protected modalService: NzModalService, protected actions$: Actions, private rentsService: RentsService) { }
