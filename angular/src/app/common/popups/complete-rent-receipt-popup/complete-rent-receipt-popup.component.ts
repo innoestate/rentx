@@ -21,12 +21,14 @@ export class CompleteRentReceiptPopupComponent {
     this.fields = computed(() => this.data.fields);
 
     effect(() => {
-      if (this.fields()) {
+      if (this.fields() && this.fields()?.length > 0) {
         let controls: any = {};
         this.fields()!.forEach(field => {
           controls[field] = new FormControl('', Validators.required);
         });
         this.formGroup = this.formBuilder.group(controls);
+      }else{
+        this.modalRef.close();
       }
     });
 

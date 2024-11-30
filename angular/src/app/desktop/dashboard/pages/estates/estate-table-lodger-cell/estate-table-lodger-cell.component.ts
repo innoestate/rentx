@@ -35,73 +35,106 @@ export class EstateTableLodgerCellComponent {
     });
   }
 
-  openCompletePopupForRentReceipt() {
+  openCompletePopupForRentReceipt(fields: string[]) {
     return this.modalService.create({
       nzTitle: 'Compléter les informations pour la quittance',
       nzContent: CompleteRentReceiptPopupComponent,
-      nzData: { fields: ['street', 'city', 'zip', 'signature'] },
+      nzData: { fields},
       nzFooter: null
     }).afterClose;
   }
 
   downloadRentReceipt() {
 
-    this.openCompletePopupForRentReceipt().pipe(
-      take(1),
-      tap(({ owner, lodger }) => {
+    let fields = [];
+    if( !this.estate().owner?.street || this.estate().owner?.street === '' ){
+      fields.push('street');
+    }
+    if( !this.estate().owner?.city || this.estate().owner?.city === '' ){
+      fields.push('city');
+    }
+    if( !this.estate().owner?.zip || this.estate().owner?.zip === '' ){
+      fields.push('zip');
+    }
+    if( !this.estate().owner?.signature || this.estate().owner?.signature === '' ){
+      fields.push('signature');
+    }
 
-        let updates = [];
-        if (owner) {
-          const ownerUpdateSuccess = this.actions$.pipe(
-            ofType(updateOwnerSuccess),
-            take(1),
-            tap(() => this.store.dispatch(editEstate({ estate: { id: this.estate().id, owner } }))
-            ));
-          const ownerUpdateFail = this.actions$.pipe(
-            ofType(updateOwnerFailure),
-            take(1),
-            tap(() => {
-              console.log('error updating owner');
-              this.modalService.error({ nzTitle: 'Erreur', nzContent: 'Une erreur est survenue lors de la mise à jour du propriétaire' });
-            })
-          );
-          updates.push(race(ownerUpdateSuccess, ownerUpdateFail));
-          this.store.dispatch(updateOwner({ owner: { ...owner, id: this.estate().owner!.id } }));
-        }
-        if (lodger) {
-          // const lodgerUpdateSuccess = this.actions$.pipe(
-          //   ofType(editEstateSuccess),
-          //   take(1),
-          //   tap(() => this.store.dispatch(editEstate({ estate: { id: this.estate().id, lodger } }))
-          // ));
+    if( fields.length > 0){
 
-          // updates.push(this.store.dispatch(editEstate({ estate: { id: this.estate().id, lodger } })));
-        }
+      this.openCompletePopupForRentReceipt(fields).pipe(
+        take(1),
+        tap(({ owner, lodger }) => {
 
-        forkJoin(updates).pipe(
-          take(1),
-
-          tap(updateSuccess => {
-
-            this.rentsService.downloadRentReceipt(this.estate()).pipe(
+          let updates = [];
+          if (owner) {
+            const ownerUpdateSuccess = this.actions$.pipe(
+              ofType(updateOwnerSuccess),
               take(1),
-              tap(blob => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'quittance.pdf'; // Set the desired file name
-                a.click();
-                window.URL.revokeObjectURL(url); // Cle
+              tap(() => this.store.dispatch(editEstate({ estate: { id: this.estate().id, owner } }))
+              ));
+            const ownerUpdateFail = this.actions$.pipe(
+              ofType(updateOwnerFailure),
+              take(1),
+              tap(() => {
+                console.log('error updating owner');
+                this.modalService.error({ nzTitle: 'Erreur', nzContent: 'Une erreur est survenue lors de la mise à jour du propriétaire' });
               })
-            ).subscribe();
+            );
+            updates.push(race(ownerUpdateSuccess, ownerUpdateFail));
+            this.store.dispatch(updateOwner({ owner: { ...owner, id: this.estate().owner!.id } }));
+          }
+          if (lodger) {
+            // const lodgerUpdateSuccess = this.actions$.pipe(
+            //   ofType(editEstateSuccess),
+            //   take(1),
+            //   tap(() => this.store.dispatch(editEstate({ estate: { id: this.estate().id, lodger } }))
+            // ));
 
-          })
+            // updates.push(this.store.dispatch(editEstate({ estate: { id: this.estate().id, lodger } })));
+          }
 
-        ).subscribe();
+          forkJoin(updates).pipe(
+            take(1),
+
+            tap(updateSuccess => {
+
+              this.rentsService.downloadRentReceipt(this.estate()).pipe(
+                take(1),
+                tap(blob => {
+                  const url = window.URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = 'quittance.pdf'; // Set the desired file name
+                  a.click();
+                  window.URL.revokeObjectURL(url); // Cle
+                })
+              ).subscribe();
+
+            })
+
+          ).subscribe();
 
 
-      })
-    ).subscribe();
+        })
+      ).subscribe();
+
+    }else{
+
+      this.rentsService.downloadRentReceipt(this.estate()).pipe(
+        take(1),
+        tap(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'quittance.pdf'; // Set the desired file name
+          a.click();
+          window.URL.revokeObjectURL(url); // Cle
+        })
+      ).subscribe();
+
+    }
+
 
     // this.rentsService.downloadRentReceipt(this.estate()).pipe(
     //   take(1),
