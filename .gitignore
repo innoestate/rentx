@@ -8,6 +8,7 @@ dist/
 .env
 /nestjs/.env*
 /nestjs/.data-source.config.js
+/nestjs/package-lock.json
 
 # Logs
 *.log
