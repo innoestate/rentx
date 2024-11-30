@@ -1,6 +1,8 @@
-import { Component, computed, effect, Inject, input, Signal } from '@angular/core';
+import { Component, computed, effect, EventEmitter, Inject, input, Signal } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
-import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
+import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
+import { Lodger } from 'src/app/core/models/lodger.model';
+import { Owner } from 'src/app/core/models/owner.model';
 
 @Component({
   selector: 'app-complete-rent-receipt-popup',
@@ -14,29 +16,48 @@ export class CompleteRentReceiptPopupComponent {
   fields: Signal<string[]>;
   formGroup!: UntypedFormGroup;
 
-  constructor(@Inject(NZ_MODAL_DATA) public data: { fields: string[] }, private formBuilder: FormBuilder) {
+  constructor(@Inject(NZ_MODAL_DATA) public data: { fields: string[] }, private formBuilder: FormBuilder, private modalRef: NzModalRef) {
 
     this.fields = computed(() => this.data.fields);
 
     effect(() => {
-
-      console.log('fields', this.fields());
-
       if (this.fields()) {
-
         let controls: any = {};
         this.fields()!.forEach(field => {
           controls[field] = new FormControl('', Validators.required);
         });
         this.formGroup = this.formBuilder.group(controls);
       }
-
     });
 
   }
 
   complete() {
-    console.log('complete', this.formGroup.value);
+    if (this.formGroup.valid) {
+
+      let owner: Partial<Owner> = {};
+      if(this.formGroup.get('street')) {
+        owner.street = this.formGroup.get('street')!.value;
+      }
+      if(this.formGroup.get('city')) {
+        owner.city = this.formGroup.get('city')!.value;
+      }
+      if(this.formGroup.get('zip')) {
+        owner.zip = this.formGroup.get('zip')!.value;
+      }
+      if(this.formGroup.get('signature')) {
+        owner.signature = this.formGroup.get('signature')!.value;
+      }
+      if(this.formGroup.get('ownerEmail')) {
+        owner.email = this.formGroup.get('ownerEmail')!.value;
+      }
+
+      let lodger: Partial<Lodger> = {};
+      if(this.formGroup.get('lodgerEmail')) {
+        lodger.email = this.formGroup.get('lodgerEmail')!.value;
+      }
+      this.modalRef.close({ owner, lodger });
+    }
   }
 
 
