@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . /app
 
-RUN npm install && npm run build && cp .env.production dist/.env
+RUN npm install && npm run build
 
 EXPOSE 3000
 
