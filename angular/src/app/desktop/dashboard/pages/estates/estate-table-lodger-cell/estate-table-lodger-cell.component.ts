@@ -10,7 +10,7 @@ import { Lodger } from 'src/app/core/models/lodger.model';
 import { Owner } from 'src/app/core/models/owner.model';
 import { RentsService } from 'src/app/core/services/rents.service';
 import { editEstate, senddRentReceipt } from 'src/app/core/store/estate/estates.actions';
-import { deleteLodger as deleteLodgerInStore } from 'src/app/core/store/lodger/lodgers.actions';
+import { deleteLodger as deleteLodgerInStore, updateLodger, updateLodgerFailure, updateLodgerSuccess } from 'src/app/core/store/lodger/lodgers.actions';
 import { selectLodgers } from 'src/app/core/store/lodger/lodgers.selectors';
 import { updateOwner, updateOwnerFailure, updateOwnerSuccess } from 'src/app/core/store/owner/owners.actions';
 
@@ -62,18 +62,40 @@ export class EstateTableLodgerCellComponent {
     return fields;
   }
 
+  private getNeededFieldsForSendRentReceiptByEmail() {
+    const fields = this.getNeededFieldsForDownloadRentReceipt();
+    if (this.estate().lodger?.email === '' || !this.estate().lodger?.email) {
+      fields.push('lodgerEmail');
+    }
+    return fields;
+  }
+
   private getUpdateOwnerResultObserables(owner: Owner) {
     if (owner) {
       const ownerUpdateSuccess = this.actions$.pipe(
         ofType(updateOwnerSuccess),
-        take(1),
-        tap(() => this.store.dispatch(editEstate({ estate: { id: this.estate().id, owner } }))
-        ));
+        take(1)
+        );
       const ownerUpdateFail = this.actions$.pipe(
         ofType(updateOwnerFailure),
         take(1)
       );
       return race(ownerUpdateSuccess, ownerUpdateFail);
+    }
+    return null;
+  }
+
+  private getUpdateLodgerResultObserables(lodger: Lodger) {
+    if (lodger) {
+      const lodgerUpdateSuccess = this.actions$.pipe(
+        ofType(updateLodgerSuccess),
+        take(1),
+        );
+      const lodgerUpdateFail = this.actions$.pipe(
+        ofType(updateLodgerFailure),
+        take(1)
+      );
+      return race(lodgerUpdateSuccess, lodgerUpdateFail);
     }
     return null;
   }
@@ -108,16 +130,6 @@ export class EstateTableLodgerCellComponent {
             this.store.dispatch(updateOwner({ owner: { ...owner, id: this.estate().owner?.id } }));
           }
 
-          if (lodger) {
-            // const lodgerUpdateSuccess = this.actions$.pipe(
-            //   ofType(editEstateSuccess),
-            //   take(1),
-            //   tap(() => this.store.dispatch(editEstate({ estate: { id: this.estate().id, lodger } }))
-            // ));
-
-            // updates.push(this.store.dispatch(editEstate({ estate: { id: this.estate().id, lodger } })));
-          }
-
           forkJoin(updates).pipe(
             take(1),
             tap(_ => {
@@ -130,23 +142,39 @@ export class EstateTableLodgerCellComponent {
     } else {
       this.sendDownloadRentReceiptRequest();
     }
-
-
-    // this.rentsService.downloadRentReceipt(this.estate()).pipe(
-    //   take(1),
-    //   tap(blob => {
-    //     const url = window.URL.createObjectURL(blob);
-    //     const a = document.createElement('a');
-    //     a.href = url;
-    //     a.download = 'quittance.pdf'; // Set the desired file name
-    //     a.click();
-    //     window.URL.revokeObjectURL(url); // Cle
-    //   })
-    // ).subscribe();
   }
 
   senddRentReceipt() {
-    this.store.dispatch(senddRentReceipt({ estate: this.estate() }));
+
+    let fields = this.getNeededFieldsForSendRentReceiptByEmail();
+    if (fields.length > 0) {
+
+      this.openCompletePopupForRentReceipt(fields).pipe(
+        take(1),
+        tap(({ owner, lodger }) => {
+
+          let updates = [];
+          const ownerUpdatedResult = this.getUpdateOwnerResultObserables(owner);
+          if (ownerUpdatedResult) {
+            updates.push(ownerUpdatedResult);
+            this.store.dispatch(updateOwner({ owner: { ...owner, id: this.estate().owner?.id } }));
+          }
+          const lodgerUpdatedResult = this.getUpdateLodgerResultObserables(lodger);
+          if (lodgerUpdatedResult) {
+            updates.push(lodgerUpdatedResult);
+            this.store.dispatch(updateLodger({ lodger: { ...lodger, id: this.estate().lodger?.id } }));
+          }
+          forkJoin(updates).pipe(
+            take(1),
+            tap(_ => {
+              this.store.dispatch(senddRentReceipt({ estate: this.estate() }));
+            })
+          ).subscribe();
+        })
+      ).subscribe();
+    } else {
+      this.store.dispatch(senddRentReceipt({ estate: this.estate() }));
+    }
   }
 
   createLodger() {
