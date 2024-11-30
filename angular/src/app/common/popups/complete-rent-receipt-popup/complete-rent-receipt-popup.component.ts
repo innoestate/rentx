@@ -3,11 +3,12 @@ import { FormBuilder, FormControl, ReactiveFormsModule, UntypedFormGroup, Valida
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { Lodger } from 'src/app/core/models/lodger.model';
 import { Owner } from 'src/app/core/models/owner.model';
+import { SignatureComponent } from '../../components/signature-pad/signature.component';
 
 @Component({
   selector: 'app-complete-rent-receipt-popup',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, SignatureComponent],
   templateUrl: './complete-rent-receipt-popup.component.html',
   styleUrl: './complete-rent-receipt-popup.component.scss'
 })

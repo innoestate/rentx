@@ -23,7 +23,7 @@ export class CreateLodgerComponent implements OnInit {
   buildFormGroup() {
     this.formGroup = this.formBuilder.group({
       name: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required]),
+      email: new FormControl(''),
     } as Lodger_Form);
   }
 

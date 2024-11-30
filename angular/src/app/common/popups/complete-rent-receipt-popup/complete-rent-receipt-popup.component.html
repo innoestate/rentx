@@ -3,7 +3,13 @@
 
   @for (field of fields(); track field) {
     <label for="name">{{field}}</label>
-    <input type="text" class="form-control" [formControlName]="field">
+    @if(field === 'signature' ){
+      <div class="signature-container">
+        <signature-pad [formControlName]="field"></signature-pad>
+      </div>
+    }@else{
+      <input type="text" class="form-control" [formControlName]="field">
+    }
   }
 
 </form>
