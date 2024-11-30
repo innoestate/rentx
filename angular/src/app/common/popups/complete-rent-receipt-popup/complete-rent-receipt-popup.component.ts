@@ -4,6 +4,7 @@ import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { Lodger } from 'src/app/core/models/lodger.model';
 import { Owner } from 'src/app/core/models/owner.model';
 import { SignatureComponent } from '../../components/signature-pad/signature.component';
+import { Estate } from 'src/app/core/models/estate.model';
 
 @Component({
   selector: 'app-complete-rent-receipt-popup',
@@ -19,6 +20,8 @@ export class CompleteRentReceiptPopupComponent {
     city: 'Ville (bailleur)',
     zip: 'Code postal (bailleur)',
     signature: 'Signature',
+    rent: 'Loyer',
+    charges: 'Charges',
     ownerEmail: 'Email propriétaire',
     lodgerEmail: 'Email locataire'
   };
@@ -63,11 +66,19 @@ export class CompleteRentReceiptPopupComponent {
         owner.email = this.formGroup.get('ownerEmail')!.value;
       }
 
+      let estate: Partial<Estate> = {};
+      if(this.formGroup.get('rent')) {
+        estate.rent = this.formGroup.get('rent')!.value;
+      }
+      if(this.formGroup.get('charges')) {
+        estate.charges = this.formGroup.get('charges')!.value;
+      }
+
       let lodger: Partial<Lodger> = {};
       if(this.formGroup.get('lodgerEmail')) {
         lodger.email = this.formGroup.get('lodgerEmail')!.value;
       }
-      this.modalRef.close({ owner, lodger });
+      this.modalRef.close({ owner, lodger, estate });
     }
   }
 
