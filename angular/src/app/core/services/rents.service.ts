@@ -26,7 +26,16 @@ export class RentsService {
     return this.http.get<any>(`${this.API_URL}/rents/pdf?${queryParams}`, { responseType: 'blob' as 'json' });
   }
 
-  sendRentReceipt(estateId: string): Observable<any> {
-    return this.http.get<any>(`${this.API_URL}/rents/email?estate=${estateId}`);
+  sendRentReceipt(estateId: string, startDate?: string, endDate?: string): Observable<any> {
+
+    let queryParams = `estate=${estateId}`;
+    if (startDate) {
+      queryParams += `&startDate=${startDate}`;
+    }
+    if (endDate) {
+      queryParams += `&endDate=${endDate}`;
+    }
+
+    return this.http.get<any>(`${this.API_URL}/rents/email?${queryParams}`);
   }
 }

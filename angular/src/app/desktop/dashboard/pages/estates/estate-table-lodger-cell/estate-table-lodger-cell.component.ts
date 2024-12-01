@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { combineLatest, delay, Observable, of, race, switchMap, take, tap } from 'rxjs';
 import { CompleteRentReceiptPopupComponent } from 'src/app/common/popups/complete-rent-receipt-popup/complete-rent-receipt-popup.component';
+import { CreateCustomizedRentReceiptPopupComponent } from 'src/app/common/popups/create-customized-rent-receipt-popup/create-customized-rent-receipt-popup.component';
 import { CreateLodgerPopupComponent } from 'src/app/common/popups/create-lodger-popup/create-lodger-popup.component';
 import { Estate } from 'src/app/core/models/estate.model';
 import { Lodger } from 'src/app/core/models/lodger.model';
@@ -44,6 +45,19 @@ export class EstateTableLodgerCellComponent {
       nzData: { fields },
       nzFooter: null
     }).afterClose;
+  }
+
+  openCustomizedRentReceiptPopup() {
+    this.modalService.create({
+      nzTitle: 'Créer une quittance personnalisée',
+      nzContent: CreateCustomizedRentReceiptPopupComponent,
+      nzData: { estate: this.estate() },
+      nzFooter: null
+    });
+  }
+
+  downloadCustomizedRentReceipt(){
+    this.openCustomizedRentReceiptPopup();
   }
 
   private getNeededFieldsForDownloadRentReceipt() {

@@ -30,8 +30,9 @@
 
 <nz-dropdown-menu #manageRentReceipts="nzDropdownMenu">
   <ul nz-menu nzSelectable>
-    <li nz-menu-item (click)="downloadRentReceipt()">télécharger</li>
-    <li nz-menu-item (click)="senddRentReceipt()">envoyer</li>
+    <li nz-menu-item (click)="downloadRentReceipt()">télécharger quittance mensuelle</li>
+    <li nz-menu-item (click)="senddRentReceipt()">envoyer quittance mensuelle par email</li>
+    <li nz-menu-item (click)="downloadCustomizedRentReceipt()">quittance personnalisée</li>
   </ul>
 </nz-dropdown-menu>
 
