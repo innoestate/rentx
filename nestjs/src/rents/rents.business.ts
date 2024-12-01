@@ -136,13 +136,13 @@ const getRentReceiptInfos = (estate: Estate_Db, owner: Owner_Db, lodger: Lodger_
     return { startDate, endDate, rent, charges, totalRent, street, zipAndCity, madeAt, signature };
 }
 
-export const createRentReceiptEmail = (owners: Owner_Db[], lodgers: Lodger_Db[], estate: Estate_Db) => {
+export const createRentReceiptEmail = (owners: Owner_Db[], lodgers: Lodger_Db[], estate: Estate_Db, startDate_?: string, endDate_?: string) => {
     const owner = owners.find(owner => owner.id === estate.owner_id);
     const lodger = lodgers.find(lodger => lodger.id === estate.lodger_id);
 
     const { startDate, endDate, rent, charges, totalRent, street, zipAndCity, madeAt } = getRentReceiptInfos(estate, owner, lodger);
 
-    return from(createRentReciptPdf(estate, owner, lodger)).pipe(
+    return from(createRentReciptPdf(estate, owner, lodger, startDate_, endDate_)).pipe(
         map(rentReceipt => {
 
             const content = `Bonjour,

@@ -41,6 +41,8 @@ export class RentsController {
     downloadRentReceipt(@Req() req, @Res() res) {
 
         const id = req.query.estate;
+        const startDate = req.query.startDate;
+        const endDate = req.query.endDate;
 
         return combineLatest([
             this.estateService.getById(id),
@@ -50,7 +52,7 @@ export class RentsController {
             switchMap(([estate, owners, lodgers]) => {
                 const owner = owners.find(owner => owner.id === estate.owner_id);
                 const lodger = lodgers.find(lodger => lodger.id === estate.lodger_id);
-                return from(createRentReciptPdf(estate, owner, { ...lodger, email: req.user.email }));
+                return from(createRentReciptPdf(estate, owner, { ...lodger, email: req.user.email }, startDate, endDate));
             }),
             map(rentReceipt => {
                 res.setHeader('Content-Type', 'application/pdf');
@@ -65,13 +67,15 @@ export class RentsController {
     sendRentReceipt(@Req() req, @Res() res) {
 
         const id = req.query?.estate;
+        const startDate = req.query.startDate;
+        const endDate = req.query.endDate;
 
         return combineLatest([
             this.estateService.getById(id),
             this.ownerService.getByUser(req.user.id),
             this.lodgerService.getByUser(req.user.id)
         ]).pipe(
-            switchMap(([estate, owners, lodgers]) => createRentReceiptEmail(owners, lodgers, estate)),
+            switchMap(([estate, owners, lodgers]) => createRentReceiptEmail(owners, lodgers, estate, startDate, endDate)),
             switchMap(base64EncodedEmail => sendEmail(req.user.accessToken, req.user.refresh_token, base64EncodedEmail, this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET'))),
             map(() => (res.send({ statusCode: 200, body: 'email sent successfully' })))
         );
