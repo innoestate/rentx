@@ -1,8 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Estate } from '../models/estate.model';
 
 
 @Injectable({
@@ -14,8 +13,17 @@ export class RentsService {
 
   constructor(private http: HttpClient) { }
 
-  downloadRentReceipt(estate: Estate): Observable<any> {
-    return this.http.get<any>(`${this.API_URL}/rents/pdf?estate=${estate.id}`, { responseType: 'blob' as 'json' });
+  downloadRentReceipt(estateId: string, startDate?: string, endDate?: string): Observable<any> {
+
+    let queryParams = `estate=${estateId}`;
+    if (startDate) {
+      queryParams += `&startDate=${startDate}`;
+    }
+    if (endDate) {
+      queryParams += `&endDate=${endDate}`;
+    }
+
+    return this.http.get<any>(`${this.API_URL}/rents/pdf?${queryParams}`, { responseType: 'blob' as 'json' });
   }
 
   sendRentReceipt(estateId: string): Observable<any> {

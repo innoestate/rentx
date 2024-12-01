@@ -17,6 +17,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { LodgersModule } from 'src/app/core/modules/owners/lodgers.module';
 import { EstateTableOwnerCellComponent } from './estate-table-owner-cell/estate-table-owner-cell.component';
 import { EstateTableLodgerCellComponent } from './estate-table-lodger-cell/estate-table-lodger-cell.component';
+import { RentsEffects } from 'src/app/core/store/rents/rents.effects';
 
 
 @NgModule({
@@ -30,7 +31,7 @@ import { EstateTableLodgerCellComponent } from './estate-table-lodger-cell/estat
     ReactiveFormsModule,
     EstatesDesktopRoutingModule,
     StoreModule.forFeature('estates', estatesReducer),
-    EffectsModule.forFeature(EstatesEffects),
+    EffectsModule.forFeature(EstatesEffects, RentsEffects),
     OwnersModule,
     LodgersModule,
     NzButtonModule,

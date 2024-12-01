@@ -13,6 +13,7 @@ import { editEstate, editEstateFailure, editEstateSuccess, senddRentReceipt } fr
 import { deleteLodger as deleteLodgerInStore, updateLodger, updateLodgerFailure, updateLodgerSuccess } from 'src/app/core/store/lodger/lodgers.actions';
 import { selectLodgers } from 'src/app/core/store/lodger/lodgers.selectors';
 import { updateOwner, updateOwnerFailure, updateOwnerSuccess } from 'src/app/core/store/owner/owners.actions';
+import { downloadRentReceipt } from 'src/app/core/store/rents/rents.actions';
 
 @Component({
   selector: 'estate-table-lodger-cell',
@@ -142,17 +143,7 @@ export class EstateTableLodgerCellComponent {
   }
 
   private sendDownloadRentReceiptRequest() {
-    this.rentsService.downloadRentReceipt(this.estate()).pipe(
-      take(1),
-      tap(blob => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'quittance.pdf'; // Set the desired file name
-        a.click();
-        window.URL.revokeObjectURL(url); // Cle
-      })
-    ).subscribe();
+    this.store.dispatch(downloadRentReceipt({ estateId: this.estate().id }));
   }
 
   downloadRentReceipt() {
