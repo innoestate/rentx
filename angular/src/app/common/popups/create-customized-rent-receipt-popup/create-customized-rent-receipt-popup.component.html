@@ -1,1 +1,22 @@
-<p>create-customized-rent-receipt-popup works!</p>
+<form [formGroup]="formGroup" class="form-group-container">
+
+  <div>
+    <div>date de début</div>
+    <div class="card">
+      <nz-calendar formControlName="startDate" [nzFullscreen]="false" nzFormat="DD/MM/YYYY"
+        nzMode="month"></nz-calendar>
+    </div>
+  </div>
+
+  <div>
+    <div>date de fin</div>
+    <div class="card">
+      <nz-calendar formControlName="endDate" [nzFullscreen]="false" nzFormat="DD/MM/YYYY" nzMode="month"></nz-calendar>
+    </div>
+  </div>
+</form>
+
+<div class="modal-footer">
+  <button nz-button nzType="primary" (click)="download()">télécharger</button>
+  <button nz-button nzType="primary" (click)="sendByEmail()">envoyer par email</button>
+</div>

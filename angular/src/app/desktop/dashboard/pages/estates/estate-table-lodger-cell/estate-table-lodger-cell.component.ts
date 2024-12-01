@@ -48,16 +48,36 @@ export class EstateTableLodgerCellComponent {
   }
 
   openCustomizedRentReceiptPopup() {
-    this.modalService.create({
+    return this.modalService.create({
       nzTitle: 'Créer une quittance personnalisée',
       nzContent: CreateCustomizedRentReceiptPopupComponent,
       nzData: { estate: this.estate() },
+      nzWidth: '1000px',
       nzFooter: null
-    });
+    }).afterClose;
   }
 
-  downloadCustomizedRentReceipt(){
-    this.openCustomizedRentReceiptPopup();
+  downloadCustomizedRentReceipt() {
+    this.openCustomizedRentReceiptPopup().pipe(
+      take(1),
+      tap(({ command, type }) => {
+
+        console.log(command);
+
+        let fields = type === 'send' ? this.getNeededFieldsForSendRentReceiptByEmail() : this.getNeededFieldsForDownloadRentReceipt();
+        if (fields.length > 0) {
+
+          this.openCompletePopupForRentReceipt(fields).pipe(
+            take(1),
+            switchMap(({ owner, lodger, estate }) => this.updateCompletedObjects(owner, estate, lodger)),
+            tap(_ => command())
+          ).subscribe();
+
+        } else {
+          command();
+        }
+      })
+    ).subscribe();
   }
 
   private getNeededFieldsForDownloadRentReceipt() {
