@@ -13,6 +13,7 @@ import { selectLodgers } from 'src/app/core/store/lodger/lodgers.selectors';
 import { selectOwners } from 'src/app/core/store/owner/owners.selectors';
 import { CreateDesktopEstatePopupComponent } from '../popups/create-estate-popup/create-estate-popup.component';
 import { CreateLodgerPopupComponent } from '../popups/create-lodger-popup/create-lodger-popup.component';
+import { downloadRentReceipt } from 'src/app/core/store/rents/rents.actions';
 
 @Directive()
 export class EstatePage implements OnInit {
@@ -35,46 +36,6 @@ export class EstatePage implements OnInit {
       nzFooter: null
     })
   }
-
-  openCreateLodgerPopup(estate?: Estate) {
-    this.modalService.create({
-      nzTitle: 'Ajouter un nouveau locataire',
-      nzContent: CreateLodgerPopupComponent,
-      nzData: { estate },
-      nzFooter: null
-    })
-  }
-
-  downloadRentReceipt(estate: Estate) {
-    this.rentsService.downloadRentReceipt(estate).pipe(
-      take(1),
-      tap( blob => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'quittance.pdf'; // Set the desired file name
-        a.click();
-        window.URL.revokeObjectURL(url); // Cle
-      })
-    ).subscribe();
-  }
-
-  senddRentReceipt(estate: Estate) {
-    this.store.dispatch(senddRentReceipt({ estate}));
-  }
-
-  createLodger(estate?: Estate) {
-    this.openCreateLodgerPopup(estate);
-  }
-
-  setLodger(estate: Estate, lodger?: Lodger) {
-    this.store.dispatch(editEstate({ estate: { id: estate.id, lodger_id: lodger!.id } }));
-  }
-
-  deleteLodger(lodger: Lodger) {
-    this.store.dispatch(deleteLodgerInStore({ lodgerId: lodger.id }));
-  }
-
 
   deleteEstate(estate: Estate) {
     this.store.dispatch(deleteEstate({ estateId: estate.id }));
