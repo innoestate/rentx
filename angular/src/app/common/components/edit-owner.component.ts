@@ -12,7 +12,7 @@ export class EditOwnerComponent implements OnInit {
 
   formGroup!: FormGroup<Owner_Form>;
 
-  constructor(@Inject(NZ_MODAL_DATA) public data: { owner: Owner } ,protected formBuilder: FormBuilder, private store: Store) { }
+  constructor(@Inject(NZ_MODAL_DATA) public data: { owner: Owner } ,protected formBuilder: FormBuilder, protected store: Store) { }
 
   ngOnInit(): void {
     this.buildFormGroup();
