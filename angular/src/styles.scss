@@ -12,18 +12,18 @@
   }
 }
 
-.form-group-popup{
+.form-group-popup {
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: flex-start;
 }
 
-.select{
+.select {
   min-width: 166px;
 }
 
-.footer{
+.footer {
   margin: 20px;
 }
 
@@ -31,7 +31,7 @@
   color: var(--ant-error-color) !important;
 }
 
-.center-field{
+.center-field {
   width: 100%;
   height: 100%;
   display: flex;
@@ -52,4 +52,10 @@
 
 .italic {
   font-style: italic;
+}
+
+.signature-container {
+  width: 100%;
+  height: 100%;
+  border: 1px solid gray;
 }
