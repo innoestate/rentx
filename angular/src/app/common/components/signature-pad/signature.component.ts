@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 import SignaturePad from 'signature_pad';
 
 
@@ -8,6 +9,7 @@ import SignaturePad from 'signature_pad';
   templateUrl: './signature.component.html',
   styleUrl: './signature.component.less',
   standalone: true,
+  imports: [NzButtonModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -60,6 +62,12 @@ export class SignatureComponent implements AfterViewInit, ControlValueAccessor {
 
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
+  }
+
+  clear(){
+    this.signaturePad.clear();
+    this.signature = null;
+    this.onChange(this.signature);
   }
 
 }
