@@ -2,58 +2,61 @@
   <div class="estates-header">
     <button nz-button nzType="default" (click)="openCreateEstatePopup()">Ajouter un bien</button>
   </div>
-  <nz-table #tables [nzData]="estates()">
-    <thead>
-      <tr>
-        <th>adresse</th>
-        <th>lot</th>
-        <th>loyer</th>
-        <th>charges</th>
-        <th>propriétaire</th>
-        <th>locataire</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let estate of tables.data">
+  <div class="table-container">
 
-        <td>{{estate.address}}</td>
+    <nz-table #tables [nzData]="estates()">
+      <thead>
+        <tr>
+          <th>adresse</th>
+          <th>lot</th>
+          <th>loyer</th>
+          <th>charges</th>
+          <th>propriétaire</th>
+          <th>locataire</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let estate of tables.data">
 
-        <td class="editable-cell-number clickable" (click)="startEdit(estate.id! + 'plot', editableParcelInput)">
-          <div [hidden]="editId === estate.id + 'plot'">{{estate.plot}}</div>
-          <input nz-demo-input-text-basic #editableParcelInput [value]="estate.plot"
-            [hidden]="editId !== estate.id + 'plot'" type="text" (blur)="stopEdit()"
-            (change)="edit(estate, 'plot', editableParcelInput)" />
-        </td>
+          <td>{{estate.address}}</td>
 
-        <td class="editable-cell-number clickable" (click)="startEdit(estate.id! + 'rent', editableRentInput)">
-          <div [hidden]="editId === estate.id + 'rent'">{{estate.rent}}</div>
-          <input nz-demo-input-number-basic #editableRentInput [value]="estate.rent"
-            [hidden]="editId !== estate.id + 'rent'" type="number" (blur)="stopEdit()"
-            (change)="edit(estate, 'rent', editableRentInput)" />
-        </td>
+          <td class="editable-cell-number clickable" (click)="startEdit(estate.id! + 'plot', editableParcelInput)">
+            <div [hidden]="editId === estate.id + 'plot'">{{estate.plot}}</div>
+            <input nz-demo-input-text-basic #editableParcelInput [value]="estate.plot"
+              [hidden]="editId !== estate.id + 'plot'" type="text" (blur)="stopEdit()"
+              (change)="edit(estate, 'plot', editableParcelInput)" />
+          </td>
 
-        <td class="editable-cell-number clickable" (click)="startEdit(estate.id! + 'charges', editableChargesInput)">
-          <div [hidden]="editId === estate.id + 'charges'">{{estate.charges}}</div>
-          <input nz-demo-input-number-basic #editableChargesInput [value]="estate.charges"
-            [hidden]="editId !== estate.id + 'charges'" type="number" (blur)="stopEdit()"
-            (change)="edit(estate, 'charges', editableChargesInput)" />
-        </td>
+          <td class="editable-cell-number clickable" (click)="startEdit(estate.id! + 'rent', editableRentInput)">
+            <div [hidden]="editId === estate.id + 'rent'">{{estate.rent}}</div>
+            <input nz-demo-input-number-basic #editableRentInput [value]="estate.rent"
+              [hidden]="editId !== estate.id + 'rent'" type="number" (blur)="stopEdit()"
+              (change)="edit(estate, 'rent', editableRentInput)" />
+          </td>
 
-        <td>
-          <estate-table-owner-cell [estate]="estate"></estate-table-owner-cell>
-        </td>
-        <td>
-          <estate-table-lodger-cell [estate]="estate"></estate-table-lodger-cell>
-        </td>
+          <td class="editable-cell-number clickable" (click)="startEdit(estate.id! + 'charges', editableChargesInput)">
+            <div [hidden]="editId === estate.id + 'charges'">{{estate.charges}}</div>
+            <input nz-demo-input-number-basic #editableChargesInput [value]="estate.charges"
+              [hidden]="editId !== estate.id + 'charges'" type="number" (blur)="stopEdit()"
+              (change)="edit(estate, 'charges', editableChargesInput)" />
+          </td>
 
-        <td >
-          <div class="action">
-            <div nz-icon nzType="delete" class="delete" (click)="deleteEstate(estate)"></div>
-          </div>
-        </td>
+          <td>
+            <estate-table-owner-cell [estate]="estate"></estate-table-owner-cell>
+          </td>
+          <td>
+            <estate-table-lodger-cell [estate]="estate"></estate-table-lodger-cell>
+          </td>
 
-      </tr>
-    </tbody>
-  </nz-table>
+          <td>
+            <div class="action">
+              <div nz-icon nzType="delete" class="delete" (click)="deleteEstate(estate)"></div>
+            </div>
+          </td>
+
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
 </div>
