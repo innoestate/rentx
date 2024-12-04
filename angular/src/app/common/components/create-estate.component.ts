@@ -23,6 +23,7 @@ export class CreateEstateComponent implements OnInit {
       street: new FormControl('', [Validators.required]),
       city: new FormControl('', [Validators.required]),
       zip: new FormControl('', [Validators.required]),
+      plot: new FormControl(''),
       rent: new FormControl(0),
       charges: new FormControl(0),
       owner: new FormControl(this.owners().length ? this.owners()[0].id : null),

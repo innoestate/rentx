@@ -9,6 +9,9 @@
   <label for="name">Code Postal</label>
   <input type="text" class="form-control" formControlName="zip">
 
+  <label for="name">Lot</label>
+  <input type="text" class="form-control" formControlName="plot">
+
   <label for="owner">Propriétaire</label>
   <nz-select class="select" formControlName="owner" nzPlaceHolder="Propriétaire">
     @for (owner of owners(); track owner){

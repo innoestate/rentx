@@ -18,6 +18,7 @@ export const formatEstateToEstateFormToEstatePostRequest = (estate: FormGroup<Es
     street: estate.get('street')!.value,
     city: estate.get('city')!.value,
     zip: estate.get('zip')!.value,
+    plot: estate.get('plot')?.value,
     rent: estate.get('rent')?.value,
     charges: estate.get('charges')?.value,
     owner_id: ownerId as any,
