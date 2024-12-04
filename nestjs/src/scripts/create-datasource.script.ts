@@ -5,8 +5,6 @@ export const createDataSourceConfig = () => {
     console.log('createDataSourceConfig');
 
     try {
-
-
         const content = `
 const { DataSource } = require('typeorm');
 

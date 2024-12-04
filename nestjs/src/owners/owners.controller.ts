@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { catchError, of } from 'rxjs';
-import { Estate_Dto } from 'src/estates/estate-dto.model';
+import { Estate_Dto } from '../estates/estate-dto.model';
 import { JwtAuthGuard } from '../auth/auth.guard';
 import { UserMidleweare } from '../guards/user-midleweare.guard';
 import { handleTypeormError } from '../utils/error-typeorm-http.handler';

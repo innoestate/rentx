@@ -1,7 +1,7 @@
-import { Estate } from "src/estates/estate.entity";
-import { Lodger_Entity } from "src/lodgers/lodger.entity";
-import { Owner_Entity } from "src/owners/owners.entity";
-import { User } from "src/user/user.entity";
+import { Estate } from "../estates/estate.entity";
+import { Lodger_Entity } from "../lodgers/lodger.entity";
+import { Owner_Entity } from "../owners/owners.entity";
+import { User } from "../user/user.entity";
 
 
 export const config = {

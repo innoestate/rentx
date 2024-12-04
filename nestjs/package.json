@@ -6,7 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build && cp .env.production dist/.env.production",
+    "build": "nest build",
+    "build-prod": "nest build && cp -r dist ../../rentx_prod/back/ && ./.env.production ../../rentx_prod/back/dist/ && cp package.json ../../rentx_prod/back/",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "NODE_ENV=development nest start --watch",
@@ -19,7 +20,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "removedb": "node src/tests/utils/db.utils.js",
-    "typeorm": "npm run build && npx typeorm -d .data-source.config.js",
+    "typeorm": "npx typeorm -d .data-source.config.js",
     "migration:generate": "typeorm -- migration:generate",
     "migration:run": "typeorm -- migration:run",
     "migration:revert": "typeorm -- migration:revert"

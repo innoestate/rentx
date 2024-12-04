@@ -26,6 +26,7 @@ services:
 
   nestjs:
     container_name: nestjs
+    working_dir: /usr/src/app 
     environment:
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}

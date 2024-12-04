@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as pdfkit from 'pdfkit';
+const path = require('path');
 import { Estate_Db } from '../estates/estate-db.model';
 import { Estate } from '../estates/estate.entity';
 import { Lodger_Db } from '../lodgers/lodger-db.model';
@@ -12,10 +13,12 @@ export const createRentReciptPdf = async (estate: Estate_Db, owner: Owner_Db, lo
 
         try {
 
+            const fontPath = path.join(__dirname, '../assets/fonts/times_bold.ttf');
+
             const doc = initDoc();
             runStream(doc, null, document => resolve(document));
 
-            const { startDate, endDate, rent, charges, totalRent, street, zipAndCity, madeAt, signature } = getRentReceiptInfos(estate, owner, lodger, startDate_, endDate_);
+            const { startDate, endDate, rent, charges, totalRent, street, ownerZipAndCity, lodgerZipAndCity, madeAt, signature } = getRentReceiptInfos(estate, owner, lodger, startDate_, endDate_);
 
             const pageWidth = doc.page.width;
             const marginLeft = 50;
@@ -26,19 +29,20 @@ export const createRentReciptPdf = async (estate: Estate_Db, owner: Owner_Db, lo
 
             doc.text(owner.name, marginLeft, y);
             doc.text(owner.street, marginLeft, y += textHeight);
-            doc.text(owner.city, marginLeft, y += textHeight);
+            doc.text(ownerZipAndCity, marginLeft, y += textHeight);
 
             y = 50;
             // Informations du destinataire
             doc.text(lodger.name, 0, y, { align: 'right' });
             doc.text(street, 0, y += textHeight, { align: 'right' });
-            doc.text(zipAndCity, 0, y += textHeight, { align: 'right' });
+            doc.text(lodgerZipAndCity, 0, y += textHeight, { align: 'right' });
+
 
             y += textHeight * 4;
             // En-tête de la quittance
-            doc.font('src/assets/fonts/times_bold.ttf').text('QUITTANCE DE LOYER', marginLeft, y += textHeight, { underline: true, align: 'center' });
+            doc.font(fontPath).text('QUITTANCE DE LOYER', marginLeft, y += textHeight, { underline: true, align: 'center' });
             doc.font('Times-Roman').text(`Période: du ${formatDateFromISOString(startDate.toISOString())} au ${formatDateFromISOString(endDate.toISOString())}`, marginLeft, y += textHeight * 1.5, { align: 'center' });
-            doc.text(street + ' ' + zipAndCity, marginLeft, y += textHeight, { align: 'center' });
+            doc.text(street + ' ' + lodgerZipAndCity, marginLeft, y += textHeight, { align: 'center' });
 
             let tabTop = y + textHeight * 2;
 
@@ -46,7 +50,7 @@ export const createRentReciptPdf = async (estate: Estate_Db, owner: Owner_Db, lo
                 .lineTo(pageWidth - marginLeft, y)
                 .stroke();
             // Détails du paiement
-            doc.font('src/assets/fonts/times_bold.ttf').text('PROPRIETAIRE:', marginLeft + padding, y += textHeight * 0.5 + padding);
+            doc.font(fontPath).text('PROPRIETAIRE:', marginLeft + padding, y += textHeight * 0.5 + padding);
             doc.text('LOCATAIRE:', tabCenter + padding, y);
 
             doc.font('Times-Roman').text(owner.name, marginLeft + padding, y += textHeight);
@@ -70,7 +74,7 @@ export const createRentReciptPdf = async (estate: Estate_Db, owner: Owner_Db, lo
                 .lineTo(pageWidth - marginLeft, y)
                 .stroke();
 
-            doc.font('src/assets/fonts/times_bold.ttf').text('Total', marginLeft + padding, y += textHeight * 0.5 + padding);
+            doc.font(fontPath).text('Total', marginLeft + padding, y += textHeight * 0.5 + padding);
             doc.font('Times-Roman').text(totalRent + ' €', tabCenter + padding, y);
 
             doc.moveTo(marginLeft, y += textHeight + padding)
@@ -126,21 +130,22 @@ const getRentReceiptInfos = (estate: Estate_Db, owner: Owner_Db, lodger: Lodger_
     const charges = estate.charges;
     const totalRent = calculateRent(rent, charges, startDate, endDate);
     const street = estate.street;
-    const zipAndCity = estate.zip + ' ' + estate.city;
+    const lodgerZipAndCity = estate.zip + ' ' + estate.city;
+    const ownerZipAndCity = owner.zip + ' ' + owner.city;
     const madeAt = estate.city;
     const signature = owner.signature;
 
     if (!endDate) {
         endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
     }
-    return { startDate, endDate, rent, charges, totalRent, street, zipAndCity, madeAt, signature };
+    return { startDate, endDate, rent, charges, totalRent, street, lodgerZipAndCity, ownerZipAndCity, madeAt, signature };
 }
 
 export const createRentReceiptEmail = (owners: Owner_Db[], lodgers: Lodger_Db[], estate: Estate_Db, startDate_?: string, endDate_?: string) => {
     const owner = owners.find(owner => owner.id === estate.owner_id);
     const lodger = lodgers.find(lodger => lodger.id === estate.lodger_id);
 
-    const { startDate, endDate, rent, charges, totalRent, street, zipAndCity, madeAt } = getRentReceiptInfos(estate, owner, lodger);
+    const { startDate, endDate, street} = getRentReceiptInfos(estate, owner, lodger);
 
     return from(createRentReciptPdf(estate, owner, lodger, startDate_, endDate_)).pipe(
         map(rentReceipt => {
