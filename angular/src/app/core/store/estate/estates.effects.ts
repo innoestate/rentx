@@ -5,7 +5,7 @@ import { catchError, combineLatest, map, of, switchMap, take, tap } from "rxjs";
 import { EstatesService } from "../../services/estates.service";
 import { Estate_Post_Request } from "../../models/requests/estate-post-request.model";
 import { HttpErrorResponse } from "@angular/common/http";
-import { deleteEstate, deleteEstateSuccess, senddRentReceipt, sendRentReceiptFailure, sendRentReceiptSuccess } from "./estates.actions";
+import { createEstateSuccess, deleteEstate, deleteEstateSuccess, senddRentReceipt, sendRentReceiptFailure, sendRentReceiptSuccess } from "./estates.actions";
 import { RentsService } from "../../services/rents.service";
 import { NzMessageService } from "ng-zorro-antd/message";
 
@@ -32,6 +32,13 @@ export class EstatesEffects {
       catchError(({ error }) => of({ type: '[Estates] Create Estate Failure', error }))
     ))
   ))
+
+  createEstateSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(createEstateSuccess),
+    tap(() => {
+      this.message.success('Bien ajouté avec succès!');
+    })
+  ), { dispatch: false })
 
   editEstate$ = createEffect(() => this.actions$.pipe(
     ofType('[Estates] Edit Estate'),

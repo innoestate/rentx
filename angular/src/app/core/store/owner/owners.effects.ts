@@ -4,12 +4,13 @@ import { Store } from "@ngrx/store";
 import { catchError, map, of, switchMap, tap, withLatestFrom } from "rxjs";
 import { OwnersService } from "../../services/owners.service";
 import { selectOwners } from "./owners.selectors";
-import { updateOwnerSuccess } from "./owners.actions";
+import { addOwnerFailure, addOwnerSuccess, updateOwnerSuccess } from "./owners.actions";
+import { NzMessageService } from "ng-zorro-antd/message";
 
 @Injectable()
 export class OwnersEffects {
 
-  constructor(private actions$: Actions, private ownerService: OwnersService, private store: Store) { }
+  constructor(private actions$: Actions, private ownerService: OwnersService, private store: Store, private message: NzMessageService) { }
 
   loadOwners$ = createEffect(() => this.actions$.pipe(
     ofType('[Owners] Load Owners'),
@@ -33,6 +34,16 @@ export class OwnersEffects {
       catchError(() => of({ type: '[Owners] Load Owners Failure' }))
     ))
   ))
+
+  addOwnerSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(addOwnerSuccess),
+    tap(() => this.message.success('propriétaire ajouté avec succès!'))
+  ), { dispatch: false })
+
+  addOwnerFailure$ = createEffect(() => this.actions$.pipe(
+    ofType(addOwnerFailure),
+    tap(err  => this.message.error(err.error.message))
+  ), { dispatch: false })
 
   updateOwner$ = createEffect(() => this.actions$.pipe(
     ofType('[Owners] Update Owner'),

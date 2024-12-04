@@ -7,11 +7,12 @@ import { loadOwnersFailure } from "../owner/owners.actions";
 import { createLodger, createLodgerFailure, createLodgerSuccess, deleteLodger, deleteLodgerSuccess, loadLodgers, loadLodgersSuccess, updateLodger, updateLodgerFailure, updateLodgerSuccess } from "./lodgers.actions";
 import { selectLodgers } from "./lodgers.selectors";
 import { editEstate } from "../estate/estates.actions";
+import { NzMessageService } from "ng-zorro-antd/message";
 
 @Injectable()
 export class LodgersEffects {
 
-  constructor(private actions$: Actions, private lodgerService: LodgersService, private store: Store) { }
+  constructor(private actions$: Actions, private lodgerService: LodgersService, private store: Store, private message: NzMessageService) { }
 
   loadOwners$ = createEffect(() => this.actions$.pipe(
     ofType(loadLodgers),
@@ -41,6 +42,16 @@ export class LodgersEffects {
       catchError(err => of(createLodgerFailure(err))
       ))
     )))
+
+  createLodgerSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(createLodgerSuccess),
+    tap(() => this.message.success('locataire ajouté avec succès!'))
+  ), { dispatch: false })
+
+  createLodgerFailure$ = createEffect(() => this.actions$.pipe(
+    ofType(createLodgerFailure),
+    tap(err => this.message.error((err.error.message)))
+  ), { dispatch: false })
 
   updateLodger$ = createEffect(() => this.actions$.pipe(
     ofType(updateLodger),
