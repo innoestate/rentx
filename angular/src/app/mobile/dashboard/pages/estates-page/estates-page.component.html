@@ -1,3 +1,19 @@
-<p>estates-page works!</p>
-{{estates() | json}}
-<button (click)="openCreateEstatePopup()">créer</button>
+<div class="add-estate-button-container">
+  <button nz-button nzType="primary" (click)="openCreateEstatePopup()">ajouter un nouveau bien</button>
+</div>
+
+<div class="estates-content">
+  <ul nz-menu nzMode="inline">
+    <ng-container *ngFor="let estate of estates()">
+      <li nz-submenu [nzTitle]="estate.address!" nzIcon="home">
+        <ul>
+          <li nz-menu-item>Propriétaire: {{estate.owner?.name??''}}</li>
+          <li nz-menu-item>Locataire: {{estate.lodger?.name??''}}</li>
+          <li nz-menu-item>Loyer: {{estate.rent??''}}</li>
+          <li nz-menu-item>Charges: {{estate.charges??''}}</li>
+
+        </ul>
+      </li>
+    </ng-container>
+  </ul>
+</div>
