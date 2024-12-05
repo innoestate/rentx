@@ -37,6 +37,25 @@ export class EstatePage implements OnInit {
     })
   }
 
+  startEdit(id: string, ref: HTMLInputElement) {
+    this.editId = id;
+    setTimeout(() => {
+      requestAnimationFrame(() => {
+        ref.focus();
+      })
+    }, 0);
+  }
+
+  stopEdit() {
+    this.editId = null;
+  }
+
+  edit(estate: Estate, fieldName: string, ref: HTMLInputElement) {
+    const editableEstate: any = { id: estate.id };
+    editableEstate[fieldName] = ref.value;
+    this.store.dispatch({ type: '[Estates] Edit Estate', estate: editableEstate })
+  }
+
   deleteEstate(estate: Estate) {
     this.store.dispatch(deleteEstate({ estateId: estate.id }));
   }

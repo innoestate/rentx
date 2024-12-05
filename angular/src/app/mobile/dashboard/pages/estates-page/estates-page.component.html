@@ -11,8 +11,37 @@
         <ul>
           <li nz-menu-item><owner-item [estate]="estate"></owner-item></li>
           <li nz-menu-item><lodger-item [estate]="estate"></lodger-item></li>
-          <li nz-menu-item>Loyer: {{estate.rent??''}}</li>
-          <li nz-menu-item>Charges: {{estate.charges??''}}</li>
+
+          <li nz-menu-item>
+            <div class="row">
+              <div class="title">rent:</div>
+              <div class="editable-cell-number clickable" (click)="startEdit(estate.id! + 'rent', editableRentInput)">
+                <div [hidden]="editId === estate.id + 'rent'">{{estate.rent}}</div>
+                <input nz-demo-input-number-basic #editableRentInput [value]="estate.rent"
+                  [hidden]="editId !== estate.id + 'rent'" type="number" (blur)="stopEdit()"
+                  (change)="edit(estate, 'rent', editableRentInput)" />
+              </div>
+            </div>
+          </li>
+
+          <li nz-menu-item>
+            <div class="row">
+              <div class="title">charges:</div>
+              <div class="editable-cell-number clickable"
+                (click)="startEdit(estate.id! + 'charges', editableChargesInput)">
+                <div [hidden]="editId === estate.id + 'charges'">{{estate.charges}}</div>
+                <input nz-demo-input-number-basic #editableChargesInput [value]="estate.charges"
+                  [hidden]="editId !== estate.id + 'charges'" type="number" (blur)="stopEdit()"
+                  (change)="edit(estate, 'charges', editableChargesInput)" />
+              </div>
+            </div>
+          </li>
+
+          <!-- <li nz-menu-item>
+            <div class="row">
+              <button nz-button nzType="primary">quittances</button>
+            </div>
+          </li> -->
 
         </ul>
       </li>
