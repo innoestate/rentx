@@ -16,7 +16,7 @@ export class OwnerComponent {
   estate = input.required<Estate>();
   owners = this.store.selectSignal(selectOwners);
 
-  constructor(private store: Store, protected modalService: NzModalService, protected actions$: Actions) { }
+  constructor(protected store: Store, protected modalService: NzModalService, protected actions$: Actions) { }
 
 
   openCreateOwnerPopup() {

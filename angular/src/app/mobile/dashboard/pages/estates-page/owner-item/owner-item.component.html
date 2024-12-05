@@ -1,0 +1,15 @@
+<div class="owner-item">
+
+  <div>Propriétaire: </div>
+  <div>
+    @if(selectedOwner){
+    <nz-select [(ngModel)]="selectedOwner" (ngModelChange)="setOwner(estate(), selectedOwner)" class="select">
+      @for(owner of owners(); track owner ){
+      <nz-option [nzValue]="owner" [nzLabel]="owner.name"></nz-option>
+      }
+      <div>test</div>
+    </nz-select>
+    }
+  </div>
+
+</div>

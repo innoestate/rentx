@@ -12,21 +12,30 @@ import { OwnersModule } from 'src/app/core/modules/owners/owners.module';
 import { LodgersModule } from 'src/app/core/modules/owners/lodgers.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { OwnerItemComponent } from './owner-item/owner-item.component';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    EstatesMobilePageComponent
+    EstatesMobilePageComponent,
+    OwnerItemComponent
   ],
   imports: [
     CommonModule,
     EstatesDesktopRoutingModule,
     OwnersModule,
+    FormsModule,
     LodgersModule,
     NzModalModule,
     NzButtonModule,
     NzMenuModule,
+    NzSelectModule,
     StoreModule.forFeature('estates', estatesReducer),
     EffectsModule.forFeature(EstatesEffects, RentsEffects),
+  ],
+  exports: [
+    NzSelectModule
   ]
 })
 export class EstatesPageModule { }
