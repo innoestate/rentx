@@ -5,7 +5,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { take, tap } from 'rxjs';
 import { Estate } from 'src/app/core/models/estate.model';
 import { Lodger } from 'src/app/core/models/lodger.model';
-import { RentsService } from 'src/app/core/services/rents.service';
+import { RentsHttpService } from 'src/app/core/services/rents.http.service';
 import { deleteEstate, editEstate, loadEstates, senddRentReceipt } from 'src/app/core/store/estate/estates.actions';
 import { selectEstates } from 'src/app/core/store/estate/estates.selectors';
 import { deleteLodger as deleteLodgerInStore } from 'src/app/core/store/lodger/lodgers.actions';
@@ -23,7 +23,7 @@ export class EstatePage implements OnInit {
   estates = this.store.selectSignal(selectEstates);
   editId!: string | null;
 
-  constructor(protected store: Store, protected modalService: NzModalService, protected actions$: Actions, private rentsService: RentsService) { }
+  constructor(protected store: Store, protected modalService: NzModalService, protected actions$: Actions, private rentsService: RentsHttpService) { }
 
   ngOnInit(): void {
     this.store.dispatch(loadEstates());

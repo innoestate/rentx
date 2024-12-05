@@ -22,19 +22,56 @@ import { downloadRentReceipt } from 'src/app/core/store/rents/rents.actions';
 export class CreateCustomizedRentReceiptPopupComponent {
 
   formGroup!: UntypedFormGroup;
+  estate!: Estate;
 
-  constructor(@Inject(NZ_MODAL_DATA) public data: { estate: Estate }, private modalRef: NzModalRef, private store: Store) { }
+  constructor(@Inject(NZ_MODAL_DATA) public data: { estate: Estate }, private modalRef: NzModalRef, private store: Store) {
+    this.estate = data.estate;
+  }
 
   ngOnInit() {
     const currentDate = new Date();
     const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
     const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
 
+
+
     this.formGroup = new FormGroup({
       startDate: new FormControl(firstDayOfMonth, Validators.required),
       endDate: new FormControl(lastDayOfMonth),
     });
   }
+
+  protected getNeededFieldsForDownloadRentReceipt() {
+    const fields = [];
+    if (!this.estate.owner?.street || this.estate.owner?.street === '') {
+      fields.push('street');
+    }
+    if (!this.estate.owner?.city || this.estate.owner?.city === '') {
+      fields.push('city');
+    }
+    if (!this.estate.owner?.zip || this.estate.owner?.zip === '') {
+      fields.push('zip');
+    }
+    if (!this.estate.rent || this.estate.rent === 0) {
+      fields.push('rent');
+    }
+    if (!this.estate.charges || this.estate.charges === 0) {
+      fields.push('charges');
+    }
+    if (!this.estate.owner?.signature || this.estate.owner?.signature === '') {
+      fields.push('signature');
+    }
+    return fields;
+  }
+
+  protected getNeededFieldsForSendRentReceiptByEmail() {
+    const fields = this.getNeededFieldsForDownloadRentReceipt();
+    if (this.estate.lodger?.email === '' || !this.estate.lodger?.email) {
+      fields.push('lodgerEmail');
+    }
+    return fields;
+  }
+
 
   download() {
     const downloadCommand = () => {

@@ -6,13 +6,13 @@ import { EstatesService } from "../../services/estates.service";
 import { Estate_Post_Request } from "../../models/requests/estate-post-request.model";
 import { HttpErrorResponse } from "@angular/common/http";
 import { createEstateSuccess, deleteEstate, deleteEstateSuccess, senddRentReceipt, sendRentReceiptFailure, sendRentReceiptSuccess } from "./estates.actions";
-import { RentsService } from "../../services/rents.service";
+import { RentsHttpService } from "../../services/rents.http.service";
 import { NzMessageService } from "ng-zorro-antd/message";
 
 @Injectable()
 export class EstatesEffects {
 
-  constructor(private actions$: Actions, private estatesService: EstatesService, private rentsService: RentsService, private message: NzMessageService) { }
+  constructor(private actions$: Actions, private estatesService: EstatesService, private rentsService: RentsHttpService, private message: NzMessageService) { }
 
   loadEstates$ = createEffect(() => this.actions$.pipe(
     ofType('[Estates] Load Estates'),

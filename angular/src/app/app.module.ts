@@ -30,6 +30,8 @@ import { environment } from 'src/environments/environment';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { DeviceGuard } from './core/guards/device.guard';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { RentService } from './common/services/rents.service';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 
 registerLocaleData(en);
@@ -54,6 +56,7 @@ registerLocaleData(en);
     NzIconModule,
     NzLayoutModule,
     NzDropDownModule,
+    NzModalModule,
     StoreModule.forRoot({ user: userReducer }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
@@ -64,6 +67,7 @@ registerLocaleData(en);
   providers: [
     DeviceGuard,
     DeviceDetectorService,
+    RentService,
     { provide: NZ_I18N, useValue: en_US },
     {
       provide: HTTP_INTERCEPTORS,

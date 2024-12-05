@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class RentsService {
+export class RentsHttpService {
 
   private API_URL = environment.apiURL;
 

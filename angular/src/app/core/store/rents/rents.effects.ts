@@ -3,13 +3,13 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { NzMessageService } from "ng-zorro-antd/message";
 import { catchError, map, of, switchMap, tap } from "rxjs";
 import { EstatesService } from "../../services/estates.service";
-import { RentsService } from "../../services/rents.service";
+import { RentsHttpService } from "../../services/rents.http.service";
 import { downloadRentReceipt, downloadRentReceiptFailure, downloadRentReceiptSuccess } from "./rents.actions";
 
 @Injectable()
 export class RentsEffects {
 
-  constructor(private actions$: Actions, private rentsService: RentsService, private message: NzMessageService) { }
+  constructor(private actions$: Actions, private rentsService: RentsHttpService, private message: NzMessageService) { }
 
   downloadRentReceipt$ = createEffect(() => this.actions$.pipe(
     ofType(downloadRentReceipt),
