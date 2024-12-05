@@ -31,6 +31,7 @@ export const formatEstateDtoToEstateUx = (estate: Estate_Dto, owners: Owner_Dto[
   return {
     ...estate,
     address: estate.street + ' ' + estate.city + ' ' + estate.zip,
+    plot_address: estate.plot ? 'LOT ' + estate.plot + ' / ' + estate.street + ' ' + estate.city + ' ' + estate.zip : estate.street + ' ' + estate.city + ' ' + estate.zip,
     owner: owners.find(owner => owner.id+'' === estate.owner_id+''),
     lodger: lodgers.find(lodger => lodger.id+'' === estate.lodger_id+'')
   }

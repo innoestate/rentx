@@ -4,6 +4,7 @@ import { Owner } from './owner.model';
 
 export interface Estate extends Estate_Dto {
   address: string,
+  plot_address: string,
   owner: Owner | undefined;
   lodger: Lodger | undefined;
 };

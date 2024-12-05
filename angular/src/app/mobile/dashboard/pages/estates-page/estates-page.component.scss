@@ -37,6 +37,29 @@
 .row{
   display: flex;
   flex-flow: row nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.cell{
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
+}
+
+.footer-buttons{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 10px;
+}
+
+::ng-deep {
+  .ant-menu-submenu-title{
+    padding: 0px !important;
+  }
 }
