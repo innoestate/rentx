@@ -96,7 +96,6 @@ export class RentService {
       nzTitle: 'Créer une quittance personnalisée',
       nzContent: CreateCustomizedRentReceiptPopupComponent,
       nzData: { estate: estate },
-      nzWidth: '1000px',
       nzFooter: null
     }).afterClose;
   }

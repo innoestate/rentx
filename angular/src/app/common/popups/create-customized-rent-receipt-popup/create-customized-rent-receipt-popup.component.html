@@ -1,19 +1,8 @@
 <form [formGroup]="formGroup" class="form-group-container">
-
-  <div>
-    <div>date de début</div>
-    <div class="card">
-      <nz-calendar formControlName="startDate" [nzFullscreen]="false" nzFormat="DD/MM/YYYY"
-        nzMode="month"></nz-calendar>
-    </div>
-  </div>
-
-  <div>
-    <div>date de fin</div>
-    <div class="card">
-      <nz-calendar formControlName="endDate" [nzFullscreen]="false" nzFormat="DD/MM/YYYY" nzMode="month"></nz-calendar>
-    </div>
-  </div>
+  <div>date de début:</div>
+  <nz-date-picker formControlName="startDate"></nz-date-picker>
+  <div>date de fin:</div>
+  <nz-date-picker formControlName="endDate"></nz-date-picker>
 </form>
 
 <div class="modal-footer">
