@@ -9,7 +9,6 @@ import { CreateLodgerPopupComponent } from 'src/app/common/popups/create-lodger-
 import { Estate } from 'src/app/core/models/estate.model';
 import { Lodger } from 'src/app/core/models/lodger.model';
 import { Owner } from 'src/app/core/models/owner.model';
-import { RentsService } from 'src/app/core/services/rents.service';
 import { editEstate, editEstateFailure, editEstateSuccess, senddRentReceipt } from 'src/app/core/store/estate/estates.actions';
 import { deleteLodger as deleteLodgerInStore, updateLodger, updateLodgerFailure, updateLodgerSuccess } from 'src/app/core/store/lodger/lodgers.actions';
 import { selectLodgers } from 'src/app/core/store/lodger/lodgers.selectors';
@@ -22,7 +21,7 @@ export class LodgerComponent {
   estate = input.required<Estate>();
   lodgers = this.store.selectSignal(selectLodgers);
 
-  constructor(private store: Store, private rentsService: RentsService, private modalService: NzModalService, private actions$: Actions) { }
+  constructor(protected store: Store, protected modalService: NzModalService, protected actions$: Actions) { }
 
 
   openCreateLodgerPopup() {
@@ -76,7 +75,7 @@ export class LodgerComponent {
     ).subscribe();
   }
 
-  private getNeededFieldsForDownloadRentReceipt() {
+  protected getNeededFieldsForDownloadRentReceipt() {
     const fields = [];
     if (!this.estate().owner?.street || this.estate().owner?.street === '') {
       fields.push('street');
@@ -99,7 +98,7 @@ export class LodgerComponent {
     return fields;
   }
 
-  private getNeededFieldsForSendRentReceiptByEmail() {
+  protected getNeededFieldsForSendRentReceiptByEmail() {
     const fields = this.getNeededFieldsForDownloadRentReceipt();
     if (this.estate().lodger?.email === '' || !this.estate().lodger?.email) {
       fields.push('lodgerEmail');
@@ -107,7 +106,7 @@ export class LodgerComponent {
     return fields;
   }
 
-  private getUpdateOwnerResultObserables(owner: Owner): Observable<any> {
+  protected getUpdateOwnerResultObserables(owner: Owner): Observable<any> {
     if (owner) {
       const ownerUpdateSuccess = this.actions$.pipe(
         ofType(updateOwnerSuccess),
@@ -122,7 +121,7 @@ export class LodgerComponent {
     return of(null);
   }
 
-  private getUpdateEstateResultObserables(estate: Estate): Observable<any> {
+  protected getUpdateEstateResultObserables(estate: Estate): Observable<any> {
     if (estate) {
       const estateUpdateSuccess = this.actions$.pipe(
         ofType(editEstateSuccess),
@@ -137,7 +136,7 @@ export class LodgerComponent {
     return of(null);
   }
 
-  private updateCompletedObjects(owner: Owner, estate: Estate, lodger?: Lodger) {
+  protected updateCompletedObjects(owner: Owner, estate: Estate, lodger?: Lodger) {
     let updates = [];
     if (owner) {
       updates.push(this.getUpdateOwnerResultObserables(owner));
@@ -157,7 +156,7 @@ export class LodgerComponent {
     );
   }
 
-  private getUpdateLodgerResultObserables(lodger: Lodger) {
+  protected getUpdateLodgerResultObserables(lodger: Lodger) {
     if (lodger) {
       const lodgerUpdateSuccess = this.actions$.pipe(
         ofType(updateLodgerSuccess),
@@ -172,7 +171,7 @@ export class LodgerComponent {
     return null;
   }
 
-  private sendDownloadRentReceiptRequest() {
+  protected sendDownloadRentReceiptRequest() {
     this.store.dispatch(downloadRentReceipt({ estateId: this.estate().id }));
   }
 
@@ -212,7 +211,7 @@ export class LodgerComponent {
     this.openCreateLodgerPopup();
   }
 
-  setLodger(lodger?: Lodger | null) {
+  setLodger(lodger?: Lodger | null | undefined) {
     this.store.dispatch(editEstate({ estate: { id: this.estate().id, lodger_id: lodger?.id ?? '' } }));
   }
 

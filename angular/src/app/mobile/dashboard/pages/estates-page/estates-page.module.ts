@@ -15,11 +15,13 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { OwnerItemComponent } from './owner-item/owner-item.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { FormsModule } from '@angular/forms';
+import { LodgerItemComponent } from './lodger-item/lodger-item.component';
 
 @NgModule({
   declarations: [
     EstatesMobilePageComponent,
-    OwnerItemComponent
+    OwnerItemComponent,
+    LodgerItemComponent
   ],
   imports: [
     CommonModule,

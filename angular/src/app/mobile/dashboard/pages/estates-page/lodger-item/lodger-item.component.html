@@ -1,0 +1,12 @@
+<div class="lodger-item">
+
+  <div>Locataire: </div>
+  <div>
+    <nz-select [(ngModel)]="selectedLodger" (ngModelChange)="setLodger(selectedLodger)" class="select">
+      @for(lodger of lodgers(); track lodger ){
+      <nz-option [nzValue]="lodger" [nzLabel]="lodger.name"></nz-option>
+      }
+    </nz-select>
+  </div>
+
+</div>

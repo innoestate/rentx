@@ -40,7 +40,7 @@ export class OwnerComponent {
     this.openCreateOwnerPopup();
   }
 
-  setOwner(estate: Estate, owner?: Owner) {
+  setOwner(estate: Estate, owner?: Owner | null) {
     this.store.dispatch(editEstate({ estate: { ...estate, owner_id: owner!.id } }));
   }
 

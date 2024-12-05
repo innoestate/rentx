@@ -10,8 +10,7 @@
       <li nz-submenu [nzTitle]="estate.address!" nzIcon="home">
         <ul>
           <li nz-menu-item><owner-item [estate]="estate"></owner-item></li>
-          <li nz-menu-item>Propriétaire: {{estate.owner?.name??''}}</li>
-          <li nz-menu-item>Locataire: {{estate.lodger?.name??''}}</li>
+          <li nz-menu-item><lodger-item [estate]="estate"></lodger-item></li>
           <li nz-menu-item>Loyer: {{estate.rent??''}}</li>
           <li nz-menu-item>Charges: {{estate.charges??''}}</li>
 
