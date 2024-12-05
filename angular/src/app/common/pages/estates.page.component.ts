@@ -2,18 +2,12 @@ import { Directive, OnInit } from '@angular/core';
 import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { take, tap } from 'rxjs';
 import { Estate } from 'src/app/core/models/estate.model';
-import { Lodger } from 'src/app/core/models/lodger.model';
-import { RentsHttpService } from 'src/app/core/services/rents.http.service';
-import { deleteEstate, editEstate, loadEstates, senddRentReceipt } from 'src/app/core/store/estate/estates.actions';
+import { deleteEstate, loadEstates } from 'src/app/core/store/estate/estates.actions';
 import { selectEstates } from 'src/app/core/store/estate/estates.selectors';
-import { deleteLodger as deleteLodgerInStore } from 'src/app/core/store/lodger/lodgers.actions';
 import { selectLodgers } from 'src/app/core/store/lodger/lodgers.selectors';
 import { selectOwners } from 'src/app/core/store/owner/owners.selectors';
 import { CreateDesktopEstatePopupComponent } from '../popups/create-estate-popup/create-estate-popup.component';
-import { CreateLodgerPopupComponent } from '../popups/create-lodger-popup/create-lodger-popup.component';
-import { downloadRentReceipt } from 'src/app/core/store/rents/rents.actions';
 
 @Directive()
 export class EstatePage implements OnInit {
@@ -23,7 +17,7 @@ export class EstatePage implements OnInit {
   estates = this.store.selectSignal(selectEstates);
   editId!: string | null;
 
-  constructor(protected store: Store, protected modalService: NzModalService, protected actions$: Actions, private rentsService: RentsHttpService) { }
+  constructor(protected store: Store, protected modalService: NzModalService, protected actions$: Actions) { }
 
   ngOnInit(): void {
     this.store.dispatch(loadEstates());
