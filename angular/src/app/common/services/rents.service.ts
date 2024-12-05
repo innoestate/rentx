@@ -26,7 +26,7 @@ export class RentService {
     this.store.dispatch(downloadRentReceipt({ estateId: estate.id }));
   }
 
-  openCreateLodgerPopup(estate: Estate) {
+  openCreateLodgerPopup(estate?: Estate) {
     this.modalService.create({
       nzTitle: 'Ajouter un nouveau locataire',
       nzContent: CreateLodgerPopupComponent,

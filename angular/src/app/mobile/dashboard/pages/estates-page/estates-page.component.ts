@@ -29,11 +29,7 @@ export class EstatesMobilePageComponent extends EstatePage {
   }
 
   openCreateLodger() {
-    this.modalService.create({
-      nzTitle: 'Ajouter un nouveau locataire',
-      nzContent: CreateLodgerPopupComponent,
-      nzFooter: null
-    })
+    this.rentService.openCreateLodgerPopup();
   }
 
   openRentReceipt(estate: Estate){
