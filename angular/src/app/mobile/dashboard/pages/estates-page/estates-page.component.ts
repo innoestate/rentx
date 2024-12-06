@@ -10,6 +10,8 @@ import { Estate } from 'src/app/core/models/estate.model';
 import { OwnerService } from 'src/app/common/services/owners.service';
 import { Owner } from 'src/app/core/models/owner.model';
 import { deleteOwner } from 'src/app/core/store/owner/owners.actions';
+import { deleteLodger } from 'src/app/core/store/lodger/lodgers.actions';
+import { Lodger } from 'src/app/core/models/lodger.model';
 
 @Component({
   selector: 'app-estates-page',
@@ -41,6 +43,10 @@ export class EstatesMobilePageComponent extends EstatePage {
 
   deleteOwner(owner: Owner) {
     this.store.dispatch(deleteOwner({ ownerId: owner.id }));
+  }
+
+  deleteLodger(lodger: Lodger) {
+    this.store.dispatch(deleteLodger({ lodgerId: lodger.id }));
   }
 
   openRentReceipt(estate: Estate){

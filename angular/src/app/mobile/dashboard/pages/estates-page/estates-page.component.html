@@ -1,14 +1,14 @@
 <div class="add-estate-button-container">
   <button nz-button nzType="primary" (click)="openCreateEstatePopup()">+ bien</button>
   <button nz-button nzType="primary" nz-dropdown [nzDropdownMenu]="owner">propriétaire</button>
-  <button nz-button nzType="primary" (click)="openCreateLodger()">+ locataire</button>
+  <button nz-button nzType="primary" nz-dropdown [nzDropdownMenu]="lodger">locataire</button>
 </div>
 
 <nz-dropdown-menu #owner nz-selectable>
   <ul nz-menu>
-    <li nz-menu-item (click)="openCreateOwner()">créer</li>
-    <li nz-menu-item nz-dropdown [nzDropdownMenu]="editOwner">éditer</li>
-    <li nz-menu-item nz-dropdown [nzDropdownMenu]="removeOwner" >supprimer</li>
+    <li nz-menu-item (click)="openCreateOwner()">créer un nouveau propriétaire</li>
+    <li nz-menu-item nz-dropdown [nzDropdownMenu]="editOwner">éditer un nouveau propriétaire</li>
+    <li nz-menu-item nz-dropdown [nzDropdownMenu]="removeOwner" >supprimer un propriétaire</li>
   </ul>
 </nz-dropdown-menu>
 
@@ -24,6 +24,21 @@
   <ul nz-menu>
     @for(owner of owners(); track owner){
       <li nz-menu-item (click)="deleteOwner(owner)">{{owner.name}}</li>
+    }
+  </ul>
+</nz-dropdown-menu>
+
+<nz-dropdown-menu #lodger nz-selectable>
+  <ul nz-menu>
+    <li nz-menu-item (click)="openCreateLodger()">créer un nouveau locataire</li>
+    <li nz-menu-item nz-dropdown [nzDropdownMenu]="removeLodger">supprimer un nouveau locataire</li>
+  </ul>
+</nz-dropdown-menu>
+
+<nz-dropdown-menu #removeLodger>
+  <ul nz-menu>
+    @for(lodger of lodgers(); track lodger){
+      <li nz-menu-item (click)="deleteLodger(lodger)">{{lodger.name}}</li>
     }
   </ul>
 </nz-dropdown-menu>
