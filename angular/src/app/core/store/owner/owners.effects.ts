@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from "@ngrx/store";
 import { catchError, map, of, switchMap, tap, withLatestFrom } from "rxjs";
-import { OwnersService } from "../../services/owners.service";
+import { OwnersService } from "../../services/owners.http.service";
 import { selectOwners } from "./owners.selectors";
 import { addOwnerFailure, addOwnerSuccess, updateOwnerSuccess } from "./owners.actions";
 import { NzMessageService } from "ng-zorro-antd/message";

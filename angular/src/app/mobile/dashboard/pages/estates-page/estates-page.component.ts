@@ -7,6 +7,9 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { Actions } from '@ngrx/effects';
 import { RentService } from 'src/app/common/services/rents.service';
 import { Estate } from 'src/app/core/models/estate.model';
+import { OwnerService } from 'src/app/common/services/owners.service';
+import { Owner } from 'src/app/core/models/owner.model';
+import { deleteOwner } from 'src/app/core/store/owner/owners.actions';
 
 @Component({
   selector: 'app-estates-page',
@@ -15,7 +18,7 @@ import { Estate } from 'src/app/core/models/estate.model';
 })
 export class EstatesMobilePageComponent extends EstatePage {
 
-  constructor(protected override store: Store, protected override modalService: NzModalService, protected override actions$: Actions, protected rentService: RentService) {
+  constructor(protected override store: Store, protected override modalService: NzModalService, protected override actions$: Actions, protected rentService: RentService, protected ownerService: OwnerService) {
     super(store, modalService, actions$);
   }
 
@@ -30,6 +33,14 @@ export class EstatesMobilePageComponent extends EstatePage {
 
   openCreateLodger() {
     this.rentService.openCreateLodgerPopup();
+  }
+
+  openEditOwner(owner: Owner) {
+    this.ownerService.openCreateOwnerPopup(owner);
+  }
+
+  deleteOwner(owner: Owner) {
+    this.store.dispatch(deleteOwner({ ownerId: owner.id }));
   }
 
   openRentReceipt(estate: Estate){

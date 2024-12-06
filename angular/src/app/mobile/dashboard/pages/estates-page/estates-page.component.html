@@ -1,8 +1,32 @@
 <div class="add-estate-button-container">
   <button nz-button nzType="primary" (click)="openCreateEstatePopup()">+ bien</button>
-  <button nz-button nzType="primary" (click)="openCreateOwner()">+ propriétaire</button>
+  <button nz-button nzType="primary" nz-dropdown [nzDropdownMenu]="owner">propriétaire</button>
   <button nz-button nzType="primary" (click)="openCreateLodger()">+ locataire</button>
 </div>
+
+<nz-dropdown-menu #owner nz-selectable>
+  <ul nz-menu>
+    <li nz-menu-item (click)="openCreateOwner()">créer</li>
+    <li nz-menu-item nz-dropdown [nzDropdownMenu]="editOwner">éditer</li>
+    <li nz-menu-item nz-dropdown [nzDropdownMenu]="removeOwner" >supprimer</li>
+  </ul>
+</nz-dropdown-menu>
+
+<nz-dropdown-menu #editOwner>
+  <ul nz-menu>
+    @for(owner of owners(); track owner){
+      <li nz-menu-item (click)="openEditOwner(owner)">{{owner.name}}</li>
+    }
+  </ul>
+</nz-dropdown-menu>
+
+<nz-dropdown-menu #removeOwner>
+  <ul nz-menu>
+    @for(owner of owners(); track owner){
+      <li nz-menu-item (click)="deleteOwner(owner)">{{owner.name}}</li>
+    }
+  </ul>
+</nz-dropdown-menu>
 
 <div class="estates-content">
   <ul nz-menu nzMode="inline">

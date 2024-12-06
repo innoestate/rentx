@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Owner_Dto } from '../../core/models/dtos/owner.dto.model';
+import { Owner_Dto } from '../models/dtos/owner.dto.model';
 import { Owner_Post_Request } from '../models/requests/owner-post-request.model';
 
 

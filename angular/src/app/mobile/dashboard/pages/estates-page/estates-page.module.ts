@@ -16,6 +16,7 @@ import { OwnerItemComponent } from './owner-item/owner-item.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { FormsModule } from '@angular/forms';
 import { LodgerItemComponent } from './lodger-item/lodger-item.component';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { LodgerItemComponent } from './lodger-item/lodger-item.component';
     NzButtonModule,
     NzMenuModule,
     NzSelectModule,
+    NzDropDownModule,
     StoreModule.forFeature('estates', estatesReducer),
     EffectsModule.forFeature(EstatesEffects, RentsEffects),
   ],
