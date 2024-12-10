@@ -8,6 +8,7 @@ import { OwnersService } from '../owners/owners.service';
 import { createRentReceiptEmail, createRentReciptPdf } from './rents.business';
 import { sendEmail } from '../emails/emails.buisness';
 import { ConfigService } from '@nestjs/config';
+import { createSheet } from './rents.sheets.buisness';
 
 
 
@@ -77,9 +78,16 @@ export class RentsController {
         ]).pipe(
             switchMap(([estate, owners, lodgers]) => createRentReceiptEmail(owners, lodgers, estate, startDate, endDate)),
             switchMap(base64EncodedEmail => sendEmail(req.user.accessToken, req.user.refresh_token, base64EncodedEmail, this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET'))),
-            map(() => (res.send({ statusCode: 200, body: 'email sent successfully' })))
         );
 
+    }
+
+    @UseGuards(JwtAuthGuard, UserMidleweare)
+    @Get('sheets')
+    synchronizeSheets(@Req() req, @Res() res) {
+        return from(createSheet(req.user.accessToken, req.user.refresh_token, this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET'))).pipe(
+            tap(() => console.log('sheets synchronized successfully'))
+        );
     }
 
 }
