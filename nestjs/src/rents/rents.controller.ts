@@ -85,9 +85,19 @@ export class RentsController {
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Get('sheets')
     synchronizeSheets(@Req() req, @Res() res) {
-        return from(createSheet(req.user.accessToken, req.user.refresh_token, this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET'))).pipe(
-            tap(() => console.log('sheets synchronized successfully'))
+
+
+        return combineLatest([
+            this.estateService.getByUser(req.user.id),
+            this.ownerService.getByUser(req.user.id),
+            this.lodgerService.getByUser(req.user.id)
+        ]).pipe(
+            switchMap(([estates, owners, lodgers]) =>from(createSheet(estates, owners, lodgers, req.user.accessToken, req.user.refresh_token, this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET')))),
         );
+
+        // return from(createSheet(req.user.accessToken, req.user.refresh_token, this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET'))).pipe(
+        //     tap(() => console.log('sheets synchronized successfully'))
+        // );
     }
 
 }
