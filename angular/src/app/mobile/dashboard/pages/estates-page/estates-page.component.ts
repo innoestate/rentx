@@ -12,6 +12,7 @@ import { Owner } from 'src/app/core/models/owner.model';
 import { deleteOwner } from 'src/app/core/store/owner/owners.actions';
 import { deleteLodger } from 'src/app/core/store/lodger/lodgers.actions';
 import { Lodger } from 'src/app/core/models/lodger.model';
+import { RentsHttpService } from 'src/app/core/services/rents.http.service';
 
 @Component({
   selector: 'app-estates-page',
@@ -20,8 +21,8 @@ import { Lodger } from 'src/app/core/models/lodger.model';
 })
 export class EstatesMobilePageComponent extends EstatePage {
 
-  constructor(protected override store: Store, protected override modalService: NzModalService, protected override actions$: Actions, protected rentService: RentService, protected ownerService: OwnerService) {
-    super(store, modalService, actions$);
+  constructor(protected override store: Store, protected override modalService: NzModalService, protected override actions$: Actions, protected rentService: RentService, protected ownerService: OwnerService, protected override rentHttpService: RentsHttpService) {
+    super(store, modalService, actions$, rentHttpService);
   }
 
 

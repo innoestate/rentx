@@ -3,6 +3,7 @@ import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Estate } from 'src/app/core/models/estate.model';
+import { RentsHttpService } from 'src/app/core/services/rents.http.service';
 import { deleteEstate, loadEstates } from 'src/app/core/store/estate/estates.actions';
 import { selectEstates } from 'src/app/core/store/estate/estates.selectors';
 import { selectLodgers } from 'src/app/core/store/lodger/lodgers.selectors';
@@ -17,10 +18,14 @@ export class EstatePage implements OnInit {
   estates = this.store.selectSignal(selectEstates);
   editId!: string | null;
 
-  constructor(protected store: Store, protected modalService: NzModalService, protected actions$: Actions) { }
+  constructor(protected store: Store, protected modalService: NzModalService, protected actions$: Actions, protected rentHttpService: RentsHttpService) { }
 
   ngOnInit(): void {
     this.store.dispatch(loadEstates());
+  }
+
+  synchronizeGoogleSheet() {
+    this.rentHttpService.synchronizeGoogleSheet().subscribe();
   }
 
   openCreateEstatePopup() {

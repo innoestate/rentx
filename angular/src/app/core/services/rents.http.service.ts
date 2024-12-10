@@ -38,4 +38,8 @@ export class RentsHttpService {
 
     return this.http.get<any>(`${this.API_URL}/rents/email?${queryParams}`);
   }
+
+  synchronizeGoogleSheet(): Observable<any> {
+    return this.http.get<any>(`${this.API_URL}/rents/sheets`);
+  }
 }

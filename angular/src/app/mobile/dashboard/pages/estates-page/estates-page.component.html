@@ -7,7 +7,7 @@
 <nz-dropdown-menu #owner nz-selectable>
   <ul nz-menu>
     <li nz-menu-item (click)="openCreateOwner()">créer un nouveau propriétaire</li>
-    <li nz-menu-item nz-dropdown [nzDropdownMenu]="editOwner">éditer un nouveau propriétaire</li>
+    <li nz-menu-item nz-dropdown [nzDropdownMenu]="editOwner">éditer un propriétaire</li>
     <li nz-menu-item nz-dropdown [nzDropdownMenu]="removeOwner" >supprimer un propriétaire</li>
   </ul>
 </nz-dropdown-menu>
@@ -31,7 +31,7 @@
 <nz-dropdown-menu #lodger nz-selectable>
   <ul nz-menu>
     <li nz-menu-item (click)="openCreateLodger()">créer un nouveau locataire</li>
-    <li nz-menu-item nz-dropdown [nzDropdownMenu]="removeLodger">supprimer un nouveau locataire</li>
+    <li nz-menu-item nz-dropdown [nzDropdownMenu]="removeLodger">supprimer un locataire</li>
   </ul>
 </nz-dropdown-menu>
 
