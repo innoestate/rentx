@@ -1,16 +1,16 @@
 import { INestApplication } from '@nestjs/common';
-import { User_Db } from '../user/user-db.model';
-import { dropAllTables } from './utils/db.utils';
-import { userTests } from './user-tests';
-import { buildApp, buildUser } from './utils/user.utils';
-import { ownersTests } from './owners-tests';
-import { lodgersTests } from './lodgers-tests';
-import { rentsTests } from './rents-tests';
 import { EstatesService } from '../estates/estates.service';
-import { estateTests } from './estates-tests';
-import { OwnersService } from '../owners/owners.service';
 import { LodgersService } from '../lodgers/lodgers.service';
-import { rentsBuisnessTests } from './rents-buisness-tests';
+import { OwnersService } from '../owners/owners.service';
+import { RentsDbService } from '../rents/rents.db.service';
+import { User_Db } from '../user/user-db.model';
+import { estateTests } from './estates-tests';
+import { lodgersTests } from './lodgers-tests';
+import { ownersTests } from './owners-tests';
+import { rentsTests } from './rents-tests';
+import { userTests } from './user-tests';
+import { dropAllTables } from './utils/db.utils';
+import { buildApp, buildUser } from './utils/user.utils';
 
 describe('/api', () => {
 
@@ -19,6 +19,7 @@ describe('/api', () => {
     let ownerService: OwnersService;
     let lodgerService: LodgersService;
     let estateService: EstatesService;
+    let rentsService: RentsDbService;
 
     beforeAll(async () => {
 
@@ -28,6 +29,7 @@ describe('/api', () => {
         ownerService = app.get<OwnersService>(OwnersService);
         lodgerService = app.get<LodgersService>(LodgersService);
         estateService = app.get<EstatesService>(EstatesService);
+        rentsService = app.get<RentsDbService>(RentsDbService);
     });
 
     afterAll(async () => {
@@ -35,11 +37,9 @@ describe('/api', () => {
     });
 
     estateTests(() => app, () => user, () => estateService);
-    rentsBuisnessTests(() => estateService, () => ownerService, () => lodgerService);
-
     userTests(() => app, () => user);
     ownersTests(() => app);
     lodgersTests(() => app);
-    rentsTests(() => app);
+    rentsTests(() => app, () => rentsService);
 
 })
