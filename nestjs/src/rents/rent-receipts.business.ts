@@ -119,7 +119,7 @@ export const createRentReciptPdf = async (estate: Estate_Db, owner: Owner_Db, lo
 
 }
 
-const getRentReceiptInfos = (estate: Estate_Db, owner: Owner_Db, lodger: Lodger_Db, startDate_?: string, endDate_?: string) => {
+export const getRentReceiptInfos = (estate: Estate_Db, owner: Owner_Db, lodger: Lodger_Db, startDate_?: string, endDate_?: string) => {
     let startDate = startDate_ ? new Date(startDate_) : null;
     let endDate = endDate_ ? new Date(endDate_) : null;
     if (!startDate) {

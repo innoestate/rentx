@@ -16,7 +16,7 @@ export const estateTests = (getApp, getUser, getEstateService) => {
     const estateExample2 = {
         street: '23 Elm St',
         city: 'Los Angeles test',
-        zip: '98101'
+        zip: '98101',
     };
     let estate2;
     

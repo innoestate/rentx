@@ -1,22 +1,21 @@
 import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
-import { combineLatest, from, map, of, switchMap, tap } from 'rxjs';
+import { ConfigService } from '@nestjs/config';
+import { combineLatest, from, map, of, switchMap } from 'rxjs';
 import { JwtAuthGuard } from '../auth/auth.guard';
+import { sendEmail } from '../emails/emails.buisness';
 import { EstatesService } from '../estates/estates.service';
 import { UserMidleweare } from '../guards/user-midleweare.guard';
 import { LodgersService } from '../lodgers/lodgers.service';
 import { OwnersService } from '../owners/owners.service';
 import { createRentReceiptEmail, createRentReciptPdf } from './rent-receipts.business';
-import { sendEmail } from '../emails/emails.buisness';
-import { ConfigService } from '@nestjs/config';
+import { RentsService } from './rents.service';
 import { createSheet } from './rents.sheets.buisness';
-
-
 
 
 @Controller('api/rents')
 export class RentsController {
 
-    constructor(private estateService: EstatesService, private ownerService: OwnersService, private lodgerService: LodgersService, private configService: ConfigService) { }
+    constructor(private estateService: EstatesService, private ownerService: OwnersService, private lodgerService: LodgersService, private configService: ConfigService, private rentsService: RentsService) { }
 
 
     @Post('downloadPdf')
@@ -52,7 +51,7 @@ export class RentsController {
             switchMap(([estate, owners, lodgers]) => {
                 const owner = owners.find(owner => owner.id === estate.owner_id);
                 const lodger = lodgers.find(lodger => lodger.id === estate.lodger_id);
-                return from(createRentReciptPdf(estate, owner, { ...lodger, email: req.user.email }, startDate, endDate));
+                return this.rentsService.buildRentReciptPdf(estate, owner, { ...lodger, email: req.user.email }, startDate, endDate);
             }),
             map(rentReceipt => {
                 res.setHeader('Content-Type', 'application/pdf');
