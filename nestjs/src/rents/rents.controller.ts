@@ -5,7 +5,7 @@ import { EstatesService } from '../estates/estates.service';
 import { UserMidleweare } from '../guards/user-midleweare.guard';
 import { LodgersService } from '../lodgers/lodgers.service';
 import { OwnersService } from '../owners/owners.service';
-import { createRentReceiptEmail, createRentReciptPdf } from './rents.business';
+import { createRentReceiptEmail, createRentReciptPdf } from './rent-receipts.business';
 import { sendEmail } from '../emails/emails.buisness';
 import { ConfigService } from '@nestjs/config';
 import { createSheet } from './rents.sheets.buisness';
@@ -22,7 +22,6 @@ export class RentsController {
     @Post('downloadPdf')
     downloadPdfRentReceipt(@Req() req, @Res() res) {
         try {
-            console.log('body', req.body);;
             const { estate, owner, lodger, startDate } = req.body;
             return from(createRentReciptPdf(estate, owner, lodger, startDate)).pipe(
                 map(rentReceipt => {

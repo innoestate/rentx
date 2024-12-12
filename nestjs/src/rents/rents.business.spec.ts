@@ -1,4 +1,4 @@
-import { calculateRent } from "./rents.business";
+import { calculateRent } from "./rent-receipts.business";
 
 describe('rents business unit tests', () => {
 

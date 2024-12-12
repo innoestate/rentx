@@ -9,13 +9,16 @@ import { Estate } from '../estates/estate.entity';
 import { Owner_Entity } from '../owners/owners.entity';
 import { LodgersService } from '../lodgers/lodgers.service';
 import { EstatesService } from '../estates/estates.service';
+import { Rent_Entity } from './rents.entity';
+import { RentsDbService } from './rents.db.service';
+import { RentsService } from './rents.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Estate, Owner_Entity, Lodger_Entity]),
+    TypeOrmModule.forFeature([User, Estate, Owner_Entity, Lodger_Entity, Rent_Entity]),
   ],
   controllers: [RentsController],
-  providers: [UsersService, EstatesService, OwnersService, LodgersService],
-  exports: [UsersService, EstatesService, OwnersService, LodgersService]
+  providers: [UsersService, EstatesService, OwnersService, LodgersService, RentsDbService, RentsService],
+  exports: [UsersService, EstatesService, OwnersService, LodgersService, RentsDbService, RentsService]
 })
 export class RentsModule {}
