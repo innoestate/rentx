@@ -26,7 +26,9 @@ export const ownersTests = (getApp) => {
             street: '123 Market Street',
             city: 'San Francisco',
             zip: '94107',
-            email: 'jackdorsey@twitter.com'
+            email: 'jackdorsey@twitter.com',
+            signature: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACWCAYAAABkW7XSAAAAAXNSR0IArs4c6QAABSNJREFUeF7t1sFNXFEQRNFHBmRkUnEGZIDJjIwgBDMSSLNCohYFpTneePX1mtOtq7k7/hEgQGBE4G5kTmMSIEDgCJYjIEBgRkCwZlZlUAIEBMsNECAwIyBYM6syKAECguUGCBCYERCsmVUZlAABwXIDBAjMCAjWzKoMSoCAYLkBAgRmBARrZlUGJUBAsNwAAQIzAoI1syqDEiAgWG6AAIEZAcGaWZVBCRAQLDdAgMCMgGDNrMqgBAgIlhsgQGBGQLBmVmVQAgQEyw0QIDAjIFgzqzIoAQKC5QYIEJgREKyZVRmUAAHBcgMECMwICNbMqgxKgIBguQECBGYEBGtmVQYlQECw3AABAjMCgjWzKoMSICBYboAAgRkBwZpZlUEJEBAsN0CAwIyAYM2syqAECAiWGyBAYEZAsGZWZVACBATLDRAgMCMgWDOrMigBAoLlBggQmBEQrJlVGZQAAcFyAwQIzAgI1syqDEqAgGC5AQIEZgQEa2ZVBiVAQLDcAAECMwKCNbMqgxIgIFhugACBGQHBmlmVQQkQECw3QIDAjIBgzazKoAQICJYbIEBgRkCwZlZlUAIEBMsNECAwIyBYM6syKAECguUGCBCYERCsmVUZlAABwXIDBAjMCAjWzKoMSoCAYLkBAgRmBARrZlUGJUBAsNwAAQIzAoI1syqDEiAgWG6AAIEZAcGaWZVBCRAQLDdAgMCMgGDNrMqgBAgIlhsgQGBGQLBmVmVQAgQEyw0QIDAjIFgzqzIoAQKC5QYIEJgREKyZVRmUAAHBcgMECMwICNbMqgxKgIBguQECBGYEBGtmVQYlQECw3AABAjMCgjWzKoMSICBYboAAgRkBwZpZlUEJEBAsN0CAwIyAYM2syqAECAiWGyBAYEZAsGZWZVACBATLDRAgMCMgWDOrMigBAoLlBggQmBEQrJlVGfRK4OGc80Lk9gQE6/Z2vvwXX0L19B6ry//P73/Iv+U/xuzfFxCs75v5oi9wHarPX1aXYPmV1d/Fj74oWD/K7/EvBB7POffnnD8fv6gucRKpGz8ZwbrxA/jFf/7rOeftnPPXL6lfvKXyaIJVBvccAQK5gGDldr4kQKAsIFhlcM8RIJALCFZu50sCBMoCglUG9xwBArmAYOV2viRAoCwgWGVwzxEgkAsIVm7nSwIEygKCVQb3HAECuYBg5Xa+JECgLCBYZXDPESCQCwhWbudLAgTKAoJVBvccAQK5gGDldr4kQKAsIFhlcM8RIJALCFZu50sCBMoCglUG9xwBArmAYOV2viRAoCwgWGVwzxEgkAsIVm7nSwIEygKCVQb3HAECuYBg5Xa+JECgLCBYZXDPESCQCwhWbudLAgTKAoJVBvccAQK5gGDldr4kQKAsIFhlcM8RIJALCFZu50sCBMoCglUG9xwBArmAYOV2viRAoCwgWGVwzxEgkAsIVm7nSwIEygKCVQb3HAECuYBg5Xa+JECgLCBYZXDPESCQCwhWbudLAgTKAoJVBvccAQK5gGDldr4kQKAsIFhlcM8RIJALCFZu50sCBMoCglUG9xwBArmAYOV2viRAoCwgWGVwzxEgkAsIVm7nSwIEygKCVQb3HAECuYBg5Xa+JECgLCBYZXDPESCQCwhWbudLAgTKAoJVBvccAQK5gGDldr4kQKAsIFhlcM8RIJALCFZu50sCBMoCglUG9xwBArmAYOV2viRAoCwgWGVwzxEgkAsIVm7nSwIEygKCVQb3HAECuYBg5Xa+JECgLPAfkAIMl8hXyWIAAAAASUVORK5CYII=",
+
         }
         const response = await request(app.getHttpServer())
             .post('/api/owners')
@@ -46,9 +48,9 @@ export const ownersTests = (getApp) => {
             street: '123 Market Street',
             city: 'San Francisco',
             zip: '94107',
-            email: 'eafeaf@efef'
+            email: 'eafeaf@efef',
         }
-        const response = await request(app.getHttpServer())
+        await request(app.getHttpServer())
             .patch('/api/owners')
             .send(ownerExample2)
             .expect(200);
