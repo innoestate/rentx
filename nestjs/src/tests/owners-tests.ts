@@ -55,6 +55,23 @@ export const ownersTests = (getApp) => {
         // expect(response.body.id).toBeTruthy();
     });
 
+    it('PATCH /api/estates set lodger to estate', async () => { 
+
+        const app = getApp();
+
+        const estatesResponse = await request(app.getHttpServer())
+            .get('/api/estates')
+            .expect(200);
+        expect(estatesResponse.body.length > 0).toBeTruthy();
+        const estate = estatesResponse.body[0];
+
+        await request(app.getHttpServer())
+            .patch('/api/estate')
+            .send({ id: estate.id, owner_id: owner2.id })
+            .expect(200);
+
+    });
+
     it('DELETE /api/owners', async () => {
 
         const app = getApp();

@@ -3,6 +3,7 @@ import * as request from 'supertest';
 export const lodgersTests = (getApp) => {
 
     let lodger;
+    let lodger2;
 
     it('POST /api/lodgers', async () => {
 
@@ -10,9 +11,8 @@ export const lodgersTests = (getApp) => {
 
         const LodgerPostExample = {
             email: 'xavier.niel@free.fr',
-            name: 'Xavier Niel'
+            name: 'Xavier Niel',
         }
-
         const response = await request(app.getHttpServer())
             .post('/api/lodgers')
             .send(LodgerPostExample)
@@ -20,6 +20,23 @@ export const lodgersTests = (getApp) => {
         expect(response.body.id).toBeTruthy();
         expect(response.body.email).toBe('xavier.niel@free.fr');
         lodger = response.body;
+    });
+
+    it('PATCH /api/estates set lodger to estate', async () => { 
+
+        const app = getApp();
+
+        const estatesResponse = await request(app.getHttpServer())
+            .get('/api/estates')
+            .expect(200);
+        expect(estatesResponse.body.length > 0).toBeTruthy();
+        const estate = estatesResponse.body[0];
+
+        await request(app.getHttpServer())
+            .patch('/api/estate')
+            .send({ id: estate.id, lodger_id: lodger.id })
+            .expect(200);
+
     });
 
     it('GET /api/lodgers', async () => {
@@ -51,19 +68,36 @@ export const lodgersTests = (getApp) => {
         lodger = response.body[0];
     });
 
+    it('POST /api/lodgers', async () => {
+
+        const app = getApp();
+
+        const LodgerPostExample = {
+            email: 'jack.ma@alibaba.se',
+            name: 'Jack Ma',
+        }
+        const response = await request(app.getHttpServer())
+            .post('/api/lodgers')
+            .send(LodgerPostExample)
+            .expect(201);
+        expect(response.body.id).toBeTruthy();
+        expect(response.body.email).toBe('jack.ma@alibaba.se');
+        lodger2 = response.body;
+    });
+
     it('DELETE /api/lodgers', async () => {
 
         const app = getApp();
 
         await request(app.getHttpServer())
             .delete(`/api/lodgers`)
-            .send({ id: lodger.id })
+            .send({ id: lodger2.id })
             .expect(200);
 
         const response2 = await request(app.getHttpServer())
             .get('/api/lodgers')
             .expect(200);
-        expect(response2.body.length).toEqual(0);
+        expect(response2.body.length).toEqual(1);
 
     });
 }
