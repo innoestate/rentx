@@ -1,3 +1,4 @@
+import exp from 'constants';
 import { firstValueFrom } from 'rxjs';
 import { RentsDbService } from 'src/rents/rents.db.service';
 import * as request from 'supertest';
@@ -27,5 +28,27 @@ export const rentsTests = (getApp, getRentsService) => {
 
     });
 
+
+    it('GET /api/rents/pdf new rent erase if exists', async () => {
+
+        const app = getApp();
+        const rentService = getRentsService() as RentsDbService;
+
+        const responseEstate = await request(app.getHttpServer())
+            .patch('/api/estate')
+            .send({ id: estate.id, rent: 2000})
+            .expect(200);
+        expect(responseEstate.body).toBeTruthy();
+
+        const response = await request(app.getHttpServer())
+            .get('/api/rents/pdf?estate=' + estate.id)
+            .expect(200);
+        expect(response.body).toBeDefined();
+
+        const rent = await firstValueFrom(rentService.getByEstate(estate.id));
+        expect(rent.length).toBe(1);
+        expect(rent[0].rent).toBe(2000);
+
+    });
 
 }

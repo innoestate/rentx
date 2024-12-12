@@ -16,8 +16,12 @@ export class RentsDbService {
 
   create(rentDto: Rent_Dto): Observable<Rent_Entity> {
     const rent = this.rentsRepository.create(rentDto);
-    return from(this.rentsRepository.save(rent));
-  }
+    return from(
+        this.rentsRepository.upsert(rent, {
+            conflictPaths: ['estate_id', 'lodger_id', 'start_date', 'end_date'],
+        }).then(() => rent) // Return the rent entity after upsert
+    )
+}
 
   getByEstate(estateId: string): Observable<Rent_Entity[]> {
     return from(this.rentsRepository.find({ where: { estate_id: estateId } })) as Observable<Rent_Entity[]>;
