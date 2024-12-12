@@ -1,6 +1,7 @@
 import { firstValueFrom } from 'rxjs';
 import { formatEstateDtoToEstateDb } from '../estates/estate.utils';
 import { EstatesService } from '../estates/estates.service';
+import * as request from 'supertest';
 
 export const estateTests = (getApp, getUser, getEstateService) => {  
 
@@ -10,6 +11,14 @@ export const estateTests = (getApp, getUser, getEstateService) => {
         zip: '98101'
     };
     let estate;
+
+
+    const estateExample2 = {
+        street: '23 Elm St',
+        city: 'Los Angeles test',
+        zip: '98101'
+    };
+    let estate2;
     
     it('create estate', async () => {
         const user = getUser();
@@ -31,6 +40,17 @@ export const estateTests = (getApp, getUser, getEstateService) => {
         await firstValueFrom(estateService.delete(estate.id));
         const estates = await estateService.getByUser(user.id);
         expect(estates.filter(estate_ => estate_.id === estate.id).length).toEqual(0);
+    });
+
+    it('POST /api/estates', async () => {
+
+        const app = getApp();
+
+        const response = await request(app.getHttpServer())
+            .post('/api/estates')
+            .send(estateExample2)
+            .expect(201);
+        expect(response.body.id).toBeTruthy();
     });
 
 }
