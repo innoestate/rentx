@@ -12,13 +12,14 @@ import { EstatesService } from '../estates/estates.service';
 import { Rent_Entity } from './rents.entity';
 import { RentsDbService } from './rents.db.service';
 import { RentsService } from './rents.service';
+import { Docs_Entity } from '../docs/docs.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Estate, Owner_Entity, Lodger_Entity, Rent_Entity]),
   ],
   controllers: [RentsController],
-  providers: [UsersService, EstatesService, OwnersService, LodgersService, RentsDbService, RentsService],
-  exports: [UsersService, EstatesService, OwnersService, LodgersService, RentsDbService, RentsService]
+  providers: [UsersService, EstatesService, OwnersService, LodgersService, RentsDbService, RentsService, Docs_Entity],
+  exports: [UsersService, EstatesService, OwnersService, LodgersService, RentsDbService, RentsService, Docs_Entity]
 })
 export class RentsModule {}

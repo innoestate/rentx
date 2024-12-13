@@ -1,8 +1,9 @@
-import { Rent_Entity } from "src/rents/rents.entity";
+import { Rent_Entity } from "../rents/rents.entity";
 import { Estate } from "../estates/estate.entity";
 import { Lodger_Entity } from "../lodgers/lodger.entity";
 import { Owner_Entity } from "../owners/owners.entity";
 import { User } from "../user/user.entity";
+import { Docs_Entity } from "../docs/docs.entity";
 
 
 export const config = {
@@ -12,7 +13,7 @@ export const config = {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
-    entities: [User, Owner_Entity, Lodger_Entity, Estate, Rent_Entity], 
+    entities: [User, Owner_Entity, Lodger_Entity, Estate, Rent_Entity, Docs_Entity], 
     migrations: ['**/migrations/*.js'],// [__dirname + '/../**/*.entity{.ts,.js}'],
     synchronize: process.env.NODE_ENV === 'test', // set to false in production
     drpopSchema: process.env.NODE_ENV === 'test',
