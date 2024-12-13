@@ -39,9 +39,14 @@ export class RentsController {
     @Get('pdf')
     downloadRentReceipt(@Req() req, @Res() res) {
 
+        console.log('downloading rent receipt');
+
         const id = req.query.estate;
         const startDate = req.query.startDate;
         const endDate = req.query.endDate;
+        const { accessToken, refresh_token } = req.user;
+        const clientId = this.configService.get('GOOGLE_CLIENT_ID');
+        const clientSecret = this.configService.get('GOOGLE_CLIENT_SECRET');
 
         return combineLatest([
             this.estateService.getById(id),
@@ -51,7 +56,7 @@ export class RentsController {
             switchMap(([estate, owners, lodgers]) => {
                 const owner = owners.find(owner => owner.id === estate.owner_id);
                 const lodger = lodgers.find(lodger => lodger.id === estate.lodger_id);
-                return this.rentsService.buildRentReciptPdf(estate, owner, { ...lodger, email: req.user.email }, startDate, endDate);
+                return this.rentsService.buildRentReciptPdf(estate, owner, { ...lodger, email: req.user.email }, startDate, endDate, accessToken, refresh_token, clientId, clientSecret);
             }),
             map(rentReceipt => {
                 res.setHeader('Content-Type', 'application/pdf');

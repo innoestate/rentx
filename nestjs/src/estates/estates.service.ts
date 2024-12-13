@@ -34,7 +34,7 @@ export class EstatesService {
     return from(this.estateRepository.findOne({ where: { id } }));
   }
 
-  async getByUser(userId: string): Promise<Estate[] | undefined> {
+  async getByUser(userId: string): Promise<Estate_Db[] | undefined> {
     return this.estateRepository.find({
       where: { user_id: userId }
     });

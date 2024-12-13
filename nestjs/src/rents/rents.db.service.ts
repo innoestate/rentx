@@ -19,7 +19,7 @@ export class RentsDbService {
     return from(
         this.rentsRepository.upsert(rent, {
             conflictPaths: ['estate_id', 'lodger_id', 'start_date', 'end_date'],
-        }).then(() => rent) // Return the rent entity after upsert
+        }).then(() => rent)
     )
 }
 

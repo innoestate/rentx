@@ -1,7 +1,6 @@
-import exp from 'constants';
 import { firstValueFrom } from 'rxjs';
-import { RentsDbService } from 'src/rents/rents.db.service';
 import * as request from 'supertest';
+import { RentsDbService } from '../rents/rents.db.service';
 
 export const rentsTests = (getApp, getRentsService) => {
 

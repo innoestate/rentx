@@ -34,3 +34,11 @@ run the script to run typeorm migration
 
 
 Open the browser on the http://localhost:4200
+
+
+
+BUG CAUSED BY FONTS: 
+
+go in nestjs container:
+docker exec -ti nestjs sh
+cp -r src/assets dist/src/assets
