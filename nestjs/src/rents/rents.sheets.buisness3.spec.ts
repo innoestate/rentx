@@ -63,4 +63,11 @@ describe('building spreadsheet context with correct columns and rows', () => {
         expect(spreadsheet.sheets[1].rows[1].filter(row => row.value === '1 rue de lespace').length === 1).toEqual(true);
     })
 
+    it('add an estate and check rows', () => {
+        estates.push({...estate, id: '2', owner : {...estate.owner, name: 'Bill Gates'}, lodger: {...estate.lodger, name: 'Mark Zuckerberg'}});
+        const spreadsheet = buildSpreadsheetContext(mockedGoogleWorker, null, estates, new Date('2024-01-01'), new Date('2024-02-29'));
+        expect(spreadsheet.sheets[0].rows.length === 3).toEqual(true);
+        expect(spreadsheet.sheets[1].rows.length === 3).toEqual(true);
+    })
+
 })

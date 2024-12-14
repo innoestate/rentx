@@ -20,7 +20,8 @@ export interface SpreadSheetUpdate {
 }
 
 /**
- * 
+ * build a spreadsheet context with all needed years and estates.
+ * note that the spreadsheet will contain the same number of estates for each year.
  */
 export const buildSpreadsheetContext = (sheetStrategy: GoogleSheetWorker, id: string, estates: Estate_filled_Db[], startDate: Date, endDate: Date): SpreadSheet => {
 
@@ -28,18 +29,12 @@ export const buildSpreadsheetContext = (sheetStrategy: GoogleSheetWorker, id: st
     const years = getYearsFromDates(startDate, endDate);
 
     if( spreadSheet) {
-        const sheets = sheetStrategy.getSheets(id);
-        const missingSheetsTitles = getMissingSheetsTitles(sheets, years);
-        while(missingSheetsTitles.length > 0){
-            spreadSheet = sheetStrategy.addSheet(id, missingSheetsTitles.pop(), estates);
-        }
+        spreadSheet = createMissingSheets(sheetStrategy, spreadSheet, estates, years);
         return spreadSheet;
     }else{
         spreadSheet = sheetStrategy.createSpreadSheet(id, 'biens_locatifs');
         spreadSheet = sheetStrategy.addSheets(id, years, estates);
     }
-
-
 
     return spreadSheet;
 }
@@ -50,6 +45,15 @@ export const composeSpreadSheetUpdates = (sheetStrategy: GoogleSheetWorker, spre
 
 export const applySpreadSheetUpdates = (sheetStrategy: GoogleSheetWorker, spreadSheetUpdates: SpreadSheetUpdate[]) => {
     return null;
+}
+
+const createMissingSheets = (sheetStrategy: GoogleSheetWorker, spreadSheet: SpreadSheet, estates: Estate_filled_Db[], years: string[]): SpreadSheet => {
+    const sheets = sheetStrategy.getSheets(spreadSheet.id);
+    const missingSheetsTitles = getMissingSheetsTitles(sheets, years);
+    while(missingSheetsTitles.length > 0){
+        spreadSheet = sheetStrategy.addSheet(spreadSheet.id, missingSheetsTitles.pop(), estates);
+    }
+    return spreadSheet;
 }
 
 const getYearsFromDates = (startDate: Date, endDate: Date): string[] => {
