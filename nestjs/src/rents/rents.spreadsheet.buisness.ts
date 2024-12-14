@@ -28,11 +28,12 @@ export const buildSpreadsheetContext = (sheetStrategy: GoogleSheetWorker, id: st
     let spreadSheet = sheetStrategy.getSpreadSheet(id);
     const years = getYearsFromDates(startDate, endDate);
 
-    if( spreadSheet) {
+    if (spreadSheet) {
         spreadSheet = createMissingSheets(sheetStrategy, spreadSheet, estates, years);
         spreadSheet = addMissingEstatesInSheets(sheetStrategy, spreadSheet, estates);
+        spreadSheet = removeEstatesInSheets(sheetStrategy, spreadSheet, estates, years);
         return spreadSheet;
-    }else{
+    } else {
         spreadSheet = sheetStrategy.createSpreadSheet(id, 'biens_locatifs');
         spreadSheet = sheetStrategy.addSheets(id, years, estates);
     }
@@ -48,10 +49,48 @@ export const applySpreadSheetUpdates = (sheetStrategy: GoogleSheetWorker, spread
     return null;
 }
 
+const getMissingRows = (spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): { title: string, missingEstates: Estate_filled_Db[] }[] => {
+    return spreadSheet.sheets.map(sheet => {
+        const missingEstates = estates.filter(estate => !sheet.rows.find(row => row[0].value === estate.owner.name));
+        return { title: sheet.title, missingEstates };
+    });
+}
+
+const removeEstatesInSheets = (sheetStrategy: GoogleSheetWorker, spreadSheet: SpreadSheet, estates: Estate_filled_Db[], years): SpreadSheet => {
+
+    const rowsToRemove = getUnusedEstates(spreadSheet, estates);
+    while (rowsToRemove.length) {
+        const row = rowsToRemove.pop();
+        spreadSheet = sheetStrategy.removeRowsInSheet(spreadSheet.id, row.title, row.rowIdentifiers);
+    }
+    return spreadSheet;
+}
+
+const getUnusedEstates = (spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): { title: string, rowIdentifiers: { street: string | number, city: string | number }[] }[] => {
+    return spreadSheet.sheets.map(sheet => {
+
+        const streetIndex = sheet.rows[0].findIndex(cell => cell.value === 'Adresse');
+        const cityIndex = sheet.rows[0].findIndex(cell => cell.value === 'Ville');
+
+        const formatedRows = sheet.rows.map(row => ({ street: row[streetIndex].value, city: row[cityIndex].value })).slice(1);
+        const unusedEstatesRows = formatedRows.filter(estateRow => !estates.find(estate => estate.street === estateRow.street && estate.city === estateRow.city));
+
+        return { title: sheet.title, rowIdentifiers: unusedEstatesRows };
+    });
+}
+
+const addMissingEstatesInSheets = (sheetStrategy: GoogleSheetWorker, spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): SpreadSheet => {
+    const missingRows = getMissingRows(spreadSheet, estates);
+    missingRows.forEach(missingRow => {
+        spreadSheet = sheetStrategy.addRowsInSheet(spreadSheet.id, missingRow.title, missingRow.missingEstates);
+    })
+    return spreadSheet;
+}
+
 const createMissingSheets = (sheetStrategy: GoogleSheetWorker, spreadSheet: SpreadSheet, estates: Estate_filled_Db[], years: string[]): SpreadSheet => {
     const sheets = sheetStrategy.getSheets(spreadSheet.id);
     const missingSheetsTitles = getMissingSheetsTitles(sheets, years);
-    while(missingSheetsTitles.length > 0){
+    while (missingSheetsTitles.length > 0) {
         spreadSheet = sheetStrategy.addSheet(spreadSheet.id, missingSheetsTitles.pop(), estates);
     }
     return spreadSheet;
