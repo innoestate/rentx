@@ -11,12 +11,13 @@ import { OwnersService } from '../owners/owners.service';
 import { createRentReceiptEmail, createRentReciptPdf, getRentReceiptInfos } from './rent-receipts.business';
 import { RentsDbService } from './rents.db.service';
 import { createNewSheet, fillSheet, getOath2Client, setRentInSheet } from './rents.sheets.buisness';
+import { ConfigService } from '@nestjs/config';
 
 
 @Injectable()
 export class RentsService {
 
-  constructor(private rentsDbService: RentsDbService, private docsDbService: DocsDbService, private estateService: EstatesService, private ownerService: OwnersService, private lodgerService: LodgersService
+  constructor(private config: ConfigService, private rentsDbService: RentsDbService, private docsDbService: DocsDbService, private estateService: EstatesService, private ownerService: OwnersService, private lodgerService: LodgersService
   ) { }
 
   buildRentReciptPdf(estate: any, owner: any, lodger: any, startDate_: string, endDate_: string, accessToken: string, refreshToken: string, clientId: string, clientSecret: string): Observable<any> {
@@ -45,12 +46,13 @@ export class RentsService {
 
   addPeriodToExcel(userId: string, estateId: string, startDate: string, endDate: string, accessToken: string, refreshToken: string, clientId: string, clientSecret: string): void {
     
+    if(this.config.get('NODE_ENV') === 'test') return;
     from(getOath2Client(accessToken, refreshToken, clientId, clientSecret)).pipe(
 
       //if not exist create a new sheet and fill it. If exist get the sheetId
       switchMap((oauth2client) => (combineLatest([of(oauth2client), this.createOrGetSheetId(oauth2client, userId)]))),
       //prepare all the data to update the sheet
-      switchMap(([oauth2client, { sheetId, estates, owners, lodgers }]) => combineLatest([of(oauth2client), of(sheetId), this.getFullEstate(estateId, estates, owners, lodgers)])),
+      switchMap(([oauth2client, { sheetId, estates, owners, lodgers }]) => combineLatest([of(oauth2client), of(sheetId), this.getFullEstate(userId, estateId, estates, owners, lodgers)])),
       //update the sheet
       switchMap(([oauth2client, sheetId, estate]) => setRentInSheet(oauth2client, sheetId, estate, startDate, endDate)),
 
@@ -60,16 +62,16 @@ export class RentsService {
 
   }
 
-  private getFullEstate(estateId: string, estates?: Estate_Db[], owners?: Owner_Db[], lodgers?: Lodger_Db[]): Observable<Estate_filled_Db> {
+  private getFullEstate(ueserId: string, estateId: string, estates?: Estate_Db[], owners?: Owner_Db[], lodgers?: Lodger_Db[]): Observable<Estate_filled_Db> {
     return combineLatest([
       estates?.find(estate => estate.id === estateId) ? of(estates?.find(estate => estate.id === estateId)) : this.estateService.getById(estateId),
-      owners ? of(owners) : this.ownerService.getByUser(estateId),
-      lodgers ? of(lodgers) : this.lodgerService.getByUser(estateId)
+      owners ? of(owners) : this.ownerService.getByUser(ueserId),
+      lodgers ? of(lodgers) : this.lodgerService.getByUser(ueserId)
     ]).pipe(
       map(([estate, owners, lodgers]) => {
         const owner = owners.find(owner => owner.id === estate.owner_id);
         const lodger = lodgers.find(lodger => lodger.id === estate.lodger_id);
-        return { ...estate, ...owner, ...lodger };
+        return { ...estate, owner, lodger };
       })
     );
   }

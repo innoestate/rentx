@@ -3,6 +3,8 @@ import { Estate_Db } from '../estates/estate-db.model';
 import { Lodger_Db } from '../lodgers/lodger-db.model';
 import { Owner_Db } from '../owners/owners-db.model';
 import { Estate_filled_Db } from '../estates/estate-filled-db.model';
+import { end } from 'pdfkit';
+import { getRentReceiptInfos } from './rent-receipts.business';
 
 export const createSheet = async (estates: Estate_Db[], owners: Owner_Db[], lodgers: Lodger_Db[], accessToken: string, refreshToken: string, clientId: string, clientSecret: string): Promise<any> => {
 
@@ -90,7 +92,7 @@ export const fillSheet = async (estates: Estate_Db[], owners: Owner_Db[], lodger
                         values: [
                             { userEnteredValue: { stringValue: 'Propriétaire' }, userEnteredFormat: { backgroundColor: { red: 0.9, green: 0.9, blue: 0.9 } } },
                             { userEnteredValue: { stringValue: 'Adresse' }, userEnteredFormat: { backgroundColor: { red: 0.9, green: 0.9, blue: 0.9 } } },
-                            { userEnteredValue: { stringValue: 'Ville' }, userEnteredFormat: { backgroundColor: { red: 0.9, green: 0.9, blue: 0.9 },  } },
+                            { userEnteredValue: { stringValue: 'Ville' }, userEnteredFormat: { backgroundColor: { red: 0.9, green: 0.9, blue: 0.9 }, } },
                             { userEnteredValue: { stringValue: 'Lot' }, userEnteredFormat: { backgroundColor: { red: 0.9, green: 0.9, blue: 0.9 } } },
                             { userEnteredValue: { stringValue: 'Locataire' }, userEnteredFormat: { backgroundColor: { red: 0.9, green: 0.9, blue: 0.9 } } },
                             ...months.map(month => ({ userEnteredValue: { stringValue: month }, userEnteredFormat: { backgroundColor: { red: 0.9, green: 0.9, blue: 0.9 } } })),
@@ -137,8 +139,8 @@ export const fillSheet = async (estates: Estate_Db[], owners: Owner_Db[], lodger
                 range: {
                     sheetId: sheetId,
                     dimension: 'COLUMNS',
-                    startIndex: 1, 
-                    endIndex: 2, 
+                    startIndex: 1,
+                    endIndex: 2,
                 },
                 properties: {
                     pixelSize: 300,
@@ -158,8 +160,11 @@ export const fillSheet = async (estates: Estate_Db[], owners: Owner_Db[], lodger
 
 }
 
-export const setRentInSheet = async (oauth2Client, spreadsheetId: string, estate: Estate_filled_Db, startDate, endDate) => {
+export const setRentInSheet = async (oauth2Client, spreadsheetId: string, estate: Estate_filled_Db, startDate_, endDate_) => {
     const sheets = google.sheets('v4');
+
+    const { startDate, endDate, rent, charges } = getRentReceiptInfos(estate, estate.owner, estate.lodger, startDate_, endDate_);
+
 
     try {
         const response = await sheets.spreadsheets.values.get({
@@ -169,15 +174,65 @@ export const setRentInSheet = async (oauth2Client, spreadsheetId: string, estate
         });
 
         const rows = response.data.values;
-        if (rows.length) {
-            console.log('Data from the sheet:');
-            rows.forEach((row) => {
-                console.log(row);
-            });
-        } else {
-            console.log('No data found.');
-        }
+
+        console.log('rows:', rows);
+
+        const cellUpdates = getCellsUpdates(rows, estate, startDate, endDate, rent + charges);
+
+        const batchUpdateRequest = {
+            requests: cellUpdates.map(update => ({
+                updateCells: {
+                    rows: [
+                        {
+                            values: [
+                                {
+                                    userEnteredValue: { numberValue: update.fullRent },
+                                    userEnteredFormat: {
+                                        backgroundColor: {
+                                            red: 0.0,
+                                            green: 1.0,
+                                            blue: 0.0,
+                                        },
+                                    },
+                                },
+                            ],
+                        },
+                    ],
+                    fields: 'userEnteredValue,userEnteredFormat.backgroundColor',
+                    range: {
+                        sheetId: 0,
+                        startRowIndex: update.row,
+                        endRowIndex: update.row + 1,
+                        startColumnIndex: update.column,
+                        endColumnIndex: update.column + 1,
+                    },
+                },
+            })),
+        };
+
+        await sheets.spreadsheets.batchUpdate({
+            spreadsheetId,
+            auth: oauth2Client,
+            requestBody: batchUpdateRequest,
+        });
+
     } catch (error) {
         console.error('Error reading the Google Sheet:', error);
     }
+}
+
+export const getCellsUpdates = (rows: any[], estate: Estate_filled_Db, startDate: Date, endDate: Date, totalRent: number): { column: number, row: number, cell: string, fullRent: number }[] => {
+
+    let targetRow = 0;
+    rows.forEach((row, index) => {
+        if (row[1] === estate.street && row[2] === estate.city) {
+            targetRow = index;
+        }
+    });
+    const targetColumn = 5 + new Date(startDate).getMonth();
+    const columnLetter = String.fromCharCode(65 + targetColumn);
+    const targetCell = `${columnLetter}${targetRow + 1}`;
+
+
+    return [{ column: targetColumn, row: targetRow, cell: targetCell, fullRent: totalRent }];
 }
