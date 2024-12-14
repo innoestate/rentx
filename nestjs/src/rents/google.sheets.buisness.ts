@@ -38,8 +38,8 @@ export class GoogleSheetWorker {
         return this.fakeSpreadSheets[id];
     }
 
-    getSheets(): Sheet[] {
-        return null;
+    getSheets(id: string): Sheet[] {
+        return this.fakeSpreadSheets[id]?.sheets ?? [];
     }
 
     createSheet(title: string, estates: Estate_filled_Db[]): Sheet{

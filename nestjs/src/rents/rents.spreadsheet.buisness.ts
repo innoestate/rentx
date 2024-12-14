@@ -1,5 +1,6 @@
 import { Estate_filled_Db } from "src/estates/estate-filled-db.model";
 import { GoogleSheetWorker } from "./google.sheets.buisness";
+import { google } from "googleapis";
 
 export interface Sheet {
     sheetId: number;
@@ -22,20 +23,33 @@ export interface SpreadSheetUpdate {
 /**
  * 
  */
-export const buildSpreadsheetContext = (googleSheetWorker: GoogleSheetWorker, id: string, estates: Estate_filled_Db[], startDate: Date, endDate: Date): SpreadSheet => {
+export const buildSpreadsheetContext = (sheetStrategy: GoogleSheetWorker, id: string, estates: Estate_filled_Db[], startDate: Date, endDate: Date): SpreadSheet => {
 
-    let spreadSheet = googleSheetWorker.createSpreadSheet(id, 'biens_locatifs');
+    let spreadSheet = sheetStrategy.getSpreadSheet(id);
     const years = getYearsFromDates(startDate, endDate);
-    spreadSheet = googleSheetWorker.addSheets(id, years);
+
+    if( spreadSheet) {
+        const sheets = sheetStrategy.getSheets(id);
+        const missingSheetsTitles = getMissingSheetsTitles(sheets, years);
+        while(missingSheetsTitles.length > 0){
+            spreadSheet = sheetStrategy.addSheet(id, missingSheetsTitles.pop());
+        }
+        return spreadSheet;
+    }else{
+        spreadSheet = sheetStrategy.createSpreadSheet(id, 'biens_locatifs');
+        spreadSheet = sheetStrategy.addSheets(id, years);
+    }
+
+
 
     return spreadSheet;
 }
 
-export const composeSpreadSheetUpdates = (googleSheetWorker: GoogleSheetWorker, spreadSheetContext: SpreadSheet): SpreadSheetUpdate[] => {
+export const composeSpreadSheetUpdates = (sheetStrategy: GoogleSheetWorker, spreadSheetContext: SpreadSheet): SpreadSheetUpdate[] => {
     return null
 }
 
-export const applySpreadSheetUpdates = (googleSheetWorker: GoogleSheetWorker, spreadSheetUpdates: SpreadSheetUpdate[]) => {
+export const applySpreadSheetUpdates = (sheetStrategy: GoogleSheetWorker, spreadSheetUpdates: SpreadSheetUpdate[]) => {
     return null;
 }
 
@@ -47,4 +61,9 @@ const getYearsFromDates = (startDate: Date, endDate: Date): string[] => {
         years.push(i.toString());
     }
     return years;
+}
+
+const getMissingSheetsTitles = (sheets: Sheet[], years: string[]): string[] => {
+    const existingYears = sheets.map(sheet => sheet.title);
+    return years.filter(year => !existingYears.includes(year));
 }
