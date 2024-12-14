@@ -1,11 +1,10 @@
 import { Estate_filled_Db } from "src/estates/estate-filled-db.model";
 import { GoogleSheetWorker } from "./google.sheets.buisness";
-import { google } from "googleapis";
 
 export interface Sheet {
     sheetId: number;
     title: string;
-    rows: { backgroundColor: string, value: string | number }[];
+    rows: { value: string | number, backgroundColor?: string }[][];
 }
 
 export interface SpreadSheet {
@@ -32,12 +31,12 @@ export const buildSpreadsheetContext = (sheetStrategy: GoogleSheetWorker, id: st
         const sheets = sheetStrategy.getSheets(id);
         const missingSheetsTitles = getMissingSheetsTitles(sheets, years);
         while(missingSheetsTitles.length > 0){
-            spreadSheet = sheetStrategy.addSheet(id, missingSheetsTitles.pop());
+            spreadSheet = sheetStrategy.addSheet(id, missingSheetsTitles.pop(), estates);
         }
         return spreadSheet;
     }else{
         spreadSheet = sheetStrategy.createSpreadSheet(id, 'biens_locatifs');
-        spreadSheet = sheetStrategy.addSheets(id, years);
+        spreadSheet = sheetStrategy.addSheets(id, years, estates);
     }
 
 
