@@ -1,5 +1,6 @@
 import { Estate_filled_Db } from "src/estates/estate-filled-db.model";
 import { GoogleSheetWorker } from "./google.sheets.buisness";
+import { SpreadSheetStrategy } from "./spreadsheets.strategy";
 
 export interface Sheet {
     sheetId: number;
@@ -23,7 +24,7 @@ export interface SpreadSheetUpdate {
  * build a spreadsheet context with all needed years and estates.
  * note that the spreadsheet will contain the same number of estates for each year.
  */
-export const buildSpreadsheetContext = (sheetStrategy: GoogleSheetWorker, id: string, estates: Estate_filled_Db[], startDate: Date, endDate: Date): SpreadSheet => {
+export const buildSpreadsheetContext = (sheetStrategy: SpreadSheetStrategy, id: string, estates: Estate_filled_Db[], startDate: Date, endDate: Date): SpreadSheet => {
 
     let spreadSheet = sheetStrategy.getSpreadSheet(id);
     const years = getYearsFromDates(startDate, endDate);
@@ -41,11 +42,11 @@ export const buildSpreadsheetContext = (sheetStrategy: GoogleSheetWorker, id: st
     return spreadSheet;
 }
 
-export const composeSpreadSheetUpdates = (sheetStrategy: GoogleSheetWorker, spreadSheetContext: SpreadSheet): SpreadSheetUpdate[] => {
+export const composeSpreadSheetUpdates = (sheetStrategy: SpreadSheetStrategy, spreadSheetContext: SpreadSheet): SpreadSheetUpdate[] => {
     return null
 }
 
-export const applySpreadSheetUpdates = (sheetStrategy: GoogleSheetWorker, spreadSheetUpdates: SpreadSheetUpdate[]) => {
+export const applySpreadSheetUpdates = (sheetStrategy: SpreadSheetStrategy, spreadSheetUpdates: SpreadSheetUpdate[]) => {
     return null;
 }
 
@@ -56,7 +57,7 @@ const getMissingRows = (spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): 
     });
 }
 
-const removeEstatesInSheets = (sheetStrategy: GoogleSheetWorker, spreadSheet: SpreadSheet, estates: Estate_filled_Db[], years): SpreadSheet => {
+const removeEstatesInSheets = (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, estates: Estate_filled_Db[], years): SpreadSheet => {
 
     const rowsToRemove = getUnusedEstates(spreadSheet, estates);
     while (rowsToRemove.length) {
@@ -79,7 +80,7 @@ const getUnusedEstates = (spreadSheet: SpreadSheet, estates: Estate_filled_Db[])
     });
 }
 
-const addMissingEstatesInSheets = (sheetStrategy: GoogleSheetWorker, spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): SpreadSheet => {
+const addMissingEstatesInSheets = (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): SpreadSheet => {
     const missingRows = getMissingRows(spreadSheet, estates);
     missingRows.forEach(missingRow => {
         spreadSheet = sheetStrategy.addRowsInSheet(spreadSheet.id, missingRow.title, missingRow.missingEstates);
@@ -87,7 +88,7 @@ const addMissingEstatesInSheets = (sheetStrategy: GoogleSheetWorker, spreadSheet
     return spreadSheet;
 }
 
-const createMissingSheets = (sheetStrategy: GoogleSheetWorker, spreadSheet: SpreadSheet, estates: Estate_filled_Db[], years: string[]): SpreadSheet => {
+const createMissingSheets = (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, estates: Estate_filled_Db[], years: string[]): SpreadSheet => {
     const sheets = sheetStrategy.getSheets(spreadSheet.id);
     const missingSheetsTitles = getMissingSheetsTitles(sheets, years);
     while (missingSheetsTitles.length > 0) {

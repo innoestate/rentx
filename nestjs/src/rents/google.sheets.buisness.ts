@@ -1,13 +1,16 @@
 import { Estate_filled_Db } from "src/estates/estate-filled-db.model";
 import { Sheet, SpreadSheet } from "./rents.spreadsheet.buisness";
+import { SpreadSheetStrategy } from "./spreadsheets.strategy";
 
 const ROW_HEADER_VALUES = ['Propriétaire', 'Adresse', 'Ville', 'Lot', 'Locataire', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 
-export class GoogleSheetWorker {
+export class GoogleSheetWorker extends SpreadSheetStrategy {    
 
     fakeSpreadSheets: { [id: string]: SpreadSheet } = {};
 
-    constructor() { }
+    constructor() { 
+        super();
+    }
 
     getSpreadSheet(id: string): SpreadSheet {
         return this.fakeSpreadSheets[id];
@@ -61,11 +64,21 @@ export class GoogleSheetWorker {
         return this.fakeSpreadSheets[id];
     }
 
+    removeRowsInSheet(id: string, title: string, rowIdentifier: {street: string | number, city: string | number}[]): SpreadSheet {
+        const rows = this.fakeSpreadSheets[id].sheets.find(sheet => sheet.title === title)?.rows;
+        if (rows) {
+            this.fakeSpreadSheets[id].sheets.find(sheet => sheet.title === title).rows = rows.filter(row => {
+                return !rowIdentifier.find(identifier => identifier.street === row[1].value && identifier.city === row[2].value);
+            });
+        }
+        return this.fakeSpreadSheets[id];
+    }
+
     getSheets(id: string): Sheet[] {
         return this.fakeSpreadSheets[id]?.sheets ?? [];
     }
 
-    updateSheets(sheets: Sheet[]): void {
+    updateSheets(sheets: Sheet[]): SpreadSheet {
         return null;
     }
 
