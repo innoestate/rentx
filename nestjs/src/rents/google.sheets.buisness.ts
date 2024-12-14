@@ -46,6 +46,21 @@ export class GoogleSheetWorker {
         return this.fakeSpreadSheets[id];
     }
 
+    addRowsInSheet(id: string, titles: string, estates: Estate_filled_Db[]): SpreadSheet {
+        const rows = this.fakeSpreadSheets[id].sheets.find(sheet => sheet.title === titles)?.rows;
+        if (rows) {
+            rows.push(
+                ...estates.map(estate => [
+                    { value: estate.owner.name },
+                    { value: estate.street },
+                    { value: estate.city },
+                    { value: estate.lodger.name }])
+            )
+        }
+        this.fakeSpreadSheets[id].sheets.find(sheet => sheet.title === titles).rows = rows;
+        return this.fakeSpreadSheets[id];
+    }
+
     getSheets(id: string): Sheet[] {
         return this.fakeSpreadSheets[id]?.sheets ?? [];
     }

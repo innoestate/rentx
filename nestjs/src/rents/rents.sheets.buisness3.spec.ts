@@ -64,10 +64,20 @@ describe('building spreadsheet context with correct columns and rows', () => {
     })
 
     it('add an estate and check rows', () => {
-        estates.push({...estate, id: '2', owner : {...estate.owner, name: 'Bill Gates'}, lodger: {...estate.lodger, name: 'Mark Zuckerberg'}});
+        estates.push({...estate, id: '2', street: '2 rue test', owner : {...estate.owner, name: 'Bill Gates'}, lodger: {...estate.lodger, name: 'Mark Zuckerberg'}});
         const spreadsheet = buildSpreadsheetContext(mockedGoogleWorker, null, estates, new Date('2024-01-01'), new Date('2024-02-29'));
-        expect(spreadsheet.sheets[0].rows.length === 3).toEqual(true);
-        expect(spreadsheet.sheets[1].rows.length === 3).toEqual(true);
+        let streetColumnIndex = spreadsheet.sheets[0].rows[0].findIndex(row => row.value === 'Adresse');
+        expect(spreadsheet.sheets[0].rows[1][streetColumnIndex].value).toEqual('1 rue de lespace');
+        expect(spreadsheet.sheets[0].rows.length).toEqual(3);
+        expect(spreadsheet.sheets[0].rows[2][streetColumnIndex].value).toEqual('2 rue test');
+        expect(spreadsheet.sheets[1].rows.length).toEqual(3);
+    })
+
+    it('remove an estate and check rows', () => {
+        estates.pop();
+        const spreadsheet = buildSpreadsheetContext(mockedGoogleWorker, null, estates, new Date('2024-01-01'), new Date('2024-02-29'));
+        expect(spreadsheet.sheets[0].rows.length).toEqual(2);
+        expect(spreadsheet.sheets[1].rows.length).toEqual(2);
     })
 
 })

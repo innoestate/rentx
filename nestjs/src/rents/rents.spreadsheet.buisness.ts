@@ -30,6 +30,7 @@ export const buildSpreadsheetContext = (sheetStrategy: GoogleSheetWorker, id: st
 
     if( spreadSheet) {
         spreadSheet = createMissingSheets(sheetStrategy, spreadSheet, estates, years);
+        spreadSheet = addMissingEstatesInSheets(sheetStrategy, spreadSheet, estates);
         return spreadSheet;
     }else{
         spreadSheet = sheetStrategy.createSpreadSheet(id, 'biens_locatifs');
