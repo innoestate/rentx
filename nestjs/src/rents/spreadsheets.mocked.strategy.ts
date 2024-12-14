@@ -4,7 +4,7 @@ import { SpreadSheetStrategy } from "./spreadsheets.strategy";
 
 const ROW_HEADER_VALUES = ['Propriétaire', 'Adresse', 'Ville', 'Lot', 'Locataire', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 
-export class GoogleSheetWorker extends SpreadSheetStrategy {    
+export class MockedGoogleSpreadSheetStrategy extends SpreadSheetStrategy {    
 
     fakeSpreadSheets: { [id: string]: SpreadSheet } = {};
 
@@ -12,11 +12,11 @@ export class GoogleSheetWorker extends SpreadSheetStrategy {
         super();
     }
 
-    getSpreadSheet(id: string): SpreadSheet {
+    async getSpreadSheet(id: string): Promise<SpreadSheet> {
         return this.fakeSpreadSheets[id];
     }
 
-    createSpreadSheet(id: string, title: string): SpreadSheet {
+    async createSpreadSheet(id: string, title: string): Promise<SpreadSheet> {
         this.fakeSpreadSheets[id] = {
             id,
             title,
@@ -25,7 +25,7 @@ export class GoogleSheetWorker extends SpreadSheetStrategy {
         return null;
     }
 
-    addSheet(id: string, title: string, estates: Estate_filled_Db[]): SpreadSheet {
+    async addSheet(id: string, title: string, estates: Estate_filled_Db[]): Promise<SpreadSheet> {
         const newSheet = {
             sheetId: this.fakeSpreadSheets[id].sheets.length,
             title,
@@ -42,14 +42,14 @@ export class GoogleSheetWorker extends SpreadSheetStrategy {
         return this.fakeSpreadSheets[id];
     }
 
-    addSheets(id: string, titles: string[], estates: Estate_filled_Db[]): SpreadSheet {
+    async addSheets(id: string, titles: string[], estates: Estate_filled_Db[]): Promise<SpreadSheet> {
         titles.forEach(title => {
             this.addSheet(id, title, estates);
         })
         return this.fakeSpreadSheets[id];
     }
 
-    addRowsInSheet(id: string, titles: string, estates: Estate_filled_Db[]): SpreadSheet {
+    async addRowsInSheet(id: string, titles: string, estates: Estate_filled_Db[]): Promise<SpreadSheet> {
         const rows = this.fakeSpreadSheets[id].sheets.find(sheet => sheet.title === titles)?.rows;
         if (rows) {
             rows.push(
@@ -64,7 +64,7 @@ export class GoogleSheetWorker extends SpreadSheetStrategy {
         return this.fakeSpreadSheets[id];
     }
 
-    removeRowsInSheet(id: string, title: string, rowIdentifier: {street: string | number, city: string | number}[]): SpreadSheet {
+    async removeRowsInSheet(id: string, title: string, rowIdentifier: {street: string | number, city: string | number}[]): Promise<SpreadSheet> {
         const rows = this.fakeSpreadSheets[id].sheets.find(sheet => sheet.title === title)?.rows;
         if (rows) {
             this.fakeSpreadSheets[id].sheets.find(sheet => sheet.title === title).rows = rows.filter(row => {
@@ -74,11 +74,11 @@ export class GoogleSheetWorker extends SpreadSheetStrategy {
         return this.fakeSpreadSheets[id];
     }
 
-    getSheets(id: string): Sheet[] {
+    async getSheets(id: string): Promise<Sheet[]> {
         return this.fakeSpreadSheets[id]?.sheets ?? [];
     }
 
-    updateSheets(sheets: Sheet[]): SpreadSheet {
+    async updateSheets(sheets: Sheet[]): Promise<SpreadSheet> {
         return null;
     }
 

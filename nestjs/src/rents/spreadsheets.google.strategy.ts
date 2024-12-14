@@ -1,7 +1,12 @@
 import { Estate_filled_Db } from "src/estates/estate-filled-db.model";
 import { Sheet, SpreadSheet } from "./rents.spreadsheet.buisness";
+import { SpreadSheetStrategy } from "./spreadsheets.strategy";
 
-export class SpreadSheetStrategy {
+export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
+    
+    constructor(ccessToken: string, refreshToken: string, clientId: string, clientSecret: string){
+        super();
+    }
     
     async getSpreadSheet(id: string): Promise<SpreadSheet> {
         return null;
