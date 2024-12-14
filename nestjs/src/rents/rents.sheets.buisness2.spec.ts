@@ -1,6 +1,7 @@
 import { Estate_filled_Db } from 'src/estates/estate-filled-db.model';
 import { GoogleSheetWorker } from './google.sheets.buisness';
 import { buildSpreadsheetContext } from './rents.spreadsheet.buisness';
+import exp from 'constants';
 
 const rows = [
     [ 'Propriétaire', 'Adresse', 'Ville', 'Lot', 'Locataire'],
@@ -35,16 +36,25 @@ const estate: Estate_filled_Db = {
 }
 const estates = [estate];
 
-const mockedGoogleWorker = new GoogleSheetWorker();
 
 describe('spreadsheet tests', () => {
 
     it('build a spreadsheet for a year from a not existing', () => {
+        const mockedGoogleWorker = new GoogleSheetWorker();
         const spreadsheet = buildSpreadsheetContext(mockedGoogleWorker, null, estates, new Date('2024-02-01'), new Date('2024-02-29'));
         expect(spreadsheet).toBeDefined();
         expect(spreadsheet.sheets.length).toBe(1);
+        expect(spreadsheet.sheets[0].title).toBe('2024');
     })
 
+    it('build a spreadsheet for 2 years from a not existing', () => {
+        const mockedGoogleWorker = new GoogleSheetWorker();
+        const spreadsheet = buildSpreadsheetContext(mockedGoogleWorker, null, estates, new Date('2023-11-01'), new Date('2024-02-29'));
+        expect(spreadsheet).toBeDefined();
+        expect(spreadsheet.sheets.length).toBe(2);
+        expect(spreadsheet.sheets[0].title).toBe('2023');
+        expect(spreadsheet.sheets[1].title).toBe('2024');
+    })
     
 
 })

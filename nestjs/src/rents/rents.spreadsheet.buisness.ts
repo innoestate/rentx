@@ -25,7 +25,8 @@ export interface SpreadSheetUpdate {
 export const buildSpreadsheetContext = (googleSheetWorker: GoogleSheetWorker, id: string, estates: Estate_filled_Db[], startDate: Date, endDate: Date): SpreadSheet => {
 
     let spreadSheet = googleSheetWorker.createSpreadSheet(id, 'biens_locatifs');
-    spreadSheet = googleSheetWorker.addSheet(id, startDate.getFullYear() + '', estates);
+    const years = getYearsFromDates(startDate, endDate);
+    spreadSheet = googleSheetWorker.addSheets(id, years);
 
     return spreadSheet;
 }
@@ -36,4 +37,14 @@ export const composeSpreadSheetUpdates = (googleSheetWorker: GoogleSheetWorker, 
 
 export const applySpreadSheetUpdates = (googleSheetWorker: GoogleSheetWorker, spreadSheetUpdates: SpreadSheetUpdate[]) => {
     return null;
+}
+
+const getYearsFromDates = (startDate: Date, endDate: Date): string[] => {
+    const years: string[] = [];
+    const startYear = startDate.getFullYear();
+    const endYear = endDate.getFullYear();
+    for (let i = startYear; i <= endYear; i++) {
+        years.push(i.toString());
+    }
+    return years;
 }

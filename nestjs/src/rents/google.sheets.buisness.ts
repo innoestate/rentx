@@ -4,18 +4,38 @@ import { Sheet, SpreadSheet } from "./rents.spreadsheet.buisness";
 
 export class GoogleSheetWorker {
 
+    fakeSpreadSheets: { [id: string]: SpreadSheet } = {};
+
     constructor() { }
 
-    getSpreadSheet(id: string): Sheet {
-        return null;
+    getSpreadSheet(id: string): SpreadSheet{
+        return this.fakeSpreadSheets[id];
     }
 
-    createSpreadSheet(title: string): SpreadSheet {
+    createSpreadSheet(id: string, title: string): SpreadSheet {
+        this.fakeSpreadSheets[id] = {
+            id,
+            title,
+            sheets: []
+        }
         return null;
     }
 
     addSheet(id: string, title: string): SpreadSheet {
-        return null;
+        const newSheet = {
+            sheetId: this.fakeSpreadSheets[id].sheets.length,
+            title,
+            rows: []
+        }
+        this.fakeSpreadSheets[id].sheets.push(newSheet);
+        return this.fakeSpreadSheets[id];
+    }
+
+    addSheets(id: string, titles: string[]): SpreadSheet {
+        titles.forEach(title => {
+            this.addSheet(id, title);
+        })
+        return this.fakeSpreadSheets[id];
     }
 
     getSheets(): Sheet[] {
