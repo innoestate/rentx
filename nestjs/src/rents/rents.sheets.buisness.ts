@@ -27,7 +27,6 @@ export const createSheet = async (estates: Estate_Db[], owners: Owner_Db[], lodg
 
         await refreshTokenFunction(oauth2Client);
         const response = await sheets.spreadsheets.create(request);
-        console.log('Spreadsheet ID:', response.data.spreadsheetId);
         const updateResponse = await fillSheet(estates, owners, lodgers, oauth2Client, response.data.spreadsheetId);
         return updateResponse;
     } catch (error) {
@@ -163,7 +162,7 @@ export const fillSheet = async (estates: Estate_Db[], owners: Owner_Db[], lodger
 export const setRentInSheet = async (oauth2Client, spreadsheetId: string, estate: Estate_filled_Db, startDate_, endDate_) => {
     const sheets = google.sheets('v4');
 
-    const { startDate, endDate, rent, charges } = getRentReceiptInfos(estate, estate.owner, estate.lodger, startDate_, endDate_);
+    const { startDate, endDate, rentsByMonths} = getRentReceiptInfos(estate, estate.owner, estate.lodger, startDate_, endDate_);
 
 
     try {
@@ -174,10 +173,7 @@ export const setRentInSheet = async (oauth2Client, spreadsheetId: string, estate
         });
 
         const rows = response.data.values;
-
-        console.log('rows:', rows);
-
-        const cellUpdates = getCellsUpdates(rows, estate, startDate, endDate, rent + charges);
+        const cellUpdates = getCellsUpdates(rows, estate, startDate, endDate, rentsByMonths);
 
         const batchUpdateRequest = {
             requests: cellUpdates.map(update => ({
@@ -221,7 +217,7 @@ export const setRentInSheet = async (oauth2Client, spreadsheetId: string, estate
     }
 }
 
-export const getCellsUpdates = (rows: any[], estate: Estate_filled_Db, startDate: Date, endDate: Date, totalRent: number): { column: number, row: number, cell: string, fullRent: number }[] => {
+export const getCellsUpdates = (rows: any[], estate: Estate_filled_Db, startDate: Date, endDate: Date, rentsByMonths: { year: number, month: number, rent: number}[]): { column: number, row: number, cell: string, fullRent: number }[] => {
 
     let targetRow = 0;
     rows.forEach((row, index) => {
@@ -229,10 +225,11 @@ export const getCellsUpdates = (rows: any[], estate: Estate_filled_Db, startDate
             targetRow = index;
         }
     });
-    const targetColumn = 5 + new Date(startDate).getMonth();
-    const columnLetter = String.fromCharCode(65 + targetColumn);
-    const targetCell = `${columnLetter}${targetRow + 1}`;
 
-
-    return [{ column: targetColumn, row: targetRow, cell: targetCell, fullRent: totalRent }];
+    return rentsByMonths.map( ({ year, month, rent }) => {
+        const targetColumn = 5 + month;
+        const columnLetter = String.fromCharCode(65 + targetColumn);
+        const targetCell = `${columnLetter}${targetRow + 1}`;
+        return { column: targetColumn, row: targetRow, cell: targetCell, fullRent: rent };
+    });
 }

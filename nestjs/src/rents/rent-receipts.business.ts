@@ -128,7 +128,8 @@ export const getRentReceiptInfos = (estate: Estate_Db, owner: Owner_Db, lodger: 
     }
     const rent = estate.rent;
     const charges = estate.charges;
-    const totalRent = calculateRent(rent, charges, startDate, endDate);
+    const { totalRent, rentsByMonths } = calculateRent(rent, charges, startDate, endDate);
+
     const street = estate.street;
     const lodgerZipAndCity = estate.zip + ' ' + estate.city;
     const ownerZipAndCity = owner.zip + ' ' + owner.city;
@@ -138,14 +139,14 @@ export const getRentReceiptInfos = (estate: Estate_Db, owner: Owner_Db, lodger: 
     if (!endDate) {
         endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
     }
-    return { startDate, endDate, rent, charges, totalRent, street, lodgerZipAndCity, ownerZipAndCity, madeAt, signature };
+    return { startDate, endDate, rent, charges, totalRent, rentsByMonths, street, lodgerZipAndCity, ownerZipAndCity, madeAt, signature };
 }
 
 export const createRentReceiptEmail = (owners: Owner_Db[], lodgers: Lodger_Db[], estate: Estate_Db, startDate_?: string, endDate_?: string) => {
     const owner = owners.find(owner => owner.id === estate.owner_id);
     const lodger = lodgers.find(lodger => lodger.id === estate.lodger_id);
 
-    const { startDate, endDate, street} = getRentReceiptInfos(estate, owner, lodger);
+    const { startDate, endDate, street } = getRentReceiptInfos(estate, owner, lodger);
 
     return from(createRentReciptPdf(estate, owner, lodger, startDate_, endDate_)).pipe(
         map(rentReceipt => {
@@ -211,11 +212,13 @@ const formatDateFromISOString = (dateStr: string): string => {
     return `${day}/${month}/${year}`;
 }
 
-export const calculateRent = (rent: number, charges: number, dateStart: Date, dateEnd?: Date) => {
+export const calculateRent = (rent: number, charges: number, dateStart: Date, dateEnd?: Date): { rentsByMonths: { year: number, month: number, rent: number }[], totalRent: number } => {
 
     let result = 0;
+    let rentsByMonths = [];
+
     if (!dateEnd) {
-        return rent + charges;
+        return { rentsByMonths: [{ month: dateStart.getMonth(), year: dateStart.getFullYear(), rent: rent + charges }], totalRent: rent + charges };
     } else {
 
         const daysInFirstMonth = new Date(dateStart.getFullYear(), dateStart.getMonth() + 1, 0).getDate();
@@ -227,6 +230,7 @@ export const calculateRent = (rent: number, charges: number, dateStart: Date, da
         if (dateStart.getMonth() == dateEnd.getMonth() && dateStart.getFullYear() === dateEnd.getFullYear()) {
             days = dateEnd.getDate() - (dateStart.getDate() + (dateStart.getDate() == 1 ? -1 : 0));
             result = Math.round((rent + charges) / daysInFirstMonth * days);
+            rentsByMonths.push({ month: dateStart.getMonth(), year: dateStart.getFullYear(), rent: result });
         } else {
 
             if (dateStart.getFullYear() == dateEnd.getFullYear()) {
@@ -236,11 +240,35 @@ export const calculateRent = (rent: number, charges: number, dateStart: Date, da
                 const rentForLastMonth = Math.round((rent + charges) / daysInLastMonth * daysOfLastMonth);
                 result = rentForFirstMonth + rentForMonthsBetween + rentForLastMonth;
 
+                rentsByMonths.push({ month: dateStart.getMonth(), year: dateStart.getFullYear(), rent: rentForFirstMonth });
+                if(rentForMonthsBetween){
+                    for (let i = 1; i <= dateEnd.getMonth() - dateStart.getMonth() - 1; i++) {
+                        rentsByMonths.push({ month: dateStart.getMonth() + i, year: dateStart.getFullYear(), rent: rent + charges });
+                    }
+                }
+                if(rentForLastMonth){
+                    rentsByMonths.push({ month: dateEnd.getMonth(), year: dateEnd.getFullYear(), rent: rentForLastMonth });
+                }
+
+
             } else {
                 const rentForFirstMonth = Math.round((rent + charges) / daysInFirstMonth * daysOfFirstMonth);
-                const rentForMonthsBetween = (rent + charges) * (12 - dateStart.getMonth());
+                const rentForMonthsBetween = (rent + charges) * Math.max(0,(12 - (dateStart.getMonth()+1) + dateEnd.getMonth()));
                 const rentForLastMonth = Math.round((rent + charges) / daysInLastMonth * daysOfLastMonth);
                 result = rentForFirstMonth + rentForMonthsBetween + rentForLastMonth;
+
+                rentsByMonths.push({ month: dateStart.getMonth(), year: dateStart.getFullYear(), rent: rentForFirstMonth });
+                if(rentForMonthsBetween){
+                    for (let i = 1; i <= 12 - dateStart.getMonth(); i++) {
+                        rentsByMonths.push({ month: dateStart.getMonth() + i, year: dateStart.getFullYear(), rent: rent + charges });
+                    }
+                    for(let i = 1; i <= dateEnd.getMonth(); i++){
+                        rentsByMonths.push({ month: i, year: dateEnd.getFullYear(), rent: rent + charges });
+                    }
+                }
+                if(rentForLastMonth){
+                    rentsByMonths.push({ month: dateEnd.getMonth(), year: dateEnd.getFullYear(), rent: rentForLastMonth });
+                }
             }
 
         }
@@ -248,7 +276,7 @@ export const calculateRent = (rent: number, charges: number, dateStart: Date, da
     }
 
 
-    return result;
+    return { rentsByMonths, totalRent: result };
 }
 
 const initDoc = () => {

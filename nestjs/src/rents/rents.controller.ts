@@ -39,8 +39,6 @@ export class RentsController {
     @Get('pdf')
     downloadRentReceipt(@Req() req, @Res() res) {
 
-        console.log('downloading rent receipt');
-
         const id = req.query.estate;
         const startDate = req.query.startDate;
         const endDate = req.query.endDate;
@@ -89,7 +87,6 @@ export class RentsController {
     @Get('sheets')
     synchronizeSheets(@Req() req, @Res() res) {
 
-
         return combineLatest([
             this.estateService.getByUser(req.user.id),
             this.ownerService.getByUser(req.user.id),
@@ -98,9 +95,6 @@ export class RentsController {
             switchMap(([estates, owners, lodgers]) =>from(createSheet(estates, owners, lodgers, req.user.accessToken, req.user.refresh_token, this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET')))),
         );
 
-        // return from(createSheet(req.user.accessToken, req.user.refresh_token, this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET'))).pipe(
-        //     tap(() => console.log('sheets synchronized successfully'))
-        // );
     }
 
 }
