@@ -24,21 +24,26 @@ export interface SpreadSheetUpdate {
  * note that the spreadsheet will contain the same number of estates for each year.
  */
 export const buildSpreadsheetContext = async (sheetStrategy: SpreadSheetStrategy, id: string, estates: Estate_filled_Db[], startDate: Date, endDate: Date): Promise<SpreadSheet> => {
+    try{
 
-    let spreadSheet = await sheetStrategy.getSpreadSheet(id);
-    const years = getYearsFromDates(startDate, endDate);
+        let spreadSheet = await sheetStrategy.getSpreadSheet(id);
+        const years = getYearsFromDates(startDate, endDate);
 
-    if (spreadSheet) {
-        spreadSheet = await createMissingSheets(sheetStrategy, spreadSheet, estates, years);
-        spreadSheet = await addMissingEstatesInSheets(sheetStrategy, spreadSheet, estates);
-        spreadSheet = await removeEstatesInSheets(sheetStrategy, spreadSheet, estates, years);
+        if (spreadSheet) {
+            spreadSheet = await createMissingSheets(sheetStrategy, spreadSheet, estates, years);
+            spreadSheet = await addMissingEstatesInSheets(sheetStrategy, spreadSheet, estates);
+            spreadSheet = await removeEstatesInSheets(sheetStrategy, spreadSheet, estates, years);
+            return spreadSheet;
+        } else {
+            spreadSheet = await sheetStrategy.createSpreadSheet('biens_locatifs');
+            spreadSheet = await sheetStrategy.addSheets(spreadSheet.id, years, estates);
+        }
+
         return spreadSheet;
-    } else {
-        spreadSheet = await sheetStrategy.createSpreadSheet('biens_locatifs');
-        spreadSheet = await sheetStrategy.addSheets(spreadSheet.id, years, estates);
+    }catch(e){
+        console.error(e);
+        return null;
     }
-
-    return spreadSheet;
 }
 
 export const composeSpreadSheetUpdates = (sheetStrategy: SpreadSheetStrategy, spreadSheetContext: SpreadSheet): SpreadSheetUpdate[] => {
