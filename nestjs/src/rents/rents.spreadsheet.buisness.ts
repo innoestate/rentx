@@ -1,5 +1,4 @@
 import { Estate_filled_Db } from "src/estates/estate-filled-db.model";
-import { GoogleSheetWorker } from "./google.sheets.buisness";
 import { SpreadSheetStrategy } from "./spreadsheets.strategy";
 
 export interface Sheet {
@@ -24,19 +23,19 @@ export interface SpreadSheetUpdate {
  * build a spreadsheet context with all needed years and estates.
  * note that the spreadsheet will contain the same number of estates for each year.
  */
-export const buildSpreadsheetContext = (sheetStrategy: SpreadSheetStrategy, id: string, estates: Estate_filled_Db[], startDate: Date, endDate: Date): SpreadSheet => {
+export const buildSpreadsheetContext = async (sheetStrategy: SpreadSheetStrategy, id: string, estates: Estate_filled_Db[], startDate: Date, endDate: Date): Promise<SpreadSheet> => {
 
-    let spreadSheet = sheetStrategy.getSpreadSheet(id);
+    let spreadSheet = await sheetStrategy.getSpreadSheet(id);
     const years = getYearsFromDates(startDate, endDate);
 
     if (spreadSheet) {
-        spreadSheet = createMissingSheets(sheetStrategy, spreadSheet, estates, years);
-        spreadSheet = addMissingEstatesInSheets(sheetStrategy, spreadSheet, estates);
-        spreadSheet = removeEstatesInSheets(sheetStrategy, spreadSheet, estates, years);
+        spreadSheet = await createMissingSheets(sheetStrategy, spreadSheet, estates, years);
+        spreadSheet = await addMissingEstatesInSheets(sheetStrategy, spreadSheet, estates);
+        spreadSheet = await removeEstatesInSheets(sheetStrategy, spreadSheet, estates, years);
         return spreadSheet;
     } else {
-        spreadSheet = sheetStrategy.createSpreadSheet(id, 'biens_locatifs');
-        spreadSheet = sheetStrategy.addSheets(id, years, estates);
+        spreadSheet = await sheetStrategy.createSpreadSheet('biens_locatifs');
+        spreadSheet = await sheetStrategy.addSheets(spreadSheet.id, years, estates);
     }
 
     return spreadSheet;
@@ -57,12 +56,12 @@ const getMissingRows = (spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): 
     });
 }
 
-const removeEstatesInSheets = (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, estates: Estate_filled_Db[], years): SpreadSheet => {
+const removeEstatesInSheets = async (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, estates: Estate_filled_Db[], years): Promise<SpreadSheet> => {
 
     const rowsToRemove = getUnusedEstates(spreadSheet, estates);
     while (rowsToRemove.length) {
         const row = rowsToRemove.pop();
-        spreadSheet = sheetStrategy.removeRowsInSheet(spreadSheet.id, row.title, row.rowIdentifiers);
+        spreadSheet = await sheetStrategy.removeRowsInSheet(spreadSheet.id, row.title, row.rowIdentifiers);
     }
     return spreadSheet;
 }
@@ -80,19 +79,20 @@ const getUnusedEstates = (spreadSheet: SpreadSheet, estates: Estate_filled_Db[])
     });
 }
 
-const addMissingEstatesInSheets = (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): SpreadSheet => {
+const addMissingEstatesInSheets = async (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): Promise<SpreadSheet> => {
     const missingRows = getMissingRows(spreadSheet, estates);
-    missingRows.forEach(missingRow => {
-        spreadSheet = sheetStrategy.addRowsInSheet(spreadSheet.id, missingRow.title, missingRow.missingEstates);
-    })
+    while (missingRows.length > 0) {
+        const missingRow = missingRows.pop();
+        spreadSheet = await sheetStrategy.addRowsInSheet(spreadSheet.id, missingRow.title, missingRow.missingEstates);
+    }
     return spreadSheet;
 }
 
-const createMissingSheets = (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, estates: Estate_filled_Db[], years: string[]): SpreadSheet => {
-    const sheets = sheetStrategy.getSheets(spreadSheet.id);
+const createMissingSheets = async (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, estates: Estate_filled_Db[], years: string[]): Promise<SpreadSheet> => {
+    const sheets = await sheetStrategy.getSheets(spreadSheet.id);
     const missingSheetsTitles = getMissingSheetsTitles(sheets, years);
     while (missingSheetsTitles.length > 0) {
-        spreadSheet = sheetStrategy.addSheet(spreadSheet.id, missingSheetsTitles.pop(), estates);
+        spreadSheet = await sheetStrategy.addSheet(spreadSheet.id, missingSheetsTitles.pop(), estates);
     }
     return spreadSheet;
 }
