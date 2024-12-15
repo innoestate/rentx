@@ -16,13 +16,13 @@ export class MockedGoogleSpreadSheetStrategy extends SpreadSheetStrategy {
         return this.fakeSpreadSheets[id];
     }
 
-    async createSpreadSheet(id: string, title: string): Promise<SpreadSheet> {
-        this.fakeSpreadSheets[id] = {
-            id,
+    async createSpreadSheet( title: string): Promise<SpreadSheet> {
+        this.fakeSpreadSheets['fakeId'] = {
+            id: 'fakeId',
             title,
             sheets: []
         }
-        return null;
+        return this.fakeSpreadSheets['fakeId'];
     }
 
     async addSheet(id: string, title: string, estates: Estate_filled_Db[]): Promise<SpreadSheet> {
@@ -49,8 +49,8 @@ export class MockedGoogleSpreadSheetStrategy extends SpreadSheetStrategy {
         return this.fakeSpreadSheets[id];
     }
 
-    async addRowsInSheet(id: string, titles: string, estates: Estate_filled_Db[]): Promise<SpreadSheet> {
-        const rows = this.fakeSpreadSheets[id].sheets.find(sheet => sheet.title === titles)?.rows;
+    async addRowsInSheet(id: string, title: string, estates: Estate_filled_Db[]): Promise<SpreadSheet> {
+        const rows = this.fakeSpreadSheets[id].sheets.find(sheet => sheet.title === title)?.rows;
         if (rows) {
             rows.push(
                 ...estates.map(estate => [
@@ -60,7 +60,7 @@ export class MockedGoogleSpreadSheetStrategy extends SpreadSheetStrategy {
                     { value: estate.lodger.name }])
             )
         }
-        this.fakeSpreadSheets[id].sheets.find(sheet => sheet.title === titles).rows = rows;
+        this.fakeSpreadSheets[id].sheets.find(sheet => sheet.title === title).rows = rows;
         return this.fakeSpreadSheets[id];
     }
 
@@ -78,8 +78,8 @@ export class MockedGoogleSpreadSheetStrategy extends SpreadSheetStrategy {
         return this.fakeSpreadSheets[id]?.sheets ?? [];
     }
 
-    async updateSheets(sheets: Sheet[]): Promise<SpreadSheet> {
-        return null;
-    }
+    // async updateSheets(sheets: Sheet[]): Promise<SpreadSheet> {
+    //     return null;
+    // }
 
 }

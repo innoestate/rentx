@@ -7,7 +7,7 @@ export class SpreadSheetStrategy {
         return null;
     }
 
-    async createSpreadSheet(id: string, title: string): Promise<SpreadSheet> {
+    async createSpreadSheet( title: string): Promise<SpreadSheet> {
         return null;
     }
 
@@ -19,7 +19,7 @@ export class SpreadSheetStrategy {
         return null;
     }
 
-    async addRowsInSheet(id: string, titles: string, estates: Estate_filled_Db[]): Promise<SpreadSheet> {
+    async addRowsInSheet(id: string, title: string, estates: Estate_filled_Db[]): Promise<SpreadSheet> {
         return null;
     }
 
@@ -31,7 +31,7 @@ export class SpreadSheetStrategy {
         return null;
     }
 
-    async updateSheets(sheets: Sheet[]): Promise<SpreadSheet> {
-        return null;
-    }
+    // async updateSheets(sheets: Sheet[]): Promise<SpreadSheet> {
+    //     return null;
+    // }
 }
