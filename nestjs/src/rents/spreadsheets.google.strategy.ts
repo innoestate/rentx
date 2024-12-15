@@ -44,12 +44,15 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
             const response = await this.sheets.spreadsheets.get({
                 spreadsheetId: id,
                 auth: this.oauth2Client,
+                includeGridData: true
             });
             const ranges = await response.data.sheets;
+
             return {
                 id: response.data.spreadsheetId,
                 title: response.data.properties.title,
                 sheets: ranges.map(range => {
+
                     return {
                         sheetId: range.properties.sheetId,
                         title: range.properties.title,
@@ -63,7 +66,7 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
                 }),
             }
         } catch (error) {
-            console.error('Error getting the Google SpreadSheets', error);
+            console.log('Error getting the Google SpreadSheets by id', id);
         }
         return null;
     }
@@ -97,9 +100,15 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
         const response = await this.sheets.spreadsheets.get({
             spreadsheetId: id,
             auth: this.oauth2Client,
+            includeGridData: true
         });
         const ranges = await response.data.sheets;
-        const sheetId = ranges.reduce((acc, sheet) => Math.max(acc, sheet.properties.sheetId), 0);
+
+        let sheetId = ranges.map(range => range.properties.sheetId).reduce((acc, cur) => Math.max(acc,cur), 0) + 1;
+
+        if(ranges.length === 1 && !ranges[0].data[0].rowData){
+            sheetId = 0;
+        }
 
         let sheetProperty = {}
         if (sheetId === 0) {
