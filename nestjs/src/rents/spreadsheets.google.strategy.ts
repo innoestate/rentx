@@ -25,16 +25,20 @@ const refreshTokenFunction = async (oauth2Client) => {
 
 
 export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
-    
+
     oauth2Client: any;
     sheets: sheets_v4.Sheets;
 
-    constructor(ccessToken: string, refreshToken: string, clientId: string, clientSecret: string){
+    constructor() {
         super();
-        this.oauth2Client = getOath2Client(ccessToken, refreshToken, clientId, clientSecret);
-        this.sheets = google.sheets('v4');
     }
-    
+
+    async init(ccessToken: string, refreshToken: string, clientId: string, clientSecret: string){
+        this.oauth2Client = await getOath2Client(ccessToken, refreshToken, clientId, clientSecret);
+        this.sheets = await google.sheets('v4');
+        return true;
+    }
+
     async getSpreadSheet(id: string): Promise<SpreadSheet> {
         try {
             const response = await this.sheets.spreadsheets.get({
@@ -49,7 +53,7 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
                     return {
                         sheetId: range.properties.sheetId,
                         title: range.properties.title,
-                        rows: range.data[range.properties.sheetId].rowData.map(rows => rows.values.map( row  => {
+                        rows: range.data[range.properties.sheetId].rowData.map(rows => rows.values.map(row => {
                             return {
                                 value: row.formattedValue,
                                 // backgroundColor: row.effectiveFormat?.backgroundColor,
@@ -66,15 +70,17 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
 
     async createSpreadSheet(title: string): Promise<SpreadSheet> {
         try {
+            const sheets = google.sheets('v4');
             const request = {
                 resource: {
                     properties: {
-                        title,
+                        title: 'immobilier_gestion_' + new Date().getFullYear(),
                     },
                 },
                 auth: this.oauth2Client,
             };
-            const response = await this.sheets.spreadsheets.create(request);
+            const response = await sheets.spreadsheets.create(request);
+            // return response.data.spreadsheetId;
             return {
                 id: response.data.spreadsheetId,
                 title,
@@ -94,9 +100,9 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
         });
         const ranges = await response.data.sheets;
         const sheetId = ranges.reduce((acc, sheet) => Math.max(acc, sheet.properties.sheetId), 0);
-    
+
         let sheetProperty = {}
-        if(sheetId === 0 ){
+        if (sheetId === 0) {
             sheetProperty = {
                 updateSheetProperties: {
                     properties: {
@@ -106,7 +112,7 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
                     fields: 'title',
                 }
             };
-        }else{
+        } else {
             sheetProperty = {
                 addSheet: {
                     properties: {
@@ -182,7 +188,7 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
                 },
             }
         ];
-    
+
         await this.sheets.spreadsheets.batchUpdate({
             spreadsheetId: id,
             requestBody: {
@@ -212,7 +218,7 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
         });
         const ranges = await response.data.sheets;
         const sheetId = ranges.find(sheet => sheet.properties.title === title).properties.sheetId;
-        if(!sheetId) throw new Error('Sheet not found');
+        if (!sheetId) throw new Error('Sheet not found');
 
         const requests: sheets_v4.Schema$Request[] = [
             {
@@ -235,7 +241,7 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
                 },
             }
         ];
-    
+
         await this.sheets.spreadsheets.batchUpdate({
             spreadsheetId: id,
             requestBody: {
@@ -247,7 +253,7 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
         return await this.getSpreadSheet(id);
     }
 
-    async removeRowsInSheet(id: string, title: string, rowIdentifier: {street: string | number, city: string | number}[]): Promise<SpreadSheet> {
+    async removeRowsInSheet(id: string, title: string, rowIdentifier: { street: string | number, city: string | number }[]): Promise<SpreadSheet> {
 
 
         const response = await this.sheets.spreadsheets.get({
@@ -256,33 +262,33 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
         });
         const ranges = await response.data.sheets;
         const sheetId = ranges.reduce((acc, sheet) => Math.max(acc, sheet.properties.sheetId), 0);
-        
-        const rows = response.data.sheets.find(sheet => sheet.properties.title === title)?.data?.values??[];
+
+        const rows = response.data.sheets.find(sheet => sheet.properties.title === title)?.data?.values ?? [];
 
         const headers = rows[0]; // Assuming the first row is the header
         const addressIndex = headers.indexOf('adresse');
         const cityIndex = headers.indexOf('ville');
-    
+
         if (addressIndex === -1 || cityIndex === -1) {
-          console.error("Required columns ('adresse' or 'ville') not found.");
-          throw new Error("Required columns ('adresse' or 'ville') not found.");
+            console.error("Required columns ('adresse' or 'ville') not found.");
+            throw new Error("Required columns ('adresse' or 'ville') not found.");
         }
-    
+
         // Step 3: Find rows that match the criteria
         const matchingIndexes = [];
         for (let i = 1; i < rows.length; i++) { // Start at 1 to skip headers
-          const row = rows[i];
-          const address = row[addressIndex];
-          const city = row[cityIndex];
-    
-          if (
-            rowIdentifier.some(
-              (criteria) =>
-                criteria.street === address && criteria.city === city
-            )
-          ) {
-            matchingIndexes.push(i); // Store the 0-based index of the row
-          }
+            const row = rows[i];
+            const address = row[addressIndex];
+            const city = row[cityIndex];
+
+            if (
+                rowIdentifier.some(
+                    (criteria) =>
+                        criteria.street === address && criteria.city === city
+                )
+            ) {
+                matchingIndexes.push(i); // Store the 0-based index of the row
+            }
         }
 
 
@@ -291,15 +297,15 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
             {
                 deleteDimension: {
                     range: {
-                      sheetId: sheetId, // The ID of the sheet/tab
-                      dimension: 'ROWS', // We're deleting a row
-                      startIndex: rowIndex, // The 0-based index of the row to delete
-                      endIndex: rowIndex + 1, // Delete only this one row
+                        sheetId: sheetId, // The ID of the sheet/tab
+                        dimension: 'ROWS', // We're deleting a row
+                        startIndex: rowIndex, // The 0-based index of the row to delete
+                        endIndex: rowIndex + 1, // Delete only this one row
                     },
-                  },
+                },
             },
         ]), []);
-    
+
         await this.sheets.spreadsheets.batchUpdate({
             spreadsheetId: id,
             requestBody: {
