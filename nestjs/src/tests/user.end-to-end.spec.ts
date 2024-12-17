@@ -11,6 +11,8 @@ import { rentsTests } from './rents-tests';
 import { userTests } from './user-tests';
 import { dropAllTables } from './utils/db.utils';
 import { buildApp, buildUser } from './utils/user.utils';
+import { rentsServiceTests } from './rents.service-tests';
+import { RentsService } from '../rents/rents.service';
 
 describe('/api', () => {
 
@@ -19,7 +21,8 @@ describe('/api', () => {
     let ownerService: OwnersService;
     let lodgerService: LodgersService;
     let estateService: EstatesService;
-    let rentsService: RentsDbService;
+    let rentsDbService: RentsDbService;
+    let rentsService: RentsService;
 
     beforeAll(async () => {
 
@@ -29,7 +32,8 @@ describe('/api', () => {
         ownerService = app.get<OwnersService>(OwnersService);
         lodgerService = app.get<LodgersService>(LodgersService);
         estateService = app.get<EstatesService>(EstatesService);
-        rentsService = app.get<RentsDbService>(RentsDbService);
+        rentsDbService = app.get<RentsDbService>(RentsDbService);
+        rentsService = app.get<RentsService>(RentsService);
     });
 
     afterAll(async () => {
@@ -40,6 +44,7 @@ describe('/api', () => {
     userTests(() => app, () => user);
     ownersTests(() => app);
     lodgersTests(() => app);
-    rentsTests(() => app, () => rentsService);
+    rentsTests(() => app, () => rentsDbService);
+    rentsServiceTests(() => app, () => rentsService);
 
 })
