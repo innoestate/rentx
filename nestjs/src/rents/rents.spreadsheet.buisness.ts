@@ -23,7 +23,7 @@ export interface SpreadSheetUpdate {
  * build a spreadsheet context with all needed years and estates.
  * note that the spreadsheet will contain the same number of estates for each year.
  */
-export const buildSpreadsheetContext = async (sheetStrategy: SpreadSheetStrategy, id: string, estates: Estate_filled_Db[], startDate: Date, endDate: Date): Promise<{ spreadSheet: SpreadSheet, hasBeenRemoved: boolean}> => {
+export const buildSpreadsheetContext = async (sheetStrategy: SpreadSheetStrategy, id: string, estates: Estate_filled_Db[], startDate: Date, endDate: Date): Promise<{ spreadSheet: SpreadSheet, hasBeenRemoved: boolean }> => {
     try {
         let spreadSheet = await sheetStrategy.getSpreadSheet(id);
         let hasBeenRemoved = id && !spreadSheet;
@@ -53,42 +53,51 @@ export const applySpreadSheetUpdates = (sheetStrategy: SpreadSheetStrategy, spre
     return null;
 }
 
-const getMissingRows = (spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): { title: string, missingEstates: Estate_filled_Db[] }[] => {
+const getMissingRows = (spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): { sheetTitle: string, missingEstates: Estate_filled_Db[] }[] => {
     return spreadSheet.sheets.map(sheet => {
-        const missingEstates = estates.filter(estate => !sheet.rows.find(row => row[0].value === estate.owner.name));
-        return { title: sheet.title, missingEstates };
+        if (sheet.rows.length > 1) {
+            const streetIndex = sheet.rows[0].findIndex(cell => cell.value === 'Adresse');
+            const cityIndex = sheet.rows[0].findIndex(cell => cell.value === 'Ville');
+            const plotIndex = sheet.rows[0].findIndex(cell => cell.value === 'Lot');
+
+            const missingEstates = estates.filter(estate => !sheet.rows.find(row => (row[streetIndex]?.value === estate.street
+                && (!estate.city || row[cityIndex]?.value === estate.city)
+                && (!estate.plot || row[plotIndex]?.value === estate.plot))));
+            return { sheetTitle: sheet.title, missingEstates };
+        }
+        return { sheetTitle: sheet.title, missingEstates: [] }
     });
 }
 
 const removeEstatesInSheets = async (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, estates: Estate_filled_Db[], years): Promise<SpreadSheet> => {
-
     const rowsToRemove = getUnusedEstates(spreadSheet, estates);
-    while (rowsToRemove.length) {
-        const row = rowsToRemove.pop();
-        spreadSheet = await sheetStrategy.removeRowsInSheet(spreadSheet.id, row.title, row.rowIdentifiers);
-    }
+    spreadSheet = await sheetStrategy.removeRowsInSheets(spreadSheet.id, rowsToRemove);
     return spreadSheet;
 }
 
-const getUnusedEstates = (spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): { title: string, rowIdentifiers: { street: string | number, city: string | number }[] }[] => {
-    return spreadSheet.sheets.map(sheet => {
+const getUnusedEstates = (spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): { street: string | number, city: string | number, plot?: string }[] => {
+    return spreadSheet.sheets.reduce((acc, sheet) => {
 
         const streetIndex = sheet.rows[0].findIndex(cell => cell.value === 'Adresse');
         const cityIndex = sheet.rows[0].findIndex(cell => cell.value === 'Ville');
+        const plotIndex = sheet.rows[0].findIndex(cell => cell.value === 'Plot');
 
-        const formatedRows = sheet.rows.map(row => ({ street: row[streetIndex].value, city: row[cityIndex].value })).slice(1);
-        const unusedEstatesRows = formatedRows.filter(estateRow => !estates.find(estate => estate.street === estateRow.street && estate.city === estateRow.city));
+        const formatedRows = sheet.rows.map(row => ({ street: row[streetIndex].value, city: row[cityIndex].value, plot: row[plotIndex] })).slice(1);
+        const unusedEstatesRows = formatedRows.filter(estateRow => !estates.find(estate => compareEstateToRow(estate, estateRow.street, estateRow.city, estateRow.plot)));
+                
+        const uniqueUnusedEstatesRows = unusedEstatesRows.filter( unused => acc.find( a => compareEstateToRow(a as {street, city, plot}, unused.street, unused.city, unused.plot)));
 
-        return { title: sheet.title, rowIdentifiers: unusedEstatesRows };
-    });
+        return [...acc, uniqueUnusedEstatesRows];
+    }, []);
+}
+
+export const compareEstateToRow = (estate: Estate_filled_Db | {street, city, plot}, street, city, plot) => {
+    return estate.street === street && (!city || city === '' || estate.city === city) && (!plot || plot === '' || estate.plot === plot);
 }
 
 const addMissingEstatesInSheets = async (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): Promise<SpreadSheet> => {
     const missingRows = getMissingRows(spreadSheet, estates);
-    while (missingRows.length > 0) {
-        const missingRow = missingRows.pop();
-        spreadSheet = await sheetStrategy.addRowsInSheet(spreadSheet.id, missingRow.title, missingRow.missingEstates);
-    }
+    spreadSheet = await sheetStrategy.addRowsInSheets(spreadSheet.id, missingRows);
     return spreadSheet;
 }
 

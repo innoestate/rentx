@@ -19,11 +19,11 @@ export class SpreadSheetStrategy {
         return null;
     }
 
-    async addRowsInSheet(id: string, title: string, estates: Estate_filled_Db[]): Promise<SpreadSheet> {
+    async addRowsInSheets(id: string, missings: {sheetTitle: string, missingEstates: Estate_filled_Db[] }[] ): Promise<SpreadSheet> {
         return null;
     }
 
-    async removeRowsInSheet(id: string, title: string, rowIdentifier: {street: string | number, city: string | number}[]): Promise<SpreadSheet> {
+    async removeRowsInSheets(id: string, rowIdentifier: {street: string | number, city: string | number, plot?: string}[] ): Promise<SpreadSheet> {
         return null;
     }
 
