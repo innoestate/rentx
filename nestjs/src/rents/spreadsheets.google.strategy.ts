@@ -33,7 +33,7 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
         super();
     }
 
-    async init(ccessToken: string, refreshToken: string, clientId: string, clientSecret: string){
+    async init(ccessToken: string, refreshToken: string, clientId: string, clientSecret: string) {
         this.oauth2Client = await getOath2Client(ccessToken, refreshToken, clientId, clientSecret);
         this.sheets = await google.sheets('v4');
         return true;
@@ -52,16 +52,16 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
                 id: response.data.spreadsheetId,
                 title: response.data.properties.title,
                 sheets: ranges.map(range => {
-
+                    let rows = [];
+                    for( let data of range?.data ){
+                        for( let row of data.rowData ){
+                            rows.push(row.values.map(value => ({value: value.formattedValue})));
+                        }
+                    }
                     return {
                         sheetId: range.properties.sheetId,
                         title: range.properties.title,
-                        rows: range.data[range.properties.sheetId].rowData.map(rows => rows.values.map(row => {
-                            return {
-                                value: row.formattedValue,
-                                // backgroundColor: row.effectiveFormat?.backgroundColor,
-                            }
-                        })),
+                        rows
                     }
                 }),
             }
