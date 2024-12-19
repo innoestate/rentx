@@ -3,8 +3,31 @@ import { fusionateRents } from "./rents.utils";
 
 describe('unit test of rents fusions', () => {
 
+    const rent0: Rent_Db = {
+        id: 'abcd',
+        estate_id: '1',
+        lodger_id: '2',
+        start_date: new Date('2020-12-01'),
+        end_date: new Date('2020-12-31'),
+        rent: 1000,
+        charges: 100,
+        created_at: new Date(),
+        updated_at: new Date()
+    }
+
     const rent1: Rent_Db = {
         id: 'abcd',
+        estate_id: '1',
+        lodger_id: '2',
+        start_date: new Date('2021-01-01'),
+        end_date: new Date('2021-01-31'),
+        rent: 1000,
+        charges: 100,
+        created_at: new Date(),
+        updated_at: new Date()
+    }
+    const rent1Bis: Rent_Db = {
+        id: 'abcdBis',
         estate_id: '1',
         lodger_id: '2',
         start_date: new Date('2021-01-01'),
@@ -51,6 +74,15 @@ describe('unit test of rents fusions', () => {
 
     })
 
+    it('test a doublon of rent', () => {
+
+        const rents = fusionateRents([rent1, rent1Bis]);
+        expect(rents.length).toEqual(1);    
+        expect(rents[0].estate_id).toEqual(rent1.estate_id);
+        expect(rents[0].lodger_id).toEqual(rent1.lodger_id);
+
+    })
+
     it('test 2 rents without fusion', () => {
 
         const rents = fusionateRents([rent1, rent3]);
@@ -73,5 +105,13 @@ describe('unit test of rents fusions', () => {
 
     })
 
+    it('test a fusion of 2 consecutive rents', () => {
+
+        const rents = fusionateRents([rent1, rent0]);
+        expect(rents.length).toEqual(1);
+        expect(rents[0].start_date).toEqual(rent0.start_date);
+        expect(rents[0].end_date).toEqual(rent1.end_date);
+
+    })
 
 });
