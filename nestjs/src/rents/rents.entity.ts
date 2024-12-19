@@ -29,4 +29,7 @@ export class Rent_Entity {
     @Column()  
     charges: number;
 
+    @Column({ default: false})  
+    sent: boolean;
+
 }
