@@ -3,24 +3,41 @@ import { Rent_Db } from "./rents.db";
 export const fusionateRents = (rents: Rent_Db[]): Rent_Db[] => {
     if (rents.length === 0) return [];
 
-    rents = rents.sort((a, b) => a.start_date.getTime() - b.start_date.getTime());
+    let finalFusionedRents = [];
 
-    const fusionnedRents = [];
-    while (rents.length > 0 ) {
-        fusionnedRents.push(rents.shift());
-        for(let fusion of fusionnedRents){
-            rents = fusionRent(fusion, rents);
+    const groupedRents = rents.reduce((acc, rent) => {
+        if (!acc[rent.estate_id]) {
+            acc[rent.estate_id] = [];
         }
-    }
+        acc[rent.estate_id].push(rent);
+        return acc;
+    }, {} as { [key: string]: Rent_Db[] });
 
-    const uniqueRents = fusionnedRents.filter((rent, index, self) =>
-        index === self.findIndex((r) => (
-            r.start_date.getTime() === rent.start_date.getTime() &&
-            r.end_date.getTime() === rent.end_date.getTime() &&
-            r.estate_id === rent.estate_id
-        ))
-    );
-    return uniqueRents;
+    for(let key of Object.keys(groupedRents)){
+
+        let rentsInEstate = [...groupedRents[key].sort((a, b) => a.start_date.getTime() - b.start_date.getTime())];
+
+        const fusionnedRents = [];
+        if(rentsInEstate.length === 1){
+            fusionnedRents.push({...rentsInEstate[0]});
+        }else{
+            while (rentsInEstate.length > 0 ) {
+                fusionnedRents.push(rentsInEstate.shift());
+                for(let fusion of fusionnedRents){
+                    rentsInEstate = fusionRent(fusion, rentsInEstate);
+                }
+            }
+        }
+        rentsInEstate = fusionnedRents.filter((rent, index, self) =>
+            index === self.findIndex((r) => (
+                r.start_date.getTime() === rent.start_date.getTime() &&
+                r.end_date.getTime() === rent.end_date.getTime() &&
+                r.estate_id === rent.estate_id
+            ))
+        );
+        finalFusionedRents = [...finalFusionedRents, ...rentsInEstate];
+    }
+    return finalFusionedRents;
 }
 
 export const fusionRent = (rent: Rent_Db, rentsToMerge: Rent_Db[]): Rent_Db[] => {

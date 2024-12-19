@@ -94,6 +94,18 @@ describe('unit test of rents fusions', () => {
 
     })
 
+
+    it('test 2 rents without fusion', () => {
+
+        const rents = fusionateRents([{...rent0}, {...rent2}]);
+        expect(rents.length).toEqual(2);
+        expect(rents[0].estate_id).toEqual(rent0.estate_id);
+        expect(rents[1].estate_id).toEqual(rent0.estate_id);
+        expect(rents[0].lodger_id).toEqual(rent2.lodger_id);
+        expect(rents[1].lodger_id).toEqual(rent2.lodger_id);
+
+    })
+
     it('test a fusion of 2 consecutive rents', () => {
 
         const rents = fusionateRents([{...rent1}, {...rent2}]);
