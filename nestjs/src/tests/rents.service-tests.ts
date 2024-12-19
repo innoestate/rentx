@@ -26,7 +26,6 @@ export const rentsServiceTests = (getApp, getRentsService) => {
 
         const spreadSheet = await lastValueFrom(rentService.addPeriodToExcel(user.id, '0', new Date('2024-01-01'), new Date('2024-01-31'), fakeSpreadSheetStrategy));
         spreadSheetId = spreadSheet.rents_google_sheet_id;
-        console.log('spreadSheetTest', spreadSheet);
         expect(spreadSheet).not.toBeNull(); 
 
     });

@@ -9,7 +9,6 @@ import { LodgersService } from '../lodgers/lodgers.service';
 import { OwnersService } from '../owners/owners.service';
 import { createRentReceiptEmail, createRentReciptPdf } from './rent-receipts.business';
 import { RentsService } from './rents.service';
-import { createSheet } from './rents.sheets.buisness';
 
 
 @Controller('api/rents')
@@ -85,16 +84,6 @@ export class RentsController {
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Get('sheets')
-    synchronizeSheets(@Req() req, @Res() res) {
-
-        return combineLatest([
-            this.estateService.getByUser(req.user.id),
-            this.ownerService.getByUser(req.user.id),
-            this.lodgerService.getByUser(req.user.id)
-        ]).pipe(
-            switchMap(([estates, owners, lodgers]) =>from(createSheet(estates, owners, lodgers, req.user.accessToken, req.user.refresh_token, this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET')))),
-        );
-
-    }
+    synchronizeSheets(@Req() req, @Res() res) {}
 
 }

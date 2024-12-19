@@ -1,5 +1,6 @@
 import { Estate_filled_Db } from "src/estates/estate-filled-db.model";
 import { SpreadSheetStrategy } from "./spreadsheets.strategy";
+import { unuse } from "passport";
 
 export interface Sheet {
     sheetId: number;
@@ -32,7 +33,7 @@ export const buildSpreadsheetContext = async (sheetStrategy: SpreadSheetStrategy
         if (spreadSheet) {
             spreadSheet = await createMissingSheets(sheetStrategy, spreadSheet, estates, years);
             spreadSheet = await addMissingEstatesInSheets(sheetStrategy, spreadSheet, estates);
-            spreadSheet = await removeEstatesInSheets(sheetStrategy, spreadSheet, estates, years);
+            spreadSheet = await removeEstatesInSheets(sheetStrategy, spreadSheet, estates);
             return { spreadSheet, hasBeenRemoved };
         } else {
             spreadSheet = await sheetStrategy.createSpreadSheet('biens_locatifs');
@@ -40,6 +41,7 @@ export const buildSpreadsheetContext = async (sheetStrategy: SpreadSheetStrategy
         }
         return { spreadSheet, hasBeenRemoved };
     } catch (e) {
+        console.log('error in buildSrepadSheetContext', e);
         console.error(e);
         return null;
     }
@@ -53,46 +55,56 @@ export const applySpreadSheetUpdates = (sheetStrategy: SpreadSheetStrategy, spre
     return null;
 }
 
-const getMissingRows = (spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): { sheetTitle: string, missingEstates: Estate_filled_Db[] }[] => {
+export const getMissingRows = (spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): { sheetTitle: string, missingEstates: Estate_filled_Db[] }[] => {
     return spreadSheet.sheets.map(sheet => {
         if (sheet.rows.length > 1) {
             const streetIndex = sheet.rows[0].findIndex(cell => cell.value === 'Adresse');
             const cityIndex = sheet.rows[0].findIndex(cell => cell.value === 'Ville');
             const plotIndex = sheet.rows[0].findIndex(cell => cell.value === 'Lot');
 
-            const missingEstates = estates.filter(estate => !sheet.rows.find(row => (row[streetIndex]?.value === estate.street
-                && (!estate.city || row[cityIndex]?.value === estate.city)
-                && (!estate.plot || row[plotIndex]?.value === estate.plot))));
+            const estatesRows = sheet.rows.slice(1, sheet.rows.length);
+
+            const missingEstates = estates.filter(estate => !estatesRows.find(row => estateIsSameThatRow(estate, row[streetIndex].value, row[cityIndex].value, row[plotIndex].value)));
             return { sheetTitle: sheet.title, missingEstates };
         }
         return { sheetTitle: sheet.title, missingEstates: [] }
     });
 }
 
-const removeEstatesInSheets = async (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, estates: Estate_filled_Db[], years): Promise<SpreadSheet> => {
+const removeEstatesInSheets = async (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): Promise<SpreadSheet> => {
     const rowsToRemove = getUnusedEstates(spreadSheet, estates);
-    spreadSheet = await sheetStrategy.removeRowsInSheets(spreadSheet.id, rowsToRemove);
+    if (rowsToRemove.length) {
+        spreadSheet = await sheetStrategy.removeRowsInSheets(spreadSheet.id, rowsToRemove);
+    }
     return spreadSheet;
 }
 
-const getUnusedEstates = (spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): { street: string | number, city: string | number, plot?: string }[] => {
+export const getUnusedEstates = (spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): { street: string | number, city: string | number, plot?: string }[] => {
     return spreadSheet.sheets.reduce((acc, sheet) => {
 
         const streetIndex = sheet.rows[0].findIndex(cell => cell.value === 'Adresse');
         const cityIndex = sheet.rows[0].findIndex(cell => cell.value === 'Ville');
-        const plotIndex = sheet.rows[0].findIndex(cell => cell.value === 'Plot');
+        const plotIndex = sheet.rows[0].findIndex(cell => cell.value === 'Lot');
 
-        const formatedRows = sheet.rows.map(row => ({ street: row[streetIndex].value, city: row[cityIndex].value, plot: row[plotIndex] })).slice(1);
-        const unusedEstatesRows = formatedRows.filter(estateRow => !estates.find(estate => compareEstateToRow(estate, estateRow.street, estateRow.city, estateRow.plot)));
-                
-        const uniqueUnusedEstatesRows = unusedEstatesRows.filter( unused => acc.find( a => compareEstateToRow(a as {street, city, plot}, unused.street, unused.city, unused.plot)));
+        const formatedRows = sheet.rows.map(row => ({ street: row[streetIndex].value, city: row[cityIndex].value, plot: row[plotIndex].value })).slice(1);
+        const unusedEstatesRows = formatedRows.filter(estateRow => rowNotExistInEstates(estateRow, estates));
+        const uniqueUnusedEstatesRows = unusedEstatesRows.filter(unused => !acc.find(a => estateIsSameThatRow(a as { street, city, plot }, unused.street, unused.city, unused.plot)));
 
-        return [...acc, uniqueUnusedEstatesRows];
+        return [...acc, ...uniqueUnusedEstatesRows];
     }, []);
 }
 
-export const compareEstateToRow = (estate: Estate_filled_Db | {street, city, plot}, street, city, plot) => {
-    return estate.street === street && (!city || city === '' || estate.city === city) && (!plot || plot === '' || estate.plot === plot);
+export const rowNotExistInEstates = (row: { street, city, plot }, estates: Estate_filled_Db[]) => {
+    if (estates.find(estate => estateIsSameThatRow(estate, row.street, row.city, row.plot))) {
+        return false;
+    }
+    return true;
+}
+
+export const estateIsSameThatRow = (estate: Estate_filled_Db | { street, city, plot }, street, city, plot) => {
+    return estate.street === street
+        && (((!city || city === '') && (!estate?.city || estate?.city === '')) || (city === '' && estate?.city === '') || estate?.city === city)
+        && (((!plot || plot === '') && (!estate?.plot || estate?.plot === '')) || (plot === '' && estate?.plot === '') || estate?.plot === plot);
 }
 
 const addMissingEstatesInSheets = async (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): Promise<SpreadSheet> => {

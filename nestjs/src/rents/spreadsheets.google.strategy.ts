@@ -46,6 +46,7 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
                 auth: this.oauth2Client,
                 includeGridData: true
             });
+
             const ranges = await response.data.sheets;
 
             return {
@@ -53,9 +54,9 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
                 title: response.data.properties.title,
                 sheets: ranges.map(range => {
                     let rows = [];
-                    for( let data of range?.data ){
-                        for( let row of data.rowData ){
-                            rows.push(row.values.map(value => ({value: value.formattedValue})));
+                    for (let data of range?.data) {
+                        for (let row of data.rowData) {
+                            rows.push(row.values.map(value => ({ value: value.formattedValue })));
                         }
                     }
                     return {
@@ -104,9 +105,9 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
         });
         const ranges = await response.data.sheets;
 
-        let sheetId = ranges.map(range => range.properties.sheetId).reduce((acc, cur) => Math.max(acc,cur), 0) + 1;
+        let sheetId = ranges.map(range => range.properties.sheetId).reduce((acc, cur) => Math.max(acc, cur), 0) + 1;
 
-        if(ranges.length === 1 && !ranges[0].data[0].rowData){
+        if (ranges.length === 1 && !ranges[0].data[0].rowData) {
             sheetId = 0;
         }
 
@@ -219,111 +220,112 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
         return await this.getSpreadSheet(id);
     }
 
-    async addRowsInSheet(id: string, title: string, estates: Estate_filled_Db[]): Promise<SpreadSheet> {
+    async addRowsInSheets(id: string, missings: { sheetTitle: string, missingEstates: Estate_filled_Db[] }[]): Promise<SpreadSheet> {
 
         const response = await this.sheets.spreadsheets.get({
             spreadsheetId: id,
             auth: this.oauth2Client,
         });
         const ranges = await response.data.sheets;
-        const sheetId = ranges.find(sheet => sheet.properties.title === title).properties.sheetId;
-        if (!sheetId) throw new Error('Sheet not found');
 
-        const requests: sheets_v4.Schema$Request[] = [
-            {
-                appendCells: {
-                    rows: [
-                        ...estates.map(estate => (
-                            {
-                                values: [
-                                    { userEnteredValue: { stringValue: estate.owner?.name ?? '' } },
-                                    { userEnteredValue: { stringValue: estate.street } },
-                                    { userEnteredValue: { stringValue: estate.city } },
-                                    { userEnteredValue: { stringValue: estate.plot ?? '' } },
-                                    { userEnteredValue: { stringValue: estate.lodger?.name ?? '' } },
-                                    ...MONTHS.map(month => ({ userEnteredValue: { stringValue: '' } })),
-                                ],
-                            })),
-                    ],
-                    fields: '*',
-                    sheetId,
+        let i = 0;
+        while (i < missings.length) {
+            const { sheetTitle, missingEstates } = missings[i];
+            i++;
+            const sheetId = ranges.find(sheet => sheet.properties.title.toString() === sheetTitle.toString())?.properties.sheetId;
+            if (sheetId === undefined || null) throw new Error('Sheet not found');
+
+            const requests: sheets_v4.Schema$Request[] = [
+                {
+                    appendCells: {
+                        rows: [
+                            ...missingEstates.map(estate => (
+                                {
+                                    values: [
+                                        { userEnteredValue: { stringValue: estate.owner?.name ?? '' } },
+                                        { userEnteredValue: { stringValue: estate.street } },
+                                        { userEnteredValue: { stringValue: estate.city } },
+                                        { userEnteredValue: { stringValue: estate.plot ?? '' } },
+                                        { userEnteredValue: { stringValue: estate.lodger?.name ?? '' } },
+                                        ...MONTHS.map(month => ({ userEnteredValue: { stringValue: '' } })),
+                                    ],
+                                })),
+                        ],
+                        fields: '*',
+                        sheetId,
+                    },
+                }
+            ];
+
+            await this.sheets.spreadsheets.batchUpdate({
+                spreadsheetId: id,
+                requestBody: {
+                    requests,
                 },
-            }
-        ];
+                auth: this.oauth2Client,
+            });
 
-        await this.sheets.spreadsheets.batchUpdate({
-            spreadsheetId: id,
-            requestBody: {
-                requests,
-            },
-            auth: this.oauth2Client,
-        });
+        };
+
 
         return await this.getSpreadSheet(id);
     }
 
-    async removeRowsInSheet(id: string, title: string, rowIdentifier: { street: string | number, city: string | number }[]): Promise<SpreadSheet> {
-
-
+    async removeRowsInSheets(id: string, rowIdentifier: { street: string | number, city?: string | number, plot?: string }[]): Promise<SpreadSheet> {
         const response = await this.sheets.spreadsheets.get({
             spreadsheetId: id,
             auth: this.oauth2Client,
+            includeGridData: true
         });
         const ranges = await response.data.sheets;
-        const sheetId = ranges.reduce((acc, sheet) => Math.max(acc, sheet.properties.sheetId), 0);
+        let i = 0;
+        while (i < ranges.length) {
+            const range = ranges[i];
+            i++;
+            const sheetId = range.properties.sheetId;
+            const headers = range?.data[0].rowData[0].values.map(value => value.effectiveValue.stringValue);
+            const rows = range?.data[0].rowData.map( rs => rs.values.map(value => value?.effectiveValue?.stringValue)) ?? [];
+            const addressIndex = headers.indexOf('Adresse') ?? 1;
+            const cityIndex = headers.indexOf('Ville') ?? 2;
+            const plotIndex = headers.indexOf('Lot') ?? 3;
 
-        const rows = response.data.sheets.find(sheet => sheet.properties.title === title)?.data?.values ?? [];
-
-        const headers = rows[0]; // Assuming the first row is the header
-        const addressIndex = headers.indexOf('adresse');
-        const cityIndex = headers.indexOf('ville');
-
-        if (addressIndex === -1 || cityIndex === -1) {
-            console.error("Required columns ('adresse' or 'ville') not found.");
-            throw new Error("Required columns ('adresse' or 'ville') not found.");
-        }
-
-        // Step 3: Find rows that match the criteria
-        const matchingIndexes = [];
-        for (let i = 1; i < rows.length; i++) { // Start at 1 to skip headers
-            const row = rows[i];
-            const address = row[addressIndex];
-            const city = row[cityIndex];
-
-            if (
-                rowIdentifier.some(
-                    (criteria) =>
-                        criteria.street === address && criteria.city === city
-                )
-            ) {
-                matchingIndexes.push(i); // Store the 0-based index of the row
+            if (addressIndex === -1) {
+                throw new Error("Required columns ('adresse' or 'ville') not found.");
             }
-        }
 
+            const matchingIndexes = [];
+            rowIdentifier.forEach(identifier => {
 
-        const requests: sheets_v4.Schema$Request[] = matchingIndexes.reduce((acc, rowIndex) => ([
-            ...acc,
-            {
-                deleteDimension: {
-                    range: {
-                        sheetId: sheetId, // The ID of the sheet/tab
-                        dimension: 'ROWS', // We're deleting a row
-                        startIndex: rowIndex, // The 0-based index of the row to delete
-                        endIndex: rowIndex + 1, // Delete only this one row
+                rows.forEach((row, i2) => {
+                    if (row[addressIndex] && row[addressIndex] === identifier.street && row[cityIndex] === identifier.city && row[plotIndex] === identifier.plot) {
+                        matchingIndexes.push(i2);
+                    }
+                })
+
+            });
+            const requests: sheets_v4.Schema$Request[] = matchingIndexes.reduce((acc, rowIndex) => ([
+                ...acc,
+                {
+                    deleteDimension: {
+                        range: {
+                            sheetId: sheetId,
+                            dimension: 'ROWS',
+                            startIndex: rowIndex,
+                            endIndex: rowIndex + 1,
+                        },
                     },
                 },
-            },
-        ]), []);
-
-        await this.sheets.spreadsheets.batchUpdate({
-            spreadsheetId: id,
-            requestBody: {
-                requests,
-            },
-            auth: this.oauth2Client,
-        });
-
-
+            ]), []);
+            if (requests.length > 0) {
+                await this.sheets.spreadsheets.batchUpdate({
+                    spreadsheetId: id,
+                    requestBody: {
+                        requests,
+                    },
+                    auth: this.oauth2Client,
+                });
+            }
+        }
         return null;
     }
 

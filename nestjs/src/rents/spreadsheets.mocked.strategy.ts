@@ -33,8 +33,9 @@ export class MockedGoogleSpreadSheetStrategy extends SpreadSheetStrategy {
                 ROW_HEADER_VALUES.map(value => ({ value })),
                 ...estates.map(estate => [
                     { value: estate.owner.name },
-                    { value: estate.owner.street },
-                    { value: estate.owner.city },
+                    { value: estate.street },
+                    { value: estate.city },
+                    { value: estate.plot },
                     { value: estate.lodger.name }])
             ]
         }
@@ -58,7 +59,8 @@ export class MockedGoogleSpreadSheetStrategy extends SpreadSheetStrategy {
                         { value: estate.owner.name },
                         { value: estate.street },
                         { value: estate.city },
-                        { value: estate.lodger.name }])
+                        { value: estate.plot },
+                        { value: estate.lodger.name}])
                 )
             }
             this.fakeSpreadSheets[id].sheets.find(sheet => sheet.title === missing.sheetTitle).rows = rows;
@@ -67,17 +69,17 @@ export class MockedGoogleSpreadSheetStrategy extends SpreadSheetStrategy {
     }
 
     async removeRowsInSheets(id: string, rowIdentifier: { street: string | number, city: string | number, plot?: string }[]): Promise<SpreadSheet> {
-        console.log('removeRowsInSheet:', rowIdentifier);
-        for (let i = 0; i < this.fakeSpreadSheets[id].sheets.length; i ++) {
-            let sheet = this.fakeSpreadSheets[id].sheets[i];
-            if (sheet?.rows) {
-                this.fakeSpreadSheets[id].sheets[i].rows = sheet.rows.filter(row => {
-                    return !rowIdentifier.find(identifier => identifier.street === row[1].value 
-                                                && (!identifier.city || identifier.city === '' ||  identifier.city === row[2].value) 
-                                                && (!identifier.plot || identifier.plot === '' ||  identifier.plot === row[3].value) );
-                });
+        rowIdentifier.forEach(identifier => {
+            for (let i = 0; i < this.fakeSpreadSheets[id].sheets.length; i++) {
+                this.fakeSpreadSheets[id].sheets[i].rows = this.fakeSpreadSheets[id].sheets[i].rows.filter(rows => {
+                    if( rows[1].value === identifier.street && rows[2].value === identifier.city && rows[3].value === identifier.plot ){
+                        return false;
+                    }
+                    return true;
+                })
             }
-        }
+
+        });
         return this.fakeSpreadSheets[id];
     }
 
