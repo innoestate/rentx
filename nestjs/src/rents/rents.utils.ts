@@ -1,13 +1,9 @@
 import { Rent_Db } from "./rents.db";
 
-export const getRentsByMonth = (rents: Rent_Db[]): { estateId: string, rents: { year: number, month: number, rent: number }[] }[] => {
-
-    console.log('rents', rents);
+export const getRentsByMonth = (rents: Rent_Db[]): { estateId: string, rents: { year: number, month: number, totalRent: number }[] }[] => {
 
     const rentsByMonth = [];
     const groupedRents = groupRentsByEstates(rents);
-
-    console.log('groupedRents', groupedRents);
 
     for (let key of Object.keys(groupedRents)) {
 
@@ -24,7 +20,7 @@ export const getRentsByMonth = (rents: Rent_Db[]): { estateId: string, rents: { 
                     rentsInEstate.push({
                         year: year,
                         month: month,
-                        rent: rent.rent
+                        totalRent: rent.totalRent
                     })
                 }
             }
@@ -50,12 +46,14 @@ export const fusionateRents = (rents: Rent_Db[]): Rent_Db[] => {
 
         let rentsInEstate = [...groupedRents[key].sort((a, b) => a.start_date.getTime() - b.start_date.getTime())];
 
-        const fusionnedRents = [];
+        const fusionnedRents: Rent_Db[] = [];
         if (rentsInEstate.length === 1) {
-            fusionnedRents.push({ ...rentsInEstate[0] });
+            fusionnedRents.push({ ...rentsInEstate[0], totalRent: rentsInEstate[0].rent + rentsInEstate[0].charges });
         } else {
             while (rentsInEstate.length > 0) {
-                fusionnedRents.push(rentsInEstate.shift());
+
+                const rentInEstate = rentsInEstate.shift();
+                fusionnedRents.push({...rentInEstate, totalRent: rentInEstate.rent + rentInEstate.charges});
                 for (let fusion of fusionnedRents) {
                     rentsInEstate = fusionRent(fusion, rentsInEstate);
                 }
@@ -82,12 +80,16 @@ export const fusionRent = (rent: Rent_Db, rentsToMerge: Rent_Db[]): Rent_Db[] =>
             if (rentToMerge.end_date > rent.end_date) {
                 rent.end_date = new Date(rentToMerge.end_date);
                 rent.start_date = rentToMerge.start_date.getTime() < rent.start_date.getTime() ? rentToMerge.start_date : rent.start_date;
+                rent.totalRent = rent.rent + rentToMerge.rent + rent.charges + rentToMerge.charges;
             }
         } else if (isOneDayDifference(rent.end_date, rentToMerge.start_date)) {
             rent.end_date = rentToMerge.end_date;
+            rent.totalRent = rent.rent + rent.charges + rentToMerge.rent + rentToMerge.charges;
         } else if (isOneDayDifference(rentToMerge.end_date, rent.start_date)) {
             rent.start_date = rentToMerge.start_date;
+            rent.totalRent = rent.rent + rent.charges + rentToMerge.rent + rentToMerge.charges;
         } else {
+            rentToMerge.totalRent = rentToMerge.rent + rentToMerge.charges;
             rentsAfterMerge.push(rentToMerge);
         }
     }

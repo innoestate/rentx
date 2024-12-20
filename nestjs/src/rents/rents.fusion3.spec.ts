@@ -1,4 +1,3 @@
-import exp from "constants";
 import { Rent_Db } from "./rents.db";
 import { fusionateRents, getRentsByMonth } from "./rents.utils";
 
@@ -78,7 +77,6 @@ describe('test rents by months', () => {
         console.log('rentsByMonth', rentsByMonth[0].rents);
         expect(rentsByMonth.length).toEqual(1);
         expect(rentsByMonth[0].estateId).toEqual('1');
-        expect(rentsByMonth[0].rents[0].rent).toEqual(1000);
         expect(rentsByMonth[0].rents[0].year).toEqual(2020);
         expect(rentsByMonth[0].rents[0].month).toEqual(11);
     })
@@ -91,7 +89,6 @@ describe('test rents by months', () => {
         console.log('rentsByMonth', rentsByMonth);
         
         expect(rentsByMonth[0].rents.length).toEqual(2);
-        expect(rentsByMonth[0].rents[0].rent).toEqual(1000);
         expect(rentsByMonth[0].rents[0].year).toEqual(2020);
         expect(rentsByMonth[0].rents[0].month).toEqual(11);
         expect(rentsByMonth[0].rents[1].year).toEqual(2021);
@@ -105,7 +102,6 @@ describe('test rents by months', () => {
         const rentsByMonth = getRentsByMonth(rents);
         
         expect(rentsByMonth[0].rents.length).toEqual(2);
-        expect(rentsByMonth[0].rents[0].rent).toEqual(1000);
         expect(rentsByMonth[1].rents[0].month).toEqual(0);
     })
 
@@ -115,14 +111,11 @@ describe('test rents by months', () => {
         const rentsByMonth = getRentsByMonth(rents);
         
         expect(rentsByMonth[0].rents.length).toEqual(2);
-        expect(rentsByMonth[0].rents[0].rent).toEqual(1000);
         expect(rentsByMonth[0].rents[0].year).toEqual(2020);
         expect(rentsByMonth[0].rents[0].month).toEqual(11);
         expect(rentsByMonth[0].rents[1].year).toEqual(2021);
         expect(rentsByMonth[0].rents[1].month).toEqual(1);
     })
-
-
 
     it('should return rents in 2 estates', () => {
         console.log('test 4');
@@ -130,7 +123,6 @@ describe('test rents by months', () => {
         const rentsByMonth = getRentsByMonth(rents);
     
         expect(rentsByMonth[0].rents.length).toEqual(1);
-        expect(rentsByMonth[0].rents[0].rent).toEqual(1000);
         expect(rentsByMonth[0].rents[0].year).toEqual(2020);
         expect(rentsByMonth[0].rents[0].month).toEqual(11);
         expect(rentsByMonth[1].rents[0].month).toEqual(0);

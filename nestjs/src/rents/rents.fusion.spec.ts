@@ -80,6 +80,7 @@ describe('unit test of rents fusions', () => {
         expect(rents.length).toEqual(1);
         expect(rents[0].estate_id).toEqual(rent1.estate_id);
         expect(rents[0].lodger_id).toEqual(rent1.lodger_id);
+        expect(rents[0].rent).toEqual(1000);
 
     })
 
@@ -114,6 +115,7 @@ describe('unit test of rents fusions', () => {
         expect(rents[0].lodger_id).toEqual(rent1.lodger_id);
         expect(rents[0].start_date).toEqual(rent1.start_date);
         expect(rents[0].end_date).toEqual(rent2.end_date);
+        expect(rents[0].totalRent).toEqual(2200);
 
     })
 

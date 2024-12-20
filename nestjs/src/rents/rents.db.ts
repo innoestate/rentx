@@ -6,6 +6,7 @@ export interface Rent_Db {
     end_date: Date;
     rent: number;
     charges: number;
+    totalRent?: number;
     created_at: Date;
     updated_at: Date;
 }
