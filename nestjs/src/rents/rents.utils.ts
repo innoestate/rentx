@@ -1,5 +1,34 @@
 import { Rent_Db } from "./rents.db";
 
+export const getRentsByMonth = (rents: Rent_Db[]): { estateId: string, rents: { year: number, month: number, rent: number }[] }[] => {
+
+    const rentsInEstate = [];
+    for (let rent of rents) {
+
+        let yearsInterval = rent.end_date.getFullYear() - rent.start_date.getFullYear();
+        for(let i = 0; i <= yearsInterval; i++) {   
+            const year = rent.start_date.getFullYear() + i;
+            const monthStart = i === 0 ? rent.start_date.getMonth() : 0;
+            const monthEnd = i === yearsInterval ? rent.end_date.getMonth() : 11;
+
+            for(let month = monthStart; month <= monthEnd; month++) {
+                rentsInEstate.push({
+                    year: year,
+                    month: month,
+                    rent: rent.rent
+                })
+            }
+        }
+
+    }
+
+    return [{
+        estateId: '1',
+        rents: rentsInEstate
+    }]
+
+}
+
 export const fusionateRents = (rents: Rent_Db[]): Rent_Db[] => {
     if (rents.length === 0) return [];
 
@@ -13,17 +42,17 @@ export const fusionateRents = (rents: Rent_Db[]): Rent_Db[] => {
         return acc;
     }, {} as { [key: string]: Rent_Db[] });
 
-    for(let key of Object.keys(groupedRents)){
+    for (let key of Object.keys(groupedRents)) {
 
         let rentsInEstate = [...groupedRents[key].sort((a, b) => a.start_date.getTime() - b.start_date.getTime())];
 
         const fusionnedRents = [];
-        if(rentsInEstate.length === 1){
-            fusionnedRents.push({...rentsInEstate[0]});
-        }else{
-            while (rentsInEstate.length > 0 ) {
+        if (rentsInEstate.length === 1) {
+            fusionnedRents.push({ ...rentsInEstate[0] });
+        } else {
+            while (rentsInEstate.length > 0) {
                 fusionnedRents.push(rentsInEstate.shift());
-                for(let fusion of fusionnedRents){
+                for (let fusion of fusionnedRents) {
                     rentsInEstate = fusionRent(fusion, rentsInEstate);
                 }
             }
@@ -45,12 +74,12 @@ export const fusionRent = (rent: Rent_Db, rentsToMerge: Rent_Db[]): Rent_Db[] =>
     const rentsAfterMerge = [];
     for (let rentToMerge of rentsToMerge) {
 
-        if(rentToMerge.start_date <= rent.end_date){
-            if(rentToMerge.end_date > rent.end_date){
+        if (rentToMerge.start_date <= rent.end_date) {
+            if (rentToMerge.end_date > rent.end_date) {
                 rent.end_date = new Date(rentToMerge.end_date);
                 rent.start_date = rentToMerge.start_date.getTime() < rent.start_date.getTime() ? rentToMerge.start_date : rent.start_date;
             }
-        }else if (isOneDayDifference(rent.end_date, rentToMerge.start_date)) {
+        } else if (isOneDayDifference(rent.end_date, rentToMerge.start_date)) {
             rent.end_date = rentToMerge.end_date;
         } else if (isOneDayDifference(rentToMerge.end_date, rent.start_date)) {
             rent.start_date = rentToMerge.start_date;
