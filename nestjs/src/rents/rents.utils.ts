@@ -17,10 +17,17 @@ export const getRentsByMonth = (rents: Rent_Db[]): { estateId: string, rents: { 
                 const monthEnd = i === yearsInterval ? rent.end_date.getMonth() : 11;
     
                 for(let month = monthStart; month <= monthEnd; month++) {
+                    const daysOfMonth = new Date(year, month + 1, 0).getDate();
+                    let daysInMonth = daysOfMonth;
+                    if(year === rent.end_date.getFullYear() && month === rent.end_date.getMonth()) {
+                        daysInMonth = rent.end_date.getDate();
+                    }else if (year === rent.start_date.getFullYear() && month === rent.start_date.getMonth()) {
+                        daysInMonth = daysOfMonth - rent.start_date.getDate() + 1;
+                    }
                     rentsInEstate.push({
                         year: year,
                         month: month,
-                        totalRent: rent.totalRent
+                        totalRent: Math.round(rent.totalRent * daysInMonth / daysOfMonth) 
                     })
                 }
             }
