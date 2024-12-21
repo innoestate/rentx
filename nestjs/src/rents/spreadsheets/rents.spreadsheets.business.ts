@@ -1,5 +1,7 @@
 import { Estate_filled_Db } from "../../estates/estate-filled-db.model";
 import { Rent_Db } from "../rents.db";
+import { fusionateRents, getRentsByMonth } from "../rents.utils";
+import { MONTHS } from "./spreadsheets.google.strategy";
 import { SpreadSheetStrategy } from "./spreadsheets.strategy";
 
 export interface Sheet {
@@ -15,7 +17,7 @@ export interface SpreadSheet {
 }
 
 export interface SpreadSheetUpdate {
-    sheetId: number,
+    sheetTitle: string,
     cell: string;
     backgroundColor: string;
     value: string | number;
@@ -42,14 +44,36 @@ export const buildSpreadsheetContext = async (sheetStrategy: SpreadSheetStrategy
         }
         return { spreadSheet, hasBeenRemoved };
     } catch (e) {
-        console.log('error in buildSrepadSheetContext', e);
         console.error(e);
         return null;
     }
 }
 
 export const buildSpreadSheetRents = (sheetStrategy: SpreadSheetStrategy, spreadSheetContext: SpreadSheet, rents: Rent_Db[]): SpreadSheetUpdate[] => {
-    return null
+
+    const fusionnedRents = fusionateRents(rents);
+    const rentsByMonths = getRentsByMonth(fusionnedRents);
+    const spreadSheetUpdates = [];
+
+    rentsByMonths.forEach(rentByMonth => {
+        const rowIndex = 2;
+        rentByMonth.rents.forEach(rent => {
+            const sheet = spreadSheetContext.sheets.find(sheet => sheet.title === rent.year+'');
+            if (sheet) {
+                const monthTitle = MONTHS[rent.month];
+                const monthIndex = sheet.rows[0].findIndex(cell => cell.value === monthTitle);
+                spreadSheetUpdates.push({
+                    sheetTitle: sheet.title,
+                    cell: String.fromCharCode(65 + monthIndex) + rowIndex,
+                    backgroundColor: '#00FF00',
+                    value: rent.rent
+                })
+            }
+        })
+    });
+
+
+    return spreadSheetUpdates;
 }
 
 export const applySpreadSheetUpdates = (sheetStrategy: SpreadSheetStrategy, spreadSheetUpdates: SpreadSheetUpdate[]) => {

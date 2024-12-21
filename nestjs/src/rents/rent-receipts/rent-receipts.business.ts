@@ -6,6 +6,7 @@ import { Estate } from '../../estates/estate.entity';
 import { Lodger_Db } from '../../lodgers/lodger-db.model';
 import { Owner_Db } from '../../owners/owners-db.model';
 import { from, map } from 'rxjs';
+import { calculateMonthlyRent, calculateRent } from '../rents.utils';
 
 export const createRentReciptPdf = async (estate: Estate_Db, owner: Owner_Db, lodger: Lodger_Db, startDate_?: string, endDate_?: string) => {
 
@@ -128,7 +129,8 @@ export const getRentReceiptInfos = (estate: Estate_Db, owner: Owner_Db, lodger: 
     }
     const rent = estate.rent;
     const charges = estate.charges;
-    const { totalRent, rentsByMonths } = calculateRent(rent, charges, startDate, endDate);
+    const rentsByMonths = calculateMonthlyRent(rent, charges, startDate, endDate);
+    const totalRent = calculateRent(rent, charges, startDate, endDate);
 
     const street = estate.street;
     const lodgerZipAndCity = estate.zip + ' ' + estate.city;
@@ -210,73 +212,6 @@ const createEmail = (to: string, subject: string, parts: any[]) => {
 const formatDateFromISOString = (dateStr: string): string => {
     const [year, month, day] = dateStr.split('T')[0].split('-');
     return `${day}/${month}/${year}`;
-}
-
-export const calculateRent = (rent: number, charges: number, dateStart: Date, dateEnd?: Date): { rentsByMonths: { year: number, month: number, rent: number }[], totalRent: number } => {
-
-    let result = 0;
-    let rentsByMonths = [];
-
-    if (!dateEnd) {
-        return { rentsByMonths: [{ month: dateStart.getMonth(), year: dateStart.getFullYear(), rent: rent + charges }], totalRent: rent + charges };
-    } else {
-
-        const daysInFirstMonth = new Date(dateStart.getFullYear(), dateStart.getMonth() + 1, 0).getDate();
-        const daysInLastMonth = new Date(dateEnd.getFullYear(), dateEnd.getMonth() + 1, 0).getDate();
-        const daysOfFirstMonth = daysInFirstMonth - (dateStart.getDate() + (dateStart.getDate() == 1 ? -1 : 0));
-        const daysOfLastMonth = dateEnd.getDate();
-
-        let days = 0;
-        if (dateStart.getMonth() == dateEnd.getMonth() && dateStart.getFullYear() === dateEnd.getFullYear()) {
-            days = dateEnd.getDate() - (dateStart.getDate() + (dateStart.getDate() == 1 ? -1 : 0));
-            result = Math.round((rent + charges) / daysInFirstMonth * days);
-            rentsByMonths.push({ month: dateStart.getMonth(), year: dateStart.getFullYear(), rent: result });
-        } else {
-
-            if (dateStart.getFullYear() == dateEnd.getFullYear()) {
-
-                const rentForFirstMonth = Math.round((rent + charges) / daysInFirstMonth * daysOfFirstMonth);
-                const rentForMonthsBetween = (rent + charges) * (dateEnd.getMonth() - dateStart.getMonth() - 1);
-                const rentForLastMonth = Math.round((rent + charges) / daysInLastMonth * daysOfLastMonth);
-                result = rentForFirstMonth + rentForMonthsBetween + rentForLastMonth;
-
-                rentsByMonths.push({ month: dateStart.getMonth(), year: dateStart.getFullYear(), rent: rentForFirstMonth });
-                if(rentForMonthsBetween){
-                    for (let i = 1; i <= dateEnd.getMonth() - dateStart.getMonth() - 1; i++) {
-                        rentsByMonths.push({ month: dateStart.getMonth() + i, year: dateStart.getFullYear(), rent: rent + charges });
-                    }
-                }
-                if(rentForLastMonth){
-                    rentsByMonths.push({ month: dateEnd.getMonth(), year: dateEnd.getFullYear(), rent: rentForLastMonth });
-                }
-
-
-            } else {
-                const rentForFirstMonth = Math.round((rent + charges) / daysInFirstMonth * daysOfFirstMonth);
-                const rentForMonthsBetween = (rent + charges) * Math.max(0,(12 - (dateStart.getMonth()+1) + dateEnd.getMonth()));
-                const rentForLastMonth = Math.round((rent + charges) / daysInLastMonth * daysOfLastMonth);
-                result = rentForFirstMonth + rentForMonthsBetween + rentForLastMonth;
-
-                rentsByMonths.push({ month: dateStart.getMonth(), year: dateStart.getFullYear(), rent: rentForFirstMonth });
-                if(rentForMonthsBetween){
-                    for (let i = 1; i <= 12 - dateStart.getMonth(); i++) {
-                        rentsByMonths.push({ month: dateStart.getMonth() + i, year: dateStart.getFullYear(), rent: rent + charges });
-                    }
-                    for(let i = 1; i <= dateEnd.getMonth(); i++){
-                        rentsByMonths.push({ month: i, year: dateEnd.getFullYear(), rent: rent + charges });
-                    }
-                }
-                if(rentForLastMonth){
-                    rentsByMonths.push({ month: dateEnd.getMonth(), year: dateEnd.getFullYear(), rent: rentForLastMonth });
-                }
-            }
-
-        }
-
-    }
-
-
-    return { rentsByMonths, totalRent: result };
 }
 
 const initDoc = () => {

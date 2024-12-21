@@ -3,7 +3,7 @@ import { Sheet, SpreadSheet } from "./rents.spreadsheets.business";
 import { SpreadSheetStrategy } from "./spreadsheets.strategy";
 import { google, sheets_v4 } from 'googleapis';
 
-const MONTHS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+export const MONTHS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 
 export const getOath2Client = async (accessToken: string, refreshToken: string, clientId: string, clientSecret: string) => {
     const oauth2Client = new google.auth.OAuth2(clientId, clientSecret);
@@ -334,7 +334,7 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
         return spreadsheet.sheets;
     }
 
-    // async updateSheets(sheets: Sheet[]): Promise<SpreadSheet> {
-    //     return null;
-    // }
+    async updateSheet(spreadSheet: SpreadSheet): Promise<SpreadSheet> {
+        return null;
+    }
 }

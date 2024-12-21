@@ -1,4 +1,4 @@
-import { calculateRent } from "./rent-receipts.business";
+import { calculateRent } from "../rents.utils";
 
 describe('rents business unit tests', () => {
 
@@ -7,7 +7,7 @@ describe('rents business unit tests', () => {
         const rent = 300;
         const charges = 30;
         const date = new Date('2024-02-01');
-        const result = calculateRent(rent, charges, date).totalRent;
+        const result = calculateRent(rent, charges, date);
         expect(result).toEqual(330);
     })
 
@@ -16,7 +16,7 @@ describe('rents business unit tests', () => {
         const rent = 300;
         const charges = 30;
         const date = new Date('2024-03-01');
-        const result = calculateRent(rent, charges, date).totalRent;
+        const result = calculateRent(rent, charges, date);
         expect(result).toEqual(330);
     })
 
@@ -26,7 +26,7 @@ describe('rents business unit tests', () => {
         const charges = 30;
         const date = new Date('2024-02-01');
         const dateEnd = new Date('2024-02-29');
-        const result = calculateRent(rent, charges, date, dateEnd).totalRent;
+        const result = calculateRent(rent, charges, date, dateEnd);
         expect(result).toEqual(330);
     })
 
@@ -36,7 +36,7 @@ describe('rents business unit tests', () => {
         const charges = 30;
         const date = new Date('2024-03-01');
         const dateEnd = new Date('2024-03-31');
-        const result = calculateRent(rent, charges, date, dateEnd).totalRent;
+        const result = calculateRent(rent, charges, date, dateEnd);
         expect(result).toEqual(330);
     })
 
@@ -47,7 +47,7 @@ describe('rents business unit tests', () => {
         const dateStart = new Date('2024-02-01');
         const dateEnd = new Date('2024-02-15');
 
-        const result = calculateRent(rent, charges, dateStart, dateEnd).totalRent;
+        const result = calculateRent(rent, charges, dateStart, dateEnd);
         expect(result).toEqual(171);
     })
 
@@ -58,7 +58,7 @@ describe('rents business unit tests', () => {
         const dateStart = new Date('2024-03-01');
         const dateEnd = new Date('2024-03-15');
 
-        const result = calculateRent(rent, charges, dateStart, dateEnd).totalRent;
+        const result = calculateRent(rent, charges, dateStart, dateEnd);
         expect(result).toEqual(160);
     })
 
@@ -70,7 +70,7 @@ describe('rents business unit tests', () => {
         const dateStart = new Date('2024-03-05');
         const dateEnd = new Date('2024-03-20');
 
-        const result = calculateRent(rent, charges, dateStart, dateEnd).totalRent;
+        const result = calculateRent(rent, charges, dateStart, dateEnd);
         expect(result).toEqual(160);
     })
 
@@ -81,7 +81,7 @@ describe('rents business unit tests', () => {
         const dateStart = new Date('2024-03-16');
         const dateEnd = new Date('2024-03-31');
 
-        const result = calculateRent(rent, charges, dateStart, dateEnd).totalRent;
+        const result = calculateRent(rent, charges, dateStart, dateEnd);
         expect(result).toEqual(160);
     })
 
@@ -92,7 +92,7 @@ describe('rents business unit tests', () => {
         const dateStart = new Date('2024-02-10');
         const dateEnd = new Date('2024-03-21');
 
-        const result = calculateRent(rent, charges, dateStart, dateEnd).totalRent;
+        const result = calculateRent(rent, charges, dateStart, dateEnd);
         expect(result).toEqual(440);
     })
 
@@ -105,7 +105,7 @@ describe('rents business unit tests', () => {
         const dateStart = new Date('2024-02-15');
         const dateEnd = new Date('2024-04-15');
 
-        const result = calculateRent(rent, charges, dateStart, dateEnd).totalRent;
+        const result = calculateRent(rent, charges, dateStart, dateEnd);
         expect(result).toEqual(159 + 330 + 165);
     })
 
@@ -117,7 +117,7 @@ describe('rents business unit tests', () => {
         const dateStart = new Date('2024-02-15');
         const dateEnd = new Date('2025-03-15');
 
-        const result = calculateRent(rent, charges, dateStart, dateEnd).totalRent;
+        const result = calculateRent(rent, charges, dateStart, dateEnd);
         expect(result).toEqual(159 + 3960 + 160);
     })
 
@@ -128,7 +128,7 @@ describe('rents business unit tests', () => {
         const charges = 30;
         const dateStart = new Date('2023-12-01');
         const dateEnd = new Date('2024-02-29');
-        const result = calculateRent(rent, charges, dateStart, dateEnd).totalRent;
+        const result = calculateRent(rent, charges, dateStart, dateEnd);
         expect(result).toEqual(990);
     })
 
@@ -140,7 +140,7 @@ describe('rents business unit tests', () => {
         const dateStart = new Date('2023-01-01');
         const dateEnd = new Date('2024-05-31');
 
-        const result = calculateRent(rent, charges, dateStart, dateEnd).totalRent;
+        const result = calculateRent(rent, charges, dateStart, dateEnd);
         expect(result).toEqual(5610);
     })
 
