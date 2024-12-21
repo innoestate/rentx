@@ -18,13 +18,17 @@ export class RentsDbService {
     const rent = this.rentsRepository.create(rentDto);
     return from(
         this.rentsRepository.upsert(rent, {
-            conflictPaths: ['estate_id', 'lodger_id', 'start_date', 'end_date'],
+            conflictPaths: ['user_id', 'estate_id', 'lodger_id', 'start_date', 'end_date'],
         }).then(() => rent)
     )
-}
+  }
 
   getByEstate(estateId: string): Observable<Rent_Entity[]> {
     return from(this.rentsRepository.find({ where: { estate_id: estateId } })) as Observable<Rent_Entity[]>;
+  }
+
+  getByUserId(userId: string): Observable<Rent_Entity[]> {
+    return from(this.rentsRepository.find({ where: { user_id: userId } })) as Observable<Rent_Entity[]>;
   }
 
   update(rent: DeepPartial<Rent_Entity>): Observable<any> {

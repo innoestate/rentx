@@ -23,27 +23,27 @@ export class RentsService {
   constructor(private config: ConfigService, private rentsDbService: RentsDbService, private docsDbService: DocsDbService, private estateService: EstatesService, private ownerService: OwnersService, private lodgerService: LodgersService
   ) { }
 
-  buildRentReciptPdf(estate: any, owner: any, lodger: any, startDate_: string, endDate_: string, accessToken: string, refreshToken: string, clientId: string, clientSecret: string): Observable<any> {
+  buildRentReciptPdf(userId: string, estate: any, owner: any, lodger: any, startDate_: string, endDate_: string, accessToken: string, refreshToken: string, clientId: string, clientSecret: string): Observable<any> {
 
     const { startDate, endDate, rent, charges } = getRentReceiptInfos(estate, owner, lodger, startDate_, endDate_);
 
-    return from(this.rentsDbService.create({ estate_id: estate.id, lodger_id: lodger.id, start_date: startDate, end_date: endDate, rent, charges })).pipe(
+    return from(this.rentsDbService.create({ user_id: userId, estate_id: estate.id, lodger_id: lodger.id, start_date: startDate, end_date: endDate, rent, charges })).pipe(
       tap(_ => this.addPeriodToGoogleSheet(estate.user_id, estate.id, startDate, endDate, accessToken, refreshToken, clientId, clientSecret).pipe(take(1)).subscribe()),
       switchMap(_ => from(createRentReciptPdf(estate, owner, lodger, startDate_, endDate_))),
       catchError(_ => from(createRentReciptPdf(estate, owner, lodger, startDate_, endDate_)))
     );
   }
 
-  BuildRentReceiptEmail(owners: Owner_Db[], lodgers: Lodger_Db[], estate: Estate_Db, startDate_?: string, endDate_?: string) {
+  BuildRentReceiptEmail(userId: string, owners: Owner_Db[], lodgers: Lodger_Db[], estate: Estate_Db, startDate_?: string, endDate_?: string) {
 
     const owner = owners.find(owner => owner.id === estate.owner_id);
     const lodger = lodgers.find(lodger => lodger.id === estate.lodger_id);
 
     const { startDate, endDate, rent, charges } = getRentReceiptInfos(estate, owner, lodger, startDate_, endDate_);
 
-    return from(this.rentsDbService.create({ estate_id: estate.id, lodger_id: lodger.id, start_date: startDate, end_date: endDate, rent, charges })).pipe(
-      switchMap(rent => from(createRentReceiptEmail(owners, lodgers, estate, startDate_, endDate_))),
-      catchError(err => from(createRentReceiptEmail(owners, lodgers, estate, startDate_, endDate_)))
+    return from(this.rentsDbService.create({ user_id: userId, estate_id: estate.id, lodger_id: lodger.id, start_date: startDate, end_date: endDate, rent, charges })).pipe(
+      switchMap(rent => from(createRentReceiptEmail(userId, owners, lodgers, estate, startDate_, endDate_))),
+      catchError(err => from(createRentReceiptEmail(userId, owners, lodgers, estate, startDate_, endDate_)))
     );
   }
 

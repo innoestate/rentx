@@ -53,7 +53,7 @@ export class RentsController {
             switchMap(([estate, owners, lodgers]) => {
                 const owner = owners.find(owner => owner.id === estate.owner_id);
                 const lodger = lodgers.find(lodger => lodger.id === estate.lodger_id);
-                return this.rentsService.buildRentReciptPdf(estate, owner, { ...lodger, email: req.user.email }, startDate, endDate, accessToken, refresh_token, clientId, clientSecret);
+                return this.rentsService.buildRentReciptPdf(req.user.id, estate, owner, { ...lodger, email: req.user.email }, startDate, endDate, accessToken, refresh_token, clientId, clientSecret);
             }),
             map(rentReceipt => {
                 res.setHeader('Content-Type', 'application/pdf');
@@ -76,7 +76,7 @@ export class RentsController {
             this.ownerService.getByUser(req.user.id),
             this.lodgerService.getByUser(req.user.id)
         ]).pipe(
-            switchMap(([estate, owners, lodgers]) => createRentReceiptEmail(owners, lodgers, estate, startDate, endDate)),
+            switchMap(([estate, owners, lodgers]) => createRentReceiptEmail(req.user.id, owners, lodgers, estate, startDate, endDate)),
             switchMap(base64EncodedEmail => sendEmail(req.user.accessToken, req.user.refresh_token, base64EncodedEmail, this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET'))),
         );
 
