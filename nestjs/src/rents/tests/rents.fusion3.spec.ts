@@ -80,11 +80,25 @@ describe('test rents by months', () => {
         const rents = fusionateRents([{...rent0Estate1}]);
         expect(rents.length).toEqual(1);
         const rentsByMonth = getRentsByMonth(rents);
-        console.log('rentsByMonth', rentsByMonth[0].rents);
         expect(rentsByMonth.length).toEqual(1);
         expect(rentsByMonth[0].estateId).toEqual('1');
         expect(rentsByMonth[0].rents[0].year).toEqual(2020);
         expect(rentsByMonth[0].rents[0].month).toEqual(11);
+    })
+
+    it('should return 2 rent by month', () => {
+        const rents = fusionateRents([{...rent1Estate1}, {...rent2Estate1}]);
+        expect(rents.length).toEqual(1);
+        const rentsByMonth = getRentsByMonth(rents);
+        
+        expect(rentsByMonth[0].rents.length).toEqual(2);
+        expect(rentsByMonth[0].rents[0].year).toEqual(2021);
+        expect(rentsByMonth[0].rents[0].totalRent).toEqual(1100);
+        expect(rentsByMonth[0].rents[0].month).toEqual(0);
+        expect(rentsByMonth[0].rents[1].year).toEqual(2021);
+        expect(rentsByMonth[0].rents[1].totalRent).toEqual(1100);
+        expect(rentsByMonth[0].rents[1].month).toEqual(1);
+
     })
 
 
@@ -92,12 +106,13 @@ describe('test rents by months', () => {
         const rents = fusionateRents([{...rent0Estate1}, {...rent1Estate1}]);
         expect(rents.length).toEqual(1);
         const rentsByMonth = getRentsByMonth(rents);
-        console.log('rentsByMonth', rentsByMonth);
         
         expect(rentsByMonth[0].rents.length).toEqual(2);
         expect(rentsByMonth[0].rents[0].year).toEqual(2020);
+        expect(rentsByMonth[0].rents[0].totalRent).toEqual(1100);
         expect(rentsByMonth[0].rents[0].month).toEqual(11);
         expect(rentsByMonth[0].rents[1].year).toEqual(2021);
+        expect(rentsByMonth[0].rents[1].totalRent).toEqual(1100);
         expect(rentsByMonth[0].rents[1].month).toEqual(0);
 
     })
@@ -111,7 +126,7 @@ describe('test rents by months', () => {
         expect(rentsByMonth[1].rents[0].month).toEqual(0);
     })
 
-    it('should return 3 rent by month', () => {
+    it('should return 2 rents for 2 separate months', () => {
         const rents = fusionateRents([{...rent0Estate1}, {...rent2Estate1}]);
         expect(rents.length).toEqual(2);
         const rentsByMonth = getRentsByMonth(rents);
@@ -119,12 +134,13 @@ describe('test rents by months', () => {
         expect(rentsByMonth[0].rents.length).toEqual(2);
         expect(rentsByMonth[0].rents[0].year).toEqual(2020);
         expect(rentsByMonth[0].rents[0].month).toEqual(11);
+        expect(rentsByMonth[0].rents[0].totalRent).toEqual(1100);
         expect(rentsByMonth[0].rents[1].year).toEqual(2021);
         expect(rentsByMonth[0].rents[1].month).toEqual(1);
+        expect(rentsByMonth[0].rents[1].totalRent).toEqual(1100);
     })
 
     it('should return rents in 2 estates', () => {
-        console.log('test 4');
         const rents = fusionateRents([{...rent0Estate1}, {...rent1Estate2}]);
         const rentsByMonth = getRentsByMonth(rents);
     
@@ -132,6 +148,27 @@ describe('test rents by months', () => {
         expect(rentsByMonth[0].rents[0].year).toEqual(2020);
         expect(rentsByMonth[0].rents[0].month).toEqual(11);
         expect(rentsByMonth[1].rents[0].month).toEqual(0);
+
+    })
+
+
+    it('should return 2 rents with one of a half month', () => {
+        const rents = fusionateRents([{...rent1Estate1, start_date: new Date('2021-01-15')}, {...rent2Estate1}]);
+        const rentsByMonth = getRentsByMonth(rents);
+    
+        expect(rentsByMonth[0].rents.length).toEqual(2);
+        expect(rentsByMonth[0].rents[0].year).toEqual(2021);
+        expect(rentsByMonth[0].rents[0].month).toEqual(0);
+        expect(rentsByMonth[0].rents[0].totalRent).toEqual(603);
+        expect(rentsByMonth[0].rents[1].totalRent).toEqual(1100);
+
+    })
+
+    it('should return a rent of a half month', () => {
+        const rents = fusionateRents([{...rent1Estate1, start_date: new Date('2021-01-15')}]);
+        expect(rents[0].totalRent).toEqual(603);
+        const rentsByMonth = getRentsByMonth(rents);
+        expect(rentsByMonth[0].rents[0].totalRent).toEqual(603);
 
     })
 

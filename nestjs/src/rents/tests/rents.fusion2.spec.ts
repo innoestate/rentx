@@ -81,6 +81,11 @@ describe('unit test of rents fusions', () => {
         expect(rents.length).toEqual(2);
     })
 
+    it('test total rent of half month rent', () => {
+        const rents = fusionateRents([{...rent1Estate1, start_date: new Date('2021-01-15')}]);
+        expect(rents[0].totalRent).toEqual(603);
+    })
+
     it('should return 3 rents in 2 different estates', () => {
         const rents = fusionateRents([{...rent0Estate1}, {...rent1Estate2}, {...rent2Estate1}]);
         expect(rents.length).toEqual(3);

@@ -1,4 +1,5 @@
 import { Rent_Db } from "./rents.db";
+import { differenceInMonths } from 'date-fns';
 
 export const getRentsByMonth = (rents: Rent_Db[]): { estateId: string, rents: { year: number, month: number, totalRent: number }[] }[] => {
 
@@ -9,30 +10,34 @@ export const getRentsByMonth = (rents: Rent_Db[]): { estateId: string, rents: { 
 
         const rentsInEstate = [];
         for (let rent of groupedRents[key]) {
-    
+
             let yearsInterval = rent.end_date.getFullYear() - rent.start_date.getFullYear();
-            for(let i = 0; i <= yearsInterval; i++) {   
+            const totalMonths = differenceInMonths(rent.end_date, rent.start_date) + 1;
+            const monthlyTotalRent = Math.round(rent.totalRent / totalMonths);
+            const calculateTotalRent = (totalMonths <= 1 && rent.start_date.getMonth() === rent.end_date.getMonth()) ? false : true;
+
+            for (let i = 0; i <= yearsInterval; i++) {
                 const year = rent.start_date.getFullYear() + i;
                 const monthStart = i === 0 ? rent.start_date.getMonth() : 0;
                 const monthEnd = i === yearsInterval ? rent.end_date.getMonth() : 11;
-    
-                for(let month = monthStart; month <= monthEnd; month++) {
+
+                for (let month = monthStart; month <= monthEnd; month++) {
                     const daysOfMonth = new Date(year, month + 1, 0).getDate();
                     let daysInMonth = daysOfMonth;
-                    if(year === rent.end_date.getFullYear() && month === rent.end_date.getMonth()) {
+                    if (year === rent.end_date.getFullYear() && month === rent.end_date.getMonth()) {
                         daysInMonth = rent.end_date.getDate();
-                    }else if (year === rent.start_date.getFullYear() && month === rent.start_date.getMonth()) {
+                    } else if (year === rent.start_date.getFullYear() && month === rent.start_date.getMonth()) {
                         daysInMonth = daysOfMonth - rent.start_date.getDate() + 1;
                     }
                     rentsInEstate.push({
                         year: year,
                         month: month,
-                        totalRent: Math.round(rent.totalRent * daysInMonth / daysOfMonth) 
+                        totalRent: calculateTotalRent ? Math.round(monthlyTotalRent * daysInMonth / daysOfMonth) : rent.totalRent
                     })
                 }
             }
         }
-    
+
         rentsByMonth.push({
             estateId: key,
             rents: rentsInEstate
@@ -60,7 +65,7 @@ export const fusionateRents = (rents: Rent_Db[]): Rent_Db[] => {
             while (rentsInEstate.length > 0) {
 
                 const rentInEstate = rentsInEstate.shift();
-                fusionnedRents.push({...rentInEstate, totalRent: rentInEstate.rent + rentInEstate.charges});
+                fusionnedRents.push({ ...rentInEstate, totalRent: rentInEstate.rent + rentInEstate.charges });
                 for (let fusion of fusionnedRents) {
                     rentsInEstate = fusionRent(fusion, rentsInEstate);
                 }
@@ -75,7 +80,20 @@ export const fusionateRents = (rents: Rent_Db[]): Rent_Db[] => {
         );
         finalFusionedRents = [...finalFusionedRents, ...rentsInEstate];
     }
-    return finalFusionedRents;
+    return finalFusionedRents.map(fusionnedRent => {
+
+        if (fusionnedRent.start_date.getFullYear() === fusionnedRent.end_date.getFullYear()
+            && Math.abs(fusionnedRent.end_date.getMonth() - fusionnedRent.start_date.getMonth()) <= 0) {
+
+            const daysInMonth = new Date(fusionnedRent.start_date.getFullYear(), fusionnedRent.start_date.getMonth() + 1, 0).getDate();
+            const daysBetweenDates = Math.abs(fusionnedRent.start_date.getDate() - fusionnedRent.end_date.getDate()) + 1;
+            if (daysBetweenDates < daysInMonth) {
+                fusionnedRent.totalRent = Math.round((fusionnedRent.charges + fusionnedRent.rent) * daysBetweenDates / daysInMonth)
+            }
+
+        }
+        return fusionnedRent;
+    });
 }
 
 export const fusionRent = (rent: Rent_Db, rentsToMerge: Rent_Db[]): Rent_Db[] => {
@@ -110,7 +128,7 @@ export const isOneDayDifference = (date1: Date, date2: Date): boolean => {
 }
 
 export const getStartAndEnDatesFromRents = (rents: Rent_Db[]): { startDate: Date, endDate: Date } => {
-    if(rents.length === 0) return { startDate: null, endDate: null };
+    if (rents.length === 0) return { startDate: null, endDate: null };
     const startDate = new Date(rents.map(rent => rent.start_date).sort((a, b) => a.getTime() - b.getTime())[0]);
     const endDate = new Date(rents.map(rent => rent.end_date).sort((a, b) => b.getTime() - a.getTime())[0]);
 
