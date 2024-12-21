@@ -109,6 +109,14 @@ export const isOneDayDifference = (date1: Date, date2: Date): boolean => {
     return diff <= oneDay;
 }
 
+export const getStartAndEnDatesFromRents = (rents: Rent_Db[]): { startDate: Date, endDate: Date } => {
+    if(rents.length === 0) return { startDate: null, endDate: null };
+    const startDate = new Date(rents.map(rent => rent.start_date).sort((a, b) => a.getTime() - b.getTime())[0]);
+    const endDate = new Date(rents.map(rent => rent.end_date).sort((a, b) => b.getTime() - a.getTime())[0]);
+
+    return { startDate, endDate };
+}
+
 const groupRentsByEstates = (rents: Rent_Db[]): { [key: string]: Rent_Db[] } => {
     return rents.reduce((acc, rent) => {
         if (!acc[rent.estate_id]) {
