@@ -43,6 +43,7 @@ describe('test rents fusion with total rent calculation', () => {
 
         const rents: Rent_Db[] = [{
             id: '1234',
+            user_id: '1',
             estate_id: estate.id,
             lodger_id: estate.lodger.id,
             start_date: startDate,
@@ -74,6 +75,7 @@ describe('test rents fusion with total rent calculation', () => {
 
         const rents: Rent_Db[] = [{
             id: '1234',
+            user_id: '1',
             estate_id: estate.id,
             lodger_id: estate.lodger.id,
             start_date: startDate,
@@ -107,6 +109,7 @@ describe('test rents fusion with total rent calculation', () => {
 
         const rents: Rent_Db[] = [{
             id: '1234',
+            user_id: '1',
             estate_id: estate.id,
             lodger_id: estate.lodger.id,
             start_date: startDate,
@@ -141,6 +144,7 @@ describe('test rents fusion with total rent calculation', () => {
 
         const rents: Rent_Db[] = [{
             id: '1234',
+            user_id: '1',
             estate_id: estate.id,
             lodger_id: estate.lodger.id,
             start_date: startDate,

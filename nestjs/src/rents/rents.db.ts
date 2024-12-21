@@ -1,5 +1,6 @@
 export interface Rent_Db {
     id: string;
+    user_id: string;
     estate_id: string;
     lodger_id: string;
     start_date: Date;

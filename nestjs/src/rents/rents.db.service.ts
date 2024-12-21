@@ -4,6 +4,7 @@ import { from, Observable } from 'rxjs';
 import { DeepPartial, Repository } from 'typeorm';
 import { Rent_Dto } from './rents.dto.model';
 import { Rent_Entity } from './rents.entity';
+import { Rent_Db } from './rents.db';
 
 
 @Injectable()
@@ -27,8 +28,8 @@ export class RentsDbService {
     return from(this.rentsRepository.find({ where: { estate_id: estateId } })) as Observable<Rent_Entity[]>;
   }
 
-  getByUserId(userId: string): Observable<Rent_Entity[]> {
-    return from(this.rentsRepository.find({ where: { user_id: userId } })) as Observable<Rent_Entity[]>;
+  getByUserId(userId: string): Observable<Rent_Db[]> {
+    return from(this.rentsRepository.find({ where: { user_id: userId } })) as Observable<any>;
   }
 
   update(rent: DeepPartial<Rent_Entity>): Observable<any> {

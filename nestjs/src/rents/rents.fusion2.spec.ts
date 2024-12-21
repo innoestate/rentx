@@ -6,6 +6,7 @@ describe('unit test of rents fusions', () => {
 
     const rent0Estate1: Rent_Db = {
         id: 'abcd',
+        user_id: '1',
         estate_id: '1',
         lodger_id: '2',
         start_date: new Date('2020-12-01'),
@@ -17,6 +18,7 @@ describe('unit test of rents fusions', () => {
     }
     const rent1Estate1: Rent_Db = {
         id: 'abcd',
+        user_id: '1',
         estate_id: '1',
         lodger_id: '2',
         start_date: new Date('2021-01-01'),
@@ -28,6 +30,7 @@ describe('unit test of rents fusions', () => {
     }
     const rent1Estate2: Rent_Db = {
         id: 'abcd',
+        user_id: '1',
         estate_id: '2',
         lodger_id: '2',
         start_date: new Date('2021-01-01'),
@@ -39,6 +42,7 @@ describe('unit test of rents fusions', () => {
     }
     const rent1Bis: Rent_Db = {
         id: 'abcdBis',
+        user_id: '1',
         estate_id: '1',
         lodger_id: '2',
         start_date: new Date('2021-01-01'),
@@ -50,6 +54,7 @@ describe('unit test of rents fusions', () => {
     }
     const rent2Estate1: Rent_Db = {
         id: 'efgh',
+        user_id: '1',
         estate_id: '1',
         lodger_id: '2',
         start_date: new Date('2021-02-01'),
@@ -61,6 +66,7 @@ describe('unit test of rents fusions', () => {
     }
     const rent3: Rent_Db = {
         id: 'ijkl',
+        user_id: '1',
         estate_id: '1',
         lodger_id: '2',
         start_date: new Date('2021-03-01'),
