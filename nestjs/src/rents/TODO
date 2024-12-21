@@ -1,0 +1,4 @@
+
+créer une fonction d'update sheet qui permet d'actualiser le tableaux excel avec les rentes mises à jour:
+
+- créer une fonction qui prend toutes les rentes fusionnées et renvoie le montant payé chaque mois

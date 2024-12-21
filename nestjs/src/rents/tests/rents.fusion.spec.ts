@@ -1,5 +1,5 @@
-import { Rent_Db } from "./rents.db";
-import { fusionateRents } from "./rents.utils";
+import { Rent_Db } from "../rents.db";
+import { fusionateRents } from "../rents.utils";
 
 describe('unit test of rents fusions', () => {
 

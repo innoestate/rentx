@@ -1,5 +1,5 @@
-import { Rent_Db } from "./rents.db";
-import { fusionateRents, getRentsByMonth } from "./rents.utils";
+import { Rent_Db } from "../rents.db";
+import { fusionateRents, getRentsByMonth } from "../rents.utils";
 
 describe('test rents by months', () => {
 

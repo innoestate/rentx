@@ -1,5 +1,5 @@
 import { MockedGoogleSpreadSheetStrategy } from './spreadsheets.mocked.strategy';
-import { buildSpreadsheetContext } from './rents.spreadsheet.buisness';
+import { buildSpreadsheetContext } from './rents.spreadsheets.business';
 
 describe('building spreadsheet context with correct sheets numbers', () => {
 

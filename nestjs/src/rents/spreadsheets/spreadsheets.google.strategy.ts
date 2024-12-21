@@ -1,5 +1,5 @@
-import { Estate_filled_Db } from "src/estates/estate-filled-db.model";
-import { Sheet, SpreadSheet } from "./rents.spreadsheet.buisness";
+import { Estate_filled_Db } from "../../estates/estate-filled-db.model";
+import { Sheet, SpreadSheet } from "./rents.spreadsheets.business";
 import { SpreadSheetStrategy } from "./spreadsheets.strategy";
 import { google, sheets_v4 } from 'googleapis';
 

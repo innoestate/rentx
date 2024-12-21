@@ -8,13 +8,15 @@ import { Lodger_Db } from '../lodgers/lodger-db.model';
 import { LodgersService } from '../lodgers/lodgers.service';
 import { Owner_Db } from '../owners/owners-db.model';
 import { OwnersService } from '../owners/owners.service';
-import { createRentReceiptEmail, createRentReciptPdf, getRentReceiptInfos } from './rent-receipts.business';
+import { createRentReceiptEmail, createRentReciptPdf, getRentReceiptInfos } from './rent-receipts/rent-receipts.business';
 import { RentsDbService } from './rents.db.service';
 import { ConfigService } from '@nestjs/config';
-import { SpreadSheetGoogleStrategy } from './spreadsheets.google.strategy';
-import { buildSpreadsheetContext, SpreadSheet } from './rents.spreadsheet.buisness';
-import { SpreadSheetStrategy } from './spreadsheets.strategy';
+import { SpreadSheetGoogleStrategy } from './spreadsheets/spreadsheets.google.strategy';
+import { buildSpreadsheetContext, SpreadSheet } from './spreadsheets/rents.spreadsheets.business';
+import { SpreadSheetStrategy } from './spreadsheets/spreadsheets.strategy';
 import { Docs_Db } from 'src/docs/docs.db.model';
+import { Rent_Db } from './rents.db';
+import { getStartAndEnDatesFromRents } from './rents.utils';
 
 
 @Injectable()
@@ -64,6 +66,25 @@ export class RentsService {
       console.error(err);
       of(err);
     }
+  }
+
+  synchronizeRentsInGoogleSheet(userId: string, accessToken: string, refreshToken: string, clientId: string, clientSecret: string): Observable<Docs_Db> {
+    const spreadSheetStrategy = new SpreadSheetGoogleStrategy();
+    return from(spreadSheetStrategy.init(accessToken, refreshToken, clientId, clientSecret)).pipe(
+      switchMap(_ => this.getFullEstates(userId)),
+      switchMap((estates) => combineLatest([of(estates), this.rentsDbService.getByUserId(userId), this.getSpreadSheetId(userId)])),
+      switchMap(([estates, rents, spreadSheetId]) => from(buildSpreadsheetContext(spreadSheetStrategy, spreadSheetId, estates, getStartAndEnDatesFromRents(rents).startDate, getStartAndEnDatesFromRents(rents).endDate))),
+      switchMap(({ spreadSheet, hasBeenRemoved }) => this.saveSpreadSheetId(userId, spreadSheet, hasBeenRemoved)),
+      catchError(err => {
+        console.error(err);
+        return of(null);
+      })
+    );
+    return of(null);
+  }
+
+  getFusionnedRents(user_id): Observable<Rent_Db[]> {
+    return of(null);
   }
 
   private addPeriodToGoogleSheet(userId: string, estateId: string, startDate: Date, endDate: Date, accessToken: string, refreshToken: string, clientId: string, clientSecret: string): Observable<Docs_Db> {

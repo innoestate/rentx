@@ -1,6 +1,6 @@
-import { Estate_filled_Db } from 'src/estates/estate-filled-db.model';
+import { Estate_filled_Db } from '../../estates/estate-filled-db.model';
 import { MockedGoogleSpreadSheetStrategy } from './spreadsheets.mocked.strategy';
-import { buildSpreadsheetContext } from './rents.spreadsheet.buisness';
+import { buildSpreadsheetContext } from './rents.spreadsheets.business';
 
 const estate: Estate_filled_Db = {
     id: '0',

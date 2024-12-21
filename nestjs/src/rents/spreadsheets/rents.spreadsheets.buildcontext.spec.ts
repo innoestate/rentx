@@ -1,5 +1,5 @@
-import { Estate_filled_Db } from 'src/estates/estate-filled-db.model';
-import { getUnusedEstates, getMissingRows, SpreadSheet } from './rents.spreadsheet.buisness';
+import { Estate_filled_Db } from '../../estates/estate-filled-db.model';
+import { getUnusedEstates, getMissingRows, SpreadSheet } from './rents.spreadsheets.business';
 
 const estate: Estate_filled_Db = {
     id: '0',

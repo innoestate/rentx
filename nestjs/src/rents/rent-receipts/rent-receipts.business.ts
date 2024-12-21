@@ -1,10 +1,10 @@
 import * as fs from 'fs';
 import * as pdfkit from 'pdfkit';
 const path = require('path');
-import { Estate_Db } from '../estates/estate-db.model';
-import { Estate } from '../estates/estate.entity';
-import { Lodger_Db } from '../lodgers/lodger-db.model';
-import { Owner_Db } from '../owners/owners-db.model';
+import { Estate_Db } from '../../estates/estate-db.model';
+import { Estate } from '../../estates/estate.entity';
+import { Lodger_Db } from '../../lodgers/lodger-db.model';
+import { Owner_Db } from '../../owners/owners-db.model';
 import { from, map } from 'rxjs';
 
 export const createRentReciptPdf = async (estate: Estate_Db, owner: Owner_Db, lodger: Lodger_Db, startDate_?: string, endDate_?: string) => {
@@ -13,7 +13,7 @@ export const createRentReciptPdf = async (estate: Estate_Db, owner: Owner_Db, lo
 
         try {
 
-            const fontPath = path.join(__dirname, '../assets/fonts/times_bold.ttf');
+            const fontPath = path.join(__dirname, '../../assets/fonts/times_bold.ttf');
 
             const doc = initDoc();
             runStream(doc, null, document => resolve(document));

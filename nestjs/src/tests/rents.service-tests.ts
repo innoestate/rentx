@@ -1,4 +1,4 @@
-import { MockedGoogleSpreadSheetStrategy } from "../rents/spreadsheets.mocked.strategy";
+import { MockedGoogleSpreadSheetStrategy } from "../rents/spreadsheets/spreadsheets.mocked.strategy";
 import { RentsService } from "../rents/rents.service";
 import * as request from 'supertest';
 import { User_Db } from "src/user/user-db.model";

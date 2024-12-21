@@ -7,7 +7,7 @@ import { EstatesService } from '../estates/estates.service';
 import { UserMidleweare } from '../guards/user-midleweare.guard';
 import { LodgersService } from '../lodgers/lodgers.service';
 import { OwnersService } from '../owners/owners.service';
-import { createRentReceiptEmail, createRentReciptPdf } from './rent-receipts.business';
+import { createRentReceiptEmail, createRentReciptPdf } from './rent-receipts/rent-receipts.business';
 import { RentsService } from './rents.service';
 
 

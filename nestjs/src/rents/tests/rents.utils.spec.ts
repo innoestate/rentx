@@ -1,5 +1,5 @@
-import { Rent_Db } from "./rents.db";
-import { getStartAndEnDatesFromRents } from "./rents.utils";
+import { Rent_Db } from "../rents.db";
+import { getStartAndEnDatesFromRents } from "../rents.utils";
 
 describe('testing geting start and end date from rents', () => {
 

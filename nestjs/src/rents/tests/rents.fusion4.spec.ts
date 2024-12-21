@@ -1,7 +1,7 @@
 import { Estate_filled_Db } from "src/estates/estate-filled-db.model";
-import { getRentReceiptInfos } from "./rent-receipts.business";
-import { Rent_Db } from "./rents.db";
-import { fusionateRents, getRentsByMonth } from "./rents.utils";
+import { getRentReceiptInfos } from "../rent-receipts/rent-receipts.business";
+import { Rent_Db } from "../rents.db";
+import { fusionateRents, getRentsByMonth } from "../rents.utils";
 
 describe('test rents fusion with total rent calculation', () => {
 

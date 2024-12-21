@@ -1,5 +1,5 @@
-import { Estate_filled_Db } from "src/estates/estate-filled-db.model";
-import { Sheet, SpreadSheet } from "./rents.spreadsheet.buisness";
+import { Estate_filled_Db } from "../../estates/estate-filled-db.model";
+import { Sheet, SpreadSheet } from "./rents.spreadsheets.business";
 import { SpreadSheetStrategy } from "./spreadsheets.strategy";
 
 const ROW_HEADER_VALUES = ['Propriétaire', 'Adresse', 'Ville', 'Lot', 'Locataire', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
