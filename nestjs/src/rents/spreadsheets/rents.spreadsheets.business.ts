@@ -1,4 +1,5 @@
 import { Estate_filled_Db } from "../../estates/estate-filled-db.model";
+import { Rent_Db } from "../rents.db";
 import { SpreadSheetStrategy } from "./spreadsheets.strategy";
 
 export interface Sheet {
@@ -14,6 +15,7 @@ export interface SpreadSheet {
 }
 
 export interface SpreadSheetUpdate {
+    sheetId: number,
     cell: string;
     backgroundColor: string;
     value: string | number;
@@ -46,7 +48,7 @@ export const buildSpreadsheetContext = async (sheetStrategy: SpreadSheetStrategy
     }
 }
 
-export const composeSpreadSheetUpdates = (sheetStrategy: SpreadSheetStrategy, spreadSheetContext: SpreadSheet): SpreadSheetUpdate[] => {
+export const buildSpreadSheetRents = (sheetStrategy: SpreadSheetStrategy, spreadSheetContext: SpreadSheet, rents: Rent_Db[]): SpreadSheetUpdate[] => {
     return null
 }
 
