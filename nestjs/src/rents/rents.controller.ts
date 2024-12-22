@@ -84,6 +84,14 @@ export class RentsController {
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Get('sheets')
-    synchronizeSheets(@Req() req, @Res() res) {}
+    synchronizeSheets(@Req() req, @Res() res) {
+        return this.rentsService.synchronizeRentsInGoogleSheet(req.user.id,req.user.accessToken, req.user.refresh_token,this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET')).pipe(
+            map( result => {
+                res.setHeader('Content-Type', 'application/pdf');
+                res.setHeader('Content-Disposition', 'attachment; filename=quittance.pdf');
+                res.send(result)
+            })
+        );
+    }
 
 }

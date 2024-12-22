@@ -6,7 +6,8 @@ import { MONTHS } from "./strategies/spreadsheets.google.strategy";
 
 export const getSpreadSheetRentsCells = (spreadSheetContext: SpreadSheet, rents: Rent_Db[], estates: Estate_filled_Db[]): SpreadSheetUpdate[] => {
 
-    const fusionnedRents = fusionateRents(rents);
+
+    const fusionnedRents = fusionateRents(rents, estates);
     const rentsByMonths = getRentsByMonth(fusionnedRents);
     const spreadSheetUpdates = [];
 

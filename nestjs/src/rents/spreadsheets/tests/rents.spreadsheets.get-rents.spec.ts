@@ -110,4 +110,19 @@ describe('updating spreadsheet after building context', () => {
 
     })
 
+    it('build a spreadsheet and update 1 rent excluding one rent out of scope', async () => {
+        mockedGoogleWorker = new MockedGoogleSpreadSheetStrategy();
+
+        const rents = [{ ...rent2021_01 }, { ...rent2024_02, estate_id: 'OutOfScope' }];
+        const estates = [{ ...estate1 }];
+
+        const { startDate, endDate } = getStartAndEnDatesFromRents(rents);
+        const { spreadSheet } = await buildSpreadsheetContext(mockedGoogleWorker, null, [...estates], startDate, endDate);
+        const sheetsCells = getSpreadSheetRentsCells(spreadSheet, rents, [...estates]);
+        expect(sheetsCells.length).toEqual(1);
+        expect(sheetsCells[0].cell).toEqual('F2');
+        expect(sheetsCells[0].sheetTitle).toEqual('2021');
+
+    })
+
 })

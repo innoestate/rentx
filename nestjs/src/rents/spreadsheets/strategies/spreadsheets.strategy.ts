@@ -1,5 +1,5 @@
 import { Estate_filled_Db } from "../../../estates/estate-filled-db.model";
-import { Sheet, SpreadSheet } from "../models/spreadsheets.model";
+import { Sheet, SpreadSheet, SpreadSheetUpdate } from "../models/spreadsheets.model";
 
 export class SpreadSheetStrategy {
     
@@ -31,7 +31,7 @@ export class SpreadSheetStrategy {
         return null;
     }
 
-    // async updateSheets(sheets: Sheet[]): Promise<SpreadSheet> {
-    //     return null;
-    // }
+    async updateCells(spreadSheet: SpreadSheet, cellUpdates: SpreadSheetUpdate[]): Promise<SpreadSheet> {
+        return null;
+    }
 }

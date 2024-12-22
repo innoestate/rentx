@@ -1,7 +1,8 @@
 import { Estate_filled_Db } from "../../estates/estate-filled-db.model";
 import { SpreadSheetStrategy } from "./strategies/spreadsheets.strategy";
-import { getMissingRows, getMissingSheetsTitles, getUnusedEstates, getYearsFromDates } from "./spreadsheets.utils";
+import { getMissingRows, getMissingSheetsTitles, getSpreadSheetRentsCells, getUnusedEstates, getYearsFromDates } from "./spreadsheets.utils";
 import { SpreadSheet, SpreadSheetUpdate } from "./models/spreadsheets.model";
+import { Rent_Db } from "../rents.db";
 
 /**
  * build a spreadsheet context with all needed years and estates.
@@ -29,8 +30,10 @@ export const buildSpreadsheetContext = async (sheetStrategy: SpreadSheetStrategy
     }
 }
 
-export const applySpreadSheetUpdates = (sheetStrategy: SpreadSheetStrategy, spreadSheetUpdates: SpreadSheetUpdate[]) => {
-    return null;
+export const fillSpreadSheetCells = async (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, rents: Rent_Db[], estates: Estate_filled_Db[]): Promise<SpreadSheet> => {
+    const updateCells = getSpreadSheetRentsCells(spreadSheet, rents, estates);
+    spreadSheet = await sheetStrategy.updateCells(spreadSheet, updateCells);
+    return spreadSheet;
 }
 
 const removeEstatesInSheets = async (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): Promise<SpreadSheet> => {

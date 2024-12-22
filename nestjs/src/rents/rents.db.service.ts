@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { from, Observable } from 'rxjs';
+import { from, map, Observable } from 'rxjs';
 import { DeepPartial, Repository } from 'typeorm';
 import { Rent_Dto } from './rents.dto.model';
 import { Rent_Entity } from './rents.entity';
@@ -29,7 +29,18 @@ export class RentsDbService {
   }
 
   getByUserId(userId: string): Observable<Rent_Db[]> {
-    return from(this.rentsRepository.find({ where: { user_id: userId } })) as Observable<any>;
+    return from(this.rentsRepository.find({ where: { user_id: userId } })).pipe(
+      map(rents => {
+        return rents.map(rent => {
+          return {
+            ...rent,
+            totalRent: rent.rent + rent.charges,
+            start_date: new Date(rent.start_date),
+            end_date: new Date(rent.end_date),
+          }
+        })
+      })
+    ) as Observable<any>;
   }
 
   update(rent: DeepPartial<Rent_Entity>): Observable<any> {

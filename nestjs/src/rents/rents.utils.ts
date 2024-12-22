@@ -1,3 +1,4 @@
+import { Estate_filled_Db } from "src/estates/estate-filled-db.model";
 import { Rent_Db } from "./rents.db";
 
 export const getRentsByMonth = (rents: Rent_Db[]): { estateId: string, rents: { year: number, month: number, rent: number }[] }[] => {
@@ -22,12 +23,17 @@ export const getRentsByMonth = (rents: Rent_Db[]): { estateId: string, rents: { 
     return rentsByMonths;
 }
 
-export const fusionateRents = (rents: Rent_Db[]): Rent_Db[] => {
+export const fusionateRents = (rents: Rent_Db[], estatesScope?: Estate_filled_Db[]): Rent_Db[] => {
     if (rents.length === 0) return [];
 
     let finalFusionedRents = [];
 
-    const groupedRents = groupRentsByEstates(rents);
+    let filteredRents = rents;
+    if(estatesScope?.length){
+        filteredRents = rents.filter(rent => estatesScope.find(estate => estate.id === rent.estate_id));
+    } 
+
+    const groupedRents = groupRentsByEstates(filteredRents);
 
     for (let key of Object.keys(groupedRents)) {
 

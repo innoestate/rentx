@@ -1,5 +1,5 @@
 import { Estate_filled_Db } from "../../../estates/estate-filled-db.model";
-import { Sheet, SpreadSheet } from "../models/spreadsheets.model";
+import { Sheet, SpreadSheet, SpreadSheetUpdate } from "../models/spreadsheets.model";
 import { SpreadSheetStrategy } from "../strategies/spreadsheets.strategy";
 import { google, sheets_v4 } from 'googleapis';
 
@@ -22,7 +22,6 @@ const refreshTokenFunction = async (oauth2Client) => {
         return tokens.credentials.access_token;
     })
 };
-
 
 export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
 
@@ -284,7 +283,7 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
             i++;
             const sheetId = range.properties.sheetId;
             const headers = range?.data[0].rowData[0].values.map(value => value.effectiveValue.stringValue);
-            const rows = range?.data[0].rowData.map( rs => rs.values.map(value => value?.effectiveValue?.stringValue)) ?? [];
+            const rows = range?.data[0].rowData.map(rs => rs.values.map(value => value?.effectiveValue?.stringValue)) ?? [];
             const addressIndex = headers.indexOf('Adresse') ?? 1;
             const cityIndex = headers.indexOf('Ville') ?? 2;
             const plotIndex = headers.indexOf('Lot') ?? 3;
@@ -334,7 +333,57 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
         return spreadsheet.sheets;
     }
 
-    async updateSheet(spreadSheet: SpreadSheet): Promise<SpreadSheet> {
-        return null;
+    async updateCells(spreadSheet: SpreadSheet, cellUpdates: SpreadSheetUpdate[]): Promise<SpreadSheet> {
+
+        const requests: sheets_v4.Schema$Request[] = [];
+        
+        cellUpdates.forEach(cellUpdate => {
+
+            function extractNumberFromString(str: string): number {
+                const match = str.match(/\d+/);
+                return match ? parseInt(match[0], 10) : -1;
+            }
+            const sheetId = spreadSheet.sheets.find( sheet => sheet.title === cellUpdate.sheetTitle).sheetId;
+            const rowIndex = extractNumberFromString(cellUpdate.cell) -1;
+            const columnIndex = cellUpdate.cell.charCodeAt(0) - 'A'.charCodeAt(0);
+
+            const update: sheets_v4.Schema$Request = {
+                updateCells: {
+                    range: {
+                        sheetId,
+                        startRowIndex: rowIndex,
+                        endRowIndex: rowIndex + 1,
+                        startColumnIndex: columnIndex,
+                        endColumnIndex: columnIndex + 1,
+                    },
+                    rows: [
+                        {
+                            values: [{
+                                userEnteredValue: { stringValue: cellUpdate.value.toString() },
+                                userEnteredFormat: { backgroundColor: {
+                                    red: 0,
+                                    green: 1,
+                                    blue: 0,
+                                    alpha: 1
+                                } },
+                            }],
+                        },
+                    ],
+                    fields: '*',
+                },
+            }
+            requests.push(update);
+
+        });
+
+        await this.sheets.spreadsheets.batchUpdate({
+            spreadsheetId: spreadSheet.id,
+            requestBody: {
+                requests,
+            },
+            auth: this.oauth2Client,
+        });
+
+        return await this.getSpreadSheet(spreadSheet.id);
     }
 }
