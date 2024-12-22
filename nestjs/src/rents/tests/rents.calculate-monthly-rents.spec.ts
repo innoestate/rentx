@@ -62,7 +62,6 @@ describe('rents business unit tests', () => {
         expect(result).toEqual(160);
     })
 
-
     it('calculate rent for 15 days in a month of 31 days from 5th', () => {
 
         const rent = 300;
@@ -96,8 +95,6 @@ describe('rents business unit tests', () => {
         expect(result).toEqual(440);
     })
 
-
-
     it('calculate rent for days from 15th of a month of 29 to the 15th of a month of 30 days after 2 months', () => {
 
         const rent = 300;
@@ -108,7 +105,6 @@ describe('rents business unit tests', () => {
         const result = calculateRent(rent, charges, dateStart, dateEnd);
         expect(result).toEqual(159 + 330 + 165);
     })
-
 
     it('calculate rent for days from 15th of a month of 29 to the 15th of a month of 30 days after 2 months', () => {
 
@@ -121,7 +117,6 @@ describe('rents business unit tests', () => {
         expect(result).toEqual(159 + 3960 + 160);
     })
 
-
     it('calculate rent for 3 full months with 31 days and ending by a month with 29 days', () => {
 
         const rent = 300;
@@ -131,7 +126,6 @@ describe('rents business unit tests', () => {
         const result = calculateRent(rent, charges, dateStart, dateEnd);
         expect(result).toEqual(990);
     })
-
 
     it('calculate rent for 18 full months with 31 days and ending by a month with 29 days', () => {
 
@@ -143,6 +137,5 @@ describe('rents business unit tests', () => {
         const result = calculateRent(rent, charges, dateStart, dateEnd);
         expect(result).toEqual(5610);
     })
-
 
 })

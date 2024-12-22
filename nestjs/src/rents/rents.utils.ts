@@ -75,8 +75,6 @@ export const fusionateRents = (rents: Rent_Db[]): Rent_Db[] => {
 
 export const fusionRent = (rent: Rent_Db, rentsToMerge: Rent_Db[]): Rent_Db[] => {
 
-    console.log('fusionRent', rent, rentsToMerge);
-
     const rentsAfterMerge = [];
     for (let rentToMerge of rentsToMerge) {
 

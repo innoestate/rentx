@@ -101,3 +101,15 @@ export const rent2024_03 = {
     created_at: new Date(),
     updated_at: new Date(),
 }
+export const rent2024_04 = {
+    id: '4567',
+    user_id: '1',
+    estate_id: '1',
+    lodger_id: 'Janne Dah',
+    start_date:  new Date('2024-04-01'),
+    end_date: new Date('2024-04-30'),
+    rent: 1000,
+    charges: 100,
+    created_at: new Date(),
+    updated_at: new Date(),
+}

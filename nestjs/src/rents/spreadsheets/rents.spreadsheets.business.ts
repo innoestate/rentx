@@ -49,7 +49,7 @@ export const buildSpreadsheetContext = async (sheetStrategy: SpreadSheetStrategy
     }
 }
 
-export const buildSpreadSheetRents = (sheetStrategy: SpreadSheetStrategy, spreadSheetContext: SpreadSheet, rents: Rent_Db[]): SpreadSheetUpdate[] => {
+export const getSpreadSheetRentsCells = (sheetStrategy: SpreadSheetStrategy, spreadSheetContext: SpreadSheet, rents: Rent_Db[]): SpreadSheetUpdate[] => {
 
     const fusionnedRents = fusionateRents(rents);
     const rentsByMonths = getRentsByMonth(fusionnedRents);
