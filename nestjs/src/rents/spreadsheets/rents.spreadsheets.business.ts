@@ -3,6 +3,7 @@ import { Rent_Db } from "../rents.db";
 import { fusionateRents, getRentsByMonth } from "../rents.utils";
 import { MONTHS } from "./spreadsheets.google.strategy";
 import { SpreadSheetStrategy } from "./spreadsheets.strategy";
+import { estateIsSameThatRow } from "./spreadsheets.utils";
 
 export interface Sheet {
     sheetId: number;
@@ -49,14 +50,25 @@ export const buildSpreadsheetContext = async (sheetStrategy: SpreadSheetStrategy
     }
 }
 
-export const getSpreadSheetRentsCells = (sheetStrategy: SpreadSheetStrategy, spreadSheetContext: SpreadSheet, rents: Rent_Db[]): SpreadSheetUpdate[] => {
+export const getSpreadSheetRentsCells = (sheetStrategy: SpreadSheetStrategy, spreadSheetContext: SpreadSheet, rents: Rent_Db[], estates: Estate_filled_Db[]): SpreadSheetUpdate[] => {
 
     const fusionnedRents = fusionateRents(rents);
     const rentsByMonths = getRentsByMonth(fusionnedRents);
     const spreadSheetUpdates = [];
 
     rentsByMonths.forEach(rentByMonth => {
-        const rowIndex = 2;
+        const rowIdentifier = estates.find(estate => estate.id === rentByMonth.estateId);
+        console.log(rowIdentifier); 
+        const streetIndex = spreadSheetContext.sheets[0].rows[0].findIndex(cell => cell.value === 'Adresse')??2;
+        const cityIndex = spreadSheetContext.sheets[0].rows[0].findIndex(cell => cell.value === 'Ville')??3;
+        const plotIndex = spreadSheetContext.sheets[0].rows[0].findIndex(cell => cell.value === 'Lot')??4;
+        const rowEstateIndex = spreadSheetContext.sheets[0].rows.findIndex( rows => {
+            if(estateIsSameThatRow(rowIdentifier, rows[streetIndex].value, rows[cityIndex].value, rows[plotIndex].value)) {
+                return true;
+            }
+            return false;
+        }) + 1;
+        
         rentByMonth.rents.forEach(rent => {
             const sheet = spreadSheetContext.sheets.find(sheet => sheet.title === rent.year+'');
             if (sheet) {
@@ -64,7 +76,7 @@ export const getSpreadSheetRentsCells = (sheetStrategy: SpreadSheetStrategy, spr
                 const monthIndex = sheet.rows[0].findIndex(cell => cell.value === monthTitle);
                 spreadSheetUpdates.push({
                     sheetTitle: sheet.title,
-                    cell: String.fromCharCode(65 + monthIndex) + rowIndex,
+                    cell: String.fromCharCode(65 + monthIndex) + rowEstateIndex,
                     backgroundColor: '#00FF00',
                     value: rent.rent
                 })
@@ -124,12 +136,6 @@ export const rowNotExistInEstates = (row: { street, city, plot }, estates: Estat
         return false;
     }
     return true;
-}
-
-export const estateIsSameThatRow = (estate: Estate_filled_Db | { street, city, plot }, street, city, plot) => {
-    return estate.street === street
-        && (((!city || city === '') && (!estate?.city || estate?.city === '')) || (city === '' && estate?.city === '') || estate?.city === city)
-        && (((!plot || plot === '') && (!estate?.plot || estate?.plot === '')) || (plot === '' && estate?.plot === '') || estate?.plot === plot);
 }
 
 const addMissingEstatesInSheets = async (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): Promise<SpreadSheet> => {

@@ -1,7 +1,7 @@
 import { Estate_filled_Db } from "src/estates/estate-filled-db.model";
 
 export const estate1: Estate_filled_Db = {
-    id: '0',
+    id: '1',
     user_id: '1',
     owner: {
         id: '1',
@@ -28,7 +28,7 @@ export const estate1: Estate_filled_Db = {
 }
 
 export const estate2: Estate_filled_Db = {
-    id: '0',
+    id: '2',
     user_id: '2',
     owner: {
         id: '2',
@@ -55,7 +55,7 @@ export const estate2: Estate_filled_Db = {
 }
 
 export const estate3: Estate_filled_Db = {
-    id: '0',
+    id: '3',
     user_id: '3',
     owner: {
         id: '3',

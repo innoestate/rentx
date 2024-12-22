@@ -1,13 +1,13 @@
 import { Rent_Db } from "../rents.db";
 import { fusionateRents, getRentsByMonth } from "../rents.utils";
-import { rent2021_01, rent2021_02, rent2023_12 } from "./rents.mocks";
+import { rent2021_01, rent2021_02, rent2020_12 } from "./rents.mocks";
 
 describe('test rents by months', () => {
 
     const rent2021_01_Estate2: Rent_Db = {...rent2021_01, estate_id: '2'};
 
     it('should return 1 in a month', () => {
-        const rents = fusionateRents([{...rent2023_12}]);
+        const rents = fusionateRents([{...rent2020_12}]);
         expect(rents.length).toEqual(1);
         const rentsByMonth = getRentsByMonth(rents);
         expect(rentsByMonth.length).toEqual(1);
@@ -30,7 +30,7 @@ describe('test rents by months', () => {
     })
 
     it('should return 2 rent in 2 months in one estate between 2 years', () => {
-        const rents = fusionateRents([{...rent2023_12}, {...rent2021_01}]);
+        const rents = fusionateRents([{...rent2020_12}, {...rent2021_01}]);
         expect(rents.length).toEqual(1);
         const rentsByMonth = getRentsByMonth(rents);
         expect(rentsByMonth[0].rents.length).toEqual(2);
@@ -43,7 +43,7 @@ describe('test rents by months', () => {
     })
 
     it('should return 2 rents in 2 months in one estate and one rent in one month in an other estate', () => {
-        const rents = fusionateRents([{...rent2023_12}, {...rent2021_01}, {...rent2021_01_Estate2}]);
+        const rents = fusionateRents([{...rent2020_12}, {...rent2021_01}, {...rent2021_01_Estate2}]);
         expect(rents.length).toEqual(2);
         const rentsByMonth = getRentsByMonth(rents);
         expect(rentsByMonth[0].rents.length).toEqual(2);
@@ -51,7 +51,7 @@ describe('test rents by months', () => {
     })
 
     it('should return 2 rents for 2 separate months', () => {
-        const rents = fusionateRents([{...rent2023_12}, {...rent2021_02}]);
+        const rents = fusionateRents([{...rent2020_12}, {...rent2021_02}]);
         expect(rents.length).toEqual(2);
         const rentsByMonth = getRentsByMonth(rents);
         expect(rentsByMonth[0].rents.length).toEqual(2);
@@ -64,7 +64,7 @@ describe('test rents by months', () => {
     })
 
     it('should return rents in 2 estates', () => {
-        const rents = fusionateRents([{...rent2023_12}, {...rent2021_01_Estate2}]);
+        const rents = fusionateRents([{...rent2020_12}, {...rent2021_01_Estate2}]);
         const rentsByMonth = getRentsByMonth(rents);
         expect(rentsByMonth[0].rents.length).toEqual(1);
         expect(rentsByMonth[0].rents[0].year).toEqual(2020);

@@ -50,19 +50,6 @@ export const rent2021_03 = {
     updated_at: new Date()
 }
 
-export const rent2023_12 = {
-    id: 'abcd',
-    user_id: '1',
-    estate_id: '1',
-    lodger_id: '2',
-    start_date: new Date('2020-12-01'),
-    end_date: new Date('2020-12-31'),
-    rent: 1000,
-    charges: 100,
-    created_at: new Date(),
-    updated_at: new Date()
-}
-
 export const rent2024_01 = {
     id: '1234',
     user_id: 'ABCD',
@@ -101,6 +88,7 @@ export const rent2024_03 = {
     created_at: new Date(),
     updated_at: new Date(),
 }
+
 export const rent2024_04 = {
     id: '4567',
     user_id: '1',
