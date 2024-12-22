@@ -1,5 +1,6 @@
 import { Estate_filled_Db } from "../../../estates/estate-filled-db.model";
-import { Sheet, SpreadSheet } from "../models/spreadsheets.model";
+import { Sheet, SpreadSheet, SpreadSheetUpdate } from "../models/spreadsheets.model";
+import { MONTHS } from "./spreadsheets.google.strategy";
 import { SpreadSheetStrategy } from "./spreadsheets.strategy";
 
 const ROW_HEADER_VALUES = ['Propriétaire', 'Adresse', 'Ville', 'Lot', 'Locataire', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
@@ -36,7 +37,9 @@ export class MockedGoogleSpreadSheetStrategy extends SpreadSheetStrategy {
                     { value: estate.street },
                     { value: estate.city },
                     { value: estate.plot },
-                    { value: estate.lodger.name }])
+                    { value: estate.lodger.name },
+                    ...MONTHS.map(month => ({ value: '', backgroundColor: '#FFFFFF' }) as any)   
+                ])
             ]
         }
         this.fakeSpreadSheets[id].sheets.push(newSheet);
@@ -87,8 +90,23 @@ export class MockedGoogleSpreadSheetStrategy extends SpreadSheetStrategy {
         return this.fakeSpreadSheets[id]?.sheets ?? [];
     }
 
-    // async updateSheets(sheets: Sheet[]): Promise<SpreadSheet> {
-    //     return null;
-    // }
+    async updateCells(spreadSheet: SpreadSheet, cellUpdates: SpreadSheetUpdate[]): Promise<SpreadSheet> {
+        
+        cellUpdates.forEach(update => {
+
+            function extractNumberFromString(str: string): number {
+                const match = str.match(/\d+/);
+                return match ? parseInt(match[0], 10) : -1;
+            }
+            const rowIndex = extractNumberFromString(update.cell) -1;
+            const columnIndex = update.cell.charCodeAt(0) - 'A'.charCodeAt(0);
+            spreadSheet.sheets.find(sheet => update.sheetTitle === sheet.title).rows[rowIndex][columnIndex].value = update.value;
+            spreadSheet.sheets.find(sheet => update.sheetTitle === sheet.title).rows[rowIndex][columnIndex].backgroundColor = update.backgroundColor;
+
+        });
+
+
+        return spreadSheet;
+    }
 
 }
