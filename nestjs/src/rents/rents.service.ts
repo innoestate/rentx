@@ -11,12 +11,13 @@ import { OwnersService } from '../owners/owners.service';
 import { createRentReceiptEmail, createRentReciptPdf, getRentReceiptInfos } from './rent-receipts/rent-receipts.business';
 import { RentsDbService } from './rents.db.service';
 import { ConfigService } from '@nestjs/config';
-import { SpreadSheetGoogleStrategy } from './spreadsheets/spreadsheets.google.strategy';
-import { buildSpreadsheetContext, SpreadSheet } from './spreadsheets/rents.spreadsheets.business';
-import { SpreadSheetStrategy } from './spreadsheets/spreadsheets.strategy';
+import { SpreadSheetGoogleStrategy } from './spreadsheets/strategies/spreadsheets.google.strategy';
+import { buildSpreadsheetContext } from './spreadsheets/rents.spreadsheets.business';
+import { SpreadSheetStrategy } from './spreadsheets/strategies/spreadsheets.strategy';
 import { Docs_Db } from 'src/docs/docs.db.model';
 import { Rent_Db } from './rents.db';
 import { getStartAndEnDatesFromRents } from './rents.utils';
+import { SpreadSheet } from './spreadsheets/models/spreadsheets.model';
 
 
 @Injectable()

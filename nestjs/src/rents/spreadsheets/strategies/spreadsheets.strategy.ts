@@ -1,5 +1,5 @@
-import { Estate_filled_Db } from "../../estates/estate-filled-db.model";
-import { Sheet, SpreadSheet } from "./rents.spreadsheets.business";
+import { Estate_filled_Db } from "../../../estates/estate-filled-db.model";
+import { Sheet, SpreadSheet } from "../models/spreadsheets.model";
 
 export class SpreadSheetStrategy {
     

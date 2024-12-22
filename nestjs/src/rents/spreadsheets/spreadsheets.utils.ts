@@ -1,8 +1,8 @@
 import { Estate_filled_Db } from "src/estates/estate-filled-db.model";
-import { Sheet, SpreadSheet, SpreadSheetUpdate } from "./rents.spreadsheets.business";
+import { Sheet, SpreadSheet, SpreadSheetUpdate } from "./models/spreadsheets.model";
 import { Rent_Db } from "../rents.db";
 import { fusionateRents, getRentsByMonth } from "../rents.utils";
-import { MONTHS } from "./spreadsheets.google.strategy";
+import { MONTHS } from "./strategies/spreadsheets.google.strategy";
 
 export const getSpreadSheetRentsCells = (spreadSheetContext: SpreadSheet, rents: Rent_Db[], estates: Estate_filled_Db[]): SpreadSheetUpdate[] => {
 
@@ -12,7 +12,6 @@ export const getSpreadSheetRentsCells = (spreadSheetContext: SpreadSheet, rents:
 
     rentsByMonths.forEach(rentByMonth => {
         const rowIdentifier = estates.find(estate => estate.id === rentByMonth.estateId);
-        console.log(rowIdentifier);
         const streetIndex = spreadSheetContext.sheets[0].rows[0].findIndex(cell => cell.value === 'Adresse') ?? 2;
         const cityIndex = spreadSheetContext.sheets[0].rows[0].findIndex(cell => cell.value === 'Ville') ?? 3;
         const plotIndex = spreadSheetContext.sheets[0].rows[0].findIndex(cell => cell.value === 'Lot') ?? 4;

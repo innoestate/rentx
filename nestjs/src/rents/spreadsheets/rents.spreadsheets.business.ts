@@ -1,25 +1,7 @@
 import { Estate_filled_Db } from "../../estates/estate-filled-db.model";
-import { SpreadSheetStrategy } from "./spreadsheets.strategy";
+import { SpreadSheetStrategy } from "./strategies/spreadsheets.strategy";
 import { getMissingRows, getMissingSheetsTitles, getUnusedEstates, getYearsFromDates } from "./spreadsheets.utils";
-
-export interface Sheet {
-    sheetId: number;
-    title: string;
-    rows: { value: string | number, backgroundColor?: string }[][];
-}
-
-export interface SpreadSheet {
-    id: string;
-    sheets: Sheet[];
-    title: string;
-}
-
-export interface SpreadSheetUpdate {
-    sheetTitle: string,
-    cell: string;
-    backgroundColor: string;
-    value: string | number;
-}
+import { SpreadSheet, SpreadSheetUpdate } from "./models/spreadsheets.model";
 
 /**
  * build a spreadsheet context with all needed years and estates.
