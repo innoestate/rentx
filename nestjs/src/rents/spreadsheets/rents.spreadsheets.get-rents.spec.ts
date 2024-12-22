@@ -1,8 +1,9 @@
 import { getStartAndEnDatesFromRents } from '../rents.utils';
 import { estate1, estate2 } from '../tests/estates.mocks';
 import { rent2021_01, rent2020_12, rent2024_02, rent2024_03, rent2024_04 } from '../tests/rents.mocks';
-import { buildSpreadsheetContext, getSpreadSheetRentsCells } from './rents.spreadsheets.business';
+import { buildSpreadsheetContext } from './rents.spreadsheets.business';
 import { MockedGoogleSpreadSheetStrategy } from './spreadsheets.mocked.strategy';
+import { getSpreadSheetRentsCells } from './spreadsheets.utils';
 
 
 describe('updating spreadsheet after building context', () => {
@@ -13,7 +14,7 @@ describe('updating spreadsheet after building context', () => {
     it('build a spreadsheet and update a rent', async () => {
         mockedGoogleWorker = new MockedGoogleSpreadSheetStrategy();
         const { spreadSheet } = await buildSpreadsheetContext(mockedGoogleWorker, null, [{ ...estate1 }], new Date('2024-02-01'), new Date('2024-02-29'));
-        const sheetsUpdates = getSpreadSheetRentsCells(mockedGoogleWorker, spreadSheet, [{ ...rent2024_02 }], [{ ...estate1 }]);
+        const sheetsUpdates = getSpreadSheetRentsCells(spreadSheet, [{ ...rent2024_02 }], [{ ...estate1 }]);
         expect(sheetsUpdates[0].sheetTitle).toEqual('2024');
         expect(sheetsUpdates[0].cell).toEqual('G2');
         expect(sheetsUpdates[0].value).toEqual(1100);
@@ -26,7 +27,7 @@ describe('updating spreadsheet after building context', () => {
 
         const { startDate, endDate } = getStartAndEnDatesFromRents([{ ...rent2024_02 }, { ...rent2024_03 }]);
         const { spreadSheet } = await buildSpreadsheetContext(mockedGoogleWorker, null, [{ ...estate1 }], startDate, endDate);
-        const sheetsUpdates = getSpreadSheetRentsCells(mockedGoogleWorker, spreadSheet, [{ ...rent2024_02 }, { ...rent2024_03 }], [{ ...estate1 }]);
+        const sheetsUpdates = getSpreadSheetRentsCells(spreadSheet, [{ ...rent2024_02 }, { ...rent2024_03 }], [{ ...estate1 }]);
         expect(sheetsUpdates[0].sheetTitle).toEqual('2024');
         expect(sheetsUpdates[0].cell).toEqual('G2');
         expect(sheetsUpdates[0].value).toEqual(1100);
@@ -42,7 +43,7 @@ describe('updating spreadsheet after building context', () => {
 
         const { startDate, endDate } = getStartAndEnDatesFromRents([{ ...rent2024_02 }, { ...rent2024_03 }, { ...rent2024_04 }]);
         const { spreadSheet } = await buildSpreadsheetContext(mockedGoogleWorker, null, [{ ...estate1 }], startDate, endDate);
-        const sheetsUpdates = getSpreadSheetRentsCells(mockedGoogleWorker, spreadSheet, [{ ...rent2024_02 }, { ...rent2024_03 }, { ...rent2024_04 }], [{ ...estate1 }]);
+        const sheetsUpdates = getSpreadSheetRentsCells(spreadSheet, [{ ...rent2024_02 }, { ...rent2024_03 }, { ...rent2024_04 }], [{ ...estate1 }]);
         expect(sheetsUpdates[0].sheetTitle).toEqual('2024');
         expect(sheetsUpdates[0].cell).toEqual('G2');
         expect(sheetsUpdates[0].value).toEqual(1100);
@@ -65,7 +66,7 @@ describe('updating spreadsheet after building context', () => {
 
         const { startDate, endDate } = getStartAndEnDatesFromRents(rents);
         const { spreadSheet } = await buildSpreadsheetContext(mockedGoogleWorker, null, [...estates], startDate, endDate);
-        const sheetsCells = getSpreadSheetRentsCells(mockedGoogleWorker, spreadSheet, rents, [...estates]);
+        const sheetsCells = getSpreadSheetRentsCells(spreadSheet, rents, [...estates]);
         expect(sheetsCells.length).toEqual(2);
         expect(sheetsCells[0].cell).toEqual('G2');
         expect(sheetsCells[1].cell).toEqual('G3');
@@ -80,7 +81,7 @@ describe('updating spreadsheet after building context', () => {
 
         const { startDate, endDate } = getStartAndEnDatesFromRents(rents);
         const { spreadSheet } = await buildSpreadsheetContext(mockedGoogleWorker, null, [...estates], startDate, endDate);
-        const sheetsCells = getSpreadSheetRentsCells(mockedGoogleWorker, spreadSheet, rents, [...estates]);
+        const sheetsCells = getSpreadSheetRentsCells(spreadSheet, rents, [...estates]);
         expect(sheetsCells.length).toEqual(2);
         expect(sheetsCells[0].cell).toEqual('F2');
         expect(sheetsCells[0].sheetTitle).toEqual('2021');
@@ -97,7 +98,7 @@ describe('updating spreadsheet after building context', () => {
 
         const { startDate, endDate } = getStartAndEnDatesFromRents(rents);
         const { spreadSheet } = await buildSpreadsheetContext(mockedGoogleWorker, null, [...estates], startDate, endDate);
-        const sheetsCells = getSpreadSheetRentsCells(mockedGoogleWorker, spreadSheet, rents, [...estates]);
+        const sheetsCells = getSpreadSheetRentsCells(spreadSheet, rents, [...estates]);
         expect(sheetsCells.length).toEqual(3);
         expect(sheetsCells[0].cell).toEqual('Q2');
         expect(sheetsCells[0].sheetTitle).toEqual('2020');
