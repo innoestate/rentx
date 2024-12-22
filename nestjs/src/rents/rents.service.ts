@@ -74,7 +74,6 @@ export class RentsService {
     return from(spreadSheetStrategy.init(accessToken, refreshToken, clientId, clientSecret)).pipe(
       switchMap(_ => this.getFullEstates(userId)),
       switchMap((estates) => combineLatest([of(estates), this.rentsDbService.getByUserId(userId), this.getSpreadSheetId(userId)])),
-      // tap(([estates, rents, spreadSheetId]) => console.log('estates', estates, 'rents', rents, 'spreadSheetId', spreadSheetId)),
       switchMap(([estates, rents, spreadSheetId]) => combineLatest([of(estates), of(rents), from(buildSpreadsheetContext(spreadSheetStrategy, spreadSheetId, estates, getStartAndEnDatesFromRents(rents).startDate, getStartAndEnDatesFromRents(rents).endDate))])),
       switchMap(([estates, rents, { spreadSheet, hasBeenRemoved }]) => combineLatest([of(hasBeenRemoved),from(fillSpreadSheetCells(spreadSheetStrategy, spreadSheet, rents, estates))])),
       switchMap(([hasBeenRemoved, spreadSheet]) => this.saveSpreadSheetId(userId, spreadSheet, hasBeenRemoved)),

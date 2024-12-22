@@ -37,8 +37,6 @@ export const getSpreadSheetRentsCells = (spreadSheetContext: SpreadSheet, rents:
             }
         })
     });
-
-
     return spreadSheetUpdates;
 }
 

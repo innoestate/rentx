@@ -1,141 +1,78 @@
-import { calculateRent } from "../rents.utils";
+import { calculateMonthlyRent, calculateRent } from "../rents.utils";
 
-describe('rents business unit tests', () => {
+describe('divise rents to month rents', () => {
 
-    it('calculate rent for a full month with 29 days', () => {
-
+    it('test a simple rent', () => {
         const rent = 300;
         const charges = 30;
         const date = new Date('2024-02-01');
-        const result = calculateRent(rent, charges, date);
-        expect(result).toEqual(330);
+        const result = calculateMonthlyRent(rent, charges, date);
+        expect(result[0].rent).toEqual(330);
     })
 
-    it('calculate rent for a full month with 31 days', () => {
-
-        const rent = 300;
-        const charges = 30;
-        const date = new Date('2024-03-01');
-        const result = calculateRent(rent, charges, date);
-        expect(result).toEqual(330);
-    })
-
-    it('calculate rent for a month with from 1 to 29 in a 29 months days', () => {
-
-        const rent = 300;
-        const charges = 30;
-        const date = new Date('2024-02-01');
-        const dateEnd = new Date('2024-02-29');
-        const result = calculateRent(rent, charges, date, dateEnd);
-        expect(result).toEqual(330);
-    })
-
-    it('calculate rent for a month with from 1 to 31 in a 31 months days', () => {
-
-        const rent = 300;
-        const charges = 30;
-        const date = new Date('2024-03-01');
-        const dateEnd = new Date('2024-03-31');
-        const result = calculateRent(rent, charges, date, dateEnd);
-        expect(result).toEqual(330);
-    })
-
-    it('calculate rent for 15 days in a month of 29 days', () => {
-
+    it('test 2 rents', () => {
         const rent = 300;
         const charges = 30;
         const dateStart = new Date('2024-02-01');
-        const dateEnd = new Date('2024-02-15');
-
-        const result = calculateRent(rent, charges, dateStart, dateEnd);
-        expect(result).toEqual(171);
+        const endDate = new Date('2024-03-31');
+        const result = calculateMonthlyRent(rent, charges, dateStart, endDate);
+        expect(result[0].rent).toEqual(330);
+        expect(result[1].rent).toEqual(330);
     })
 
-    it('calculate rent for 15 days in a month of 31 days', () => {
-
-        const rent = 300;
-        const charges = 30;
-        const dateStart = new Date('2024-03-01');
-        const dateEnd = new Date('2024-03-15');
-
-        const result = calculateRent(rent, charges, dateStart, dateEnd);
-        expect(result).toEqual(160);
-    })
-
-    it('calculate rent for 15 days in a month of 31 days from 5th', () => {
-
-        const rent = 300;
-        const charges = 30;
-        const dateStart = new Date('2024-03-05');
-        const dateEnd = new Date('2024-03-20');
-
-        const result = calculateRent(rent, charges, dateStart, dateEnd);
-        expect(result).toEqual(160);
-    })
-
-    it('calculate rent for 15 days in a month of 31 days from 16th', () => {
-
-        const rent = 300;
-        const charges = 30;
-        const dateStart = new Date('2024-03-16');
-        const dateEnd = new Date('2024-03-31');
-
-        const result = calculateRent(rent, charges, dateStart, dateEnd);
-        expect(result).toEqual(160);
-    })
-
-    it('calculate rent for 40 days from 15th between a month of 29 days and 31 days', () => {
-
-        const rent = 300;
-        const charges = 30;
-        const dateStart = new Date('2024-02-10');
-        const dateEnd = new Date('2024-03-21');
-
-        const result = calculateRent(rent, charges, dateStart, dateEnd);
-        expect(result).toEqual(440);
-    })
-
-    it('calculate rent for days from 15th of a month of 29 to the 15th of a month of 30 days after 2 months', () => {
-
-        const rent = 300;
-        const charges = 30;
-        const dateStart = new Date('2024-02-15');
-        const dateEnd = new Date('2024-04-15');
-
-        const result = calculateRent(rent, charges, dateStart, dateEnd);
-        expect(result).toEqual(159 + 330 + 165);
-    })
-
-    it('calculate rent for days from 15th of a month of 29 to the 15th of a month of 30 days after 2 months', () => {
-
-        const rent = 300;
-        const charges = 30;
-        const dateStart = new Date('2024-02-15');
-        const dateEnd = new Date('2025-03-15');
-
-        const result = calculateRent(rent, charges, dateStart, dateEnd);
-        expect(result).toEqual(159 + 3960 + 160);
-    })
-
-    it('calculate rent for 3 full months with 31 days and ending by a month with 29 days', () => {
-
+    it('test 2 rents between 2 years', () => {
         const rent = 300;
         const charges = 30;
         const dateStart = new Date('2023-12-01');
-        const dateEnd = new Date('2024-02-29');
-        const result = calculateRent(rent, charges, dateStart, dateEnd);
-        expect(result).toEqual(990);
+        const endDate = new Date('2024-01-31');
+        const result = calculateMonthlyRent(rent, charges, dateStart, endDate);
+        expect(result[0].rent).toEqual(330);
+        expect(result[0].month).toEqual(11);
+        expect(result[1].rent).toEqual(330);
+        expect(result[1].month).toEqual(0);
     })
 
-    it('calculate rent for 18 full months with 31 days and ending by a month with 29 days', () => {
-
+    it('test 3 rents between 2 years', () => {
         const rent = 300;
         const charges = 30;
-        const dateStart = new Date('2023-01-01');
-        const dateEnd = new Date('2024-05-31');
+        const dateStart = new Date('2023-11-01');
+        const endDate = new Date('2024-01-31');
+        const result = calculateMonthlyRent(rent, charges, dateStart, endDate);
+        expect(result[0].rent).toEqual(330);
+        expect(result[0].month).toEqual(10);
+        expect(result[1].rent).toEqual(330);
+        expect(result[1].month).toEqual(11);
+        expect(result[2].rent).toEqual(330);
+        expect(result[2].month).toEqual(0);
+    })
 
-        const result = calculateRent(rent, charges, dateStart, dateEnd);
-        expect(result).toEqual(5610);
+    it('test 3 rents between 2 years', () => {
+        const rent = 300;
+        const charges = 30;
+        const dateStart = new Date('2023-12-01');
+        const endDate = new Date('2024-02-29');
+        const result = calculateMonthlyRent(rent, charges, dateStart, endDate);
+        expect(result[0].rent).toEqual(330);
+        expect(result[0].month).toEqual(11);
+        expect(result[1].rent).toEqual(330);
+        expect(result[1].month).toEqual(0);
+        expect(result[2].rent).toEqual(330);
+        expect(result[2].month).toEqual(1);
+    })
+
+    it('test 24 rents between 3 years', () => {
+        const rent = 300;
+        const charges = 30;
+        const dateStart = new Date('2022-09-01');
+        const endDate = new Date('2024-08-31');
+        const result = calculateMonthlyRent(rent, charges, dateStart, endDate);
+        expect(result.length).toEqual(24);
+        expect(result[0].rent).toEqual(330);
+        expect(result[0].month).toEqual(8);
+        expect(result[11].rent).toEqual(330);
+        expect(result[11].month).toEqual(7);
+        expect(result[23].rent).toEqual(330);
+        expect(result[23].month).toEqual(7);
     })
 
 })

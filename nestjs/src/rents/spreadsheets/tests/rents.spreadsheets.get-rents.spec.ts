@@ -1,6 +1,6 @@
 import { getStartAndEnDatesFromRents } from '../../rents.utils';
 import { estate1, estate2 } from '../../tests/estates.mocks';
-import { rent2021_01, rent2020_12, rent2024_02, rent2024_03, rent2024_04 } from '../../tests/rents.mocks';
+import { rent2021_01, rent2020_12, rent2024_02, rent2024_03, rent2024_04, rent2021_02 } from '../../tests/rents.mocks';
 import { buildSpreadsheetContext } from '../rents.spreadsheets.business';
 import { MockedGoogleSpreadSheetStrategy } from '../strategies/spreadsheets.mocked.strategy';
 import { getSpreadSheetRentsCells } from '../spreadsheets.utils';
