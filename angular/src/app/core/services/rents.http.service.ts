@@ -13,6 +13,10 @@ export class RentsHttpService {
 
   constructor(private http: HttpClient) { }
 
+  loadMonthlyRents(): Observable<any> {
+    return this.http.get<any>(`${this.API_URL}/rents`);
+  }
+
   downloadRentReceipt(estateId: string, startDate?: string, endDate?: string): Observable<any> {
 
     let queryParams = `estate=${estateId}`;

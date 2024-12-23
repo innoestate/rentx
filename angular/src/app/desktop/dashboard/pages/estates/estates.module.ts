@@ -1,23 +1,23 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { estatesReducer } from 'src/app/core/store/estate/estates.reducers';
-import { EstatesEffects } from 'src/app/core/store/estate/estates.effects';
-import { EstatesDesktopRoutingModule } from './estates.routing';
-import { EstatesPageDesktopComponent } from './estates.component';
-import { NzModalModule } from 'ng-zorro-antd/modal';
-import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
-import { NzTableModule } from 'ng-zorro-antd/table';
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { OwnersModule } from 'src/app/core/modules/owners/owners.module';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzTableModule } from 'ng-zorro-antd/table';
 import { LodgersModule } from 'src/app/core/modules/owners/lodgers.module';
-import { EstateTableOwnerCellComponent } from './estate-table-owner-cell/estate-table-owner-cell.component';
+import { OwnersModule } from 'src/app/core/modules/owners/owners.module';
+import { RentsModule } from 'src/app/core/modules/rents.module';
+import { EstatesEffects } from 'src/app/core/store/estate/estates.effects';
+import { estatesReducer } from 'src/app/core/store/estate/estates.reducers';
 import { EstateTableLodgerCellComponent } from './estate-table-lodger-cell/estate-table-lodger-cell.component';
-import { RentsEffects } from 'src/app/core/store/rents/rents.effects';
+import { EstateTableOwnerCellComponent } from './estate-table-owner-cell/estate-table-owner-cell.component';
+import { EstatesPageDesktopComponent } from './estates.component';
+import { EstatesDesktopRoutingModule } from './estates.routing';
 
 
 @NgModule({
@@ -31,9 +31,10 @@ import { RentsEffects } from 'src/app/core/store/rents/rents.effects';
     ReactiveFormsModule,
     EstatesDesktopRoutingModule,
     StoreModule.forFeature('estates', estatesReducer),
-    EffectsModule.forFeature(EstatesEffects, RentsEffects),
+    EffectsModule.forFeature(EstatesEffects),
     OwnersModule,
     LodgersModule,
+    RentsModule,
     NzButtonModule,
     NzModalModule,
     NzTableModule,
