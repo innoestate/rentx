@@ -6,4 +6,5 @@ export interface Rent_Dto {
     end_date: Date;
     rent: number;
     charges: number;
+    sent?: boolean
 }

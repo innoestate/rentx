@@ -87,9 +87,7 @@ export class RentsController {
             this.ownerService.getByUser(req.user.id),
             this.lodgerService.getByUser(req.user.id)
         ]).pipe(
-            switchMap(([estate, owners, lodgers]) => createRentReceiptEmail(req.user.id, owners, lodgers, estate, startDate, endDate)),
-            tap(_ => this.rentsService.synchronizeRentsInGoogleSheet(req.user.id,accessToken, refresh_token, clientId, clientSecret ).pipe(take(1)).subscribe()),
-            switchMap(base64EncodedEmail => sendEmail(accessToken, refresh_token, base64EncodedEmail, clientId, clientSecret)),
+            switchMap(([estate, owners, lodgers]) => this.rentsService.BuildRentReceiptEmail(req.user.id, owners, lodgers, estate, accessToken, refresh_token, clientId, clientSecret, startDate, endDate, )),
             map(_ => res.send({ statusCode: 200, body: 'email sent' })) 
         );
 
