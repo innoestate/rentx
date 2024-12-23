@@ -6,8 +6,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { Estate } from 'src/app/core/models/estate.model';
-import { senddRentReceipt } from 'src/app/core/store/estate/estates.actions';
-import { downloadRentReceipt } from 'src/app/core/store/rents/rents.actions';
+import { downloadRentReceipt, senddRentReceipt } from 'src/app/core/store/rents/rents.actions';
 
 @Component({
   selector: 'app-create-customized-rent-receipt-popup',

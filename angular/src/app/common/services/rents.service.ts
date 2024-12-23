@@ -6,10 +6,10 @@ import { combineLatest, delay, Observable, of, race, switchMap, take, tap } from
 import { Estate } from "src/app/core/models/estate.model";
 import { Lodger } from "src/app/core/models/lodger.model";
 import { Owner } from "src/app/core/models/owner.model";
-import { editEstate, editEstateFailure, editEstateSuccess, senddRentReceipt } from "src/app/core/store/estate/estates.actions";
+import { editEstate, editEstateFailure, editEstateSuccess } from "src/app/core/store/estate/estates.actions";
 import { updateLodger, updateLodgerFailure, updateLodgerSuccess } from "src/app/core/store/lodger/lodgers.actions";
 import { updateOwner, updateOwnerFailure, updateOwnerSuccess } from "src/app/core/store/owner/owners.actions";
-import { downloadRentReceipt } from "src/app/core/store/rents/rents.actions";
+import { downloadRentReceipt, senddRentReceipt } from "src/app/core/store/rents/rents.actions";
 import { CompleteRentReceiptPopupComponent } from "../popups/complete-rent-receipt-popup/complete-rent-receipt-popup.component";
 import { CreateCustomizedRentReceiptPopupComponent } from "../popups/create-customized-rent-receipt-popup/create-customized-rent-receipt-popup.component";
 import { CreateLodgerPopupComponent } from "../popups/create-lodger-popup/create-lodger-popup.component";

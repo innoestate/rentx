@@ -1,13 +1,11 @@
 import { Injectable } from "@angular/core";
-import { Actions, createEffect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
-import { Store } from "@ngrx/store";
-import { catchError, combineLatest, map, of, switchMap, take, tap } from "rxjs";
-import { EstatesService } from "../../services/estates.service";
-import { Estate_Post_Request } from "../../models/requests/estate-post-request.model";
-import { HttpErrorResponse } from "@angular/common/http";
-import { createEstateSuccess, deleteEstate, deleteEstateSuccess, senddRentReceipt, sendRentReceiptFailure, sendRentReceiptSuccess } from "./estates.actions";
-import { RentsHttpService } from "../../services/rents.http.service";
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { NzMessageService } from "ng-zorro-antd/message";
+import { catchError, map, of, switchMap, tap } from "rxjs";
+import { Estate_Post_Request } from "../../models/requests/estate-post-request.model";
+import { EstatesService } from "../../services/estates.service";
+import { RentsHttpService } from "../../services/rents.http.service";
+import { createEstateSuccess, deleteEstate, deleteEstateSuccess } from "./estates.actions";
 
 @Injectable()
 export class EstatesEffects {
@@ -55,27 +53,5 @@ export class EstatesEffects {
       catchError(() => of({ type: '[Estates] Delete Estate Failure' }))
     ))
   ))
-
-  sendRentReceipt$ = createEffect(() => this.actions$.pipe(
-    ofType(senddRentReceipt),
-    switchMap(({ estate, startDate, endDate }) => this.rentsService.sendRentReceipt(estate.id, startDate, endDate).pipe(
-      map(estate => (sendRentReceiptSuccess({ estate }))),
-      catchError(err => of(sendRentReceiptFailure(err)))
-    ))
-  ))
-
-  sendRentReceiptSuccess$ = createEffect(() => this.actions$.pipe(
-    ofType(sendRentReceiptSuccess),
-    tap(({ estate }) => {
-      this.message.success('Votre quittance a bien été envoyée.');
-    })
-  ), { dispatch: false })
-
-  sendRentReceiptFaillure$ = createEffect(() => this.actions$.pipe(
-    ofType(sendRentReceiptFailure),
-    tap(({ error }) => {
-      this.message.error('Failed to send rent receipt');
-    })
-  ), { dispatch: false })
 
 }

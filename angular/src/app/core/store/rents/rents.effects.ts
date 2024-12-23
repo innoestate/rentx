@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { NzMessageService } from "ng-zorro-antd/message";
 import { catchError, map, of, switchMap, tap } from "rxjs";
 import { RentsHttpService } from "../../services/rents.http.service";
-import { downloadRentReceipt, downloadRentReceiptFailure, downloadRentReceiptSuccess, loadMonthlyRents, loadMonthlyRentsFailure, loadMonthlyRentsSuccess } from "./rents.actions";
+import { downloadRentReceipt, downloadRentReceiptFailure, downloadRentReceiptSuccess, loadMonthlyRents, loadMonthlyRentsFailure, loadMonthlyRentsSuccess, senddRentReceipt, sendRentReceiptFailure, sendRentReceiptSuccess } from "./rents.actions";
 
 @Injectable()
 export class RentsEffects {
@@ -12,7 +12,7 @@ export class RentsEffects {
 
   downloadRentReceipt$ = createEffect(() => this.actions$.pipe(
     ofType(downloadRentReceipt),
-    switchMap(({ estateId, startDate, endDate}) => this.rentsService.downloadRentReceipt(estateId, startDate, endDate).pipe(
+    switchMap(({ estateId, startDate, endDate }) => this.rentsService.downloadRentReceipt(estateId, startDate, endDate).pipe(
       tap(blob => {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -24,6 +24,29 @@ export class RentsEffects {
       map((estates) => (downloadRentReceiptSuccess())),
       catchError(err => of(downloadRentReceiptFailure(err)))
     ))))
+
+
+  sendRentReceipt$ = createEffect(() => this.actions$.pipe(
+    ofType(senddRentReceipt),
+    switchMap(({ estate, startDate, endDate }) => this.rentsService.sendRentReceipt(estate.id, startDate, endDate).pipe(
+      map(estate => (sendRentReceiptSuccess({ estate }))),
+      catchError(err => of(sendRentReceiptFailure(err)))
+    ))
+  ))
+
+  sendRentReceiptSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(sendRentReceiptSuccess),
+    tap(({ estate }) => {
+      this.message.success('Votre quittance a bien été envoyée.');
+    })
+  ), { dispatch: false })
+
+  sendRentReceiptFaillure$ = createEffect(() => this.actions$.pipe(
+    ofType(sendRentReceiptFailure),
+    tap(({ error }) => {
+      this.message.error('Failed to send rent receipt');
+    })
+  ), { dispatch: false })
 
   loadMonthlyRents$ = createEffect(() => this.actions$.pipe(
     ofType(loadMonthlyRents),
