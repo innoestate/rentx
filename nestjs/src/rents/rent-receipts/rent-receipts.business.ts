@@ -7,6 +7,7 @@ import { Lodger_Db } from '../../lodgers/lodger-db.model';
 import { Owner_Db } from '../../owners/owners-db.model';
 import { from, map } from 'rxjs';
 import { calculateMonthlyRent, calculateRent } from '../rents.utils';
+import { Estate_filled_Db } from 'src/estates/estate-filled-db.model';
 
 export const createRentReciptPdf = async (estate: Estate_Db, owner: Owner_Db, lodger: Lodger_Db, startDate_?: string, endDate_?: string) => {
 
@@ -144,13 +145,9 @@ export const getRentReceiptInfos = (estate: Estate_Db, owner: Owner_Db, lodger: 
     return { startDate, endDate, rent, charges, totalRent, rentsByMonths, street, lodgerZipAndCity, ownerZipAndCity, madeAt, signature };
 }
 
-export const createRentReceiptEmail = (userId: string,owners: Owner_Db[], lodgers: Lodger_Db[], estate: Estate_Db, startDate_?: string, endDate_?: string) => {
-    const owner = owners.find(owner => owner.id === estate.owner_id);
-    const lodger = lodgers.find(lodger => lodger.id === estate.lodger_id);
+export const createRentReceiptEmail = (estate: Estate_filled_Db, startDate: Date, endDate: Date) => {
 
-    const { startDate, endDate, street } = getRentReceiptInfos(estate, owner, lodger);
-
-    return from(createRentReciptPdf(estate, owner, lodger, startDate_, endDate_)).pipe(
+    return from(createRentReciptPdf(estate, estate.owner, estate.lodger, startDate.toISOString(), endDate.toISOString())).pipe(
         map(rentReceipt => {
 
             const content = `Bonjour,
@@ -158,12 +155,12 @@ export const createRentReceiptEmail = (userId: string,owners: Owner_Db[], lodger
             Veuillez trouver en pièce jointe votre quittance de loyer pour la période du ${formatDateFromISOString(startDate.toISOString())} au ${formatDateFromISOString(endDate.toISOString())}.
 
             Cordialement,
-            ${owner.name}`;
+            ${estate.owner.name}`;
 
             const formattedStartDate = formatDateFromISOString(startDate.toISOString()).replace(/\//g, '-');
             const formattedEndDate = formatDateFromISOString(endDate.toISOString()).replace(/\//g, '-');
 
-            const filename = `quittance-${formattedStartDate}-${formattedEndDate}_${lodger.name.replace(/\s+/g, '_')}-${street.replace(/\s+/g, '_')}.pdf`;
+            const filename = `quittance-${formattedStartDate}-${formattedEndDate}_${estate.lodger.name.replace(/\s+/g, '_')}-${estate.street.replace(/\s+/g, '_')}.pdf`;
 
             const emailParts = [
                 {
@@ -177,11 +174,50 @@ export const createRentReceiptEmail = (userId: string,owners: Owner_Db[], lodger
                 }
             ];
 
-            return createEmail(lodger.email, `Quittance du ${formatDateFromISOString(startDate.toISOString())} au ${formatDateFromISOString(endDate.toISOString())} pour le ${estate.street}`, emailParts);
+            return createEmail(estate.lodger.email, `Quittance du ${formatDateFromISOString(startDate.toISOString())} au ${formatDateFromISOString(endDate.toISOString())} pour le ${estate.street}`, emailParts);
 
         })
     )
 }
+
+// export const createRentReceiptEmail = (userId: string,owners: Owner_Db[], lodgers: Lodger_Db[], estate: Estate_Db, startDate_?: string, endDate_?: string) => {
+//     const owner = owners.find(owner => owner.id === estate.owner_id);
+//     const lodger = lodgers.find(lodger => lodger.id === estate.lodger_id);
+
+//     const { startDate, endDate, street } = getRentReceiptInfos(estate, owner, lodger);
+
+//     return from(createRentReciptPdf(estate, owner, lodger, startDate_, endDate_)).pipe(
+//         map(rentReceipt => {
+
+//             const content = `Bonjour,
+
+//             Veuillez trouver en pièce jointe votre quittance de loyer pour la période du ${formatDateFromISOString(startDate.toISOString())} au ${formatDateFromISOString(endDate.toISOString())}.
+
+//             Cordialement,
+//             ${owner.name}`;
+
+//             const formattedStartDate = formatDateFromISOString(startDate.toISOString()).replace(/\//g, '-');
+//             const formattedEndDate = formatDateFromISOString(endDate.toISOString()).replace(/\//g, '-');
+
+//             const filename = `quittance-${formattedStartDate}-${formattedEndDate}_${lodger.name.replace(/\s+/g, '_')}-${street.replace(/\s+/g, '_')}.pdf`;
+
+//             const emailParts = [
+//                 {
+//                     mimeType: 'text/plain',
+//                     content
+//                 },
+//                 {
+//                     mimeType: 'application/pdf',
+//                     filename,
+//                     content: (rentReceipt as any).toString('base64')
+//                 }
+//             ];
+
+//             return createEmail(lodger.email, `Quittance du ${formatDateFromISOString(startDate.toISOString())} au ${formatDateFromISOString(endDate.toISOString())} pour le ${estate.street}`, emailParts);
+
+//         })
+//     )
+// }
 
 const createEmail = (to: string, subject: string, parts: any[]) => {
     const boundary = 'foo_bar_baz';

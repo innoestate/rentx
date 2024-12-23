@@ -31,35 +31,40 @@ export class RentsService {
     const { startDate, endDate, rent, charges } = getRentReceiptInfos(estate, owner, lodger, startDate_, endDate_);
 
     return from(this.rentsDbService.create({ user_id: userId, estate_id: estate.id, lodger_id: lodger.id, start_date: startDate, end_date: endDate, rent, charges })).pipe(
-      tap(_ => this.synchronizeRentsInGoogleSheet(userId,accessToken, refreshToken, clientId, clientSecret ).pipe(take(1)).subscribe()),
+      tap(_ => this.synchronizeRentsInGoogleSheet(userId, accessToken, refreshToken, clientId, clientSecret).pipe(take(1)).subscribe()),
       switchMap(_ => from(createRentReciptPdf(estate, owner, lodger, startDate_, endDate_))),
       catchError(_ => from(createRentReciptPdf(estate, owner, lodger, startDate_, endDate_)))
     );
   }
 
-  BuildRentReceiptEmail(userId: string, owners: Owner_Db[], lodgers: Lodger_Db[], estate: Estate_Db, accessToken: string, refreshToken: string, clientId: string, clientSecret: string, startDate_?: string, endDate_?: string): Observable<string> {
+  BuildRentReceiptEmail(userId: string, estateId: string, accessToken: string, refreshToken: string, clientId: string, clientSecret: string, startDate_?: string, endDate_?: string): Observable<string> {
 
-    const owner = owners.find(owner => owner.id === estate.owner_id);
-    const lodger = lodgers.find(lodger => lodger.id === estate.lodger_id);
+    return from(this.getFullEstates(userId)).pipe(
+      switchMap(estates => {
 
-    const { startDate, endDate, rent, charges } = getRentReceiptInfos(estate, owner, lodger, startDate_, endDate_);
+        const estate = estates.find(estate => estate.id === estateId);
+        const { startDate, endDate } = getRentReceiptInfos(estate, estate.owner, estate.lodger, startDate_, endDate_);
 
-    return from(this.rentsDbService.create({ user_id: userId, estate_id: estate.id, lodger_id: lodger.id, start_date: startDate, end_date: endDate, rent, charges, sent: true })).pipe(
-      tap(_ => this.synchronizeRentsInGoogleSheet(userId,accessToken, refreshToken, clientId, clientSecret ).pipe(take(1)).subscribe()),
-      switchMap(rent => from(createRentReceiptEmail(userId, owners, lodgers, estate, startDate_, endDate_))),
-      switchMap(base64EncodedEmail => sendEmail(accessToken, refreshToken, base64EncodedEmail, clientId, clientSecret)),
-      catchError(err => from(createRentReceiptEmail(userId, owners, lodgers, estate, startDate_, endDate_)))
+        return from(this.rentsDbService.create({ user_id: userId, estate_id: estate.id, lodger_id: estate.lodger_id, start_date: startDate, end_date: endDate, rent: estate.rent, charges: estate.charges, sent: true })).pipe(
+          tap(_ => this.synchronizeRentsInGoogleSheet(userId, accessToken, refreshToken, clientId, clientSecret).pipe(take(1)).subscribe()),
+          switchMap(_ => from(createRentReceiptEmail(estate, startDate, endDate))),
+          switchMap(base64EncodedEmail => sendEmail(accessToken, refreshToken, base64EncodedEmail, clientId, clientSecret)),
+          catchError(_ => of(null))
+        );
+
+      })
     );
+
   }
 
   synchronizeRentsInGoogleSheet(userId: string, accessToken: string, refreshToken: string, clientId: string, clientSecret: string): Observable<Docs_Db> {
-    if(!accessToken || !refreshToken || !clientId || !clientSecret) return of(null);
+    if (!accessToken || !refreshToken || !clientId || !clientSecret) return of(null);
     const spreadSheetStrategy = new SpreadSheetGoogleStrategy();
     return from(spreadSheetStrategy.init(accessToken, refreshToken, clientId, clientSecret)).pipe(
       switchMap(_ => this.getFullEstates(userId)),
       switchMap((estates) => combineLatest([of(estates), this.rentsDbService.getByUserId(userId), this.getSpreadSheetId(userId)])),
       switchMap(([estates, rents, spreadSheetId]) => combineLatest([of(estates), of(rents), from(buildSpreadsheetContext(spreadSheetStrategy, spreadSheetId, estates, getStartAndEnDatesFromRents(rents).startDate, getStartAndEnDatesFromRents(rents).endDate))])),
-      switchMap(([estates, rents, { spreadSheet, hasBeenRemoved }]) => combineLatest([of(hasBeenRemoved),from(fillSpreadSheetCells(spreadSheetStrategy, spreadSheet, rents, estates))])),
+      switchMap(([estates, rents, { spreadSheet, hasBeenRemoved }]) => combineLatest([of(hasBeenRemoved), from(fillSpreadSheetCells(spreadSheetStrategy, spreadSheet, rents, estates))])),
       switchMap(([hasBeenRemoved, spreadSheet]) => this.saveSpreadSheetId(userId, spreadSheet, hasBeenRemoved)),
       catchError(err => {
         console.error(err);
@@ -69,7 +74,7 @@ export class RentsService {
   }
 
   getMonthlyRents(userId: string): Observable<MonthlyRents[]> {
-    return combineLatest([this.rentsDbService.getByUserId(userId),this.getFullEstates(userId)]).pipe(
+    return combineLatest([this.rentsDbService.getByUserId(userId), this.getFullEstates(userId)]).pipe(
       map(([rents, estates]) => fusionateRents(rents, estates)),
       map(rents => getRentsByMonth(rents))
     )
@@ -90,9 +95,9 @@ export class RentsService {
     } else {
       return this.docsDbService.getByUser(userId).pipe(
         switchMap(docs => {
-          if(docs && docs.length > 0){
+          if (docs && docs.length > 0) {
             return of(docs[0]);
-          }else{
+          } else {
             return this.docsDbService.create({ user_id: userId, rents_google_sheet_id: spreadSheet.id });
           }
         })

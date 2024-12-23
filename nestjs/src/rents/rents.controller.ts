@@ -75,19 +75,14 @@ export class RentsController {
     @Get('email')
     sendRentReceipt(@Req() req, @Res() res) {
 
-        const id = req.query?.estate;
+        const estateId = req.query?.estate;
         const startDate = req.query.startDate;
         const endDate = req.query.endDate;
         const { accessToken, refresh_token } = req.user;
         const clientId = this.configService.get('GOOGLE_CLIENT_ID');
         const clientSecret = this.configService.get('GOOGLE_CLIENT_SECRET');
 
-        return combineLatest([
-            this.estateService.getById(id),
-            this.ownerService.getByUser(req.user.id),
-            this.lodgerService.getByUser(req.user.id)
-        ]).pipe(
-            switchMap(([estate, owners, lodgers]) => this.rentsService.BuildRentReceiptEmail(req.user.id, owners, lodgers, estate, accessToken, refresh_token, clientId, clientSecret, startDate, endDate, )),
+        return this.rentsService.BuildRentReceiptEmail(req.user.id, estateId, accessToken, refresh_token, clientId, clientSecret, startDate, endDate).pipe(
             map(_ => res.send({ statusCode: 200, body: 'email sent' })) 
         );
 
