@@ -21,10 +21,14 @@ export class RentsEffects {
         a.click();
         window.URL.revokeObjectURL(url);
       }),
-      map((estates) => (downloadRentReceiptSuccess())),
+      map(_ => (downloadRentReceiptSuccess())),
       catchError(err => of(downloadRentReceiptFailure(err)))
-    ))))
+  ))))
 
+  downloadRentReceiptSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(downloadRentReceiptSuccess),
+    map(_ => loadMonthlyRents())
+  ))
 
   sendRentReceipt$ = createEffect(() => this.actions$.pipe(
     ofType(senddRentReceipt),
@@ -36,16 +40,13 @@ export class RentsEffects {
 
   sendRentReceiptSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(sendRentReceiptSuccess),
-    tap(({ estate }) => {
-      this.message.success('Votre quittance a bien été envoyée.');
-    })
-  ), { dispatch: false })
+    tap(_ => this.message.success('Votre quittance a bien été envoyée.')),
+    map(_ => loadMonthlyRents())
+  ))
 
   sendRentReceiptFaillure$ = createEffect(() => this.actions$.pipe(
     ofType(sendRentReceiptFailure),
-    tap(({ error }) => {
-      this.message.error('Failed to send rent receipt');
-    })
+    tap(_ => this.message.error('Failed to send rent receipt'))
   ), { dispatch: false })
 
   loadMonthlyRents$ = createEffect(() => this.actions$.pipe(
