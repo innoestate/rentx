@@ -2,7 +2,9 @@
 
 <div nz-dropdown [nzDropdownMenu]="manageLodgers" [nzPlacement]="'bottomCenter'">
   @if(estate().lodger){
-  {{estate().lodger?.name}}
+    <div class="lodger-name" [ngClass]="{'paid': rentPaid()}">
+      {{estate().lodger?.name}}
+    </div>
   }@else {
   <div class="empty-field create" (click)="createLodger()">
     <div nz-icon nzType="edit"></div>

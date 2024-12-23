@@ -48,3 +48,14 @@ li {
   align-items: center;
   width: 200px;
 }
+
+.lodger-name {
+
+  padding: 0 10px;
+  border-radius: 5px;
+
+  &.paid {
+    color: var(--ant-success-color);
+    background-color: var(--ant-success-color-deprecated-bg);
+  }
+}
