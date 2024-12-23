@@ -6,6 +6,8 @@ import { Estate } from '../models/estate.model';
 import { Owner } from '../models/owner.model';
 import { Owner_Dto } from '../models/dtos/owner.dto.model';
 import { Lodger_Dto } from '../models/dtos/lodger.dto.model';
+import { MonthlyRents_Dto } from '../models/dtos/monthly-rents.dto.model';
+import { Rent } from '../models/rent.model';
 
 export const formatEstateToEstateFormToEstatePostRequest = (estate: FormGroup<Estate_Form>): Estate_Post_Request => {
   let ownerId = estate.get('owner')?.value;
@@ -27,16 +29,17 @@ export const formatEstateToEstateFormToEstatePostRequest = (estate: FormGroup<Es
 
 }
 
-export const formatEstateDtoToEstateUx = (estate: Estate_Dto, owners: Owner_Dto[], lodgers: Lodger_Dto[]): Estate => {
+export const formatEstateDtoToEstateUx = (estate: Estate_Dto, owners: Owner_Dto[], lodgers: Lodger_Dto[], monthlyRents: Rent[]): Estate => {
   return {
     ...estate,
     address: estate.street + ' ' + estate.city + ' ' + estate.zip,
     plot_address: estate.plot ? 'LOT ' + estate.plot + ' / ' + estate.street + ' ' + estate.city + ' ' + estate.zip : estate.street + ' ' + estate.city + ' ' + estate.zip,
     owner: owners.find(owner => owner.id+'' === estate.owner_id+''),
-    lodger: lodgers.find(lodger => lodger.id+'' === estate.lodger_id+'')
+    lodger: lodgers.find(lodger => lodger.id+'' === estate.lodger_id+''),
+    rents: monthlyRents
   }
 }
 
-export const formatEstatesDtoToEstateUx = (estates: Estate_Dto[], owners: Owner_Dto[], lodgers: Lodger_Dto[]): Estate[] => {
-  return estates.map(estate => formatEstateDtoToEstateUx(estate, owners, lodgers));
+export const formatEstatesDtoToEstateUx = (estates: Estate_Dto[], owners: Owner_Dto[], lodgers: Lodger_Dto[], monthlyRents: MonthlyRents_Dto[]): Estate[] => {
+  return estates.map(estate => formatEstateDtoToEstateUx(estate, owners, lodgers, monthlyRents.find(rent => rent.estateId === estate.id)?.rents??[] ));
 }
