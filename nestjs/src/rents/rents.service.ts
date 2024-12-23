@@ -1,23 +1,22 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { catchError, combineLatest, from, map, Observable, of, switchMap, take, tap } from 'rxjs';
-import { Estate_filled_Db } from '../estates/estate-filled-db.model';
+import { Docs_Db } from 'src/docs/docs.db.model';
 import { DocsDbService } from '../docs/docs.db.service';
 import { Estate_Db } from '../estates/estate-db.model';
+import { Estate_filled_Db } from '../estates/estate-filled-db.model';
 import { EstatesService } from '../estates/estates.service';
 import { Lodger_Db } from '../lodgers/lodger-db.model';
 import { LodgersService } from '../lodgers/lodgers.service';
 import { Owner_Db } from '../owners/owners-db.model';
 import { OwnersService } from '../owners/owners.service';
+import { MonthlyRents } from './monlthy-rent.model';
 import { createRentReceiptEmail, createRentReciptPdf, getRentReceiptInfos } from './rent-receipts/rent-receipts.business';
 import { RentsDbService } from './rents.db.service';
-import { ConfigService } from '@nestjs/config';
-import { SpreadSheetGoogleStrategy } from './spreadsheets/strategies/spreadsheets.google.strategy';
-import { buildSpreadsheetContext, fillSpreadSheetCells } from './spreadsheets/rents.spreadsheets.business';
-import { SpreadSheetStrategy } from './spreadsheets/strategies/spreadsheets.strategy';
-import { Docs_Db } from 'src/docs/docs.db.model';
-import { Rent_Db } from './rents.db';
-import { getStartAndEnDatesFromRents } from './rents.utils';
+import { fusionateRents, getRentsByMonth, getStartAndEnDatesFromRents } from './rents.utils';
 import { SpreadSheet } from './spreadsheets/models/spreadsheets.model';
+import { buildSpreadsheetContext, fillSpreadSheetCells } from './spreadsheets/rents.spreadsheets.business';
+import { SpreadSheetGoogleStrategy } from './spreadsheets/strategies/spreadsheets.google.strategy';
 
 
 @Injectable()
@@ -51,6 +50,7 @@ export class RentsService {
   }
 
   synchronizeRentsInGoogleSheet(userId: string, accessToken: string, refreshToken: string, clientId: string, clientSecret: string): Observable<Docs_Db> {
+    if(!accessToken || !refreshToken || !clientId || !clientSecret) return of(null);
     const spreadSheetStrategy = new SpreadSheetGoogleStrategy();
     return from(spreadSheetStrategy.init(accessToken, refreshToken, clientId, clientSecret)).pipe(
       switchMap(_ => this.getFullEstates(userId)),
@@ -62,7 +62,14 @@ export class RentsService {
         console.error(err);
         return of(null);
       })
-    );
+    )
+  }
+
+  getMonthlyRents(userId: string): Observable<MonthlyRents[]> {
+    return combineLatest([this.rentsDbService.getByUserId(userId),this.getFullEstates(userId)]).pipe(
+      map(([rents, estates]) => fusionateRents(rents, estates)),
+      map(rents => getRentsByMonth(rents))
+    )
   }
 
   private getSpreadSheetId(userId: string) {

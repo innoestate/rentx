@@ -50,4 +50,20 @@ export const rentsTests = (getApp, getRentsService) => {
 
     });
 
+    it('GET /api/rents get monthly rents', async () => {
+
+        const app = getApp();
+        const rentService = getRentsService() as RentsDbService;
+
+        const response = await request(app.getHttpServer())
+            .get('/api/rents')
+            .expect(200);
+        expect(response.body).toBeDefined();
+
+        const rents = response.body;
+        expect(rents.length).toBe(1);
+        expect(rents[0].rents[0].rent).toBe(2000);
+
+    });
+
 }

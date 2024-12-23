@@ -16,7 +16,6 @@ export class RentsController {
 
     constructor(private estateService: EstatesService, private ownerService: OwnersService, private lodgerService: LodgersService, private configService: ConfigService, private rentsService: RentsService) { }
 
-
     @Post('downloadPdf')
     downloadPdfRentReceipt(@Req() req, @Res() res) {
         try {
@@ -33,6 +32,15 @@ export class RentsController {
         }
     }
 
+    @UseGuards(JwtAuthGuard, UserMidleweare)
+    @Get('')
+    getRents(@Req() req, @Res() res) {
+        return this.rentsService.getMonthlyRents(req.user.id).pipe(
+            map(rents => {
+                res.send(rents)
+            })
+        );
+    }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Get('pdf')
