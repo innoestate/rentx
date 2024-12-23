@@ -11,7 +11,6 @@ import { rentsTests } from './rents-tests';
 import { userTests } from './user-tests';
 import { dropAllTables } from './utils/db.utils';
 import { buildApp, buildUser } from './utils/user.utils';
-import { rentsServiceTests } from './rents.service-tests';
 import { RentsService } from '../rents/rents.service';
 
 describe('/api', () => {
@@ -33,7 +32,7 @@ describe('/api', () => {
         lodgerService = app.get<LodgersService>(LodgersService);
         estateService = app.get<EstatesService>(EstatesService);
         rentsDbService = app.get<RentsDbService>(RentsDbService);
-        rentsService = app.get<RentsService>(RentsService);
+        
     });
 
     afterAll(async () => {
@@ -45,6 +44,5 @@ describe('/api', () => {
     ownersTests(() => app);
     lodgersTests(() => app);
     rentsTests(() => app, () => rentsDbService);
-    rentsServiceTests(() => app, () => rentsService);
 
 })

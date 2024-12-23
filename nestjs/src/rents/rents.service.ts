@@ -50,25 +50,6 @@ export class RentsService {
     );
   }
 
-  addPeriodToExcel(userId: string, estateId: string, startDate: Date, endDate: Date, spreadSheetStrategy?: SpreadSheetStrategy): Observable<Docs_Db> {
-    try {
-      return this.getFullEstates(userId).pipe(
-        take(1),
-        switchMap(estates => combineLatest([of(estates), this.getSpreadSheetId(userId)])),
-        switchMap(([estates, spreadSheetId]) => from(buildSpreadsheetContext(spreadSheetStrategy, spreadSheetId, estates, startDate, endDate))),
-        switchMap(({ spreadSheet, hasBeenRemoved }) => this.saveSpreadSheetId(userId, spreadSheet, hasBeenRemoved)),
-        catchError(err => {
-          console.error(err);
-          return of(null);
-        })
-      );
-    } catch (err) {
-      console.log('fail to add period to excel')
-      console.error(err);
-      of(err);
-    }
-  }
-
   synchronizeRentsInGoogleSheet(userId: string, accessToken: string, refreshToken: string, clientId: string, clientSecret: string): Observable<Docs_Db> {
     const spreadSheetStrategy = new SpreadSheetGoogleStrategy();
     return from(spreadSheetStrategy.init(accessToken, refreshToken, clientId, clientSecret)).pipe(
@@ -81,19 +62,6 @@ export class RentsService {
         console.error(err);
         return of(null);
       })
-    );
-    return of(null);
-  }
-
-  getFusionnedRents(user_id): Observable<Rent_Db[]> {
-    return of(null);
-  }
-
-  private addPeriodToGoogleSheet(userId: string, estateId: string, startDate: Date, endDate: Date, accessToken: string, refreshToken: string, clientId: string, clientSecret: string): Observable<Docs_Db> {
-    if(this.config.get('NODE_ENV') === 'test') return;
-    const spreadSheetStrategy = new SpreadSheetGoogleStrategy();
-    return from(spreadSheetStrategy.init(accessToken, refreshToken, clientId, clientSecret)).pipe(
-      switchMap(_ => this.addPeriodToExcel(userId, estateId, startDate, endDate, spreadSheetStrategy)),
     );
   }
 
