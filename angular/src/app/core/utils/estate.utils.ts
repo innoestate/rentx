@@ -36,10 +36,23 @@ export const formatEstateDtoToEstateUx = (estate: Estate_Dto, owners: Owner_Dto[
     plot_address: estate.plot ? 'LOT ' + estate.plot + ' / ' + estate.street + ' ' + estate.city + ' ' + estate.zip : estate.street + ' ' + estate.city + ' ' + estate.zip,
     owner: owners.find(owner => owner.id+'' === estate.owner_id+''),
     lodger: lodgers.find(lodger => lodger.id+'' === estate.lodger_id+''),
-    rents: monthlyRents
+    rents: monthlyRents,
+    actualMonthPaid: lodgerHasPaidRent(monthlyRents)
   }
 }
 
 export const formatEstatesDtoToEstateUx = (estates: Estate_Dto[], owners: Owner_Dto[], lodgers: Lodger_Dto[], monthlyRents: MonthlyRents_Dto[]): Estate[] => {
   return estates.map(estate => formatEstateDtoToEstateUx(estate, owners, lodgers, monthlyRents.find(rent => rent.estateId === estate.id)?.rents??[] ));
+}
+
+
+const lodgerHasPaidRent = (rents: Rent[]) => {
+  const actualDate = new Date();
+  let hasPaid = false;
+  rents.forEach(rent => {
+    if (actualDate.getFullYear() === rent.year && actualDate.getMonth() === rent.month) {
+      hasPaid = true;
+    }
+  });
+  return hasPaid
 }

@@ -1,4 +1,4 @@
-:host{
+:host {
   position: relative;
   width: 100%;
   height: 100%;
@@ -7,41 +7,43 @@
   align-items: flex-start;
   justify-content: flex-start;
 }
-.add-estate-button-container{
-    width: 100%;
-    right: 0;
-    z-index: 1000;
-    padding: 10px;
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+
+.add-estate-button-container {
+  width: 100%;
+  right: 0;
+  z-index: 1000;
+  padding: 10px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
+
 .estates-content {
   width: 100%;
   height: 100%;
   overflow-y: auto;
 }
 
-.input-number{
+.input-number {
   min-width: 40px;
 }
 
-.field{
+.field {
   display: flex;
   flex-flow: row nowrap;
   gap: 10px;
 }
 
-.row{
+.row {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-evenly;
   align-items: center;
 }
 
-.cell{
+.cell {
   width: 100%;
   display: flex;
   flex-flow: row wrap;
@@ -50,7 +52,7 @@
   gap: 10px;
 }
 
-.footer-buttons{
+.footer-buttons {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-evenly;
@@ -58,8 +60,13 @@
   gap: 10px;
 }
 
+.paid{
+  color: var(--ant-success-color);
+  background-color: var(--ant-success-color-deprecated-bg);
+}
+
 ::ng-deep {
-  .ant-menu-submenu-title{
+  .ant-menu-submenu-title {
     padding: 0px !important;
   }
 }

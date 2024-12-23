@@ -2,6 +2,11 @@
 @import "ng-zorro-antd/ng-zorro-antd.min.css";
 @import "~ng-zorro-antd/ng-zorro-antd.variable.css";
 
+html {
+
+  --ant-success-color: green;
+  --ant-success-color-deprecated-bg: lightgreen;
+}
 
 .editable-cell-number {
   width: 100px;

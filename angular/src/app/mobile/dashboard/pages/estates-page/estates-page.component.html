@@ -46,7 +46,7 @@
 <div class="estates-content">
   <ul nz-menu nzMode="inline">
     <ng-container *ngFor="let estate of estates()">
-      <li nz-submenu [nzTitle]="estate.plot_address!" nzIcon="home">
+      <li nz-submenu [nzTitle]="estate.plot_address!" nzIcon="home" [ngClass]="{'paid' : estate.actualMonthPaid }">
         <ul>
           <li nz-menu-item><owner-item [estate]="estate"></owner-item></li>
           <li nz-menu-item><lodger-item [estate]="estate"></lodger-item></li>

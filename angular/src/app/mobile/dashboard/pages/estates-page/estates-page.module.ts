@@ -17,6 +17,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { FormsModule } from '@angular/forms';
 import { LodgerItemComponent } from './lodger-item/lodger-item.component';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { RentsModule } from 'src/app/core/modules/rents.module';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
     OwnersModule,
     FormsModule,
     LodgersModule,
+    RentsModule,
     NzModalModule,
     NzButtonModule,
     NzMenuModule,
