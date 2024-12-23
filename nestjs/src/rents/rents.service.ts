@@ -31,7 +31,7 @@ export class RentsService {
     const { startDate, endDate, rent, charges } = getRentReceiptInfos(estate, owner, lodger, startDate_, endDate_);
 
     return from(this.rentsDbService.create({ user_id: userId, estate_id: estate.id, lodger_id: lodger.id, start_date: startDate, end_date: endDate, rent, charges })).pipe(
-      tap(_ => this.addPeriodToGoogleSheet(estate.user_id, estate.id, startDate, endDate, accessToken, refreshToken, clientId, clientSecret).pipe(take(1)).subscribe()),
+      tap(_ => this.synchronizeRentsInGoogleSheet(userId,accessToken, refreshToken, clientId, clientSecret ).pipe(take(1)).subscribe()),
       switchMap(_ => from(createRentReciptPdf(estate, owner, lodger, startDate_, endDate_))),
       catchError(_ => from(createRentReciptPdf(estate, owner, lodger, startDate_, endDate_)))
     );

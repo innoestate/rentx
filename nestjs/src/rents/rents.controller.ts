@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { combineLatest, from, map, of, switchMap } from 'rxjs';
+import { combineLatest, from, map, of, switchMap, take, tap } from 'rxjs';
 import { JwtAuthGuard } from '../auth/auth.guard';
 import { sendEmail } from '../emails/emails.buisness';
 import { EstatesService } from '../estates/estates.service';
@@ -70,6 +70,9 @@ export class RentsController {
         const id = req.query?.estate;
         const startDate = req.query.startDate;
         const endDate = req.query.endDate;
+        const { accessToken, refresh_token } = req.user;
+        const clientId = this.configService.get('GOOGLE_CLIENT_ID');
+        const clientSecret = this.configService.get('GOOGLE_CLIENT_SECRET');
 
         return combineLatest([
             this.estateService.getById(id),
@@ -77,7 +80,8 @@ export class RentsController {
             this.lodgerService.getByUser(req.user.id)
         ]).pipe(
             switchMap(([estate, owners, lodgers]) => createRentReceiptEmail(req.user.id, owners, lodgers, estate, startDate, endDate)),
-            switchMap(base64EncodedEmail => sendEmail(req.user.accessToken, req.user.refresh_token, base64EncodedEmail, this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET'))),
+            tap(_ => this.rentsService.synchronizeRentsInGoogleSheet(req.user.id,accessToken, refresh_token, clientId, clientSecret ).pipe(take(1)).subscribe()),
+            switchMap(base64EncodedEmail => sendEmail(accessToken, refresh_token, base64EncodedEmail, clientId, clientSecret)),
         );
 
     }
