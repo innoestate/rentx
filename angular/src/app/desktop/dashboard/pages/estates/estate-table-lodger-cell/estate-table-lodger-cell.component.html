@@ -2,7 +2,7 @@
 
 <div nz-dropdown [nzDropdownMenu]="manageLodgers" [nzPlacement]="'bottomCenter'">
   @if(estate().lodger){
-    <div class="lodger-name" [ngClass]="{'paid': rentPaid()}">
+    <div class="lodger-name" [ngClass]="{'paid': estate().actualMonthPaid}">
       {{estate().lodger?.name}}
     </div>
   }@else {

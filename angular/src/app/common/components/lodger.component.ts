@@ -14,7 +14,6 @@ export class LodgerComponent {
 
   estate = input.required<Estate>();
   lodgers = this.store.selectSignal(selectLodgers);
-  rentPaid = computed(() => this.lodgerHasPaidRent(this.estate()));
 
   constructor(protected store: Store, protected modalService: NzModalService, protected actions$: Actions, protected rentService: RentService) { }
 
@@ -41,17 +40,5 @@ export class LodgerComponent {
   deleteLodger(lodger: Lodger) {
     this.store.dispatch(deleteLodgerInStore({ lodgerId: lodger.id }));
   }
-
-  private lodgerHasPaidRent(estate: Estate) {
-    const actualDate = new Date();
-    let hasPaid = false;
-    estate.rents.forEach(rent => {
-      if (actualDate.getFullYear() === rent.year && actualDate.getMonth() === rent.month) {
-        hasPaid = true;
-      }
-    });
-    return hasPaid
-  }
-
 
 }
