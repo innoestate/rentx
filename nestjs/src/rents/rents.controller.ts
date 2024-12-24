@@ -82,7 +82,7 @@ export class RentsController {
         const clientId = this.configService.get('GOOGLE_CLIENT_ID');
         const clientSecret = this.configService.get('GOOGLE_CLIENT_SECRET');
 
-        return this.rentsService.BuildRentReceiptEmail(req.user.id, estateId, accessToken, refresh_token, clientId, clientSecret, startDate, endDate).pipe(
+        return this.rentsService.SendRentReceiptByEmail(req.user.id, estateId, accessToken, refresh_token, clientId, clientSecret, startDate, endDate).pipe(
             map(_ => res.send({ statusCode: 200, body: 'email sent' })) 
         );
 

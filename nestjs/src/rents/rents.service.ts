@@ -1,14 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { catchError, combineLatest, from, map, Observable, of, switchMap, take, tap } from 'rxjs';
-import { Docs_Db } from 'src/docs/docs.db.model';
+import { Docs_Db } from '../docs/docs.db.model';
+import { sendEmail } from '../emails/emails.buisness';
 import { DocsDbService } from '../docs/docs.db.service';
-import { Estate_Db } from '../estates/estate-db.model';
 import { Estate_filled_Db } from '../estates/estate-filled-db.model';
 import { EstatesService } from '../estates/estates.service';
-import { Lodger_Db } from '../lodgers/lodger-db.model';
 import { LodgersService } from '../lodgers/lodgers.service';
-import { Owner_Db } from '../owners/owners-db.model';
 import { OwnersService } from '../owners/owners.service';
 import { MonthlyRents } from './monlthy-rent.model';
 import { createRentReceiptEmail, createRentReciptPdf, getRentReceiptInfos } from './rent-receipts/rent-receipts.business';
@@ -17,7 +15,6 @@ import { fusionateRents, getRentsByMonth, getStartAndEnDatesFromRents } from './
 import { SpreadSheet } from './spreadsheets/models/spreadsheets.model';
 import { buildSpreadsheetContext, fillSpreadSheetCells } from './spreadsheets/rents.spreadsheets.business';
 import { SpreadSheetGoogleStrategy } from './spreadsheets/strategies/spreadsheets.google.strategy';
-import { sendEmail } from 'src/emails/emails.buisness';
 
 
 @Injectable()
@@ -37,7 +34,7 @@ export class RentsService {
     );
   }
 
-  BuildRentReceiptEmail(userId: string, estateId: string, accessToken: string, refreshToken: string, clientId: string, clientSecret: string, startDate_?: string, endDate_?: string): Observable<string> {
+  SendRentReceiptByEmail(userId: string, estateId: string, accessToken: string, refreshToken: string, clientId: string, clientSecret: string, startDate_?: string, endDate_?: string): Observable<string> {
 
     return from(this.getFullEstates(userId)).pipe(
       switchMap(estates => {
