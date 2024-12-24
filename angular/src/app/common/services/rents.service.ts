@@ -72,9 +72,6 @@ export class RentService {
     this.openCustomizedRentReceiptPopup(estate).pipe(
       take(1),
       tap(({ command, type }) => {
-
-        console.log(command);
-
         let fields = type === 'send' ? this.getNeededFieldsForSendRentReceiptByEmail(estate) : this.getNeededFieldsForDownloadRentReceipt(estate);
         if (fields.length > 0) {
 

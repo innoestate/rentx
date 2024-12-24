@@ -11,7 +11,6 @@ export class MobileDashboardComponent extends DashboardComponent implements Afte
   @ViewChild('layout') layout!: ElementRef;
 
   ngAfterViewInit() {
-    console.log('layout', this.layout);
     this.layout.nativeElement.style.height =  window.innerHeight + 'px';
   }
 }
