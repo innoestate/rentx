@@ -53,9 +53,30 @@ li {
 
   padding: 0 10px;
   border-radius: 5px;
+  position: relative;
 
   &.paid {
     color: var(--ant-success-color);
     background-color: var(--ant-success-color-deprecated-bg);
   }
+
+
+
+
+}
+.sent {
+  right: -10px;
+  bottom: -10px;
+  position: absolute;
+  box-shadow: -0.5px 0.5px 0px 0px var(--ant-success-color);
+  background-color: var(--color-papper-background);
+  color: var(--color-papper-font) ;
+  border-radius: 50px;
+  width: 20px;
+  height: 20px;
+  font-size: 10px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
 }

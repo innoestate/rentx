@@ -19,7 +19,6 @@ import { EstateTableOwnerCellComponent } from './estate-table-owner-cell/estate-
 import { EstatesPageDesktopComponent } from './estates.component';
 import { EstatesDesktopRoutingModule } from './estates.routing';
 
-
 @NgModule({
   declarations: [
     EstatesPageDesktopComponent,

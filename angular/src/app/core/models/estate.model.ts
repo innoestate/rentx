@@ -9,4 +9,5 @@ export interface Estate extends Estate_Dto {
   lodger: Lodger | undefined;
   rents: { year: number, month: number, rent: number }[];
   actualMonthPaid: boolean;
+  rentReceiptSentByEmail: boolean;
 };

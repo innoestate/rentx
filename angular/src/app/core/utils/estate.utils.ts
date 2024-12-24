@@ -37,7 +37,8 @@ export const formatEstateDtoToEstateUx = (estate: Estate_Dto, owners: Owner_Dto[
     owner: owners.find(owner => owner.id+'' === estate.owner_id+''),
     lodger: lodgers.find(lodger => lodger.id+'' === estate.lodger_id+''),
     rents: monthlyRents,
-    actualMonthPaid: lodgerHasPaidRent(monthlyRents)
+    actualMonthPaid: lodgerHasPaidRent(monthlyRents),
+    rentReceiptSentByEmail: lodgerSentRentReceipt(monthlyRents)
   }
 }
 
@@ -55,4 +56,10 @@ const lodgerHasPaidRent = (rents: Rent[]) => {
     }
   });
   return hasPaid
+}
+
+const lodgerSentRentReceipt = (rents: Rent[]): boolean => {
+  const actualDate = new Date();
+  const rent = rents.find(rent => rent.year === actualDate.getFullYear() && rent.month === actualDate.getMonth());
+  return !!rent?.sent;
 }

@@ -4,6 +4,9 @@
   @if(estate().lodger){
     <div class="lodger-name" [ngClass]="{'paid': estate().actualMonthPaid}">
       {{estate().lodger?.name}}
+      @if(estate().rentReceiptSentByEmail){
+        <div class="sent" nz-icon nzType="mail"></div>
+      }
     </div>
   }@else {
   <div class="empty-field create" (click)="createLodger()">
