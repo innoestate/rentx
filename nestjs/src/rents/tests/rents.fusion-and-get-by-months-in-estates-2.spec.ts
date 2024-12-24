@@ -29,17 +29,21 @@ describe('test rents by months', () => {
         expect(rentsByMonth[0].rents[1].month).toEqual(1);
     })
 
-    it('should return 2 rent in 2 months in one estate between 2 years', () => {
-        const rents = fusionateRents([{...rent2020_12}, {...rent2021_01}]);
-        expect(rents.length).toEqual(1);
-        const rentsByMonth = getRentsByMonth(rents);
+    it('should return 2 rent in 2 months in one estate between 2 years, test sent in first rent', () => {
+        const rents = [{...rent2020_12, sent: true}, {...rent2021_01}];
+        const fusionnedRents = fusionateRents(rents);
+        expect(fusionnedRents.length).toEqual(1);
+        const rentsByMonth = getRentsByMonth(fusionnedRents, rents);
         expect(rentsByMonth[0].rents.length).toEqual(2);
         expect(rentsByMonth[0].rents[0].year).toEqual(2020);
         expect(rentsByMonth[0].rents[0].rent).toEqual(1100);
+        expect(rentsByMonth[0].rents[0].sent).toEqual(true);
         expect(rentsByMonth[0].rents[0].month).toEqual(11);
         expect(rentsByMonth[0].rents[1].year).toEqual(2021);
         expect(rentsByMonth[0].rents[1].rent).toEqual(1100);
         expect(rentsByMonth[0].rents[1].month).toEqual(0);
+        expect(rentsByMonth[0].rents[1].sent).toEqual(false);
+
     })
 
     it('should return 2 rents in 2 months in one estate and one rent in one month in an other estate', () => {

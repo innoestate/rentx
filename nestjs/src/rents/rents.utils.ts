@@ -1,10 +1,10 @@
 import { Estate_filled_Db } from "src/estates/estate-filled-db.model";
 import { Rent_Db } from "./rents.db";
 
-export const getRentsByMonth = (rents: Rent_Db[]): { estateId: string, rents: { year: number, month: number, rent: number }[] }[] => {
+export const getRentsByMonth = (fusionnedRents: Rent_Db[], rentsFromDb?: Rent_Db[]): { estateId: string, rents: { year: number, month: number, rent: number, sent: boolean }[] }[] => {
 
     const rentsByMonths = [];
-    const groupedRents = groupRentsByEstates(rents);
+    const groupedRents = groupRentsByEstates(fusionnedRents);
 
     for (let key of Object.keys(groupedRents)) {
 
@@ -20,6 +20,19 @@ export const getRentsByMonth = (rents: Rent_Db[]): { estateId: string, rents: { 
         });
 
     }
+
+    rentsByMonths.forEach(rentsByMonth => {
+        rentsByMonth.rents = rentsByMonth.rents.map( rent => {
+            const startDate = new Date(rent.year, rent.month, 1);
+            const endDate = new Date(rent.year, rent.month + 1, 0);
+            const sent = rentsFromDb?.find(rentFromDb => rentFromDb.estate_id === rentsByMonth.estateId 
+                                            && rentFromDb.start_date.getTime() <= endDate.getTime() 
+                                            && rentFromDb.end_date.getTime() >= startDate.getTime()
+                                            && rentFromDb.sent);
+            return {...rent, sent: !!sent};
+        })
+    });
+
     return rentsByMonths;
 }
 
@@ -28,7 +41,7 @@ export const fusionateRents = (rents: Rent_Db[], estatesScope?: Estate_filled_Db
 
     let finalFusionedRents = [];
 
-    let filteredRents = rents;
+    let filteredRents = [...rents];
     if (estatesScope?.length) {
         filteredRents = rents.filter(rent => estatesScope.find(estate => estate.id === rent.estate_id));
     }
@@ -197,4 +210,8 @@ const groupRentsByEstates = (rents: Rent_Db[]): { [key: string]: Rent_Db[] } => 
         acc[rent.estate_id].push(rent);
         return acc;
     }, {} as { [key: string]: Rent_Db[] });
+}
+
+const setSentToRents = (rents: Rent_Db[], rentsFromDb: Rent_Db[]): Rent_Db[] => {
+    return null;
 }

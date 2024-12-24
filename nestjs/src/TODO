@@ -1,0 +1,5 @@
+FAIRE APPARAITRE EN VERT LES BIENS POUR LESQUELS LE MOIS ACTUEL DE LOYER EST A JOUR
+
+
+[back] créer une route qui renvoie les rentes fusionnées
+[front] chercher les rentes fusionnées, les assigner aux biens et en fonction de ça mettre le locataire en vert

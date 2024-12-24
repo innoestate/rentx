@@ -72,8 +72,8 @@ export class RentsService {
 
   getMonthlyRents(userId: string): Observable<MonthlyRents[]> {
     return combineLatest([this.rentsDbService.getByUserId(userId), this.getFullEstates(userId)]).pipe(
-      map(([rents, estates]) => fusionateRents(rents, estates)),
-      map(rents => getRentsByMonth(rents))
+      map(([rents, estates]) => ([rents, fusionateRents(rents, estates)])),
+      map(([rentsFromDb, fusionnedRents]) => getRentsByMonth(fusionnedRents, rentsFromDb)),
     )
   }
 
