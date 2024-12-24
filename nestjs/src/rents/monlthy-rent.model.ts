@@ -7,4 +7,6 @@ export interface MonthlyRent {
     year: number;
     month: number;
     rent: number;
+    sent: boolean;
 }
+

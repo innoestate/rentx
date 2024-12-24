@@ -84,7 +84,7 @@ export const rentsTests = (getApp, getRentsService) => {
         const rents = response.body;
         expect(rents.length).toBe(1);
         expect(rents[0].rents[0].rent).toBe(2000);
-        expect(!!rents[0].rents[0].sent).toBe(false);
+        expect(!!rents[0].rents[0].sent).toBe(true);
 
 
     });

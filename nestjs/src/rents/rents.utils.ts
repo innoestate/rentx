@@ -1,7 +1,8 @@
 import { Estate_filled_Db } from "src/estates/estate-filled-db.model";
 import { Rent_Db } from "./rents.db";
+import { MonthlyRents } from "./monlthy-rent.model";
 
-export const getRentsByMonth = (fusionnedRents: Rent_Db[], rentsFromDb?: Rent_Db[]): { estateId: string, rents: { year: number, month: number, rent: number, sent: boolean }[] }[] => {
+export const getRentsByMonth = (fusionnedRents: Rent_Db[], rentsFromDb?: Rent_Db[]): MonthlyRents[] => {
 
     const rentsByMonths = [];
     const groupedRents = groupRentsByEstates(fusionnedRents);
@@ -18,22 +19,9 @@ export const getRentsByMonth = (fusionnedRents: Rent_Db[], rentsFromDb?: Rent_Db
             estateId: key,
             rents: rentsInEstate
         });
-
     }
 
-    rentsByMonths.forEach(rentsByMonth => {
-        rentsByMonth.rents = rentsByMonth.rents.map( rent => {
-            const startDate = new Date(rent.year, rent.month, 1);
-            const endDate = new Date(rent.year, rent.month + 1, 0);
-            const sent = rentsFromDb?.find(rentFromDb => rentFromDb.estate_id === rentsByMonth.estateId 
-                                            && rentFromDb.start_date.getTime() <= endDate.getTime() 
-                                            && rentFromDb.end_date.getTime() >= startDate.getTime()
-                                            && rentFromDb.sent);
-            return {...rent, sent: !!sent};
-        })
-    });
-
-    return rentsByMonths;
+    return setSentToRents(rentsByMonths, rentsFromDb);
 }
 
 export const fusionateRents = (rents: Rent_Db[], estatesScope?: Estate_filled_Db[]): Rent_Db[] => {
@@ -180,12 +168,12 @@ export const calculateMonthlyRent = (rent: number, charges: number, dateStart: D
                 for (let monthsBeforeNextYears = dateStart.getMonth() + 1; monthsBeforeNextYears <= 11; monthsBeforeNextYears++) {
                     rentsByMonths.push({ month: monthsBeforeNextYears, year: dateStart.getFullYear(), rent: rent + charges });
                 }
-                for(let yearsBetween = dateStart.getFullYear() + 1; yearsBetween < dateEnd.getFullYear(); yearsBetween++) {
+                for (let yearsBetween = dateStart.getFullYear() + 1; yearsBetween < dateEnd.getFullYear(); yearsBetween++) {
                     for (let months = 0; months <= 11; months++) {
                         rentsByMonths.push({ month: months, year: yearsBetween, rent: rent + charges });
                     }
                 }
-                for (let monthsAfterNextYears = 0; monthsAfterNextYears <= dateEnd.getMonth()-1; monthsAfterNextYears++) {
+                for (let monthsAfterNextYears = 0; monthsAfterNextYears <= dateEnd.getMonth() - 1; monthsAfterNextYears++) {
                     rentsByMonths.push({ month: monthsAfterNextYears, year: dateEnd.getFullYear(), rent: rent + charges });
                 }
 
@@ -212,6 +200,19 @@ const groupRentsByEstates = (rents: Rent_Db[]): { [key: string]: Rent_Db[] } => 
     }, {} as { [key: string]: Rent_Db[] });
 }
 
-const setSentToRents = (rents: Rent_Db[], rentsFromDb: Rent_Db[]): Rent_Db[] => {
-    return null;
+const setSentToRents = (rentsByMonths: MonthlyRents[], rentsFromDb: Rent_Db[]): MonthlyRents[] => {
+    if (rentsFromDb) {
+        rentsByMonths.forEach(rentsByMonth => {
+            rentsByMonth.rents = rentsByMonth.rents.map(rent => {
+                const startDate = new Date(rent.year, rent.month, 1);
+                const endDate = new Date(rent.year, rent.month + 1, 0);
+                const sent = rentsFromDb?.find(rentFromDb => rentFromDb.estate_id === rentsByMonth.estateId
+                    && rentFromDb.start_date.getTime() <= endDate.getTime()
+                    && rentFromDb.end_date.getTime() >= startDate.getTime()
+                    && rentFromDb.sent);
+                return { ...rent, sent: !!sent };
+            })
+        });
+    }
+    return rentsByMonths;
 }
