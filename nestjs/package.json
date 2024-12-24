@@ -7,7 +7,8 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
-    "build-prod": "nest build && cp -r dist ../../rentx_prod/back/ && ./.env.production ../../rentx_prod/back/dist/ && cp package.json ../../rentx_prod/back/",
+    "build-assets": "cp -r src/assets dist",
+    "build-prod": "nest build && npm run build-assets && cp -r dist ../../rentx_prod/back/dist && ./.env.production ../../rentx_prod/back/dist/ && cp package.json ../../rentx_prod/back/",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "NODE_ENV=development nest start --watch",
