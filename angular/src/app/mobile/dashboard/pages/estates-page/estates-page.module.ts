@@ -18,6 +18,8 @@ import { FormsModule } from '@angular/forms';
 import { LodgerItemComponent } from './lodger-item/lodger-item.component';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { RentsModule } from 'src/app/core/modules/rents.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { MailOutline } from '@ant-design/icons-angular/icons';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,9 @@ import { RentsModule } from 'src/app/core/modules/rents.module';
     NzMenuModule,
     NzSelectModule,
     NzDropDownModule,
+    NzIconModule.forRoot([
+      MailOutline
+    ]),
     StoreModule.forFeature('estates', estatesReducer),
     EffectsModule.forFeature(EstatesEffects, RentsEffects),
   ],
