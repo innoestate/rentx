@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { EstatesPageDesktopComponent } from 'src/app/desktop/dashboard/pages/estates/estates.component';
 
-import { EstatesPageComponent } from './estates-page.component';
 
 describe('EstatesPageComponent', () => {
-  let component: EstatesPageComponent;
-  let fixture: ComponentFixture<EstatesPageComponent>;
+  let component: EstatesPageDesktopComponent;
+  let fixture: ComponentFixture<EstatesPageDesktopComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EstatesPageComponent]
+      declarations: [EstatesPageDesktopComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(EstatesPageComponent);
+    fixture = TestBed.createComponent(EstatesPageDesktopComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
