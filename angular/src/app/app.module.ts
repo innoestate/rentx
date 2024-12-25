@@ -32,6 +32,7 @@ import { DeviceGuard } from './core/guards/device.guard';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { RentService } from './common/services/rents.service';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { MailOutline } from '@ant-design/icons-angular/icons';
 
 
 registerLocaleData(en);
@@ -53,7 +54,9 @@ registerLocaleData(en);
     NzAlertModule,
     NzMessageModule,
     NzTypographyModule,
-    NzIconModule,
+    NzIconModule.forRoot([
+      MailOutline
+    ]),
     NzLayoutModule,
     NzDropDownModule,
     NzModalModule,

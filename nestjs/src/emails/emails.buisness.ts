@@ -1,7 +1,11 @@
 import { google } from 'googleapis';
-import { catchError, from, switchMap, tap, throwError } from 'rxjs';
+import { catchError, from, Observable, of, switchMap, tap, throwError } from 'rxjs';
 
-export const sendEmail = (accessToken: string, refreshToken: string, email: string, clientId: string, clientSecret: string) => {
+export const sendEmail = (accessToken: string, refreshToken: string, email: string, clientId: string, clientSecret: string): Observable<any> => {
+
+    if(!accessToken || !refreshToken || !email || !clientId || !clientSecret){
+        return of(null);
+    }
 
     const oauth2Client = new google.auth.OAuth2(clientId, clientSecret);
     oauth2Client.setCredentials({

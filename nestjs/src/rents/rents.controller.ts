@@ -1,22 +1,20 @@
 import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { combineLatest, from, map, of, switchMap } from 'rxjs';
+import { combineLatest, from, map, of, switchMap, take, tap } from 'rxjs';
 import { JwtAuthGuard } from '../auth/auth.guard';
 import { sendEmail } from '../emails/emails.buisness';
 import { EstatesService } from '../estates/estates.service';
 import { UserMidleweare } from '../guards/user-midleweare.guard';
 import { LodgersService } from '../lodgers/lodgers.service';
 import { OwnersService } from '../owners/owners.service';
-import { createRentReceiptEmail, createRentReciptPdf } from './rent-receipts.business';
+import { createRentReceiptEmail, createRentReciptPdf } from './rent-receipts/rent-receipts.business';
 import { RentsService } from './rents.service';
-import { createSheet } from './rents.sheets.buisness';
 
 
 @Controller('api/rents')
 export class RentsController {
 
     constructor(private estateService: EstatesService, private ownerService: OwnersService, private lodgerService: LodgersService, private configService: ConfigService, private rentsService: RentsService) { }
-
 
     @Post('downloadPdf')
     downloadPdfRentReceipt(@Req() req, @Res() res) {
@@ -34,6 +32,15 @@ export class RentsController {
         }
     }
 
+    @UseGuards(JwtAuthGuard, UserMidleweare)
+    @Get('')
+    getRents(@Req() req, @Res() res) {
+        return this.rentsService.getMonthlyRents(req.user.id).pipe(
+            map(rents => {
+                res.send(rents)
+            })
+        );
+    }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Get('pdf')
@@ -42,6 +49,9 @@ export class RentsController {
         const id = req.query.estate;
         const startDate = req.query.startDate;
         const endDate = req.query.endDate;
+        const { accessToken, refresh_token } = req.user;
+        const clientId = this.configService.get('GOOGLE_CLIENT_ID');
+        const clientSecret = this.configService.get('GOOGLE_CLIENT_SECRET');
 
         return combineLatest([
             this.estateService.getById(id),
@@ -51,7 +61,7 @@ export class RentsController {
             switchMap(([estate, owners, lodgers]) => {
                 const owner = owners.find(owner => owner.id === estate.owner_id);
                 const lodger = lodgers.find(lodger => lodger.id === estate.lodger_id);
-                return this.rentsService.buildRentReciptPdf(estate, owner, { ...lodger, email: req.user.email }, startDate, endDate);
+                return this.rentsService.buildRentReciptPdf(req.user.id, estate, owner, { ...lodger, email: req.user.email }, startDate, endDate, accessToken, refresh_token, clientId, clientSecret);
             }),
             map(rentReceipt => {
                 res.setHeader('Content-Type', 'application/pdf');
@@ -65,17 +75,15 @@ export class RentsController {
     @Get('email')
     sendRentReceipt(@Req() req, @Res() res) {
 
-        const id = req.query?.estate;
+        const estateId = req.query?.estate;
         const startDate = req.query.startDate;
         const endDate = req.query.endDate;
+        const { accessToken, refresh_token } = req.user;
+        const clientId = this.configService.get('GOOGLE_CLIENT_ID');
+        const clientSecret = this.configService.get('GOOGLE_CLIENT_SECRET');
 
-        return combineLatest([
-            this.estateService.getById(id),
-            this.ownerService.getByUser(req.user.id),
-            this.lodgerService.getByUser(req.user.id)
-        ]).pipe(
-            switchMap(([estate, owners, lodgers]) => createRentReceiptEmail(owners, lodgers, estate, startDate, endDate)),
-            switchMap(base64EncodedEmail => sendEmail(req.user.accessToken, req.user.refresh_token, base64EncodedEmail, this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET'))),
+        return this.rentsService.SendRentReceiptByEmail(req.user.id, estateId, accessToken, refresh_token, clientId, clientSecret, startDate, endDate).pipe(
+            map(_ => res.send({ statusCode: 200, body: 'email sent' })) 
         );
 
     }
@@ -83,19 +91,13 @@ export class RentsController {
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Get('sheets')
     synchronizeSheets(@Req() req, @Res() res) {
-
-
-        return combineLatest([
-            this.estateService.getByUser(req.user.id),
-            this.ownerService.getByUser(req.user.id),
-            this.lodgerService.getByUser(req.user.id)
-        ]).pipe(
-            switchMap(([estates, owners, lodgers]) =>from(createSheet(estates, owners, lodgers, req.user.accessToken, req.user.refresh_token, this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET')))),
+        return this.rentsService.synchronizeRentsInGoogleSheet(req.user.id,req.user.accessToken, req.user.refresh_token,this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET')).pipe(
+            map( result => {
+                res.setHeader('Content-Type', 'application/pdf');
+                res.setHeader('Content-Disposition', 'attachment; filename=quittance.pdf');
+                res.send(result)
+            })
         );
-
-        // return from(createSheet(req.user.accessToken, req.user.refresh_token, this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET'))).pipe(
-        //     tap(() => console.log('sheets synchronized successfully'))
-        // );
     }
 
 }

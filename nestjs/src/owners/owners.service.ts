@@ -5,6 +5,7 @@ import { DeepPartial, Repository } from 'typeorm';
 import { Owner_Dto } from './owners-dto.model';
 import { Owner_Entity } from './owners.entity';
 import { catchError, tap } from 'rxjs/operators';
+import { Owner_Db } from './owners-db.model';
 
 @Injectable()
 export class OwnersService {
@@ -27,7 +28,7 @@ export class OwnersService {
     return from(this.ownerRepository.delete(id));
   }
 
-  getByUser(userId: string): Observable<Owner_Entity[]> {
+  getByUser(userId: string): Observable<Owner_Db[]> {
     return from(this.ownerRepository.find({ where: { user_id: userId } }));
   }
 

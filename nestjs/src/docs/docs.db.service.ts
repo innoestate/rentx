@@ -31,4 +31,8 @@ export class DocsDbService {
     return from(this.docsRepository.delete(id));
   }
 
+  deleteByUserId(user_id: string): Observable<any> {
+    return from(this.docsRepository.delete({ user_id}));
+  }
+
 }

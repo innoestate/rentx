@@ -6,10 +6,13 @@ import {
 } from 'typeorm';
 
 @Entity('rents')
-@Index(['estate_id', 'lodger_id', 'start_date', 'end_date'], { unique: true })  
+@Index(['user_id', 'estate_id', 'lodger_id', 'start_date', 'end_date'], { unique: true })  
 export class Rent_Entity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
+
+    @Column({ type: 'uuid'})
+    user_id: string;
 
     @Column({ type: 'uuid'})
     estate_id: string;
@@ -28,5 +31,8 @@ export class Rent_Entity {
 
     @Column()  
     charges: number;
+
+    @Column({ default: false})  
+    sent: boolean;
 
 }

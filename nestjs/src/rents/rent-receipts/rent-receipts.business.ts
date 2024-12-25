@@ -1,11 +1,13 @@
 import * as fs from 'fs';
 import * as pdfkit from 'pdfkit';
 const path = require('path');
-import { Estate_Db } from '../estates/estate-db.model';
-import { Estate } from '../estates/estate.entity';
-import { Lodger_Db } from '../lodgers/lodger-db.model';
-import { Owner_Db } from '../owners/owners-db.model';
+import { Estate_Db } from '../../estates/estate-db.model';
+import { Estate } from '../../estates/estate.entity';
+import { Lodger_Db } from '../../lodgers/lodger-db.model';
+import { Owner_Db } from '../../owners/owners-db.model';
 import { from, map } from 'rxjs';
+import { calculateMonthlyRent, calculateRent } from '../rents.utils';
+import { Estate_filled_Db } from 'src/estates/estate-filled-db.model';
 
 export const createRentReciptPdf = async (estate: Estate_Db, owner: Owner_Db, lodger: Lodger_Db, startDate_?: string, endDate_?: string) => {
 
@@ -13,7 +15,7 @@ export const createRentReciptPdf = async (estate: Estate_Db, owner: Owner_Db, lo
 
         try {
 
-            const fontPath = path.join(__dirname, '../assets/fonts/times_bold.ttf');
+            const fontPath = path.join(__dirname, '../../assets/fonts/times_bold.ttf');
 
             const doc = initDoc();
             runStream(doc, null, document => resolve(document));
@@ -128,7 +130,9 @@ export const getRentReceiptInfos = (estate: Estate_Db, owner: Owner_Db, lodger: 
     }
     const rent = estate.rent;
     const charges = estate.charges;
+    const rentsByMonths = calculateMonthlyRent(rent, charges, startDate, endDate);
     const totalRent = calculateRent(rent, charges, startDate, endDate);
+
     const street = estate.street;
     const lodgerZipAndCity = estate.zip + ' ' + estate.city;
     const ownerZipAndCity = owner.zip + ' ' + owner.city;
@@ -138,16 +142,12 @@ export const getRentReceiptInfos = (estate: Estate_Db, owner: Owner_Db, lodger: 
     if (!endDate) {
         endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
     }
-    return { startDate, endDate, rent, charges, totalRent, street, lodgerZipAndCity, ownerZipAndCity, madeAt, signature };
+    return { startDate, endDate, rent, charges, totalRent, rentsByMonths, street, lodgerZipAndCity, ownerZipAndCity, madeAt, signature };
 }
 
-export const createRentReceiptEmail = (owners: Owner_Db[], lodgers: Lodger_Db[], estate: Estate_Db, startDate_?: string, endDate_?: string) => {
-    const owner = owners.find(owner => owner.id === estate.owner_id);
-    const lodger = lodgers.find(lodger => lodger.id === estate.lodger_id);
+export const createRentReceiptEmail = (estate: Estate_filled_Db, startDate: Date, endDate: Date) => {
 
-    const { startDate, endDate, street} = getRentReceiptInfos(estate, owner, lodger);
-
-    return from(createRentReciptPdf(estate, owner, lodger, startDate_, endDate_)).pipe(
+    return from(createRentReciptPdf(estate, estate.owner, estate.lodger, startDate.toISOString(), endDate.toISOString())).pipe(
         map(rentReceipt => {
 
             const content = `Bonjour,
@@ -155,12 +155,12 @@ export const createRentReceiptEmail = (owners: Owner_Db[], lodgers: Lodger_Db[],
             Veuillez trouver en pièce jointe votre quittance de loyer pour la période du ${formatDateFromISOString(startDate.toISOString())} au ${formatDateFromISOString(endDate.toISOString())}.
 
             Cordialement,
-            ${owner.name}`;
+            ${estate.owner.name}`;
 
             const formattedStartDate = formatDateFromISOString(startDate.toISOString()).replace(/\//g, '-');
             const formattedEndDate = formatDateFromISOString(endDate.toISOString()).replace(/\//g, '-');
 
-            const filename = `quittance-${formattedStartDate}-${formattedEndDate}_${lodger.name.replace(/\s+/g, '_')}-${street.replace(/\s+/g, '_')}.pdf`;
+            const filename = `quittance-${formattedStartDate}-${formattedEndDate}_${estate.lodger.name.replace(/\s+/g, '_')}-${estate.street.replace(/\s+/g, '_')}.pdf`;
 
             const emailParts = [
                 {
@@ -174,11 +174,50 @@ export const createRentReceiptEmail = (owners: Owner_Db[], lodgers: Lodger_Db[],
                 }
             ];
 
-            return createEmail(lodger.email, `Quittance du ${formatDateFromISOString(startDate.toISOString())} au ${formatDateFromISOString(endDate.toISOString())} pour le ${estate.street}`, emailParts);
+            return createEmail(estate.lodger.email, `Quittance du ${formatDateFromISOString(startDate.toISOString())} au ${formatDateFromISOString(endDate.toISOString())} pour le ${estate.street}`, emailParts);
 
         })
     )
 }
+
+// export const createRentReceiptEmail = (userId: string,owners: Owner_Db[], lodgers: Lodger_Db[], estate: Estate_Db, startDate_?: string, endDate_?: string) => {
+//     const owner = owners.find(owner => owner.id === estate.owner_id);
+//     const lodger = lodgers.find(lodger => lodger.id === estate.lodger_id);
+
+//     const { startDate, endDate, street } = getRentReceiptInfos(estate, owner, lodger);
+
+//     return from(createRentReciptPdf(estate, owner, lodger, startDate_, endDate_)).pipe(
+//         map(rentReceipt => {
+
+//             const content = `Bonjour,
+
+//             Veuillez trouver en pièce jointe votre quittance de loyer pour la période du ${formatDateFromISOString(startDate.toISOString())} au ${formatDateFromISOString(endDate.toISOString())}.
+
+//             Cordialement,
+//             ${owner.name}`;
+
+//             const formattedStartDate = formatDateFromISOString(startDate.toISOString()).replace(/\//g, '-');
+//             const formattedEndDate = formatDateFromISOString(endDate.toISOString()).replace(/\//g, '-');
+
+//             const filename = `quittance-${formattedStartDate}-${formattedEndDate}_${lodger.name.replace(/\s+/g, '_')}-${street.replace(/\s+/g, '_')}.pdf`;
+
+//             const emailParts = [
+//                 {
+//                     mimeType: 'text/plain',
+//                     content
+//                 },
+//                 {
+//                     mimeType: 'application/pdf',
+//                     filename,
+//                     content: (rentReceipt as any).toString('base64')
+//                 }
+//             ];
+
+//             return createEmail(lodger.email, `Quittance du ${formatDateFromISOString(startDate.toISOString())} au ${formatDateFromISOString(endDate.toISOString())} pour le ${estate.street}`, emailParts);
+
+//         })
+//     )
+// }
 
 const createEmail = (to: string, subject: string, parts: any[]) => {
     const boundary = 'foo_bar_baz';
@@ -209,46 +248,6 @@ const createEmail = (to: string, subject: string, parts: any[]) => {
 const formatDateFromISOString = (dateStr: string): string => {
     const [year, month, day] = dateStr.split('T')[0].split('-');
     return `${day}/${month}/${year}`;
-}
-
-export const calculateRent = (rent: number, charges: number, dateStart: Date, dateEnd?: Date) => {
-
-    let result = 0;
-    if (!dateEnd) {
-        return rent + charges;
-    } else {
-
-        const daysInFirstMonth = new Date(dateStart.getFullYear(), dateStart.getMonth() + 1, 0).getDate();
-        const daysInLastMonth = new Date(dateEnd.getFullYear(), dateEnd.getMonth() + 1, 0).getDate();
-        const daysOfFirstMonth = daysInFirstMonth - (dateStart.getDate() + (dateStart.getDate() == 1 ? -1 : 0));
-        const daysOfLastMonth = dateEnd.getDate();
-
-        let days = 0;
-        if (dateStart.getMonth() == dateEnd.getMonth() && dateStart.getFullYear() === dateEnd.getFullYear()) {
-            days = dateEnd.getDate() - (dateStart.getDate() + (dateStart.getDate() == 1 ? -1 : 0));
-            result = Math.round((rent + charges) / daysInFirstMonth * days);
-        } else {
-
-            if (dateStart.getFullYear() == dateEnd.getFullYear()) {
-
-                const rentForFirstMonth = Math.round((rent + charges) / daysInFirstMonth * daysOfFirstMonth);
-                const rentForMonthsBetween = (rent + charges) * (dateEnd.getMonth() - dateStart.getMonth() - 1);
-                const rentForLastMonth = Math.round((rent + charges) / daysInLastMonth * daysOfLastMonth);
-                result = rentForFirstMonth + rentForMonthsBetween + rentForLastMonth;
-
-            } else {
-                const rentForFirstMonth = Math.round((rent + charges) / daysInFirstMonth * daysOfFirstMonth);
-                const rentForMonthsBetween = (rent + charges) * (12 - dateStart.getMonth());
-                const rentForLastMonth = Math.round((rent + charges) / daysInLastMonth * daysOfLastMonth);
-                result = rentForFirstMonth + rentForMonthsBetween + rentForLastMonth;
-            }
-
-        }
-
-    }
-
-
-    return result;
 }
 
 const initDoc = () => {

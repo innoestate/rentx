@@ -14,6 +14,6 @@ export class Docs_Entity {
     @Column({ type: 'uuid'})
     user_id: string;
 
-    @Column({ type: 'string'})
+    @Column()
     rents_google_sheet_id: string;
 }

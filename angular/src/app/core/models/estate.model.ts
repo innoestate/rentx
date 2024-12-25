@@ -7,4 +7,7 @@ export interface Estate extends Estate_Dto {
   plot_address: string,
   owner: Owner | undefined;
   lodger: Lodger | undefined;
+  rents: { year: number, month: number, rent: number }[];
+  actualMonthPaid: boolean;
+  rentReceiptSentByEmail: boolean;
 };

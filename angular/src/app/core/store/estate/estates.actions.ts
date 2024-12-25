@@ -1,9 +1,7 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { createAction, props } from "@ngrx/store";
 import { Estate } from "../../models/estate.model";
-import { Estate_Form } from "../../models/forms/estate-form.model";
-import { Estate_Dto } from "../../models/dtos/estate.dto.model";
 import { Estate_Post_Request } from "../../models/requests/estate-post-request.model";
-import { HttpErrorResponse } from "@angular/common/http";
 
 export const loadEstates = createAction('[Estates] Load Estates');
 export const loadEstatesSuccess = createAction('[Estates] Load Estates Success', props<{ estates: any[] }>());
@@ -20,7 +18,3 @@ export const editEstateFailure = createAction('[Estates] Edit Estate Failure', p
 export const deleteEstate = createAction('[Estates] Delete Estate', props<{ estateId: string }>());
 export const deleteEstateSuccess = createAction('[Estates] Delete Estate Success', props<{ estateId: string }>());
 export const deleteEstateFailure = createAction('[Estates] Delete Estate Failure', props<{ error: HttpErrorResponse }>());
-
-export const senddRentReceipt = createAction('[Estates] Send Rent Receipt', props<{ estate: Estate, startDate?: string, endDate?: string }>());
-export const sendRentReceiptSuccess = createAction('[Estates] Send Rent Receipt Success', props<{ estate: Estate }>());
-export const sendRentReceiptFailure = createAction('[Estates] Send Rent Receipt Failure', props<{ error: HttpErrorResponse }>());
