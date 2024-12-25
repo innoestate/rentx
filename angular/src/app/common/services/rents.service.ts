@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { NzModalService } from "ng-zorro-antd/modal";
-import { combineLatest, delay, Observable, of, race, switchMap, take, tap } from "rxjs";
+import { combineLatest, delay, map, Observable, of, race, switchMap, take, tap } from "rxjs";
 import { Estate } from "src/app/core/models/estate.model";
 import { Lodger } from "src/app/core/models/lodger.model";
 import { Owner } from "src/app/core/models/owner.model";
@@ -19,7 +19,7 @@ import { CreateLodgerPopupComponent } from "../popups/create-lodger-popup/create
 })
 export class RentService {
 
-  constructor(private store: Store, private modalService: NzModalService, private actions$: Actions) {}
+  constructor(private store: Store, private modalService: NzModalService, private actions$: Actions) { }
 
 
   protected sendDownloadRentReceiptRequest(estate: Estate) {
@@ -36,19 +36,19 @@ export class RentService {
   }
 
 
-  downloadRentReceipt(estate: Estate) {
+  downloadRentReceipt(estate_: Estate) {
 
-    let fields = this.getNeededFieldsForDownloadRentReceipt(estate);
+    let fields = this.getNeededFieldsForDownloadRentReceipt(estate_);
     if (fields.length > 0) {
 
       this.openCompletePopupForRentReceipt(fields).pipe(
         take(1),
-        switchMap(({ owner, lodger, estate }) => this.updateCompletedObjects(owner, estate, lodger)),
-        tap(_ => this.sendDownloadRentReceiptRequest(estate))
+        switchMap(({ owner, lodger, estate }) => this.updateCompletedObjects(owner, { ...estate_, ...estate }, lodger)),
+        tap(estate => this.sendDownloadRentReceiptRequest(estate))
       ).subscribe();
 
     } else {
-      this.sendDownloadRentReceiptRequest(estate);
+      this.sendDownloadRentReceiptRequest(estate_);
     }
   }
 
@@ -108,10 +108,10 @@ export class RentService {
   }
 
 
-  protected updateCompletedObjects(owner: Owner, estate: Estate, lodger?: Lodger) {
-    let updates = [];
+  protected updateCompletedObjects(owner: Owner, estate: Estate, lodger?: Lodger): Observable<Estate> {
+    let updates: Observable<any>[] = [];
     if (owner) {
-      updates.push(this.getUpdateOwnerResultObserables(owner));
+      updates.push(this.getUpdateOwnerResultObserables({ ...owner, id: estate.owner?.id! }));
       this.store.dispatch(updateOwner({ owner: { ...owner, id: estate.owner?.id! } }));
     }
     if (estate) {
@@ -124,7 +124,8 @@ export class RentService {
     }
     return combineLatest(updates).pipe(
       take(1),
-      delay(0)
+      delay(0),
+      map(_ => estate)
     );
   }
 
@@ -140,7 +141,7 @@ export class RentService {
       );
       return race(lodgerUpdateSuccess, lodgerUpdateFail);
     }
-    return null;
+    return of(null);
   }
 
   protected getUpdateOwnerResultObserables(owner: Owner): Observable<any> {
