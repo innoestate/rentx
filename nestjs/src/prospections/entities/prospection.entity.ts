@@ -26,6 +26,9 @@ export class Prospection_Entity {
     @Column({ type: 'uuid', nullable: true })
     seller_id: string;
 
+    @Column({ type: 'uuid' })
+    user_id: string;
+
     @Column()
     price: number;
 

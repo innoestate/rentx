@@ -1,9 +1,9 @@
-
 export interface ProspectionDto {
     city: string;
     address: string;
     link?: string;
     seller_id?: string;
+    user_id: string;
     price: number;
     emission_date: Date;
     offer_id?: string;
@@ -11,5 +11,4 @@ export interface ProspectionDto {
     rents?: any;
     resume?: string;
     comment?: string;
-    seller_ids?: string[];
 }

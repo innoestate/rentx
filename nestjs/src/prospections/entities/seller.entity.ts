@@ -11,6 +11,9 @@ export class Seller_Entity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
+    @Column('uuid')
+    user_id: string;
+
     @Column()
     name: string;
 

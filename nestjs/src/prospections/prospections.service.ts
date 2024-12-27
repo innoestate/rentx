@@ -22,16 +22,17 @@ export class ProspectionsService {
     async create(createProspectionDto: ProspectionDto) {
         const prospection = this.prospectionRepository.create(createProspectionDto);
         
-        if (createProspectionDto.seller_ids) {
-            const sellers = await this.sellerRepository.findByIds(createProspectionDto.seller_ids);
-            prospection.sellers = sellers;
-        }
+        // if (createProspectionDto.seller_id) {
+        //     const sellers = await this.sellerRepository.findByIds(createProspectionDto.seller_ids);
+        //     prospection.sellers = sellers;
+        // }
 
         return this.prospectionRepository.save(prospection);
     }
 
-    async findAll() {
+    async findAll(user_id: string) {
         return this.prospectionRepository.find({
+            where: { user_id },
             relations: ['sellers', 'offers']
         });
     }
@@ -51,12 +52,6 @@ export class ProspectionsService {
 
     async update(id: string, updateProspectionDto: ProspectionDto) {
         const prospection = await this.findOne(id);
-
-        if (updateProspectionDto.seller_id) {
-            const sellers = await this.sellerRepository.findByIds(updateProspectionDto.seller_ids);
-            prospection.sellers = sellers;
-        }
-
         Object.assign(prospection, updateProspectionDto);
         return this.prospectionRepository.save(prospection);
     }
@@ -72,8 +67,27 @@ export class ProspectionsService {
         return this.sellerRepository.save(seller);
     }
 
-    async findAllSellers() {
+    async removeSeller(id: string) {
+        const seller = await this.findOneSeller(id);
+        return this.sellerRepository.remove(seller);
+    }
+
+    async updateSeller(id: string, updateSellerDto: SellerDto) {
+        const seller = await this.findOneSeller(id);
+        Object.assign(seller, updateSellerDto);
+        return this.sellerRepository.save(seller);
+    }
+
+    async findAllSellers(user_id: string) {
         return this.sellerRepository.find({
+            where: { user_id },
+            relations: ['prospections']
+        });
+    }
+
+    async findOneSeller(id: string) {
+        return this.sellerRepository.findOne({
+            where: { id },
             relations: ['prospections']
         });
     }
