@@ -1,15 +1,19 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req, Request, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { from, of, switchMap } from 'rxjs';
+import { JwtAuthGuard } from '../auth/auth.guard';
+import { UserMidleweare } from '../guards/user-midleweare.guard';
 import { SellerDto } from './dto/create-seller.dto';
 import { OfferDto } from './dto/offer.dto';
 import { ProspectionDto } from './dto/prospection.dto';
-import { ProspectionsService } from './prospections.service';
-import { JwtAuthGuard } from '../auth/auth.guard';
-import { UserMidleweare } from '../guards/user-midleweare.guard';
-import { from, of, switchMap, tap } from 'rxjs';
+import { ProspectionsDbService } from './services/prospections.db.service';
+import { SellersDbService } from './services/sellers.db.service';
 
 @Controller('prospections')
 export class ProspectionsController {
-    constructor(private readonly prospectionsService: ProspectionsService) { }
+    constructor(
+        private readonly prospectionsService: ProspectionsDbService,
+        private readonly sellersService: SellersDbService,
+    ) { }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Post()
@@ -47,33 +51,33 @@ export class ProspectionsController {
     @Post('sellers')
     createSeller(@Body() createSellerDto: SellerDto, @Req() req) {
         createSellerDto.user_id = req.user.id;
-        return this.prospectionsService.createSeller(createSellerDto);
+        return this.sellersService.createSeller(createSellerDto);
     }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Get('sellers/all')
     findAllSellers(@Req() req) {
         console.log('findAllSellers', req.user?.id);
-        return this.prospectionsService.findAllSellers(req.user?.id);
+        return this.sellersService.findAllSellers(req.user?.id);
     }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Get('sellers/:id')
     findOneSeller(@Param('id') id: string) {
-        return this.prospectionsService.findOneSeller(id);
+        return this.sellersService.findOneSeller(id);
     }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Patch('sellers/:id')
     updateSeller(@Param('id') id: string, @Body() updateSellerDto: SellerDto, @Req() req) {
         updateSellerDto.user_id = req.user.id;
-        return this.prospectionsService.updateSeller(id, updateSellerDto);
+        return this.sellersService.updateSeller(id, updateSellerDto);
     }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Delete('sellers/:id')
     removeSeller(@Param('id') id: string, @Req() req, @Res() res) {
-        return from(this.prospectionsService.removeSeller(id)).pipe(
+        return from(this.sellersService.removeSeller(id)).pipe(
             switchMap(_ => this.prospectionsService.updateMany(req.user?.id, { seller_id: null })),
             switchMap(_ => of(res.send({ statusCode: 200, body: 'seller ' + id + ' removed' })))
         );

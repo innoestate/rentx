@@ -7,8 +7,9 @@ import { Offer_Entity } from './entities/offer.entity';
 import { Prospection_Entity } from './entities/prospection.entity';
 import { Seller_Entity } from './entities/seller.entity';
 import { ProspectionsController } from './prospections.controller';
-import { ProspectionsService } from './prospections.service';
+import { ProspectionsDbService } from './services/prospections.db.service';
 import { Owner_Entity } from '../owners/owners.entity';
+import { SellersDbService } from './services/sellers.db.service';
 
 @Module({
     imports: [
@@ -22,7 +23,7 @@ import { Owner_Entity } from '../owners/owners.entity';
         ])
     ],
     controllers: [ProspectionsController],
-    providers: [ProspectionsService, UsersService],
-    exports: [ProspectionsService, UsersService]
+    providers: [ProspectionsDbService, SellersDbService, UsersService],
+    exports: [ProspectionsDbService, UsersService]
 })
 export class ProspectionsModule {}
