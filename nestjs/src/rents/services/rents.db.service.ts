@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { from, map, Observable } from 'rxjs';
 import { DeepPartial, Repository } from 'typeorm';
-import { Rent_Dto } from './rents.dto.model';
-import { Rent_Entity } from './rents.entity';
-import { Rent_Db } from './rents.db';
+import { Rent_Dto } from '../models/rents.dto.model';
+import { Rent_Entity } from '../rents.entity';
+import { Rent_Db } from '../models/rents.db.model';
 
 
 @Injectable()

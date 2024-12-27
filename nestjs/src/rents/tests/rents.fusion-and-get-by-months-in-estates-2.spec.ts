@@ -1,4 +1,4 @@
-import { Rent_Db } from "../rents.db";
+import { Rent_Db } from "../models/rents.db.model";
 import { fusionateRents, getRentsByMonth } from "../rents.utils";
 import { rent2021_01, rent2021_02, rent2020_12 } from "./rents.mocks";
 

@@ -2,7 +2,7 @@ import { Estate_filled_Db } from "../../estates/estate-filled-db.model";
 import { SpreadSheetStrategy } from "./strategies/spreadsheets.strategy";
 import { getMissingRows, getMissingSheetsTitles, getSpreadSheetRentsCells, getUnusedEstates, getYearsFromDates } from "./spreadsheets.utils";
 import { SpreadSheet, SpreadSheetUpdate } from "./models/spreadsheets.model";
-import { Rent_Db } from "../rents.db";
+import { Rent_Db } from "../models/rents.db.model";
 
 /**
  * build a spreadsheet context with all needed years and estates.

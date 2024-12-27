@@ -1,6 +1,6 @@
 import { Estate_filled_Db } from "src/estates/estate-filled-db.model";
 import { Sheet, SpreadSheet, SpreadSheetUpdate } from "./models/spreadsheets.model";
-import { Rent_Db } from "../rents.db";
+import { Rent_Db } from "../models/rents.db.model";
 import { fusionateRents, getRentsByMonth } from "../rents.utils";
 import { MONTHS } from "./strategies/spreadsheets.google.strategy";
 

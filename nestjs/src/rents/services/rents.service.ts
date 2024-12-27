@@ -1,20 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { catchError, combineLatest, from, map, Observable, of, switchMap, take, tap } from 'rxjs';
-import { Docs_Db } from '../docs/docs.db.model';
-import { sendEmail } from '../emails/emails.buisness';
-import { DocsDbService } from '../docs/docs.db.service';
-import { Estate_filled_Db } from '../estates/estate-filled-db.model';
-import { EstatesService } from '../estates/estates.service';
-import { LodgersService } from '../lodgers/lodgers.service';
-import { OwnersService } from '../owners/owners.service';
-import { MonthlyRents } from './monlthy-rent.model';
-import { createRentReceiptEmail, createRentReciptPdf, getRentReceiptInfos } from './rent-receipts/rent-receipts.business';
+import { Docs_Db } from '../../docs/docs.db.model';
+import { sendEmail } from '../../emails/emails.buisness';
+import { DocsDbService } from '../../docs/docs.db.service';
+import { Estate_filled_Db } from '../../estates/estate-filled-db.model';
+import { EstatesService } from '../../estates/estates.service';
+import { LodgersService } from '../../lodgers/lodgers.service';
+import { OwnersService } from '../../owners/owners.service';
+import { MonthlyRents } from '../models/monlthy-rent.model';
+import { createRentReceiptEmail, createRentReciptPdf, getRentReceiptInfos } from '../rent-receipts/rent-receipts.business';
 import { RentsDbService } from './rents.db.service';
-import { fusionateRents, getRentsByMonth, getStartAndEnDatesFromRents } from './rents.utils';
-import { SpreadSheet } from './spreadsheets/models/spreadsheets.model';
-import { buildSpreadsheetContext, fillSpreadSheetCells } from './spreadsheets/rents.spreadsheets.business';
-import { SpreadSheetGoogleStrategy } from './spreadsheets/strategies/spreadsheets.google.strategy';
+import { fusionateRents, getRentsByMonth, getStartAndEnDatesFromRents } from '../rents.utils';
+import { SpreadSheet } from '../spreadsheets/models/spreadsheets.model';
+import { buildSpreadsheetContext, fillSpreadSheetCells } from '../spreadsheets/rents.spreadsheets.business';
+import { SpreadSheetGoogleStrategy } from '../spreadsheets/strategies/spreadsheets.google.strategy';
 
 
 @Injectable()

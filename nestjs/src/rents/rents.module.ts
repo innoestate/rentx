@@ -10,9 +10,9 @@ import { OwnersService } from '../owners/owners.service';
 import { User } from '../user/user.entity';
 import { UsersService } from '../user/user.service';
 import { RentsController } from './rents.controller';
-import { RentsDbService } from './rents.db.service';
+import { RentsDbService } from './services/rents.db.service';
 import { Rent_Entity } from './rents.entity';
-import { RentsService } from './rents.service';
+import { RentsService } from './services/rents.service';
 import { Docs_Entity } from '../docs/docs.entity';
 
 @Module({
