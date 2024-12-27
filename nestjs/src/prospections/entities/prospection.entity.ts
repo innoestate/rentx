@@ -50,14 +50,6 @@ export class Prospection_Entity {
     @Column({ type: 'text', nullable: true })
     comment: string;
 
-    @ManyToMany(() => Seller_Entity)
-    @JoinTable({
-        name: 'prospection_sellers',
-        joinColumn: { name: 'prospection_id', referencedColumnName: 'id' },
-        inverseJoinColumn: { name: 'seller_id', referencedColumnName: 'id' }
-    })
-    sellers: Seller_Entity[];
-
     @OneToMany(() => Offer_Entity, offer => offer.prospection)
     offers: Offer_Entity[];
 }

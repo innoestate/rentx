@@ -21,26 +21,20 @@ export class ProspectionsService {
 
     async create(createProspectionDto: ProspectionDto) {
         const prospection = this.prospectionRepository.create(createProspectionDto);
-        
-        // if (createProspectionDto.seller_id) {
-        //     const sellers = await this.sellerRepository.findByIds(createProspectionDto.seller_ids);
-        //     prospection.sellers = sellers;
-        // }
-
         return this.prospectionRepository.save(prospection);
     }
 
     async findAll(user_id: string) {
         return this.prospectionRepository.find({
             where: { user_id },
-            relations: ['sellers', 'offers']
+            relations: ['offers']
         });
     }
 
     async findOne(id: string) {
         const prospection = await this.prospectionRepository.findOne({
             where: { id },
-            relations: ['sellers', 'offers']
+            relations: ['offers']
         });
 
         if (!prospection) {
@@ -56,6 +50,16 @@ export class ProspectionsService {
         return this.prospectionRepository.save(prospection);
     }
 
+    async updateMany(user_id: string, updateProspectionDto: any) {
+        try{
+            console.log('update many', user_id, updateProspectionDto);
+            return this.prospectionRepository.update({ user_id }, updateProspectionDto);
+        }catch(e){
+            console.error(e);
+            throw new NotFoundException(`Fail to update many Prospections of ${user_id} for ${updateProspectionDto}`);
+        }
+    }
+
     async remove(id: string) {
         const prospection = await this.findOne(id);
         return this.prospectionRepository.remove(prospection);
@@ -68,28 +72,53 @@ export class ProspectionsService {
     }
 
     async removeSeller(id: string) {
-        const seller = await this.findOneSeller(id);
-        return this.sellerRepository.remove(seller);
+        try{
+            const seller = await this.findOneSeller(id);
+            if (!seller) {
+                throw new NotFoundException(`Seller with ID "${id}" not found`);
+            }
+            return this.sellerRepository.remove(seller);
+        }catch(e){
+            console.error(e);
+            throw new NotFoundException(`Fail to remove "${id}"`);
+        }
     }
 
     async updateSeller(id: string, updateSellerDto: SellerDto) {
-        const seller = await this.findOneSeller(id);
-        Object.assign(seller, updateSellerDto);
-        return this.sellerRepository.save(seller);
+        try{
+            const seller = await this.findOneSeller(id);
+            if (!seller) {
+                throw new NotFoundException(`Seller with ID "${id}" not found`);
+            }
+            Object.assign(seller, updateSellerDto);
+            return this.sellerRepository.save(seller);
+        }catch(e){
+            console.error(e);
+            throw new NotFoundException(`"Fail to update Seller with ID "${id}"`);
+        }
     }
 
     async findAllSellers(user_id: string) {
-        return this.sellerRepository.find({
-            where: { user_id },
-            relations: ['prospections']
-        });
+        try {
+            return this.sellerRepository.find({
+                where: { user_id }
+            });
+        }catch(e){
+            console.error(e);
+            throw new NotFoundException(`Fail to find Sellers`);
+        }
+
     }
 
     async findOneSeller(id: string) {
-        return this.sellerRepository.findOne({
-            where: { id },
-            relations: ['prospections']
-        });
+        try{
+            const seller = await this.sellerRepository.findOne({
+                where: { id },
+            });
+            return seller;
+        }catch(e){
+            throw new NotFoundException(`Seller with ID "${id}" not found`);
+        }
     }
 
     // Offer methods
