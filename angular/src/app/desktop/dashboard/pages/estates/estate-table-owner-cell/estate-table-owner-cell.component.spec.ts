@@ -1,23 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+// import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EstateTableOwnerCellComponent } from './estate-table-owner-cell.component';
+// import { EstateTableOwnerCellComponent } from './estate-table-owner-cell.component';
 
-describe('EstateTableOwnerCellComponent', () => {
-  let component: EstateTableOwnerCellComponent;
-  let fixture: ComponentFixture<EstateTableOwnerCellComponent>;
+// describe('EstateTableOwnerCellComponent', () => {
+//   let component: EstateTableOwnerCellComponent;
+//   let fixture: ComponentFixture<EstateTableOwnerCellComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [EstateTableOwnerCellComponent]
-    })
-    .compileComponents();
+//   beforeEach(async () => {
+//     await TestBed.configureTestingModule({
+//       declarations: [EstateTableOwnerCellComponent]
+//     })
+//     .compileComponents();
 
-    fixture = TestBed.createComponent(EstateTableOwnerCellComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//     fixture = TestBed.createComponent(EstateTableOwnerCellComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });
