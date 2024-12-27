@@ -12,6 +12,7 @@ import { userTests } from './user-tests';
 import { dropAllTables } from './utils/db.utils';
 import { buildApp, buildUser } from './utils/user.utils';
 import { RentsService } from '../rents/services/rents.service';
+import { prospectionsTests } from './prospection-tests';
 
 describe('/api', () => {
 
@@ -44,5 +45,6 @@ describe('/api', () => {
     ownersTests(() => app);
     lodgersTests(() => app);
     rentsTests(() => app, () => rentsDbService);
+    prospectionsTests(() => app);
 
 })

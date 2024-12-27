@@ -10,6 +10,7 @@ import { userModule } from './user/user.module';
 import { OwnersModule } from './owners/owners.module';
 import { LodgersModule } from './lodgers/lodgers.module';
 import { RentsModule } from './rents/rents.module';
+import { ProspectionsModule } from './prospections/prospections.module';
 import { createDataSourceConfig } from './scripts/create-datasource.script';
 
 @Module({
@@ -24,6 +25,7 @@ import { createDataSourceConfig } from './scripts/create-datasource.script';
     OwnersModule,
     LodgersModule,
     RentsModule,
+    ProspectionsModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useClass: TypeOrmConfigService,
