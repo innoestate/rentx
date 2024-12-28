@@ -10,6 +10,7 @@ import { ProspectionsEffects } from 'src/app/core/store/prospections.effects';
 import { prospectionReducer } from 'src/app/core/store/prospections.reducer';
 import { ProspectionsDesktopComponent } from './prospections.component';
 import { ProspectionsDesktopRoutingModule } from './prospections.routing';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [ProspectionsDesktopComponent],
@@ -22,6 +23,7 @@ import { ProspectionsDesktopRoutingModule } from './prospections.routing';
     NzModalModule,
     NzTableModule,
     NzInputNumberModule,
+    NzIconModule
   ]
 })
 export class ProspectionsModule { }

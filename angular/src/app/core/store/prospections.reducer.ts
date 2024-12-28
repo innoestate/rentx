@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { Prospection } from '../models/prospection.model';
-import { createProspection, loadProspectionsSuccess } from './prospections.actions';
+import { createProspection, createProspectionSuccess, loadProspectionsSuccess, removeProspectionSuccess } from './prospections.actions';
 
 export interface ProspectionState {
   prospections: Prospection[];
@@ -22,8 +22,12 @@ export const prospectionReducer = createReducer(
     };
 
   }),
-  on(createProspection, (state, { prospection }) => ({
+  on(createProspectionSuccess, (state, { prospection }) => ({
     ...state,
     prospections: [...state.prospections, prospection]
+  })),
+  on(removeProspectionSuccess, (state, { id }) => ({
+    ...state,
+    prospections: state.prospections.filter(prospection => prospection.id !== id)
   }))
 );

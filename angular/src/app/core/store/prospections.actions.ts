@@ -9,3 +9,7 @@ export const loadProspectionsFailure = createAction('[Prospections] Load Prospec
 export const createProspection = createAction('[Prospection] Create Prospection', props<{ prospection: Prospection_Dto }>());
 export const createProspectionSuccess = createAction('[Prospection] Create Prospection Success', props<{ prospection: Prospection }>());
 export const createProspectionFailure = createAction('[Prospection] Create Prospection Failure', props<{ error: any }>());
+
+export const removeProspection = createAction('[Prospection] Remove Prospection', props<{ id: string }>());
+export const removeProspectionSuccess = createAction('[Prospection] Remove Prospection Success', props<{ id: string }>());
+export const removeProspectionFailure = createAction('[Prospection] Remove Prospection Failure', props<{ error: any }>());

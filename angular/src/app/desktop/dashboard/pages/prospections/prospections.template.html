@@ -15,6 +15,7 @@
             <th>prix</th>
             <th>parution</th>
             <th>loyers</th>
+            <th>actions</th>
           </tr>
         </thead>
         <tbody>
@@ -27,6 +28,11 @@
             <td>{{prospection.price}}</td>
             <td>{{prospection.emission_date}}</td>
             <td>{{prospection.rents}}</td>
+            <td>
+              <div class="action">
+                <div nz-icon nzType="delete" class="delete" (click)="remove(prospection)"></div>
+              </div>
+            </td>
           </tr>
         </tbody>
       </nz-table>
