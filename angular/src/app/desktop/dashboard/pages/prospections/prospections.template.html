@@ -1,1 +1,35 @@
-<p>Prospections works!</p>
+<div class="table-component">
+  <div class="container">
+    <div class="header">
+      <button nz-button nzType="default">Ajouter un bien en prospection</button>
+    </div>
+    <div class="table-container">
+
+      <nz-table #tables [nzData]="prospections()">
+        <thead>
+          <tr>
+            <th>ville</th>
+            <th>adresse</th>
+            <th>lien</th>
+            <th>vendeur</th>
+            <th>prix</th>
+            <th>parution</th>
+            <th>loyers</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let prospection of tables.data">
+
+            <td>{{prospection.city}}</td>
+            <td>{{prospection.address}}</td>
+            <td>{{prospection.link}}</td>
+            <td>{{prospection.seller}}</td>
+            <td>{{prospection.price}}</td>
+            <td>{{prospection.emission_date}}</td>
+            <td>{{prospection.rents}}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</div>
