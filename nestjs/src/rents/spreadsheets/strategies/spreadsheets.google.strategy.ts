@@ -72,12 +72,15 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
     }
 
     async createSpreadSheet(title: string): Promise<SpreadSheet> {
+
+        console.log('createSpreadSheet', title);
+
         try {
             const sheets = google.sheets('v4');
             const request = {
                 resource: {
                     properties: {
-                        title: 'immobilier_gestion_' + new Date().getFullYear(),
+                        title
                     },
                 },
                 auth: this.oauth2Client,
