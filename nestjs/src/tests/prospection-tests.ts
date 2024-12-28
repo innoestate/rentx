@@ -8,10 +8,10 @@ import * as request from 'supertest';
  */
 export const prospectionsTests = (getApp) => {
 
-    it('/prospections (POST)', () => {
+    it('/api/prospections (POST)', () => {
         const app = getApp();
         return request(app.getHttpServer())
-            .post('/prospections')
+            .post('/api/prospections')
             .send({
                 city: 'Test City',
                 address: 'Test Address',
@@ -21,10 +21,10 @@ export const prospectionsTests = (getApp) => {
             .expect(201);
     });
 
-    it('/prospections (GET)', () => {
+    it('/api/prospections (GET)', () => {
         const app = getApp();
         return request(app.getHttpServer())
-            .get('/prospections')
+            .get('/api/prospections')
             .expect(200)
             .expect((res) => {
                 expect(Array.isArray(res.body)).toBeTruthy();
@@ -32,11 +32,11 @@ export const prospectionsTests = (getApp) => {
             });
     });
 
-    it('/prospections (GET) should only return user-specific prospections', () => {
+    it('/api/prospections (GET) should only return user-specific prospections', () => {
         const app = getApp();
 
         return request(app.getHttpServer())
-            .post('/prospections')
+            .post('/api/prospections')
             .send({
                 city: 'User1 City',
                 address: 'User1 Address',
@@ -46,7 +46,7 @@ export const prospectionsTests = (getApp) => {
             .expect(201)
             .then(async () => {
                 const res = await request(app.getHttpServer())
-                    .get('/prospections')
+                    .get('/api/prospections')
                     .expect(200);
 
                 expect(Array.isArray(res.body)).toBeTruthy();
@@ -56,11 +56,11 @@ export const prospectionsTests = (getApp) => {
             });
     });
 
-    it('/prospections/:id (PATCH)', () => {
+    it('/api/prospections/:id (PATCH)', () => {
         const app = getApp();
         // First create a prospection
         return request(app.getHttpServer())
-            .post('/prospections')
+            .post('/api/prospections')
             .send({
                 city: 'Original City',
                 address: 'Original Address',
@@ -71,7 +71,7 @@ export const prospectionsTests = (getApp) => {
             .then((res) => {
                 // Then update it
                 return request(app.getHttpServer())
-                    .patch(`/prospections/${res.body.id}`)
+                    .patch(`/api/prospections/${res.body.id}`)
                     .send({
                         city: 'Updated City',
                         price: 150000,
@@ -85,12 +85,12 @@ export const prospectionsTests = (getApp) => {
             });
     });
 
-    it('/prospections/:id (DELETE)', () => {
+    it('/api/prospections/:id (DELETE)', () => {
         const app = getApp();
         let id = '';
         // First create a prospection
         return request(app.getHttpServer())
-            .post('/prospections')
+            .post('/api/prospections')
             .send({
                 city: 'City to Delete',
                 address: 'Address to Delete',
@@ -102,21 +102,21 @@ export const prospectionsTests = (getApp) => {
                 id = res.body.id;
                 // Then delete it
                 return request(app.getHttpServer())
-                    .delete(`/prospections/${res.body.id}`)
+                    .delete(`/api/prospections/${res.body.id}`)
                     .expect(200);
             })
             .then(async () => {
                 const res = await request(app.getHttpServer())
-                    .get('/prospections')
+                    .get('/api/prospections')
                     .expect(200);
                 expect(res.body.filter(p => p.id === id).length).toEqual(0);
             });
     });
 
-    it('/prospections/sellers (POST)', () => {
+    it('/api/prospections/sellers (POST)', () => {
         const app = getApp();
         return request(app.getHttpServer())
-            .post('/prospections/sellers')
+            .post('/api/prospections/sellers')
             .send({
                 name: 'Test Seller',
                 phone: '1234567890',
@@ -125,11 +125,11 @@ export const prospectionsTests = (getApp) => {
             .expect(201);
     });
 
-    it('/prospections/sellers/:id (PATCH)', () => {
+    it('/api/prospections/sellers/:id (PATCH)', () => {
         const app = getApp();
         // First create a seller
         return request(app.getHttpServer())
-            .post('/prospections/sellers')
+            .post('/api/prospections/sellers')
             .send({
                 name: 'Original Name',
                 phone: '1234567890',
@@ -138,7 +138,7 @@ export const prospectionsTests = (getApp) => {
             .expect(201)
             .then((res) => {
                 return request(app.getHttpServer())
-                    .patch(`/prospections/sellers/${res.body.id}`)
+                    .patch(`/api/prospections/sellers/${res.body.id}`)
                     .send({
                         name: 'Updated Name',
                         email: 'updated@example.com'
@@ -152,10 +152,10 @@ export const prospectionsTests = (getApp) => {
             });
     });
 
-    it('/prospections/sellers/:id (DELETE)', () => {
+    it('/api/prospections/sellers/:id (DELETE)', () => {
         const app = getApp();
         return request(app.getHttpServer())
-            .post('/prospections/sellers')
+            .post('/api/prospections/sellers')
             .send({
                 name: 'Seller to Delete',
                 phone: '9876543210',
@@ -164,12 +164,12 @@ export const prospectionsTests = (getApp) => {
             .expect(201)
             .then((res) => {
                 return request(app.getHttpServer())
-                    .delete(`/prospections/sellers/${res.body.id}`)
+                    .delete(`/api/prospections/sellers/${res.body.id}`)
                     .expect(200);
             })
             .then(async () => {
                 const res = await request(app.getHttpServer())
-                    .get('/prospections/sellers/all')
+                    .get('/api/prospections/sellers/all')
                     .expect(200);
                 const deletedSeller = res.body.find(s => s.email === 'delete@example.com');
                 expect(deletedSeller).toBeUndefined();
@@ -177,11 +177,11 @@ export const prospectionsTests = (getApp) => {
     });
 
 
-    it('/prospections/sellers/:id (DELETE) should only delete prospection seller_id that is concerned', async () => {
+    it('/api/prospections/sellers/:id (DELETE) should only delete prospection seller_id that is concerned', async () => {
         const app = getApp();
 
         const sellerResponse = await request(app.getHttpServer())
-            .post('/prospections/sellers')
+            .post('/api/prospections/sellers')
             .send({
                 name: 'Seller to Delete',
                 phone: '9876543210',
@@ -191,7 +191,7 @@ export const prospectionsTests = (getApp) => {
         const sellerId = sellerResponse.body.id;
 
         const prospection1Response = await request(app.getHttpServer())
-            .post('/prospections')
+            .post('/api/prospections')
             .send({
                 city: 'Test City 2',
                 address: 'Test Address X',
@@ -202,7 +202,7 @@ export const prospectionsTests = (getApp) => {
         const prospection1Id = prospection1Response.body.id;
 
         const prospection2Response = await request(app.getHttpServer())
-            .post('/prospections')
+            .post('/api/prospections')
             .send({
                 city: 'Test City 2',
                 address: 'Test Address X',
@@ -217,24 +217,24 @@ export const prospectionsTests = (getApp) => {
         expect(prospection2Response.body.seller_id).toEqual(sellerId); 
             
         await request(app.getHttpServer())
-            .delete(`/prospections/sellers/${sellerId}`)
+            .delete(`/api/prospections/sellers/${sellerId}`)
             .expect(200);
 
         const sellersRes = await request(app.getHttpServer())
-            .get('/prospections/sellers/all')
+            .get('/api/prospections/sellers/all')
             .expect(200);
 
         const deletedSeller = sellersRes.body.find(s => s.email === 'delete@example.com');
         expect(deletedSeller).toBeUndefined();
 
         const prospection1Updated = await request(app.getHttpServer())
-            .get(`/prospections/${prospection1Id}`)
+            .get(`/api/prospections/${prospection1Id}`)
             .expect(200);
 
         expect(prospection1Updated.body.seller_id).toBeNull();
 
         const prospection2Updated = await request(app.getHttpServer())
-            .get(`/prospections/${prospection2Id}`)
+            .get(`/api/prospections/${prospection2Id}`)
             .expect(200);
 
         expect(prospection2Updated.body.seller_id).toBeNull();
