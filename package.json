@@ -1,6 +1,6 @@
 {
   "name": "rentx_backend_nodejs",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "rentx, the free and opensource CRM for realestate",
   "main": "index.js",
   "scripts": {
