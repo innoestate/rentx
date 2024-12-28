@@ -1,0 +1,21 @@
+<form [formGroup]="form" class="form-group-popup">
+
+  <label for="name">Name:</label>
+  <input id="name" formControlName="name" />
+
+  <label for="email">Email:</label>
+  <input id="email" formControlName="email" />
+
+  <label for="phone">Phone:</label>
+  <input id="phone" formControlName="phone" />
+
+  <label for="agency">Agence:</label>
+  <input id="agency" formControlName="agency" />
+
+  <label for="address">Adresse:</label>
+  <input id="address" formControlName="address" />
+
+</form>
+<div class="footer">
+  <button nz-button nzType="primary" type="submit" (click)="create()">Create</button>
+</div>

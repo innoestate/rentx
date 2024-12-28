@@ -2,6 +2,7 @@
   <div class="container">
     <div class="header">
       <button nz-button nzType="default" (click)="openCreatePropspectionPopup()">Ajouter un bien en prospection</button>
+      <button nz-button nzType="default" (click)="openCreateSellerPopup()">Ajouter un vendeur / agent</button>
     </div>
     <div class="table-container">
 
@@ -38,7 +39,7 @@
                 (change)="edit(prospection, 'link', editableLinkInput)" />
             </td>
 
-            <td>{{prospection.seller}}</td>
+            <td><sellers-cell [prospection]="prospection"></sellers-cell></td>
 
             <td class="editable-cell-number clickable"
               (click)="startEdit(prospection.id! + 'price', editablePriceInput)">

@@ -4,4 +4,6 @@ export interface SellerDTO {
   name: string;
   email: string;
   phone: string;
+  address?: string;
+  agency?: string;
 }

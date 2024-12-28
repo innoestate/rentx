@@ -4,6 +4,7 @@ import { loadProspections, removeProspection, updateProspection } from 'src/app/
 import { selectAllProspections } from 'src/app/core/store/prospections/prospections.selectors';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { CreateProspectionComponent } from 'src/app/common/popups/create-prospection/create-prospection.component';
+import { CreateSellerPopupComponent } from 'src/app/common/popups/create-seller-popup/create-seller-popup.component';
 import { Prospection } from 'src/app/core/models/prospection.model';
 
 @Component({
@@ -24,6 +25,14 @@ export class ProspectionsDesktopComponent {
     this.modalService.create({
       nzTitle: 'Create Prospection',
       nzContent: CreateProspectionComponent,
+      nzFooter: null
+    });
+  }
+
+  openCreateSellerPopup() {
+    this.modalService.create({
+      nzTitle: 'Create Seller',
+      nzContent: CreateSellerPopupComponent,
       nzFooter: null
     });
   }

@@ -12,9 +12,12 @@ import { ProspectionsDesktopComponent } from './prospections.component';
 import { ProspectionsDesktopRoutingModule } from './prospections.routing';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { SellersModule } from 'src/app/core/modules/sellers.module';
+import { SellersCellComponent } from './sellers-cell/sellers-cell.component';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @NgModule({
-  declarations: [ProspectionsDesktopComponent],
+  declarations: [ProspectionsDesktopComponent, SellersCellComponent],
   imports: [
     CommonModule,
     ProspectionsDesktopRoutingModule,
@@ -25,7 +28,10 @@ import { SellersModule } from 'src/app/core/modules/sellers.module';
     NzModalModule,
     NzTableModule,
     NzInputNumberModule,
-    NzIconModule
-  ]
+    NzIconModule,
+    NzDropDownModule,
+    NzSelectModule
+  ],
+  exports: [SellersCellComponent]
 })
 export class ProspectionsModule { }
