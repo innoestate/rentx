@@ -22,20 +22,40 @@
           <tr *ngFor="let prospection of tables.data">
 
             <td>{{prospection.city}}</td>
-            <td>{{prospection.address}}</td>
-            <td>{{prospection.link}}</td>
+
+            <td class="editable-cell-number clickable" (click)="startEdit(prospection.id! + 'address', editableAddressInput)">
+              <div [hidden]="editId === prospection.id + 'address'">{{prospection.address}}</div>
+              <input nz-demo-input-text-basic #editableAddressInput [value]="prospection.address"
+                [hidden]="editId !== prospection.id + 'address'" type="text" (blur)="stopEdit()"
+                (change)="edit(prospection, 'address', editableAddressInput)" />
+            </td>
+
+            <td class="editable-cell-number clickable" (click)="startEdit(prospection.id! + 'link', editableLinkInput)">
+              <div [hidden]="editId === prospection.id + 'link'">{{prospection.link}}</div>
+              <input nz-demo-input-text-basic #editableLinkInput [value]="prospection.link"
+                [hidden]="editId !== prospection.id + 'link'" type="text" (blur)="stopEdit()"
+                (change)="edit(prospection, 'link', editableLinkInput)" />
+            </td>
+
+
             <td>{{prospection.seller}}</td>
 
             <td class="editable-cell-number clickable" (click)="startEdit(prospection.id! + 'price', editablePriceInput)">
               <div [hidden]="editId === prospection.id + 'price'">{{prospection.price}}</div>
               <input nz-demo-input-text-basic #editablePriceInput [value]="prospection.price"
-                [hidden]="editId !== prospection.id + 'price'" type="text" (blur)="stopEdit()"
+                [hidden]="editId !== prospection.id + 'price'" type="number" (blur)="stopEdit()"
                 (change)="edit(prospection, 'price', editablePriceInput)" />
             </td>
 
+            <td>{{prospection.emission_date | date:'dd/MM/YYYY'}}</td>
 
-            <td>{{prospection.emission_date}}</td>
-            <td>{{prospection.rents}}</td>
+            <td class="editable-cell-number clickable" (click)="startEdit(prospection.id! + 'rents', editablRentInput)">
+              <div [hidden]="editId === prospection.id + 'rents'">{{prospection.rents}}</div>
+              <input nz-demo-input-text-basic #editablRentInput [value]="prospection.rents"
+                [hidden]="editId !== prospection.id + 'rents'" type="number" (blur)="stopEdit()"
+                (change)="edit(prospection, 'rents', editablRentInput)" />
+            </td>
+
             <td>
               <div class="action">
                 <div nz-icon nzType="delete" class="delete" (click)="remove(prospection)"></div>
