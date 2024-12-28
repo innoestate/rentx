@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { Actions, EffectsModule, ofType } from '@ngrx/effects';
+import { EffectsModule } from '@ngrx/effects';
 import { Store, StoreModule } from '@ngrx/store';
+import { take, tap } from 'rxjs';
+import { loadOwners } from '../../store/owner/owners.actions';
 import { OwnersEffects } from '../../store/owner/owners.effects';
 import { ownersReducer } from '../../store/owner/owners.reducers';
-import { loadOwners } from '../../store/owner/owners.actions';
-import { loadUser, loadUserSuccess } from '../../store/user/user.actions';
-import { take, tap } from 'rxjs';
+import { userSelector } from '../../store/user/user.selectors';
 
 
 
@@ -19,7 +19,8 @@ import { take, tap } from 'rxjs';
   ]
 })
 export class OwnersModule {
-  constructor(private store: Store, private actions$: Actions) {
+
+  constructor(private store: Store) {
     this.loadOwners();
   }
 
@@ -28,12 +29,9 @@ export class OwnersModule {
    * useful for the first time a user logs in
    */
   private loadOwners() {
-    this.actions$.pipe(
-      ofType(loadUserSuccess),
+    this.store.select(userSelector).pipe(
       take(1),
-      tap( _ => {
-        this.store.dispatch(loadOwners());
-      })
+      tap( _ => this.store.dispatch(loadOwners()))
     ).subscribe();
   }
 }
