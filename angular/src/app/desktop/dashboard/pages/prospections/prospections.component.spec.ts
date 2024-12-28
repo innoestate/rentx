@@ -13,8 +13,8 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { ProspectionsHttpService } from 'src/app/core/services/prospections.http.service';
 import { ProspectionsHttpMockedService } from 'src/app/core/services/prospections.http.service.mocked';
 import { RentsHttpService } from 'src/app/core/services/rents.http.service';
-import { ProspectionsEffects } from 'src/app/core/store/prospections.effects';
-import { prospectionReducer } from 'src/app/core/store/prospections.reducer';
+import { ProspectionsEffects } from 'src/app/core/store/prospections/prospections.effects';
+import { prospectionReducer } from 'src/app/core/store/prospections/prospections.reducer';
 import { ProspectionsDesktopComponent } from './prospections.component';
 
 describe('ProspectionsDesktopComponent', () => {

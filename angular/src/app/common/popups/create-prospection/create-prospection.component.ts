@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { Store } from '@ngrx/store';
-import { createProspection } from 'src/app/core/store/prospections.actions';
+import { createProspection } from 'src/app/core/store/prospections/prospections.actions';
 import { Prospection_Dto } from 'src/app/core/models/dtos/prospection.dto.model';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzButtonModule } from 'ng-zorro-antd/button';

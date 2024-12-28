@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { loadProspections, removeProspection, updateProspection } from 'src/app/core/store/prospections.actions';
-import { selectAllProspections } from 'src/app/core/store/prospections.selectors';
+import { loadProspections, removeProspection, updateProspection } from 'src/app/core/store/prospections/prospections.actions';
+import { selectAllProspections } from 'src/app/core/store/prospections/prospections.selectors';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { CreateProspectionComponent } from 'src/app/common/popups/create-prospection/create-prospection.component';
 import { Prospection } from 'src/app/core/models/prospection.model';

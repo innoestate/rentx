@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { Prospection_Dto } from '../models/dtos/prospection.dto.model';
-import { Prospection } from '../models/prospection.model';
+import { Prospection_Dto } from '../../models/dtos/prospection.dto.model';
+import { Prospection } from '../../models/prospection.model';
 
 export const loadProspections = createAction('[Prospections] Load Prospections');
 export const loadProspectionsSuccess = createAction('[Prospections] Load Prospections Success', props<{ prospections: Prospection[] }>());

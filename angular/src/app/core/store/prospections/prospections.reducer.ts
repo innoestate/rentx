@@ -1,11 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
-import { Prospection } from '../models/prospection.model';
-import { 
-  createProspection, 
-  createProspectionSuccess, 
-  loadProspectionsSuccess, 
-  removeProspectionSuccess, 
-  updateProspectionSuccess 
+import { Prospection } from '../../models/prospection.model';
+import {
+  createProspection,
+  createProspectionSuccess,
+  loadProspectionsSuccess,
+  removeProspectionSuccess,
+  updateProspectionSuccess
 } from './prospections.actions';
 
 export interface ProspectionState {

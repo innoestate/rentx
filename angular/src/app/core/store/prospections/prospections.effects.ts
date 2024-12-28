@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map, mergeMap, switchMap, tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { Prospection } from '../models/prospection.model';
-import { ProspectionsHttpService } from '../services/prospections.http.service';
+import { Prospection } from '../../models/prospection.model';
+import { ProspectionsHttpService } from '../../services/prospections.http.service';
 import {
   createProspection,
   createProspectionSuccess,
