@@ -1,0 +1,18 @@
+<form [formGroup]="form" class="form-group-popup">
+
+  <label for="city">City:</label>
+  <input id="city" formControlName="city" />
+
+  <label for="address">Address:</label>
+  <input id="address" formControlName="address" />
+
+  <label for="price">Price:</label>
+  <input id="price" type="number" formControlName="price" />
+
+  <label for="resume">Description:</label>
+  <textarea id="resume" type="text" formControlName="resume" ></textarea>
+
+</form>
+<div class="footer">
+  <button  nz-button nzType="primary" type="submit" (click)="create()">Create</button>
+</div>
