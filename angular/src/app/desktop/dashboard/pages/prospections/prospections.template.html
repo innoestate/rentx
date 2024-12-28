@@ -25,7 +25,15 @@
             <td>{{prospection.address}}</td>
             <td>{{prospection.link}}</td>
             <td>{{prospection.seller}}</td>
-            <td>{{prospection.price}}</td>
+
+            <td class="editable-cell-number clickable" (click)="startEdit(prospection.id! + 'price', editablePriceInput)">
+              <div [hidden]="editId === prospection.id + 'price'">{{prospection.price}}</div>
+              <input nz-demo-input-text-basic #editablePriceInput [value]="prospection.price"
+                [hidden]="editId !== prospection.id + 'price'" type="text" (blur)="stopEdit()"
+                (change)="edit(prospection, 'price', editablePriceInput)" />
+            </td>
+
+
             <td>{{prospection.emission_date}}</td>
             <td>{{prospection.rents}}</td>
             <td>
