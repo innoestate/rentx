@@ -1,0 +1,3 @@
+import { Prospection_Dto } from "./dtos/prospection.dto.model";
+
+export interface Prospection extends Prospection_Dto{}

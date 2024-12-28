@@ -6,7 +6,23 @@ import { Prospection_Dto } from '../models/dtos/prospection.dto.model';
   providedIn: 'root'
 })
 export class ProspectionsHttpMockedService {
-  private mockData: Prospection_Dto[] = [];
+  private mockData: Prospection_Dto[] = [
+    {
+      id: '1',
+      city: 'City 1',
+      address: 'Address 1',
+      link: 'Link 1',
+      seller_id: '',
+      user_id: 'User 1',
+      price: 100,
+      emission_date: new Date(),
+      offer_id: 'Offer 1',
+      construction_cost: 200,
+      rents: [],
+      resume: 'Resume 1',
+      comment: 'Comment 1'
+    }
+  ];
 
   getAll(): Observable<any> {
     return of(this.mockData);
