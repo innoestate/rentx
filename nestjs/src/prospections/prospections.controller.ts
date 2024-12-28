@@ -8,7 +8,7 @@ import { ProspectionDto } from './dto/prospection.dto';
 import { ProspectionsDbService } from './services/prospections.db.service';
 import { SellersDbService } from './services/sellers.db.service';
 
-@Controller('prospections')
+@Controller('api/prospections')
 export class ProspectionsController {
     constructor(
         private readonly prospectionsService: ProspectionsDbService,
@@ -18,8 +18,7 @@ export class ProspectionsController {
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Post()
     create(@Body() createProspectionDto: ProspectionDto, @Req() req) {
-        createProspectionDto.user_id = req.user?.id;
-        return this.prospectionsService.create(createProspectionDto);
+        return this.prospectionsService.create(this.formatProspectionDto(req.user?.id,createProspectionDto));
     }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
@@ -93,5 +92,18 @@ export class ProspectionsController {
     @Get('offers')
     findAllOffers() {
         return this.prospectionsService.findAllOffers();
+    }
+
+
+    private formatProspectionDto(userId: string,createProspectionDto: ProspectionDto) {
+        const createProspectionDtoKeys = Object.keys(createProspectionDto);
+        createProspectionDto.user_id = userId;
+        if(!createProspectionDto.emission_date) {
+            createProspectionDto.emission_date = new Date();    
+        }
+        if(!createProspectionDto.price) {
+            createProspectionDto.price = 0;
+        }
+        return {...createProspectionDtoKeys, ...createProspectionDto};
     }
 }
