@@ -23,24 +23,25 @@
 
             <td>{{prospection.city}}</td>
 
-            <td class="editable-cell-number clickable" (click)="startEdit(prospection.id! + 'address', editableAddressInput)">
+            <td class="editable-cell-number clickable field-medium"
+              (click)="startEdit(prospection.id! + 'address', editableAddressInput)">
               <div [hidden]="editId === prospection.id + 'address'">{{prospection.address}}</div>
               <input nz-demo-input-text-basic #editableAddressInput [value]="prospection.address"
                 [hidden]="editId !== prospection.id + 'address'" type="text" (blur)="stopEdit()"
                 (change)="edit(prospection, 'address', editableAddressInput)" />
             </td>
 
-            <td class="editable-cell-number clickable" (click)="startEdit(prospection.id! + 'link', editableLinkInput)">
+            <td class="editable-cell-number clickable field-medium" (click)="startEdit(prospection.id! + 'link', editableLinkInput)">
               <div [hidden]="editId === prospection.id + 'link'">{{prospection.link}}</div>
               <input nz-demo-input-text-basic #editableLinkInput [value]="prospection.link"
                 [hidden]="editId !== prospection.id + 'link'" type="text" (blur)="stopEdit()"
                 (change)="edit(prospection, 'link', editableLinkInput)" />
             </td>
 
-
             <td>{{prospection.seller}}</td>
 
-            <td class="editable-cell-number clickable" (click)="startEdit(prospection.id! + 'price', editablePriceInput)">
+            <td class="editable-cell-number clickable"
+              (click)="startEdit(prospection.id! + 'price', editablePriceInput)">
               <div [hidden]="editId === prospection.id + 'price'">{{prospection.price}}</div>
               <input nz-demo-input-text-basic #editablePriceInput [value]="prospection.price"
                 [hidden]="editId !== prospection.id + 'price'" type="number" (blur)="stopEdit()"

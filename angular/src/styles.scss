@@ -83,6 +83,23 @@ html {
 
 .table-component {
 
+  .field-medium{
+    div{
+      min-width: 200px !important;
+      max-width: 200px !important;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    input{
+      min-width: 200px !important;
+      max-width: 200px !important;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+
 
   .container{
     height: 100%;
