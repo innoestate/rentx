@@ -5,6 +5,7 @@ import { UserMidleweare } from '../guards/user-midleweare.guard';
 import { SellerDto } from './dto/create-seller.dto';
 import { OfferDto } from './dto/offer.dto';
 import { ProspectionDto } from './dto/prospection.dto';
+import { formatProspectionDtoForCreation } from './prospections.utils';
 import { ProspectionsDbService } from './services/prospections.db.service';
 import { SellersDbService } from './services/sellers.db.service';
 
@@ -18,7 +19,7 @@ export class ProspectionsController {
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Post()
     create(@Body() createProspectionDto: ProspectionDto, @Req() req) {
-        return this.prospectionsService.create(this.formatProspectionDto(req.user?.id,createProspectionDto));
+        return this.prospectionsService.create(formatProspectionDtoForCreation(req.user?.id,createProspectionDto));
     }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
@@ -35,8 +36,8 @@ export class ProspectionsController {
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Patch(':id')
-    update(@Param('id') id: string, @Body() updateProspectionDto: ProspectionDto, @Req() req) {
-        return this.prospectionsService.update(id, this.formatProspectionDto(req.user?.id,updateProspectionDto));
+    update(@Param('id') id: string, @Body() updateProspectionDto: Partial<ProspectionDto>, @Req() req) {
+        return this.prospectionsService.update(id, updateProspectionDto);
     }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
@@ -91,18 +92,5 @@ export class ProspectionsController {
     @Get('offers')
     findAllOffers() {
         return this.prospectionsService.findAllOffers();
-    }
-
-
-    private formatProspectionDto(userId: string,createProspectionDto: ProspectionDto) {
-        const createProspectionDtoKeys = Object.keys(createProspectionDto);
-        createProspectionDto.user_id = userId;
-        if(!createProspectionDto.emission_date) {
-            createProspectionDto.emission_date = new Date();    
-        }
-        if(!createProspectionDto.price) {
-            createProspectionDto.price = 0;
-        }
-        return {...createProspectionDtoKeys, ...createProspectionDto};
     }
 }

@@ -20,4 +20,10 @@ export class Seller_Entity {
 
     @Column()
     email: string;
+
+    @Column({ nullable: true })
+    address: string;
+
+    @Column({ nullable: true })
+    agency: string;
 }

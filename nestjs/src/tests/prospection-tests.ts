@@ -56,10 +56,11 @@ export const prospectionsTests = (getApp) => {
             });
     });
 
-    it('/api/prospections/:id (PATCH)', () => {
+    let prospectionIdForPatchTests = '';
+    it('/api/prospections/:id (PATCH)', async () => {
         const app = getApp();
-        // First create a prospection
-        return request(app.getHttpServer())
+
+        const resCreate = await request(app.getHttpServer())
             .post('/api/prospections')
             .send({
                 city: 'Original City',
@@ -68,21 +69,44 @@ export const prospectionsTests = (getApp) => {
                 emission_date: new Date().toISOString(),
             })
             .expect(201)
-            .then((res) => {
-                // Then update it
-                return request(app.getHttpServer())
-                    .patch(`/api/prospections/${res.body.id}`)
-                    .send({
-                        city: 'Updated City',
-                        price: 150000,
-                    })
-                    .expect(200)
-                    .expect((response) => {
-                        expect(response.body.city).toEqual('Updated City');
-                        expect(response.body.price).toEqual(150000);
-                        expect(response.body.address).toEqual('Original Address');
-                    });
-            });
+
+        prospectionIdForPatchTests = resCreate.body.id;
+
+        await request(app.getHttpServer())
+            .patch(`/api/prospections/${prospectionIdForPatchTests}`)
+            .send({
+                city: 'Updated City',
+                price: 150000,
+            })
+
+        const resGet = await request(app.getHttpServer())
+            .get(`/api/prospections/${prospectionIdForPatchTests}`)
+            .expect(200);
+
+        expect(resGet.body.city).toEqual('Updated City');
+        expect(resGet.body.price).toEqual(150000);
+        expect(resGet.body.address).toEqual('Original Address');
+
+    });
+
+    it('/api/prospections/:id (PATCH)', async () => {
+
+        const app = getApp();
+
+        await request(app.getHttpServer())
+            .patch(`/api/prospections/${prospectionIdForPatchTests}`)
+            .send({
+                seller_id: '35bfd1bf-1956-4077-a6af-aa1e5076219a',
+            })
+
+        const resGet = await request(app.getHttpServer())
+            .get(`/api/prospections/${prospectionIdForPatchTests}`)
+            .expect(200);
+
+        expect(resGet.body.city).toEqual('Updated City');
+        expect(resGet.body.price).toEqual(150000);
+        expect(resGet.body.address).toEqual('Original Address');
+        expect(resGet.body.seller_id).toEqual('35bfd1bf-1956-4077-a6af-aa1e5076219a');
     });
 
     it('/api/prospections/:id (DELETE)', () => {
@@ -212,10 +236,10 @@ export const prospectionsTests = (getApp) => {
             })
 
         const prospection2Id = prospection2Response.body.id;
-            
-        expect(prospection1Response.body.seller_id).toEqual(sellerId); 
-        expect(prospection2Response.body.seller_id).toEqual(sellerId); 
-            
+
+        expect(prospection1Response.body.seller_id).toEqual(sellerId);
+        expect(prospection2Response.body.seller_id).toEqual(sellerId);
+
         await request(app.getHttpServer())
             .delete(`/api/prospections/sellers/${sellerId}`)
             .expect(200);

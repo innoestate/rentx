@@ -41,10 +41,8 @@ export class ProspectionsDbService {
         return prospection;
     }
 
-    async update(id: string, updateProspectionDto: ProspectionDto) {
-        const prospection = await this.findOne(id);
-        Object.assign(prospection, updateProspectionDto);
-        return this.prospectionRepository.save(prospection);
+    async update(id: string, updateProspectionDto: Partial<ProspectionDto>) {
+        return this.prospectionRepository.update(id, updateProspectionDto);
     }
 
     async updateMany(user_id: string, updateProspectionDto: any) {
