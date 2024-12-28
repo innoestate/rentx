@@ -24,7 +24,7 @@ export class ProspectionsHttpService {
     return this.http.post<Prospection_Dto>(`${this.apiUrl}`, data);
   }
 
-  update(id: string, data: Prospection_Dto): Observable<Prospection_Dto> {
+  update(id: string, data: Partial<Prospection_Dto>): Observable<Prospection_Dto> {
     return this.http.put<Prospection_Dto>(`${this.apiUrl}/${id}`, data);
   }
 

@@ -13,3 +13,7 @@ export const createProspectionFailure = createAction('[Prospection] Create Prosp
 export const removeProspection = createAction('[Prospection] Remove Prospection', props<{ id: string }>());
 export const removeProspectionSuccess = createAction('[Prospection] Remove Prospection Success', props<{ id: string }>());
 export const removeProspectionFailure = createAction('[Prospection] Remove Prospection Failure', props<{ error: any }>());
+
+export const updateProspection = createAction('[Prospection] Update Prospection', props<{ id: string, changes: Partial<Prospection> }>());
+export const updateProspectionSuccess = createAction('[Prospection] Update Prospection Success', props<{ id: string, changes: Partial<Prospection> }>());
+export const updateProspectionFailure = createAction('[Prospection] Update Prospection Failure', props<{ error: any }>());

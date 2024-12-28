@@ -4,7 +4,18 @@ import { map, mergeMap, switchMap, tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Prospection } from '../models/prospection.model';
 import { ProspectionsHttpService } from '../services/prospections.http.service';
-import { createProspection, createProspectionSuccess, loadProspections, loadProspectionsSuccess, removeProspection, removeProspectionSuccess, removeProspectionFailure } from './prospections.actions';
+import {
+  createProspection,
+  createProspectionSuccess,
+  loadProspections,
+  loadProspectionsSuccess,
+  removeProspection,
+  removeProspectionSuccess,
+  removeProspectionFailure,
+  updateProspection,
+  updateProspectionSuccess,
+  updateProspectionFailure
+} from './prospections.actions';
 
 @Injectable()
 export class ProspectionsEffects {
@@ -42,6 +53,18 @@ export class ProspectionsEffects {
         this.prospectionsService.delete(action.id).pipe(
           map(() => removeProspectionSuccess({ id: action.id })),
           catchError(error => of(removeProspectionFailure({ error })))
+        )
+      )
+    )
+  );
+
+  updateProspection$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(updateProspection),
+      mergeMap(action =>
+        this.prospectionsService.update(action.id, action.changes).pipe(
+          map(() => updateProspectionSuccess({ id: action.id, changes: action.changes })),
+          catchError(error => of(updateProspectionFailure({ error })))
         )
       )
     )
