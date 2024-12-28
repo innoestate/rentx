@@ -36,8 +36,7 @@ export class ProspectionsController {
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Patch(':id')
     update(@Param('id') id: string, @Body() updateProspectionDto: ProspectionDto, @Req() req) {
-        updateProspectionDto.user_id = req.user.id;
-        return this.prospectionsService.update(id, updateProspectionDto);
+        return this.prospectionsService.update(id, this.formatProspectionDto(req.user?.id,updateProspectionDto));
     }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
