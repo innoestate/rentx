@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { Owner_Dto } from '../../core/models/dtos/owner.dto.model';
 import { Lodger_Dto } from '../models/dtos/lodger.dto.model';
 import { Lodger_Post } from '../models/requests/lodger-post-request.model';
+import { Lodger_Patch } from '../models/requests/lodger-patch-request.model';
 
 
 @Injectable({
@@ -24,7 +25,7 @@ export class LodgersService {
     return this.http.get<Lodger_Dto[]>(`${this.API_URL}/lodgers`);
   }
 
-  update(lodgers: Lodger_Post): Observable<any> {
+  update(lodgers: Lodger_Patch): Observable<any> {
     return this.http.patch<any>(`${this.API_URL}/lodgers`, lodgers);
   }
 

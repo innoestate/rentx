@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Lodger_Dto } from '../models/dtos/lodger.dto.model';
 import { Lodger_Post } from '../models/requests/lodger-post-request.model';
+import { Lodger_Patch } from '../models/requests/lodger-patch-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class MockLodgersService {
     return of(this.lodgers);
   }
 
-  update(lodger: Lodger_Post): Observable<Lodger_Dto> {
+  update(lodger: Lodger_Patch): Observable<Lodger_Dto> {
     const index = this.lodgers.findIndex(l => l.id === lodger.id);
     if (index !== -1) {
       this.lodgers[index] = { ...this.lodgers[index], ...lodger };
