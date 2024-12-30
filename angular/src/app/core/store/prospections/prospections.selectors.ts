@@ -17,7 +17,7 @@ export const selectAllProspections = createSelector(
 
 const formatProspections = (prospections: Prospection[], sellers: Seller[]) => {
   return prospections.map(prospection => {
-    const seller = sellers.find(seller => seller.id === prospection.seller_id);
+    const seller = sellers?.find(seller => seller.id === prospection.seller_id);
     return {
       ...prospection,
       seller: seller ? seller : null,
