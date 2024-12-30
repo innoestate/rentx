@@ -8,8 +8,8 @@ import { Estate_Post_Request } from 'src/app/core/models/requests/estate-post-re
 })
 export class MockEstatesService {
   private estates: Estate_Dto[] = [
-    { id: '1', street: 'Street 1', city: 'City 1', zip: '12345', owner_id: 'owner1' },
-    { id: '2', street: 'Street 2', city: 'City 2', zip: '67890', owner_id: 'owner2' }
+    { id: '1', street: 'Street 1', city: 'City 1', zip: '12345', owner_id: 'owner1', lodger_id: 'lodger1' },
+    { id: '2', street: 'Street 2', city: 'City 2', zip: '67890', owner_id: 'owner2', lodger_id: 'lodger2' }
   ];
 
   getEstates(): Observable<Estate_Dto[]> {
