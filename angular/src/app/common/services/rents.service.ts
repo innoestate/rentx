@@ -43,7 +43,7 @@ export class RentService {
 
       this.openCompletePopupForRentReceipt(fields).pipe(
         take(1),
-        switchMap(({ owner, lodger, estate }) => this.updateCompletedObjects(owner, { ...estate_, ...estate }, lodger)),
+        switchMap(({ owner, lodger, estate }) => this.updateCompletedObjects({ ...owner, id: estate_.owner?.id }, { ...estate_, ...estate }, { ...lodger, id: estate_.lodger?.id })),
         tap(estate => this.sendDownloadRentReceiptRequest(estate))
       ).subscribe();
 
@@ -52,32 +52,31 @@ export class RentService {
     }
   }
 
-  sendRentReceiptByEmail(estate: Estate) {
+  sendRentReceiptByEmail(estate_: Estate) {
 
-    let fields = this.getNeededFieldsForSendRentReceiptByEmail(estate);
+    let fields = this.getNeededFieldsForSendRentReceiptByEmail(estate_);
     if (fields.length > 0) {
-
       this.openCompletePopupForRentReceipt(fields).pipe(
         take(1),
-        tap(({ owner, lodger, estate }) => this.updateCompletedObjects(owner, estate, lodger)),
-        tap(_ => this.store.dispatch(senddRentReceipt({ estate: estate })))
+        tap(({ owner, lodger, estate }) => this.updateCompletedObjects({ ...owner, id: estate_.owner?.id }, { ...estate, id: estate_.id }, { ...lodger, id: estate_.lodger?.id })),
+        tap(_ => this.store.dispatch(senddRentReceipt({ estate: estate_ })))
       ).subscribe();
 
     } else {
-      this.store.dispatch(senddRentReceipt({ estate: estate }));
+      this.store.dispatch(senddRentReceipt({ estate: estate_ }));
     }
   }
 
-  downloadCustomizedRentReceipt(estate: Estate) {
-    this.openCustomizedRentReceiptPopup(estate).pipe(
+  downloadCustomizedRentReceipt(estate_: Estate) {
+    this.openCustomizedRentReceiptPopup(estate_).pipe(
       take(1),
       tap(({ command, type }) => {
-        let fields = type === 'send' ? this.getNeededFieldsForSendRentReceiptByEmail(estate) : this.getNeededFieldsForDownloadRentReceipt(estate);
+        let fields = type === 'send' ? this.getNeededFieldsForSendRentReceiptByEmail(estate_) : this.getNeededFieldsForDownloadRentReceipt(estate_);
         if (fields.length > 0) {
 
           this.openCompletePopupForRentReceipt(fields).pipe(
             take(1),
-            switchMap(({ owner, lodger, estate }) => this.updateCompletedObjects(owner, estate, lodger)),
+            switchMap(({ owner, lodger, estate }) => this.updateCompletedObjects({ ...owner, id: estate_.owner?.id }, { ...estate, id: estate_.id }, { ...lodger, id: estate_.lodger?.id })),
             tap(_ => command())
           ).subscribe();
 
@@ -120,7 +119,7 @@ export class RentService {
     }
     if (lodger) {
       updates.push(this.getUpdateLodgerResultObserables(lodger));
-      this.store.dispatch(updateLodger({ lodger: { ...lodger, id: estate.lodger?.id! } }));
+      this.store.dispatch(updateLodger({ lodger: { ...lodger } }));
     }
     return combineLatest(updates).pipe(
       take(1),
