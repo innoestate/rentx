@@ -4,7 +4,7 @@ import { Store } from "@ngrx/store";
 import { catchError, map, of, switchMap, tap, withLatestFrom } from "rxjs";
 import { OwnersService } from "../../services/owners.http.service";
 import { selectOwners } from "./owners.selectors";
-import { addOwnerFailure, addOwnerSuccess, updateOwnerSuccess } from "./owners.actions";
+import { addOwnerFailure, addOwnerSuccess, loadOwners, updateOwnerSuccess } from "./owners.actions";
 import { NzMessageService } from "ng-zorro-antd/message";
 
 @Injectable()
@@ -13,7 +13,7 @@ export class OwnersEffects {
   constructor(private actions$: Actions, private ownerService: OwnersService, private store: Store, private message: NzMessageService) { }
 
   loadOwners$ = createEffect(() => this.actions$.pipe(
-    ofType('[Owners] Load Owners'),
+    ofType(loadOwners),
     withLatestFrom(this.store.select(selectOwners)),
     map(([_, owners]) => owners),
     switchMap(actualOwners => {

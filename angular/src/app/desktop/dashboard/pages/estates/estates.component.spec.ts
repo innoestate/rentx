@@ -22,11 +22,25 @@ import { rentsReducer } from 'src/app/core/store/rents/rents.reducer';
 import { EstateTableLodgerCellComponent } from './estate-table-lodger-cell/estate-table-lodger-cell.component';
 import { EstateTableOwnerCellComponent } from './estate-table-owner-cell/estate-table-owner-cell.component';
 import { EstatesPageDesktopComponent } from './estates.component';
+import { By } from '@angular/platform-browser';
+import { LodgersService } from 'src/app/core/services/lodgers.service';
+import { MockLodgersService } from 'src/app/core/services/lodgers.service.mocked';
+import { CompleteRentReceiptPopupComponent } from 'src/app/common/popups/complete-rent-receipt-popup/complete-rent-receipt-popup.component';
+import { combineLatest, delay } from 'rxjs';
+import { OwnersService } from 'src/app/core/services/owners.http.service';
+import { MockOwnersService } from 'src/app/core/services/owners.service.mocked';
+import { loadOwners } from 'src/app/core/store/owner/owners.actions';
+import { selectLodgers } from 'src/app/core/store/lodger/lodgers.selectors';
+import { selectOwners } from 'src/app/core/store/owner/owners.selectors';
+import { loadLodgers } from 'src/app/core/store/lodger/lodgers.actions';
+import { LodgersEffects } from 'src/app/core/store/lodger/lodgers.effects';
+import { OwnersEffects } from 'src/app/core/store/owner/owners.effects';
+import { loadEstates } from 'src/app/core/store/estate/estates.actions';
 
 describe('EstatesDesktopComponent', () => {
   let component: EstatesPageDesktopComponent;
   let fixture: ComponentFixture<EstatesPageDesktopComponent>;
-  let modalService: NzModalService;
+  let modalServiceTest: NzModalService;
   let mockEstatesService: MockEstatesService;
   let messageService: NzMessageService;
 
@@ -53,25 +67,46 @@ describe('EstatesDesktopComponent', () => {
         StoreModule.forFeature('owners', ownersReducer),
         StoreModule.forFeature('lodgers', lodgersReducer),
         StoreModule.forFeature('rents', rentsReducer),
-        EffectsModule.forFeature([EstatesEffects])
+        EffectsModule.forFeature([EstatesEffects, OwnersEffects, LodgersEffects])
       ],
       providers: [
         RentsHttpService,
-        { provide: EstatesService, useClass: MockEstatesService }
+        { provide: EstatesService, useClass: MockEstatesService },
+        { provide: LodgersService, useClass: MockLodgersService },
+        { provide: OwnersService, useClass: MockOwnersService }
       ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(EstatesPageDesktopComponent);
     component = fixture.componentInstance;
+    modalServiceTest = TestBed.inject(NzModalService);
     mockEstatesService = TestBed.inject(MockEstatesService);
-    modalService = TestBed.inject(NzModalService);
     messageService = TestBed.inject(NzMessageService);
 
     const store = TestBed.inject(Store);
-    store.dispatch({ type: '[Estates] Load Estates' });
+    store.dispatch(loadOwners());
+    store.dispatch(loadEstates());
+    store.dispatch(loadLodgers());
+
 
     fixture.detectChanges();
     await fixture.whenStable();
+
+
+
+  });
+
+  it('check that mocked values are in store', (done) => {
+    combineLatest([TestBed.inject(Store).select(selectEstates),
+                   TestBed.inject(Store).select(selectOwners),
+                   TestBed.inject(Store).select(selectLodgers)]).subscribe(([estates, owners, lodgers]) => {
+      expect(estates.length).toBeGreaterThan(0);
+      expect(owners.length).toBeGreaterThan(0);
+      expect(lodgers.length).toBeGreaterThan(0);
+      expect(estates[0].lodger?.name).toBe('John Doe');
+      expect(estates[0].owner?.name).toBe('Owner 1');
+      done();
+    });
   });
 
   it('should dispatch loadEstates and update store state', (done) => {
@@ -169,4 +204,20 @@ describe('EstatesDesktopComponent', () => {
     subscription.unsubscribe();
     flush();
   }));
+
+
+  it('test creation of a lodger component', async () => {
+
+    const lodgerDebugElements = fixture.debugElement.queryAll(By.directive(EstateTableLodgerCellComponent));
+    const lodgerComponents = lodgerDebugElements.map(debugEl => debugEl.componentInstance);
+    expect(lodgerComponents.length).toBe(2);
+    expect(lodgerComponents[0].estate()).toBe(component.estates()[0]);
+    // const lodgerComponent = lodgerComponents[0];
+    // lodgerComponent.downloadRentReceipt();
+    // expect(modalService.create).toHaveBeenCalledWith(jasmine.objectContaining({
+    //   nzContent: CompleteRentReceiptPopupComponent
+    // }));
+
+  });
+
 });
