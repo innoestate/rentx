@@ -29,6 +29,8 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
+    localStorage.removeItem('currentUser');
+    this.removeToken('authToken');
     return of(true);//this.http.get(`${this.API_URL}/user/logout`);
   }
 
