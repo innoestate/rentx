@@ -24,6 +24,7 @@ DB_DATABASE=rentx
 GOOGLE_CALLBACK_URL=http://localhost:4200/callback
 
 run: 
+    docker network create my-network
     docker-compose -f docker-compose.dev.yml up --build
 
 go in the container nestj, from the root project:
