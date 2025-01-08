@@ -32,7 +32,8 @@
                 (change)="edit(prospection, 'address', editableAddressInput)" />
             </td>
 
-            <td class="editable-cell-number clickable field-medium" (click)="startEdit(prospection.id! + 'link', editableLinkInput)">
+            <td class="editable-cell-number clickable field-medium"
+              (click)="startEdit(prospection.id! + 'link', editableLinkInput)">
               <div [hidden]="editId === prospection.id + 'link'">{{prospection.link}}</div>
               <input nz-demo-input-text-basic #editableLinkInput [value]="prospection.link"
                 [hidden]="editId !== prospection.id + 'link'" type="text" (blur)="stopEdit()"
@@ -60,7 +61,18 @@
 
             <td>
               <div class="action">
-                <div nz-icon nzType="delete" class="delete" (click)="remove(prospection)"></div>
+                <div nz-dropdown [nzDropdownMenu]="actionsDropdown" nz-icon nzType="tool" class="tool" nzTheme="fill">
+                </div>
+                <nz-dropdown-menu #actionsDropdown>
+                  <ul nz-menu>
+                    <li nz-menu-item (click)="remove(prospection)">
+                      <div class="dropdown-item">
+                        <div>Supprimer</div>
+                        <i nz-icon nzType="delete" nzTheme="outline"></i>
+                      </div>
+                    </li>
+                  </ul>
+                </nz-dropdown-menu>
               </div>
             </td>
           </tr>

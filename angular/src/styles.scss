@@ -10,6 +10,22 @@ html {
   --color-papper-background: lightyellow;
   --color-paper-font: darksalmon;
 
+  --ant-danger-color: rgb(214, 25, 25);
+
+  --rentx-prospection-color-unresponsive: #FFAB00;  // Orange pour signaler un état en attente
+  --rentx-prospection-color-contacted: #FFD700;     // Jaune pour un état initial mais pas encore avancé
+  --rentx-prospection-color-scheduled: #1E90FF;     // Bleu clair pour une étape planifiée
+  --rentx-prospection-color-visited: #00BFFF;       // Bleu un peu plus vif pour signaler une action effectuée
+  --rentx-prospection-color-abandoned: #A9A9A9;     // Gris pour une décision d'abandon
+  --rentx-prospection-color-pending: #FFA500;       // Orange vif pour une attente critique
+  --rentx-prospection-color-declined: #FF4500;      // Rouge vif pour un refus
+  --rentx-prospection-color-countered: #FF6347;     // Rouge orangé pour une contre-proposition
+  --rentx-prospection-color-accepted: #32CD32;      // Vert pour un statut positif
+  --rentx-prospection-color-validated: #228B22;     // Vert foncé pour une étape validée
+  --rentx-prospection-color-signed: #008000;        // Vert intense pour signaler une signature
+  --rentx-prospection-color-completed: #4B0082;     // Indigo pour une acquisition finalisée
+  --rentx-prospection-color-undercontract: #6A5ACD; // Violet pour signaler un contrat d’un tiers
+  --rentx-prospection-color-sold: #8B0000;          // Rouge foncé pour un bien vendu par un tiers
 }
 
 .editable-cell-number {
