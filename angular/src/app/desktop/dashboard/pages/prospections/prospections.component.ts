@@ -6,7 +6,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { CreateProspectionComponent } from 'src/app/common/popups/create-prospection/create-prospection.component';
 import { CreateSellerPopupComponent } from 'src/app/common/popups/create-seller-popup/create-seller-popup.component';
 import { Prospection } from 'src/app/core/models/prospection.model';
-import { PROSPECTION_STATUS, ProspectionStatus } from 'src/app/core/models/dtos/prospection.dto.model';
+import { PropertyStatusTypes, PROSPECTION_STATUS, ProspectionStatus } from 'src/app/core/models/dtos/prospection.dto.model';
 
 @Component({
   selector: 'app-prospections',
@@ -18,6 +18,7 @@ export class ProspectionsDesktopComponent {
   prospections = this.store.selectSignal(selectAllProspections);
   prospectionStatuses: ProspectionStatus[] = PROSPECTION_STATUS;
   editId!: string | null;
+  hoveredRow: any = null;
 
   constructor(private store: Store, private modalService: NzModalService) {
     this.store.dispatch(loadProspections());
@@ -46,11 +47,11 @@ export class ProspectionsDesktopComponent {
     this.store.dispatch(removeProspection({ id: prospection.id }));
   }
 
-  setStatus(prospection: Prospection, status: string) {
+  setStatus(prospection: Prospection, status: PropertyStatusTypes) {
     if (prospection.id == null) {
       return;
     }
-    // this.store.dispatch(updateProspection({id: prospection.id, changes: {status: status}}));
+    this.store.dispatch(updateProspection({id: prospection.id, changes: {status: status}}));
   }
 
   startEdit(id: string, ref: HTMLInputElement) {

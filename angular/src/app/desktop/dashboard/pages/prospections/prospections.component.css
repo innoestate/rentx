@@ -39,3 +39,7 @@
 .status-item{
   padding-left: 26px;
 }
+
+.ant-table-tbody > tr.ant-table-row:hover > td {
+  background-color: transparent !important;
+}

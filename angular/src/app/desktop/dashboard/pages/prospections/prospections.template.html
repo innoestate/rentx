@@ -20,7 +20,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let prospection of tables.data">
+          <tr *ngFor="let prospection of tables.data"
+            [ngStyle]="{'background-color': hoveredRow === prospection ? prospection.statusObject?.colorLight??'white' : prospection.statusObject?.color??'white'}"
+            (mouseenter)="hoveredRow = prospection"
+            (mouseleave)="hoveredRow = null">
 
             <td>{{prospection.city}}</td>
 

@@ -5,7 +5,8 @@ export interface Prospection_Dto {
   address?: string;
   link?: string;
   seller_id?: string;
-  status?: PropertyStatus;
+  status?: PropertyStatusTypes;
+  statusObject?: ProspectionStatus;
   price?: number;
   counter_proposal?: number;
   emission_date?: Date;
@@ -16,7 +17,7 @@ export interface Prospection_Dto {
   comment?: string;
 }
 
-export type PropertyStatus =
+export type PropertyStatusTypes =
   | "Unresponsive"     // contact en cours mais pas de réponse
   | "Contacted"        // contact en cours mais pas de visite planifiée
   | "Scheduled"        // visite planifiée
@@ -34,24 +35,26 @@ export type PropertyStatus =
 
 
 export interface ProspectionStatus {
-  key: string;
+  key: PropertyStatusTypes;
   label: string;
   color: string;
+  colorLight?: string
 }
 
+
 export const PROSPECTION_STATUS: ProspectionStatus[] = [
-  { key: "Unresponsive", label: "Sans réponse", color: "var(--rentx-prospection-color-unresponsive)" },
-  { key: "Contacted", label: "Contacté", color: "var(--rentx-prospection-color-contacted)" },
-  { key: "Scheduled", label: "Visite planifiée", color: "var(--rentx-prospection-color-scheduled)" },
-  { key: "Visited", label: "Visite effectuée", color: "var(--rentx-prospection-color-visited)" },
-  { key: "Abandoned", label: "Bient abandonné", color: "var(--rentx-prospection-color-abandoned)" },
-  { key: "Pending", label: "Offre en attente", color: "var(--rentx-prospection-color-pending)" },
-  { key: "Declined", label: "Offre refusée", color: "var(--rentx-prospection-color-declined)" },
-  { key: "Countered", label: "Contre proposition", color: "var(--rentx-prospection-color-countered)" },
-  { key: "Accepted", label: "Offre acceptée", color: "var(--rentx-prospection-color-accepted)" },
-  { key: "Validated", label: "Date de compromis validée", color: "var(--rentx-prospection-color-validated)" },
-  { key: "Signed", label: "Compromis de vente signé", color: "var(--rentx-prospection-color-signed)" },
-  { key: "Completed", label: "Acquisition terminée", color: "var(--rentx-prospection-color-completed)" },
-  { key: "UnderContract", label: "Bien sous compromis", color: "var(--rentx-prospection-color-undercontract)" },
-  { key: "Sold", label: "Bien vendu", color: "var(--rentx-prospection-color-sold)" }
+  { key: "Unresponsive", label: "Sans réponse", color: "var(--rentx-prospection-color-unresponsive)", colorLight: "var(--rentx-prospection-color-unresponsive-active)" },
+  { key: "Contacted", label: "Contacté", color: "var(--rentx-prospection-color-contacted)", colorLight: "var(--rentx-prospection-color-contacted-active)" },
+  { key: "Scheduled", label: "Visite planifiée", color: "var(--rentx-prospection-color-scheduled)", colorLight: "var(--rentx-prospection-color-scheduled-active)" },
+  { key: "Visited", label: "Visite effectuée", color: "var(--rentx-prospection-color-visited)", colorLight: "var(--rentx-prospection-color-visited-active)" },
+  { key: "Abandoned", label: "Bient abandonné", color: "var(--rentx-prospection-color-abandoned)", colorLight: "var(--rentx-prospection-color-abandoned-active)" },
+  { key: "Pending", label: "Offre en attente", color: "var(--rentx-prospection-color-pending)", colorLight: "var(--rentx-prospection-color-pending-active)" },
+  { key: "Declined", label: "Offre refusée", color: "var(--rentx-prospection-color-declined)", colorLight: "var(--rentx-prospection-color-declined-active)" },
+  { key: "Countered", label: "Contre proposition", color: "var(--rentx-prospection-color-countered)", colorLight: "var(--rentx-prospection-color-countered-active)" },
+  { key: "Accepted", label: "Offre acceptée", color: "var(--rentx-prospection-color-accepted)", colorLight: "var(--rentx-prospection-color-accepted-active)" },
+  { key: "Validated", label: "Date de compromis validée", color: "var(--rentx-prospection-color-validated)", colorLight: "var(--rentx-prospection-color-validated-active)" },
+  { key: "Signed", label: "Compromis de vente signé", color: "var(--rentx-prospection-color-signed)", colorLight: "var(--rentx-prospection-color-signed-active)" },
+  { key: "Completed", label: "Acquisition terminée", color: "var(--rentx-prospection-color-completed)", colorLight: "var(--rentx-prospection-color-completed-active)" },
+  { key: "UnderContract", label: "Bien sous compromis", color: "var(--rentx-prospection-color-undercontract)", colorLight: "var(--rentx-prospection-color-undercontract-active)" },
+  { key: "Sold", label: "Bien vendu", color: "var(--rentx-prospection-color-sold)", colorLight: "var(--rentx-prospection-color-sold-active)" }
 ]

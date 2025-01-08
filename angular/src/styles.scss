@@ -26,6 +26,22 @@ html {
   --rentx-prospection-color-completed: #4B0082;     // Indigo pour une acquisition finalisée
   --rentx-prospection-color-undercontract: #6A5ACD; // Violet pour signaler un contrat d’un tiers
   --rentx-prospection-color-sold: #8B0000;          // Rouge foncé pour un bien vendu par un tiers
+
+  --rentx-prospection-color-unresponsive-active: #FFC533;  /* Brighter orange */
+  --rentx-prospection-color-contacted-active: #FFE066;     /* Lighter yellow */
+  --rentx-prospection-color-scheduled-active: #1C86EE;     /* Brighter light blue */
+  --rentx-prospection-color-visited-active: #1E90FF;       /* Even more vibrant blue */
+  --rentx-prospection-color-abandoned-active: #C0C0C0;     /* Slightly lighter gray */
+  --rentx-prospection-color-pending-active: #FFB347;       /* More vivid orange */
+  --rentx-prospection-color-declined-active: #FF6347;      /* Brighter red */
+  --rentx-prospection-color-countered-active: #FF7F50;     /* More vibrant orange-red */
+  --rentx-prospection-color-accepted-active: #3CB371;      /* Brighter green */
+  --rentx-prospection-color-validated-active: #2E8B57;     /* Slightly lighter dark green */
+  --rentx-prospection-color-signed-active: #32CD32;        /* Vivid green */
+  --rentx-prospection-color-completed-active: #6A0DAD;     /* Brighter indigo */
+  --rentx-prospection-color-undercontract-active: #836FFF; /* Brighter violet */
+  --rentx-prospection-color-sold-active: #B22222;          /* Brighter dark red */
+
 }
 
 .editable-cell-number {
