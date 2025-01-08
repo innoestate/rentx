@@ -68,10 +68,24 @@
                     <li nz-menu-item (click)="remove(prospection)">
                       <div class="dropdown-item">
                         <div>Supprimer</div>
-                        <i nz-icon nzType="delete" nzTheme="outline"></i>
+                        <i nz-icon nzType="delete" nzTheme="fill"></i>
+                      </div>
+                    </li>
+                    <li nz-menu-item>
+                      <div nz-dropdown [nzDropdownMenu]="prospectionStatus" class="dropdown-item">
+                        <div>changer de status</div>
+                        <i nz-icon nzType="database" nzTheme="fill"></i>
                       </div>
                     </li>
                   </ul>
+                </nz-dropdown-menu>
+                <nz-dropdown-menu #prospectionStatus>
+                  @for(status of prospectionStatuses ; track status){
+                  <ul nz-menu class="status-item">
+                    <div class="color-indicator" [style]="{'background-color': status.color}"></div>
+                    <li nz-menu-item (click)="setStatus(prospection, status.key)" >{{status.label}}</li>
+                  </ul>
+                  }
                 </nz-dropdown-menu>
               </div>
             </td>

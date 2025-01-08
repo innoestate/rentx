@@ -22,6 +22,20 @@
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  align-items: center;
-  min-width: 100px;
+  align-items: space-between;
+  gap: 10px;
+  width: 100%;
+}
+
+.color-indicator{
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 6px;
+  height: 100%;
+  border-radius: 0px 5px 5px 0px;
+}
+
+.status-item{
+  padding-left: 26px;
 }

@@ -6,6 +6,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { CreateProspectionComponent } from 'src/app/common/popups/create-prospection/create-prospection.component';
 import { CreateSellerPopupComponent } from 'src/app/common/popups/create-seller-popup/create-seller-popup.component';
 import { Prospection } from 'src/app/core/models/prospection.model';
+import { PROSPECTION_STATUS, ProspectionStatus } from 'src/app/core/models/dtos/prospection.dto.model';
 
 @Component({
   selector: 'app-prospections',
@@ -15,6 +16,7 @@ import { Prospection } from 'src/app/core/models/prospection.model';
 export class ProspectionsDesktopComponent {
 
   prospections = this.store.selectSignal(selectAllProspections);
+  prospectionStatuses: ProspectionStatus[] = PROSPECTION_STATUS;
   editId!: string | null;
 
   constructor(private store: Store, private modalService: NzModalService) {
@@ -37,13 +39,19 @@ export class ProspectionsDesktopComponent {
     });
   }
 
-  remove(prospection: Prospection){
-    if(prospection.id == null){
+  remove(prospection: Prospection) {
+    if (prospection.id == null) {
       return;
     }
-    this.store.dispatch(removeProspection({id: prospection.id}));
+    this.store.dispatch(removeProspection({ id: prospection.id }));
   }
 
+  setStatus(prospection: Prospection, status: string) {
+    if (prospection.id == null) {
+      return;
+    }
+    // this.store.dispatch(updateProspection({id: prospection.id, changes: {status: status}}));
+  }
 
   startEdit(id: string, ref: HTMLInputElement) {
     this.editId = id;
@@ -55,12 +63,12 @@ export class ProspectionsDesktopComponent {
   }
 
   edit(prospection: Prospection, fieldName: string, ref: HTMLInputElement) {
-    if(prospection.id == null){
+    if (prospection.id == null) {
       return;
     }
     const editableProspection: any = { id: prospection.id };
     editableProspection[fieldName] = ref.value;
-    this.store.dispatch(updateProspection({id: prospection.id, changes: editableProspection}));
+    this.store.dispatch(updateProspection({ id: prospection.id, changes: editableProspection }));
   }
 
   stopEdit() {
