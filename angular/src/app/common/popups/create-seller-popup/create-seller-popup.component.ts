@@ -6,6 +6,7 @@ import { SellerDTO } from 'src/app/core/models/dtos/seller.dto.model';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { createSeller } from 'src/app/core/store/sellers/sellers.actions';
+import { ProspectionStoreFacade } from 'src/app/core/facade/prospection.store.facade';
 
 @Component({
   selector: 'app-create-seller-popup',
@@ -24,7 +25,7 @@ export class CreateSellerPopupComponent {
   constructor(
     private fb: FormBuilder,
     private modal: NzModalRef,
-    private store: Store
+    private prospectionFacade: ProspectionStoreFacade,
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -38,7 +39,7 @@ export class CreateSellerPopupComponent {
   create(): void {
     if (this.form.valid) {
       const seller: SellerDTO = this.form.value;
-      this.store.dispatch(createSeller({ seller }));
+      this.prospectionFacade.createSeller(seller);
       this.modal.close();
     } else {
       // Handle form validation errors
