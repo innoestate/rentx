@@ -40,6 +40,32 @@
   padding-left: 26px;
 }
 
-.ant-table-tbody > tr.ant-table-row:hover > td {
-  background-color: transparent !important;
+.status{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  padding: 0 10px;
+  border-radius: 5px;
+  position: relative;
+  color: white;
 }
+
+.empty-field{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  padding: 0 10px;
+  border-radius: 5px;
+}
+
+/* .ant-table-tbody > tr.ant-table-row:hover > td {
+  background-color: transparent !important;
+} */

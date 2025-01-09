@@ -16,15 +16,12 @@
             <th>prix</th>
             <th>parution</th>
             <th>loyers</th>
+            <th>status</th>
             <th>actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let prospection of tables.data"
-            [ngStyle]="{'background-color': hoveredRow === prospection ? prospection.statusObject?.colorLight??'white' : prospection.statusObject?.color??'white'}"
-            (mouseenter)="hoveredRow = prospection"
-            (mouseleave)="hoveredRow = null">
-
+          <tr *ngFor="let prospection of tables.data">
             <td>{{prospection.city}}</td>
 
             <td class="editable-cell-number clickable field-medium"
@@ -63,6 +60,14 @@
             </td>
 
             <td>
+                @if(prospection.status){
+                  <div nz-dropdown [nzDropdownMenu]="prospectionStatus" class="status" [style]="{'background-color': prospection.statusObject?.color}">{{prospection.statusObject?.shortLabel}}<div nz-icon [nzType]="prospection.statusObject?.icon!" [nzTheme]="prospection.statusObject?.iconTheme!"></div></div>
+                }@else{
+                  <div nz-dropdown [nzDropdownMenu]="prospectionStatus" class="empty-field">+</div>
+                }
+            </td>
+
+            <td>
               <div class="action">
                 <div nz-dropdown [nzDropdownMenu]="actionsDropdown" nz-icon nzType="tool" class="tool" nzTheme="fill">
                 </div>
@@ -74,24 +79,22 @@
                         <i nz-icon nzType="delete" nzTheme="fill"></i>
                       </div>
                     </li>
-                    <li nz-menu-item>
-                      <div nz-dropdown [nzDropdownMenu]="prospectionStatus" class="dropdown-item">
-                        <div>changer de status</div>
-                        <i nz-icon nzType="database" nzTheme="fill"></i>
-                      </div>
-                    </li>
                   </ul>
-                </nz-dropdown-menu>
-                <nz-dropdown-menu #prospectionStatus>
-                  @for(status of prospectionStatuses ; track status){
-                  <ul nz-menu class="status-item">
-                    <div class="color-indicator" [style]="{'background-color': status.color}"></div>
-                    <li nz-menu-item (click)="setStatus(prospection, status.key)" >{{status.label}}</li>
-                  </ul>
-                  }
                 </nz-dropdown-menu>
               </div>
             </td>
+
+
+            <nz-dropdown-menu #prospectionStatus>
+              @for(status of prospectionStatuses ; track status){
+              <ul nz-menu class="status-item">
+                <div class="color-indicator" [style]="{'background-color': status.color}"></div>
+                <li nz-menu-item (click)="setStatus(prospection, status.key)" >{{status.label}}</li>
+              </ul>
+              }
+            </nz-dropdown-menu>
+
+
           </tr>
         </tbody>
       </nz-table>
