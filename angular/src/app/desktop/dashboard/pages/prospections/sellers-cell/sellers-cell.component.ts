@@ -1,9 +1,7 @@
 import { Component, input } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { ProspectionStoreFacade } from 'src/app/core/facade/prospection.store.facade';
 import { Prospection } from 'src/app/core/models/prospection.model';
 import { Seller } from 'src/app/core/models/seller.model';
-import { updateProspection } from 'src/app/core/store/prospections/prospections.actions';
-import { selectAllSellers } from 'src/app/core/store/sellers/sellers.selectors';
 
 @Component({
   selector: 'sellers-cell',
@@ -13,16 +11,15 @@ import { selectAllSellers } from 'src/app/core/store/sellers/sellers.selectors';
 export class SellersCellComponent {
 
   prospection = input.required<Prospection>();
-  sellers = this.store.selectSignal(selectAllSellers);
+  sellers = this.prospectionFacade.getSellers();
 
-  constructor(private store: Store) {}
-
+  constructor(private prospectionFacade: ProspectionStoreFacade) { }
 
   setSeller(seller: Seller) {
-    this.store.dispatch(updateProspection({id: this.prospection().id as string, changes: {seller_id: seller.id}}));
+    this.prospectionFacade.setSeller(this.prospection(), seller);
   }
 
-  create(){
+  create() {
 
   }
 

@@ -1,6 +1,6 @@
 @if(prospection().seller){
 <div nz-dropdown [nzDropdownMenu]="sellersDropDown" class="seller-name clickable">{{prospection().seller?.name}}</div>
-}@else if (sellers().length){
+}@else if (sellers()?.length){
   <td class="clickable rcc">
     <div class="empty-field" nz-dropdown [nzDropdownMenu]="sellersDropDown"><span nz-icon nzType="edit" nzTheme="outline"></span>
     </div>
