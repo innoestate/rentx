@@ -1,7 +1,6 @@
-import { Observable } from "rxjs";
-import { Seller } from "../models/seller.model";
 import { Injectable, Signal } from "@angular/core";
 import { Prospection } from "../models/prospection.model";
+import { Seller } from "../models/seller.model";
 
 @Injectable({
   providedIn: 'root'

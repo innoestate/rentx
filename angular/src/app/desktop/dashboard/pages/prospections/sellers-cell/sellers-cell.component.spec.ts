@@ -1,23 +1,49 @@
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ProspectionMockedFacade } from '../../../../../core/facade/prospection.mock.facade';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { ProspectionStoreFacade } from 'src/app/core/facade/prospection.store.facade';
+import { SellersCellComponent } from './sellers-cell.component';
 
-// import { SellersCellComponent } from './sellers-cell.component';
 
-// describe('SellersCellComponent', () => {
-//   let component: SellersCellComponent;
-//   let fixture: ComponentFixture<SellersCellComponent>;
+const prospection = {
+  seller: {
+    id: 1,
+    name: 'John Doe',
+    email: 'zvE0w@example.com',
+  }
+}
 
-//   beforeEach(async () => {
-//     await TestBed.configureTestingModule({
-//       imports: [SellersCellComponent]
-//     })
-//     .compileComponents();
+describe('SellersCellComponent', () => {
+  let component: SellersCellComponent;
+  let fixture: ComponentFixture<SellersCellComponent>;
 
-//     fixture = TestBed.createComponent(SellersCellComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [SellersCellComponent],
+      providers: [
+        { provide: ProspectionStoreFacade, useClass: ProspectionMockedFacade },
+      ],
+      imports: [
+        NzInputNumberModule,
+        NzIconModule,
+        NzDropDownModule,
+        NzSelectModule
+      ],
+    })
+    .compileComponents();
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-// });
+    fixture = TestBed.createComponent(SellersCellComponent);
+    component = fixture.componentInstance;
+    fixture.componentRef.setInput('prospection', prospection);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
