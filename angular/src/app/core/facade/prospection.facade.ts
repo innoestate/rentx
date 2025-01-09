@@ -9,6 +9,8 @@ export abstract class ProspectionFacade {
 
   constructor() { }
 
+  abstract createSeller(seller: Seller): Signal<Seller | undefined>
+
   abstract getSellers(): Signal<Seller[] | undefined>
 
   abstract setSeller(propsection: Prospection, seller: Seller): void

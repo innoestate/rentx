@@ -16,6 +16,12 @@ export class ProspectionMockedFacade extends ProspectionFacade {
     super();
   }
 
+  override createSeller(seller: Seller): Signal<Seller | undefined> {
+    return toSignal(of(seller).pipe(
+      delay(100)
+    ));
+  }
+
   getSellers(): Signal<Seller[] | undefined> {
     return toSignal(of(sellers));
   }

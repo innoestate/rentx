@@ -8,6 +8,7 @@ import { selectAllSellers } from "../store/sellers/sellers.selectors";
 import { ProspectionFacade } from "./prospection.facade";
 import { catchError, map, of } from "rxjs";
 import { toSignal } from '@angular/core/rxjs-interop';
+import { createSeller, createSellerSuccess } from "../store/sellers/sellers.actions";
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,14 @@ export class ProspectionStoreFacade extends ProspectionFacade {
 
   constructor(private store: Store, private actions$: Actions) {
     super();
+  }
+
+  createSeller(seller: Seller): Signal<Seller | undefined> {
+    this.store.dispatch(createSeller({ seller }));
+    return toSignal(this.actions$.pipe(
+      ofType(createSellerSuccess),
+      map(action => action.seller)
+    ));
   }
 
   getSellers(): Signal<Seller[]> {
