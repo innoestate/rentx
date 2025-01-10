@@ -1,16 +1,23 @@
 import { Injectable, Signal } from "@angular/core";
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, delay, of } from "rxjs";
-import { Prospection } from "../models/prospection.model";
-import { Seller } from "../models/seller.model";
-import { ProspectionFacade } from "./prospection.facade";
+import { Prospection } from "../../models/prospection.model";
+import { Seller } from "../../models/seller.model";
+import { ProspectionFacade } from "../prospection.facade";
 
-const sellers: Seller[] = [];
+const sellers: Seller[] = [
+  {
+    id: '1',
+    name: 'Test seller',
+    email: 'jK2m3@example.com',
+    phone: '1234567890'
+  }
+];
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProspectionMockedFacade extends ProspectionFacade {
+export class ProspectionOneMockedFacade extends ProspectionFacade {
 
   constructor() {
     super();

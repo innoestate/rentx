@@ -29,4 +29,8 @@ export class SellersCellComponent {
     });
   }
 
+  removeSeller(seller: Seller) {
+    this.prospectionFacade.removeSeller(seller);
+  }
+
 }

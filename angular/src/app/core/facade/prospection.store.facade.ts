@@ -8,7 +8,7 @@ import { selectAllSellers } from "../store/sellers/sellers.selectors";
 import { ProspectionFacade } from "./prospection.facade";
 import { catchError, map, of } from "rxjs";
 import { toSignal } from '@angular/core/rxjs-interop';
-import { createSeller, createSellerSuccess } from "../store/sellers/sellers.actions";
+import { createSeller, createSellerSuccess, removeSeller as removeSellerAction } from "../store/sellers/sellers.actions";
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +27,11 @@ export class ProspectionStoreFacade extends ProspectionFacade {
     ));
   }
 
+  removeSeller(seller: Seller) {
+    this.store.dispatch(removeSellerAction({ id:seller.id! }));
+  }
+
   getSellers(): Signal<Seller[]> {
-    console.log('get sellers');
     return this.store.selectSignal(selectAllSellers);
   }
 

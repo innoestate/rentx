@@ -1,18 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProspectionMockedFacade } from '../../../../../core/facade/prospection.mock.facade';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { ProspectionStoreFacade } from 'src/app/core/facade/prospection.store.facade';
-import { SellersCellComponent } from './sellers-cell.component';
-import { By } from '@angular/platform-browser';
-import { CreateSellerPopupComponent } from './../../../../../common/popups/create-seller-popup/create-seller-popup.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
-import { delay } from 'rxjs';
+import { ProspectionEmptyMockedFacade } from '../../../../../../core/facade/mocks/prospection-empty.mock.facade';
+import { CreateSellerPopupComponent } from '../../../../../../common/popups/create-seller-popup/create-seller-popup.component';
+import { SellersCellComponent } from '../sellers-cell.component';
 
 const prospection = {
   seller: null
@@ -28,7 +26,7 @@ describe('SellersCellComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [SellersCellComponent],
       providers: [
-        { provide: ProspectionStoreFacade, useClass: ProspectionMockedFacade },
+        { provide: ProspectionStoreFacade, useClass: ProspectionEmptyMockedFacade },
         NzModalService
       ],
       imports: [

@@ -20,5 +20,9 @@ export const sellersReducer = createReducer(
     ...state,
     sellers: [...state.sellers, seller],
   })),
+  on(SellerActions.removeSellerSuccess, (state, { id }) => ({
+    ...state,
+    sellers: state.sellers.filter(seller => seller.id !== id),
+  }))
 );
 

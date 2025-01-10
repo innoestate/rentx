@@ -1,17 +1,20 @@
+
 @if(prospection().seller){
-<div nz-dropdown [nzDropdownMenu]="sellersDropDown" class="seller-name clickable">{{prospection().seller?.name}}</div>
+<div nz-dropdown [nzDropdownMenu]="sellersDropDown" [nzTrigger]="'click'"  [nzOverlayClassName]="'customContainer'" class="seller-name clickable">{{prospection().seller?.name}}</div>
 }@else if (sellers().length){
-  <td class="clickable rcc">
-    <div class="empty-field" nz-dropdown [nzDropdownMenu]="sellersDropDown"><span nz-icon nzType="edit" nzTheme="outline"></span>
-    </div>
-  </td>
+<div class="empty-field"  [nzTrigger]="'click'" nz-dropdown [nzDropdownMenu]="sellersDropDown">+</div>
 }@else{
 <div class="empty-field create" (click)="create()">+</div>
 }
 <nz-dropdown-menu #sellersDropDown="nzDropdownMenu">
-  <ul nz-menu nzSelectable>
+  <ul class="sellers" nz-menu nzSelectable>
     @for(seller of sellers(); track seller){
-      <li nz-menu-item (click)="setSeller(seller)">{{seller.name}}</li>
+    <li nz-menu-item (click)="setSeller(seller)">
+      <div class="seller-item">
+      <div>{{seller.name}}</div>
+        <div class="delete" nz-icon nzType="delete" (click)="removeSeller(seller)"></div>
+      </div>
+    </li>
     }
   </ul>
 </nz-dropdown-menu>

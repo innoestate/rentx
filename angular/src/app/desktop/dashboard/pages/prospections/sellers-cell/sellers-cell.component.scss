@@ -23,3 +23,22 @@
   padding: 0 10px;
   border-radius: 5px;
 }
+.empty-field:hover{
+  cursor: pointer;
+  background-color: yellow !important;
+}
+
+.sellers {
+  min-width: 100px !important;
+}
+
+.seller-item {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-width: 100px;
+  border-radius: 5px;
+}

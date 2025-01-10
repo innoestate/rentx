@@ -34,4 +34,16 @@ export class SellerEffects {
     )
   );
 
+  removeSeller$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SellerActions.removeSeller),
+      mergeMap(action =>
+        this.sellerService.delete(action.id).pipe(
+          map(() => SellerActions.removeSellerSuccess({ id: action.id })),
+          catchError(error => of(SellerActions.removeSellerFailure({ error })))
+        )
+      )
+    )
+  );
+
 }
