@@ -107,7 +107,7 @@
             </td>
 
 
-            <nz-dropdown-menu #prospectionStatus>
+            <nz-dropdown-menu id="prospection_actions_dropdown" #prospectionStatus>
               @for(status of prospectionStatuses ; track status){
               <ul nz-menu class="status-item">
                 <div class="color-indicator" [style]="{'background-color': status.color}"></div>

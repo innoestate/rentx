@@ -6,7 +6,7 @@
     <li nz-menu-item [routerLink]="['prospections']">prospection</li>
   </div>
   <li class="right-menu">
-    <div nz-dropdown [nzDropdownMenu]="userDropdown" class="user-avatar">
+    <div id="authenticated_user_avatar_container" nz-dropdown [nzDropdownMenu]="userDropdown" class="user-avatar">
       <img [src]="user()?.picture">
     </div>
   </li>
