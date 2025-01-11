@@ -15,6 +15,7 @@ import { SellersModule } from 'src/app/core/modules/sellers.module';
 import { SellersCellComponent } from './sellers-cell/sellers-cell.component';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [ProspectionsDesktopComponent, SellersCellComponent],
@@ -30,7 +31,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     NzInputNumberModule,
     NzIconModule,
     NzDropDownModule,
-    NzSelectModule
+    NzSelectModule,
+    NzToolTipModule
   ],
   exports: [SellersCellComponent]
 })

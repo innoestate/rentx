@@ -79,7 +79,7 @@
             <td>
               @if(prospection.status){
               <div nz-dropdown [nzDropdownMenu]="prospectionStatus" [nzTrigger]="'click'" class="status clickable"
-                [style]="{'background-color': prospection.statusObject?.color}">{{prospection.statusObject?.shortLabel}}
+                [style]="{'background-color': prospection.statusObject?.color}"><span nz-tooltip [nzTooltipTitle]="prospection.statusObject?.label">{{prospection.statusObject?.shortLabel}}</span>
                 <div nz-icon [nzType]="prospection.statusObject?.icon!"
                   [nzTheme]="prospection.statusObject?.iconTheme!"></div>
               </div>
