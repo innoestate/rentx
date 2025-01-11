@@ -26,7 +26,7 @@ export class SellerHttpService {
   }
 
   update(id: string, seller: SellerDTO): Observable<SellerDTO> {
-    return this.http.put<SellerDTO>(`${this.apiUrl}/${id}`, seller);
+    return this.http.patch<SellerDTO>(`${this.apiUrl}/${id}`, seller);
   }
 
   delete(id: string): Observable<void> {

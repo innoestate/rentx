@@ -6,9 +6,9 @@ import { Seller } from "../models/seller.model";
 import { updateProspection, updateProspectionFailure, updateProspectionSuccess } from "../store/prospections/prospections.actions";
 import { selectAllSellers } from "../store/sellers/sellers.selectors";
 import { ProspectionFacade } from "./prospection.facade";
-import { catchError, map, of } from "rxjs";
+import { catchError, map, Observable, of } from "rxjs";
 import { toSignal } from '@angular/core/rxjs-interop';
-import { createSeller, createSellerSuccess, removeSeller as removeSellerAction } from "../store/sellers/sellers.actions";
+import { createSeller, createSellerSuccess, removeSeller as removeSellerAction, updateSeller, updateSellerSuccess } from "../store/sellers/sellers.actions";
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +33,14 @@ export class ProspectionStoreFacade extends ProspectionFacade {
 
   getSellers(): Signal<Seller[]> {
     return this.store.selectSignal(selectAllSellers);
+  }
+
+  updateSeller(seller: Seller): Observable<Seller | undefined> {
+    this.store.dispatch(updateSeller({ seller }));
+    return this.actions$.pipe(
+      ofType(updateSellerSuccess),
+      map(action => action.seller)
+    );
   }
 
   setSeller(prospection: Prospection, seller: Seller) {

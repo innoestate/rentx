@@ -1,20 +1,23 @@
-<div class="form-group-popup">
+<form [formGroup]="formGroup" class="form-group-popup">
 
   <div class="row">
-    <div>Nom:</div>
-    <div>{{seller?.name}}</div>
-  </div>
-  <div class="row">
-    <div>Adresse:</div>
-    <div>{{seller?.address}}</div>
-  </div>
-  <div class="row">
-    <div>Email:</div>
-    <div>{{seller?.email}}</div>
-  </div>
-  <div class="row">
-    <div>Téléphone:</div>
-    <div>{{seller?.phone}}</div>
+    <div for="name">Nom</div>
+    <input type="text" class="form-control" formControlName="displayName">
   </div>
 
-</div>
+  <div class="row">
+    <div for="name">Adresse</div>
+    <input type="text" class="form-control" formControlName="address">
+  </div>
+
+  <div class="row">
+    <div for="name">Email</div>
+    <input type="text" class="form-control" formControlName="email">
+  </div>
+
+  <div class="row">
+    <div for="name">Téléphone</div>
+    <input type="text" class="form-control" formControlName="phone">
+  </div>
+
+</form>

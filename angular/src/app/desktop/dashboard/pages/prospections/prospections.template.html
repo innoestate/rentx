@@ -61,9 +61,9 @@
 
             <td>
                 @if(prospection.status){
-                  <div nz-dropdown [nzDropdownMenu]="prospectionStatus" class="status" [style]="{'background-color': prospection.statusObject?.color}">{{prospection.statusObject?.shortLabel}}<div nz-icon [nzType]="prospection.statusObject?.icon!" [nzTheme]="prospection.statusObject?.iconTheme!"></div></div>
+                  <div nz-dropdown [nzDropdownMenu]="prospectionStatus" [nzTrigger]="'click'"  class="status clickable" [style]="{'background-color': prospection.statusObject?.color}">{{prospection.statusObject?.shortLabel}}<div nz-icon [nzType]="prospection.statusObject?.icon!" [nzTheme]="prospection.statusObject?.iconTheme!"></div></div>
                 }@else{
-                  <div nz-dropdown [nzDropdownMenu]="prospectionStatus" class="empty-field">+</div>
+                  <div nz-dropdown [nzDropdownMenu]="prospectionStatus" [nzTrigger]="'click'"  class="empty-field clickable">+</div>
                 }
             </td>
 
