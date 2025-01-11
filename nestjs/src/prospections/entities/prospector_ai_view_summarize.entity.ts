@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, Timestamp, UpdateDateColumn } from 'typeorm';
 
 @Entity('prospector_ai_view_summarize')
 export class Prospector_ai_view_summarize_Entity {
@@ -6,11 +6,17 @@ export class Prospector_ai_view_summarize_Entity {
     id: string;
 
     @Column({ type: 'uuid' })
-    user_ID: string;
+    user_id: string;
 
     @Column('text')
     summarize_long: string;
 
     @Column('text')
     summarize_short: string;
+
+    @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    created_at: Timestamp;
+
+    @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    updated_at: Timestamp;
 }

@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, Timestamp } from 'typeorm';
 
 @Entity('prospector_ai_view_history')
 export class Prospector_ai_view_history_Entity {
@@ -16,4 +16,7 @@ export class Prospector_ai_view_history_Entity {
 
     @Column('text')
     content: string;
+
+    @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    created_at: Timestamp;
 }
