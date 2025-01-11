@@ -19,6 +19,7 @@ export class ProspectionsDesktopComponent {
   prospectionStatuses: ProspectionStatus[] = PROSPECTION_STATUS;
   editId!: string | null;
   hoveredRow: any = null;
+  editLink = false;
 
   constructor(private store: Store, private modalService: NzModalService) {
     this.store.dispatch(loadProspections());

@@ -32,13 +32,30 @@
                 (change)="edit(prospection, 'address', editableAddressInput)" />
             </td>
 
+            @if(editLink){
+
             <td class="editable-cell-number clickable field-medium"
               (click)="startEdit(prospection.id! + 'link', editableLinkInput)">
               <div [hidden]="editId === prospection.id + 'link'">{{prospection.link}}</div>
-              <input nz-demo-input-text-basic #editableLinkInput [value]="prospection.link"
+
+              <input (blur)="editLink = false" nz-demo-input-text-basic #editableLinkInput [value]="prospection.link"
                 [hidden]="editId !== prospection.id + 'link'" type="text" (blur)="stopEdit()"
                 (change)="edit(prospection, 'link', editableLinkInput)" />
+
             </td>
+
+            }@else {
+            <td>
+              <div nz-dropdown [nzDropdownMenu]="linkDropdown" class="clickable">
+                <a [href]="prospection.link" target="_blank">lien vers l'annonce</a>
+              </div>
+              <nz-dropdown-menu nz-dropdown-menu #linkDropdown>
+                <ul nz-menu>
+                  <li nz-menu-item (click)="editLink = true">editer</li>
+                </ul>
+              </nz-dropdown-menu >
+            </td>
+            }
 
             <td><sellers-cell [prospection]="prospection"></sellers-cell></td>
 
@@ -60,11 +77,16 @@
             </td>
 
             <td>
-                @if(prospection.status){
-                  <div nz-dropdown [nzDropdownMenu]="prospectionStatus" [nzTrigger]="'click'"  class="status clickable" [style]="{'background-color': prospection.statusObject?.color}">{{prospection.statusObject?.shortLabel}}<div nz-icon [nzType]="prospection.statusObject?.icon!" [nzTheme]="prospection.statusObject?.iconTheme!"></div></div>
-                }@else{
-                  <div nz-dropdown [nzDropdownMenu]="prospectionStatus" [nzTrigger]="'click'"  class="empty-field clickable">+</div>
-                }
+              @if(prospection.status){
+              <div nz-dropdown [nzDropdownMenu]="prospectionStatus" [nzTrigger]="'click'" class="status clickable"
+                [style]="{'background-color': prospection.statusObject?.color}">{{prospection.statusObject?.shortLabel}}
+                <div nz-icon [nzType]="prospection.statusObject?.icon!"
+                  [nzTheme]="prospection.statusObject?.iconTheme!"></div>
+              </div>
+              }@else{
+              <div nz-dropdown [nzDropdownMenu]="prospectionStatus" [nzTrigger]="'click'" class="empty-field clickable">
+                +</div>
+              }
             </td>
 
             <td>
@@ -89,7 +111,7 @@
               @for(status of prospectionStatuses ; track status){
               <ul nz-menu class="status-item">
                 <div class="color-indicator" [style]="{'background-color': status.color}"></div>
-                <li nz-menu-item (click)="setStatus(prospection, status.key)" >{{status.label}}</li>
+                <li nz-menu-item (click)="setStatus(prospection, status.key)">{{status.label}}</li>
               </ul>
               }
             </nz-dropdown-menu>
