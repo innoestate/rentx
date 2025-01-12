@@ -53,7 +53,7 @@
                 <ul nz-menu>
                   <li nz-menu-item (click)="editLink = true">editer</li>
                 </ul>
-              </nz-dropdown-menu >
+              </nz-dropdown-menu>
             </td>
             }
 
@@ -79,7 +79,8 @@
             <td>
               @if(prospection.status){
               <div nz-dropdown [nzDropdownMenu]="prospectionStatus" [nzTrigger]="'click'" class="status clickable"
-                [style]="{'background-color': prospection.statusObject?.color}"><span nz-tooltip [nzTooltipTitle]="prospection.statusObject?.label">{{prospection.statusObject?.shortLabel}}</span>
+                [style]="{'background-color': prospection.statusObject?.color}"><span nz-tooltip
+                  [nzTooltipTitle]="prospection.statusObject?.label">{{prospection.statusObject?.shortLabel}}</span>
                 <div nz-icon [nzType]="prospection.statusObject?.icon!"
                   [nzTheme]="prospection.statusObject?.iconTheme!"></div>
               </div>
@@ -91,12 +92,13 @@
 
             <td>
               <div class="action">
-                <div nz-dropdown [nzDropdownMenu]="actionsDropdown" nz-icon nzType="tool" class="tool" nzTheme="fill">
+                <div nz-dropdown [nzDropdownMenu]="actionsDropdown" [nzTrigger]="'click'" nz-icon nzType="tool"
+                  class="tool" nzTheme="fill">
                 </div>
                 <nz-dropdown-menu #actionsDropdown>
-                  <ul nz-menu>
+                  <ul nz-menu [id]="'prospection_actions_dropdown_' + prospection.id" >
                     <li nz-menu-item (click)="remove(prospection)">
-                      <div class="dropdown-item">
+                      <div class="dropdown-item" >
                         <div>Supprimer</div>
                         <i nz-icon nzType="delete" nzTheme="fill"></i>
                       </div>
@@ -107,7 +109,7 @@
             </td>
 
 
-            <nz-dropdown-menu id="prospection_actions_dropdown" #prospectionStatus>
+            <nz-dropdown-menu #prospectionStatus>
               @for(status of prospectionStatuses ; track status){
               <ul nz-menu class="status-item">
                 <div class="color-indicator" [style]="{'background-color': status.color}"></div>
