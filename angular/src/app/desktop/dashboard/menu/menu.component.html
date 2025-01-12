@@ -5,8 +5,8 @@
     <li nz-menu-item [routerLink]="['estates']">Mes biens</li>
     <li nz-menu-item [routerLink]="['prospections']">prospection</li>
   </div>
-  <li class="right-menu">
-    <div id="authenticated_user_avatar_container" nz-dropdown [nzDropdownMenu]="userDropdown" class="user-avatar">
+  <li class="right-menu" id="authenticated_user_avatar_container">
+    <div nz-dropdown [nzDropdownMenu]="userDropdown" class="user-avatar">
       <img [src]="user()?.picture">
     </div>
   </li>
