@@ -12,3 +12,8 @@ MAKE MIGRATION
 
 5- run the script to run typeorm migration
     npm run typeorm migration:run
+
+
+if you want to revert: 
+
+npm run typeorm  migration:revert
