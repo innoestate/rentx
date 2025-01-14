@@ -13,6 +13,7 @@ export interface ProspectionDto {
     rents?: any;
     resume?: string;
     comment?: string;
+    storage_folder_id?: string
 }
 
 export type PropertyStatus =

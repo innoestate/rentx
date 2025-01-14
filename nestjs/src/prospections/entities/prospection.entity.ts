@@ -56,6 +56,9 @@ export class Prospection_Entity {
     @Column({ type: 'text', nullable: true })
     comment: string;
 
+    @Column({ nullable: true })
+    storage_folder_id: string;
+
     @OneToMany(() => Offer_Entity, offer => offer.prospection)
     offers: Offer_Entity[];
 }
