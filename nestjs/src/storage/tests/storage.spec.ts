@@ -1,7 +1,7 @@
 import { synchronizeFoldersStorage } from "../storage.business";
 import { FolderStorageMockedStrategy } from "../strategy/folder-storage.mock.strategy";
 import { getProspectionFolderPath } from "../utils/storage.utils";
-import { prospections1_Without_Adress } from "./storage.mocks";
+import { prospections1_Without_Adress, prospections2_With_Adress } from "./storage.mocks";
 
 describe('testing storage folders', () => {
 
@@ -47,5 +47,24 @@ describe('testing storage folders', () => {
         expect((folderCreated?.path)).toEqual(newPath);
 
     }) 
+
+    it('should create 2 folders', async () => {
+
+        const newStrategy = new FolderStorageMockedStrategy();
+        const createdFolders = await synchronizeFoldersStorage([prospections1_Without_Adress, prospections2_With_Adress], newStrategy);
+        expect((createdFolders[prospections1_Without_Adress.id])).toBeTruthy();
+        expect((createdFolders[prospections2_With_Adress.id])).toBeTruthy();
+
+    })
+
+    it('should create 2 folder from 2 prospections', async () => {
+
+        const newStrategy = new FolderStorageMockedStrategy();
+        const folder_id = newStrategy.createFolder(getProspectionFolderPath(prospections1_Without_Adress));
+        const createdFolders = await synchronizeFoldersStorage([{...prospections1_Without_Adress, storage_folder_id: folder_id}, prospections2_With_Adress], newStrategy);
+        expect((createdFolders[prospections1_Without_Adress.id])).toBeFalsy();
+        expect((createdFolders[prospections2_With_Adress.id])).toBeTruthy();
+
+    })
 
 })
