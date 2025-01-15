@@ -6,6 +6,7 @@ import { ProspectionDto } from '../dto/prospection.dto';
 import { Offer_Entity } from '../entities/offer.entity';
 import { Prospection_Entity } from '../entities/prospection.entity';
 import { SellersDbService } from '../services/sellers.db.service';
+import { ProspectionDb } from '../dto/prospection.db';
 
 @Injectable()
 export class ProspectionsDbService {
@@ -21,11 +22,11 @@ export class ProspectionsDbService {
         return this.prospectionRepository.save(prospection);
     }
 
-    async findAll(user_id: string) {
+    async findAll(user_id: string): Promise<ProspectionDb[]> {
         return this.prospectionRepository.find({
             where: { user_id },
             relations: ['offers']
-        });
+        }) as Promise<ProspectionDb[]>;
     }
 
     async findOne(id: string) {

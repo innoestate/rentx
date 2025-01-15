@@ -8,42 +8,45 @@ import { ProspectionDto } from './dto/prospection.dto';
 import { formatProspectionDtoForCreation } from './prospections.utils';
 import { ProspectionsDbService } from './services/prospections.db.service';
 import { SellersDbService } from './services/sellers.db.service';
+import { ProspectionsService } from './services/prospections.service';
 
 @Controller('api/prospections')
 export class ProspectionsController {
     constructor(
-        private readonly prospectionsService: ProspectionsDbService,
+        private readonly prospectionService: ProspectionsService,
+        private readonly prospectionsDbService: ProspectionsDbService,
         private readonly sellersService: SellersDbService,
     ) { }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Post()
     create(@Body() createProspectionDto: ProspectionDto, @Req() req) {
-        return this.prospectionsService.create(formatProspectionDtoForCreation(req.user?.id,createProspectionDto));
+        const prospection = formatProspectionDtoForCreation(req.user?.id,createProspectionDto);
+        return this.prospectionService.createNewProspection(prospection);
     }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Get()
     findAll(@Req() req) {
-        return this.prospectionsService.findAll(req.user?.id);
+        return this.prospectionService.findAll(req.user?.id);
     }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Get(':id')
     findOne(@Param('id') id: string, @Req() req) {
-        return this.prospectionsService.findOne(id);
+        return this.prospectionService.findOne(id);
     }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Patch(':id')
     update(@Param('id') id: string, @Body() updateProspectionDto: Partial<ProspectionDto>, @Req() req) {
-        return this.prospectionsService.update(id, updateProspectionDto);
+        return this.prospectionService.update(id, updateProspectionDto);
     }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Delete(':id')
     remove(@Param('id') id: string, @Req() req) {
-        return this.prospectionsService.remove(id);
+        return this.prospectionService.remove(id);
     }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
@@ -77,7 +80,7 @@ export class ProspectionsController {
     @Delete('sellers/:id')
     removeSeller(@Param('id') id: string, @Req() req, @Res() res) {
         return from(this.sellersService.removeSeller(id)).pipe(
-            switchMap(_ => this.prospectionsService.updateMany(req.user?.id, { seller_id: null })),
+            switchMap(_ => this.prospectionService.updateMany(req.user?.id, { seller_id: null })),
             switchMap(_ => of(res.send({ statusCode: 200, body: 'seller ' + id + ' removed' })))
         );
     }
@@ -85,12 +88,12 @@ export class ProspectionsController {
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Post('offers')
     createOffer(@Body() createOfferDto: OfferDto) {
-        return this.prospectionsService.createOffer(createOfferDto);
+        return this.prospectionsDbService.createOffer(createOfferDto);
     }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Get('offers')
     findAllOffers() {
-        return this.prospectionsService.findAllOffers();
+        return this.prospectionsDbService.findAllOffers();
     }
 }
