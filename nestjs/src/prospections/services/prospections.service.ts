@@ -1,14 +1,21 @@
 import { Injectable } from "@nestjs/common";
 import { ProspectionsDbService } from "./prospections.db.service";
 import { ProspectionDto } from "../dto/prospection.dto";
+import { StorageService } from "../../storage/services/storage.service";
 
 @Injectable()
 export class ProspectionsService {
 
-    constructor(private ProspectionsDbService: ProspectionsDbService) { }
+    constructor(private ProspectionsDbService: ProspectionsDbService, private storageService: StorageService) { }
 
-    createNewProspection(prospection: ProspectionDto) {
-        return this.ProspectionsDbService.create(prospection);
+    async createNewProspection(prospection: ProspectionDto) {
+        const result = await this.ProspectionsDbService.create(prospection);
+        try{
+            await this.storageService.synchronize(prospection.user_id);
+        }catch(e){
+            console.error(e);
+        }
+        return result;
     }
 
     findAll(user_id: string) {

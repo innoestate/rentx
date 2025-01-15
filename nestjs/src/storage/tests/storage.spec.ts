@@ -1,7 +1,10 @@
+import { StorageService } from '../services/storage.service';
 import { synchronizeFoldersStorage } from "../storage.business";
 import { FolderStorageMockedStrategy } from "../strategy/folder-storage.mock.strategy";
 import { getProspectionFolderPath } from "../utils/storage.utils";
 import { prospections1_Without_Adress, prospections2_With_Adress } from "./storage.mocks";
+
+let storageService: StorageService;
 
 describe('testing storage folders', () => {
 

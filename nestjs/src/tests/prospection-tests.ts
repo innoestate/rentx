@@ -6,11 +6,11 @@ import * as request from 'supertest';
  * @param {Function} getApp - Function to get the app instance
  * @param {Function} getUser - Function to get the user instance
  */
-export const prospectionsTests = (getApp) => {
+export const prospectionsTests = (getApp, getStorageService) => {
 
-    it('/api/prospections (POST)', () => {
+    it('/api/prospections (POST)', async () => {
         const app = getApp();
-        return request(app.getHttpServer())
+        const response = await request(app.getHttpServer())
             .post('/api/prospections')
             .send({
                 city: 'Test City',
@@ -21,15 +21,18 @@ export const prospectionsTests = (getApp) => {
             .expect(201);
     });
 
-    it('/api/prospections (GET)', () => {
+    it('/api/prospections (GET)', async () => {
         const app = getApp();
-        return request(app.getHttpServer())
+        const prospections = await  request(app.getHttpServer())
             .get('/api/prospections')
             .expect(200)
             .expect((res) => {
                 expect(Array.isArray(res.body)).toBeTruthy();
                 expect(res.body.length).toEqual(1);
             });
+
+        expect(getStorageService().folderStrategy.getFolder(prospections.body[0].storage_folder_id)).toBeTruthy();
+        
     });
 
     it('/api/prospections (GET) should only return user-specific prospections', () => {
