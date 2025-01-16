@@ -25,7 +25,7 @@ import { SellersDbService } from './services/sellers.db.service';
         ])
     ],
     controllers: [ProspectionsController],
-    providers: [StorageService, ProspectionsService, ProspectionsDbService, SellersDbService, UsersService],
-    exports: [StorageService, ProspectionsService, ProspectionsDbService, UsersService]
+    providers: [ StorageService, ProspectionsService, ProspectionsDbService, SellersDbService, UsersService],
+    exports: [ StorageService, ProspectionsService, ProspectionsDbService, UsersService]
 })
 export class ProspectionsModule {}

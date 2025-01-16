@@ -13,7 +13,7 @@ describe('testing storage folders', () => {
     it('should not create a folder', async () => {
 
         const strategyWithOneFolder = new FolderStorageMockedStrategy();
-        const folder_id = strategyWithOneFolder.createFolder('fake_path');
+        const folder_id = await strategyWithOneFolder.createFolder('fake_path');
         const createdFolders = await synchronizeFoldersStorage([{...prospections1_Without_Adress, storage_folder_id: folder_id}], strategyWithOneFolder);
         expect((createdFolders[prospections1_Without_Adress.id])).toBeFalsy(); 
 
@@ -29,10 +29,10 @@ describe('testing storage folders', () => {
     it('should got the same path folder', async () => {
 
         const strategyWithOneFolder = new FolderStorageMockedStrategy();
-        const folder_id = strategyWithOneFolder.createFolder(getProspectionFolderPath(prospections1_Without_Adress));
+        const folder_id = await strategyWithOneFolder.createFolder(getProspectionFolderPath(prospections1_Without_Adress));
         const prospection = {...prospections1_Without_Adress, storage_folder_id: folder_id};
         await synchronizeFoldersStorage([prospection], strategyWithOneFolder);
-        const folderCreated = strategyWithOneFolder.getFolder(folder_id);
+        const folderCreated = await strategyWithOneFolder.getFolder(folder_id);
         expect((folderCreated?.path)).toEqual(getProspectionFolderPath(prospection));
 
     }) 
@@ -41,11 +41,11 @@ describe('testing storage folders', () => {
 
         const strategyWithOneFolder = new FolderStorageMockedStrategy();
         const oldPath = getProspectionFolderPath(prospections1_Without_Adress);
-        const folder_id = strategyWithOneFolder.createFolder(oldPath);
+        const folder_id = await strategyWithOneFolder.createFolder(oldPath);
         const prospection = {...prospections1_Without_Adress, storage_folder_id: folder_id, address: '123 rue du test 12345 ville-forte'};
         const newPath = getProspectionFolderPath(prospection);
         await synchronizeFoldersStorage([prospection], strategyWithOneFolder);
-        const folderCreated = strategyWithOneFolder.getFolder(folder_id);
+        const folderCreated = await strategyWithOneFolder.getFolder(folder_id);
         expect(newPath).not.toEqual(oldPath);
         expect((folderCreated?.path)).toEqual(newPath);
 
@@ -63,7 +63,7 @@ describe('testing storage folders', () => {
     it('should create 2 folder from 2 prospections', async () => {
 
         const newStrategy = new FolderStorageMockedStrategy();
-        const folder_id = newStrategy.createFolder(getProspectionFolderPath(prospections1_Without_Adress));
+        const folder_id = await newStrategy.createFolder(getProspectionFolderPath(prospections1_Without_Adress));
         const createdFolders = await synchronizeFoldersStorage([{...prospections1_Without_Adress, storage_folder_id: folder_id}, prospections2_With_Adress], newStrategy);
         expect((createdFolders[prospections1_Without_Adress.id])).toBeFalsy();
         expect((createdFolders[prospections2_With_Adress.id])).toBeTruthy();

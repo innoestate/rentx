@@ -5,6 +5,7 @@ import { getProspectionFolderPath } from "./utils/storage.utils";
 export const synchronizeFoldersStorage = async (prospections: ProspectionDb[], strategy: FolderStorageStrategy): Promise<{ [key: string]: string }> => {
 
     const createdFolders: { [key: string]: string } = {};
+    console.log('synchronizeFoldersStorage');
 
     let i = 0;
     while(i < prospections.length){
@@ -32,6 +33,7 @@ export const synchronizeFoldersStorage = async (prospections: ProspectionDb[], s
 }
 
 const synchronizeProspection = async (prospection: ProspectionDb, strategy: FolderStorageStrategy) => {
+
     if (!await updateExistingFolder(prospection, strategy)) {
         return createFolder(prospection, strategy);
     }
@@ -55,7 +57,8 @@ const updateExistingFolder = async (prospection: ProspectionDb, strategy: Folder
     return true;
 }
 
-const createFolder = (prospection: ProspectionDb, strategy: FolderStorageStrategy): string => {
+const createFolder = async (prospection: ProspectionDb, strategy: FolderStorageStrategy): Promise<string> => {
     const path = getProspectionFolderPath(prospection);
-    return strategy.createFolder(path);
+    console.log('createFolder', path);
+    return await strategy.createFolder(path);
 }

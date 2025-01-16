@@ -3,24 +3,23 @@ import { StorageFolder } from "../models/folder";
 
 export class FolderStorageStrategy {
 
+    constructor(){}
 
-    init(){}
-
-    createFolder(path: string): string{
+    createFolder(path: string): Promise<string>{
         throw new Error('Method not implemented.');
     }
 
     updateFolderPath(id: string, path: string){}
 
-    addFile(folder_id: string, file: any, fileName: string): string{
+    addFile(folder_id: string, file: any, fileName: string): Promise<string>{
         throw new Error('Method not implemented.');
     }
 
-    getFolder(id: string): StorageFolder{
+    getFolder(id: string): Promise<StorageFolder | null>{
         throw new Error('Method not implemented.');
     }
 
-    getFiles(folder_id: string): FileStorage[]{
+    getFiles(folder_id: string): Promise<FileStorage[]>{
         throw new Error('Method not implemented.');
     }
 

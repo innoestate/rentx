@@ -8,11 +8,12 @@ export class ProspectionsService {
 
     constructor(private ProspectionsDbService: ProspectionsDbService, private storageService: StorageService) { }
 
-    async createNewProspection(prospection: ProspectionDto) {
+    async createNewProspection(prospection: ProspectionDto, accessToken, refreshToken, clientId, clientSecret) {
+        console.log('create new prospection');
         const result = await this.ProspectionsDbService.create(prospection);
-        try{
-            await this.storageService.synchronize(prospection.user_id);
-        }catch(e){
+        try {
+            await this.storageService.synchronize(prospection.user_id, accessToken, refreshToken, clientId, clientSecret);
+        } catch (e) {
             console.error(e);
         }
         return result;

@@ -9,6 +9,7 @@ import { formatProspectionDtoForCreation } from './prospections.utils';
 import { ProspectionsDbService } from './services/prospections.db.service';
 import { SellersDbService } from './services/sellers.db.service';
 import { ProspectionsService } from './services/prospections.service';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('api/prospections')
 export class ProspectionsController {
@@ -16,13 +17,15 @@ export class ProspectionsController {
         private readonly prospectionService: ProspectionsService,
         private readonly prospectionsDbService: ProspectionsDbService,
         private readonly sellersService: SellersDbService,
+        private readonly configService: ConfigService
     ) { }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Post()
     create(@Body() createProspectionDto: ProspectionDto, @Req() req) {
-        const prospection = formatProspectionDtoForCreation(req.user?.id,createProspectionDto);
-        return this.prospectionService.createNewProspection(prospection);
+        console.log('create prospection route called');
+        const prospection = formatProspectionDtoForCreation(req.user?.id, createProspectionDto);
+        return this.prospectionService.createNewProspection(prospection, req.user.accessToken, req.user.refresh_token, this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET'));
     }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
@@ -59,7 +62,6 @@ export class ProspectionsController {
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Get('sellers/all')
     findAllSellers(@Req() req) {
-        console.log('findAllSellers', req.user?.id);
         return this.sellersService.findAllSellers(req.user?.id);
     }
 
