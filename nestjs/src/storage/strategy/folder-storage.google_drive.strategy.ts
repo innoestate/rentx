@@ -35,34 +35,74 @@ export class FolderStorageGoogleDriveStrategy extends FolderStorageStrategy {
 
     async init(ccessToken: string, refreshToken: string, clientId: string, clientSecret: string) {
         const oauth2Client = await getOath2Client(ccessToken, refreshToken, clientId, clientSecret);
-        this.drive = google.drive({ 
-            version: 'v3', 
+        this.drive = google.drive({
+            version: 'v3',
             auth: oauth2Client
         });
     }
 
+
     async createFolder(path: string): Promise<string> {
-        const folderMetadata = {
-            name: 'prospections/' + path,
-            mimeType: 'application/vnd.google-apps.folder',
-        };
 
-        const response = await this.drive.files.create({
-            requestBody: folderMetadata,
-            fields: 'id',
-        });
+        const folders_names = path.split('/');
+        let lastParentId = null;
+        let i = 0;
+        while (i < folders_names.length) {
 
-        return response.data.id;
+            try {
+
+                const folderName = folders_names[i];
+                let folderId;
+
+                const folderExisting = await this.drive.files.list({
+                    q: `name = '${folderName}' and mimeType = 'application/vnd.google-apps.folder'`,
+                    fields: 'files(id)',
+                });
+
+                if (folderExisting.data.files.length > 0) {
+                    folderId = folderExisting.data.files[0].id;
+                    lastParentId = folderId;
+                } else {
+                    if (lastParentId) {
+                        const newFolder = await this.drive.files.create({
+                            requestBody: {
+                                name: folderName,
+                                mimeType: 'application/vnd.google-apps.folder',
+                                parents: [lastParentId]
+                            },
+                            fields: 'id',
+                        });
+                        folderId = newFolder.data.id;
+                    } else {
+                        const newFolder = await this.drive.files.create({
+                            requestBody: {
+                                name: folderName,
+                                mimeType: 'application/vnd.google-apps.folder',
+                            },
+                            fields: 'id',
+                        });
+                        folderId = newFolder.data.id;
+                    }
+                }
+                lastParentId = folderId;
+            } catch (e) {
+                console.log('error', e);
+            }
+            i++;
+        }
+
+        return lastParentId;
     }
 
     async updateFolderPath(id: string, path: string) {
-        const newName = path.split('/').pop();
-        await this.drive.files.update({
-            fileId: id,
-            requestBody: {
-                name: newName,
-            },
-        });
+        console.log('updateFolderPath WIP not implemented yet');
+        // const newName = path.split('/').pop();
+        // await this.drive.files.update({
+        //     fileId: id,
+        //     requestBody: {
+        //         name: newName,
+        //     },
+        // });
     }
 
     async addFile(folder_id: string, file: Buffer, fileName: string): Promise<string> {
@@ -90,7 +130,6 @@ export class FolderStorageGoogleDriveStrategy extends FolderStorageStrategy {
             fileId: id,
             fields: 'id, name, mimeType, createdTime',
         });
-
         return {
             id: response.data.id,
             path: response.data.name, // Note: Google Drive doesn't have a direct path concept

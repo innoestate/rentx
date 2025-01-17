@@ -60,5 +60,5 @@ const updateExistingFolder = async (prospection: ProspectionDb, strategy: Folder
 const createFolder = async (prospection: ProspectionDb, strategy: FolderStorageStrategy): Promise<string> => {
     const path = getProspectionFolderPath(prospection);
     console.log('createFolder', path);
-    return await strategy.createFolder(path);
+    return await strategy.createFolder('prospections/' + path);
 }
