@@ -24,6 +24,6 @@ import { Owner_Entity } from '../owners/owners.entity';
     ],
     controllers: [OffersController],
     providers: [ StorageService, OffersService, OffersDbService, ProspectionsDbService, UsersService],
-    exports: [ StorageService, OffersService]
+    exports: [ StorageService, OffersService, OffersDbService, ProspectionsDbService]
 })
 export class OffersModule {}

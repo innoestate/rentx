@@ -10,14 +10,18 @@ export class OffersDbService {
     constructor(@InjectRepository(Offer_Entity)
     private offerRepository: Repository<Offer_Entity>) { }
 
-    async createOffer(createOfferDto: OfferDto) {
-        const offer = this.offerRepository.create(createOfferDto);
-        return this.offerRepository.save(offer);
+    async create(createOfferDto: OfferDto) {
+        try {
+            const offer = this.offerRepository.create(createOfferDto);
+            return this.offerRepository.save(offer);
+        } catch (error) {
+            console.log('error', error);
+        }
     }
 
-    async findAllOffers() {
+    async findAllByUser(userId: string) {
         return this.offerRepository.find({
-            relations: ['prospection']
+            where: { user_id: userId }
         });
     }
 

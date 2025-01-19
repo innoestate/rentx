@@ -12,6 +12,9 @@ export class Offer_Entity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
+    @Column({ type: 'uuid' })
+    user_id: string;
+
     @Column()
     price: number;
 
