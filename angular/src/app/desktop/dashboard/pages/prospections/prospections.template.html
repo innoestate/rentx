@@ -15,7 +15,7 @@
             <th>vendeur</th>
             <th>prix</th>
             <th>parution</th>
-            <th>loyers</th>
+            <th>offre</th>
             <th>status</th>
             <th>actions</th>
           </tr>
@@ -69,12 +69,16 @@
 
             <td>{{prospection.emission_date | date:'dd/MM/YYYY'}}</td>
 
-            <td class="editable-cell-number clickable" (click)="startEdit(prospection.id! + 'rents', editablRentInput)">
+            <!-- <td class="editable-cell-number clickable" (click)="startEdit(prospection.id! + 'rents', editablRentInput)">
               <div [hidden]="editId === prospection.id + 'rents'">{{prospection.rents}}</div>
               <input nz-demo-input-text-basic #editablRentInput [value]="prospection.rents"
                 [hidden]="editId !== prospection.id + 'rents'" type="number" (blur)="stopEdit()"
                 (change)="edit(prospection, 'rents', editablRentInput)" />
+            </td> -->
+            <td>
+              {{prospection?.offer?.price}}
             </td>
+
 
             <td>
               @if(prospection.status){
