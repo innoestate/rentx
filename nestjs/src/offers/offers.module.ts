@@ -8,9 +8,9 @@ import { OffersController } from './offers.controler';
 import { OffersDbService } from './services/offers.db.service';
 import { OffersService } from './services/offers.service';
 import { Offer_Entity } from './models/offer.entity';
-import { Prospection_Entity } from './../prospections/entities/prospection.entity';
-import { ProspectionsDbService } from 'src/prospections/services/prospections.db.service';
-import { Owner_Entity } from 'src/owners/owners.entity';
+import { Prospection_Entity } from '../prospections/entities/prospection.entity';
+import { ProspectionsDbService } from '../prospections/services/prospections.db.service';
+import { Owner_Entity } from '../owners/owners.entity';
 
 @Module({
     imports: [
