@@ -5,7 +5,7 @@ import {
     ManyToOne,
     JoinColumn
 } from 'typeorm';
-import { Prospection_Entity } from './prospection.entity';
+import { Prospection_Entity } from '../../prospections/entities/prospection.entity';
 
 @Entity('offers')
 export class Offer_Entity {
@@ -17,6 +17,9 @@ export class Offer_Entity {
 
     @Column({ type: 'uuid' })
     prospection_id: string;
+
+    @Column()
+    google_drive_id: string;
 
     @ManyToOne(() => Prospection_Entity, prospection => prospection.offers)
     @JoinColumn({ name: 'prospection_id' })

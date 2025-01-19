@@ -1,13 +1,10 @@
 import {
     Column,
     Entity,
-    PrimaryGeneratedColumn,
-    ManyToMany,
-    JoinTable,
-    OneToMany
+    OneToMany,
+    PrimaryGeneratedColumn
 } from 'typeorm';
-import { Seller_Entity } from './seller.entity';
-import { Offer_Entity } from './offer.entity';
+import { Offer_Entity } from '../../offers/models/offer.entity';
 
 @Entity('prospections')
 export class Prospection_Entity {

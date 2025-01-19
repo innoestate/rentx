@@ -96,13 +96,14 @@ export class FolderStorageGoogleDriveStrategy extends FolderStorageStrategy {
 
     async updateFolderPath(id: string, path: string) {
         console.log('updateFolderPath WIP not implemented yet');
-        // const newName = path.split('/').pop();
-        // await this.drive.files.update({
-        //     fileId: id,
-        //     requestBody: {
-        //         name: newName,
-        //     },
-        // });
+        const splittedPath: string[] = path.split('/');
+        const newName = splittedPath[splittedPath.length - 1];
+        await this.drive.files.update({
+            fileId: id,
+            requestBody: {
+                name: newName,
+            },
+        });
     }
 
     async addFile(folder_id: string, file: Buffer, fileName: string): Promise<string> {

@@ -1,15 +1,14 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { from, of, switchMap } from 'rxjs';
 import { JwtAuthGuard } from '../auth/auth.guard';
 import { UserMidleweare } from '../guards/user-midleweare.guard';
 import { SellerDto } from './dto/create-seller.dto';
-import { OfferDto } from './dto/offer.dto';
 import { ProspectionDto } from './dto/prospection.dto';
 import { formatProspectionDtoForCreation } from './prospections.utils';
 import { ProspectionsDbService } from './services/prospections.db.service';
-import { SellersDbService } from './services/sellers.db.service';
 import { ProspectionsService } from './services/prospections.service';
-import { ConfigService } from '@nestjs/config';
+import { SellersDbService } from './services/sellers.db.service';
 
 @Controller('api/prospections')
 export class ProspectionsController {
@@ -85,17 +84,5 @@ export class ProspectionsController {
             switchMap(_ => this.prospectionService.updateMany(req.user?.id, { seller_id: null })),
             switchMap(_ => of(res.send({ statusCode: 200, body: 'seller ' + id + ' removed' })))
         );
-    }
-
-    @UseGuards(JwtAuthGuard, UserMidleweare)
-    @Post('offers')
-    createOffer(@Body() createOfferDto: OfferDto) {
-        return this.prospectionsDbService.createOffer(createOfferDto);
-    }
-
-    @UseGuards(JwtAuthGuard, UserMidleweare)
-    @Get('offers')
-    findAllOffers() {
-        return this.prospectionsDbService.findAllOffers();
     }
 }

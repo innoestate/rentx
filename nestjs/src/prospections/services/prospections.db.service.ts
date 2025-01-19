@@ -1,12 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { OfferDto } from '../dto/offer.dto';
-import { ProspectionDto } from '../dto/prospection.dto';
-import { Offer_Entity } from '../entities/offer.entity';
-import { Prospection_Entity } from '../entities/prospection.entity';
-import { SellersDbService } from '../services/sellers.db.service';
 import { ProspectionDb } from '../dto/prospection.db';
+import { ProspectionDto } from '../dto/prospection.dto';
+import { Offer_Entity } from '../../offers/models/offer.entity';
+import { Prospection_Entity } from '../entities/prospection.entity';
 
 @Injectable()
 export class ProspectionsDbService {
@@ -61,15 +59,4 @@ export class ProspectionsDbService {
         return this.prospectionRepository.remove(prospection);
     }
 
-    // Offer methods
-    async createOffer(createOfferDto: OfferDto) {
-        const offer = this.offerRepository.create(createOfferDto);
-        return this.offerRepository.save(offer);
-    }
-
-    async findAllOffers() {
-        return this.offerRepository.find({
-            relations: ['prospection']
-        });
-    }
 }
