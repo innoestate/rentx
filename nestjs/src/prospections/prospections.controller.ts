@@ -42,7 +42,7 @@ export class ProspectionsController {
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Patch(':id')
     update(@Param('id') id: string, @Body() updateProspectionDto: Partial<ProspectionDto>, @Req() req) {
-        return this.prospectionService.update(id, updateProspectionDto);
+        return this.prospectionService.update(id, updateProspectionDto, req.user.accessToken, req.user.refresh_token, this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET'));
     }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)

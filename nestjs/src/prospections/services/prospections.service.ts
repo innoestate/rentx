@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { ProspectionsDbService } from "./prospections.db.service";
 import { ProspectionDto } from "../dto/prospection.dto";
 import { StorageService } from "../../storage/services/storage.service";
+import { from, tap } from "rxjs";
 
 @Injectable()
 export class ProspectionsService {
@@ -27,8 +28,18 @@ export class ProspectionsService {
         return this.ProspectionsDbService.findOne(id);
     }
 
-    update(id: string, updateProspectionDto: Partial<ProspectionDto>) {
-        return this.ProspectionsDbService.update(id, updateProspectionDto);
+    async update(id: string, updateProspectionDto: Partial<ProspectionDto>, accessToken, refreshToken, clientId, clientSecret) {
+
+        const prospection = await this.ProspectionsDbService.findOne(id);
+
+        return from(this.ProspectionsDbService.update(id, updateProspectionDto)).pipe( tap( update => {
+            
+            if( updateProspectionDto.address){
+                this.storageService.synchronize(prospection.user_id, accessToken, refreshToken, clientId, clientSecret);
+            }
+
+            return update;
+        }))
     }
 
     updateMany(user_id: string, updateProspectionDto: any) {

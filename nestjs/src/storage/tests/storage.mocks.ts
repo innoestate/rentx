@@ -14,7 +14,7 @@ export const prospections2_With_Adress =
     {
         id: '2345',
         user_id: 'ABCD',
-        address: '123 rue du test 12345 ville-forte',
+        address: '123 rue du test 12345',
         city: 'ville-forte',
         price: 110000,
         storage_folder_id: '2',

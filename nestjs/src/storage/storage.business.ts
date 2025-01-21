@@ -48,11 +48,16 @@ const updateExistingFolder = async (prospection: ProspectionDb, strategy: Folder
 
     const path = getProspectionFolderPath(prospection);
 
-    const folder = await strategy.getFolder(prospection.storage_folder_id);
-    if (!folder) {
-        return false
-    } else if (folder.path !== path) {
-        await strategy.updateFolderPath(prospection.storage_folder_id, path);
+    try{
+        const folder = await strategy.getFolder(prospection.storage_folder_id);
+        if (!folder) {
+            return false
+        } else if (folder.path !== path) {
+            await strategy.updateFolderPath(prospection.storage_folder_id, path);
+        }
+    }catch(e){
+        console.error(e);
+        return false;
     }
     return true;
 }
