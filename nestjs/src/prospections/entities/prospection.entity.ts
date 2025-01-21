@@ -17,6 +17,9 @@ export class Prospection_Entity {
     @Column({ type: 'uuid' })
     user_id: string;
 
+    @Column({ nullable: true })
+    zip: string;
+
     @Column({ nullable: true})
     city: string;
 

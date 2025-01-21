@@ -25,5 +25,11 @@ export class Seller_Entity {
     address: string;
 
     @Column({ nullable: true })
+    zip: string;
+
+    @Column({ nullable: true })
+    city: string;
+
+    @Column({ nullable: true })
     agency: string;
 }
