@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { loadProspections, removeProspection, updateProspection } from 'src/app/core/store/prospections/prospections.actions';
 import { selectAllProspections } from 'src/app/core/store/prospections/prospections.selectors';
@@ -13,7 +13,9 @@ import { PropertyStatusTypes, PROSPECTION_STATUS, ProspectionStatus } from 'src/
   templateUrl: './prospections.template.html',
   styleUrls: ['./prospections.component.css']
 })
-export class ProspectionsDesktopComponent {
+export class ProspectionsDesktopComponent  implements OnInit {
+
+  pageSize: number = 8;
 
   prospections = this.store.selectSignal(selectAllProspections);
   prospectionStatuses: ProspectionStatus[] = PROSPECTION_STATUS;
@@ -23,6 +25,16 @@ export class ProspectionsDesktopComponent {
 
   constructor(private store: Store, private modalService: NzModalService) {
     this.store.dispatch(loadProspections());
+  }
+
+  ngOnInit() {
+    this.calculatePageSize();
+  }
+
+  calculatePageSize() {
+    const totalHeight = window.innerHeight - 250;
+    const rowHeight = 64;
+    this.pageSize = Math.floor(totalHeight / rowHeight) ;
   }
 
   openCreatePropspectionPopup() {
