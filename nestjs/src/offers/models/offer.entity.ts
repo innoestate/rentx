@@ -24,7 +24,7 @@ export class Offer_Entity {
     @Column()
     google_drive_id: string;
 
-    @ManyToOne(() => Prospection_Entity, prospection => prospection.offers)
+    @ManyToOne(() => Prospection_Entity, prospection => prospection.offers, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'prospection_id' })
     prospection: Prospection_Entity;
 }

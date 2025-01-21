@@ -56,6 +56,6 @@ export class Prospection_Entity {
     @Column({ nullable: true })
     storage_folder_id: string;
 
-    @OneToMany(() => Offer_Entity, offer => offer.prospection)
+    @OneToMany(() => Offer_Entity, offer => offer.prospection, { cascade: true })
     offers: Offer_Entity[];
 }
