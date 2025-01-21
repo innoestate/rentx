@@ -10,6 +10,7 @@
         <thead>
           <tr>
             <th>ville</th>
+            <th>CP</th>
             <th>adresse</th>
             <th>lien</th>
             <th>vendeur</th>
@@ -22,7 +23,25 @@
         </thead>
         <tbody>
           <tr *ngFor="let prospection of tables.data">
-            <td>{{prospection.city}}</td>
+
+            <td class="editable-cell-number clickable field-medium"
+            (click)="startEdit(prospection.id! + 'city', editableCityInput)">
+            <div [hidden]="editId === prospection.id + 'city'">{{prospection.city}}</div>
+            <input nz-demo-input-text-basic #editableCityInput [value]="prospection.city"
+              [hidden]="editId !== prospection.id + 'city'" type="text" (blur)="stopEdit()"
+              (change)="edit(prospection, 'city', editableCityInput)" />
+          </td>
+
+
+
+            <td class="editable-cell-number clickable field-small"
+              (click)="startEdit(prospection.id! + 'zip', editableZipInput)">
+              <div [hidden]="editId === prospection.id + 'zip'">{{prospection.zip}}</div>
+              <input nz-demo-input-text-basic #editableZipInput [value]="prospection.zip"
+                [hidden]="editId !== prospection.id + 'zip'" type="text" (blur)="stopEdit()"
+                (change)="edit(prospection, 'zip', editableZipInput)" />
+            </td>
+
 
             <td class="editable-cell-number clickable field-medium"
               (click)="startEdit(prospection.id! + 'address', editableAddressInput)">
@@ -100,9 +119,9 @@
                   class="tool" nzTheme="fill">
                 </div>
                 <nz-dropdown-menu #actionsDropdown>
-                  <ul nz-menu [id]="'prospection_actions_dropdown_' + prospection.id" >
+                  <ul nz-menu [id]="'prospection_actions_dropdown_' + prospection.id">
                     <li nz-menu-item (click)="remove(prospection)">
-                      <div class="dropdown-item" >
+                      <div class="dropdown-item">
                         <div>Supprimer</div>
                         <i nz-icon nzType="delete" nzTheme="fill"></i>
                       </div>

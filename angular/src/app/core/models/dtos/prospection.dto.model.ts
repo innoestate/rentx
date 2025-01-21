@@ -2,6 +2,7 @@ export interface Prospection_Dto {
   id?: string;
   user_id: string;
   city?: string;
+  zip?: string;
   address?: string;
   link?: string;
   seller_id?: string;
