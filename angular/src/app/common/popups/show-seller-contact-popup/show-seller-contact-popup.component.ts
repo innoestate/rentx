@@ -25,7 +25,10 @@ export class ShowSellerContactPopupComponent implements OnInit, OnDestroy {
   seller: Seller = this.data.seller;
   formGroup: FormGroup = new FormGroup({
     displayName: new FormControl(this.seller.displayName),
+    agency: new FormControl(this.seller.agency),
     address: new FormControl(this.seller.address),
+    zip: new FormControl(this.seller.zip),
+    city: new FormControl(this.seller.city),
     email: new FormControl(this.seller.email),
     phone: new FormControl(this.seller.phone),
   });

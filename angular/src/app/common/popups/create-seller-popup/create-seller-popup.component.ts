@@ -32,6 +32,8 @@ export class CreateSellerPopupComponent {
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
       address: [''],
+      zip: [''],
+      city: [''],
       agency: [''],
     });
   }
