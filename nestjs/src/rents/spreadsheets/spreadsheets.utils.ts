@@ -1,11 +1,24 @@
 import { Estate_filled_Db } from "src/estates/estate-filled-db.model";
-import { Sheet, SpreadSheet, SpreadSheetUpdate } from "../../spreadsheets/models/spreadsheets.model";
+import { Cell, Sheet, SpreadSheet, SpreadSheetUpdate } from "../../spreadsheets/models/spreadsheets.model";
 import { Rent_Db } from "../models/rents.db.model";
 import { fusionateRents, getRentsByMonth } from "../rents.utils";
-import { MONTHS } from "../../spreadsheets/strategies/spreadsheets.google.strategy";
+
+export const MONTHS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+
+export const EstatesSheetsHeader = ['Propriétaire', 'Adresse', 'Ville', 'Lot', 'Locataire', ...MONTHS].map(value => ({ value }));
+
+export const convertEstateToSheetRows = (estates: Estate_filled_Db[]): Cell[][] => {
+    return estates.map( estate => [
+        { value: estate.owner.name },
+        { value: estate.street },
+        { value: estate.city },
+        { value: estate.plot },
+        { value: estate.lodger.name },
+        ...MONTHS.map(month => ({ value: '', backgroundColor: '#FFFFFF' }) as any)
+    ])
+}
 
 export const getSpreadSheetRentsCells = (spreadSheetContext: SpreadSheet, rents: Rent_Db[], estates: Estate_filled_Db[]): SpreadSheetUpdate[] => {
-
 
     const fusionnedRents = fusionateRents(rents, estates);
     const rentsByMonths = getRentsByMonth(fusionnedRents);

@@ -1,5 +1,5 @@
 import { Estate_filled_Db } from "../../estates/estate-filled-db.model";
-import { Sheet, SpreadSheet, SpreadSheetUpdate } from "../models/spreadsheets.model";
+import { Sheet, Cell, SpreadSheet, SpreadSheetUpdate } from "../models/spreadsheets.model";
 import { SpreadSheetStrategy } from "./spreadsheets.strategy";
 import { google, sheets_v4 } from 'googleapis';
 
@@ -95,7 +95,7 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
         return null;
     }
 
-    async addSheet(id: string, title: string, estates: Estate_filled_Db[]): Promise<SpreadSheet> {
+    async addSheet(id: string, title: string, header: Cell[], rows: Cell[][]): Promise<SpreadSheet> {
 
         const response = await this.sheets.spreadsheets.get({
             spreadsheetId: id,
@@ -138,14 +138,7 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
                 updateCells: {
                     rows: [
                         {
-                            values: [
-                                { userEnteredValue: { stringValue: 'Propriétaire' }, userEnteredFormat: { backgroundColor: { red: 0.9, green: 0.9, blue: 0.9 } } },
-                                { userEnteredValue: { stringValue: 'Adresse' }, userEnteredFormat: { backgroundColor: { red: 0.9, green: 0.9, blue: 0.9 } } },
-                                { userEnteredValue: { stringValue: 'Ville' }, userEnteredFormat: { backgroundColor: { red: 0.9, green: 0.9, blue: 0.9 }, } },
-                                { userEnteredValue: { stringValue: 'Lot' }, userEnteredFormat: { backgroundColor: { red: 0.9, green: 0.9, blue: 0.9 } } },
-                                { userEnteredValue: { stringValue: 'Locataire' }, userEnteredFormat: { backgroundColor: { red: 0.9, green: 0.9, blue: 0.9 } } },
-                                ...MONTHS.map(month => ({ userEnteredValue: { stringValue: month }, userEnteredFormat: { backgroundColor: { red: 0.9, green: 0.9, blue: 0.9 } } })),
-                            ],
+                            values: header.map( cell => this.convertCellToSchemaCellData(cell)),
                         },
                     ],
                     fields: '*',
@@ -155,16 +148,9 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
             {
                 appendCells: {
                     rows: [
-                        ...estates.map(estate => (
+                        ...rows.map( cells => (
                             {
-                                values: [
-                                    { userEnteredValue: { stringValue: estate.owner?.name ?? '' } },
-                                    { userEnteredValue: { stringValue: estate.street } },
-                                    { userEnteredValue: { stringValue: estate.city } },
-                                    { userEnteredValue: { stringValue: estate.plot ?? '' } },
-                                    { userEnteredValue: { stringValue: estate.lodger?.name ?? '' } },
-                                    ...MONTHS.map(month => ({ userEnteredValue: { stringValue: '' } })),
-                                ],
+                                values: [...cells.map(cell => this.convertCellToSchemaCellData(cell))],
                             })),
                     ],
                     fields: '*',
@@ -209,12 +195,12 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
         return await this.getSpreadSheet(id);
     }
 
-    async addSheets(id: string, titles: string[], estates: Estate_filled_Db[]): Promise<SpreadSheet> {
+    async addSheets(id: string, sheets: { title: string, header: Cell[], rows: Cell[][] }[]): Promise<SpreadSheet> {
 
-        while (titles.length) {
-            const title = titles.pop();
-            await this.addSheet(id, title, estates);
-        }
+        // while (titles.length) {
+        //     const title = titles.pop();
+        //     await this.addSheet(id, title, estates);
+        // }
 
         return await this.getSpreadSheet(id);
     }
@@ -336,15 +322,15 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
     async updateCells(spreadSheet: SpreadSheet, cellUpdates: SpreadSheetUpdate[]): Promise<SpreadSheet> {
 
         const requests: sheets_v4.Schema$Request[] = [];
-        
+
         cellUpdates.forEach(cellUpdate => {
 
             function extractNumberFromString(str: string): number {
                 const match = str.match(/\d+/);
                 return match ? parseInt(match[0], 10) : -1;
             }
-            const sheetId = spreadSheet.sheets.find( sheet => sheet.title === cellUpdate.sheetTitle).sheetId;
-            const rowIndex = extractNumberFromString(cellUpdate.cell) -1;
+            const sheetId = spreadSheet.sheets.find(sheet => sheet.title === cellUpdate.sheetTitle).sheetId;
+            const rowIndex = extractNumberFromString(cellUpdate.cell) - 1;
             const columnIndex = cellUpdate.cell.charCodeAt(0) - 'A'.charCodeAt(0);
 
             const update: sheets_v4.Schema$Request = {
@@ -360,12 +346,14 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
                         {
                             values: [{
                                 userEnteredValue: { stringValue: cellUpdate.value.toString() },
-                                userEnteredFormat: { backgroundColor: {
-                                    red: 0,
-                                    green: 1,
-                                    blue: 0,
-                                    alpha: 1
-                                } },
+                                userEnteredFormat: {
+                                    backgroundColor: {
+                                        red: 0,
+                                        green: 1,
+                                        blue: 0,
+                                        alpha: 1
+                                    }
+                                },
                             }],
                         },
                     ],
@@ -385,5 +373,10 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
         });
 
         return await this.getSpreadSheet(spreadSheet.id);
+    }
+
+
+    private convertCellToSchemaCellData(cell: Cell): sheets_v4.Schema$CellData {
+        return { userEnteredValue: { stringValue: cell.value.toString() }, userEnteredFormat: { backgroundColor: cell.backgroundColor } };
     }
 }

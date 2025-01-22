@@ -1,9 +1,6 @@
 import { Estate_filled_Db } from "../../estates/estate-filled-db.model";
-import { Sheet, SpreadSheet, SpreadSheetUpdate } from "../models/spreadsheets.model";
-import { MONTHS } from "./spreadsheets.google.strategy";
+import { Sheet, Cell, SpreadSheet, SpreadSheetUpdate } from "../models/spreadsheets.model";
 import { SpreadSheetStrategy } from "./spreadsheets.strategy";
-
-const ROW_HEADER_VALUES = ['Propriétaire', 'Adresse', 'Ville', 'Lot', 'Locataire', 'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 
 export class MockedGoogleSpreadSheetStrategy extends SpreadSheetStrategy {
 
@@ -26,29 +23,19 @@ export class MockedGoogleSpreadSheetStrategy extends SpreadSheetStrategy {
         return this.fakeSpreadSheets['fakeId'];
     }
 
-    async addSheet(id: string, title: string, estates: Estate_filled_Db[]): Promise<SpreadSheet> {
+    async addSheet(id: string, title: string, header: Cell[], rows: Cell[][]): Promise<SpreadSheet> {
         const newSheet = {
             sheetId: this.fakeSpreadSheets[id].sheets.length,
             title,
-            rows: [
-                ROW_HEADER_VALUES.map(value => ({ value })),
-                ...estates.map(estate => [
-                    { value: estate.owner.name },
-                    { value: estate.street },
-                    { value: estate.city },
-                    { value: estate.plot },
-                    { value: estate.lodger.name },
-                    ...MONTHS.map(month => ({ value: '', backgroundColor: '#FFFFFF' }) as any)   
-                ])
-            ]
+            rows: [header, ...rows]
         }
         this.fakeSpreadSheets[id].sheets.push(newSheet);
         return this.fakeSpreadSheets[id];
     }
 
-    async addSheets(id: string, titles: string[], estates: Estate_filled_Db[]): Promise<SpreadSheet> {
-        titles.forEach(title => {
-            this.addSheet(id, title, estates);
+    async addSheets(id: string, sheets: {title: string, header: Cell[], rows: Cell[][]}[]): Promise<SpreadSheet> {
+        sheets.forEach(sheet => {
+            this.addSheet(id, sheet.title, sheet.header, sheet.rows);
         })
         return this.fakeSpreadSheets[id];
     }
