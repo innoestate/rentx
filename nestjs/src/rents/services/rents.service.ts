@@ -12,9 +12,9 @@ import { MonthlyRents } from '../models/monlthy-rent.model';
 import { createRentReceiptEmail, createRentReciptPdf, getRentReceiptInfos } from '../rent-receipts/rent-receipts.business';
 import { RentsDbService } from './rents.db.service';
 import { fusionateRents, getRentsByMonth, getStartAndEnDatesFromRents } from '../rents.utils';
-import { SpreadSheet } from '../spreadsheets/models/spreadsheets.model';
+import { SpreadSheet } from '../../spreadsheets/models/spreadsheets.model';
 import { buildSpreadsheetContext, fillSpreadSheetCells } from '../spreadsheets/rents.spreadsheets.business';
-import { SpreadSheetGoogleStrategy } from '../spreadsheets/strategies/spreadsheets.google.strategy';
+import { SpreadSheetGoogleStrategy } from '../../spreadsheets/strategies/spreadsheets.google.strategy';
 
 
 @Injectable()

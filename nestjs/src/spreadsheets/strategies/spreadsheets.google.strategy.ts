@@ -1,6 +1,6 @@
-import { Estate_filled_Db } from "../../../estates/estate-filled-db.model";
+import { Estate_filled_Db } from "../../estates/estate-filled-db.model";
 import { Sheet, SpreadSheet, SpreadSheetUpdate } from "../models/spreadsheets.model";
-import { SpreadSheetStrategy } from "../strategies/spreadsheets.strategy";
+import { SpreadSheetStrategy } from "./spreadsheets.strategy";
 import { google, sheets_v4 } from 'googleapis';
 
 export const MONTHS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];

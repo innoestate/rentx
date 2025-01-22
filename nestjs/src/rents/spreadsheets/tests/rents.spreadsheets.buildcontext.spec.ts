@@ -1,5 +1,5 @@
 import { Estate_filled_Db } from '../../../estates/estate-filled-db.model';
-import { SpreadSheet } from '../models/spreadsheets.model';
+import { SpreadSheet } from '../../../spreadsheets/models/spreadsheets.model';
 import { getMissingRows, getUnusedEstates } from '../spreadsheets.utils';
 
 const estate: Estate_filled_Db = {

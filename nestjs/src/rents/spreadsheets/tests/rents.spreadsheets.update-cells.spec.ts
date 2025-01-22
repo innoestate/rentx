@@ -1,4 +1,4 @@
-import { MockedGoogleSpreadSheetStrategy } from "../strategies/spreadsheets.mocked.strategy";
+import { MockedGoogleSpreadSheetStrategy } from "../../../spreadsheets/strategies/spreadsheets.mocked.strategy";
 import { estate1 } from "../../../rents/tests/estates.mocks";
 import { rent2021_01 } from "../../../rents/tests/rents.mocks";
 import { buildSpreadsheetContext } from "../rents.spreadsheets.business";

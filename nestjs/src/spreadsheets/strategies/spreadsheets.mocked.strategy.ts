@@ -1,4 +1,4 @@
-import { Estate_filled_Db } from "../../../estates/estate-filled-db.model";
+import { Estate_filled_Db } from "../../estates/estate-filled-db.model";
 import { Sheet, SpreadSheet, SpreadSheetUpdate } from "../models/spreadsheets.model";
 import { MONTHS } from "./spreadsheets.google.strategy";
 import { SpreadSheetStrategy } from "./spreadsheets.strategy";
