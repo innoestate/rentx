@@ -138,7 +138,7 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
                 updateCells: {
                     rows: [
                         {
-                            values: header.map( cell => this.convertCellToSchemaCellData(cell)),
+                            values: header.map(cell => this.convertCellToSchemaCellData(cell)),
                         },
                     ],
                     fields: '*',
@@ -148,7 +148,7 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
             {
                 appendCells: {
                     rows: [
-                        ...rows.map( cells => (
+                        ...rows.map(cells => (
                             {
                                 values: [...cells.map(cell => this.convertCellToSchemaCellData(cell))],
                             })),
@@ -205,7 +205,7 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
         return await this.getSpreadSheet(id);
     }
 
-    async addRowsInSheets(id: string, missings: { sheetTitle: string, missingEstates: Estate_filled_Db[] }[]): Promise<SpreadSheet> {
+    async addRowsInSheets(id: string, missings: { sheetTitle: string, missingRows: Cell[][] }[]): Promise<SpreadSheet> {
 
         const response = await this.sheets.spreadsheets.get({
             spreadsheetId: id,
@@ -215,7 +215,7 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
 
         let i = 0;
         while (i < missings.length) {
-            const { sheetTitle, missingEstates } = missings[i];
+            const { sheetTitle, missingRows } = missings[i];
             i++;
             const sheetId = ranges.find(sheet => sheet.properties.title.toString() === sheetTitle.toString())?.properties.sheetId;
             if (sheetId === undefined || null) throw new Error('Sheet not found');
@@ -224,16 +224,9 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
                 {
                     appendCells: {
                         rows: [
-                            ...missingEstates.map(estate => (
+                            ...missingRows.map(cells => (
                                 {
-                                    values: [
-                                        { userEnteredValue: { stringValue: estate.owner?.name ?? '' } },
-                                        { userEnteredValue: { stringValue: estate.street } },
-                                        { userEnteredValue: { stringValue: estate.city } },
-                                        { userEnteredValue: { stringValue: estate.plot ?? '' } },
-                                        { userEnteredValue: { stringValue: estate.lodger?.name ?? '' } },
-                                        ...MONTHS.map(month => ({ userEnteredValue: { stringValue: '' } })),
-                                    ],
+                                    values: cells.map(cell => this.convertCellToSchemaCellData(cell)),
                                 })),
                         ],
                         fields: '*',

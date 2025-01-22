@@ -33,24 +33,19 @@ export class MockedGoogleSpreadSheetStrategy extends SpreadSheetStrategy {
         return this.fakeSpreadSheets[id];
     }
 
-    async addSheets(id: string, sheets: {title: string, header: Cell[], rows: Cell[][]}[]): Promise<SpreadSheet> {
+    async addSheets(id: string, sheets: { title: string, header: Cell[], rows: Cell[][] }[]): Promise<SpreadSheet> {
         sheets.forEach(sheet => {
             this.addSheet(id, sheet.title, sheet.header, sheet.rows);
         })
         return this.fakeSpreadSheets[id];
     }
 
-    async addRowsInSheets(id: string, missings: { sheetTitle: string, missingEstates: Estate_filled_Db[] }[]): Promise<SpreadSheet> {
+    async addRowsInSheets(id: string, missings: { sheetTitle: string, missingRows: Cell[][] }[]): Promise<SpreadSheet> {
         missings.forEach(missing => {
             const rows = this.fakeSpreadSheets[id].sheets.find(sheet => sheet.title === missing.sheetTitle)?.rows;
             if (rows) {
                 rows.push(
-                    ...missing.missingEstates.map(estate => [
-                        { value: estate.owner.name },
-                        { value: estate.street },
-                        { value: estate.city },
-                        { value: estate.plot },
-                        { value: estate.lodger.name}])
+                    ...missing.missingRows
                 )
             }
             this.fakeSpreadSheets[id].sheets.find(sheet => sheet.title === missing.sheetTitle).rows = rows;
@@ -62,7 +57,7 @@ export class MockedGoogleSpreadSheetStrategy extends SpreadSheetStrategy {
         rowIdentifier.forEach(identifier => {
             for (let i = 0; i < this.fakeSpreadSheets[id].sheets.length; i++) {
                 this.fakeSpreadSheets[id].sheets[i].rows = this.fakeSpreadSheets[id].sheets[i].rows.filter(rows => {
-                    if( rows[1].value === identifier.street && rows[2].value === identifier.city && rows[3].value === identifier.plot ){
+                    if (rows[1].value === identifier.street && rows[2].value === identifier.city && rows[3].value === identifier.plot) {
                         return false;
                     }
                     return true;
@@ -78,14 +73,14 @@ export class MockedGoogleSpreadSheetStrategy extends SpreadSheetStrategy {
     }
 
     async updateCells(spreadSheet: SpreadSheet, cellUpdates: SpreadSheetUpdate[]): Promise<SpreadSheet> {
-        
+
         cellUpdates.forEach(update => {
 
             function extractNumberFromString(str: string): number {
                 const match = str.match(/\d+/);
                 return match ? parseInt(match[0], 10) : -1;
             }
-            const rowIndex = extractNumberFromString(update.cell) -1;
+            const rowIndex = extractNumberFromString(update.cell) - 1;
             const columnIndex = update.cell.charCodeAt(0) - 'A'.charCodeAt(0);
             spreadSheet.sheets.find(sheet => update.sheetTitle === sheet.title).rows[rowIndex][columnIndex].value = update.value;
             spreadSheet.sheets.find(sheet => update.sheetTitle === sheet.title).rows[rowIndex][columnIndex].backgroundColor = update.backgroundColor;

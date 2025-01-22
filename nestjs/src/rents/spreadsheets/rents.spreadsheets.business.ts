@@ -1,6 +1,6 @@
 import { Estate_filled_Db } from "../../estates/estate-filled-db.model";
 import { SpreadSheetStrategy } from "../../spreadsheets/strategies/spreadsheets.strategy";
-import { convertEstateToSheetRows, EstatesSheetsHeader, getMissingRows, getMissingSheetsTitles, getSpreadSheetRentsCells, getUnusedEstates, getYearsFromDates } from "./spreadsheets.utils";
+import { convertEstatesToSheetRows, EstatesSheetsHeader, getMissingRows, getMissingSheetsTitles, getSpreadSheetRentsCells, getUnusedEstates, getYearsFromDates } from "./spreadsheets.utils";
 import { SpreadSheet, SpreadSheetUpdate } from "../../spreadsheets/models/spreadsheets.model";
 import { Rent_Db } from "../models/rents.db.model";
 
@@ -21,7 +21,7 @@ export const buildSpreadsheetContext = async (sheetStrategy: SpreadSheetStrategy
             return { spreadSheet, hasBeenRemoved };
         } else {
             spreadSheet = await sheetStrategy.createSpreadSheet('biens_locatifs');
-            spreadSheet = await sheetStrategy.addSheets(spreadSheet.id, years.map( year => ({ title: year, header: [...EstatesSheetsHeader], rows: convertEstateToSheetRows(estates) })));
+            spreadSheet = await sheetStrategy.addSheets(spreadSheet.id, years.map( year => ({ title: year, header: [...EstatesSheetsHeader], rows: convertEstatesToSheetRows(estates) })));
         }
         return { spreadSheet, hasBeenRemoved };
     } catch (e) {
@@ -54,7 +54,7 @@ const createMissingSheets = async (sheetStrategy: SpreadSheetStrategy, spreadShe
     const sheets = await sheetStrategy.getSheets(spreadSheet.id);
     const missingSheetsTitles = getMissingSheetsTitles(sheets, years);
     while (missingSheetsTitles.length > 0) {
-        spreadSheet = await sheetStrategy.addSheet(spreadSheet.id, missingSheetsTitles.pop(), EstatesSheetsHeader, convertEstateToSheetRows(estates));
+        spreadSheet = await sheetStrategy.addSheet(spreadSheet.id, missingSheetsTitles.pop(), EstatesSheetsHeader, convertEstatesToSheetRows(estates));
     }
     return spreadSheet;
 }

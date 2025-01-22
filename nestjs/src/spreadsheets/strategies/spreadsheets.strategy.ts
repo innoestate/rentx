@@ -19,7 +19,7 @@ export class SpreadSheetStrategy {
         return null;
     }
 
-    async addRowsInSheets(id: string, missings: {sheetTitle: string, missingEstates: Estate_filled_Db[] }[] ): Promise<SpreadSheet> {
+    async addRowsInSheets(id: string, missings: {sheetTitle: string, missingRows: Cell[][] }[] ): Promise<SpreadSheet> {
         return null;
     }
 

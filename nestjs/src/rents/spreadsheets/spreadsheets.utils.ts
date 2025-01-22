@@ -7,8 +7,8 @@ export const MONTHS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'j
 
 export const EstatesSheetsHeader = ['Propriétaire', 'Adresse', 'Ville', 'Lot', 'Locataire', ...MONTHS].map(value => ({ value }));
 
-export const convertEstateToSheetRows = (estates: Estate_filled_Db[]): Cell[][] => {
-    return estates.map( estate => [
+export const convertEstatesToSheetRows = (estates: Estate_filled_Db[]): Cell[][] => {
+    return estates.map(estate => [
         { value: estate.owner.name },
         { value: estate.street },
         { value: estate.city },
@@ -53,7 +53,7 @@ export const getSpreadSheetRentsCells = (spreadSheetContext: SpreadSheet, rents:
     return spreadSheetUpdates;
 }
 
-export const getMissingRows = (spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): { sheetTitle: string, missingEstates: Estate_filled_Db[] }[] => {
+export const getMissingRows = (spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): { sheetTitle: string, missingRows: Cell[][] }[] => {
     return spreadSheet.sheets.map(sheet => {
         if (sheet.rows.length > 1) {
             const streetIndex = sheet.rows[0].findIndex(cell => cell.value === 'Adresse');
@@ -63,9 +63,9 @@ export const getMissingRows = (spreadSheet: SpreadSheet, estates: Estate_filled_
             const estatesRows = sheet.rows.slice(1, sheet.rows.length);
 
             const missingEstates = estates.filter(estate => !estatesRows.find(row => estateIsSameThatRow(estate, row[streetIndex].value, row[cityIndex].value, row[plotIndex].value)));
-            return { sheetTitle: sheet.title, missingEstates };
+            return { sheetTitle: sheet.title, missingRows: convertEstatesToSheetRows(missingEstates) };
         }
-        return { sheetTitle: sheet.title, missingEstates: [] }
+        return { sheetTitle: sheet.title, missingRows: [] }
     });
 }
 

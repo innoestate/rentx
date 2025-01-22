@@ -100,8 +100,8 @@ describe('testing removing unusedEstates', () => {
             sheets: []
         }
         const estates = [];
-        const missingEstates = getMissingRows(spreadSheet, estates);
-        expect(missingEstates.length).toEqual(0);
+        const missingRows = getMissingRows(spreadSheet, estates);
+        expect(missingRows.length).toEqual(0);
 
     });
 
@@ -119,7 +119,7 @@ describe('testing removing unusedEstates', () => {
         }
         const estates = [estate];
         const missingEstates = getMissingRows(spreadSheet, estates);
-        expect(missingEstates[0].missingEstates.length).toEqual(0);
+        expect(missingEstates[0].missingRows.length).toEqual(0);
 
     });
 
@@ -137,7 +137,7 @@ describe('testing removing unusedEstates', () => {
         }
         const estates = [estate];
         const missingEstates = getMissingRows(spreadSheet, estates);
-        expect(missingEstates[0].missingEstates.length).toEqual(1);
+        expect(missingEstates[0].missingRows.length).toEqual(1);
 
     });
 
