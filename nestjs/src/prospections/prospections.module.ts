@@ -12,6 +12,7 @@ import { ProspectionsController } from './prospections.controller';
 import { ProspectionsDbService } from './services/prospections.db.service';
 import { ProspectionsService } from './services/prospections.service';
 import { SellersDbService } from './services/sellers.db.service';
+import { ProspectionSpreadsheetService } from './services/spreadsheets.prospection.service';
 
 @Module({
     imports: [
@@ -25,7 +26,7 @@ import { SellersDbService } from './services/sellers.db.service';
         ])
     ],
     controllers: [ProspectionsController],
-    providers: [ StorageService, ProspectionsService, ProspectionsDbService, SellersDbService, UsersService],
-    exports: [ StorageService, ProspectionsService, ProspectionsDbService, UsersService]
+    providers: [ StorageService, ProspectionsService, ProspectionsDbService, ProspectionSpreadsheetService, SellersDbService, UsersService],
+    exports: [ StorageService, ProspectionsService, ProspectionSpreadsheetService, ProspectionsDbService, UsersService]
 })
 export class ProspectionsModule {}
