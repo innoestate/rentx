@@ -2,7 +2,7 @@ import { MockedGoogleSpreadSheetStrategy } from "../../../spreadsheets/strategie
 import { estate1 } from "../../../rents/tests/estates.mocks";
 import { rent2021_01 } from "../../../rents/tests/rents.mocks";
 import { buildSpreadsheetContext } from "../rents.spreadsheets.business";
-import { getSpreadSheetRentsCells } from "../spreadsheets.utils";
+import { getSpreadSheetRentsCells } from "../rents.spreadsheets.utils";
 
 describe('test rents spreadsheets updates', () => {
 

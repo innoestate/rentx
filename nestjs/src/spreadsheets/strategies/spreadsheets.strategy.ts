@@ -1,5 +1,4 @@
-import { Estate_filled_Db } from "../../estates/estate-filled-db.model";
-import { Sheet, Cell, SpreadSheet, SpreadSheetUpdate } from "../models/spreadsheets.model";
+import { Cell, Sheet, SpreadSheet, SpreadSheetUpdate } from "../models/spreadsheets.model";
 
 export class SpreadSheetStrategy {
     
@@ -23,7 +22,7 @@ export class SpreadSheetStrategy {
         return null;
     }
 
-    async removeRowsInSheets(id: string, rowIdentifier: {street: string | number, city: string | number, plot?: string}[] ): Promise<SpreadSheet> {
+    async removeRowsInSheets(id: string, rowIdentifier: {[key:string]: string | number}[] ): Promise<SpreadSheet> {
         return null;
     }
 

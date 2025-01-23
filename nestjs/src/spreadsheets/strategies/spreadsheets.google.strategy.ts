@@ -77,7 +77,7 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
             const request = {
                 resource: {
                     properties: {
-                        title: 'immobilier_gestion_' + new Date().getFullYear(),
+                        title,
                     },
                 },
                 auth: this.oauth2Client,
@@ -197,10 +197,10 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
 
     async addSheets(id: string, sheets: { title: string, header: Cell[], rows: Cell[][] }[]): Promise<SpreadSheet> {
 
-        // while (titles.length) {
-        //     const title = titles.pop();
-        //     await this.addSheet(id, title, estates);
-        // }
+        while (sheets.length) {
+            const sheet = sheets.pop();
+            await this.addSheet(id, sheet.title, sheet.header, sheet.rows);
+        }
 
         return await this.getSpreadSheet(id);
     }
@@ -249,7 +249,7 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
         return await this.getSpreadSheet(id);
     }
 
-    async removeRowsInSheets(id: string, rowIdentifier: { street: string | number, city?: string | number, plot?: string }[]): Promise<SpreadSheet> {
+    async removeRowsInSheets(id: string, rowIdentifiers: { [key: string]: string | number }[]): Promise<SpreadSheet> {
         const response = await this.sheets.spreadsheets.get({
             spreadsheetId: id,
             auth: this.oauth2Client,
@@ -263,21 +263,22 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
             const sheetId = range.properties.sheetId;
             const headers = range?.data[0].rowData[0].values.map(value => value.effectiveValue.stringValue);
             const rows = range?.data[0].rowData.map(rs => rs.values.map(value => value?.effectiveValue?.stringValue)) ?? [];
-            const addressIndex = headers.indexOf('Adresse') ?? 1;
-            const cityIndex = headers.indexOf('Ville') ?? 2;
-            const plotIndex = headers.indexOf('Lot') ?? 3;
-
-            if (addressIndex === -1) {
-                throw new Error("Required columns ('adresse' or 'ville') not found.");
-            }
 
             const matchingIndexes = [];
-            rowIdentifier.forEach(identifier => {
+            rowIdentifiers.forEach(identifier => {
+
+                const indexes = {};
+                Object.keys(identifier).forEach(key => {
+                    indexes[key] = headers.findIndex(h => h === key);
+                });
 
                 rows.forEach((row, i2) => {
-                    if (row[addressIndex] && row[addressIndex] === identifier.street && row[cityIndex] === identifier.city && row[plotIndex] === identifier.plot) {
-                        matchingIndexes.push(i2);
-                    }
+                    let matchingCells = 0;
+                    Object.keys(indexes).forEach(key => {
+                        if (row[indexes[key]] === identifier[key]) {
+                            matchingCells++;
+                        }
+                    });
                 })
 
             });
@@ -370,6 +371,6 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
 
 
     private convertCellToSchemaCellData(cell: Cell): sheets_v4.Schema$CellData {
-        return { userEnteredValue: { stringValue: cell.value.toString() }, userEnteredFormat: { backgroundColor: cell.backgroundColor } };
+        return { userEnteredValue: { stringValue: cell.value.toString() }, userEnteredFormat: { backgroundColor: cell.backgroundColor??{red: 1, green: 1, blue: 1} } };
     }
 }

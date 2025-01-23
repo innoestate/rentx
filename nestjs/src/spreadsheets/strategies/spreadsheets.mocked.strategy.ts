@@ -53,11 +53,28 @@ export class MockedGoogleSpreadSheetStrategy extends SpreadSheetStrategy {
         return this.fakeSpreadSheets[id];
     }
 
-    async removeRowsInSheets(id: string, rowIdentifier: { street: string | number, city: string | number, plot?: string }[]): Promise<SpreadSheet> {
-        rowIdentifier.forEach(identifier => {
+    async removeRowsInSheets(id: string, rowIdentifiers: { [key: string]: string | number }[]): Promise<SpreadSheet> {
+
+        if(rowIdentifiers.length === 0) 
+            return this.fakeSpreadSheets[id];
+
+        rowIdentifiers.forEach(rowIdentifier => {
+
             for (let i = 0; i < this.fakeSpreadSheets[id].sheets.length; i++) {
+
+                const indexes = {};
+                Object.keys(rowIdentifier).forEach(key => {
+                    indexes[key] = this.fakeSpreadSheets[id].sheets[i].rows[0].findIndex(cell => cell.value === key);
+                });
+                
                 this.fakeSpreadSheets[id].sheets[i].rows = this.fakeSpreadSheets[id].sheets[i].rows.filter(rows => {
-                    if (rows[1].value === identifier.street && rows[2].value === identifier.city && rows[3].value === identifier.plot) {
+                    let cellsIdentified = 0;
+                    Object.keys(indexes).forEach(key => {
+                        if (rows[indexes[key]].value === rowIdentifier[key]) {
+                            cellsIdentified++;
+                        }
+                    });
+                    if (cellsIdentified === Object.keys(indexes).length) {
                         return false;
                     }
                     return true;
@@ -65,6 +82,7 @@ export class MockedGoogleSpreadSheetStrategy extends SpreadSheetStrategy {
             }
 
         });
+
         return this.fakeSpreadSheets[id];
     }
 

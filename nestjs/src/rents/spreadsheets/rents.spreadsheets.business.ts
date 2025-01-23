@@ -1,6 +1,6 @@
 import { Estate_filled_Db } from "../../estates/estate-filled-db.model";
 import { SpreadSheetStrategy } from "../../spreadsheets/strategies/spreadsheets.strategy";
-import { convertEstatesToSheetRows, EstatesSheetsHeader, getMissingRows, getMissingSheetsTitles, getSpreadSheetRentsCells, getUnusedEstates, getYearsFromDates } from "./spreadsheets.utils";
+import { convertEstatesToSheetRows, EstatesSheetsHeader, getMissingRows, getMissingSheetsTitles, getSpreadSheetRentsCells, getUnusedEstates, getYearsFromDates } from "./rents.spreadsheets.utils";
 import { SpreadSheet, SpreadSheetUpdate } from "../../spreadsheets/models/spreadsheets.model";
 import { Rent_Db } from "../models/rents.db.model";
 
@@ -39,7 +39,7 @@ export const fillSpreadSheetCells = async (sheetStrategy: SpreadSheetStrategy, s
 const removeEstatesInSheets = async (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): Promise<SpreadSheet> => {
     const rowsToRemove = getUnusedEstates(spreadSheet, estates);
     if (rowsToRemove.length) {
-        spreadSheet = await sheetStrategy.removeRowsInSheets(spreadSheet.id, rowsToRemove);
+        spreadSheet = await sheetStrategy.removeRowsInSheets(spreadSheet.id, rowsToRemove.map( rows => ({ Adresse: rows.street, Ville: rows.city, Lot: rows.plot }) ));
     }
     return spreadSheet;
 }
