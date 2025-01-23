@@ -12,7 +12,7 @@ import { ProspectionsController } from './prospections.controller';
 import { ProspectionsDbService } from './services/prospections.db.service';
 import { ProspectionsService } from './services/prospections.service';
 import { SellersDbService } from './services/sellers.db.service';
-import { ProspectionSpreadsheetService } from './services/spreadsheets.prospection.service';
+import { ProspectionSpreadsheetService } from './spreadsheets/spreadsheets.prospection.service';
 
 @Module({
     imports: [

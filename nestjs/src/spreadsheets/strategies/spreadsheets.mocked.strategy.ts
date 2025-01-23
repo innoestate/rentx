@@ -47,8 +47,8 @@ export class MockedGoogleSpreadSheetStrategy extends SpreadSheetStrategy {
                 rows.push(
                     ...missing.missingRows
                 )
+                this.fakeSpreadSheets[id].sheets.find(sheet => sheet.title === missing.sheetTitle).rows = rows;
             }
-            this.fakeSpreadSheets[id].sheets.find(sheet => sheet.title === missing.sheetTitle).rows = rows;
         })
         return this.fakeSpreadSheets[id];
     }
