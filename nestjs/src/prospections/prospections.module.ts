@@ -7,7 +7,7 @@ import { User } from '../user/user.entity';
 import { UsersService } from '../user/user.service';
 import { Offer_Entity } from '../offers/models/offer.entity';
 import { Prospection_Entity } from './entities/prospection.entity';
-import { Seller_Entity } from './entities/seller.entity';
+import { Seller_Entity } from '../sellers/models/seller.entity';
 import { ProspectionsController } from './prospections.controller';
 import { ProspectionsDbService } from './services/prospections.db.service';
 import { ProspectionsService } from './services/prospections.service';

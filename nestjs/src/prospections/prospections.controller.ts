@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { from, of, switchMap } from 'rxjs';
 import { JwtAuthGuard } from '../auth/auth.guard';
 import { UserMidleweare } from '../guards/user-midleweare.guard';
-import { SellerDto } from './dto/create-seller.dto';
+import { SellerDto } from '../sellers/models/create-seller.dto';
 import { ProspectionDto } from './dto/prospection.dto';
 import { formatProspectionDtoForCreation } from './prospections.utils';
 import { ProspectionsDbService } from './services/prospections.db.service';
@@ -22,7 +22,6 @@ export class ProspectionsController {
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Post()
     create(@Body() createProspectionDto: ProspectionDto, @Req() req) {
-        console.log('create prospection route called');
         const prospection = formatProspectionDtoForCreation(req.user?.id, createProspectionDto);
         return this.prospectionService.createNewProspection(prospection, req.user.accessToken, req.user.refresh_token, this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET'));
     }
