@@ -2,6 +2,8 @@ import { Cell, SpreadSheet } from "src/spreadsheets/models/spreadsheets.model";
 import { SpreadSheetStrategy } from "src/spreadsheets/strategies/spreadsheets.strategy";
 import { ProspectionDb } from "../dto/prospection.db";
 import { SellerDb } from "src/sellers/models/seller.db";
+import { PropertyStatusTranslation } from "../dto/prospection.dto";
+import { ProspectionBuilded } from "../dto/prospection.builded";
 
 export const PROSPECTIONS_SPREADSHEETS_TITLE = 'Prospections immobilier';
 export const PROSPECTIONS_SHEETS_TITLES = ['Prospections', 'Vendeurs', 'Archives'];
@@ -87,7 +89,7 @@ export const addProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadShee
 
     let spreadSheet = await spreadSheetStrategy.getSpreadSheet(spreadSheetId);
     const missingProspections = getMissingProspections(spreadSheet, prospections);
-    const prospectionCells = missingProspections.map(prospection => convertProspectionToCells(prospection));
+    const prospectionCells = formatProspections(missingProspections).map(prospection => convertProspectionToCells(prospection));
 
     const missingSellers = getMissingSellers(spreadSheet, sellers);
     const sellerCells = missingSellers.map(seller => convertSellerToCells(seller));
@@ -105,7 +107,7 @@ export const removeProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadS
     const missingProspections = getProspectionsToRemove(spreadSheet, prospections);
     const rowIdentifiers = missingProspections.map(prospection => ({ lien: prospection.link }));
     spreadSheet = await spreadSheetStrategy.removeRowsInSheet(spreadSheet.id, PROSPECTIONS_SHEETS_TITLES[0], rowIdentifiers);
-    const prospectionCells = missingProspections.map(prospection => convertProspectionToCells(prospection));
+    const prospectionCells = formatProspections(missingProspections).map(prospection => convertProspectionToCells(prospection));
     spreadSheet = await spreadSheetStrategy.addRowsInSheets(spreadSheet.id, [
         { sheetTitle: PROSPECTIONS_SHEETS_TITLES[2], missingRows: prospectionCells },
     ])
@@ -130,7 +132,7 @@ const getMissingSellers = (spreadSheet: SpreadSheet, sellers: SellerDb[]): Selle
     return sellers.filter(seller => !sheet?.rows.find(cells => cells[linkIndex].value === seller.name));
 }
 
-const convertProspectionToCells = (prospection: ProspectionDb): Cell[] => {
+const convertProspectionToCells = (prospection: ProspectionBuilded): Cell[] => {
 
     const cells = [
         { value: prospection.zip ?? '' },
@@ -144,7 +146,8 @@ const convertProspectionToCells = (prospection: ProspectionDb): Cell[] => {
         { value: '' },
         { value: '' },
         { value: '' },
-        { value: prospection.status },
+        { value: '' },
+        { value: prospection.statusTranslated ?? '' },
         { value: prospection.resume ?? '' },
         { value: '' }
     ]
@@ -162,4 +165,13 @@ const convertSellerToCells = (seller: SellerDb): Cell[] => {
         { value: seller.email ?? '' }
     ]
     return cells;
+}
+
+const formatProspections = (prospections: ProspectionDb[]): ProspectionBuilded[] => {
+    return prospections.map(prospection => {
+        return {
+            ...prospection,
+            statusTranslated: prospection.status ? PropertyStatusTranslation[prospection.status]??'' : prospection.status
+        }
+    })
 }

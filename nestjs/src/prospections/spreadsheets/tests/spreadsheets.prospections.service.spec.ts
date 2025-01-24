@@ -24,6 +24,8 @@ describe('test spreadsheets prospections service', () => {
         expect(spreadSheet.sheets[0].rows.length).toBe(2);
         expect(spreadSheet.sheets[0].rows[1].find(cell => cell.value === ProspectionMocked1.address)?.value).toBeTruthy();
         expect(spreadSheet.sheets[1].rows[1].find(cell => cell.value === sellerMocked1.name)?.value).toBeTruthy();
+        const statusIndex = spreadSheet.sheets[0].rows[0].findIndex(cell => cell.value === 'status');
+        expect(spreadSheet.sheets[0].rows[1][statusIndex]?.value).toBe('Contacté');
     })
 
     it('should add another prospection', async () => {

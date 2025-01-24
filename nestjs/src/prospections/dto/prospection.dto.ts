@@ -32,3 +32,21 @@ export type PropertyStatus =
   | "Completed"        // acquisition terminée
   | "UnderContract"    // bien sous compromis (d’une tierce personne)
   | "Sold";            // bien vendu (par une tierce personne)
+
+export const PropertyStatusTranslation: { [key in PropertyStatus]: string } = {
+    "Unresponsive": "Sans réponse",
+    "Contacted": "Contacté",
+    "Scheduled": "Visite planifiée",
+    "Visited": "Visite effectuée",
+    "Abandoned": "Bien abandonné",
+    "Pending": "Offre envoyée",
+    "Declined": "Offre refusée",
+    "Countered": "Contre proposition faite",
+    "Accepted": "Offre acceptée",
+    "Validated": "Date de compromis de vente validée",
+    "Signed": "Compromis de vente signé",
+    "Completed": "Acquisition terminée",
+    "UnderContract": "Bien sous compromis",
+    "Sold": "Bien vendu",
+};
+
