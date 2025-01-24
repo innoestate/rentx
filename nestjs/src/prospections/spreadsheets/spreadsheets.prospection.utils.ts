@@ -89,7 +89,7 @@ export const addProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadShee
 
     let spreadSheet = await spreadSheetStrategy.getSpreadSheet(spreadSheetId);
     const missingProspections = getMissingProspections(spreadSheet, prospections);
-    const prospectionCells = formatProspections(missingProspections).map(prospection => convertProspectionToCells(prospection));
+    const prospectionCells = formatProspections(missingProspections).map(prospection => convertProspectionToCells(prospection, sellers));
 
     const missingSellers = getMissingSellers(spreadSheet, sellers);
     const sellerCells = missingSellers.map(seller => convertSellerToCells(seller));
@@ -132,16 +132,18 @@ const getMissingSellers = (spreadSheet: SpreadSheet, sellers: SellerDb[]): Selle
     return sellers.filter(seller => !sheet?.rows.find(cells => cells[linkIndex].value === seller.name));
 }
 
-const convertProspectionToCells = (prospection: ProspectionBuilded): Cell[] => {
+const convertProspectionToCells = (prospection: ProspectionBuilded, sellers?: SellerDb[]): Cell[] => {
+
+    const seller = sellers?.find(seller => seller.id === prospection.seller_id);
 
     const cells = [
         { value: prospection.zip ?? '' },
         { value: prospection.city ?? '' },
         { value: prospection.address ?? '' },
         { value: prospection.link ?? '' },
-        { value: '' },
-        { value: '' },
-        { value: '' },
+        { value: seller?.name ?? '' },
+        { value: seller?.phone ?? '' },
+        { value: seller?.email ?? '' },
         { value: prospection.price ?? '' },
         { value: '' },
         { value: '' },
