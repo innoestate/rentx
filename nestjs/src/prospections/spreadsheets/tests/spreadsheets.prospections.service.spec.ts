@@ -1,5 +1,5 @@
 import { MockedGoogleSpreadSheetStrategy } from "../../../spreadsheets/strategies/spreadsheets.mocked.strategy";
-import { addProspectionsSpreadsheet, createProspectionsSpreadsheet, PROSPECTIONS_SHEETS_TITLES } from "../spreadsheets.prospection.utils";
+import { addProspectionsSpreadsheet, createProspectionsSpreadsheet, PROSPECTIONS_SHEETS_TITLES, removeProspectionsSpreadsheet } from "../spreadsheets.prospection.utils";
 import { ProspectionMocked1, ProspectionMocked2, ProspectionMocked3 } from "./prospections.mocked";
 import { sellerMocked1, sellerMocked2, sellerMocked3 } from "./sellers.mocked";
 
@@ -58,6 +58,18 @@ describe('test spreadsheets prospections service', () => {
         expect(spreadSheet.sheets[0].rows[3].find(cell => cell.value === ProspectionMocked3.address)?.value).toBeTruthy();
         expect(spreadSheet.sheets[1].rows.length).toBe(4);
         expect(spreadSheet.sheets[1].rows[3].find(cell => cell.value === sellerMocked3.name)?.value).toBeTruthy();
+    })
+
+    it('should remove a prospection and add it in archives', async () => {
+        const spreadSheet = await removeProspectionsSpreadsheet(mockedSpreadSheetStrategy, spreadSheetId, [{...ProspectionMocked1}]);
+        expect(spreadSheet.sheets[0].rows.length).toBe(3);
+        expect(spreadSheet.sheets[2].rows.length).toBe(2);
+    })
+
+    it('should not remove a prospection that already has been removed', async () => {
+        const spreadSheet = await removeProspectionsSpreadsheet(mockedSpreadSheetStrategy, spreadSheetId, [{...ProspectionMocked1}]);
+        expect(spreadSheet.sheets[0].rows.length).toBe(3);
+        expect(spreadSheet.sheets[2].rows.length).toBe(2);
     })
 
 })  

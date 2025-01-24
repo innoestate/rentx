@@ -99,6 +99,25 @@ export const addProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadShee
     return spreadSheet;
 }
 
+export const removeProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadSheetStrategy, spreadSheetId: string, prospections: ProspectionDb[]) => {
+    let spreadSheet = await spreadSheetStrategy.getSpreadSheet(spreadSheetId);
+
+    const missingProspections = getProspectionsToRemove(spreadSheet, prospections);
+    const rowIdentifiers = missingProspections.map(prospection => ({ lien: prospection.link }));
+    spreadSheet = await spreadSheetStrategy.removeRowsInSheet(spreadSheet.id, PROSPECTIONS_SHEETS_TITLES[0], rowIdentifiers);
+    const prospectionCells = missingProspections.map(prospection => convertProspectionToCells(prospection));
+    spreadSheet = await spreadSheetStrategy.addRowsInSheets(spreadSheet.id, [
+        { sheetTitle: PROSPECTIONS_SHEETS_TITLES[2], missingRows: prospectionCells },
+    ])
+    return spreadSheet;
+}
+
+const getProspectionsToRemove = (spreadSheet: SpreadSheet, prospections: ProspectionDb[]): ProspectionDb[] => {
+    const sheet = spreadSheet.sheets.find(sheet => sheet.title === PROSPECTIONS_SHEETS_TITLES[0]);
+    const linkIndex = sheet?.rows[0].findIndex(cell => cell.value === 'lien');
+    return prospections.filter(prospection => sheet?.rows.find(cells => cells[linkIndex].value === prospection.link));
+}
+
 const getMissingProspections = (spreadSheet: SpreadSheet, prospections: ProspectionDb[]): ProspectionDb[] => {
     const sheet = spreadSheet.sheets.find(sheet => sheet.title === PROSPECTIONS_SHEETS_TITLES[0]);
     const linkIndex = sheet?.rows[0].findIndex(cell => cell.value === 'lien');
@@ -111,7 +130,7 @@ const getMissingSellers = (spreadSheet: SpreadSheet, sellers: SellerDb[]): Selle
     return sellers.filter(seller => !sheet?.rows.find(cells => cells[linkIndex].value === seller.name));
 }
 
-export const convertProspectionToCells = (prospection: ProspectionDb): Cell[] => {
+const convertProspectionToCells = (prospection: ProspectionDb): Cell[] => {
 
     const cells = [
         { value: prospection.zip ?? '' },

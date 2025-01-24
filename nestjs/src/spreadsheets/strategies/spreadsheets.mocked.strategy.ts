@@ -53,6 +53,34 @@ export class MockedGoogleSpreadSheetStrategy extends SpreadSheetStrategy {
         return this.fakeSpreadSheets[id];
     }
 
+    async removeRowsInSheet(id: string, sheetTitle: string, rowIdentifiers: { [key: string]: string | number }[]): Promise<SpreadSheet> {
+        const sheet = this.fakeSpreadSheets[id].sheets.find(sheet => sheet.title === sheetTitle);
+        if (!sheet) return this.fakeSpreadSheets[id];
+        
+        rowIdentifiers.forEach(rowIdentifier => {
+            
+            const indexes = {};
+            Object.keys(rowIdentifier).forEach(key => {
+                indexes[key] = sheet.rows[0].findIndex(cell => cell.value === key);
+            });
+            
+            sheet.rows = sheet.rows.filter(rows => {
+                let cellsIdentified = 0;
+                Object.keys(indexes).forEach(key => {
+                    if (rows[indexes[key]].value === rowIdentifier[key]) {
+                        cellsIdentified++;
+                    }
+                });
+                if (cellsIdentified === Object.keys(indexes).length) {
+                    return false;
+                }
+                return true;
+            })
+        })
+        
+        return this.fakeSpreadSheets[id];
+    }
+
     async removeRowsInSheets(id: string, rowIdentifiers: { [key: string]: string | number }[]): Promise<SpreadSheet> {
 
         if(rowIdentifiers.length === 0) 

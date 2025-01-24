@@ -22,6 +22,10 @@ export class SpreadSheetStrategy {
         return null;
     }
 
+    async removeRowsInSheet(id: string, sheetTitle: string, rowIdentifier: {[key:string]: string | number}[] ): Promise<SpreadSheet> {
+        return null;
+    }
+
     async removeRowsInSheets(id: string, rowIdentifier: {[key:string]: string | number}[] ): Promise<SpreadSheet> {
         return null;
     }
