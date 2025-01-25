@@ -1,6 +1,7 @@
 import { PropertyStatusTranslation } from "../../../prospections/dto/prospection.dto";
 import { MockedGoogleSpreadSheetStrategy } from "../../../spreadsheets/strategies/spreadsheets.mocked.strategy";
-import { addProspectionsSpreadsheet, createProspectionsSpreadsheet, PROSPECTIONS_SHEETS_TITLES, removeProspectionsSpreadsheet, updateProspectionsSpreadsheet, updateSellersSpreadsheet } from "../spreadsheets.prospection.utils";
+import { addProspectionsSpreadsheet, createProspectionsSpreadsheet, removeProspectionsSpreadsheet, updateProspectionsSpreadsheet, updateSellersSpreadsheet } from "../spreadsheets.prospection.business";
+import { PROSPECTIONS_SHEETS_TITLES} from "../spreadsheets.prospection.utils";
 import { ProspectionMocked1, ProspectionMocked2, ProspectionMocked3 } from "./mocks/prospections.mocked";
 import { sellerMocked1, sellerMocked2, sellerMocked3 } from "./mocks/sellers.mocked";
 
