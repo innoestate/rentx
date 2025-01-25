@@ -1,6 +1,6 @@
 import { PropertyStatusTranslation } from "../../../prospections/dto/prospection.dto";
 import { MockedGoogleSpreadSheetStrategy } from "../../../spreadsheets/strategies/spreadsheets.mocked.strategy";
-import { addProspectionsSpreadsheet, createProspectionsSpreadsheet, PROSPECTIONS_SHEETS_TITLES, removeProspectionsSpreadsheet, updateProspectionsSpreadsheet } from "../spreadsheets.prospection.utils";
+import { addProspectionsSpreadsheet, createProspectionsSpreadsheet, PROSPECTIONS_SHEETS_TITLES, removeProspectionsSpreadsheet, updateProspectionsSpreadsheet, updateSellersSpreadsheet } from "../spreadsheets.prospection.utils";
 import { ProspectionMocked1, ProspectionMocked2, ProspectionMocked3 } from "./prospections.mocked";
 import { sellerMocked1, sellerMocked2, sellerMocked3 } from "./sellers.mocked";
 
@@ -65,7 +65,6 @@ describe('test spreadsheets prospections service', () => {
         expect(spreadSheet.sheets[1].rows[3].find(cell => cell.value === sellerMocked3.name)?.value).toBeTruthy();
     })
 
-
     it('should update a cell in a prospection', async () => {
         const spreadSheet = await updateProspectionsSpreadsheet(mockedSpreadSheetStrategy, spreadSheetId, [{...ProspectionMocked1, address: 'new address'}]);
         expect(spreadSheet.sheets[0].rows[1].find(cell => cell.value === 'new address')?.value).toBeTruthy();
@@ -84,7 +83,6 @@ describe('test spreadsheets prospections service', () => {
         expect(spreadSheet.sheets[0].rows[2].find(cell => cell.value === 'address modified')?.value).toBeTruthy();
     })
 
-
     it('should remove a prospection and add it in archives', async () => {
         const spreadSheet = await removeProspectionsSpreadsheet(mockedSpreadSheetStrategy, spreadSheetId, [{...ProspectionMocked1}]);
         expect(spreadSheet.sheets[0].rows.length).toBe(3);
@@ -95,6 +93,19 @@ describe('test spreadsheets prospections service', () => {
         const spreadSheet = await removeProspectionsSpreadsheet(mockedSpreadSheetStrategy, spreadSheetId, [{...ProspectionMocked1}]);
         expect(spreadSheet.sheets[0].rows.length).toBe(3);
         expect(spreadSheet.sheets[2].rows.length).toBe(2);
+    })
+
+    it('should update a seller', async () => {
+        const spreadSheet = await updateSellersSpreadsheet(mockedSpreadSheetStrategy, spreadSheetId, [{...sellerMocked1, address: 'new address'}]);
+        expect(spreadSheet.sheets[1].rows[1].find(cell => cell.value === 'new address')?.value).toBeTruthy();
+    })
+
+    it('should update 2 row in 2 sellers', async () => {
+        const spreadSheet = await updateSellersSpreadsheet(mockedSpreadSheetStrategy, spreadSheetId, [{...sellerMocked1, address: 'address modified', email: 'newEmail@test.com'}, {...sellerMocked2, address: 'new address 2', email: 'newEmail2@test.com'}]);
+        expect(spreadSheet.sheets[1].rows[1].find(cell => cell.value === 'address modified')?.value).toBeTruthy();
+        expect(spreadSheet.sheets[1].rows[1].find(cell => cell.value === 'newEmail@test.com')?.value).toBeTruthy();
+        expect(spreadSheet.sheets[1].rows[2].find(cell => cell.value === 'new address 2')?.value).toBeTruthy();
+        expect(spreadSheet.sheets[1].rows[2].find(cell => cell.value === 'newEmail2@test.com')?.value).toBeTruthy();
     })
 
 })  

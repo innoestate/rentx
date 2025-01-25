@@ -109,6 +109,13 @@ export const updateProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadS
     return spreadSheet;
 }
 
+export const updateSellersSpreadsheet = async (spreadSheetStrategy: SpreadSheetStrategy, spreadSheetId: string, sellers: SellerDb[]) => {
+    let spreadSheet = await spreadSheetStrategy.getSpreadSheet(spreadSheetId);
+    const sellersUpdates = getSellersCellsUpdates(spreadSheet, sellers);
+    spreadSheet = await spreadSheetStrategy.updateCells(spreadSheet, sellersUpdates);
+    return spreadSheet;
+}
+
 export const removeProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadSheetStrategy, spreadSheetId: string, prospections: ProspectionDb[]) => {
     let spreadSheet = await spreadSheetStrategy.getSpreadSheet(spreadSheetId);
 
@@ -122,22 +129,21 @@ export const removeProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadS
     return spreadSheet;
 }
 
-
 export const getProspectionsCellsUpdates = (spreadSheet: SpreadSheet, prospections: ProspectionDb[]): SpreadSheetUpdate[] => {
     const sheet = spreadSheet.sheets.find(sheet => sheet.title === PROSPECTIONS_SHEETS_TITLES[0]);
-    const linkIndex = sheet?.rows[0].findIndex(cell => cell.value === 'lien');
+    const linkColumnIndex = sheet?.rows[0].findIndex(cell => cell.value === 'lien');
     const updates: SpreadSheetUpdate[] = [];
     const formatedProspections = formatProspections(prospections);
 
-    formatedProspections.forEach( prospection => {
-        const rowIndex = sheet?.rows.findIndex(row => row[linkIndex].value === prospection.link);
-        if(rowIndex !== -1){
+    formatedProspections.forEach(prospection => {
+        const rowIndex = sheet?.rows.findIndex(row => row[linkColumnIndex].value === prospection.link);
+        if (rowIndex !== -1) {
 
             const newCells = convertProspectionToCells(prospection);
             const actualCells = sheet.rows[rowIndex];
 
-            newCells.forEach( (newCell, index) => {
-                if(newCell.value !== actualCells[index].value){
+            newCells.forEach((newCell, index) => {
+                if (newCell.value !== actualCells[index].value) {
                     updates.push({
                         sheetTitle: PROSPECTIONS_SHEETS_TITLES[0],
                         cell: String.fromCharCode(65 + index) + (rowIndex + 1),
@@ -146,6 +152,35 @@ export const getProspectionsCellsUpdates = (spreadSheet: SpreadSheet, prospectio
                 }
             });
 
+        }
+
+    });
+
+    return updates;
+}
+
+export const getSellersCellsUpdates = (spreadSheet: SpreadSheet, sellers: SellerDb[]): SpreadSheetUpdate[] => {
+    const sheet = spreadSheet.sheets.find(sheet => sheet.title === PROSPECTIONS_SHEETS_TITLES[1]);
+    const nameColumnIndex = sheet?.rows[0].findIndex(cell => cell.value === 'nom');
+    const updates: SpreadSheetUpdate[] = [];
+
+    sellers.forEach(seller => {
+
+        const rowIndex = sheet?.rows.findIndex(row => row[nameColumnIndex].value === seller.name);
+        if (rowIndex !== -1) {
+
+            const newCells = convertSellerToCells(seller);
+            const actualCells = sheet.rows[rowIndex];
+
+            newCells.forEach((newCell, columnIndex) => {
+                if (newCell.value !== actualCells[columnIndex].value) {
+                    updates.push({
+                        sheetTitle: PROSPECTIONS_SHEETS_TITLES[1],
+                        cell: String.fromCharCode(65 + columnIndex) + (rowIndex + 1),
+                        value: newCell.value
+                    });
+                }
+            });
         }
 
     });
@@ -195,7 +230,7 @@ export const convertProspectionToCells = (prospection: ProspectionBuilded, selle
     return cells;
 }
 
-const convertSellerToCells = (seller: SellerDb): Cell[] => {
+export const convertSellerToCells = (seller: SellerDb): Cell[] => {
     const cells = [
         { value: seller.name ?? '' },
         { value: seller.agency ?? '' },
@@ -212,7 +247,7 @@ export const formatProspections = (prospections: ProspectionDb[]): ProspectionBu
     return prospections.map(prospection => {
         return {
             ...prospection,
-            statusTranslated: prospection.status ? PropertyStatusTranslation[prospection.status]??'' : prospection.status
+            statusTranslated: prospection.status ? PropertyStatusTranslation[prospection.status] ?? '' : prospection.status
         }
     })
 }
