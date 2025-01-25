@@ -1,5 +1,5 @@
 
-import { SellerDb } from "../../../sellers/models/seller.db";
+import { SellerDb } from "../../../../sellers/models/seller.db";
 
 export const sellerMocked1: SellerDb = {
     id: 'seller_001',
