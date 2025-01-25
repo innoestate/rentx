@@ -18,7 +18,7 @@ export const convertEstatesToSheetRows = (estates: Estate_filled_Db[]): Cell[][]
     ])
 }
 
-export const getSpreadSheetRentsCells = (spreadSheetContext: SpreadSheet, rents: Rent_Db[], estates: Estate_filled_Db[]): SpreadSheetUpdate[] => {
+export const getPaidUpdatesRentsCells = (spreadSheetContext: SpreadSheet, rents: Rent_Db[], estates: Estate_filled_Db[]): SpreadSheetUpdate[] => {
 
     const fusionnedRents = fusionateRents(rents, estates);
     const rentsByMonths = getRentsByMonth(fusionnedRents);

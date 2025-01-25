@@ -2,7 +2,7 @@ import { MockedGoogleSpreadSheetStrategy } from "../../../spreadsheets/strategie
 import { estate1 } from "../../tests/estates.mocks";
 import { rent2021_01 } from "../../tests/rents.mocks";
 import { buildSpreadsheetContext } from "../rents.spreadsheets.business";
-import { getSpreadSheetRentsCells } from "../rents.spreadsheets.utils";
+import { getPaidUpdatesRentsCells } from "../rents.spreadsheets.utils";
 
 describe('test rents spreadsheets updates', () => {
 
@@ -15,7 +15,7 @@ describe('test rents spreadsheets updates', () => {
         const rents = [{ ...rent2021_01 }];
         const estates = [{ ...estate1 }];
         let { spreadSheet } = await buildSpreadsheetContext(mockedGoogleWorker, null, estates, new Date('2021-01-01'), new Date('2021-01-31'));
-        const updateCells = getSpreadSheetRentsCells(spreadSheet, rents, estates);
+        const updateCells = getPaidUpdatesRentsCells(spreadSheet, rents, estates);
         spreadSheet = await mockedGoogleWorker.updateCells(spreadSheet, updateCells);
         expect(spreadSheet.sheets[0].rows[1][5].value).toEqual(1100);
         expect(spreadSheet.sheets[0].rows[1][5].backgroundColor.green).toEqual(1);

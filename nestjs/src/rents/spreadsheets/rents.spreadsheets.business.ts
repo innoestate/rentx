@@ -1,6 +1,6 @@
 import { Estate_filled_Db } from "../../estates/estate-filled-db.model";
 import { SpreadSheetStrategy } from "../../spreadsheets/strategies/spreadsheets.strategy";
-import { convertEstatesToSheetRows, EstatesSheetsHeader, getMissingRows, getMissingSheetsTitles, getSpreadSheetRentsCells, getUnusedEstates, getYearsFromDates } from "./rents.spreadsheets.utils";
+import { convertEstatesToSheetRows, EstatesSheetsHeader, getMissingRows, getMissingSheetsTitles, getPaidUpdatesRentsCells, getUnusedEstates, getYearsFromDates } from "./rents.spreadsheets.utils";
 import { SpreadSheet, SpreadSheetUpdate } from "../../spreadsheets/models/spreadsheets.model";
 import { Rent_Db } from "../models/rents.db.model";
 
@@ -31,7 +31,7 @@ export const buildSpreadsheetContext = async (sheetStrategy: SpreadSheetStrategy
 }
 
 export const fillSpreadSheetCells = async (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, rents: Rent_Db[], estates: Estate_filled_Db[]): Promise<SpreadSheet> => {
-    const updateCells = getSpreadSheetRentsCells(spreadSheet, rents, estates);
+    const updateCells = getPaidUpdatesRentsCells(spreadSheet, rents, estates);
     spreadSheet = await sheetStrategy.updateCells(spreadSheet, updateCells);
     return spreadSheet;
 }
