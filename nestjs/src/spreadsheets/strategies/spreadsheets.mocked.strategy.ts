@@ -15,12 +15,12 @@ export class MockedGoogleSpreadSheetStrategy extends SpreadSheetStrategy {
     }
 
     async createSpreadSheet(title: string): Promise<SpreadSheet> {
-        this.fakeSpreadSheets['fakeId'] = {
-            id: 'fakeId',
+        this.fakeSpreadSheets[title??'fakeId'] = {
+            id: title??'fakeId',
             title,
             sheets: []
         }
-        return this.fakeSpreadSheets['fakeId'];
+        return this.fakeSpreadSheets[title??'fakeId'];
     }
 
     async addSheet(id: string, title: string, header: Cell[], rows: Cell[][]): Promise<SpreadSheet> {

@@ -24,7 +24,7 @@ export interface SpreadSheet {
 
 export interface SpreadSheetUpdate {
     sheetTitle: string,
-    cell: string;
-    backgroundColor: BackgroundColor;
+    cell: string;//ex: 'G2'
+    backgroundColor?: BackgroundColor;
     value: string | number;
 }

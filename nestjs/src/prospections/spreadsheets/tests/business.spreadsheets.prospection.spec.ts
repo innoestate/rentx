@@ -1,5 +1,6 @@
+import { PropertyStatusTranslation } from "../../../prospections/dto/prospection.dto";
 import { MockedGoogleSpreadSheetStrategy } from "../../../spreadsheets/strategies/spreadsheets.mocked.strategy";
-import { addProspectionsSpreadsheet, createProspectionsSpreadsheet, PROSPECTIONS_SHEETS_TITLES, removeProspectionsSpreadsheet } from "../spreadsheets.prospection.utils";
+import { addProspectionsSpreadsheet, createProspectionsSpreadsheet, PROSPECTIONS_SHEETS_TITLES, removeProspectionsSpreadsheet, updateProspectionsSpreadsheet } from "../spreadsheets.prospection.utils";
 import { ProspectionMocked1, ProspectionMocked2, ProspectionMocked3 } from "./prospections.mocked";
 import { sellerMocked1, sellerMocked2, sellerMocked3 } from "./sellers.mocked";
 
@@ -56,13 +57,33 @@ describe('test spreadsheets prospections service', () => {
         expect(spreadSheet.sheets[0].rows[3].find(cell => cell.value === ProspectionMocked3.address)?.value).toBeTruthy();
     })
 
-    it('should add ', async () => {
+    it('should add sellers that not already exists', async () => {
         const spreadSheet = await addProspectionsSpreadsheet(mockedSpreadSheetStrategy, spreadSheetId, [{...ProspectionMocked1}, {...ProspectionMocked2}, {...ProspectionMocked3}], [{...sellerMocked1},{...sellerMocked2}, {...sellerMocked3}]);
         expect(spreadSheet.sheets[0].rows.length).toBe(4);
         expect(spreadSheet.sheets[0].rows[3].find(cell => cell.value === ProspectionMocked3.address)?.value).toBeTruthy();
         expect(spreadSheet.sheets[1].rows.length).toBe(4);
         expect(spreadSheet.sheets[1].rows[3].find(cell => cell.value === sellerMocked3.name)?.value).toBeTruthy();
     })
+
+
+    it('should update a cell in a prospection', async () => {
+        const spreadSheet = await updateProspectionsSpreadsheet(mockedSpreadSheetStrategy, spreadSheetId, [{...ProspectionMocked1, address: 'new address'}]);
+        expect(spreadSheet.sheets[0].rows[1].find(cell => cell.value === 'new address')?.value).toBeTruthy();
+    })
+
+    it('should update 2 cells in a prospection', async () => {
+        const spreadSheet = await updateProspectionsSpreadsheet(mockedSpreadSheetStrategy, spreadSheetId, [{...ProspectionMocked1, address: 'new address 2', status: 'Pending'}]);
+        expect(spreadSheet.sheets[0].rows[1].find(cell => cell.value === 'new address 2')?.value).toBeTruthy();
+        expect(spreadSheet.sheets[0].rows[1].find(cell => cell.value === PropertyStatusTranslation['Pending'])?.value).toBeTruthy();
+    })
+
+    it('should update 2 and 1 cells in 2 prospections', async () => {
+        const spreadSheet = await updateProspectionsSpreadsheet(mockedSpreadSheetStrategy, spreadSheetId, [{...ProspectionMocked1, address: 'new address 1', status: 'Accepted'}, {...ProspectionMocked2, address: 'address modified'}]);
+        expect(spreadSheet.sheets[0].rows[1].find(cell => cell.value === 'new address 1')?.value).toBeTruthy();
+        expect(spreadSheet.sheets[0].rows[1].find(cell => cell.value === PropertyStatusTranslation['Accepted'])?.value).toBeTruthy();
+        expect(spreadSheet.sheets[0].rows[2].find(cell => cell.value === 'address modified')?.value).toBeTruthy();
+    })
+
 
     it('should remove a prospection and add it in archives', async () => {
         const spreadSheet = await removeProspectionsSpreadsheet(mockedSpreadSheetStrategy, spreadSheetId, [{...ProspectionMocked1}]);

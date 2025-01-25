@@ -1,9 +1,10 @@
-import { Cell, SpreadSheet } from "src/spreadsheets/models/spreadsheets.model";
-import { SpreadSheetStrategy } from "src/spreadsheets/strategies/spreadsheets.strategy";
+import { Cell, SpreadSheet, SpreadSheetUpdate } from "../../spreadsheets/models/spreadsheets.model";
+import { SpreadSheetStrategy } from "../../spreadsheets/strategies/spreadsheets.strategy";
 import { ProspectionDb } from "../dto/prospection.db";
-import { SellerDb } from "src/sellers/models/seller.db";
+import { SellerDb } from "../../sellers/models/seller.db";
 import { PropertyStatusTranslation } from "../dto/prospection.dto";
 import { ProspectionBuilded } from "../dto/prospection.builded";
+import { convertColumnIndexToLetter } from "../../spreadsheets/spreadsheets.utils";
 
 export const PROSPECTIONS_SPREADSHEETS_TITLE = 'Prospections immobilier';
 export const PROSPECTIONS_SHEETS_TITLES = ['Prospections', 'Vendeurs', 'Archives'];
@@ -101,6 +102,13 @@ export const addProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadShee
     return spreadSheet;
 }
 
+export const updateProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadSheetStrategy, spreadSheetId: string, prospections: ProspectionDb[]) => {
+    let spreadSheet = await spreadSheetStrategy.getSpreadSheet(spreadSheetId);
+    const prospectionCells = getProspectionsCellsUpdates(spreadSheet, prospections);
+    spreadSheet = await spreadSheetStrategy.updateCells(spreadSheet, prospectionCells);
+    return spreadSheet;
+}
+
 export const removeProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadSheetStrategy, spreadSheetId: string, prospections: ProspectionDb[]) => {
     let spreadSheet = await spreadSheetStrategy.getSpreadSheet(spreadSheetId);
 
@@ -112,6 +120,37 @@ export const removeProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadS
         { sheetTitle: PROSPECTIONS_SHEETS_TITLES[2], missingRows: prospectionCells },
     ])
     return spreadSheet;
+}
+
+
+export const getProspectionsCellsUpdates = (spreadSheet: SpreadSheet, prospections: ProspectionDb[]): SpreadSheetUpdate[] => {
+    const sheet = spreadSheet.sheets.find(sheet => sheet.title === PROSPECTIONS_SHEETS_TITLES[0]);
+    const linkIndex = sheet?.rows[0].findIndex(cell => cell.value === 'lien');
+    const updates: SpreadSheetUpdate[] = [];
+    const formatedProspections = formatProspections(prospections);
+
+    formatedProspections.forEach( prospection => {
+        const rowIndex = sheet?.rows.findIndex(row => row[linkIndex].value === prospection.link);
+        if(rowIndex !== -1){
+
+            const newCells = convertProspectionToCells(prospection);
+            const actualCells = sheet.rows[rowIndex];
+
+            newCells.forEach( (newCell, index) => {
+                if(newCell.value !== actualCells[index].value){
+                    updates.push({
+                        sheetTitle: PROSPECTIONS_SHEETS_TITLES[0],
+                        cell: String.fromCharCode(65 + index) + (rowIndex + 1),
+                        value: newCell.value
+                    });
+                }
+            });
+
+        }
+
+    });
+
+    return updates;
 }
 
 const getProspectionsToRemove = (spreadSheet: SpreadSheet, prospections: ProspectionDb[]): ProspectionDb[] => {
@@ -132,7 +171,7 @@ const getMissingSellers = (spreadSheet: SpreadSheet, sellers: SellerDb[]): Selle
     return sellers.filter(seller => !sheet?.rows.find(cells => cells[linkIndex].value === seller.name));
 }
 
-const convertProspectionToCells = (prospection: ProspectionBuilded, sellers?: SellerDb[]): Cell[] => {
+export const convertProspectionToCells = (prospection: ProspectionBuilded, sellers?: SellerDb[]): Cell[] => {
 
     const seller = sellers?.find(seller => seller.id === prospection.seller_id);
 
@@ -169,11 +208,15 @@ const convertSellerToCells = (seller: SellerDb): Cell[] => {
     return cells;
 }
 
-const formatProspections = (prospections: ProspectionDb[]): ProspectionBuilded[] => {
+export const formatProspections = (prospections: ProspectionDb[]): ProspectionBuilded[] => {
     return prospections.map(prospection => {
         return {
             ...prospection,
             statusTranslated: prospection.status ? PropertyStatusTranslation[prospection.status]??'' : prospection.status
         }
     })
+}
+
+export const getHeader = (sheetTitle: string) => {
+    return PROSPECTIONS_SHEETS_HEADERS[sheetTitle].map(value => ({ value, backgroundColor: HEADER_BACKGROUND_COLOR }));
 }

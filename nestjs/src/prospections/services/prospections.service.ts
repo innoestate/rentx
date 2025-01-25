@@ -10,7 +10,6 @@ export class ProspectionsService {
     constructor(private ProspectionsDbService: ProspectionsDbService, private storageService: StorageService) { }
 
     async createNewProspection(prospection: ProspectionDto, accessToken, refreshToken, clientId, clientSecret) {
-        console.log('create new prospection');
         const result = await this.ProspectionsDbService.create(prospection);
         try {
             await this.storageService.synchronize(prospection.user_id, accessToken, refreshToken, clientId, clientSecret);
