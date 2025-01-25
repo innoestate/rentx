@@ -18,7 +18,9 @@ describe('updating spreadsheet after building context', () => {
         expect(sheetsUpdates[0].sheetTitle).toEqual('2024');
         expect(sheetsUpdates[0].cell).toEqual('G2');
         expect(sheetsUpdates[0].value).toEqual(1100);
-        expect(sheetsUpdates[0].backgroundColor).toEqual('#00FF00');
+        expect(sheetsUpdates[0].backgroundColor.green).toEqual(1);
+        expect(sheetsUpdates[0].backgroundColor.blue).toEqual(0);
+        expect(sheetsUpdates[0].backgroundColor.red).toEqual(0);
         spreadSheetId = spreadSheet.id;
     })
 
@@ -31,7 +33,9 @@ describe('updating spreadsheet after building context', () => {
         expect(sheetsUpdates[0].sheetTitle).toEqual('2024');
         expect(sheetsUpdates[0].cell).toEqual('G2');
         expect(sheetsUpdates[0].value).toEqual(1100);
-        expect(sheetsUpdates[0].backgroundColor).toEqual('#00FF00');
+        expect(sheetsUpdates[0].backgroundColor.green).toEqual(1);
+        expect(sheetsUpdates[0].backgroundColor.red).toEqual(0);
+        expect(sheetsUpdates[0].backgroundColor.blue).toEqual(0);
         expect(sheetsUpdates[1].sheetTitle).toEqual('2024');
         expect(sheetsUpdates[1].cell).toEqual('H2');
         expect(sheetsUpdates[1].value).toEqual(1100);
@@ -47,7 +51,9 @@ describe('updating spreadsheet after building context', () => {
         expect(sheetsUpdates[0].sheetTitle).toEqual('2024');
         expect(sheetsUpdates[0].cell).toEqual('G2');
         expect(sheetsUpdates[0].value).toEqual(1100);
-        expect(sheetsUpdates[0].backgroundColor).toEqual('#00FF00');
+        expect(sheetsUpdates[0].backgroundColor.green).toEqual(1);
+        expect(sheetsUpdates[0].backgroundColor.red).toEqual(0);
+        expect(sheetsUpdates[0].backgroundColor.blue).toEqual(0);
         expect(sheetsUpdates[1].sheetTitle).toEqual('2024');
         expect(sheetsUpdates[1].cell).toEqual('H2');
         expect(sheetsUpdates[1].value).toEqual(1100);
