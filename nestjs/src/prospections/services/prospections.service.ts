@@ -1,18 +1,25 @@
 import { Injectable } from "@nestjs/common";
-import { ProspectionsDbService } from "./prospections.db.service";
-import { ProspectionDto } from "../dto/prospection.dto";
+import { ConfigService } from "@nestjs/config";
+import { from, lastValueFrom, tap } from "rxjs";
+import { SpreadSheetGoogleStrategy } from "../../spreadsheets/strategies/spreadsheets.google.strategy";
 import { StorageService } from "../../storage/services/storage.service";
-import { from, tap } from "rxjs";
+import { ProspectionDto } from "../dto/prospection.dto";
+import { synchronizeProspections } from "../spreadsheets/spreadsheets.prospection.business";
+import { ProspectionsDbService } from "./prospections.db.service";
+import { SellersDbService } from "./sellers.db.service";
+import { MockedGoogleSpreadSheetStrategy } from "../../spreadsheets/strategies/spreadsheets.mocked.strategy";
+import { DocsDbService } from "../../docs/docs.db.service";
 
 @Injectable()
 export class ProspectionsService {
 
-    constructor(private ProspectionsDbService: ProspectionsDbService, private storageService: StorageService) { }
+    constructor(private ProspectionsDbService: ProspectionsDbService, private storageService: StorageService, private sellersServicer: SellersDbService, private docsServices: DocsDbService, private configService: ConfigService) { }
 
     async createNewProspection(prospection: ProspectionDto, accessToken, refreshToken, clientId, clientSecret) {
         const result = await this.ProspectionsDbService.create(prospection);
         try {
             await this.storageService.synchronize(prospection.user_id, accessToken, refreshToken, clientId, clientSecret);
+            await this.synchronizeGoogleSheet(prospection.user_id, accessToken, refreshToken, clientId, clientSecret);
         } catch (e) {
             console.error(e);
         }
@@ -47,6 +54,39 @@ export class ProspectionsService {
 
     remove(id: string) {
         return this.ProspectionsDbService.remove(id);
+    }
+
+
+    private async synchronizeGoogleSheet(user_id: string, accessToken, refreshToken, clientId, clientSecret){
+        try{
+            const prospections = await this.ProspectionsDbService.findAll(user_id);
+            const sellers = await this.sellersServicer.findAllSellers(user_id);
+            const userDocs = (await lastValueFrom(this.docsServices.getByUser(user_id)));
+            const googleSheetId = userDocs?.[0]?.prospections_google_sheet_id;
+            let googleStrategy;
+            if(this.configService.get('NODE_ENV') === 'test') {
+                googleStrategy = new MockedGoogleSpreadSheetStrategy();
+            }else{
+                googleStrategy = new SpreadSheetGoogleStrategy();
+                await googleStrategy.init(accessToken, refreshToken, clientId, clientSecret);
+            }
+            const spreadSheet = await synchronizeProspections(googleStrategy, prospections, sellers, googleSheetId);
+            if(!googleSheetId){
+                if(!userDocs?.length){
+                    await this.docsServices.create({
+                        user_id,
+                        prospections_google_sheet_id: spreadSheet.id
+                    });
+                }else{
+                    await this.docsServices.update({
+                        id: userDocs[0].id,
+                        prospections_google_sheet_id: spreadSheet.id
+                    })
+                }
+            }
+        }catch(e){
+            console.log(e);
+        }
     }
 
 }

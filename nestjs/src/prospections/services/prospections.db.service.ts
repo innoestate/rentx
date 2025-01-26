@@ -8,6 +8,7 @@ import { Prospection_Entity } from '../entities/prospection.entity';
 
 @Injectable()
 export class ProspectionsDbService {
+    
     constructor(
         @InjectRepository(Prospection_Entity)
         private prospectionRepository: Repository<Prospection_Entity>,

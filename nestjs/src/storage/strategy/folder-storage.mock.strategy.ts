@@ -9,11 +9,9 @@ export class FolderStorageMockedStrategy extends FolderStorageStrategy {
 
     constructor() {
         super();
-        console.log('constructor mocked storage strategy');
     }
 
     async createFolder(path: string): Promise<string> {
-        console.log('create folder from mocked strategy')
         const id = Date.now().toString();
         this.folders.set(id, { id, path });
         return Promise.resolve(id);

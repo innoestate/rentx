@@ -2,8 +2,9 @@ import { SpreadSheetStrategy } from "../../spreadsheets/strategies/spreadsheets.
 import { convertProspectionToCells, convertSellerToCells, formatProspections, getMissingProspections, getMissingSellers, getProspectionsCellsUpdates, getProspectionsInRowsThatAreNotInProspections, getProspectionsToRemove, getSellersCellsUpdates, HEADER_BACKGROUND_COLOR, PROSPECTIONS_SHEETS_HEADERS, PROSPECTIONS_SHEETS_TITLES, PROSPECTIONS_SPREADSHEETS_TITLE } from "./spreadsheets.prospection.utils";
 import { ProspectionDb } from "../dto/prospection.db";
 import { SellerDb } from "src/sellers/models/seller.db";
+import { SpreadSheet } from "src/spreadsheets/models/spreadsheets.model";
 
-export const synchronizeProspections = async (spreadSheetStrategy: SpreadSheetStrategy, prospections: ProspectionDb[], sellers: SellerDb[], spreadSheetId?: string) => {
+export const synchronizeProspections = async (spreadSheetStrategy: SpreadSheetStrategy, prospections: ProspectionDb[], sellers: SellerDb[], spreadSheetId?: string): Promise<SpreadSheet> => {
     let spreadSheet = await spreadSheetStrategy.getSpreadSheet(spreadSheetId);   
     if (!spreadSheet) {
         spreadSheet = await createProspectionsSpreadsheet(spreadSheetStrategy, PROSPECTIONS_SPREADSHEETS_TITLE);

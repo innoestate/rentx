@@ -1,22 +1,22 @@
 import { INestApplication } from '@nestjs/common';
-import { ProspectionSpreadsheetService } from '../../prospections/services/spreadsheets.prospection.service';
+import { DocsDbService } from '../../docs/docs.db.service';
 import { User_Db } from '../../user/user-db.model';
-import { prospectionsSpreadsheetTests } from './prospection.spreadsheets-tests';
 import { dropAllTables } from '../utils/db.utils';
 import { buildApp, buildUser } from '../utils/user.utils';
+import { prospectionsSpreadsheetTests } from './prospection.spreadsheets-tests';
 
 describe('/api', () => {
 
     let app: INestApplication;
     let user: User_Db;
-    let prospectionSpreadsheetService: ProspectionSpreadsheetService;
+    let docsDbService: DocsDbService;
 
     beforeAll(async () => {
 
         await dropAllTables();
         user = await buildUser('elon.musk@spacex.io');
         app = await buildApp(user);
-        prospectionSpreadsheetService = app.get<ProspectionSpreadsheetService>(ProspectionSpreadsheetService);
+        docsDbService = app.get<DocsDbService>(DocsDbService);
         
     });
 
@@ -24,6 +24,6 @@ describe('/api', () => {
         await app.close();
     });
 
-    prospectionsSpreadsheetTests(() => app, () => user, () => prospectionSpreadsheetService);
+    prospectionsSpreadsheetTests(() => app, () => user, () => docsDbService);
 
 })
