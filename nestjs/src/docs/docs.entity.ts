@@ -9,6 +9,9 @@ export class Docs_Entity {
     @Column({ type: 'uuid' })
     user_id: string;
 
-    @Column()
+    @Column({ nullable: true })
     rents_google_sheet_id: string;
+
+    @Column({ nullable: true })
+    prospections_google_sheet_id: string;
 }
