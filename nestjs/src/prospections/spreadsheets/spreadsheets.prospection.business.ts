@@ -1,7 +1,20 @@
-import { SpreadSheetStrategy } from "src/spreadsheets/strategies/spreadsheets.strategy";
-import { convertProspectionToCells, convertSellerToCells, formatProspections, getMissingProspections, getMissingSellers, getProspectionsCellsUpdates, getProspectionsToRemove, getSellersCellsUpdates, HEADER_BACKGROUND_COLOR, PROSPECTIONS_SHEETS_HEADERS, PROSPECTIONS_SHEETS_TITLES } from "./spreadsheets.prospection.utils";
+import { SpreadSheetStrategy } from "../../spreadsheets/strategies/spreadsheets.strategy";
+import { convertProspectionToCells, convertSellerToCells, formatProspections, getMissingProspections, getMissingSellers, getProspectionsCellsUpdates, getProspectionsInRowsThatAreNotInProspections, getProspectionsToRemove, getSellersCellsUpdates, HEADER_BACKGROUND_COLOR, PROSPECTIONS_SHEETS_HEADERS, PROSPECTIONS_SHEETS_TITLES, PROSPECTIONS_SPREADSHEETS_TITLE } from "./spreadsheets.prospection.utils";
 import { ProspectionDb } from "../dto/prospection.db";
 import { SellerDb } from "src/sellers/models/seller.db";
+
+export const synchronizeProspections = async (spreadSheetStrategy: SpreadSheetStrategy, prospections: ProspectionDb[], sellers: SellerDb[], spreadSheetId?: string) => {
+    let spreadSheet = await spreadSheetStrategy.getSpreadSheet(spreadSheetId);   
+    if (!spreadSheet) {
+        spreadSheet = await createProspectionsSpreadsheet(spreadSheetStrategy, PROSPECTIONS_SPREADSHEETS_TITLE);
+    }
+    const missingProspections = getMissingProspections(spreadSheet, prospections);
+    spreadSheet = await addProspectionsSpreadsheet(spreadSheetStrategy, spreadSheet.id, missingProspections, sellers);
+    const prospectionsToRemove = getProspectionsInRowsThatAreNotInProspections(spreadSheet, prospections);
+    spreadSheet = await removeProspectionsSpreadsheet(spreadSheetStrategy, spreadSheet.id, prospectionsToRemove);
+
+    return spreadSheet;
+}
 
 export const createProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadSheetStrategy, title: string) => {
     const spreadSheet = await spreadSheetStrategy.createSpreadSheet(title);
@@ -63,10 +76,10 @@ export const updateSellersSpreadsheet = async (spreadSheetStrategy: SpreadSheetS
 export const removeProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadSheetStrategy, spreadSheetId: string, prospections: ProspectionDb[]) => {
     let spreadSheet = await spreadSheetStrategy.getSpreadSheet(spreadSheetId);
 
-    const missingProspections = getProspectionsToRemove(spreadSheet, prospections);
-    const rowIdentifiers = missingProspections.map(prospection => ({ lien: prospection.link }));
+    const prospectionsToRemove = getProspectionsToRemove(spreadSheet, prospections);
+    const rowIdentifiers = prospectionsToRemove.map(prospection => ({ lien: prospection.link }));
     spreadSheet = await spreadSheetStrategy.removeRowsInSheet(spreadSheet.id, PROSPECTIONS_SHEETS_TITLES[0], rowIdentifiers);
-    const prospectionCells = formatProspections(missingProspections).map(prospection => convertProspectionToCells(prospection));
+    const prospectionCells = formatProspections(prospectionsToRemove).map(prospection => convertProspectionToCells(prospection));
     spreadSheet = await spreadSheetStrategy.addRowsInSheets(spreadSheet.id, [
         { sheetTitle: PROSPECTIONS_SHEETS_TITLES[2], missingRows: prospectionCells },
     ])

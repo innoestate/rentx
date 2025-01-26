@@ -1,7 +1,7 @@
 import { PropertyStatusTranslation } from "../../../prospections/dto/prospection.dto";
 import { MockedGoogleSpreadSheetStrategy } from "../../../spreadsheets/strategies/spreadsheets.mocked.strategy";
 import { addProspectionsSpreadsheet, createProspectionsSpreadsheet, removeProspectionsSpreadsheet, updateProspectionsSpreadsheet, updateSellersSpreadsheet } from "../spreadsheets.prospection.business";
-import { PROSPECTIONS_SHEETS_TITLES} from "../spreadsheets.prospection.utils";
+import { convertCellsToSuperficialProspection, getProspectionsInRowsThatAreNotInProspections, PROSPECTIONS_SHEETS_TITLES} from "../spreadsheets.prospection.utils";
 import { ProspectionMocked1, ProspectionMocked2, ProspectionMocked3 } from "./mocks/prospections.mocked";
 import { sellerMocked1, sellerMocked2, sellerMocked3 } from "./mocks/sellers.mocked";
 
@@ -107,6 +107,21 @@ describe('test spreadsheets prospections service', () => {
         expect(spreadSheet.sheets[1].rows[1].find(cell => cell.value === 'newEmail@test.com')?.value).toBeTruthy();
         expect(spreadSheet.sheets[1].rows[2].find(cell => cell.value === 'new address 2')?.value).toBeTruthy();
         expect(spreadSheet.sheets[1].rows[2].find(cell => cell.value === 'newEmail2@test.com')?.value).toBeTruthy();
+    })
+
+    it('should convert cells to prospections', async () => {
+        let spreadSheet = await createProspectionsSpreadsheet(mockedSpreadSheetStrategy, userId);
+        spreadSheet = await addProspectionsSpreadsheet(mockedSpreadSheetStrategy, spreadSheetId, [{...ProspectionMocked1}], []);
+        const prospection = convertCellsToSuperficialProspection(spreadSheet.sheets[0].rows[1]); 
+        expect(prospection?.link).toBe(ProspectionMocked1.link);
+    })
+
+    it('should return the prospection that have to be removed', async () => {
+        let spreadSheet = await createProspectionsSpreadsheet(mockedSpreadSheetStrategy, userId);
+        spreadSheet = await addProspectionsSpreadsheet(mockedSpreadSheetStrategy, spreadSheetId, [{...ProspectionMocked1}], []);
+        const prospectionsToRemove = getProspectionsInRowsThatAreNotInProspections(spreadSheet, []);
+        expect(prospectionsToRemove.length).toBe(1);
+        expect(prospectionsToRemove[0].link).toBe(ProspectionMocked1.link);
     })
 
 })  

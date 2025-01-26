@@ -1,8 +1,9 @@
-import { SellerDb } from "../../sellers/models/seller.db";
 import { Cell, SpreadSheet, SpreadSheetUpdate } from "../../spreadsheets/models/spreadsheets.model";
-import { ProspectionBuilded } from "../dto/prospection.builded";
+import { SpreadSheetStrategy } from "../../spreadsheets/strategies/spreadsheets.strategy";
 import { ProspectionDb } from "../dto/prospection.db";
+import { SellerDb } from "../../sellers/models/seller.db";
 import { PropertyStatusTranslation } from "../dto/prospection.dto";
+import { ProspectionBuilded } from "../dto/prospection.builded";
 
 export const PROSPECTIONS_SPREADSHEETS_TITLE = 'Prospections immobilier';
 export const PROSPECTIONS_SHEETS_TITLES = ['Prospections', 'Vendeurs', 'Archives'];
@@ -122,6 +123,18 @@ export const getProspectionsToRemove = (spreadSheet: SpreadSheet, prospections: 
     return prospections.filter(prospection => sheet?.rows.find(cells => cells[linkIndex].value === prospection.link));
 }
 
+export const getProspectionsInRowsThatAreNotInProspections = (spreadSheet: SpreadSheet, prospections: ProspectionDb[]): ProspectionBuilded[] => {
+    const sheet = spreadSheet.sheets.find(sheet => sheet.title === PROSPECTIONS_SHEETS_TITLES[0]);
+    const linkIndex = sheet?.rows[0].findIndex(cell => cell.value === 'lien');
+    const prospectionsToExclude = [];
+    sheet.rows.slice(1).forEach(row => {
+        if (!prospections.find(prospection => prospection.link === row[linkIndex].value)) {
+            prospectionsToExclude.push(convertCellsToSuperficialProspection(row));
+        }
+    })
+    return prospectionsToExclude;
+}
+
 export const getMissingProspections = (spreadSheet: SpreadSheet, prospections: ProspectionDb[]): ProspectionDb[] => {
     const sheet = spreadSheet.sheets.find(sheet => sheet.title === PROSPECTIONS_SHEETS_TITLES[0]);
     const linkIndex = sheet?.rows[0].findIndex(cell => cell.value === 'lien');
@@ -156,6 +169,21 @@ export const convertProspectionToCells = (prospection: ProspectionBuilded, selle
         { value: '' }
     ]
     return cells;
+}
+
+export const convertCellsToSuperficialProspection = (cells: Cell[]): ProspectionBuilded => {
+    return {
+        id: null,
+        user_id: null,
+        zip: cells[0].value + '',
+        city: cells[1].value + '',
+        address: cells[2].value + '',
+        link: cells[3].value + '',
+        seller_id: cells[4].value + '',
+        price: cells[7].value as number,
+        statusTranslated: cells[11].value + '',
+        resume: cells[12].value + '',
+    }
 }
 
 export const convertSellerToCells = (seller: SellerDb): Cell[] => {
