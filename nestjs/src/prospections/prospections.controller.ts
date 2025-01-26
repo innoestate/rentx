@@ -47,7 +47,7 @@ export class ProspectionsController {
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Delete(':id')
     remove(@Param('id') id: string, @Req() req) {
-        return this.prospectionService.remove(id);
+        return this.prospectionService.remove(req.user?.id, id, req.user.accessToken, req.user.refresh_token, this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET'));
     }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)

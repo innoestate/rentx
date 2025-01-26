@@ -42,6 +42,7 @@ export class ProspectionsService {
             
             if( updateProspectionDto.address){
                 this.storageService.synchronize(prospection.user_id, accessToken, refreshToken, clientId, clientSecret);
+                this.synchronizeGoogleSheet(prospection.user_id, accessToken, refreshToken, clientId, clientSecret);
             }
 
             return update;
@@ -52,8 +53,10 @@ export class ProspectionsService {
         return this.ProspectionsDbService.updateMany(user_id, updateProspectionDto);
     }
 
-    remove(id: string) {
-        return this.ProspectionsDbService.remove(id);
+    remove(user_id: string, id: string, accessToken, refreshToken, clientId, clientSecret) {
+        const removeAnswer = this.ProspectionsDbService.remove(id);
+        this.synchronizeGoogleSheet(user_id, accessToken, refreshToken, clientId, clientSecret);
+        return removeAnswer;
     }
 
 
