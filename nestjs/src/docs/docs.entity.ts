@@ -1,4 +1,4 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, PrimaryGeneratedColumn, Timestamp } from 'typeorm';
 
 @Entity('docs')
 @Index(['user_id'], { unique: true })
@@ -14,4 +14,7 @@ export class Docs_Entity {
 
     @Column({ nullable: true })
     prospections_google_sheet_id: string;
+
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    lastSynchronization: Timestamp;
 }
