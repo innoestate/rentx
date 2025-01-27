@@ -38,9 +38,9 @@ export class ProspectionsService {
 
         const prospection = await this.ProspectionsDbService.findOne(id);
 
-        return from(this.ProspectionsDbService.update(id, updateProspectionDto)).pipe( tap( update => {
-            
-            if( updateProspectionDto.address){
+        return from(this.ProspectionsDbService.update(id, updateProspectionDto)).pipe(tap(update => {
+
+            if (updateProspectionDto.address) {
                 this.storageService.synchronize(prospection.user_id, accessToken, refreshToken, clientId, clientSecret);
                 this.synchronizeGoogleSheet(prospection.user_id, accessToken, refreshToken, clientId, clientSecret);
             }
@@ -60,34 +60,45 @@ export class ProspectionsService {
     }
 
 
-    private async synchronizeGoogleSheet(user_id: string, accessToken, refreshToken, clientId, clientSecret){
-        try{
+    private async synchronizeGoogleSheet(user_id: string, accessToken, refreshToken, clientId, clientSecret) {
+        try {
             const prospections = await this.ProspectionsDbService.findAll(user_id);
             const sellers = await this.sellersServicer.findAllSellers(user_id);
             const userDocs = (await lastValueFrom(this.docsServices.getByUser(user_id)));
             const googleSheetId = userDocs?.[0]?.prospections_google_sheet_id;
             let googleStrategy;
-            if(this.configService.get('NODE_ENV') === 'test') {
+            if (this.configService.get('NODE_ENV') === 'test') {
                 googleStrategy = new MockedGoogleSpreadSheetStrategy();
-            }else{
+            } else {
                 googleStrategy = new SpreadSheetGoogleStrategy();
                 await googleStrategy.init(accessToken, refreshToken, clientId, clientSecret);
             }
             const spreadSheet = await synchronizeProspections(googleStrategy, prospections, sellers, googleSheetId);
-            if(!googleSheetId){
-                if(!userDocs?.length){
-                    await this.docsServices.create({
+            if (!googleSheetId) {
+                if (!userDocs?.length) {
+                    await lastValueFrom(this.docsServices.create({
                         user_id,
                         prospections_google_sheet_id: spreadSheet.id
-                    });
-                }else{
-                    await this.docsServices.update({
+                    }));
+                } else {
+                    await lastValueFrom(this.docsServices.update({
                         id: userDocs[0].id,
-                        prospections_google_sheet_id: spreadSheet.id
-                    })
+                        prospections_google_sheet_id: spreadSheet.id,
+                        lastSynchronization: new Date()
+                    }))
                 }
+            }else if( googleSheetId !== spreadSheet.id){
+                await lastValueFrom(this.docsServices.update({
+                    id: userDocs[0].id,
+                    prospections_google_sheet_id: spreadSheet.id,
+                    lastSynchronization: new Date()
+                }))
             }
-        }catch(e){
+            await lastValueFrom(this.docsServices.update({
+                id: userDocs[0].id,
+                lastSynchronization: new Date()
+            }))
+        } catch (e) {
             console.log(e);
         }
     }

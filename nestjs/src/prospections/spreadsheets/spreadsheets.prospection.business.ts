@@ -15,8 +15,9 @@ export const synchronizeProspections = async (spreadSheetStrategy: SpreadSheetSt
     }
     const missingProspections = getMissingProspections(spreadSheet, prospections);
     spreadSheet = await addProspectionsSpreadsheet(spreadSheetStrategy, spreadSheet.id, missingProspections, sellers);
+    spreadSheet = await updateProspectionsSpreadsheet(spreadSheetStrategy, spreadSheet.id, prospections);
     const prospectionsToRemove = getProspectionsInRowsThatAreNotInProspections(spreadSheet, prospections);
-    spreadSheet = await removeProspectionsSpreadsheet(spreadSheetStrategy, spreadSheet.id, prospectionsToRemove);
+    spreadSheet = (await removeProspectionsSpreadsheet(spreadSheetStrategy, spreadSheet.id, prospectionsToRemove)) || spreadSheet;
 
     return spreadSheet;
 }
@@ -82,15 +83,20 @@ export const updateSellersSpreadsheet = async (spreadSheetStrategy: SpreadSheetS
 }
 
 export const removeProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadSheetStrategy, spreadSheetId: string, prospections: ProspectionDb[]) => {
-    let spreadSheet = await spreadSheetStrategy.getSpreadSheet(spreadSheetId);
-
-    const prospectionsToRemove = getProspectionsToRemove(spreadSheet, prospections);
-    const rowIdentifiers = prospectionsToRemove.map(prospection => ({ lien: prospection.link }));
-    spreadSheet = await spreadSheetStrategy.removeRowsInSheet(spreadSheet.id, PROSPECTIONS_SHEETS_TITLES[0], rowIdentifiers);
-    const prospectionCells = formatProspections(prospectionsToRemove).map(prospection => convertProspectionToCells(prospection));
-    return await spreadSheetStrategy.addRowsInSheets(spreadSheet.id, [
-        { sheetTitle: PROSPECTIONS_SHEETS_TITLES[2], missingRows: prospectionCells },
-    ])
+    if(prospections.length === 0) return null;
+    try{
+        let spreadSheet = await spreadSheetStrategy.getSpreadSheet(spreadSheetId);
+        const prospectionsToRemove = getProspectionsToRemove(spreadSheet, prospections);
+        const rowIdentifiers = prospectionsToRemove.map(prospection => ({ lien: prospection.link }));
+        spreadSheet = await spreadSheetStrategy.removeRowsInSheet(spreadSheet.id, PROSPECTIONS_SHEETS_TITLES[0], rowIdentifiers);
+        const prospectionCells = formatProspections(prospectionsToRemove).map(prospection => convertProspectionToCells(prospection));
+        return await spreadSheetStrategy.addRowsInSheets(spreadSheet.id, [
+            { sheetTitle: PROSPECTIONS_SHEETS_TITLES[2], missingRows: prospectionCells },
+        ])
+    }catch(e){
+        console.error('Error removeProspectionsSpreadsheet', e);
+        return null;
+    }
 }
 
 
