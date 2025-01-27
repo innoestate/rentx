@@ -65,7 +65,7 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
                 }),
             }
         } catch (error) {
-            console.log('Error getting the Google SpreadSheets by id', id);
+            console.log('Error getSpreadSheet', id);
         }
         return null;
     }
@@ -340,10 +340,10 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
                             values: [{
                                 userEnteredValue: { stringValue: cellUpdate.value.toString() },
                                 userEnteredFormat: {
-                                    backgroundColor: {
-                                        red: 0,
+                                    backgroundColor: cellUpdate?.backgroundColor??{
+                                        red: 1,
                                         green: 1,
-                                        blue: 0,
+                                        blue: 1,
                                         alpha: 1
                                     }
                                 },
