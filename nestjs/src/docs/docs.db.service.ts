@@ -13,14 +13,24 @@ export class DocsDbService {
   ) {}
 
   create(docsDto: Docs_Dto): Observable<Docs_Entity> {
-    const docs = this.docsRepository.create(docsDto);
-    return from(this.docsRepository.save(docs));
+    try{
+      const docs = this.docsRepository.create(docsDto);
+      return from(this.docsRepository.save(docs));
+    }catch(e){
+      console.error('DocsDbService.create', e);
+      return null;
+    }
   }
 
   getByUser(userId: string): Observable<Docs_Entity[]> {
-    return from(
-      this.docsRepository.find({ where: { user_id: userId } })
-    ) as Observable<Docs_Entity[]>;
+    try{
+      return from(
+        this.docsRepository.find({ where: { user_id: userId } })
+      ) as Observable<Docs_Entity[]>;
+    }catch(e){
+      console.error('DocsDbService.getByUser', e);
+      return null;
+    }
   }
 
   update(docs: DeepPartial<Docs_Entity>): Observable<any> {
