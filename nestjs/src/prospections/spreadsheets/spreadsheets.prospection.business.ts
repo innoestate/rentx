@@ -5,7 +5,11 @@ import { SellerDb } from "src/sellers/models/seller.db";
 import { SpreadSheet } from "src/spreadsheets/models/spreadsheets.model";
 
 export const synchronizeProspections = async (spreadSheetStrategy: SpreadSheetStrategy, prospections: ProspectionDb[], sellers: SellerDb[], spreadSheetId?: string): Promise<SpreadSheet> => {
-    let spreadSheet = await spreadSheetStrategy.getSpreadSheet(spreadSheetId);   
+    
+    let spreadSheet;
+    if(spreadSheetId) {
+        spreadSheet = await spreadSheetStrategy.getSpreadSheet(spreadSheetId);
+    } 
     if (!spreadSheet) {
         spreadSheet = await createProspectionsSpreadsheet(spreadSheetStrategy, PROSPECTIONS_SPREADSHEETS_TITLE);
     }
@@ -36,28 +40,31 @@ export const createProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadS
         rows: []
     }
 
-    spreadSheetStrategy.addSheets(spreadSheet.id, [
+    return await spreadSheetStrategy.addSheets(spreadSheet.id, [
         sheet1,
         sheet2,
         sheet3
     ])
-    return spreadSheet;
 }
 
 export const addProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadSheetStrategy, spreadSheetId: string, prospections: ProspectionDb[], sellers: SellerDb[]) => {
+    try {
+        let spreadSheet = await spreadSheetStrategy.getSpreadSheet(spreadSheetId);
+        const missingProspections = getMissingProspections(spreadSheet, prospections);
+        const prospectionCells = formatProspections(missingProspections).map(prospection => convertProspectionToCells(prospection, sellers));
 
-    let spreadSheet = await spreadSheetStrategy.getSpreadSheet(spreadSheetId);
-    const missingProspections = getMissingProspections(spreadSheet, prospections);
-    const prospectionCells = formatProspections(missingProspections).map(prospection => convertProspectionToCells(prospection, sellers));
+        const missingSellers = getMissingSellers(spreadSheet, sellers);
+        const sellerCells = missingSellers.map(seller => convertSellerToCells(seller));
 
-    const missingSellers = getMissingSellers(spreadSheet, sellers);
-    const sellerCells = missingSellers.map(seller => convertSellerToCells(seller));
-
-    spreadSheet = await spreadSheetStrategy.addRowsInSheets(spreadSheet.id, [
-        { sheetTitle: PROSPECTIONS_SHEETS_TITLES[0], missingRows: prospectionCells },
-        { sheetTitle: PROSPECTIONS_SHEETS_TITLES[1], missingRows: sellerCells }
-    ]);
-    return spreadSheet;
+        spreadSheet = await spreadSheetStrategy.addRowsInSheets(spreadSheet.id, [
+            { sheetTitle: PROSPECTIONS_SHEETS_TITLES[0], missingRows: prospectionCells },
+            { sheetTitle: PROSPECTIONS_SHEETS_TITLES[1], missingRows: sellerCells }
+        ]);
+        return spreadSheet;
+    } catch (e) {
+        console.error('Error addProspectionsSpreadsheet', e);
+        return null;
+    }
 }
 
 export const updateProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadSheetStrategy, spreadSheetId: string, prospections: ProspectionDb[]) => {
@@ -81,10 +88,9 @@ export const removeProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadS
     const rowIdentifiers = prospectionsToRemove.map(prospection => ({ lien: prospection.link }));
     spreadSheet = await spreadSheetStrategy.removeRowsInSheet(spreadSheet.id, PROSPECTIONS_SHEETS_TITLES[0], rowIdentifiers);
     const prospectionCells = formatProspections(prospectionsToRemove).map(prospection => convertProspectionToCells(prospection));
-    spreadSheet = await spreadSheetStrategy.addRowsInSheets(spreadSheet.id, [
+    return await spreadSheetStrategy.addRowsInSheets(spreadSheet.id, [
         { sheetTitle: PROSPECTIONS_SHEETS_TITLES[2], missingRows: prospectionCells },
     ])
-    return spreadSheet;
 }
 
 
