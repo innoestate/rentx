@@ -1,6 +1,6 @@
 import { firstValueFrom } from 'rxjs';
 import * as request from 'supertest';
-import { RentsDbService } from '../rents/services/rents.db.service';
+import { RentsDbService } from '../../rents/services/rents.db.service';
 
 export const rentsTests = (getApp, getRentsService) => {
 

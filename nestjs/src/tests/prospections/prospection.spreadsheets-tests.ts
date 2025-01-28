@@ -2,12 +2,16 @@ import { firstValueFrom } from 'rxjs';
 import { DocsDbService } from '../../docs/docs.db.service';
 import * as request from 'supertest';
 import { ProspectionMocked1, ProspectionMocked2 } from '../../prospections/spreadsheets/tests/mocks/prospections.mocked';
+import { emptyingTable } from '../utils/db.utils';
 
 export const prospectionsSpreadsheetTests = (getApp, getUser, getDocsDbService) => {
 
     let spreadsheetId;
 
     it('should create a spreadsheet with one prospection', async () => {
+
+        await emptyingTable('prospections');
+        await emptyingTable('sellers');
 
         const app = getApp();
         const user = getUser();

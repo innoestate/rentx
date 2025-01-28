@@ -94,10 +94,10 @@ export class ProspectionsService {
                     lastSynchronization: new Date()
                 }))
             }
-            await lastValueFrom(this.docsServices.update({
-                id: userDocs[0].id,
-                lastSynchronization: new Date()
-            }))
+            // await lastValueFrom(this.docsServices.update({
+            //     id: userDocs[0].id,
+            //     lastSynchronization: new Date()
+            // }))
         } catch (e) {
             console.log(e);
         }

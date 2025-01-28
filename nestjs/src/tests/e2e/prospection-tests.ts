@@ -1,4 +1,5 @@
 import * as request from 'supertest';
+import { emptyingTable } from '../utils/db.utils';
 
 /**
  * Prospection tests
@@ -9,8 +10,12 @@ import * as request from 'supertest';
 export const prospectionsTests = (getApp, getStorageService) => {
 
     it('/api/prospections (POST)', async () => {
+
+        await emptyingTable('prospections');
+        await emptyingTable('sellers');
+
         const app = getApp();
-        const response = await request(app.getHttpServer())
+        await request(app.getHttpServer())
             .post('/api/prospections')
             .send({
                 city: 'Test City',
@@ -35,10 +40,10 @@ export const prospectionsTests = (getApp, getStorageService) => {
         
     });
 
-    it('/api/prospections (GET) should only return user-specific prospections', () => {
+    it('/api/prospections (GET) should only return user-specific prospections', async () => {
         const app = getApp();
 
-        return request(app.getHttpServer())
+        const res = await request(app.getHttpServer())
             .post('/api/prospections')
             .send({
                 city: 'User1 City',
@@ -46,17 +51,16 @@ export const prospectionsTests = (getApp, getStorageService) => {
                 price: 100000,
                 emission_date: new Date().toISOString(),
             })
-            .expect(201)
-            .then(async () => {
-                const res = await request(app.getHttpServer())
-                    .get('/api/prospections')
-                    .expect(200);
+            .expect(201);
 
-                expect(Array.isArray(res.body)).toBeTruthy();
-                expect(res.body.length).toEqual(2);
-                expect(res.body.find(p => p.city === 'User1 City').city).toEqual('User1 City');
+        const res2 = await request(app.getHttpServer())
+            .get('/api/prospections')
+            .expect(200);
 
-            });
+        expect(Array.isArray(res2.body)).toBeTruthy();
+        expect(res2.body.length).toEqual(2);
+        expect(res2.body.find(p => p.city === 'User1 City').city).toEqual('User1 City');
+
     });
 
     let prospectionIdForPatchTests = '';
@@ -203,7 +207,6 @@ export const prospectionsTests = (getApp, getStorageService) => {
             });
     });
 
-
     it('/api/prospections/sellers/:id (DELETE) should only delete prospection seller_id that is concerned', async () => {
         const app = getApp();
 
@@ -267,29 +270,5 @@ export const prospectionsTests = (getApp, getStorageService) => {
         expect(prospection2Updated.body.seller_id).toBeNull();
 
     });
-
-    // it('/prospections/offers (POST)', () => {
-    //     const app = getApp();
-    //     // First create a prospection to get its ID
-    //     return request(app.getHttpServer())
-    //         .post('/prospections')
-    //         .send({
-    //             city: 'Test City',
-    //             address: 'Test Address',
-    //             price: 100000,
-    //             emission_date: new Date().toISOString(),
-    //         })
-    //         .expect(201)
-    //         .then((res) => {
-    //             const prospectionId = res.body.id;
-    //             return request(app.getHttpServer())
-    //                 .post('/prospections/offers')
-    //                 .send({
-    //                     price: 95000,
-    //                     prospection_id: prospectionId,
-    //                 })
-    //                 .expect(201);
-    //         });
-    // });
 
 };

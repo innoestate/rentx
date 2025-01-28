@@ -1,29 +1,17 @@
 import { firstValueFrom } from 'rxjs';
-import { formatEstateDtoToEstateDb } from '../estates/estate.utils';
-import { EstatesService } from '../estates/estates.service';
+import { formatEstateDtoToEstateDb } from '../../estates/estate.utils';
+import { EstatesService } from '../../estates/estates.service';
 import * as request from 'supertest';
+import { estateMock1, estateMock2 } from '../mocks/estates.mock';
 
 export const estateTests = (getApp, getUser, getEstateService) => {  
-
-    const estateExample = {
-        street: '1234 Elm St',
-        city: 'Los Angeles test',
-        zip: '98101'
-    };
+    
     let estate;
 
-
-    const estateExample2 = {
-        street: '23 Elm St',
-        city: 'Los Angeles test',
-        zip: '98101',
-    };
-    let estate2;
-    
     it('create estate', async () => {
         const user = getUser();
         const estateService = getEstateService() as EstatesService;
-        const formatedEstate = formatEstateDtoToEstateDb({...estateExample}, user.id);
+        const formatedEstate = formatEstateDtoToEstateDb({...estateMock1}, user.id);
         estate = await firstValueFrom(estateService.create(formatedEstate));
         expect(estate.id).toBeTruthy();
     });
@@ -43,12 +31,10 @@ export const estateTests = (getApp, getUser, getEstateService) => {
     });
 
     it('POST /api/estates', async () => {
-
         const app = getApp();
-
         const response = await request(app.getHttpServer())
             .post('/api/estates')
-            .send(estateExample2)
+            .send(estateMock2)
             .expect(201);
         expect(response.body.id).toBeTruthy();
     });

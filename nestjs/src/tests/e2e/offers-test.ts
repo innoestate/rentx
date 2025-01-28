@@ -1,10 +1,15 @@
 import * as request from 'supertest';
+import { emptyingTable } from '../utils/db.utils';
 
 export const offersTests = (getApp) => {
 
     let prospection;
 
-    it('/api/prospections (POST)', async () => {
+    it('/api/prospections (POST) in offers tests', async () => {
+
+        await emptyingTable('prospections');
+        await emptyingTable('sellers');
+
         const app = getApp();
         await request(app.getHttpServer())
             .post('/api/prospections')
@@ -18,7 +23,7 @@ export const offersTests = (getApp) => {
     });
 
 
-    it('/api/prospections (GET)', async () => {
+    it('/api/prospections (GET) in offers tests', async () => {
         const app = getApp();
         const response = await  request(app.getHttpServer())
             .get('/api/prospections')
@@ -28,7 +33,7 @@ export const offersTests = (getApp) => {
         prospection = response.body[0];
     });
 
-    it('/api/prospections/offers/add (POST)', async () => {
+    it('/api/prospections/offers/add (POST) in offers tests', async () => {
         const app = getApp();
         const price = 100000;
         const response = await request(app.getHttpServer())

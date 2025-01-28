@@ -47,7 +47,6 @@ export class ProspectionsDbService {
 
     async updateMany(user_id: string, updateProspectionDto: any) {
         try{
-            console.log('update many', user_id, updateProspectionDto);
             return this.prospectionRepository.update({ user_id }, updateProspectionDto);
         }catch(e){
             console.error(e);
