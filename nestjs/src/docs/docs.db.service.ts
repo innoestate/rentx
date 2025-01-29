@@ -4,6 +4,7 @@ import { from, Observable } from 'rxjs';
 import { DeepPartial, Repository } from 'typeorm';
 import { Docs_Entity } from './docs.entity';
 import { Docs_Dto } from './docs.dto.model';
+import { Docs_Db } from './docs.db.model';
 
 @Injectable()
 export class DocsDbService {
@@ -22,11 +23,11 @@ export class DocsDbService {
     }
   }
 
-  getByUser(userId: string): Observable<Docs_Entity[]> {
+  getByUser(userId: string): Observable<Docs_Db[]> {
     try{
       return from(
         this.docsRepository.find({ where: { user_id: userId } })
-      ) as Observable<Docs_Entity[]>;
+      ) as Observable<Docs_Db[]>;
     }catch(e){
       console.error('DocsDbService.getByUser', e);
       return null;
