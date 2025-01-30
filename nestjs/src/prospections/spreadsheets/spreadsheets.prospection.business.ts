@@ -52,7 +52,7 @@ export const addProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadShee
     try {
         let spreadSheet = await spreadSheetStrategy.getSpreadSheet(spreadSheetId);
         const missingProspections = getMissingProspections(spreadSheet, prospections);
-        const prospectionCells = formatProspections(missingProspections).map(prospection => convertProspectionToCells(prospection, sellers));
+        const prospectionCells = formatProspections(missingProspections, sellers).map(prospection => convertProspectionToCells(prospection));
 
         const missingSellers = getMissingSellers(spreadSheet, sellers);
         const sellerCells = missingSellers.map(seller => convertSellerToCells(seller));
@@ -90,7 +90,7 @@ export const removeProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadS
         if (prospectionsToRemove.length) {
             const rowIdentifiers = prospectionsToRemove.map(prospection => ({ lien: prospection.link }));
             spreadSheet = await spreadSheetStrategy.removeRowsInSheet(spreadSheet.id, PROSPECTIONS_SHEETS_TITLES[0], rowIdentifiers);
-            const prospectionCells = formatProspections(prospectionsToRemove).map(prospection => convertProspectionToCells(prospection));
+            const prospectionCells = formatProspections(prospectionsToRemove, []).map(prospection => convertProspectionToCells(prospection));
             return await spreadSheetStrategy.addRowsInSheets(spreadSheet.id, [
                 { sheetTitle: PROSPECTIONS_SHEETS_TITLES[2], missingRows: prospectionCells },
             ])

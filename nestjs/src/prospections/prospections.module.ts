@@ -14,6 +14,7 @@ import { ProspectionsService } from './services/prospections.service';
 import { SellersDbService } from './services/sellers.db.service';
 import { DocsDbService } from '../docs/docs.db.service';
 import { Docs_Entity } from '../docs/docs.entity';
+import { SpreadSheetsProspectionsService } from './spreadsheets/services/spreadsheets.prospections.service';
 
 @Module({
     imports: [
@@ -28,7 +29,7 @@ import { Docs_Entity } from '../docs/docs.entity';
         ])
     ],
     controllers: [ProspectionsController],
-    providers: [ StorageService, ProspectionsService, ProspectionsDbService, SellersDbService, DocsDbService, UsersService],
-    exports: [ StorageService, ProspectionsService, ProspectionsDbService, DocsDbService, UsersService]
+    providers: [ StorageService, ProspectionsService, ProspectionsDbService, SellersDbService, DocsDbService, UsersService, SpreadSheetsProspectionsService],
+    exports: [ StorageService, ProspectionsService, ProspectionsDbService, DocsDbService, UsersService, SellersDbService, SpreadSheetsProspectionsService]
 })
 export class ProspectionsModule {}

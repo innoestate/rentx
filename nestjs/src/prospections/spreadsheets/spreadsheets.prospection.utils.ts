@@ -1,9 +1,8 @@
-import { Cell, SpreadSheet, SpreadSheetUpdate } from "../../spreadsheets/models/spreadsheets.model";
-import { SpreadSheetStrategy } from "../../spreadsheets/strategies/spreadsheets.strategy";
-import { ProspectionDb } from "../dto/prospection.db";
 import { SellerDb } from "../../sellers/models/seller.db";
-import { PropertyStatusTranslation } from "../dto/prospection.dto";
+import { Cell, SpreadSheet, SpreadSheetUpdate } from "../../spreadsheets/models/spreadsheets.model";
 import { ProspectionBuilded } from "../dto/prospection.builded";
+import { ProspectionDb } from "../dto/prospection.db";
+import { PropertyStatusTranslation } from "../dto/prospection.dto";
 
 export const PROSPECTIONS_SPREADSHEETS_TITLE = 'Prospections immobilier';
 export const PROSPECTIONS_SHEETS_TITLES = ['Prospections', 'Vendeurs', 'Archives'];
@@ -62,7 +61,7 @@ export const getProspectionsCellsUpdates = (spreadSheet: SpreadSheet, prospectio
     const sheet = spreadSheet.sheets.find(sheet => sheet.title === PROSPECTIONS_SHEETS_TITLES[0]);
     const linkColumnIndex = sheet?.rows[0].findIndex(cell => cell.value === 'lien');
     const updates: SpreadSheetUpdate[] = [];
-    const formatedProspections = formatProspections(prospections);
+    const formatedProspections = formatProspections(prospections, []);
 
     formatedProspections.forEach(prospection => {
         const rowIndex = sheet?.rows.findIndex(row => row[linkColumnIndex].value === prospection.link);
@@ -147,18 +146,16 @@ export const getMissingSellers = (spreadSheet: SpreadSheet, sellers: SellerDb[])
     return sellers.filter(seller => !sheet?.rows.find(cells => cells[linkIndex].value === seller.name));
 }
 
-export const convertProspectionToCells = (prospection: ProspectionBuilded, sellers?: SellerDb[]): Cell[] => {
-
-    const seller = sellers?.find(seller => seller.id === prospection.seller_id);
+export const convertProspectionToCells = (prospection: ProspectionBuilded): Cell[] => {
 
     const cells = [
         { value: prospection.zip ?? '' },
         { value: prospection.city ?? '' },
         { value: prospection.address ?? '' },
         { value: prospection.link ?? '' },
-        { value: seller?.name ?? '' },
-        { value: seller?.phone ?? '' },
-        { value: seller?.email ?? '' },
+        { value: prospection.seller?.name ?? '' },
+        { value: prospection.seller?.phone ?? '' },
+        { value: prospection.seller?.email ?? '' },
         { value: prospection.price ?? '' },
         { value: '' },
         { value: '' },
@@ -199,11 +196,12 @@ export const convertSellerToCells = (seller: SellerDb): Cell[] => {
     return cells;
 }
 
-export const formatProspections = (prospections: ProspectionDb[]): ProspectionBuilded[] => {
+export const formatProspections = (prospections: ProspectionDb[], sellers: SellerDb[]): ProspectionBuilded[] => {
     return prospections.map(prospection => {
         return {
             ...prospection,
-            statusTranslated: prospection.status ? PropertyStatusTranslation[prospection.status] ?? '' : prospection.status
+            statusTranslated: prospection.status ? PropertyStatusTranslation[prospection.status] ?? '' : prospection.status,
+            seller: sellers.find(seller => seller.id === prospection.seller_id)
         }
     })
 }

@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { from, of, switchMap } from 'rxjs';
+import { from, of, switchMap, tap } from 'rxjs';
 import { JwtAuthGuard } from '../auth/auth.guard';
 import { UserMidleweare } from '../guards/user-midleweare.guard';
 import { SellerDto } from '../sellers/models/create-seller.dto';
@@ -9,12 +9,13 @@ import { formatProspectionDtoForCreation } from './prospections.utils';
 import { ProspectionsDbService } from './services/prospections.db.service';
 import { ProspectionsService } from './services/prospections.service';
 import { SellersDbService } from './services/sellers.db.service';
+import { SpreadSheetsProspectionsService } from './spreadsheets/services/spreadsheets.prospections.service';
 
 @Controller('api/prospections')
 export class ProspectionsController {
     constructor(
         private readonly prospectionService: ProspectionsService,
-        private readonly prospectionsDbService: ProspectionsDbService,
+        private readonly spreadSheetService: SpreadSheetsProspectionsService,
         private readonly sellersService: SellersDbService,
         private readonly configService: ConfigService
     ) { }
@@ -73,7 +74,9 @@ export class ProspectionsController {
     @Patch('sellers/:id')
     updateSeller(@Param('id') id: string, @Body() updateSellerDto: SellerDto, @Req() req) {
         updateSellerDto.user_id = req.user.id;
-        return this.sellersService.updateSeller(id, updateSellerDto);
+        const response = this.sellersService.updateSeller(id, updateSellerDto)
+        this.spreadSheetService.synchronizeGoogleSheet(req.user?.id, id, req.user.accessToken, req.user.refresh_token, this.configService.get('GOOGLE_CLIENT_ID'));
+        return response;
     }
 
     @UseGuards(JwtAuthGuard, UserMidleweare)
@@ -81,7 +84,8 @@ export class ProspectionsController {
     removeSeller(@Param('id') id: string, @Req() req, @Res() res) {
         return from(this.sellersService.removeSeller(id)).pipe(
             switchMap(_ => this.prospectionService.updateMany(req.user?.id, { seller_id: null })),
-            switchMap(_ => of(res.send({ statusCode: 200, body: 'seller ' + id + ' removed' })))
+            switchMap(_ => of(res.send({ statusCode: 200, body: 'seller ' + id + ' removed' }))),
+            tap(() => this.spreadSheetService.synchronizeGoogleSheet(req.user?.id, id, req.user.accessToken, req.user.refresh_token, this.configService.get('GOOGLE_CLIENT_ID')))
         );
     }
 }

@@ -36,6 +36,7 @@ describe('test spreadsheets prospections service', () => {
         const spreadSheet = await addProspectionsSpreadsheet(mockedSpreadSheetStrategy, spreadSheetId, [{...ProspectionMocked2}], [{...sellerMocked2}]);
         expect(spreadSheet.sheets[0].rows.length).toBe(3);
         expect(spreadSheet.sheets[0].rows[2].find(cell => cell.value === ProspectionMocked2.address)?.value).toBeTruthy();
+        expect(spreadSheet.sheets[0].rows[2].find(cell => cell.value === sellerMocked2.phone)?.value).toBeTruthy();
         expect(spreadSheet.sheets[1].rows.length).toBe(3);
         expect(spreadSheet.sheets[1].rows[2].find(cell => cell.value === sellerMocked2.name)?.value).toBeTruthy();
     })
