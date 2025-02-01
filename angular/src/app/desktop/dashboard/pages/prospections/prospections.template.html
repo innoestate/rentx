@@ -9,30 +9,25 @@
       <nz-table #tables [nzData]="prospections()" [nzPageSize]="pageSize">
         <thead>
           <tr>
-            <th>ville</th>
-            <th>CP</th>
-            <th>adresse</th>
-            <th>lien</th>
-            <th>vendeur</th>
-            <th>prix</th>
-            <th>parution</th>
-            <th>offre</th>
-            <th>status</th>
-            <th>actions</th>
+            @for(column of columns; track column){
+              @if(column.sort){
+                <th [nzSortFn]="column.compare" [nzSortPriority]="column.priority">{{column.title }}</th>
+              }@else{
+                <th>{{column.title }}</th>
+              }
+            }
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let prospection of tables.data">
 
             <td class="editable-cell-number clickable field-medium"
-            (click)="startEdit(prospection.id! + 'city', editableCityInput)">
-            <div [hidden]="editId === prospection.id + 'city'">{{prospection.city}}</div>
-            <input nz-demo-input-text-basic #editableCityInput [value]="prospection.city"
-              [hidden]="editId !== prospection.id + 'city'" type="text" (blur)="stopEdit()"
-              (change)="edit(prospection, 'city', editableCityInput)" />
-          </td>
-
-
+              (click)="startEdit(prospection.id! + 'city', editableCityInput)">
+              <div [hidden]="editId === prospection.id + 'city'">{{prospection.city}}</div>
+              <input nz-demo-input-text-basic #editableCityInput [value]="prospection.city"
+                [hidden]="editId !== prospection.id + 'city'" type="text" (blur)="stopEdit()"
+                (change)="edit(prospection, 'city', editableCityInput)" />
+            </td>
 
             <td class="editable-cell-number clickable field-small"
               (click)="startEdit(prospection.id! + 'zip', editableZipInput)">

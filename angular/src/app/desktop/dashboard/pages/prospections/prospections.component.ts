@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { loadProspections, removeProspection, updateProspection } from 'src/app/core/store/prospections/prospections.actions';
 import { selectAllProspections } from 'src/app/core/store/prospections/prospections.selectors';
@@ -7,6 +7,7 @@ import { CreateProspectionComponent } from 'src/app/common/popups/create-prospec
 import { CreateSellerPopupComponent } from 'src/app/common/popups/create-seller-popup/create-seller-popup.component';
 import { Prospection } from 'src/app/core/models/prospection.model';
 import { PropertyStatusTypes, PROSPECTION_STATUS, ProspectionStatus } from 'src/app/core/models/dtos/prospection.dto.model';
+import { PROSPECTION_COLUMNS } from './utils/prospections.utils';
 
 @Component({
   selector: 'app-prospections',
@@ -17,8 +18,9 @@ export class ProspectionsDesktopComponent  implements OnInit {
 
   pageSize: number = 8;
 
-  prospections = this.store.selectSignal(selectAllProspections);
+  prospections: Signal<Prospection[]> = this.store.selectSignal(selectAllProspections);
   prospectionStatuses: ProspectionStatus[] = PROSPECTION_STATUS;
+  columns = PROSPECTION_COLUMNS;
   editId!: string | null;
   hoveredRow: any = null;
   editLink = false;
