@@ -3,6 +3,7 @@ import { convertProspectionToCells, convertSellerToCells, formatProspections, ge
 import { ProspectionDb } from "../dto/prospection.db";
 import { SellerDb } from "src/sellers/models/seller.db";
 import { SpreadSheet } from "src/spreadsheets/models/spreadsheets.model";
+import { ProspectionBuilded } from "../dto/prospection.builded";
 
 export const synchronizeProspections = async (spreadSheetStrategy: SpreadSheetStrategy, prospections: ProspectionDb[], sellers: SellerDb[], spreadSheetId?: string): Promise<SpreadSheet> => {
 
@@ -13,9 +14,10 @@ export const synchronizeProspections = async (spreadSheetStrategy: SpreadSheetSt
     if (!spreadSheet) {
         spreadSheet = await createProspectionsSpreadsheet(spreadSheetStrategy, PROSPECTIONS_SPREADSHEETS_TITLE);
     }
-    const missingProspections = getMissingProspections(spreadSheet, prospections);
+    const buildedProspections = formatProspections(prospections, sellers);
+    const missingProspections = getMissingProspections(spreadSheet, buildedProspections);
     spreadSheet = await addProspectionsSpreadsheet(spreadSheetStrategy, spreadSheet.id, missingProspections, sellers);
-    spreadSheet = await updateProspectionsSpreadsheet(spreadSheetStrategy, spreadSheet.id, prospections);
+    spreadSheet = await updateProspectionsSpreadsheet(spreadSheetStrategy, spreadSheet.id, buildedProspections);
     const prospectionsToRemove = getProspectionsInRowsThatAreNotInProspections(spreadSheet, prospections);
     spreadSheet = (await removeProspectionsSpreadsheet(spreadSheetStrategy, spreadSheet.id, prospectionsToRemove)) || spreadSheet;
 
@@ -68,7 +70,7 @@ export const addProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadShee
     }
 }
 
-export const updateProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadSheetStrategy, spreadSheetId: string, prospections: ProspectionDb[]) => {
+export const updateProspectionsSpreadsheet = async (spreadSheetStrategy: SpreadSheetStrategy, spreadSheetId: string, prospections: ProspectionBuilded[]) => {
     let spreadSheet = await spreadSheetStrategy.getSpreadSheet(spreadSheetId);
     const prospectionCells = getProspectionsCellsUpdates(spreadSheet, prospections);
     spreadSheet = await spreadSheetStrategy.updateCells(spreadSheet, prospectionCells);

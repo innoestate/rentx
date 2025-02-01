@@ -1,7 +1,7 @@
 import { PropertyStatusTranslation } from "../../../prospections/dto/prospection.dto";
 import { MockedGoogleSpreadSheetStrategy } from "../../../spreadsheets/strategies/spreadsheets.mocked.strategy";
 import { addProspectionsSpreadsheet, createProspectionsSpreadsheet, removeProspectionsSpreadsheet, updateProspectionsSpreadsheet, updateSellersSpreadsheet } from "../spreadsheets.prospection.business";
-import { convertCellsToSuperficialProspection, getProspectionsInRowsThatAreNotInProspections, PROSPECTIONS_SHEETS_TITLES} from "../spreadsheets.prospection.utils";
+import { convertCellsToSuperficialProspection, formatProspections, getProspectionsInRowsThatAreNotInProspections, PROSPECTIONS_SHEETS_TITLES} from "../spreadsheets.prospection.utils";
 import { ProspectionMocked1, ProspectionMocked2, ProspectionMocked3 } from "./mocks/prospections.mocked";
 import { sellerMocked1, sellerMocked2, sellerMocked3 } from "./mocks/sellers.mocked";
 
@@ -68,18 +68,22 @@ describe('test spreadsheets prospections service', () => {
     })
 
     it('should update a cell in a prospection', async () => {
-        const spreadSheet = await updateProspectionsSpreadsheet(mockedSpreadSheetStrategy, spreadSheetId, [{...ProspectionMocked1, address: 'new address'}]);
+        const prospectionBuilded = formatProspections([ProspectionMocked1], [sellerMocked1])[0];
+        const spreadSheet = await updateProspectionsSpreadsheet(mockedSpreadSheetStrategy, spreadSheetId, [{...prospectionBuilded, address: 'new address'}]);
         expect(spreadSheet.sheets[0].rows[1].find(cell => cell.value === 'new address')?.value).toBeTruthy();
     })
 
     it('should update 2 cells in a prospection', async () => {
-        const spreadSheet = await updateProspectionsSpreadsheet(mockedSpreadSheetStrategy, spreadSheetId, [{...ProspectionMocked1, address: 'new address 2', status: 'Pending'}]);
+        const prospectionBuilded = formatProspections([{...ProspectionMocked1, address: 'new address 2', status: 'Pending'}], [sellerMocked1])[0];
+        const spreadSheet = await updateProspectionsSpreadsheet(mockedSpreadSheetStrategy, spreadSheetId, [prospectionBuilded]);
         expect(spreadSheet.sheets[0].rows[1].find(cell => cell.value === 'new address 2')?.value).toBeTruthy();
         expect(spreadSheet.sheets[0].rows[1].find(cell => cell.value === PropertyStatusTranslation['Pending'])?.value).toBeTruthy();
     })
 
     it('should update 2 and 1 cells in 2 prospections', async () => {
-        const spreadSheet = await updateProspectionsSpreadsheet(mockedSpreadSheetStrategy, spreadSheetId, [{...ProspectionMocked1, address: 'new address 1', status: 'Accepted'}, {...ProspectionMocked2, address: 'address modified'}]);
+        const prospectionBuilded = formatProspections([{...ProspectionMocked1, address: 'new address 1', status: 'Accepted'}], [sellerMocked1])[0];
+        const prospectionBuilded2 = formatProspections([{...ProspectionMocked2, address: 'address modified', status: 'Accepted'}], [sellerMocked2])[0];
+        const spreadSheet = await updateProspectionsSpreadsheet(mockedSpreadSheetStrategy, spreadSheetId, [prospectionBuilded, prospectionBuilded2]);
         expect(spreadSheet.sheets[0].rows[1].find(cell => cell.value === 'new address 1')?.value).toBeTruthy();
         expect(spreadSheet.sheets[0].rows[1].find(cell => cell.value === PropertyStatusTranslation['Accepted'])?.value).toBeTruthy();
         expect(spreadSheet.sheets[0].rows[2].find(cell => cell.value === 'address modified')?.value).toBeTruthy();

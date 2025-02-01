@@ -9,8 +9,6 @@ export const formatProspectionDtoForCreation = (userId: string, createProspectio
     return { ...createProspectionDtoKeys, ...createProspectionDto, user_id: userId };
 }
 
-export const SHEET_SYNCHRONIZATION_INTERVAL_MS = 60000;
-
 export const getLastSpreadSheetSynchronization = (lastSynchronization: number) => {
     return Date.now() - lastSynchronization;
 }

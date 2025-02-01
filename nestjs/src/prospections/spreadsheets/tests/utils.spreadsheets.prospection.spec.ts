@@ -24,11 +24,11 @@ describe('test spreadsheets prospections utils', () => {
     })
 
     it('should return a cell to update', async () => {
-
+        const prospectionBuilded = formatProspections([ProspectionMocked1], [sellerMocked1])[0];
         const linkIndex = spreadSheet.sheets[0].rows[0].findIndex(cell => cell.value === 'lien');
         const addressIndex = spreadSheet.sheets[0].rows[0].findIndex(cell => cell.value === 'adresse');
         expect(spreadSheet.sheets[0].rows[1][linkIndex]?.value).toEqual(ProspectionMocked1.link);
-        const cellsUpdates = getProspectionsCellsUpdates(spreadSheet, [{...ProspectionMocked1, address: 'new address'}]);
+        const cellsUpdates = getProspectionsCellsUpdates(spreadSheet, [{...prospectionBuilded, address: 'new address'}]);
 
         const column = convertColumnIndexToLetter(addressIndex);
         expect(cellsUpdates[0].cell).toEqual(`${column}2`);

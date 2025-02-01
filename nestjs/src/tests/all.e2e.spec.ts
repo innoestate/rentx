@@ -40,16 +40,16 @@ describe('/api', () => {
     });
 
     afterAll(async () => {
-        await emptyingTable('docs')
         await app.close();
+        await dropAllTables();
     });
 
+    prospectionsSpreadsheetTests(() => app, () => user, () => docsDbService);
     estateTests(() => app, () => user, () => estateService);
     userTests(() => app, () => user);
     ownersTests(() => app);
     lodgersTests(() => app);
     rentsTests(() => app, () => rentsDbService);
-    prospectionsSpreadsheetTests(() => app, () => user, () => docsDbService);
     prospectionsTests(() => app, () => storageService);
     offersTests(() => app);
 

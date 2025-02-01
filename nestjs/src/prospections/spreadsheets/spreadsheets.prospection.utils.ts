@@ -57,13 +57,12 @@ export const HEADER_BACKGROUND_COLOR = {
     blue: 0.75
 }
 
-export const getProspectionsCellsUpdates = (spreadSheet: SpreadSheet, prospections: ProspectionDb[]): SpreadSheetUpdate[] => {
+export const getProspectionsCellsUpdates = (spreadSheet: SpreadSheet, prospections: ProspectionBuilded[]): SpreadSheetUpdate[] => {
     const sheet = spreadSheet.sheets.find(sheet => sheet.title === PROSPECTIONS_SHEETS_TITLES[0]);
     const linkColumnIndex = sheet?.rows[0].findIndex(cell => cell.value === 'lien');
     const updates: SpreadSheetUpdate[] = [];
-    const formatedProspections = formatProspections(prospections, []);
 
-    formatedProspections.forEach(prospection => {
+    prospections.forEach(prospection => {
         const rowIndex = sheet?.rows.findIndex(row => row[linkColumnIndex].value === prospection.link);
         if (rowIndex !== -1) {
 

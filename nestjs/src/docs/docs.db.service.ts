@@ -35,14 +35,29 @@ export class DocsDbService {
   }
 
   update(docs: DeepPartial<Docs_Entity>): Observable<any> {
-    return from(this.docsRepository.update(docs.id, docs));
+    try{
+      return from(this.docsRepository.update(docs.id, docs));
+    }catch(e){
+      console.error('DocsDbService.update', e)
+      return null ;
+    }
   }
 
   delete(id: string): Observable<any> {
-    return from(this.docsRepository.delete(id));
+    try{
+      return from(this.docsRepository.delete(id));
+    }catch(e){
+      console.error('DocsDbService.delete', e)
+      return null ;
+    }
   }
 
   deleteByUserId(user_id: string): Observable<any> {
-    return from(this.docsRepository.delete({ user_id }));
+    try{
+      return from(this.docsRepository.delete({ user_id }));
+    }catch(e){
+      console.error('DocsDbService.deleteByUserId', e)
+      return null ;
+    }
   }
 }

@@ -12,6 +12,7 @@ export const prospectionsSpreadsheetTests = (getApp, getUser, getDocsDbService) 
 
         await emptyingTable('prospections');
         await emptyingTable('sellers');
+        await emptyingTable('docs');
 
         const app = getApp();
         const user = getUser();
@@ -22,6 +23,7 @@ export const prospectionsSpreadsheetTests = (getApp, getUser, getDocsDbService) 
         delete prospectionMockedDto.seller_id;
         delete prospectionMockedDto.offer_id;
 
+        const docsT = await firstValueFrom(docsDbService.getByUser(user.id));
 
         await request(app.getHttpServer())
             .post('/api/prospections')
