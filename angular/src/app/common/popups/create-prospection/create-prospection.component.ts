@@ -28,7 +28,9 @@ export class CreateProspectionComponent {
   ) {
     this.form = this.fb.group({
       city: ['', Validators.required],
+      zip: [''],
       address: [''],
+      link: [''],
       price: [null],
       // Add other fields as necessary
     });
