@@ -5,15 +5,22 @@ import {
   createProspectionSuccess,
   loadProspectionsSuccess,
   removeProspectionSuccess,
+  setProspectionFilters,
   updateProspectionSuccess
 } from './prospections.actions';
+import { ProspectionsFilters } from '../../models/prospections.filters';
 
 export interface ProspectionState {
   prospections: Prospection[];
+  filters: ProspectionsFilters;
 }
 
 export const initialState: ProspectionState = {
-  prospections: []
+  prospections: [],
+  filters: {
+    status: [],
+    city: []
+  }
 };
 
 export const prospectionReducer = createReducer(
@@ -41,5 +48,9 @@ export const prospectionReducer = createReducer(
     prospections: state.prospections.map(prospection =>
       prospection.id === id ? { ...prospection, ...changes } : prospection
     )
+  })),
+  on(setProspectionFilters, (state, { filters }) => ({
+    ...state,
+    filters
   }))
 );

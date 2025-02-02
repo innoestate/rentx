@@ -1,6 +1,6 @@
 import { Component, OnInit, Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { loadProspections, removeProspection, updateProspection } from 'src/app/core/store/prospections/prospections.actions';
+import { loadProspections, removeProspection, setProspectionFilters, updateProspection } from 'src/app/core/store/prospections/prospections.actions';
 import { selectAllProspections } from 'src/app/core/store/prospections/prospections.selectors';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { CreateProspectionComponent } from 'src/app/common/popups/create-prospection/create-prospection.component';
@@ -21,7 +21,7 @@ export class ProspectionsDesktopComponent  implements OnInit {
 
   prospections: Signal<Prospection[]> = this.store.selectSignal(selectAllProspections);
   prospectionStatuses: ProspectionStatus[] = PROSPECTION_STATUS;
-  prospectionStatusesFilters = PROSPECTION_STATUS.map(status => ({text: status.shortLabel, value: status.shortLabel}));
+  prospectionStatusesFilters = PROSPECTION_STATUS.map(status => ({text: status.shortLabel, value: status.key}));
   columns = PROSPECTION_COLUMNS;
   editId!: string | null;
   hoveredRow: any = null;
@@ -45,6 +45,7 @@ export class ProspectionsDesktopComponent  implements OnInit {
     const filters = params?.filter;
     const statusFilter = filters?.find(filter => filter.key === 'status');
     if (statusFilter) {
+      this.store.dispatch(setProspectionFilters({ filters: { status: statusFilter.value as PropertyStatusTypes[], city: [] } }));
     }
   }
 

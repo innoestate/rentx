@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Prospection_Dto } from '../../models/dtos/prospection.dto.model';
 import { Prospection } from '../../models/prospection.model';
+import { ProspectionsFilters } from '../../models/prospections.filters';
 
 export const loadProspections = createAction('[Prospections] Load Prospections');
 export const loadProspectionsSuccess = createAction('[Prospections] Load Prospections Success', props<{ prospections: Prospection[] }>());
@@ -17,3 +18,5 @@ export const removeProspectionFailure = createAction('[Prospection] Remove Prosp
 export const updateProspection = createAction('[Prospection] Update Prospection', props<{ id: string, changes: Partial<Prospection> }>());
 export const updateProspectionSuccess = createAction('[Prospection] Update Prospection Success', props<{ id: string, changes: Partial<Prospection> }>());
 export const updateProspectionFailure = createAction('[Prospection] Update Prospection Failure', props<{ error: any }>());
+
+export const setProspectionFilters = createAction('[Prospection] Set Prospection Filters', props<{ filters: ProspectionsFilters }>());

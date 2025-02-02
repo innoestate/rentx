@@ -9,7 +9,6 @@
       <nz-table #tables [nzData]="prospections()" [nzPageSize]="pageSize" (nzQueryParams)="onQueryParamsChange($event)">
         <thead>
           <tr>
-
             <th [nzSortFn]="columns[0].compare" [nzSortPriority]="columns[0].priority">ville</th>
             <th [nzSortFn]="columns[1].compare" [nzSortPriority]="columns[1].priority">CP</th>
             <th [nzSortFn]="columns[2].compare" [nzSortPriority]="columns[2].priority">adresse</th>
