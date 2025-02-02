@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import * as SellerActions from './sellers.actions';
 import { SellerHttpService } from '../../services/seller.http.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Injectable()
 export class SellerEffects {
 
-  constructor(private actions$: Actions, private sellerService: SellerHttpService) {}
+  constructor(private actions$: Actions, private sellerService: SellerHttpService, private message: NzMessageService) {}
 
   loadSellers$ = createEffect(() =>
     this.actions$.pipe(
@@ -32,6 +33,26 @@ export class SellerEffects {
         )
       )
     )
+  );
+
+  addSellerSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SellerActions.createSellerSuccess),
+      tap(() => {
+        this.message.success('Vendeur ajouté avec succès!');
+      })
+    ),
+    { dispatch: false }
+  );
+
+  addSellerFailure$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SellerActions.createSellerFailure),
+      tap(() => {
+        this.message.error('Erreur lors de l\'ajout de vendeur!');
+      })
+    ),
+    { dispatch: false }
   );
 
   updateSeller$ = createEffect(() =>
