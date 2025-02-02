@@ -14,7 +14,8 @@
             <th [nzSortFn]="columns[1].compare" [nzSortPriority]="columns[1].priority">CP</th>
             <th [nzSortFn]="columns[2].compare" [nzSortPriority]="columns[2].priority">adresse</th>
             <th [nzSortFn]="columns[3].compare" [nzSortPriority]="columns[3].priority">lien</th>
-            <th [nzSortFn]="columns[4].compare" [nzSortPriority]="columns[4].priority">vendeur</th>
+            <th [nzSortFn]="columns[4].compare" [nzSortPriority]="columns[4].priority" nzColumnKey="seller"
+                [nzFilters]="allSellersFilters()" [nzFilterFn]="true">vendeur</th>
             <th [nzSortFn]="columns[5].compare" [nzSortPriority]="columns[5].priority">prix</th>
             <th>parution</th>
             <th>offre</th>

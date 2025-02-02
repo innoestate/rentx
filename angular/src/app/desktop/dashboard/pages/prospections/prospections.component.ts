@@ -9,6 +9,8 @@ import { Prospection } from 'src/app/core/models/prospection.model';
 import { PropertyStatusTypes, PROSPECTION_STATUS, ProspectionStatus } from 'src/app/core/models/dtos/prospection.dto.model';
 import { PROSPECTION_COLUMNS } from './utils/prospections.utils';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import { selectAllSellers } from 'src/app/core/store/sellers/sellers.selectors';
+import { Seller } from 'src/app/core/models/seller.model';
 
 @Component({
   selector: 'app-prospections',
@@ -25,6 +27,9 @@ export class ProspectionsDesktopComponent  implements OnInit {
   prospectionCityFilters = computed(() => {
     const cities = this.store.selectSignal(selectAllCities)();
     return (cities as string[]).filter(Boolean).map(city => ({text: city, value: city}))
+  });
+  allSellersFilters = computed(() => {
+    return this.store.selectSignal(selectAllSellers)().map(seller => ({text: seller.displayName, value: seller.id}));
   });
   columns = PROSPECTION_COLUMNS;
   editId!: string | null;
@@ -49,8 +54,10 @@ export class ProspectionsDesktopComponent  implements OnInit {
     const filters = params?.filter;
     const statusFilter = filters?.find(filter => filter.key === 'status');
     const citiesFilter = filters?.find(filter => filter.key === 'city');
-    if (statusFilter || citiesFilter) {
-      this.store.dispatch(setProspectionFilters({ filters: { status: statusFilter?.value as PropertyStatusTypes[], city: citiesFilter?.value as string[] } }));
+    const sellersFilter = filters?.find(filter => filter.key === 'seller');
+    console.log('sellers', sellersFilter);
+    if (statusFilter || citiesFilter || sellersFilter) {
+      this.store.dispatch(setProspectionFilters({ filters: { status: statusFilter?.value as PropertyStatusTypes[], city: citiesFilter?.value as string[], sellers: sellersFilter?.value as string[] } }));
     }
   }
 

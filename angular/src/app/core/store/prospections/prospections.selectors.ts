@@ -1,14 +1,14 @@
-import { createSelector, createFeatureSelector } from '@ngrx/store';
-import { ProspectionState } from './prospections.reducer';
-import { SellersState } from '../sellers/sellers.reducer';
-import { Prospection } from '../../models/prospection.model';
-import { Seller } from '../../models/seller.model';
-import { selectAllSellers, selectSellersState } from '../sellers/sellers.selectors';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { PropertyStatusTypes, PROSPECTION_STATUS } from '../../models/dtos/prospection.dto.model';
-import { selectAllOffers, selectOffersState } from '../offers/offers.selectors';
 import { OfferDto } from '../../models/offer.model';
-import { OffersState } from '../offers/offers.reducer';
+import { Prospection } from '../../models/prospection.model';
 import { ProspectionsFilters } from '../../models/prospections.filters';
+import { Seller } from '../../models/seller.model';
+import { OffersState } from '../offers/offers.reducer';
+import { selectOffersState } from '../offers/offers.selectors';
+import { SellersState } from '../sellers/sellers.reducer';
+import { selectAllSellers } from '../sellers/sellers.selectors';
+import { ProspectionState } from './prospections.reducer';
 
 export const selectProspectionState = createFeatureSelector<ProspectionState>('prospections');
 export const sellersSelector = createFeatureSelector<SellersState>('sellers');
@@ -38,6 +38,7 @@ export const selectAllCities = createSelector(
 );
 
 
+
 const formatProspections = (prospections: Prospection[], filters: ProspectionsFilters, sellers: Seller[], offers: OfferDto[]) => {
 
   const filteredProspections = filterProspections(prospections, filters);
@@ -55,7 +56,7 @@ const formatProspections = (prospections: Prospection[], filters: ProspectionsFi
 
 const filterProspections = (prospections: Prospection[], filters: ProspectionsFilters) => {
   return prospections.filter(prospection => {
-    if (matchWitStatus(prospection, filters.status) || matchWitCity(prospection, filters.city)) {
+    if (matchWitStatus(prospection, filters.status) || matchWitCity(prospection, filters.city) || matchWitSeller(prospection, filters.sellers)) {
       return false;
     }
     return true;
@@ -68,4 +69,8 @@ const matchWitStatus = (prospection: Prospection, status: PropertyStatusTypes[])
 
 const matchWitCity = (prospection: Prospection, city: string[]) => {
   return city.length > 0 && !city.includes(prospection.city??'');
+}
+
+const matchWitSeller = (prospection: Prospection, sellers: string[]) => {
+  return sellers.length > 0 && !sellers.includes(prospection.seller_id??'');
 }

@@ -1,14 +1,13 @@
 import { createReducer, on } from '@ngrx/store';
 import { Prospection } from '../../models/prospection.model';
+import { ProspectionsFilters } from '../../models/prospections.filters';
 import {
-  createProspection,
   createProspectionSuccess,
   loadProspectionsSuccess,
   removeProspectionSuccess,
   setProspectionFilters,
   updateProspectionSuccess
 } from './prospections.actions';
-import { ProspectionsFilters } from '../../models/prospections.filters';
 
 export interface ProspectionState {
   prospections: Prospection[];
@@ -19,7 +18,8 @@ export const initialState: ProspectionState = {
   prospections: [],
   filters: {
     status: [],
-    city: []
+    city: [],
+    sellers: []
   }
 };
 
