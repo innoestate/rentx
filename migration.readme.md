@@ -13,6 +13,8 @@ MAKE MIGRATION
 5- run the script to run typeorm migration
     npm run typeorm migration:run
 
+6- move the files in the migration folder into the src/migrations folder
+
 
 if you want to revert: 
 

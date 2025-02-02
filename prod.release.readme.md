@@ -1,9 +1,13 @@
 build production: 
+remove dist in rentx_prod
+cd ../rentx_prod
+sudo rm -rf back/dist
 cd angular
 ng build
 cd ../nestjs
-//remove dist in rentx_prod
 npm run build-prod
+cd ../../rentx_prospector_py
+./copy_to_prod.sh
 cd ../../rentx_prod
 git add .
 git commit -m "release 0.1.1"
