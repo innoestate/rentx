@@ -8,6 +8,7 @@ import { CreateSellerPopupComponent } from 'src/app/common/popups/create-seller-
 import { Prospection } from 'src/app/core/models/prospection.model';
 import { PropertyStatusTypes, PROSPECTION_STATUS, ProspectionStatus } from 'src/app/core/models/dtos/prospection.dto.model';
 import { PROSPECTION_COLUMNS } from './utils/prospections.utils';
+import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
 @Component({
   selector: 'app-prospections',
@@ -20,6 +21,7 @@ export class ProspectionsDesktopComponent  implements OnInit {
 
   prospections: Signal<Prospection[]> = this.store.selectSignal(selectAllProspections);
   prospectionStatuses: ProspectionStatus[] = PROSPECTION_STATUS;
+  prospectionStatusesFilters = PROSPECTION_STATUS.map(status => ({text: status.shortLabel, value: status.shortLabel}));
   columns = PROSPECTION_COLUMNS;
   editId!: string | null;
   hoveredRow: any = null;
@@ -37,6 +39,13 @@ export class ProspectionsDesktopComponent  implements OnInit {
     const totalHeight = window.innerHeight - 250;
     const rowHeight = 64;
     this.pageSize = Math.floor(totalHeight / rowHeight) ;
+  }
+
+  onQueryParamsChange(params: NzTableQueryParams): void {
+    const filters = params?.filter;
+    const statusFilter = filters?.find(filter => filter.key === 'status');
+    if (statusFilter) {
+    }
   }
 
   openCreatePropspectionPopup() {
