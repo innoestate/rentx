@@ -1,7 +1,7 @@
-import { Component, OnInit, Signal } from '@angular/core';
+import { Component, computed, OnInit, Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { loadProspections, removeProspection, setProspectionFilters, updateProspection } from 'src/app/core/store/prospections/prospections.actions';
-import { selectAllProspections } from 'src/app/core/store/prospections/prospections.selectors';
+import { selectAllCities, selectFilteredProspections } from 'src/app/core/store/prospections/prospections.selectors';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { CreateProspectionComponent } from 'src/app/common/popups/create-prospection/create-prospection.component';
 import { CreateSellerPopupComponent } from 'src/app/common/popups/create-seller-popup/create-seller-popup.component';
@@ -19,9 +19,13 @@ export class ProspectionsDesktopComponent  implements OnInit {
 
   pageSize: number = 8;
 
-  prospections: Signal<Prospection[]> = this.store.selectSignal(selectAllProspections);
+  prospections: Signal<Prospection[]> = this.store.selectSignal(selectFilteredProspections);
   prospectionStatuses: ProspectionStatus[] = PROSPECTION_STATUS;
   prospectionStatusesFilters = PROSPECTION_STATUS.map(status => ({text: status.shortLabel, value: status.key}));
+  prospectionCityFilters = computed(() => {
+    const cities = this.store.selectSignal(selectAllCities)();
+    return (cities as string[]).filter(Boolean).map(city => ({text: city, value: city}))
+  });
   columns = PROSPECTION_COLUMNS;
   editId!: string | null;
   hoveredRow: any = null;
@@ -44,8 +48,9 @@ export class ProspectionsDesktopComponent  implements OnInit {
   onQueryParamsChange(params: NzTableQueryParams): void {
     const filters = params?.filter;
     const statusFilter = filters?.find(filter => filter.key === 'status');
-    if (statusFilter) {
-      this.store.dispatch(setProspectionFilters({ filters: { status: statusFilter.value as PropertyStatusTypes[], city: [] } }));
+    const citiesFilter = filters?.find(filter => filter.key === 'city');
+    if (statusFilter || citiesFilter) {
+      this.store.dispatch(setProspectionFilters({ filters: { status: statusFilter?.value as PropertyStatusTypes[], city: citiesFilter?.value as string[] } }));
     }
   }
 

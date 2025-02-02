@@ -26,9 +26,6 @@ export const initialState: ProspectionState = {
 export const prospectionReducer = createReducer(
   initialState,
   on(loadProspectionsSuccess, (state, { prospections }) => {
-
-    console.log('prospections', prospections);
-
     return {
       ...state,
       prospections

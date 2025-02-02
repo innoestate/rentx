@@ -13,11 +13,28 @@ import { ProspectionsFilters } from '../../models/prospections.filters';
 export const selectProspectionState = createFeatureSelector<ProspectionState>('prospections');
 export const sellersSelector = createFeatureSelector<SellersState>('sellers');
 
+
 export const selectAllProspections = createSelector(
   selectProspectionState,
+  (state: ProspectionState) => state.prospections
+);
+
+export const selectFilters = createSelector(
+  selectProspectionState,
+  (state: ProspectionState) => state.filters
+)
+
+export const selectFilteredProspections = createSelector(
+  selectAllProspections,
+  selectFilters,
   selectAllSellers,
   selectOffersState,
-  (state: ProspectionState, sellers: Seller[], offersState: OffersState) => formatProspections(state.prospections, state.filters, sellers, offersState.offers)
+  (prospections: Prospection[], filters: ProspectionsFilters, sellers: Seller[], offersState: OffersState) => formatProspections(prospections, filters, sellers, offersState.offers)
+);
+
+export const selectAllCities = createSelector(
+  selectAllProspections,
+  (prospections: Prospection[]) => prospections.map(prospection => prospection.city).filter((value, index, self) => self.indexOf(value) === index)
 );
 
 
