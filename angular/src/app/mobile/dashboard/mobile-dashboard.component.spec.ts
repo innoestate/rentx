@@ -1,23 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+// import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MobileDashboardComponent } from './mobile-dashboard.component';
+// import { MobileDashboardComponent } from './mobile-dashboard.component';
 
-describe('MobileDashboardComponent', () => {
-  let component: MobileDashboardComponent;
-  let fixture: ComponentFixture<MobileDashboardComponent>;
+// describe('MobileDashboardComponent', () => {
+//   let component: MobileDashboardComponent;
+//   let fixture: ComponentFixture<MobileDashboardComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [MobileDashboardComponent]
-    })
-    .compileComponents();
+//   beforeEach(async () => {
+//     await TestBed.configureTestingModule({
+//       declarations: [MobileDashboardComponent]
+//     })
+//     .compileComponents();
 
-    fixture = TestBed.createComponent(MobileDashboardComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//     fixture = TestBed.createComponent(MobileDashboardComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });

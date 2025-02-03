@@ -1,0 +1,40 @@
+:host {
+  min-width: 100px !important;
+  width: 100px !important;
+  display: flex;
+}
+
+.seller-name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100px;
+  display: inline-block;
+}
+
+.empty-field{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  padding: 0 10px;
+  border-radius: 5px;
+}
+
+.sellers {
+  min-width: 100px !important;
+}
+
+.seller-item {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-width: 100px;
+  border-radius: 5px;
+}

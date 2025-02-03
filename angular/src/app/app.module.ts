@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 // ng-zorro
+import { CalendarFill, FormOutline, SwapLeftOutline, CheckCircleFill, CheckOutline, CloseCircleFill, EyeFill, FileDoneOutline, HourglassFill, LockFill, MessageFill, QuestionCircleFill, StopFill, SwapOutline, TrophyFill } from '@ant-design/icons-angular/icons';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -16,24 +17,22 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-
+import { DatabaseFill, DeleteFill, MailOutline, ToolFill } from '@ant-design/icons-angular/icons';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { CallbackComponent } from './callback/callback.component';
-import { LoginComponent } from './login/login.component';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { userReducer } from './core/store/user/user.reducers';
-import { UserEffects } from './core/store/user/user.effects';
-import { environment } from 'src/environments/environment';
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-import { DeviceGuard } from './core/guards/device.guard';
-import { DeviceDetectorService } from 'ngx-device-detector';
 import { RentService } from './common/services/rents.service';
-import { NzModalModule } from 'ng-zorro-antd/modal';
-import { MailOutline } from '@ant-design/icons-angular/icons';
-
+import { DeviceGuard } from './core/guards/device.guard';
+import { UserEffects } from './core/store/user/user.effects';
+import { userReducer } from './core/store/user/user.reducers';
+import { LoginComponent } from './login/login.component';
 
 registerLocaleData(en);
 
@@ -55,7 +54,25 @@ registerLocaleData(en);
     NzMessageModule,
     NzTypographyModule,
     NzIconModule.forRoot([
-      MailOutline
+      DeleteFill,
+      MailOutline,
+      ToolFill,
+      DatabaseFill,
+      QuestionCircleFill,
+      MessageFill,
+      CalendarFill,
+      EyeFill,
+      StopFill,
+      HourglassFill,
+      CloseCircleFill,
+      SwapOutline,
+      CheckCircleFill,
+      CheckOutline,
+      FileDoneOutline,
+      TrophyFill,
+      LockFill,
+      SwapLeftOutline,
+      FormOutline
     ]),
     NzLayoutModule,
     NzDropDownModule,

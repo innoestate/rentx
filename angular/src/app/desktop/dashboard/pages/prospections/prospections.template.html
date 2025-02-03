@@ -1,0 +1,151 @@
+<div class="table-component">
+  <div class="container">
+    <div class="header">
+      <button nz-button nzType="default" (click)="openCreatePropspectionPopup()">Ajouter un bien en prospection</button>
+      <button nz-button nzType="default" (click)="openCreateSellerPopup()">Ajouter un vendeur / agent</button>
+    </div>
+    <div class="table-container">
+
+      <nz-table #tables [nzData]="prospections()" [nzPageSize]="pageSize" (nzQueryParams)="onQueryParamsChange($event)">
+        <thead>
+          <tr>
+            <th [nzSortFn]="columns[0].compare" [nzSortPriority]="columns[0].priority" nzColumnKey="city"
+              [nzFilters]="prospectionCityFilters()" [nzFilterFn]="true">ville</th>
+            <th [nzSortFn]="columns[1].compare" [nzSortPriority]="columns[1].priority">CP</th>
+            <th [nzSortFn]="columns[2].compare" [nzSortPriority]="columns[2].priority">adresse</th>
+            <th [nzSortFn]="columns[3].compare" [nzSortPriority]="columns[3].priority">lien</th>
+            <th [nzSortFn]="columns[4].compare" [nzSortPriority]="columns[4].priority" nzColumnKey="seller"
+                [nzFilters]="allSellersFilters()" [nzFilterFn]="true">vendeur</th>
+            <th [nzSortFn]="columns[5].compare" [nzSortPriority]="columns[5].priority">prix</th>
+            <th>parution</th>
+            <th>offre</th>
+            <th [nzSortFn]="columns[8].compare" [nzSortPriority]="columns[8].priority" nzColumnKey="status"
+              [nzFilters]="prospectionStatusesFilters" [nzFilterFn]="true">status</th>
+            <th>actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let prospection of tables.data">
+
+            <td class="editable-cell-number clickable field-medium"
+              (click)="startEdit(prospection.id! + 'city', editableCityInput)">
+              <div [hidden]="editId === prospection.id + 'city'">{{prospection.city}}</div>
+              <input nz-demo-input-text-basic #editableCityInput [value]="prospection.city"
+                [hidden]="editId !== prospection.id + 'city'" type="text" (blur)="stopEdit()"
+                (change)="edit(prospection, 'city', editableCityInput)" />
+            </td>
+
+            <td class="editable-cell-number clickable field-small"
+              (click)="startEdit(prospection.id! + 'zip', editableZipInput)">
+              <div [hidden]="editId === prospection.id + 'zip'">{{prospection.zip}}</div>
+              <input nz-demo-input-text-basic #editableZipInput [value]="prospection.zip"
+                [hidden]="editId !== prospection.id + 'zip'" type="text" (blur)="stopEdit()"
+                (change)="edit(prospection, 'zip', editableZipInput)" />
+            </td>
+
+
+            <td class="editable-cell-number clickable field-medium"
+              (click)="startEdit(prospection.id! + 'address', editableAddressInput)">
+              <div [hidden]="editId === prospection.id + 'address'">{{prospection.address}}</div>
+              <input nz-demo-input-text-basic #editableAddressInput [value]="prospection.address"
+                [hidden]="editId !== prospection.id + 'address'" type="text" (blur)="stopEdit()"
+                (change)="edit(prospection, 'address', editableAddressInput)" />
+            </td>
+
+            @if(editLink){
+
+            <td class="editable-cell-number clickable field-medium"
+              (click)="startEdit(prospection.id! + 'link', editableLinkInput)">
+              <div [hidden]="editId === prospection.id + 'link'">{{prospection.link}}</div>
+
+              <input (blur)="editLink = false" nz-demo-input-text-basic #editableLinkInput [value]="prospection.link"
+                [hidden]="editId !== prospection.id + 'link'" type="text" (blur)="stopEdit()"
+                (change)="edit(prospection, 'link', editableLinkInput)" />
+
+            </td>
+
+            }@else {
+            <td>
+              <div nz-dropdown [nzDropdownMenu]="linkDropdown" class="clickable">
+                <a [href]="prospection.link" target="_blank">lien vers l'annonce</a>
+              </div>
+              <nz-dropdown-menu nz-dropdown-menu #linkDropdown>
+                <ul nz-menu>
+                  <li nz-menu-item (click)="editLink = true">editer</li>
+                </ul>
+              </nz-dropdown-menu>
+            </td>
+            }
+
+            <td><sellers-cell [prospection]="prospection"></sellers-cell></td>
+
+            <td class="editable-cell-number clickable"
+              (click)="startEdit(prospection.id! + 'price', editablePriceInput)">
+              <div [hidden]="editId === prospection.id + 'price'">{{prospection.price}}</div>
+              <input nz-demo-input-text-basic #editablePriceInput [value]="prospection.price"
+                [hidden]="editId !== prospection.id + 'price'" type="number" (blur)="stopEdit()"
+                (change)="edit(prospection, 'price', editablePriceInput)" />
+            </td>
+
+            <td>{{prospection.emission_date | date:'dd/MM/YYYY'}}</td>
+
+            <!-- <td class="editable-cell-number clickable" (click)="startEdit(prospection.id! + 'rents', editablRentInput)">
+              <div [hidden]="editId === prospection.id + 'rents'">{{prospection.rents}}</div>
+              <input nz-demo-input-text-basic #editablRentInput [value]="prospection.rents"
+                [hidden]="editId !== prospection.id + 'rents'" type="number" (blur)="stopEdit()"
+                (change)="edit(prospection, 'rents', editablRentInput)" />
+            </td> -->
+            <td>
+              {{prospection?.offer?.price}}
+            </td>
+
+
+            <td>
+              @if(prospection.status){
+              <div nz-dropdown [nzDropdownMenu]="prospectionStatus" [nzTrigger]="'click'" class="status clickable"
+                [style]="{'background-color': prospection.statusObject?.color}"><span nz-tooltip
+                  [nzTooltipTitle]="prospection.statusObject?.label">{{prospection.statusObject?.shortLabel}}</span>
+                <div nz-icon [nzType]="prospection.statusObject?.icon!"
+                  [nzTheme]="prospection.statusObject?.iconTheme!"></div>
+              </div>
+              }@else{
+              <div nz-dropdown [nzDropdownMenu]="prospectionStatus" [nzTrigger]="'click'" class="empty-field clickable">
+                +</div>
+              }
+            </td>
+
+            <td>
+              <div class="action">
+                <div nz-dropdown [nzDropdownMenu]="actionsDropdown" [nzTrigger]="'click'" nz-icon nzType="tool"
+                  class="tool" nzTheme="fill">
+                </div>
+                <nz-dropdown-menu #actionsDropdown>
+                  <ul nz-menu [id]="'prospection_actions_dropdown_' + prospection.id">
+                    <li nz-menu-item (click)="remove(prospection)">
+                      <div class="dropdown-item">
+                        <div>Supprimer</div>
+                        <i nz-icon nzType="delete" nzTheme="fill"></i>
+                      </div>
+                    </li>
+                  </ul>
+                </nz-dropdown-menu>
+              </div>
+            </td>
+
+
+            <nz-dropdown-menu #prospectionStatus>
+              @for(status of prospectionStatuses ; track status){
+              <ul nz-menu class="status-item">
+                <div class="color-indicator" [style]="{'background-color': status.color}"></div>
+                <li nz-menu-item (click)="setStatus(prospection, status.key)">{{status.label}}</li>
+              </ul>
+              }
+            </nz-dropdown-menu>
+
+
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</div>

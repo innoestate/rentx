@@ -1,7 +1,7 @@
 import { Directive, OnInit } from '@angular/core';
 import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { Estate } from 'src/app/core/models/estate.model';
 import { RentsHttpService } from 'src/app/core/services/rents.http.service';
 import { deleteEstate, loadEstates } from 'src/app/core/store/estate/estates.actions';
@@ -28,8 +28,8 @@ export class EstatePage implements OnInit {
     this.rentHttpService.synchronizeGoogleSheet().subscribe();
   }
 
-  openCreateEstatePopup() {
-    this.modalService.create({
+  openCreateEstatePopup(): NzModalRef<CreateDesktopEstatePopupComponent> {
+    return this.modalService.create({
       nzTitle: 'Créer un nouveau bien',
       nzContent: CreateDesktopEstatePopupComponent,
       nzFooter: null

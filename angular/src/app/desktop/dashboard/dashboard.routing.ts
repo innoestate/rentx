@@ -10,8 +10,16 @@ const routes: Routes = [
         loadChildren: () => import('./pages/estates/estates.module').then(m => m.EstatesModule),
       },
       {
-        path: '**',
+        path: 'prospections',
+        loadChildren: () => import('./pages/prospections/prospections.module').then(m => m.ProspectionsModule),
+      },
+      {
+        path: '',
         pathMatch: 'full',
+        redirectTo: 'estates'
+      },
+      {
+        path: '**',
         redirectTo: 'estates'
       }
     ]

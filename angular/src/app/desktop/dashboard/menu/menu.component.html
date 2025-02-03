@@ -3,8 +3,9 @@
   <li class="logo">rentx</li>
   <div class="navigation">
     <li nz-menu-item [routerLink]="['estates']">Mes biens</li>
+    <li nz-menu-item [routerLink]="['prospections']">prospection</li>
   </div>
-  <li class="right-menu">
+  <li class="right-menu" id="authenticated_user_avatar_container">
     <div nz-dropdown [nzDropdownMenu]="userDropdown" class="user-avatar">
       <img [src]="user()?.picture">
     </div>
@@ -14,7 +15,6 @@
     <ul nz-menu>
       <li nz-menu-item (click)="logout()">se déconnecter</li>
     </ul>
-
   </nz-dropdown-menu>
 
 </ul>

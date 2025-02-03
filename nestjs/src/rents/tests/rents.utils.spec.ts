@@ -1,4 +1,4 @@
-import { Rent_Db } from "../rents.db";
+import { Rent_Db } from "../models/rents.db.model";
 import { getStartAndEnDatesFromRents } from "../rents.utils";
 import { rent2021_01, rent2021_02 } from "./rents.mocks";
 

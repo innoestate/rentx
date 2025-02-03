@@ -1,0 +1,49 @@
+version: '3.7'
+services:
+
+  postgres:
+    image: postgres:13
+    container_name: postgres_test
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: test
+    ports:
+      - "5432:5432"
+    networks:
+      - my-network
+    volumes:
+      - pg_data_test:/var/lib/postgresql/data
+
+  nestjs:
+    container_name: nestjs
+    build:
+      context: ./nestjs
+      dockerfile: Dockerfile.dev
+
+    volumes:
+      - ./nestjs:/app
+      - /app/node_modules
+    command: npx jest --testPathPattern=.e2e.spec.ts --watch
+    environment:
+      - GOOGLE_CLIENT_ID=test
+      - GOOGLE_CLIENT_SECRET=test
+      - NODE_ENV=test
+      - JWT_SECRET=secret
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=test
+      - DB_PASSWORD=test
+      - DB_DATABASE=test
+    networks:
+      - my-network
+    depends_on:
+      - postgres 
+    restart: always
+
+volumes:
+  pg_data_test: 
+  
+networks:
+  my-network:
+    driver: bridge

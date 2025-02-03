@@ -1,8 +1,8 @@
 import { Estate_filled_Db } from "../../estates/estate-filled-db.model";
-import { SpreadSheetStrategy } from "./strategies/spreadsheets.strategy";
-import { getMissingRows, getMissingSheetsTitles, getSpreadSheetRentsCells, getUnusedEstates, getYearsFromDates } from "./spreadsheets.utils";
-import { SpreadSheet, SpreadSheetUpdate } from "./models/spreadsheets.model";
-import { Rent_Db } from "../rents.db";
+import { SpreadSheetStrategy } from "../../spreadsheets/strategies/spreadsheets.strategy";
+import { convertEstatesToSheetRows, EstatesSheetsHeader, getMissingRows, getMissingSheetsTitles, getPaidUpdatesRentsCells, getUnusedEstates, getYearsFromDates } from "./rents.spreadsheets.utils";
+import { SpreadSheet, SpreadSheetUpdate } from "../../spreadsheets/models/spreadsheets.model";
+import { Rent_Db } from "../models/rents.db.model";
 
 /**
  * build a spreadsheet context with all needed years and estates.
@@ -21,7 +21,7 @@ export const buildSpreadsheetContext = async (sheetStrategy: SpreadSheetStrategy
             return { spreadSheet, hasBeenRemoved };
         } else {
             spreadSheet = await sheetStrategy.createSpreadSheet('biens_locatifs');
-            spreadSheet = await sheetStrategy.addSheets(spreadSheet.id, years, estates);
+            spreadSheet = await sheetStrategy.addSheets(spreadSheet.id, years.map( year => ({ title: year, header: [...EstatesSheetsHeader], rows: convertEstatesToSheetRows(estates) })));
         }
         return { spreadSheet, hasBeenRemoved };
     } catch (e) {
@@ -31,7 +31,7 @@ export const buildSpreadsheetContext = async (sheetStrategy: SpreadSheetStrategy
 }
 
 export const fillSpreadSheetCells = async (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, rents: Rent_Db[], estates: Estate_filled_Db[]): Promise<SpreadSheet> => {
-    const updateCells = getSpreadSheetRentsCells(spreadSheet, rents, estates);
+    const updateCells = getPaidUpdatesRentsCells(spreadSheet, rents, estates);
     spreadSheet = await sheetStrategy.updateCells(spreadSheet, updateCells);
     return spreadSheet;
 }
@@ -39,7 +39,7 @@ export const fillSpreadSheetCells = async (sheetStrategy: SpreadSheetStrategy, s
 const removeEstatesInSheets = async (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): Promise<SpreadSheet> => {
     const rowsToRemove = getUnusedEstates(spreadSheet, estates);
     if (rowsToRemove.length) {
-        spreadSheet = await sheetStrategy.removeRowsInSheets(spreadSheet.id, rowsToRemove);
+        spreadSheet = await sheetStrategy.removeRowsInSheets(spreadSheet.id, rowsToRemove.map( rows => ({ Adresse: rows.street, Ville: rows.city, Lot: rows.plot }) ));
     }
     return spreadSheet;
 }
@@ -54,7 +54,7 @@ const createMissingSheets = async (sheetStrategy: SpreadSheetStrategy, spreadShe
     const sheets = await sheetStrategy.getSheets(spreadSheet.id);
     const missingSheetsTitles = getMissingSheetsTitles(sheets, years);
     while (missingSheetsTitles.length > 0) {
-        spreadSheet = await sheetStrategy.addSheet(spreadSheet.id, missingSheetsTitles.pop(), estates);
+        spreadSheet = await sheetStrategy.addSheet(spreadSheet.id, missingSheetsTitles.pop(), EstatesSheetsHeader, convertEstatesToSheetRows(estates));
     }
     return spreadSheet;
 }

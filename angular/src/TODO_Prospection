@@ -1,0 +1,7 @@
+- créer une page Prospections dans common
+- créer un module, routing et component Prospections dans desktop/dashboard/pages et mobile/dashboard/pages
+- créer un service ProspectionHttpService et un mocked service ésuivalent dans core/services avec les méthodes de requêtes CRUD
+- créer le store prospection dans core/stores et implémenter les actions, selectors, effects et reducer
+- créer un service de popup dans common/services pour créer une prospection
+- créer un mocked Service ProspectionHttpService dans core/services
+- créer le tests E2E en verrifiant que l'ajout d'une prospection fonctionne

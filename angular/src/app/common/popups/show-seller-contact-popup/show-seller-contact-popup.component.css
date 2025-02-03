@@ -1,0 +1,10 @@
+.row {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+
+  div:first-child {
+    font-weight: bold;
+    width: 150px;
+  }
+}

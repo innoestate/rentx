@@ -1,0 +1,58 @@
+import { ProspectionDb } from "src/prospections/dto/prospection.db";
+
+export const ProspectionMocked1: ProspectionDb = {
+  id: '101',
+  user_id: 'user_001',
+  city: 'San Francisco',
+  address: '123 Market St',
+  link: 'http://example.com/property1',
+  seller_id: 'seller_001',
+  status: 'Contacted',
+  price: 1000000,
+  counter_proposal: 950000,
+  emission_date: new Date('2025-01-15'),
+  offer_id: 'offer_001',
+  construction_cost: 500000,
+  rents: null,
+  resume: 'Great investment opportunity.',
+  comment: 'Requires quick action.',
+  storage_folder_id: 'folder_001',
+};
+
+export const ProspectionMocked2: ProspectionDb = {
+  id: '102',
+  user_id: 'user_002',
+  city: 'Los Angeles',
+  address: '456 Sunset Blvd',
+  link: 'http://example.com/property2',
+  seller_id: 'seller_002',
+  status: 'Countered',
+  price: 2000000,
+  counter_proposal: 1900000,
+  emission_date: new Date('2025-01-20'),
+  offer_id: 'offer_002',
+  construction_cost: 1000000,
+  rents: null,
+  resume: 'Luxury property with high ROI.',
+  comment: 'Negotiation ongoing.',
+  storage_folder_id: 'folder_002',
+};
+
+export const ProspectionMocked3: ProspectionDb = {
+  id: '103',
+  user_id: 'user_003',
+  city: 'New York',
+  address: '789 Broadway',
+  link: 'http://example.com/property3',
+  seller_id: 'seller_003',
+  status: 'Completed',
+  price: 3000000,
+  counter_proposal: 2900000,
+  emission_date: new Date('2025-01-25'),
+  offer_id: 'offer_003',
+  construction_cost: 1500000,
+  rents: null,
+  resume: 'Prime location, excellent condition.',
+  comment: 'Deal closed successfully.',
+  storage_folder_id: 'folder_003',
+};

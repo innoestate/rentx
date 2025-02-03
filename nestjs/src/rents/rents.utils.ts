@@ -1,6 +1,6 @@
 import { Estate_filled_Db } from "src/estates/estate-filled-db.model";
-import { Rent_Db } from "./rents.db";
-import { MonthlyRents } from "./monlthy-rent.model";
+import { Rent_Db } from "./models/rents.db.model";
+import { MonthlyRents } from "./models/monlthy-rent.model";
 
 export const getRentsByMonth = (fusionnedRents: Rent_Db[], rentsFromDb?: Rent_Db[]): MonthlyRents[] => {
 

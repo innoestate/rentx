@@ -1,0 +1,14 @@
+{
+  "typescript": {
+    "enable": true,
+    "rules": {
+      "lint": false,
+      "noUnusedVars": false,   // Ignore les variables inutilisées
+      "strictNullChecks": true, // Active la vérification stricte des null
+      "allowJs": false,         // Désactive les fichiers JavaScript dans le projet
+      "noImplicitAny": false,   // Permet l'utilisation de `any`
+      "moduleResolution": "node", // Utilise le système de résolution des modules Node.js
+      "esModuleInterop": true   // Permet l'interopérabilité avec les modules ES
+    }
+  }
+}

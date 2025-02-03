@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
@@ -10,7 +10,11 @@ import { userModule } from './user/user.module';
 import { OwnersModule } from './owners/owners.module';
 import { LodgersModule } from './lodgers/lodgers.module';
 import { RentsModule } from './rents/rents.module';
+import { ProspectionsModule } from './prospections/prospections.module';
 import { createDataSourceConfig } from './scripts/create-datasource.script';
+import { OffersModule } from './offers/offers.module';
+import * as bodyParser from 'body-parser';
+
 
 @Module({
   imports: [
@@ -24,6 +28,8 @@ import { createDataSourceConfig } from './scripts/create-datasource.script';
     OwnersModule,
     LodgersModule,
     RentsModule,
+    ProspectionsModule,
+    OffersModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useClass: TypeOrmConfigService,
@@ -32,10 +38,18 @@ import { createDataSourceConfig } from './scripts/create-datasource.script';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { 
+export class AppModule implements NestModule { 
 
   constructor(){
     createDataSourceConfig()
+  }
+
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(
+        bodyParser.raw({ type: 'application/pdf', limit: '10mb' }), // Handle PDF data
+      )
+      .forRoutes('api/prospections/offers/add'); // Apply only to the specific route
   }
 
 }

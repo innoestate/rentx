@@ -1,0 +1,1 @@
+export const userMock1 = { email: 'elon.musk@spacex.io', name: 'elon musk' }

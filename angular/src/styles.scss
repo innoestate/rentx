@@ -10,6 +10,38 @@ html {
   --color-papper-background: lightyellow;
   --color-paper-font: darksalmon;
 
+  --ant-danger-color: rgb(214, 25, 25);
+
+  --rentx-prospection-color-unresponsive: #FFAB00;  // Orange pour signaler un état en attente
+  --rentx-prospection-color-contacted: #FFD700;     // Jaune pour un état initial mais pas encore avancé
+  --rentx-prospection-color-scheduled: #1E90FF;     // Bleu clair pour une étape planifiée
+  --rentx-prospection-color-visited: #00BFFF;       // Bleu un peu plus vif pour signaler une action effectuée
+  --rentx-prospection-color-abandoned: #A9A9A9;     // Gris pour une décision d'abandon
+  --rentx-prospection-color-pending: #FFA500;       // Orange vif pour une attente critique
+  --rentx-prospection-color-declined: #FF4500;      // Rouge vif pour un refus
+  --rentx-prospection-color-countered: #FF6347;     // Rouge orangé pour une contre-proposition
+  --rentx-prospection-color-accepted: #32CD32;      // Vert pour un statut positif
+  --rentx-prospection-color-validated: #228B22;     // Vert foncé pour une étape validée
+  --rentx-prospection-color-signed: #008000;        // Vert intense pour signaler une signature
+  --rentx-prospection-color-completed: #4B0082;     // Indigo pour une acquisition finalisée
+  --rentx-prospection-color-undercontract: #6A5ACD; // Violet pour signaler un contrat d’un tiers
+  --rentx-prospection-color-sold: #8B0000;          // Rouge foncé pour un bien vendu par un tiers
+
+  --rentx-prospection-color-unresponsive-active: #FFC533;  /* Brighter orange */
+  --rentx-prospection-color-contacted-active: #FFE066;     /* Lighter yellow */
+  --rentx-prospection-color-scheduled-active: #1C86EE;     /* Brighter light blue */
+  --rentx-prospection-color-visited-active: #1E90FF;       /* Even more vibrant blue */
+  --rentx-prospection-color-abandoned-active: #C0C0C0;     /* Slightly lighter gray */
+  --rentx-prospection-color-pending-active: #FFB347;       /* More vivid orange */
+  --rentx-prospection-color-declined-active: #FF6347;      /* Brighter red */
+  --rentx-prospection-color-countered-active: #FF7F50;     /* More vibrant orange-red */
+  --rentx-prospection-color-accepted-active: #3CB371;      /* Brighter green */
+  --rentx-prospection-color-validated-active: #2E8B57;     /* Slightly lighter dark green */
+  --rentx-prospection-color-signed-active: #32CD32;        /* Vivid green */
+  --rentx-prospection-color-completed-active: #6A0DAD;     /* Brighter indigo */
+  --rentx-prospection-color-undercontract-active: #836FFF; /* Brighter violet */
+  --rentx-prospection-color-sold-active: #B22222;          /* Brighter dark red */
+
 }
 
 .editable-cell-number {
@@ -67,4 +99,98 @@ html {
   width: 100%;
   height: 100%;
   border: 1px solid gray;
+}
+
+
+//TABLE STYLES
+.table-component {
+
+  .field-medium{
+    div{
+      min-width: 200px !important;
+      max-width: 200px !important;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    input{
+      min-width: 200px !important;
+      max-width: 200px !important;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+
+
+  .container{
+    height: 100%;
+  }
+
+  .table-container{
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 600px) {
+    .container {
+      width: 100%;
+    }
+  }
+
+  @media (min-width: 601px) and (max-width: 1024px) {
+    .container {
+      width: 800px;
+    }
+  }
+
+  @media (min-width: 1025px) {
+    .container {
+      width: 1000px;
+    }
+  }
+
+  .container {
+    min-height: 80vh;
+  }
+
+  .header {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .dropdown-line-content {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 200px;
+  }
+
+  .action {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .tool {
+    min-width: 20px;
+    min-height: 20px;
+    background-color: lightblue;
+    border-radius: 50%;
+  }
+
+  .clickable {
+    cursor: pointer;
+  }
+
+
 }
