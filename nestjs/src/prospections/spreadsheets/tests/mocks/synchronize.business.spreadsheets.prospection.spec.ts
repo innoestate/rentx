@@ -1,5 +1,5 @@
 import { MockedGoogleSpreadSheetStrategy } from "../../../../spreadsheets/strategies/spreadsheets.mocked.strategy";
-import { synchronizeProspections } from "../../spreadsheets.prospection.business";
+import { synchronizeProspections } from "../../business/spreadsheets.prospection.business";
 import { ProspectionMocked1, ProspectionMocked2 } from "./prospections.mocked";
 import { sellerMocked1, sellerMocked2 } from "./sellers.mocked";
 import { SpreadSheet } from "../../../../spreadsheets/models/spreadsheets.model";

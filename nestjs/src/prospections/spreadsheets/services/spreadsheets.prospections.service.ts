@@ -8,7 +8,7 @@ import { MockedGoogleSpreadSheetStrategy } from "../../../spreadsheets/strategie
 import { getLastSpreadSheetSynchronization, getNextSpreadSheetSynchronization } from "../../prospections.utils";
 import { ProspectionsDbService } from "../../services/prospections.db.service";
 import { SellersDbService } from "../../services/sellers.db.service";
-import { synchronizeProspections } from "../../spreadsheets/spreadsheets.prospection.business";
+import { synchronizeProspections } from "../business/spreadsheets.prospection.business";
 
 @Injectable()
 export class SpreadSheetsProspectionsService {

@@ -1,8 +1,8 @@
-import { SellerDb } from "../../sellers/models/seller.db";
-import { Cell, SpreadSheet, SpreadSheetUpdate } from "../../spreadsheets/models/spreadsheets.model";
-import { ProspectionBuilded } from "../dto/prospection.builded";
-import { ProspectionDb } from "../dto/prospection.db";
-import { PropertyStatusTranslation } from "../dto/prospection.dto";
+import { SellerDb } from "../../../sellers/models/seller.db";
+import { Cell, SpreadSheet, SpreadSheetUpdate } from "../../../spreadsheets/models/spreadsheets.model";
+import { ProspectionBuilded } from "../../dto/prospection.builded";
+import { ProspectionDb } from "../../dto/prospection.db";
+import { PropertyStatusTranslation } from "../../dto/prospection.dto";
 
 export const PROSPECTIONS_SPREADSHEETS_TITLE = 'Prospections immobilier';
 export const PROSPECTIONS_SHEETS_TITLES = ['Prospections', 'Vendeurs', 'Archives'];

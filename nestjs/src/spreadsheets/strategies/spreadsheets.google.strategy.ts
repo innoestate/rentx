@@ -371,7 +371,6 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
         return await this.getSpreadSheet(spreadSheet.id);
     }
 
-
     private convertCellToSchemaCellData(cell: Cell): sheets_v4.Schema$CellData {
         return { userEnteredValue: { stringValue: cell.value.toString() }, userEnteredFormat: { backgroundColor: cell.backgroundColor??{red: 1, green: 1, blue: 1} } };
     }

@@ -1,6 +1,6 @@
 import { convertColumnIndexToLetter } from "../../../spreadsheets/spreadsheets.utils";
 import { MockedGoogleSpreadSheetStrategy } from "../../../spreadsheets/strategies/spreadsheets.mocked.strategy";
-import { PROSPECTIONS_SHEETS_TITLES, convertProspectionToCells, convertSellerToCells, formatProspections, getHeader, getProspectionsCellsUpdates, getSellersCellsUpdates } from "../spreadsheets.prospection.utils";
+import { PROSPECTIONS_SHEETS_TITLES, convertProspectionToCells, convertSellerToCells, formatProspections, getHeader, getProspectionsCellsUpdates, getSellersCellsUpdates } from "../utils/spreadsheets.prospection.utils";
 import { ProspectionMocked1 } from "./mocks/prospections.mocked";
 import { sellerMocked1 } from "./mocks/sellers.mocked";
 
