@@ -29,7 +29,7 @@ export class CreateSellerPopupComponent {
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
-      email: ['', [Validators.email]],
+      email: [''],
       phone: [''],
       address: [''],
       zip: [''],
