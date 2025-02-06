@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { DesktopRoutingModule } from './desktop.routing';
 
 @NgModule({
-  declarations: [],
   imports: [
     CommonModule,
     DesktopRoutingModule

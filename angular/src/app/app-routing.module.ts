@@ -17,6 +17,14 @@ const routes: Routes = [
         path: 'desktop',
         loadChildren: () => import('./desktop/desktop.module').then(m => m.DesktopModule),
       },
+      {
+        path: 'cdu',
+        loadChildren: () => import('./common/pages/cdu/cdu.module').then(m => m.CduModule)
+      },
+      {
+        path: 'policies',
+        loadChildren: () => import('./common/pages/policies/policies.module').then(m => m.PoliciesModule)
+      },
       { path: '', redirectTo: '/me', pathMatch: 'full' }
     ]
   },
