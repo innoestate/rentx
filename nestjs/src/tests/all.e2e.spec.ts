@@ -19,6 +19,7 @@ import { prospectionsSpreadsheetTests } from './prospections/prospection.spreads
 import { dropAllTables, emptyingTable } from './utils/db.utils';
 import { buildApp } from './utils/user.utils';
 import { lastValueFrom } from 'rxjs';
+import { alphaUserTests } from './e2e/alpha-users';
 
 describe('/api', () => {
 
@@ -44,6 +45,7 @@ describe('/api', () => {
         await dropAllTables();
     });
 
+    alphaUserTests(() => app);
     prospectionsSpreadsheetTests(() => app, () => user, () => docsDbService);
     estateTests(() => app, () => user, () => estateService);
     userTests(() => app, () => user);

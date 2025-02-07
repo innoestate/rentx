@@ -13,6 +13,7 @@ import { RentsModule } from './rents/rents.module';
 import { ProspectionsModule } from './prospections/prospections.module';
 import { createDataSourceConfig } from './scripts/create-datasource.script';
 import { OffersModule } from './offers/offers.module';
+import { AlphaUsersModule } from './alphaUsers/alphaUsers.module';
 import * as bodyParser from 'body-parser';
 
 
@@ -30,6 +31,7 @@ import * as bodyParser from 'body-parser';
     RentsModule,
     ProspectionsModule,
     OffersModule,
+    AlphaUsersModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useClass: TypeOrmConfigService,
