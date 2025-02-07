@@ -1,0 +1,270 @@
+// /* Variables de couleurs */
+// $primary-color: #ff6f61; // Couleur principale
+// $secondary-color: #007BFF; // Couleur secondaire
+// $cta-color: #28a745; // Couleur du bouton d'appel à l'action
+// $cta-hover-color: #218838; // Couleur du bouton au survol
+// $text-color: #333; // Couleur du texte principal
+// $background-color: #f4f4f4; // Couleur de fond de la page
+
+
+/* Variables de couleurs */
+// $primary-color: #3e4e50; // Gris foncé élégant
+// $secondary-color: #2d87f0; // Bleu vif
+// $cta-color: #00c853; // Vert vibrant
+// $cta-hover-color: #009624; // Vert plus foncé
+// $text-color: #f7f7f7; // Blanc cassé pour le texte
+// $background-color: #ffffff; // Blanc pur
+// $footer-bg-color: #2d3c42; // Gris foncé pour le footer
+// $footer-text-color: #f7f7f7; // Blanc cassé pour le texte du footer
+
+/* Variables de couleurs */
+// $primary-color: #ff5722; // Orange vif
+// $secondary-color: #2196f3; // Bleu moyen
+// $cta-color: #8bc34a; // Vert pomme
+// $cta-hover-color: #689f38; // Vert plus sombre
+// $text-color: #333333; // Gris foncé pour un bon contraste
+// $background-color: #fafafa; // Gris clair pour le fond
+// $footer-bg-color: #263238; // Bleu foncé pour le footer
+// $footer-text-color: #ffffff; // Blanc pour le texte du footer
+
+$primary-color: #4caf50; // Vert forêt
+$secondary-color: #03a9f4; // Bleu clair
+$cta-color: #ff9800; // Orange doux
+$cta-hover-color: #f57c00; // Orange plus foncé
+$text-color: #212121; // Gris foncé pour une meilleure lisibilité
+$background-color: #e8f5e9; // Vert pâle pour un fond doux
+$footer-bg-color: #388e3c; // Vert foncé pour le footer
+$footer-text-color: #ffffff; // Blanc pour le texte du footer
+
+/* Styles globaux */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: $background-color;
+  color: $text-color;
+  margin: 0;
+  padding: 0;
+}
+
+.landing-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.header {
+  background-color: $primary-color;
+  color: white;
+  padding: 40px 20px;
+  border-radius: 8px;
+  margin-bottom: 40px;
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: normal;
+}
+
+.section {
+  margin-bottom: 30px;
+}
+
+h3 {
+  font-size: 2rem;
+  color: $primary-color;
+  margin-bottom: 10px;
+}
+
+h4 {
+  font-size: 1.5rem;
+  color: $primary-color;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  margin: 10px 0;
+}
+
+.funny-image {
+  margin-top: 20px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.cta {
+  margin-top: 50px;
+  background-color: $secondary-color;
+  color: white;
+  padding: 40px;
+  border-radius: 8px;
+}
+
+.cta-form {
+  margin: 20px;
+}
+
+input[type="email"] {
+  padding: 10px;
+  font-size: 1.2rem;
+  width: 60%;
+  border-radius: 5px;
+  border: none;
+  margin-right: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  background-color: $cta-color;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: $cta-hover-color;
+}
+
+/* Style de la classe .feature */
+.feature {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.feature:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.feature h4 {
+  font-size: 1.5rem;
+  color: #333333;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.feature p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #666666;
+  margin-bottom: 0;
+}
+
+.feature {
+  width: 100%;
+}
+
+.funny-image {
+  margin-top: 20px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsiveness - Media Queries */
+
+/* Tablette et plus grand (min-width: 768px) */
+@media (max-width: 768px) {
+  .cta-form input[type="email"] {
+    width: 80%;
+  }
+
+  .cta-form button {
+    width: 100%;
+    padding: 12px 20px;
+  }
+
+  .section {
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  .feature {
+    padding: 15px;
+  }
+
+  .feature h4 {
+    font-size: 1.3rem;
+  }
+
+  .feature p {
+    font-size: 1rem;
+  }
+
+  .cta {
+    padding: 30px;
+  }
+}
+
+/* Petit écran (max-width: 600px) */
+@media (max-width: 600px) {
+  .landing-page {
+    padding: 10px;
+  }
+
+  .header {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .cta-form input[type="email"] {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .cta-form button {
+    width: 100%;
+    padding: 14px 20px;
+    margin-top: 20px;
+  }
+
+  .feature {
+    padding: 12px;
+  }
+
+  .feature h4 {
+    font-size: 1.2rem;
+  }
+
+  .feature p {
+    font-size: 0.95rem;
+  }
+
+  .funny-image {
+    max-width: 100%;
+    margin-top: 10px;
+  }
+
+  .cta {
+    padding: 25px;
+  }
+}
+

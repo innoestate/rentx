@@ -25,6 +25,10 @@ const routes: Routes = [
         path: 'policies',
         loadChildren: () => import('./common/pages/policies/policies.module').then(m => m.PoliciesModule)
       },
+      {
+        path: 'welcom',
+        loadChildren: () => import('./common/pages/welcome/welcome.module').then(m => m.WelcomeModule)
+      },
       { path: '', redirectTo: '/me', pathMatch: 'full' }
     ]
   },
