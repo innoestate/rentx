@@ -27,14 +27,24 @@
 // $footer-bg-color: #263238; // Bleu foncé pour le footer
 // $footer-text-color: #ffffff; // Blanc pour le texte du footer
 
-$primary-color: #4caf50; // Vert forêt
-$secondary-color: #03a9f4; // Bleu clair
-$cta-color: #ff9800; // Orange doux
-$cta-hover-color: #f57c00; // Orange plus foncé
-$text-color: #212121; // Gris foncé pour une meilleure lisibilité
-$background-color: #e8f5e9; // Vert pâle pour un fond doux
-$footer-bg-color: #388e3c; // Vert foncé pour le footer
-$footer-text-color: #ffffff; // Blanc pour le texte du footer
+// $primary-color: #4caf50; // Vert forêt
+// $secondary-color: #03a9f4; // Bleu clair
+// $cta-color: #ff9800; // Orange doux
+// $cta-hover-color: #f57c00; // Orange plus foncé
+// $text-color: #212121; // Gris foncé pour une meilleure lisibilité
+// $background-color: #e8f5e9; // Vert pâle pour un fond doux
+// $footer-bg-color: #388e3c; // Vert foncé pour le footer
+// $footer-text-color: #ffffff; // Blanc pour le texte du footer
+
+$primary-color: #03a9f4; // Bleu clair (to match the prominent blue in your logo)
+$secondary-color: #00bcd4; // Bleu turquoise (a complementary color to the primary blue)
+$cta-color: #ff9800; // Orange doux (to maintain a warm contrast for calls to action)
+$cta-hover-color: #f57c00; // Orange plus foncé (to ensure visibility on hover)
+$text-color: #212121; // Gris foncé (dark for text to maintain readability)
+$background-color: #f1f8e9; // Légèrement vert pâle (a soft background to balance the palette)
+$footer-bg-color: #0288d1; // Bleu foncé (to match your primary color with contrast in the footer)
+$footer-text-color: #ffffff; // Blanc (for readability in the footer)
+
 
 /* Styles globaux */
 body {
@@ -43,6 +53,21 @@ body {
   color: $text-color;
   margin: 0;
   padding: 0;
+}
+
+.small-logo{
+  width: 70px;
+  height: 70px;
+  border-radius: 6px;
+}
+
+.section-title{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin: 20px;
 }
 
 .landing-page {
@@ -58,6 +83,10 @@ body {
   padding: 40px 20px;
   border-radius: 8px;
   margin-bottom: 40px;
+  .logo{
+    width: 50px;
+    border-radius: 50%;
+  }
 }
 
 h1 {
@@ -119,6 +148,7 @@ input[type="email"] {
   border-radius: 5px;
   border: none;
   margin-right: 10px;
+  color: black;
 }
 
 button {
@@ -169,7 +199,8 @@ button:hover {
 
 .funny-image {
   margin-top: 20px;
-  max-width: 100%;
+  max-width: 200px;
+  margin-bottom: 20px;
   height: auto;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -265,6 +296,95 @@ button:hover {
 
   .cta {
     padding: 25px;
+    button{
+      margin-top: 20px;
+    }
   }
 }
 
+
+// /* Mise en forme générale */
+// .section-small {
+//   padding: 20px;
+//   border-radius: 8px;
+//   max-width: 800px;
+//   margin: 0 auto;
+// }
+
+// .section-title {
+//   display: flex;
+//   align-items: center;
+//   margin-bottom: 20px;
+//   text-align: center;
+// }
+
+// .section-title .small-logo {
+//   width: 40px;
+//   height: auto;
+//   margin-right: 15px;
+// }
+
+// .section-title h3 {
+//   font-size: 24px;
+//   color: #333;
+//   font-weight: bold;
+//   margin: 0;
+// }
+
+// /* Mise en forme des fonctionnalités */
+// .features {
+//   display: flex;
+//   flex-direction: column;
+// }
+
+// .feature {
+//   display: flex;
+//   align-items: flex-start;
+//   margin-bottom: 15px;
+//   padding: 10px;
+//   border-radius: 8px;
+//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+// }
+
+// .feature-small {
+//   display: flex;
+//   align-items: flex-start;
+//   margin-bottom: 15px;
+//   padding: 10px;
+//   border-radius: 8px;
+//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+// }
+
+// .feature input[type="checkbox"] {
+//   width: 24px;
+//   height: 24px;
+//   margin-right: 15px;
+// }
+
+// .feature label {
+//   display: flex;
+//   flex-direction: column;
+//   flex-grow: 1;
+// }
+
+// .feature h4 {
+//   font-size: 18px;
+//   font-weight: bold;
+//   color: #333;
+//   margin-bottom: 8px;
+// }
+
+// .feature p {
+//   font-size: 16px;
+//   color: #555;
+//   line-height: 1.5;
+// }
+
+// /* Style du paragraphe de promesse */
+// p {
+//   font-size: 16px;
+//   color: #333;
+//   text-align: center;
+//   font-weight: bold;
+//   margin-top: 20px;
+// }
