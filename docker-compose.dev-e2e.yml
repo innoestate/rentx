@@ -1,0 +1,61 @@
+version: '3.7'
+services:
+
+  angular:
+    build: 
+      context: ./angular
+      dockerfile: Dockerfile.dev  # We'll create this
+    ports:
+      - "4200:4200"
+    volumes:
+      #- /app # This is the default volume in the container, use it to reinstall node_modules
+      - ./angular:/app
+      - /app/node_modules
+    command: npm run start -- --host 0.0.0.0
+    environment:
+      - NODE_ENV=development_e2e
+    networks:
+      - my-network
+
+
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    environment:
+      POSTGRES_USER: dev_e2e
+      POSTGRES_PASSWORD: devpassword
+      POSTGRES_DB: rentx_dev_e2e
+    ports:
+      - "5432:5432"
+    networks:
+      - my-network
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  nestjs:
+    container_name: nestjs
+    build:
+      context: ./nestjs
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+
+    volumes:
+      - ./nestjs:/app
+      - /app/node_modules
+    command: npm run start:dev_e2e
+    environment:
+      - NODE_ENV=development_e2e
+    networks:
+      - my-network
+    depends_on:
+      - postgres 
+    restart: always
+
+volumes:
+  pg_data:
+  
+networks:
+  my-network:
+    external: true
+    driver: bridge
