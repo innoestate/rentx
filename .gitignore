@@ -1,6 +1,14 @@
 # Node modules
 node_modules/
 
+# Cypress
+cypress/dowloads/
+cypress/videos/
+cypress/screenshots/
+
+#todo
+todo/
+
 # TypeScript output
 dist/
 

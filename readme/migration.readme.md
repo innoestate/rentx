@@ -9,6 +9,7 @@ MAKE MIGRATION
     npm run typeorm migration:generate migrations/<nameOfTheMigration>
 
 4- if a new migration folder is generate in nestjs root folder, move it into the src/migrations
+if you want to generate a new migration, check that the migration folder in the dist file in nestjs contain the last migration before to run it
 
 5- run the script to run typeorm migration
     npm run typeorm migration:run
