@@ -17,3 +17,15 @@
 import './commands'
 
 // Removed the beforeEach hook to allow adding it directly in spec files
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      /**
+       * Login with a google refresh token.
+       * Read cypress.readme.md for more information. 
+       */
+      loginByGoogleApi(): Chainable<void>;
+    }
+  }
+}

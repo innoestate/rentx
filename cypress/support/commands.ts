@@ -1,4 +1,7 @@
 /// <reference types="cypress" />
+
+import { getGoogleAccessToken, getGoogleLoginUserInfos, getRentxAccessToken, setRentxTokenToLocalStorage } from "./utils/commands.login.goole.utils"
+
 // ***********************************************
 // This example commands.ts shows you how to
 // create various custom commands and overwrite
@@ -35,3 +38,17 @@
 //     }
 //   }
 // }
+
+Cypress.Commands.add('loginByGoogleApi', () => {
+
+    getGoogleAccessToken().then(({ access_token }) => {
+        getGoogleLoginUserInfos(access_token).then((googleLoginUserInfo) => {
+            getRentxAccessToken(googleLoginUserInfo).then(({ rentxToken }) => {
+
+                setRentxTokenToLocalStorage(rentxToken);
+
+            })
+
+        })
+    })
+})
