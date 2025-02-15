@@ -1,10 +1,11 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('api/auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService, private configService: ConfigService) {}
 
   @Get('google')
   @UseGuards(AuthGuard('google'))
@@ -16,18 +17,12 @@ export class AuthController {
     return this.authService.googleLogin(req);
   }
 
-  @Get('dev/login')
-  devLogin(@Req() req) {
-    console.log('devLogin called');
-    const devUser = {
-      email: 'JohnDoe@dev.com',
-      firstName: 'John',
-      lastName: 'Doe',
-      picture: 'https://example.com/johndoe.jpg',
-      accessToken: 'factice-access-token',
-      refreshToken: 'factice-refresh-token'
+  @Post('google/dev/login')
+  devLogin(@Body() body) {
+    if(this.configService.get('NODE_ENV') !== 'development') {
+      throw new Error('Not allowed');
     }
-    return this.authService.googleLogin({user: devUser});
+    return this.authService.googleLogin(body);
   }
 
 }
