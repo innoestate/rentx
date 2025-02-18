@@ -27,6 +27,7 @@ declare global {
        */
       loginByGoogleApi(): Chainable<void>;
       preparDb(): Chainable<void>;
+      login(): Chainable<void>;
     }
   }
 }

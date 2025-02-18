@@ -1,7 +1,8 @@
 /// <reference types="cypress" />
 
-import { environment } from "../../angular/src/environments/environment"
-import { getGoogleAccessToken, getGoogleLoginUserInfos, getRentxAccessToken, setRentxTokenToLocalStorage } from "./utils/commands.login.goole.utils"
+import { johnDoe } from "./mocks/user.mock";
+import { getGoogleAccessToken, getGoogleLoginUserInfos, getRentxAccessToken, setRentxTokenToLocalStorage } from "./utils/commands.login.goole.utils";
+import { resetDb } from "./utils/commands.db.utils";
 
 // ***********************************************
 // This example commands.ts shows you how to
@@ -40,6 +41,17 @@ import { getGoogleAccessToken, getGoogleLoginUserInfos, getRentxAccessToken, set
 //   }
 // }
 
+Cypress.Commands.add('preparDb', () => {
+    resetDb();
+})
+
+Cypress.Commands.add('login', () => {
+    getRentxAccessToken({user: johnDoe}).then(({ rentxToken }) => {
+        setRentxTokenToLocalStorage(rentxToken);
+    })
+})
+
+// Read cypress.readme.md for more information (need to create a refresh token & more)
 Cypress.Commands.add('loginByGoogleApi', () => {
 
     getGoogleAccessToken().then(({ access_token }) => {
@@ -49,15 +61,7 @@ Cypress.Commands.add('loginByGoogleApi', () => {
                 setRentxTokenToLocalStorage(rentxToken);
 
             })
-
         })
     })
 })
 
-Cypress.Commands.add('preparDb', () => {
-    const request = {
-        method: 'GET',
-        url: `${environment.apiURL}/dev/resetDb`,
-    };
-    cy.request(request);
-})
