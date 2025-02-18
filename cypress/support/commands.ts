@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 
+import { environment } from "../../angular/src/environments/environment"
 import { getGoogleAccessToken, getGoogleLoginUserInfos, getRentxAccessToken, setRentxTokenToLocalStorage } from "./utils/commands.login.goole.utils"
 
 // ***********************************************
@@ -51,4 +52,12 @@ Cypress.Commands.add('loginByGoogleApi', () => {
 
         })
     })
+})
+
+Cypress.Commands.add('preparDb', () => {
+    const request = {
+        method: 'GET',
+        url: `${environment.apiURL}/dev/resetDb`,
+    };
+    cy.request(request);
 })

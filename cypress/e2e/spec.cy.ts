@@ -1,6 +1,6 @@
 describe('Google', function () {
   beforeEach(function () {
-    // cy.task('db:seed')
+    cy.preparDb()
     cy.loginByGoogleApi()
   })
 

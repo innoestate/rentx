@@ -26,6 +26,7 @@ declare global {
        * Read cypress.readme.md for more information. 
        */
       loginByGoogleApi(): Chainable<void>;
+      preparDb(): Chainable<void>;
     }
   }
 }
