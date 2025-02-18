@@ -14,6 +14,7 @@ import { ProspectionsModule } from './prospections/prospections.module';
 import { createDataSourceConfig } from './scripts/create-datasource.script';
 import { OffersModule } from './offers/offers.module';
 import { AlphaUsersModule } from './alphaUsers/alphaUsers.module';
+import { DevModule } from './dev/dev.module';
 import * as bodyParser from 'body-parser';
 
 
@@ -32,6 +33,7 @@ import * as bodyParser from 'body-parser';
     ProspectionsModule,
     OffersModule,
     AlphaUsersModule,
+    ...(process.env.NODE_ENV === 'development' ? [DevModule] : []),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useClass: TypeOrmConfigService,
