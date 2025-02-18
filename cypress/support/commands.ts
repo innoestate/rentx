@@ -46,14 +46,13 @@ Cypress.Commands.add('preparDb', () => {
 })
 
 Cypress.Commands.add('login', () => {
-    getRentxAccessToken({user: johnDoe}).then(({ rentxToken }) => {
+    getRentxAccessToken(johnDoe).then(({ rentxToken }) => {
         setRentxTokenToLocalStorage(rentxToken);
     })
 })
 
 // Read cypress.readme.md for more information (need to create a refresh token & more)
 Cypress.Commands.add('loginByGoogleApi', () => {
-
     getGoogleAccessToken().then(({ access_token }) => {
         getGoogleLoginUserInfos(access_token).then((googleLoginUserInfo) => {
             getRentxAccessToken(googleLoginUserInfo).then(({ rentxToken }) => {
