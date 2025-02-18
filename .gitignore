@@ -2,9 +2,9 @@
 node_modules/
 
 # Cypress
-cypress/dowloads/
-cypress/videos/
-cypress/screenshots/
+cypress/videos/*
+cypress/screenshots/*
+cypress/downloads/*
 
 #todo
 todo/
