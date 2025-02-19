@@ -1,5 +1,5 @@
 import { Client } from 'pg';
-import { User_Db } from 'src/user/user-db.model';
+import { User_Db } from 'src/user/models/user-db.model';
 
 export const dropAllTables = async () => {
 

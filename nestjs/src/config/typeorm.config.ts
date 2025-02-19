@@ -2,7 +2,7 @@ import { Rent_Entity } from "../rents/rents.entity";
 import { Estate } from "../estates/estate.entity";
 import { Lodger_Entity } from "../lodgers/lodger.entity";
 import { Owner_Entity } from "../owners/owners.entity";
-import { User } from "../user/user.entity";
+import { User } from "../user/data/user.entity";
 import { Docs_Entity } from "../docs/docs.entity";
 
 

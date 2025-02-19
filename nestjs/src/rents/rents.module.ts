@@ -8,7 +8,7 @@ import { Lodger_Entity } from '../lodgers/lodger.entity';
 import { LodgersService } from '../lodgers/lodgers.service';
 import { Owner_Entity } from '../owners/owners.entity';
 import { OwnersService } from '../owners/owners.service';
-import { User } from '../user/user.entity';
+import { User } from '../user/data/user.entity';
 import { UserModule } from '../user/user.module';
 import { RentsController } from './rents.controller';
 import { Rent_Entity } from './rents.entity';

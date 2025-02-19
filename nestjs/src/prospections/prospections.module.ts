@@ -7,7 +7,7 @@ import { Owner_Entity } from '../owners/owners.entity';
 import { OwnersModule } from '../owners/owners.module';
 import { Seller_Entity } from '../sellers/models/seller.entity';
 import { StorageService } from '../storage/services/storage.service';
-import { User } from '../user/user.entity';
+import { User } from '../user/data/user.entity';
 import { UserModule } from '../user/user.module';
 import { Prospection_Entity } from './entities/prospection.entity';
 import { ProspectionsController } from './prospections.controller';

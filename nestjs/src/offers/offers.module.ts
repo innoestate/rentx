@@ -5,7 +5,7 @@ import { OwnersModule } from '../owners/owners.module';
 import { Prospection_Entity } from '../prospections/entities/prospection.entity';
 import { ProspectionsDbService } from '../prospections/services/prospections.db.service';
 import { StorageService } from '../storage/services/storage.service';
-import { User } from '../user/user.entity';
+import { User } from '../user/data/user.entity';
 import { UserModule } from '../user/user.module';
 import { Offer_Entity } from './models/offer.entity';
 import { OffersController } from './offers.controler';

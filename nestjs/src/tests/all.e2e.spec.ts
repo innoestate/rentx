@@ -1,12 +1,13 @@
 import { INestApplication } from '@nestjs/common';
+import { UserDbService } from 'src/user/data/user.db.service';
 import { DocsDbService } from '../docs/docs.db.service';
 import { EstatesService } from '../estates/estates.service';
 import { LodgersService } from '../lodgers/lodgers.service';
 import { OwnersService } from '../owners/owners.service';
 import { RentsDbService } from '../rents/services/rents.db.service';
 import { StorageService } from '../storage/services/storage.service';
-import { User_Db } from '../user/user-db.model';
-import { UsersService } from '../user/services/user.service';
+import { User_Db } from '../user/models/user-db.model';
+import { alphaUserTests } from './e2e/alpha-users';
 import { estateTests } from './e2e/estates-tests';
 import { lodgersTests } from './e2e/lodgers-tests';
 import { offersTests } from './e2e/offers-test';
@@ -16,16 +17,14 @@ import { rentsTests } from './e2e/rents-tests';
 import { userTests } from './e2e/user-tests';
 import { userMock1 } from './mocks/user.mock';
 import { prospectionsSpreadsheetTests } from './prospections/prospection.spreadsheets-tests';
-import { dropAllTables, emptyingTable } from './utils/db.utils';
+import { dropAllTables } from './utils/db.utils';
 import { buildApp } from './utils/user.utils';
-import { lastValueFrom } from 'rxjs';
-import { alphaUserTests } from './e2e/alpha-users';
 
 describe('/api', () => {
 
     let app: INestApplication;
     let user: User_Db;
-    let userService: UsersService;
+    let userDbService: UserDbService;
     let ownerService: OwnersService;
     let lodgerService: LodgersService;
     let estateService: EstatesService;
@@ -56,7 +55,7 @@ describe('/api', () => {
     offersTests(() => app);
 
     const mapServices = () => {
-        userService = app.get<UsersService>(UsersService);
+        userDbService = app.get<UserDbService>(UserDbService);
         ownerService = app.get<OwnersService>(OwnersService);
         lodgerService = app.get<LodgersService>(LodgersService);
         estateService = app.get<EstatesService>(EstatesService);
@@ -66,7 +65,7 @@ describe('/api', () => {
     }
 
     const getUser = async () => {
-        return await userService.findByEmail(userMock1.email)  as any;
+        return await userDbService.getByEmail(userMock1.email)  as any;
     }
 
 })

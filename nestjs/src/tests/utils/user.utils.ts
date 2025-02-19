@@ -1,12 +1,12 @@
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { lastValueFrom } from 'rxjs';
+import { UserDbService } from '../../user/data/user.db.service';
 import { AppModule } from '../../app.module';
 import { JwtAuthGuard } from '../../auth/auth.guard';
 import { MockJwtAuthGuard } from '../../guards/auth.guard.mock';
 import { StorageService } from '../../storage/services/storage.service';
 import { StorageMockedService } from '../../storage/tests/storage.mocked.service';
-import { UsersService } from 'src/user/services/user.service';
 
 export const buildApp = async (user: {email: string, name: string}) => {
     const moduleRef = await Test.createTestingModule({
@@ -25,6 +25,6 @@ export const buildApp = async (user: {email: string, name: string}) => {
 }
 
 const stakeUserInDb = async (app: INestApplication, user: {email: string, name: string}) => {
-    const userService = app.get<UsersService>(UsersService);
-    await lastValueFrom(userService.createWithOwner(user.email, { name: user.name }));
+    const userService = app.get<UserDbService>(UserDbService);
+    await lastValueFrom(userService.create({email: user.email, refresh_token: ''}));
 }

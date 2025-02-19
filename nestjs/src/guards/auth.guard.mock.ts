@@ -1,6 +1,6 @@
 
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
-import { User_Db } from '../user/user-db.model';
+import { User_Db } from '../user/models/user-db.model';
 
 @Injectable()
 export class MockJwtAuthGuard implements CanActivate {
