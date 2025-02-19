@@ -6,7 +6,7 @@ import { OwnersService } from '../owners/owners.service';
 import { RentsDbService } from '../rents/services/rents.db.service';
 import { StorageService } from '../storage/services/storage.service';
 import { User_Db } from '../user/user-db.model';
-import { UsersService } from '../user/user.service';
+import { UsersService } from '../user/services/user.service';
 import { estateTests } from './e2e/estates-tests';
 import { lodgersTests } from './e2e/lodgers-tests';
 import { offersTests } from './e2e/offers-test';

@@ -8,11 +8,13 @@ import { GoogleStrategy } from './google.strategy';
 import { JwtStrategy } from './jwt.strategy';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../user/user.entity';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'google' }),
     ConfigModule,
+    UserModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({

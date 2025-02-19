@@ -6,7 +6,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmConfigService } from './services/typeorm.service';
 import { EstatesModule } from './estates/estates.module';
-import { userModule } from './user/user.module';
+import { UserModule } from './user/user.module';
 import { OwnersModule } from './owners/owners.module';
 import { LodgersModule } from './lodgers/lodgers.module';
 import { RentsModule } from './rents/rents.module';
@@ -25,7 +25,7 @@ import * as bodyParser from 'body-parser';
       isGlobal: true,
     }),
     AuthModule,
-    userModule,
+    UserModule,
     EstatesModule,
     OwnersModule,
     LodgersModule,

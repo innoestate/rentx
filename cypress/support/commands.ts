@@ -56,9 +56,7 @@ Cypress.Commands.add('loginByGoogleApi', () => {
     getGoogleAccessToken().then(({ access_token }) => {
         getGoogleLoginUserInfos(access_token).then((googleLoginUserInfo) => {
             getRentxAccessToken(googleLoginUserInfo).then(({ rentxToken }) => {
-
                 setRentxTokenToLocalStorage(rentxToken);
-
             })
         })
     })
