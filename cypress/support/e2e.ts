@@ -14,7 +14,8 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import './commands';
+import { User } from './models/user.model';
 
 // Removed the beforeEach hook to allow adding it directly in spec files
 
@@ -27,7 +28,7 @@ declare global {
        */
       loginByGoogleApi(): Chainable<void>;
       preparDb(): Chainable<void>;
-      login(): Chainable<void>;
+      login(user: User): Chainable<void>;
     }
   }
 }

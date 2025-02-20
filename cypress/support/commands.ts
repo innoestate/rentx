@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 
-import { johnDoe } from "./mocks/user.mock";
-import { getGoogleAccessToken, getGoogleLoginUserInfos, getRentxAccessToken, setRentxTokenToLocalStorage } from "./utils/commands.login.goole.utils";
+import { User } from "./models/user.model";
 import { resetDb } from "./utils/commands.db.utils";
+import { getGoogleAccessToken, getGoogleLoginUserInfos, getRentxAccessToken, setRentxTokenToLocalStorage } from "./utils/commands.login.goole.utils";
 
 // ***********************************************
 // This example commands.ts shows you how to
@@ -45,8 +45,8 @@ Cypress.Commands.add('preparDb', () => {
     resetDb();
 })
 
-Cypress.Commands.add('login', () => {
-    getRentxAccessToken(johnDoe).then(({ rentxToken }) => {
+Cypress.Commands.add('login', (user: User) => {
+    getRentxAccessToken(user).then(({ rentxToken }) => {
         setRentxTokenToLocalStorage(rentxToken);
     })
 })
@@ -61,4 +61,3 @@ Cypress.Commands.add('loginByGoogleApi', () => {
         })
     })
 })
-

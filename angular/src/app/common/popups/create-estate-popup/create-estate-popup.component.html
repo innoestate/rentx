@@ -1,16 +1,16 @@
-<form [formGroup]="formGroup" class="form-group-popup">
+<form data-cy="create-estate-form" [formGroup]="formGroup" class="form-group-popup">
 
   <label for="name">Adresse</label>
-  <input type="text" class="form-control" formControlName="street">
+  <input data-cy="create-estate-street" type="text" class="form-control" formControlName="street">
 
   <label for="name">Ville</label>
-  <input type="text" class="form-control" formControlName="city">
+  <input data-cy="create-estate-city" type="text" class="form-control" formControlName="city">
 
   <label for="name">Code Postal</label>
-  <input type="text" class="form-control" formControlName="zip">
+  <input data-cy="create-estate-zip" type="text" class="form-control" formControlName="zip">
 
   <label for="name">Lot</label>
-  <input type="text" class="form-control" formControlName="plot">
+  <input data-cy="create-estate-plot" type="text" class="form-control" formControlName="plot">
 
   <label for="owner">Propriétaire</label>
   <nz-select class="select" formControlName="owner" nzPlaceHolder="Propriétaire">
@@ -21,5 +21,5 @@
 
 </form>
 <div class="footer">
-  <button nz-button nzType="primary" (click)="create()">créer</button>
+  <button data-cy="create-estate-submit" nz-button nzType="primary" (click)="create()">créer</button>
 </div>
