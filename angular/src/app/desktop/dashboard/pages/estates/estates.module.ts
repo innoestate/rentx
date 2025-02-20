@@ -19,6 +19,7 @@ import { EstateTableOwnerCellComponent } from './estate-table-owner-cell/estate-
 import { EstatesPageDesktopComponent } from './estates.component';
 import { EstatesDesktopRoutingModule } from './estates.routing';
 import { RentService } from 'src/app/common/services/rents.service';
+import { UxModule } from 'src/app/ux/ux.module';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { RentService } from 'src/app/common/services/rents.service';
     NzTableModule,
     NzInputNumberModule,
     NzDropDownModule,
-    NzIconModule
+    NzIconModule,
+    UxModule,
   ],
   providers: [
     RentService

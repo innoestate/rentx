@@ -14,7 +14,7 @@ export abstract class ProspectionFacade {
 
   abstract getSellers(): Signal<Seller[] | undefined>
 
-  abstract updateSeller(seller: Seller): Observable<Seller | undefined>
+  // abstract updateSeller(seller: Seller): Observable<Seller | undefined>
 
   abstract setSeller(propsection: Prospection, seller: Seller): void
 

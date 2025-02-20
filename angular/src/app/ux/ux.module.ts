@@ -2,15 +2,21 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { PopupService } from './popup/services/popup.service';
+import { UxButtonComponent } from './popup/components/ux-button/ux-button.component';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    UxButtonComponent
+  ],
   imports: [
     CommonModule,
-    NzModalModule
+    NzModalModule,
+    NzButtonModule
   ],
   exports: [
-    NzModalModule
+    NzModalModule,
+    UxButtonComponent
   ],
   providers: [
     PopupService

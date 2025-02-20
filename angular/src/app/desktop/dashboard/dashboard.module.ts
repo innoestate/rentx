@@ -5,7 +5,6 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
-import { UxModule } from 'src/app/ux/ux.module';
 import { DashboardDesktopComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard.routing';
 import { MenuDesktopComponent } from './menu/menu.component';
@@ -18,12 +17,11 @@ import { MenuDesktopComponent } from './menu/menu.component';
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    UxModule,
     NzLayoutModule,
     NzMenuModule,
     NzButtonModule,
     NzDropDownModule,
     NzNotificationModule
-  ]
+  ],
 })
 export class DashboardModule { }

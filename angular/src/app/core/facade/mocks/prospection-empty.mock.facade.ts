@@ -22,19 +22,19 @@ export class ProspectionEmptyMockedFacade extends ProspectionFacade {
     ));
   }
 
-  getSellers(): Signal<Seller[] | undefined> {
+  override getSellers(): Signal<Seller[] | undefined> {
     return toSignal(of(sellers));
   }
 
-  setSeller(prospection: Prospection, seller: Seller) { }
+  override setSeller(prospection: Prospection, seller: Seller) { }
 
-  setSellerSuccess() {
+  override setSellerSuccess() {
     return toSignal(of(true).pipe(
       delay(100)
     ));
   }
 
-  setSellerFailure() {
+  override setSellerFailure() {
     return toSignal(of(true).pipe(
       delay(100000000),
       catchError(() => of(true)),
