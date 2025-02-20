@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { catchError, map, Observable, of, switchMap } from 'rxjs';
+import { catchError, from, map, Observable, of, switchMap, tap } from 'rxjs';
 import { User_Db } from '../user/models/user-db.model';
 import { OwnersService } from '../owners/owners.service';
 import { UserDbService } from '../user/data/user.db.service';
@@ -32,7 +32,7 @@ export class AuthService {
     const ownerData = extractOwnerFromAuthUser(authUser);
     return this.userServiceDb.create({ email: authUser.email, google_refresh_token: authUser?.refreshToken }).pipe(
       switchMap(createdUser => {
-        return this.ownerServiceDb.create({ ...ownerData, user_id: createdUser.id, }).pipe(
+        return from(this.ownerServiceDb.create({ ...ownerData, user_id: createdUser.id, })).pipe(
           map(() => createdUser),
           catchError(() => {
             return of(createdUser);

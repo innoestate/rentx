@@ -19,22 +19,22 @@ export class Owner_Entity {
     @Column({ length: 100})
     name: string;
 
-    @Column({ length: 100})
+    @Column({ length: 100, nullable: true})
     street: string;
 
-    @Column({ length: 100})
+    @Column({ length: 100, nullable: true})
     city: string;
 
-    @Column({ length: 100})
+    @Column({ length: 100, nullable: true})
     zip: string;
 
-    @Column({ type: 'text'})
+    @Column({ type: 'text', nullable: true})
     signature: string;
 
-    @Column({ length: 100})
+    @Column({ length: 100, nullable: true})
     email: string;
 
-    @Column({ length: 100})
+    @Column({ length: 100, nullable: true})
     phone: string;
 
 }

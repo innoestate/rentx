@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { from, Observable, of } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { DeepPartial, Repository } from 'typeorm';
+import { DatabaseError } from '../errors/data.error';
+import { Owner_Db } from './owners-db.model';
 import { Owner_Dto } from './owners-dto.model';
 import { Owner_Entity } from './owners.entity';
-import { catchError, tap } from 'rxjs/operators';
-import { Owner_Db } from './owners-db.model';
 
 @Injectable()
 export class OwnersService {
@@ -16,8 +16,12 @@ export class OwnersService {
   ) { }
 
   create(ownerDto: Owner_Dto): Observable<Owner_Entity> {
-    const owner = this.ownerRepository.create(ownerDto);
-    return from(this.ownerRepository.save(owner));
+    try {
+      const owner = this.ownerRepository.create(ownerDto);
+      return from(this.ownerRepository.save(owner));
+    }catch(err) {
+      throw new DatabaseError(`Error creating owner: ${err.message}`);
+    }
   }
 
   update(ownerDto: DeepPartial<Owner_Entity>): Observable<any> {
