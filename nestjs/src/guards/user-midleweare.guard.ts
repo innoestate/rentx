@@ -15,8 +15,8 @@ export class UserMidleweare implements CanActivate {
       return this.userDbService.getById(req.user.id).pipe(
         map(user => ({ ...user, ...req.user })),
         tap(user => {
-          if(req.user.refresh_token && req.user.refresh_token !== user.refresh_token){
-            this.userDbService.update(req.user.id, {refresh_token: req.user.refresh_token}).pipe(
+          if(req.user.google_refresh_token && req.user.google_refresh_token !== user.google_refresh_token){
+            this.userDbService.update(req.user.id, {google_refresh_token: req.user.google_refresh_token}).pipe(
               take(1)
             ).subscribe();
           }

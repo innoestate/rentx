@@ -1,4 +1,4 @@
 export interface User_Dto {
     email: string;
-    refresh_token?: string;
+    google_refresh_token?: string;
 }

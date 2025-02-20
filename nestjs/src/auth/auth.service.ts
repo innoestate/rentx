@@ -30,7 +30,7 @@ export class AuthService {
 
   private createNewUserWithAffiliatedOwner(authUser: AuthUser): Observable<User_Db> {
     const ownerData = extractOwnerFromAuthUser(authUser);
-    return this.userServiceDb.create({ email: authUser.email, refresh_token: authUser?.refreshToken }).pipe(
+    return this.userServiceDb.create({ email: authUser.email, google_refresh_token: authUser?.refreshToken }).pipe(
       switchMap(createdUser => {
         return this.ownerServiceDb.create({ ...ownerData, user_id: createdUser.id, }).pipe(
           map(() => createdUser),

@@ -26,5 +26,5 @@ export const buildApp = async (user: {email: string, name: string}) => {
 
 const stakeUserInDb = async (app: INestApplication, user: {email: string, name: string}) => {
     const userService = app.get<UserDbService>(UserDbService);
-    await lastValueFrom(userService.create({email: user.email, refresh_token: ''}));
+    await lastValueFrom(userService.create({email: user.email, google_refresh_token: ''}));
 }

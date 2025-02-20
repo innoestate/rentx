@@ -15,8 +15,8 @@ export class User {
     @Column({ unique: true })
     email: string;
 
-    @Column({ nullable: true, length: 100 })
-    refresh_token: string;
+    @Column({ nullable: true, length: 512 })
+    google_refresh_token: string;
 
     @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     created_at: Timestamp;
