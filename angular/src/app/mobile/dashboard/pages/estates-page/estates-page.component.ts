@@ -3,7 +3,6 @@ import { EstatePage } from '../../../../common/pages/estates.page.component';
 import { CreateOwnerPopupComponent } from 'src/app/common/popups/create-owner-popup/create-owner-popup.component';
 import { CreateLodgerPopupComponent } from 'src/app/common/popups/create-lodger-popup/create-lodger-popup.component';
 import { Store } from '@ngrx/store';
-import { NzModalService } from 'ng-zorro-antd/modal';
 import { Actions } from '@ngrx/effects';
 import { RentService } from 'src/app/common/services/rents.service';
 import { Estate } from 'src/app/core/models/estate.model';
@@ -13,6 +12,7 @@ import { deleteOwner } from 'src/app/core/store/owner/owners.actions';
 import { deleteLodger } from 'src/app/core/store/lodger/lodgers.actions';
 import { Lodger } from 'src/app/core/models/lodger.model';
 import { RentsHttpService } from 'src/app/core/services/rents.http.service';
+import { PopupService } from 'src/app/ux/popup/services/popup.service';
 
 @Component({
   selector: 'app-estates-page',
@@ -21,17 +21,13 @@ import { RentsHttpService } from 'src/app/core/services/rents.http.service';
 })
 export class EstatesMobilePageComponent extends EstatePage {
 
-  constructor(protected override store: Store, protected override modalService: NzModalService, protected override actions$: Actions, protected rentService: RentService, protected ownerService: OwnerService, protected override rentHttpService: RentsHttpService) {
-    super(store, modalService, actions$, rentHttpService);
+  constructor(protected override store: Store, protected override actions$: Actions, protected rentService: RentService, protected ownerService: OwnerService, protected override rentHttpService: RentsHttpService, protected override popupService: PopupService) {
+    super(store, actions$, rentHttpService, popupService);
   }
 
 
   openCreateOwner() {
-    this.modalService.create({
-      nzTitle: 'Ajouter un nouveau propriétaire',
-      nzContent: CreateOwnerPopupComponent,
-      nzFooter: null
-    })
+    this.popupService.openPopup(CreateOwnerPopupComponent, 'Ajouter un nouveau propriétaire');
   }
 
   openCreateLodger() {

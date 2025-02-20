@@ -1,13 +1,14 @@
 import { Directive, OnInit } from '@angular/core';
 import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { Observable } from 'rxjs';
 import { Estate } from 'src/app/core/models/estate.model';
 import { RentsHttpService } from 'src/app/core/services/rents.http.service';
 import { deleteEstate, loadEstates } from 'src/app/core/store/estate/estates.actions';
 import { selectEstates } from 'src/app/core/store/estate/estates.selectors';
 import { selectLodgers } from 'src/app/core/store/lodger/lodgers.selectors';
 import { selectOwners } from 'src/app/core/store/owner/owners.selectors';
+import { PopupService } from 'src/app/ux/popup/services/popup.service';
 import { CreateDesktopEstatePopupComponent } from '../popups/create-estate-popup/create-estate-popup.component';
 
 @Directive()
@@ -18,7 +19,7 @@ export class EstatePage implements OnInit {
   estates = this.store.selectSignal(selectEstates);
   editId!: string | null;
 
-  constructor(protected store: Store, protected modalService: NzModalService, protected actions$: Actions, protected rentHttpService: RentsHttpService) { }
+  constructor(protected store: Store, protected actions$: Actions, protected rentHttpService: RentsHttpService, protected popupService: PopupService) { }
 
   ngOnInit(): void {
     this.store.dispatch(loadEstates());
@@ -28,12 +29,8 @@ export class EstatePage implements OnInit {
     this.rentHttpService.synchronizeGoogleSheet().subscribe();
   }
 
-  openCreateEstatePopup(): NzModalRef<CreateDesktopEstatePopupComponent> {
-    return this.modalService.create({
-      nzTitle: 'Créer un nouveau bien',
-      nzContent: CreateDesktopEstatePopupComponent,
-      nzFooter: null
-    })
+  openCreateEstatePopup(): Observable<any> {
+    return this.popupService.openPopup(CreateDesktopEstatePopupComponent, 'Créer un nouveau bien');
   }
 
   startEdit(id: string, ref: HTMLInputElement) {

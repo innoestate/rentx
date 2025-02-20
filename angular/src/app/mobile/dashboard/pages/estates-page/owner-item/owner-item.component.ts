@@ -1,9 +1,9 @@
-import { Component, effect, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { NzModalService } from 'ng-zorro-antd/modal';
 import { OwnerComponent } from 'src/app/common/components/owner.component';
 import { Owner } from 'src/app/core/models/owner.model';
+import { PopupService } from 'src/app/ux/popup/services/popup.service';
 
 @Component({
   selector: 'owner-item',
@@ -14,8 +14,8 @@ export class OwnerItemComponent extends OwnerComponent {
 
   selectedOwner: Owner | null | undefined = null;
 
-  constructor(protected override store: Store, protected override modalService: NzModalService, protected override actions$: Actions) {
-    super(store, modalService, actions$);
+  constructor(protected override store: Store, protected override popupService: PopupService, protected override actions$: Actions) {
+    super(store, popupService, actions$);
 
     effect(() => {
       this.selectedOwner = this.estate().owner;

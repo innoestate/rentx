@@ -33,6 +33,7 @@ import { DeviceGuard } from './core/guards/device.guard';
 import { UserEffects } from './core/store/user/user.effects';
 import { userReducer } from './core/store/user/user.reducers';
 import { LoginComponent } from './login/login.component';
+import { UxModule } from './ux/ux.module';
 
 registerLocaleData(en);
 
@@ -47,6 +48,7 @@ registerLocaleData(en);
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    // UxModule,
     NzButtonModule,
     NzCardModule,
     NzSpinModule,
@@ -76,7 +78,6 @@ registerLocaleData(en);
     ]),
     NzLayoutModule,
     NzDropDownModule,
-    NzModalModule,
     StoreModule.forRoot({ user: userReducer }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,

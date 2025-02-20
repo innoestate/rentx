@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { NzModalService } from "ng-zorro-antd/modal";
 import { combineLatest, delay, map, Observable, of, race, switchMap, take, tap } from "rxjs";
 import { Estate } from "src/app/core/models/estate.model";
 import { Lodger } from "src/app/core/models/lodger.model";
@@ -13,13 +12,14 @@ import { downloadRentReceipt, senddRentReceipt } from "src/app/core/store/rents/
 import { CompleteRentReceiptPopupComponent } from "../popups/complete-rent-receipt-popup/complete-rent-receipt-popup.component";
 import { CreateCustomizedRentReceiptPopupComponent } from "../popups/create-customized-rent-receipt-popup/create-customized-rent-receipt-popup.component";
 import { CreateLodgerPopupComponent } from "../popups/create-lodger-popup/create-lodger-popup.component";
+import { PopupService } from "src/app/ux/popup/services/popup.service";
 
 @Injectable({
   providedIn: 'root',
 })
 export class RentService {
 
-  constructor(private store: Store, private modalService: NzModalService, private actions$: Actions) { }
+  constructor(private store: Store, private popupService: PopupService, private actions$: Actions) { }
 
 
   protected sendDownloadRentReceiptRequest(estate: Estate) {
@@ -27,12 +27,7 @@ export class RentService {
   }
 
   openCreateLodgerPopup(estate?: Estate) {
-    this.modalService.create({
-      nzTitle: 'Ajouter un nouveau locataire',
-      nzContent: CreateLodgerPopupComponent,
-      nzData: { estate },
-      nzFooter: null
-    });
+    this.popupService.openPopup(CreateLodgerPopupComponent, 'Ajouter un nouveau locataire', { estate });
   }
 
 
@@ -88,22 +83,12 @@ export class RentService {
   }
 
   private openCustomizedRentReceiptPopup(estate: Estate) {
-    return this.modalService.create({
-      nzTitle: 'Créer une quittance personnalisée',
-      nzContent: CreateCustomizedRentReceiptPopupComponent,
-      nzData: { estate: estate },
-      nzFooter: null
-    }).afterClose;
+    return this.popupService.openPopup(CreateCustomizedRentReceiptPopupComponent, 'Créer une quittance personnalisée', { estate });
   }
 
 
   private openCompletePopupForRentReceipt(fields: string[]) {
-    return this.modalService.create({
-      nzTitle: 'Compléter les informations pour la quittance',
-      nzContent: CompleteRentReceiptPopupComponent,
-      nzData: { fields },
-      nzFooter: null
-    }).afterClose;
+    return this.popupService.openPopup(CompleteRentReceiptPopupComponent, 'Compléter les informations pour la quittance', { fields });
   }
 
 

@@ -18,6 +18,7 @@ import { EstateTableLodgerCellComponent } from './estate-table-lodger-cell/estat
 import { EstateTableOwnerCellComponent } from './estate-table-owner-cell/estate-table-owner-cell.component';
 import { EstatesPageDesktopComponent } from './estates.component';
 import { EstatesDesktopRoutingModule } from './estates.routing';
+import { RentService } from 'src/app/common/services/rents.service';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,9 @@ import { EstatesDesktopRoutingModule } from './estates.routing';
     NzInputNumberModule,
     NzDropDownModule,
     NzIconModule
+  ],
+  providers: [
+    RentService
   ]
 })
 export class EstatesModule { }

@@ -1,7 +1,6 @@
-import { computed, Directive, input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { NzModalService } from 'ng-zorro-antd/modal';
 import { Estate } from 'src/app/core/models/estate.model';
 import { Lodger } from 'src/app/core/models/lodger.model';
 import { editEstate } from 'src/app/core/store/estate/estates.actions';
@@ -15,7 +14,7 @@ export class LodgerComponent {
   estate = input.required<Estate>();
   lodgers = this.store.selectSignal(selectLodgers);
 
-  constructor(protected store: Store, protected modalService: NzModalService, protected actions$: Actions, protected rentService: RentService) { }
+  constructor(protected store: Store, protected actions$: Actions, protected rentService: RentService) { }
 
   downloadCustomizedRentReceipt() {
     this.rentService.downloadCustomizedRentReceipt(this.estate());

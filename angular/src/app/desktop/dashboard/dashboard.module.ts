@@ -1,13 +1,14 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardDesktopComponent } from './dashboard.component';
-import { DashboardRoutingModule } from './dashboard.routing';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { MenuDesktopComponent } from './menu/menu.component';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NgModule } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { UxModule } from 'src/app/ux/ux.module';
+import { DashboardDesktopComponent } from './dashboard.component';
+import { DashboardRoutingModule } from './dashboard.routing';
+import { MenuDesktopComponent } from './menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
   imports: [
     CommonModule,
     DashboardRoutingModule,
+    UxModule,
     NzLayoutModule,
     NzMenuModule,
     NzButtonModule,

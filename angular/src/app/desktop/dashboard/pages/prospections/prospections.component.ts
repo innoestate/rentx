@@ -1,16 +1,15 @@
 import { Component, computed, OnInit, Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { loadProspections, removeProspection, setProspectionFilters, updateProspection } from 'src/app/core/store/prospections/prospections.actions';
-import { selectAllCities, selectFilteredProspections } from 'src/app/core/store/prospections/prospections.selectors';
-import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { CreateProspectionComponent } from 'src/app/common/popups/create-prospection/create-prospection.component';
 import { CreateSellerPopupComponent } from 'src/app/common/popups/create-seller-popup/create-seller-popup.component';
-import { Prospection } from 'src/app/core/models/prospection.model';
 import { PropertyStatusTypes, PROSPECTION_STATUS, ProspectionStatus } from 'src/app/core/models/dtos/prospection.dto.model';
-import { PROSPECTION_COLUMNS } from './utils/prospections.utils';
-import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import { Prospection } from 'src/app/core/models/prospection.model';
+import { loadProspections, removeProspection, setProspectionFilters, updateProspection } from 'src/app/core/store/prospections/prospections.actions';
+import { selectAllCities, selectFilteredProspections } from 'src/app/core/store/prospections/prospections.selectors';
 import { selectAllSellers } from 'src/app/core/store/sellers/sellers.selectors';
-import { Seller } from 'src/app/core/models/seller.model';
+import { PopupService } from 'src/app/ux/popup/services/popup.service';
+import { PROSPECTION_COLUMNS } from './utils/prospections.utils';
 
 @Component({
   selector: 'app-prospections',
@@ -36,7 +35,7 @@ export class ProspectionsDesktopComponent  implements OnInit {
   hoveredRow: any = null;
   editLink = false;
 
-  constructor(private store: Store, private modalService: NzModalService) {
+  constructor(private store: Store, private popupService: PopupService) {
     this.store.dispatch(loadProspections());
   }
 
@@ -62,19 +61,11 @@ export class ProspectionsDesktopComponent  implements OnInit {
   }
 
   openCreatePropspectionPopup() {
-    this.modalService.create({
-      nzTitle: 'Create Prospection',
-      nzContent: CreateProspectionComponent,
-      nzFooter: null
-    });
+    this.popupService.openPopup(CreateProspectionComponent, 'Ajouter une nouvelle prospection')
   }
 
   openCreateSellerPopup() {
-    this.modalService.create({
-      nzTitle: 'Create Seller',
-      nzContent: CreateSellerPopupComponent,
-      nzFooter: null
-    });
+    this.popupService.openPopup(CreateSellerPopupComponent, 'Ajouter un vendeur / agent')
   }
 
   remove(prospection: Prospection) {
