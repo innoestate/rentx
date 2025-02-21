@@ -1,2 +1,6 @@
 
-<button [attr.data-cy]="cySelector()" nz-button [nzType]="type()" (onClick)="onClick()">{{text()}}</button>
+@if(this.nzDanger()){
+  <button [attr.data-cy]="cySelector()" nz-button nzDanger [nzType]="nzType()" [disabled]="disabled()" (onClick)="onClick()">{{text()}}</button>
+}@else{
+  <button [attr.data-cy]="cySelector()" nz-button  [nzType]="nzType()" [disabled]="disabled()" (onClick)="onClick()">{{text()}}</button>
+}
