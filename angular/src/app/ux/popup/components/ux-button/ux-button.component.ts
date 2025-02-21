@@ -9,5 +9,10 @@ export class UxButtonComponent {
 
   click = output();
   text = input.required<string>();
+  cySelector = input<string>();
+
+  onClick() {
+    this.click.emit();
+  }
 
 }

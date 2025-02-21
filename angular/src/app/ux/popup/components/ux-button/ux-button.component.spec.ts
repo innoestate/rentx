@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NzButtonModule } from 'ng-zorro-antd/button';
+import { ComponentFixture } from '@angular/core/testing';
 import { UxButtonComponent } from './ux-button.component';
+import { configureFixture, configureModule } from './ux-button.utils';
 
 describe('UxButtonComponent', () => {
   let component: UxButtonComponent;
@@ -8,16 +8,11 @@ describe('UxButtonComponent', () => {
 
   beforeEach(async () => {
 
-    await TestBed.configureTestingModule({
-      declarations: [UxButtonComponent],
-      imports: [NzButtonModule]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(UxButtonComponent);
-    fixture.componentRef.setInput('text', 'Test Button Text');
+    await configureModule();
+    fixture = await configureFixture();
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    spyOn(component.click, 'emit');
+
   });
 
   it('should contain the text value', () => {
@@ -30,5 +25,9 @@ describe('UxButtonComponent', () => {
     expect(button).toBeTruthy();
   });
 
+  it('should trigger the click event', () => {
+    fixture.componentRef.instance.onClick();
+    expect(component.click.emit).toHaveBeenCalled();
+  });
 
 });

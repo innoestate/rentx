@@ -1,2 +1,2 @@
 
-<button nz-button nzType="default" (click)="click.emit()">{{text()}}</button>
+<button [attr.data-cy]="cySelector()" nz-button nzType="default" (onClick)="onClick()">{{text()}}</button>
