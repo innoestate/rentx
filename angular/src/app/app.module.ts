@@ -48,7 +48,6 @@ registerLocaleData(en);
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    // UxModule,
     NzButtonModule,
     NzCardModule,
     NzSpinModule,

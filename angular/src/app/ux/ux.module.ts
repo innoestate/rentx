@@ -6,20 +6,18 @@ import { UxButtonComponent } from './popup/components/ux-button/ux-button.compon
 import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @NgModule({
-  declarations: [
-    UxButtonComponent
-  ],
   imports: [
     CommonModule,
     NzModalModule,
-    NzButtonModule
+    NzButtonModule,
+    UxButtonComponent
   ],
   exports: [
     NzModalModule,
     UxButtonComponent
   ],
   providers: [
-    PopupService
+    PopupService,
   ]
 })
 export class UxModule { }
