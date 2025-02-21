@@ -32,7 +32,6 @@ describe('UxButtonComponent danger', () => {
 
   it('should have a button with the attribute nzdanger', () => {
     const button = fixture.nativeElement.querySelector('button');
-    console.log(button);
     expect(button.classList.contains('ant-btn-dangerous')).toBeTrue();
   })
 

@@ -12,7 +12,7 @@ import { UxButtonType } from './types/ux-button.type.type';
 export class UxButtonComponent {
 
   text = input.required<string>();
-  cySelector = input<string>();
+  testSelector = input<string>();
   type = input<UxButtonType>('default');
   disabled = input<boolean>(false);
   click = output();
