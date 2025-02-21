@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NzButtonModule } from 'ng-zorro-antd/button';
 import SignaturePad from 'signature_pad';
+import { UxButtonComponent } from 'src/app/ux/popup/components/ux-button/ux-button.component';
 
 
 @Component({
@@ -9,7 +9,7 @@ import SignaturePad from 'signature_pad';
   templateUrl: './signature.component.html',
   styleUrl: './signature.component.less',
   standalone: true,
-  imports: [NzButtonModule],
+  imports: [UxButtonComponent],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

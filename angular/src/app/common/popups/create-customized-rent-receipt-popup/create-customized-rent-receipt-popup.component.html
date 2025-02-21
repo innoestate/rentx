@@ -6,6 +6,6 @@
 </form>
 
 <div class="modal-footer">
-  <button nz-button nzType="primary" (click)="download()">télécharger</button>
-  <button nz-button nzType="primary" (click)="sendByEmail()">envoyer par email</button>
+  <ux-button [text]="'télécharger'" [type]="'primary'" (click)="download()"></ux-button>
+  <ux-button [text]="'envoyer par email'" [type]="'primary'" (click)="sendByEmail()"></ux-button>
 </div>

@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { CreateOwnerComponent } from '../../components/create-owner.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzButtonModule } from 'ng-zorro-antd/button';
 import { SignatureComponent } from '../../components/signature-pad/signature.component';
+import { UxButtonComponent } from 'src/app/ux/popup/components/ux-button/ux-button.component';
 
 @Component({
   selector: 'app-create-owner-popup',
@@ -11,11 +11,11 @@ import { SignatureComponent } from '../../components/signature-pad/signature.com
   imports: [
     ReactiveFormsModule,
     NzSelectModule,
-    NzButtonModule,
+    UxButtonComponent,
     SignatureComponent
   ],
   templateUrl: './create-owner-popup.component.html',
-  styleUrl: './create-owner-popup.component.scss'
+  styleUrls: ['./create-owner-popup.component.scss']
 })
 export class CreateOwnerPopupComponent extends CreateOwnerComponent {
 

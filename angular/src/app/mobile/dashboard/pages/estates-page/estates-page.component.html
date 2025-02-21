@@ -1,7 +1,7 @@
 <div class="add-estate-button-container">
-  <button nz-button nzType="primary" (click)="openCreateEstatePopup()">+ bien</button>
-  <button nz-button nzType="primary" nz-dropdown [nzDropdownMenu]="owner">propriétaire</button>
-  <button nz-button nzType="primary" nz-dropdown [nzDropdownMenu]="lodger">locataire</button>
+  <ux-button [text]="'+ bien'" [type]="'primary'" (click)="openCreateEstatePopup()"></ux-button>
+  <ux-button [text]="'propriétaire'" [type]="'primary'" nz-dropdown [nzDropdownMenu]="owner"></ux-button>
+  <ux-button [text]="'locataire'" [type]="'primary'" nz-dropdown [nzDropdownMenu]="lodger"></ux-button>
 </div>
 
 <nz-dropdown-menu #owner nz-selectable>
@@ -81,8 +81,8 @@
 
           <li nz-menu-item>
             <div class="row footer-buttons">
-              <button nz-button nzType="primary" (click)="openRentReceipt(estate)">quittances</button>
-              <button nz-button nzType="primary" nzDanger (click)="deleteEstate(estate)">supprimer</button>
+              <ux-button [text]="'quittances'" [type]="'primary'" (click)="openRentReceipt(estate)"></ux-button>
+              <ux-button [text]="'supprimer'" [type]="'danger'" (click)="deleteEstate(estate)"></ux-button>
             </div>
           </li>
 

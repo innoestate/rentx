@@ -17,6 +17,7 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { OffersModule } from 'src/app/core/modules/offers.module';
+import { UxModule } from 'src/app/ux/ux.module';
 
 @NgModule({
   declarations: [ProspectionsDesktopComponent, SellersCellComponent],
@@ -27,6 +28,7 @@ import { OffersModule } from 'src/app/core/modules/offers.module';
     EffectsModule.forFeature(ProspectionsEffects),
     SellersModule,
     OffersModule,
+    UxModule,
     NzButtonModule,
     NzModalModule,
     NzTableModule,

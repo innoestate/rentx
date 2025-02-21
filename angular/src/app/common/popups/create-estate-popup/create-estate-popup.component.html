@@ -21,5 +21,5 @@
 
 </form>
 <div class="footer">
-  <button data-cy="create-estate-submit" nz-button nzType="primary" (click)="create()">créer</button>
+  <ux-button [cySelector]="'create-estate-submit'" [text]="'créer'" [type]="'primary'" [disabled]="formGroup.invalid" (click)="create()"></ux-button>
 </div>

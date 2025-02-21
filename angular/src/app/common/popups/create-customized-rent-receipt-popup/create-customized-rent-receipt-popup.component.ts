@@ -7,13 +7,14 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { Estate } from 'src/app/core/models/estate.model';
 import { downloadRentReceipt, senddRentReceipt } from 'src/app/core/store/rents/rents.actions';
+import { UxButtonComponent } from 'src/app/ux/popup/components/ux-button/ux-button.component';
 
 @Component({
   selector: 'app-create-customized-rent-receipt-popup',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    NzButtonModule,
+    UxButtonComponent,
     NzDatePickerModule,
     CommonModule
   ],

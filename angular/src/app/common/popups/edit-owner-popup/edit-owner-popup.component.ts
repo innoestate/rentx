@@ -1,15 +1,15 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { NzButtonModule } from 'ng-zorro-antd/button';
+import { Actions, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { Subject, take, takeUntil, tap } from 'rxjs';
+import { Owner } from 'src/app/core/models/owner.model';
+import { updateOwnerSuccess } from 'src/app/core/store/owner/owners.actions';
+import { UxButtonComponent } from 'src/app/ux/popup/components/ux-button/ux-button.component';
 import { EditOwnerComponent } from '../../components/edit-owner.component';
 import { SignatureComponent } from '../../components/signature-pad/signature.component';
-import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
-import { Store } from '@ngrx/store';
-import { Owner } from 'src/app/core/models/owner.model';
-import { Actions, ofType } from '@ngrx/effects';
-import { updateOwnerSuccess } from 'src/app/core/store/owner/owners.actions';
-import { Subject, take, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'edit-owner-popup',
@@ -17,7 +17,7 @@ import { Subject, take, takeUntil, tap } from 'rxjs';
   imports: [
     ReactiveFormsModule,
     NzSelectModule,
-    NzButtonModule,
+    UxButtonComponent,
     SignatureComponent
   ],
   templateUrl: './edit-owner-popup.component.html',
