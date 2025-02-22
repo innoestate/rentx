@@ -1,5 +1,5 @@
 @if(estate().owner){
-  <div data-cy="estate-owner-cell" nz-dropdown [nzDropdownMenu]="menuOwners" class="clickable">{{estate().owner?.name}}</div>
+  <div test-selector="estate-owner-cell" nz-dropdown [nzDropdownMenu]="menuOwners" class="clickable">{{estate().owner?.name}}</div>
 }@else {
   @if((owners()).length){
     <td class="clickable rcc">

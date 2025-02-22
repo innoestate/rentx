@@ -34,6 +34,8 @@ import { UserEffects } from './core/store/user/user.effects';
 import { userReducer } from './core/store/user/user.reducers';
 import { LoginComponent } from './login/login.component';
 import { UxModule } from './ux/ux.module';
+import { PopupService } from './ux/popup/services/popup.service';
+import { DevPopupService } from './ux/popup/services/dev.popup.service';
 
 registerLocaleData(en);
 

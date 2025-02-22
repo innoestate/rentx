@@ -20,6 +20,9 @@ import { EstatesPageDesktopComponent } from './estates.component';
 import { EstatesDesktopRoutingModule } from './estates.routing';
 import { RentService } from 'src/app/common/services/rents.service';
 import { UxModule } from 'src/app/ux/ux.module';
+import { PopupService } from 'src/app/ux/popup/services/popup.service';
+import { DevPopupService } from 'src/app/ux/popup/services/dev.popup.service';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -45,7 +48,8 @@ import { UxModule } from 'src/app/ux/ux.module';
     UxModule,
   ],
   providers: [
-    RentService
+    RentService,
+    { provide: PopupService, useClass: environment.production ? PopupService : DevPopupService }
   ]
 })
 export class EstatesModule { }

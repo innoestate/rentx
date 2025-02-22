@@ -7,17 +7,16 @@ import { Observable, take } from 'rxjs';
 })
 export class PopupService {
 
-  constructor(private modalService: NzModalService) { }
+  constructor(protected modalService: NzModalService) { }
 
   openPopup(component: Type<any>, title: string, data?: any): Observable<any> {
-    return this.modalService.create({
+    const modal = this.modalService.create({
       nzTitle: title,
       nzContent: component,
       nzFooter: null,
       nzData: data
-    }).afterClose.pipe(
-      take(1)
-    );
+    });
+    return modal.afterClose.pipe(take(1));
   }
 
 }
