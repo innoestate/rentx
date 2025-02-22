@@ -26,7 +26,7 @@ export class CreateEstateComponent implements OnInit {
       plot: new FormControl(''),
       rent: new FormControl(0),
       charges: new FormControl(0),
-      owner: new FormControl(this.owners().length ? this.owners()[0].id : null),
+      owner_id: new FormControl(this.owners().length ? this.owners()[0].id : null),
       lodger: new FormControl(''),
     } as Estate_Form);
   }

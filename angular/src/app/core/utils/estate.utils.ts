@@ -11,11 +11,11 @@ import { Rent } from '../models/rent.model';
 
 export const formatEstateToEstateFormToEstatePostRequest = (estate: FormGroup<Estate_Form>): Estate_Post_Request => {
   let ownerId = estate.get('owner')?.value;
-  if(typeof ownerId !== 'string' && typeof ownerId !== 'number') {
-    if( ownerId ){
-      ownerId = (estate.get('owner')?.value as Owner)?.id;
-    }
-  }
+  // if(typeof ownerId !== 'string' && typeof ownerId !== 'number') {
+  //   // if( ownerId ){
+  //   //   ownerId = (estate.get('owner')?.value as Owner)?.id;
+  //   // }
+  // }
   return {
     street: estate.get('street')!.value,
     city: estate.get('city')!.value,

@@ -1,0 +1,6 @@
+<p>ux-dropdown works!</p>
+<nz-select class="select" [formControl]="formControl" [nzPlaceHolder]="placeHolder()">
+  @for (item of list(); track item){
+  <nz-option [nzValue]="item.target" [nzLabel]="item.label"></nz-option>
+  }
+</nz-select>

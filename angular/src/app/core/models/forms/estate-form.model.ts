@@ -1,5 +1,4 @@
 import { FormControl } from "@angular/forms";
-import { Owner } from "../owner.model";
 export interface Estate_Form {
   street: FormControl<string>;
   city: FormControl<string>;
@@ -7,6 +6,6 @@ export interface Estate_Form {
   plot: FormControl<string>;
   rent: FormControl<number | null>;
   charges: FormControl<number | null>;
-  owner: FormControl<string | Owner | null >;
+  owner_id: FormControl<string | null >;
   lodger: FormControl<string>;
 }
