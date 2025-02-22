@@ -12,9 +12,10 @@ import { PopupService } from 'src/app/ux/popup/services/popup.service';
 import { PROSPECTION_COLUMNS } from './utils/prospections.utils';
 
 @Component({
-  selector: 'app-prospections',
-  templateUrl: './prospections.template.html',
-  styleUrls: ['./prospections.component.css']
+    selector: 'app-prospections',
+    templateUrl: './prospections.template.html',
+    styleUrls: ['./prospections.component.css'],
+    standalone: false
 })
 export class ProspectionsDesktopComponent  implements OnInit {
 

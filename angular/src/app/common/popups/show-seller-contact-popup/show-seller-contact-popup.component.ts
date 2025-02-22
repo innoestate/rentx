@@ -9,16 +9,16 @@ import { ProspectionStoreFacade } from 'src/app/core/facade/prospection.store.fa
 import { Seller } from 'src/app/core/models/seller.model';
 
 @Component({
-  selector: 'show-seller-contact-popup',
-  templateUrl: './show-seller-contact-popup.component.html',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    NzSelectModule,
-    NzButtonModule
-  ],
-  providers: [ProspectionStoreFacade],
-  styleUrls: ['./show-seller-contact-popup.component.css']
+    selector: 'show-seller-contact-popup',
+    templateUrl: './show-seller-contact-popup.component.html',
+    imports: [
+        ReactiveFormsModule,
+        NzSelectModule,
+        NzButtonModule
+    ],
+    providers: [ProspectionStoreFacade],
+    styleUrls: ['./show-seller-contact-popup.component.css'],
+    standalone: true
 })
 export class ShowSellerContactPopupComponent implements OnInit, OnDestroy {
 

@@ -6,16 +6,16 @@ import { UxButtonComponent } from 'src/app/ux/popup/components/ux-button/ux-butt
 import { UxDropdownComponent } from 'src/app/ux/popup/components/ux-dropdown/ux-dropdown.component';
 
 @Component({
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    NzSelectModule,
-    UxButtonComponent,
-    UxDropdownComponent
-  ],
-  selector: 'create-estate-popup',
-  templateUrl: './create-estate-popup.component.html',
-  styleUrl: './create-estate-popup.component.scss'
+    imports: [
+        ReactiveFormsModule,
+        NzSelectModule,
+        UxButtonComponent,
+        UxDropdownComponent
+    ],
+    selector: 'create-estate-popup',
+    templateUrl: './create-estate-popup.component.html',
+    styleUrl: './create-estate-popup.component.scss',
+    standalone: true
 })
 export class CreateDesktopEstatePopupComponent extends CreateEstateComponent {
 

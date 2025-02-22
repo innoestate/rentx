@@ -8,16 +8,16 @@ import { SellerDTO } from 'src/app/core/models/dtos/seller.dto.model';
 import { UxButtonComponent } from 'src/app/ux/popup/components/ux-button/ux-button.component';
 
 @Component({
-  selector: 'app-create-seller-popup',
-  templateUrl: './create-seller-popup.component.html',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    NzSelectModule,
-    UxButtonComponent
-  ],
-  styleUrls: ['./create-seller-popup.component.css']
+    selector: 'app-create-seller-popup',
+    templateUrl: './create-seller-popup.component.html',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        NzSelectModule,
+        UxButtonComponent
+    ],
+    styleUrls: ['./create-seller-popup.component.css'],
+    standalone: true
 })
 export class CreateSellerPopupComponent {
   form: FormGroup;

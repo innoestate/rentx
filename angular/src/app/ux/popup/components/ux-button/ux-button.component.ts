@@ -3,11 +3,11 @@ import { NzButtonModule, NzButtonType } from 'ng-zorro-antd/button';
 import { UxButtonType } from './types/ux-button.type.type';
 
 @Component({
-  selector: 'ux-button',
-  templateUrl: './ux-button.component.html',
-  styleUrl: './ux-button.component.scss',
-  standalone: true,
-  imports: [NzButtonModule],
+    selector: 'ux-button',
+    templateUrl: './ux-button.component.html',
+    styleUrl: './ux-button.component.scss',
+    standalone: true,
+    imports: [NzButtonModule]
 })
 export class UxButtonComponent {
 

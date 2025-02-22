@@ -6,16 +6,16 @@ import { SignatureComponent } from '../../components/signature-pad/signature.com
 import { UxButtonComponent } from 'src/app/ux/popup/components/ux-button/ux-button.component';
 
 @Component({
-  selector: 'app-create-owner-popup',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    NzSelectModule,
-    UxButtonComponent,
-    SignatureComponent
-  ],
-  templateUrl: './create-owner-popup.component.html',
-  styleUrls: ['./create-owner-popup.component.scss']
+    selector: 'app-create-owner-popup',
+    imports: [
+        ReactiveFormsModule,
+        NzSelectModule,
+        UxButtonComponent,
+        SignatureComponent
+    ],
+    templateUrl: './create-owner-popup.component.html',
+    styleUrls: ['./create-owner-popup.component.scss'],
+    standalone: true
 })
 export class CreateOwnerPopupComponent extends CreateOwnerComponent {
 

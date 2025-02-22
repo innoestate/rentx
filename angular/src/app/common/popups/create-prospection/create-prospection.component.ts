@@ -9,16 +9,16 @@ import { CommonModule } from '@angular/common';
 import { UxButtonComponent } from 'src/app/ux/popup/components/ux-button/ux-button.component';
 
 @Component({
-  selector: 'app-create-prospection',
-  templateUrl: './create-prospection.component.html',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    NzSelectModule,
-    UxButtonComponent
-  ],
-  styleUrls: ['./create-prospection.component.css']
+    selector: 'app-create-prospection',
+    templateUrl: './create-prospection.component.html',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        NzSelectModule,
+        UxButtonComponent
+    ],
+    styleUrls: ['./create-prospection.component.css'],
+    standalone: true
 })
 export class CreateProspectionComponent {
   form: FormGroup;

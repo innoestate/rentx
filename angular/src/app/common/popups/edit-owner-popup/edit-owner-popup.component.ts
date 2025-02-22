@@ -12,16 +12,16 @@ import { EditOwnerComponent } from '../../components/edit-owner.component';
 import { SignatureComponent } from '../../components/signature-pad/signature.component';
 
 @Component({
-  selector: 'edit-owner-popup',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    NzSelectModule,
-    UxButtonComponent,
-    SignatureComponent
-  ],
-  templateUrl: './edit-owner-popup.component.html',
-  styleUrl: './edit-owner-popup.component.scss'
+    selector: 'edit-owner-popup',
+    imports: [
+        ReactiveFormsModule,
+        NzSelectModule,
+        UxButtonComponent,
+        SignatureComponent
+    ],
+    templateUrl: './edit-owner-popup.component.html',
+    styleUrl: './edit-owner-popup.component.scss',
+    standalone: true
 })
 export class EditOwnerPopupComponent extends EditOwnerComponent implements OnInit, OnDestroy {
 

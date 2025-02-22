@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { EstatePage } from 'src/app/common/pages/estates.page.component';
 
 @Component({
-  selector: 'app-estates',
-  templateUrl: './estates.component.html',
-  styleUrl: './estates.component.scss'
+    selector: 'app-estates',
+    templateUrl: './estates.component.html',
+    styleUrl: './estates.component.scss',
+    standalone: false
 })
 export class EstatesPageDesktopComponent extends EstatePage implements OnInit {
 

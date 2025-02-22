@@ -4,9 +4,10 @@ import { AuthService } from '../auth/auth.service';
 import { tap } from 'rxjs';
 
 @Component({
-  selector: 'app-callback',
-  templateUrl: './callback.component.html',
-  styleUrl: './callback.component.scss'
+    selector: 'app-callback',
+    templateUrl: './callback.component.html',
+    styleUrl: './callback.component.scss',
+    standalone: false
 })
 
 export class CallbackComponent implements OnInit {

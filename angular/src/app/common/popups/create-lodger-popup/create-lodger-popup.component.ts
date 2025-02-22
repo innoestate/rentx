@@ -5,15 +5,15 @@ import { UxButtonComponent } from 'src/app/ux/popup/components/ux-button/ux-butt
 import { CreateLodgerComponent } from '../../components/create-lodger.component';
 
 @Component({
-  selector: 'app-create-lodger-popup',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    UxButtonComponent
-  ],
-  templateUrl: './create-lodger-popup.component.html',
-  styleUrls: ['./create-lodger-popup.component.scss']
+    selector: 'app-create-lodger-popup',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        UxButtonComponent
+    ],
+    templateUrl: './create-lodger-popup.component.html',
+    styleUrls: ['./create-lodger-popup.component.scss'],
+    standalone: true
 })
 export class CreateLodgerPopupComponent extends CreateLodgerComponent {
 

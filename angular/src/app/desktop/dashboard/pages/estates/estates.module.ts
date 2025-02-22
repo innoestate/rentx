@@ -6,7 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzInputNumberLegacyModule } from 'ng-zorro-antd/input-number-legacy';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { LodgersModule } from 'src/app/core/modules/owners/lodgers.module';
@@ -39,7 +39,7 @@ import { UxModule } from 'src/app/ux/ux.module';
     NzButtonModule,
     NzModalModule,
     NzTableModule,
-    NzInputNumberModule,
+    NzInputNumberLegacyModule,
     NzDropDownModule,
     NzIconModule,
     UxModule,

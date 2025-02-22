@@ -7,9 +7,10 @@ import { Seller } from 'src/app/core/models/seller.model';
 import { PopupService } from 'src/app/ux/popup/services/popup.service';
 
 @Component({
-  selector: 'sellers-cell',
-  templateUrl: './sellers-cell.component.html',
-  styleUrl: './sellers-cell.component.scss'
+    selector: 'sellers-cell',
+    templateUrl: './sellers-cell.component.html',
+    styleUrl: './sellers-cell.component.scss',
+    standalone: false
 })
 export class SellersCellComponent {
 

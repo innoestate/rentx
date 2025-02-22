@@ -10,16 +10,16 @@ import { downloadRentReceipt, senddRentReceipt } from 'src/app/core/store/rents/
 import { UxButtonComponent } from 'src/app/ux/popup/components/ux-button/ux-button.component';
 
 @Component({
-  selector: 'app-create-customized-rent-receipt-popup',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    UxButtonComponent,
-    NzDatePickerModule,
-    CommonModule
-  ],
-  templateUrl: './create-customized-rent-receipt-popup.component.html',
-  styleUrl: './create-customized-rent-receipt-popup.component.scss'
+    selector: 'app-create-customized-rent-receipt-popup',
+    imports: [
+        ReactiveFormsModule,
+        UxButtonComponent,
+        NzDatePickerModule,
+        CommonModule
+    ],
+    templateUrl: './create-customized-rent-receipt-popup.component.html',
+    styleUrl: './create-customized-rent-receipt-popup.component.scss',
+    standalone: true
 })
 export class CreateCustomizedRentReceiptPopupComponent {
 

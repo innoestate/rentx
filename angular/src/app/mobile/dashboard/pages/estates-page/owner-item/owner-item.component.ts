@@ -6,9 +6,10 @@ import { Owner } from 'src/app/core/models/owner.model';
 import { PopupService } from 'src/app/ux/popup/services/popup.service';
 
 @Component({
-  selector: 'owner-item',
-  templateUrl: './owner-item.component.html',
-  styleUrl: './owner-item.component.scss'
+    selector: 'owner-item',
+    templateUrl: './owner-item.component.html',
+    styleUrl: './owner-item.component.scss',
+    standalone: false
 })
 export class OwnerItemComponent extends OwnerComponent {
 

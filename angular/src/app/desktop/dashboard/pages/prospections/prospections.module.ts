@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzInputNumberLegacyModule } from 'ng-zorro-antd/input-number-legacy';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { ProspectionsEffects } from 'src/app/core/store/prospections/prospections.effects';
@@ -32,7 +32,7 @@ import { UxModule } from 'src/app/ux/ux.module';
     NzButtonModule,
     NzModalModule,
     NzTableModule,
-    NzInputNumberModule,
+    NzInputNumberLegacyModule,
     NzIconModule,
     NzDropDownModule,
     NzSelectModule,

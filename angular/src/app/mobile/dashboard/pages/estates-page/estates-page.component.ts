@@ -15,9 +15,10 @@ import { RentsHttpService } from 'src/app/core/services/rents.http.service';
 import { PopupService } from 'src/app/ux/popup/services/popup.service';
 
 @Component({
-  selector: 'app-estates-page',
-  templateUrl: './estates-page.component.html',
-  styleUrl: './estates-page.component.scss'
+    selector: 'app-estates-page',
+    templateUrl: './estates-page.component.html',
+    styleUrl: './estates-page.component.scss',
+    standalone: false
 })
 export class EstatesMobilePageComponent extends EstatePage {
 

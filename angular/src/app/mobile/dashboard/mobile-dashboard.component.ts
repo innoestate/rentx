@@ -2,9 +2,10 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { DashboardComponent } from '../../common/dashboard.component';
 
 @Component({
-  selector: 'app-mobile-dashboard',
-  templateUrl: './mobile-dashboard.component.html',
-  styleUrl: './mobile-dashboard.component.scss'
+    selector: 'app-mobile-dashboard',
+    templateUrl: './mobile-dashboard.component.html',
+    styleUrl: './mobile-dashboard.component.scss',
+    standalone: false
 })
 export class MobileDashboardComponent extends DashboardComponent implements AfterViewInit {
 

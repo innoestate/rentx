@@ -5,18 +5,18 @@ import { UxButtonComponent } from 'src/app/ux/popup/components/ux-button/ux-butt
 
 
 @Component({
-  selector: 'signature-pad',
-  templateUrl: './signature.component.html',
-  styleUrl: './signature.component.less',
-  standalone: true,
-  imports: [UxButtonComponent],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: SignatureComponent,
-      multi: true
-    }
-  ]
+    selector: 'signature-pad',
+    templateUrl: './signature.component.html',
+    styleUrl: './signature.component.less',
+    standalone: true,
+    imports: [UxButtonComponent],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: SignatureComponent,
+            multi: true
+        }
+    ]
 })
 export class SignatureComponent implements AfterViewInit, ControlValueAccessor {
 

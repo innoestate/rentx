@@ -4,18 +4,18 @@ import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModu
 import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @Component({
-  selector: 'ux-dropdown',
-  standalone: true,
-  imports: [NzSelectModule, ReactiveFormsModule],
-  templateUrl: './ux-dropdown.component.html',
-  styleUrl: './ux-dropdown.component.scss',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => UxDropdownComponent),
-      multi: true
-    }
-  ]
+    selector: 'ux-dropdown',
+    imports: [NzSelectModule, ReactiveFormsModule],
+    templateUrl: './ux-dropdown.component.html',
+    styleUrl: './ux-dropdown.component.scss',
+    standalone: true,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => UxDropdownComponent),
+            multi: true
+        }
+    ],
 })
 export class UxDropdownComponent implements ControlValueAccessor {
 

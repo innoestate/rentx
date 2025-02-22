@@ -6,9 +6,10 @@ import { RentService } from 'src/app/common/services/rents.service';
 import { Lodger } from 'src/app/core/models/lodger.model';
 
 @Component({
-  selector: 'lodger-item',
-  templateUrl: './lodger-item.component.html',
-  styleUrl: './lodger-item.component.scss'
+    selector: 'lodger-item',
+    templateUrl: './lodger-item.component.html',
+    styleUrl: './lodger-item.component.scss',
+    standalone: false
 })
 export class LodgerItemComponent extends LodgerComponent{
 

@@ -8,11 +8,11 @@ import { Estate } from 'src/app/core/models/estate.model';
 import { UxButtonComponent } from 'src/app/ux/popup/components/ux-button/ux-button.component';
 
 @Component({
-  selector: 'app-complete-rent-receipt-popup',
-  standalone: true,
-  imports: [ReactiveFormsModule, SignatureComponent, UxButtonComponent],
-  templateUrl: './complete-rent-receipt-popup.component.html',
-  styleUrl: './complete-rent-receipt-popup.component.scss'
+    selector: 'app-complete-rent-receipt-popup',
+    imports: [ReactiveFormsModule, SignatureComponent, UxButtonComponent],
+    templateUrl: './complete-rent-receipt-popup.component.html',
+    styleUrl: './complete-rent-receipt-popup.component.scss',
+    standalone: true
 })
 export class CompleteRentReceiptPopupComponent {
 
