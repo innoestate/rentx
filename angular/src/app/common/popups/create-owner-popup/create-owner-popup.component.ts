@@ -3,7 +3,7 @@ import { CreateOwnerComponent } from '../../components/create-owner.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { SignatureComponent } from '../../components/signature-pad/signature.component';
-import { UxButtonComponent } from 'src/app/ux/popup/components/ux-button/ux-button.component';
+import { UxButtonComponent } from 'src/app/ux/components/ux-button/ux-button.component';
 
 @Component({
     selector: 'app-create-owner-popup',

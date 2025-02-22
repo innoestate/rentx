@@ -6,7 +6,7 @@ import { createProspection } from 'src/app/core/store/prospections/prospections.
 import { Prospection_Dto } from 'src/app/core/models/dtos/prospection.dto.model';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CommonModule } from '@angular/common';
-import { UxButtonComponent } from 'src/app/ux/popup/components/ux-button/ux-button.component';
+import { UxButtonComponent } from 'src/app/ux/components/ux-button/ux-button.component';
 
 @Component({
     selector: 'app-create-prospection',

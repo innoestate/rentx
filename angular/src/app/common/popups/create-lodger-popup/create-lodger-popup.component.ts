@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { UxButtonComponent } from 'src/app/ux/popup/components/ux-button/ux-button.component';
+import { UxButtonComponent } from 'src/app/ux/components/ux-button/ux-button.component';
 import { CreateLodgerComponent } from '../../components/create-lodger.component';
 
 @Component({

@@ -7,7 +7,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { Subject, take, takeUntil, tap } from 'rxjs';
 import { Owner } from 'src/app/core/models/owner.model';
 import { updateOwnerSuccess } from 'src/app/core/store/owner/owners.actions';
-import { UxButtonComponent } from 'src/app/ux/popup/components/ux-button/ux-button.component';
+import { UxButtonComponent } from 'src/app/ux/components/ux-button/ux-button.component';
 import { EditOwnerComponent } from '../../components/edit-owner.component';
 import { SignatureComponent } from '../../components/signature-pad/signature.component';
 

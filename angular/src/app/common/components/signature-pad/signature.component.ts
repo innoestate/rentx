@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import SignaturePad from 'signature_pad';
-import { UxButtonComponent } from 'src/app/ux/popup/components/ux-button/ux-button.component';
+import { UxButtonComponent } from 'src/app/ux/components/ux-button/ux-button.component';
 
 
 @Component({

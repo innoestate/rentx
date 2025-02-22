@@ -1,8 +1,8 @@
 import { Component, computed } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CreateEstateComponent } from 'src/app/common/components/create-estate.component';
-import { UxButtonComponent } from 'src/app/ux/popup/components/ux-button/ux-button.component';
-import { UxDropdownComponent } from 'src/app/ux/popup/components/ux-dropdown/ux-dropdown.component';
+import { UxButtonComponent } from 'src/app/ux/components/ux-button/ux-button.component';
+import { UxDropdownComponent } from 'src/app/ux/components/ux-dropdown/ux-dropdown.component';
 
 @Component({
     imports: [

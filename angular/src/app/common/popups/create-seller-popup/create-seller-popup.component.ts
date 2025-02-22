@@ -5,7 +5,7 @@ import { NzModalRef } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { ProspectionStoreFacade } from 'src/app/core/facade/prospection.store.facade';
 import { SellerDTO } from 'src/app/core/models/dtos/seller.dto.model';
-import { UxButtonComponent } from 'src/app/ux/popup/components/ux-button/ux-button.component';
+import { UxButtonComponent } from 'src/app/ux/components/ux-button/ux-button.component';
 
 @Component({
     selector: 'app-create-seller-popup',
