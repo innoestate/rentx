@@ -1,51 +1,41 @@
-import { Component, effect, forwardRef, input, model } from '@angular/core';
-import { UxDropdownItem } from './model/ux-dropdown-item.model';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Component, forwardRef, input } from '@angular/core';
+import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { UxDropdownItem } from './model/ux-dropdown-item.model';
 
 @Component({
-    selector: 'ux-dropdown',
-    imports: [NzSelectModule, ReactiveFormsModule],
-    templateUrl: './ux-dropdown.component.html',
-    styleUrl: './ux-dropdown.component.scss',
-    standalone: true,
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => UxDropdownComponent),
-            multi: true
-        }
-    ],
+  selector: 'ux-dropdown',
+  imports: [CommonModule, FormsModule, NzSelectModule, ReactiveFormsModule],
+  templateUrl: './ux-dropdown.component.html',
+  styleUrl: './ux-dropdown.component.scss',
+  standalone: true,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => UxDropdownComponent),
+      multi: true
+    }
+  ],
 })
 export class UxDropdownComponent implements ControlValueAccessor {
 
-  onChange = (_: any) => {};
-  onTouched = () => {};
+  onChange: any = () => { };
+  onTouched = () => { };
 
-  selectedItem = model<any>();
   placeHolder = input<string>('');
   list = input.required<UxDropdownItem[]>();
-
-  formControl = new FormControl(null);
+  nzFormControl = new FormControl();
 
   constructor() {
-
-    effect(() => {
-
-      // this.list().
-
+    this.nzFormControl.valueChanges.subscribe(value => {
+      this.onChange(value);
     });
-
-
-   }
+  }
 
   writeValue(obj: any): void {
-    console.log('writeValue', obj);
-    console.log('list', this.list());
-
     const item = this.list().find(i => i.target === obj);
-
-    this.formControl.setValue(item?.target);
+    this.nzFormControl.setValue(item?.target);
   }
   registerOnChange(fn: any): void {
     this.onChange = fn;

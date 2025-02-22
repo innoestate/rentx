@@ -13,11 +13,6 @@
   <input data-cy="create-estate-plot" type="text" class="form-control" formControlName="plot">
 
   <label for="owner">Propriétaire</label>
-  <!-- <nz-select class="select" formControlName="owner" nzPlaceHolder="Propriétaire">
-    @for (owner of owners(); track owner){
-    <nz-option [nzValue]="owner.id" [nzLabel]="owner.name"></nz-option>
-    }
-  </nz-select> -->
 
   <ux-dropdown [list]="ownersDropdown()" [placeHolder]="'Propriétaire'" formControlName="owner_id"></ux-dropdown>
 
