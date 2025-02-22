@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { EstatePage } from 'src/app/common/pages/estates.page.component';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { CreateDesktopEstatePopupComponent } from 'src/app/common/popups/create-estate-popup/create-estate-popup.component';
+import { CreateOwnerPopupComponent } from 'src/app/common/popups/create-owner-popup/create-owner-popup.component';
+import { PopupService } from 'src/app/ux/popup/services/popup.service';
 
 @Component({
     selector: 'app-estates',
@@ -7,19 +10,16 @@ import { EstatePage } from 'src/app/common/pages/estates.page.component';
     styleUrl: './estates.component.scss',
     standalone: false
 })
-export class EstatesPageDesktopComponent extends EstatePage implements OnInit {
+export class EstatesPageDesktopComponent {
 
-  pageSize: number = 8;
+  constructor(protected popupService: PopupService) { }
 
-  override ngOnInit() {
-    this.calculatePageSize();
-    super.ngOnInit();
+  openCreateEstatePopup(): Observable<any> {
+    return this.popupService.openPopup(CreateDesktopEstatePopupComponent, 'Créer un nouveau bien');
   }
 
-  calculatePageSize() {
-    const totalHeight = window.innerHeight - 250;
-    const rowHeight = 64;
-    this.pageSize = Math.floor(totalHeight / rowHeight) ;
+  openCreateOwnerPopup(): Observable<any> {
+    return this.popupService.openPopup(CreateOwnerPopupComponent, 'Créer un nouveau propriétaire');
   }
 
 }

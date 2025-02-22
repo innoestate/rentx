@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: '', component: DashboardDesktopComponent, children: [
       {
-        path: 'estates',
+        path: 'own',
         loadChildren: () => import('./pages/estates/estates.module').then(m => m.EstatesModule),
       },
       {
@@ -16,11 +16,11 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'estates'
+        redirectTo: 'own'
       },
       {
         path: '**',
-        redirectTo: 'estates'
+        redirectTo: 'own'
       }
     ]
   },
