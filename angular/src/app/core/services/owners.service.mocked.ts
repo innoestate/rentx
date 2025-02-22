@@ -7,6 +7,7 @@ import { Owner_Post_Request } from 'src/app/core/models/requests/owner-post-requ
   providedIn: 'root'
 })
 export class MockOwnersService {
+
   private owners: Owner_Dto[] = [
     { id: 'owner1', user_id: 'user1', name: 'Owner 1', street: 'Street 1', city: 'City 1', zip: '12345', signature: 'Signature 1', email: 'owner1@example.com', phone: '1234567890' },
     { id: 'owner2', user_id: 'user2', name: 'Owner 2', street: 'Street 2', city: 'City 2', zip: '67890', signature: 'Signature 2', email: 'owner2@example.com', phone: '0987654321' }

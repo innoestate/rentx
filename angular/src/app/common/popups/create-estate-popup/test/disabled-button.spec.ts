@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateDesktopEstatePopupComponent } from '../create-estate-popup.component';
-import { configureModule, initStoreWithMockedOwners } from './utils/disable-button.utils';
+import { configureModule, initStoreWithMockedOwners } from './utils/tests.utils';
 
 
 describe('CreateEstatePopupComponent test submit button disable state', () => {
