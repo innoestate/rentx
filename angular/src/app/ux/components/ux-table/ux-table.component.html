@@ -1,0 +1,26 @@
+<nz-table #tables [nzData]="rows()">
+  <thead>
+    <tr>
+      @for(column of columns(); track column.key) {
+      <th>{{ column.label }}</th>
+      }
+    </tr>
+  </thead>
+  <tbody>
+    @for(row of nzRows(); track row; let rowIndex = $index) {
+    <tr>
+      <ng-container *ngFor="let cell of row; let columnIndex = index">
+        @if( columns()[columnIndex].type === CELL_TYPE.CELL_TYPE_EDITABLE_STRING) {
+        <td>
+          <div class="clickable" [hidden]="editId === (columnIndex + columns()[rowIndex].key)" (click)="startEdit($event, columnIndex + columns()[rowIndex].key)">{{ cell }}</div>
+          <input [value]="cell" [hidden]="editId !== (columnIndex + columns()[rowIndex].key)" type="text" nz-input
+            (change)="edit($event, rowIndex, columnIndex )" (blur)="stopEdit()" />
+        </td>
+        }@else {
+        <td>{{ cell }}</td>
+        }
+      </ng-container>
+    </tr>
+    }
+  </tbody>
+</nz-table>

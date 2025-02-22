@@ -1,1 +1,5 @@
-<ux-table [rows]="owners()" [columns]="columns"></ux-table>
+@if(owners()) {
+  <ux-table [rows]="owners()" [columns]="columns" (editRow)="editOwner($event)"></ux-table>
+} @else {
+  <p>Aucun propriétaire</p>
+}

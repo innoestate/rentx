@@ -8,7 +8,7 @@ export const ownersSelector =  createFeatureSelector<State>('owners');
 
 export const selectOwners = createSelector(
     ownersSelector,
-    (state) => (state.owners) as Owner[]
+    (state) => (state?.owners??[]) as Owner[]
 )
 
 

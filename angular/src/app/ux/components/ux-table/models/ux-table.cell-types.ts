@@ -1,0 +1,4 @@
+export enum CELL_TYPE {
+  CELL_TYPE_DEFAULT = 0,
+  CELL_TYPE_EDITABLE_STRING = 1
+}

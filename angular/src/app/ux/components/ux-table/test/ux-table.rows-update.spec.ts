@@ -1,15 +1,15 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { UxTableComponent } from '../ux-table.component';
 import { rowsMock } from './mock/rows.mock';
 import { columnsMock } from './mock/columns.mock';
-import { UxTableColumnItem } from '../../models/ux-table.model';
+import { UxTableColumnItem } from '../models/ux-table.model';
+import { UxTableComponent } from '../ux-table.component';
 
 describe('UxTableComponent test the update of a value in a cell', () => {
 
   let rows: any[] = [...rowsMock];
   let columns: UxTableColumnItem[] = [...columnsMock];
-  let component: UxTableComponent;
-  let fixture: ComponentFixture<UxTableComponent>;
+  let component: UxTableComponent<any>;
+  let fixture: ComponentFixture<UxTableComponent<any>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -37,7 +37,6 @@ describe('UxTableComponent test the update of a value in a cell', () => {
     const cell = fixture.nativeElement.querySelector('nz-table');
     const cellToUpdate = cell.querySelector('tbody tr:nth-child(2) td:nth-child(2)');
     expect(cellToUpdate.textContent).toBe('Modified name');
-
   }))
 
 });
