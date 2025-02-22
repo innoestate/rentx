@@ -1,0 +1,18 @@
+<nz-table #tables [nzData]="rows()">
+  <thead>
+    <tr>
+      @for(column of columns(); track column.key) {
+        <th>{{ column.label }}</th>
+      }
+    </tr>
+  </thead>
+  <tbody>
+    @for(row of nzRows(); track row) {
+      <tr>
+      @for(cell of row; track cell) {
+        <td>{{ cell }}</td>
+      }
+    </tr>
+    }
+  </tbody>
+</nz-table>
