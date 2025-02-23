@@ -18,13 +18,13 @@ import { UxDropdownItem } from './model/ux-dropdown-item.model';
     }
   ],
 })
-export class UxDropdownComponent implements ControlValueAccessor {
+export class UxDropdownComponent<T> implements ControlValueAccessor {
 
   onChange: any = () => { };
   onTouched = () => { };
 
   placeHolder = input<string>('');
-  list = input.required<UxDropdownItem[]>();
+  list = input.required<UxDropdownItem<T>[]>();
   nzFormControl = new FormControl();
 
   constructor() {
@@ -33,8 +33,8 @@ export class UxDropdownComponent implements ControlValueAccessor {
     });
   }
 
-  writeValue(obj: any): void {
-    const item = this.list().find(i => i.target === obj);
+  writeValue(target: any): void {
+    const item = this.list().find(i => i.target === target);
     this.nzFormControl.setValue(item?.target);
   }
   registerOnChange(fn: any): void {

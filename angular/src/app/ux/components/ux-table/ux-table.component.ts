@@ -10,6 +10,7 @@ import { formatNzColumnConfig, formatNzRows } from './utils/utils';
 import { NzUxCellEditableNumberComponent } from './nz-ux-cell-editable-number/nz-ux-cell-editable-number.component';
 import { UxTableRow } from './models/ux-table-row.model';
 import { CellType } from './types/ux-table.cell.type';
+import { NzUxCellDropdownComponent } from './nz-ux-cell-dropdown/nz-ux-cell-dropdown.component';
 
 
 @Component({
@@ -19,7 +20,9 @@ import { CellType } from './types/ux-table.cell.type';
     ReactiveFormsModule,
     NzTableModule,
     NzUxCellEditableStringComponent,
-    NzUxCellEditableNumberComponent],
+    NzUxCellEditableNumberComponent,
+    NzUxCellDropdownComponent
+  ],
   templateUrl: './ux-table.component.html',
   styleUrl: './ux-table.component.scss'
 })
@@ -37,6 +40,7 @@ export class UxTableComponent<T extends UxTableRow> {
   constructor() {
     effect(() => {
       this.nzRows = this.buildNzRows();
+      console.log(this.nzRows())
     })
   }
 
@@ -59,12 +63,11 @@ export class UxTableComponent<T extends UxTableRow> {
     return this.editId === (columnIndex + this.columns()[rowIndex].key);
   }
 
-  private buildNzRows(): Signal<CellType[][]> {
-    return computed(() => formatNzRows(this.rows(), this.columns()));
-  }
-
   private buildNzColumns(): Signal<NzUxColumnConfig[]> {
     return computed(() => this.columns().map((column, columnIndex) => formatNzColumnConfig(column, columnIndex)))
   }
 
+  private buildNzRows(): Signal<CellType[][]> {
+    return computed(() => formatNzRows(this.rows(), this.columns()));
+  }
 }

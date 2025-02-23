@@ -4,13 +4,15 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { PopupService } from './popup/services/popup.service';
 import { UxButtonComponent } from './components/ux-button/ux-button.component';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     NzModalModule,
     NzButtonModule,
-    UxButtonComponent
+    UxButtonComponent,
+    FormsModule
   ],
   exports: [
     NzModalModule,

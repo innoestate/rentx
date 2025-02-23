@@ -14,28 +14,47 @@
     <ng-container *ngFor="let row of table.data; let rowI = index">
     <tr>
       <ng-container *ngFor="let cell of row; let colI = index">
+        <td>
 
-        @if( columns()[colI].type === CELL_TYPE.EDITABLE_STRING) {
+          <!-- @if(column()[colI].editable){
+            {{cell}}
+          }@else {
+            {{cell}}
+          } -->
 
-          <nz-ux-cell-editable-string
-            [value]="cell"
-            [isOnEditMode]="isCellOnEditMode(colI, rowI)"
-            (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )"
-            (stopEdit)="stopEdit()">
-          </nz-ux-cell-editable-string>
 
-        }@else if( columns()[colI].type === CELL_TYPE.EDITABLE_NUMBER) {
+          @if( columns()[colI].type === CELL_TYPE.EDITABLE_STRING) {
 
-          <nz-ux-cell-editable-number
-            [value]="cell"
-            [isOnEditMode]="isCellOnEditMode(colI, rowI)"
-            (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )"
-            (stopEdit)="stopEdit()">
-          </nz-ux-cell-editable-number>
+            <nz-ux-cell-editable-string
+              [value]="cell"
+              [isOnEditMode]="isCellOnEditMode(colI, rowI)"
+              (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )"
+              (stopEdit)="stopEdit()">
+            </nz-ux-cell-editable-string>
 
-        }@else {
-          <td>{{ cell }}</td>
-        }
+          }@else if( columns()[colI].type === CELL_TYPE.EDITABLE_NUMBER) {
+
+            <nz-ux-cell-editable-number
+              [value]="cell"
+              [isOnEditMode]="isCellOnEditMode(colI, rowI)"
+              (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )"
+              (stopEdit)="stopEdit()">
+            </nz-ux-cell-editable-number>
+
+          }@else if( columns()[colI].type === CELL_TYPE.DROPDOWN) {
+
+            <nz-ux-cell-dropdown
+              [value]="cell"
+              [list]="columns()[colI].dropDownItems??[]"
+              [isOnEditMode]="isCellOnEditMode(colI, rowI)"
+              (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )"
+              (stopEdit)="stopEdit()">
+            </nz-ux-cell-dropdown>
+
+          }@else {
+            {{ cell }}
+          }
+      </td>
       </ng-container>
     </tr>
     </ng-container>

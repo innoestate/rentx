@@ -1,5 +1,5 @@
-export interface UxDropdownItem {
+export interface UxDropdownItem<T> {
   label: string;
-  readonly target: any;
-  items?: UxDropdownItem[];
+  readonly target: T;
+  items?: UxDropdownItem<T>[];
 }
