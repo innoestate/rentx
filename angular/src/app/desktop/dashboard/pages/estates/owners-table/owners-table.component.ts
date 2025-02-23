@@ -4,6 +4,7 @@ import { Owner } from 'src/app/core/models/owner.model';
 import { loadOwners } from 'src/app/core/store/owner/owners.actions';
 import { selectOwners } from 'src/app/core/store/owner/owners.selectors';
 import { CELL_TYPE } from 'src/app/ux/components/ux-table/models/ux-table.cell-types';
+import { UxTableColumnItem } from 'src/app/ux/components/ux-table/models/ux-table.column.model';
 
 @Component({
   standalone: false,
@@ -12,13 +13,17 @@ import { CELL_TYPE } from 'src/app/ux/components/ux-table/models/ux-table.cell-t
 })
 export class OwnersTableComponent implements OnInit {
 
-  columns = [
-    { key: 'name', label: 'nom et prénom', type: CELL_TYPE.CELL_TYPE_EDITABLE_STRING },
-    { key: 'street', label: 'adresse' },
-    { key: 'city', label: 'ville' },
-    { key: 'zip', label: 'code postal' },
-    { key: 'email', label: 'email' },
-    { key: 'phone', label: 'phone' },
+  columns: UxTableColumnItem<Owner>[] = [
+    {
+      key: 'name', label: 'nom et prénom',
+      type: CELL_TYPE.CELL_TYPE_EDITABLE_STRING,
+      sort: 0
+    },
+    { key: 'street', label: 'adresse', sort: 1 },
+    { key: 'city', label: 'ville', sort: 2 },
+    { key: 'zip', label: 'code postal', sort: 3 },
+    { key: 'email', label: 'email', sort: 4 },
+    { key: 'phone', label: 'phone', sort: 5 },
   ]
   owners = this.store.selectSignal(selectOwners);
 
@@ -29,7 +34,6 @@ export class OwnersTableComponent implements OnInit {
   }
 
   editOwner(owner: Owner) {
-    console.log('edit owner', owner);
   }
 
 }

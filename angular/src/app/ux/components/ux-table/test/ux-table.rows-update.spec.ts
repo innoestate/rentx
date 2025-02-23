@@ -1,13 +1,14 @@
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { rowsMock } from './mock/rows.mock';
-import { columnsMock } from './mock/columns.mock';
-import { UxTableColumnItem } from '../models/ux-table.model';
+import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { UxTableColumnItem } from '../models/ux-table.column.model';
 import { UxTableComponent } from '../ux-table.component';
+import { columnsMock } from './mock/columns.mock';
+import { RowMock, rowsMockItems } from './mock/rows.mock';
 
 describe('UxTableComponent test the update of a value in a cell', () => {
 
-  let rows: any[] = [...rowsMock];
-  let columns: UxTableColumnItem[] = [...columnsMock];
+  let rows: any[] = [...rowsMockItems];
+  let columns: UxTableColumnItem<RowMock>[] = [...columnsMock];
   let component: UxTableComponent<any>;
   let fixture: ComponentFixture<UxTableComponent<any>>;
 
@@ -25,18 +26,16 @@ describe('UxTableComponent test the update of a value in a cell', () => {
   });
 
   it('should have a value in a specific cell', () => {
-    const cell = fixture.nativeElement.querySelector('nz-table');
-    const cellToUpdate = cell.querySelector('tbody tr:nth-child(2) td:nth-child(2)');
-    expect(cellToUpdate.textContent).toBe(rows[1].name);
+    const cellToUpdate = fixture.debugElement.queryAll(By.css("body td:nth-child(2)"));
+    expect(cellToUpdate[1].nativeElement.textContent).toBe(rows[1].name);
   });
 
   it('should have a modified value in a specific cell', fakeAsync(() => {
     rows[1].name = 'Modified name';
     fixture.componentRef.setInput('rows', [...rows]);
     fixture.detectChanges();
-    const cell = fixture.nativeElement.querySelector('nz-table');
-    const cellToUpdate = cell.querySelector('tbody tr:nth-child(2) td:nth-child(2)');
-    expect(cellToUpdate.textContent).toBe('Modified name');
+    const cellToUpdate = fixture.debugElement.queryAll(By.css("body td:nth-child(2)"));
+    expect(cellToUpdate[1].nativeElement.textContent).toBe('Modified name');
   }))
 
 });

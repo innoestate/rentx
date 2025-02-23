@@ -1,4 +1,11 @@
-export const rowsMock = [
+export interface RowMock {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+}
+
+export const rowsMockItems: RowMock[] = [
   {
     id: '1',
     name: 'John Doe',

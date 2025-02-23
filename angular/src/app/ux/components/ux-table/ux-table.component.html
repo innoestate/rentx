@@ -1,23 +1,25 @@
-<nz-table #tables [nzData]="rows()">
+<nz-table #table [nzData]="nzRows()">
   <thead>
     <tr>
-      @for(column of columns(); track column.key) {
-      <th>{{ column.label }}</th>
+      @for(column of nzColumns(); track column.key; let columnI = $index) {
+        @if(column.sort){
+          <th [nzSortFn]="column.sort.fn" [nzSortPriority]="column.sort.priority" [nzColumnKey]="column.key">{{ column.label }}</th>
+        }@else {
+          <th>{{ column.label }}</th>
+        }
       }
     </tr>
   </thead>
   <tbody>
-    @for(row of nzRows(); track row; let rowIndex = $index) {
+    @for(row of table.data; track row; let rowI = $index) {
     <tr>
-      <ng-container *ngFor="let cell of row; let columnIndex = index">
-        @if( columns()[columnIndex].type === CELL_TYPE.CELL_TYPE_EDITABLE_STRING) {
-        <td>
-          <div class="clickable" [hidden]="editId === (columnIndex + columns()[rowIndex].key)" (click)="startEdit($event, columnIndex + columns()[rowIndex].key)">{{ cell }}</div>
-          <input [value]="cell" [hidden]="editId !== (columnIndex + columns()[rowIndex].key)" type="text" nz-input
-            (change)="edit($event, rowIndex, columnIndex )" (blur)="stopEdit()" />
-        </td>
+      <ng-container *ngFor="let cell of row; let colI = index">
+        @if( columns()[colI].type === CELL_TYPE.CELL_TYPE_EDITABLE_STRING) {
+          <nz-ux-cell-editable-string [value]="cell" [isOnEditMode]="isCellOnEditMode(colI, rowI)"
+            (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )"
+            (stopEdit)="stopEdit()"></nz-ux-cell-editable-string>
         }@else {
-        <td>{{ cell }}</td>
+          <td>{{ cell }}</td>
         }
       </ng-container>
     </tr>
