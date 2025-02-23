@@ -4,11 +4,12 @@ import { UxTableColumnItem } from '../models/ux-table.column.model';
 import { UxTableComponent } from '../ux-table.component';
 import { columnsWithEditableNameMock } from './mock/columns.editable-name.mock';
 import { RowMock, rowsMockItems } from './mock/rows.mock';
+import { cloneDeep } from 'lodash';
 
 describe('UxTableComponent test the edition of a cell', () => {
 
-  let rows: RowMock[] = [...rowsMockItems];
-  let columns: UxTableColumnItem<RowMock>[] = [...columnsWithEditableNameMock];
+  let rows: RowMock[] = cloneDeep(rowsMockItems);
+  let columns: UxTableColumnItem[] = [...columnsWithEditableNameMock];
   let component: UxTableComponent<any>;
   let fixture: ComponentFixture<UxTableComponent<any>>;
 

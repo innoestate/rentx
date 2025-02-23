@@ -13,7 +13,7 @@ import { UxTableColumnItem } from 'src/app/ux/components/ux-table/models/ux-tabl
 })
 export class OwnersTableComponent implements OnInit {
 
-  columns: UxTableColumnItem<Owner>[] = [
+  columns: UxTableColumnItem[] = [
     {
       key: 'name', label: 'nom et prénom',
       type: CELL_TYPE.CELL_TYPE_EDITABLE_STRING,

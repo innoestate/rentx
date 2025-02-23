@@ -1,13 +1,14 @@
 import { UxTableColumnItem } from "../../models/ux-table.column.model";
 
-export const columnsMock: UxTableColumnItem[] = [
+export const columnsWithSortStringOnNameMock: UxTableColumnItem[] = [
   {
     key: 'id',
     label: 'ID'
   },
   {
     key: 'name',
-    label: 'Name'
+    label: 'Name',
+    sort: 1
   },
   {
     key: 'email',

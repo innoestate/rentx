@@ -1,6 +1,7 @@
 import { CELL_TYPE } from "../../models/ux-table.cell-types";
+import { UxTableColumnItem } from "../../models/ux-table.column.model";
 
-export const columnsWithEditableNameMock = [
+export const columnsWithEditableNameMock: UxTableColumnItem[] = [
   {
     key: 'id',
     label: 'ID'

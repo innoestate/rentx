@@ -5,7 +5,7 @@ export const sortString = (listA: string[], listB: string[], index: number): num
   return (listA[index].localeCompare(listB[index]));
 };
 
-export const formatNzColumnConfig = <T>(column: UxTableColumnItem<T>, columnIndex: number): NzUxColumnConfig => {
+export const formatNzColumnConfig = <T>(column: UxTableColumnItem, columnIndex: number): NzUxColumnConfig => {
   const columnConfig = { ...column } as NzUxColumnConfig;
   if (column.sort !== undefined) {
     columnConfig.sort = {

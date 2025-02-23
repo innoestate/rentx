@@ -22,7 +22,7 @@ export class UxTableComponent<T extends Row> {
 
   CELL_TYPE = CELL_TYPE_ENUM;
   rows = input.required<T[]>();
-  columns = input.required<UxTableColumnItem<T>[]>();
+  columns = input.required<UxTableColumnItem[]>();
   editRow = output<T>();
 
   nzRows: Signal<string[][]> = this.buildNzRows();

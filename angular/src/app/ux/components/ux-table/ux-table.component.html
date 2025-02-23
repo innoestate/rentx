@@ -11,7 +11,7 @@
     </tr>
   </thead>
   <tbody>
-    @for(row of table.data; track row; let rowI = $index) {
+    <ng-container *ngFor="let row of table.data; let rowI = index">
     <tr>
       <ng-container *ngFor="let cell of row; let colI = index">
         @if( columns()[colI].type === CELL_TYPE.CELL_TYPE_EDITABLE_STRING) {
@@ -23,6 +23,6 @@
         }
       </ng-container>
     </tr>
-    }
+    </ng-container>
   </tbody>
 </nz-table>
