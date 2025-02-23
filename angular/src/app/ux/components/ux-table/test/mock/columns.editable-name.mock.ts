@@ -1,4 +1,4 @@
-import { CELL_TYPE } from "../../models/ux-table.cell-types";
+import { CELL_TYPE_ENUM } from "../../enums/ux-table.cell.enum";
 import { UxTableColumnItem } from "../../models/ux-table.column.model";
 
 export const columnsWithEditableNameMock: UxTableColumnItem[] = [
@@ -9,7 +9,7 @@ export const columnsWithEditableNameMock: UxTableColumnItem[] = [
   {
     key: 'name',
     label: 'Name',
-    type: CELL_TYPE.CELL_TYPE_EDITABLE_STRING
+    type: CELL_TYPE_ENUM.EDITABLE_STRING
   },
   {
     key: 'email',

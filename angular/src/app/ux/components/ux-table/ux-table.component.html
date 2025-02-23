@@ -15,7 +15,7 @@
     <tr>
       <ng-container *ngFor="let cell of row; let colI = index">
 
-        @if( columns()[colI].type === CELL_TYPE.CELL_TYPE_EDITABLE_STRING) {
+        @if( columns()[colI].type === CELL_TYPE.EDITABLE_STRING) {
 
           <nz-ux-cell-editable-string
             [value]="cell"
@@ -24,7 +24,7 @@
             (stopEdit)="stopEdit()">
           </nz-ux-cell-editable-string>
 
-        }@else if( columns()[colI].type === CELL_TYPE.CELL_TYPE_EDITABLE_NUMBER) {
+        }@else if( columns()[colI].type === CELL_TYPE.EDITABLE_NUMBER) {
 
           <nz-ux-cell-editable-number
             [value]="cell"

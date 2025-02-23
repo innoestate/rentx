@@ -1,4 +1,5 @@
 import { Component, computed, effect, input, output } from '@angular/core';
+import { CellType } from '../types/ux-table.cell.type';
 
 @Component({
   selector: 'nz-ux-cell-editable-number',
@@ -9,7 +10,7 @@ import { Component, computed, effect, input, output } from '@angular/core';
 })
 export class NzUxCellEditableNumberComponent {
 
-  value = input.required<number>();
+  value = input.required<CellType>();
   editedValue = 0;
   isOnEditMode = input.required<boolean>();
   isOnViewMode = computed(() => !this.isOnEditMode());
@@ -19,7 +20,7 @@ export class NzUxCellEditableNumberComponent {
 
   constructor(){
     effect(() => {
-      this.editedValue = this.value()
+      this.editedValue = this.value() as number;
     })
   }
 

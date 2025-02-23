@@ -3,15 +3,14 @@ import { Component, computed, effect, input, output, Signal } from '@angular/cor
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzUxColumnConfig } from './models/nz-ux-column.config.model';
-import { CELL_TYPE as CELL_TYPE_ENUM } from './models/ux-table.cell-types';
+import { CELL_TYPE_ENUM as CELL_TYPE_ENUM } from './enums/ux-table.cell.enum';
 import { UxTableColumnItem } from './models/ux-table.column.model';
 import { NzUxCellEditableStringComponent } from './nz-ux-cell-editable-string/nz-ux-cell-editable-string.component';
-import { formatNzColumnConfig } from './utils/utils';
+import { formatNzColumnConfig, formatNzRows } from './utils/utils';
 import { NzUxCellEditableNumberComponent } from './nz-ux-cell-editable-number/nz-ux-cell-editable-number.component';
+import { UxTableRow } from './models/ux-table-row.model';
+import { CellType } from './types/ux-table.cell.type';
 
-interface Row {
-  [key: string]: any;
-}
 
 @Component({
   selector: 'ux-table',
@@ -24,14 +23,14 @@ interface Row {
   templateUrl: './ux-table.component.html',
   styleUrl: './ux-table.component.scss'
 })
-export class UxTableComponent<T extends Row> {
+export class UxTableComponent<T extends UxTableRow> {
 
   CELL_TYPE = CELL_TYPE_ENUM;
   rows = input.required<T[]>();
   columns = input.required<UxTableColumnItem[]>();
   editRow = output<T>();
 
-  nzRows: Signal<string[][]> = this.buildNzRows();
+  nzRows: Signal<CellType[][]> = this.buildNzRows();
   nzColumns: Signal<NzUxColumnConfig[]> = this.buildNzColumns();
   editId: string | null = null;
 
@@ -46,7 +45,7 @@ export class UxTableComponent<T extends Row> {
   }
 
   edit(value: any, rowIndex: number, columnIndex: number) {
-    const row = this.rows()[rowIndex] as Row;
+    const row = this.rows()[rowIndex] as UxTableRow;
     const key = this.columns()[columnIndex].key;
     const newRow = { ...row, [key]: value } as T;
     this.editRow.emit(newRow);
@@ -60,16 +59,8 @@ export class UxTableComponent<T extends Row> {
     return this.editId === (columnIndex + this.columns()[rowIndex].key);
   }
 
-  private buildNzRows(): Signal<string[][]> {
-    return computed(() => {
-      return this.rows().map(row => {
-        const alignedRows: string[] = [];
-        this.columns().forEach((column) => {
-          alignedRows.push(row[column.key])
-        });
-        return alignedRows;
-      });
-    });
+  private buildNzRows(): Signal<CellType[][]> {
+    return computed(() => formatNzRows(this.rows(), this.columns()));
   }
 
   private buildNzColumns(): Signal<NzUxColumnConfig[]> {
