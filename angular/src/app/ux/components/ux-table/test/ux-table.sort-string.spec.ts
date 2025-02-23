@@ -38,7 +38,6 @@ describe('UxTableComponent test sorting on a string column', () => {
 
   it('should sort the table and get the first element by descending alphabetic order', fakeAsync(() => {
     const sortUpButton = fixture.debugElement.queryAll(By.css(".ant-table-column-sorter-up"));
-    console.log('sortUpButton', sortUpButton);
     sortUpButton[0].nativeElement.click();
     sortUpButton[0].nativeElement.click();
     tick(500);

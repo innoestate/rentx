@@ -3,6 +3,7 @@ export interface RowMock {
   name: string;
   email: string;
   phone: string;
+  zip: number;
 }
 
 export const rowsMockItems: RowMock[] = [
@@ -10,12 +11,14 @@ export const rowsMockItems: RowMock[] = [
     id: '1',
     name: 'John Doe',
     email: 'john@example.com',
-    phone: '1234567890'
+    phone: '1234567890',
+    zip: 12345
   },
   {
     id: '2',
     name: 'Jane Smith',
     email: 'jane@example.com',
-    phone: '9876543210'
+    phone: '9876543210',
+    zip: 98765
   }
 ]

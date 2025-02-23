@@ -21,7 +21,7 @@ export class OwnersTableComponent implements OnInit {
     },
     { key: 'street', label: 'adresse', sort: 1 },
     { key: 'city', label: 'ville', sort: 2 },
-    { key: 'zip', label: 'code postal', sort: 3 },
+    { key: 'zip', label: 'code postal', sort: 3, type: CELL_TYPE.CELL_TYPE_EDITABLE_NUMBER },
     { key: 'email', label: 'email', sort: 4 },
     { key: 'phone', label: 'phone', sort: 5 },
   ]

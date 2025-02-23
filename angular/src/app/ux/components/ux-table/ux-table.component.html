@@ -14,10 +14,25 @@
     <ng-container *ngFor="let row of table.data; let rowI = index">
     <tr>
       <ng-container *ngFor="let cell of row; let colI = index">
+
         @if( columns()[colI].type === CELL_TYPE.CELL_TYPE_EDITABLE_STRING) {
-          <nz-ux-cell-editable-string [value]="cell" [isOnEditMode]="isCellOnEditMode(colI, rowI)"
+
+          <nz-ux-cell-editable-string
+            [value]="cell"
+            [isOnEditMode]="isCellOnEditMode(colI, rowI)"
             (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )"
-            (stopEdit)="stopEdit()"></nz-ux-cell-editable-string>
+            (stopEdit)="stopEdit()">
+          </nz-ux-cell-editable-string>
+
+        }@else if( columns()[colI].type === CELL_TYPE.CELL_TYPE_EDITABLE_NUMBER) {
+
+          <nz-ux-cell-editable-number
+            [value]="cell"
+            [isOnEditMode]="isCellOnEditMode(colI, rowI)"
+            (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )"
+            (stopEdit)="stopEdit()">
+          </nz-ux-cell-editable-number>
+
         }@else {
           <td>{{ cell }}</td>
         }

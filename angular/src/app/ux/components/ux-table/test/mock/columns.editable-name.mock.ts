@@ -18,5 +18,9 @@ export const columnsWithEditableNameMock: UxTableColumnItem[] = [
   {
     key: 'phone',
     label: 'Phone'
+  },
+  {
+    key: 'zip',
+    label: 'Zip',
   }
 ]

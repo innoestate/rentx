@@ -7,6 +7,7 @@ import { CELL_TYPE as CELL_TYPE_ENUM } from './models/ux-table.cell-types';
 import { UxTableColumnItem } from './models/ux-table.column.model';
 import { NzUxCellEditableStringComponent } from './nz-ux-cell-editable-string/nz-ux-cell-editable-string.component';
 import { formatNzColumnConfig } from './utils/utils';
+import { NzUxCellEditableNumberComponent } from './nz-ux-cell-editable-number/nz-ux-cell-editable-number.component';
 
 interface Row {
   [key: string]: any;
@@ -14,7 +15,12 @@ interface Row {
 
 @Component({
   selector: 'ux-table',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, NzTableModule, NzUxCellEditableStringComponent],
+  imports: [CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NzTableModule,
+    NzUxCellEditableStringComponent,
+    NzUxCellEditableNumberComponent],
   templateUrl: './ux-table.component.html',
   styleUrl: './ux-table.component.scss'
 })
