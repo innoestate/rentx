@@ -29,7 +29,6 @@ describe('UxTableComponent test sorting on a number column', () => {
 
   it('should sort the table and get the first number element by ascending', fakeAsync(() => {
     const sortUpButton = fixture.debugElement.queryAll(By.css(".ant-table-column-sorter-up"));
-    console.log('sortUpButton', sortUpButton);
     let targetedCell = fixture.debugElement.queryAll(By.css("body td:nth-child(5)"));
     expect(targetedCell[0].nativeElement.textContent).toContain(rows[0].zip.toString());
     sortUpButton[0].nativeElement.click();
