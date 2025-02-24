@@ -3,7 +3,7 @@ import { UxTableColumnItem } from "../models/ux-table.column.model";
 import { CellType } from "../types/ux-table.cell.type";
 
 export const sortString = (listA: string[], listB: string[], index: number): number=> {
-  return (listA[index].localeCompare(listB[index]));
+  return (listA[index].toString().localeCompare(listB[index].toString()));
 };
 
 export const formatNzColumnConfig = <T>(column: UxTableColumnItem, columnIndex: number): NzUxColumnConfig => {

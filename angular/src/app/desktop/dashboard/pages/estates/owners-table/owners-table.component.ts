@@ -3,7 +3,6 @@ import { Store } from '@ngrx/store';
 import { loadOwners } from 'src/app/core/store/owner/owners.actions';
 import { selectOwners } from 'src/app/core/store/owner/owners.selectors';
 import { UxTableRow } from 'src/app/ux/components/ux-table/models/ux-table-row.model';
-import { CELL_TYPE_ENUM } from 'src/app/ux/components/ux-table/enums/ux-table.cell.enum';
 import { UxTableColumnItem } from 'src/app/ux/components/ux-table/models/ux-table.column.model';
 
 @Component({
@@ -31,12 +30,11 @@ export class OwnersTableComponent implements OnInit {
   columns: UxTableColumnItem[] = [
     {
       key: 'name', label: 'nom et prénom',
-      type: CELL_TYPE_ENUM.EDITABLE_STRING,
-      sort: 0
+      editable: true
     },
     { key: 'street', label: 'adresse', sort: 1 },
-    { key: 'city', label: 'ville', dropDownItems: this.cities, type: CELL_TYPE_ENUM.DROPDOWN },
-    { key: 'zip', label: 'code postal', sort: 3, type: CELL_TYPE_ENUM.EDITABLE_NUMBER },
+    { key: 'city', label: 'ville', dropDownItems: this.cities, editable: true },
+    { key: 'zip', label: 'code postal', sort: 3, editable: true },
     { key: 'email', label: 'email', sort: 4 },
     { key: 'phone', label: 'phone', sort: 5 },
   ]
@@ -44,6 +42,7 @@ export class OwnersTableComponent implements OnInit {
     return (this.store.selectSignal(selectOwners)().map(
       owner => ({
         ...owner,
+        zip: parseInt(owner.zip, 10),
         city: {...this.cities[Math.floor(Math.random() * this.cities.length)]}
       })
     )) as unknown as UxTableRow[];

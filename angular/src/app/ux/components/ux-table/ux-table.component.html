@@ -1,7 +1,8 @@
+@let columns = nzColumns();
 <nz-table #table [nzData]="nzRows()">
   <thead>
     <tr>
-      @for(column of nzColumns(); track column.key; let columnI = $index) {
+      @for(column of columns; track column.key; let columnI = $index) {
         @if(column.sort){
           <th [nzSortFn]="column.sort.fn" [nzSortPriority]="column.sort.priority" [nzColumnKey]="column.key">{{ column.label }}</th>
         }@else {
@@ -16,39 +17,47 @@
       <ng-container *ngFor="let cell of row; let colI = index">
         <td>
 
-          @if(nzColumns()[colI].dropDownItems){
-            <nz-ux-cell-dropdown
-              [value]="cell"
-              [list]="columns()[colI].dropDownItems??[]"
-              [isOnEditMode]="isCellOnEditMode(colI, rowI)"
-              (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )"
-              (stopEdit)="stopEdit()">
-            </nz-ux-cell-dropdown>
-
-          }@else if(nzColumns()[colI].editable){
-
+          @if(columns[colI].dropDownItems){
+            <ng-container *ngTemplateOutlet="dropdown"></ng-container>
+          }@else if(columns[colI].editable){
             @if(typeof cell === 'string'){
-              <nz-ux-cell-editable-string
-                [value]="cell"
-                [isOnEditMode]="isCellOnEditMode(colI, rowI)"
-                (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )"
-                (stopEdit)="stopEdit()">
-              </nz-ux-cell-editable-string>
-
+              <ng-container *ngTemplateOutlet="editableString"></ng-container>
             }@else if(typeof cell === 'number'){
-              <nz-ux-cell-editable-number
-                [value]="cell"
-                [isOnEditMode]="isCellOnEditMode(colI, rowI)"
-                (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )"
-                (stopEdit)="stopEdit()">
-              </nz-ux-cell-editable-number>
-
+              <ng-container *ngTemplateOutlet="editableNumber"></ng-container>
             }@else {
               {{cell}}
             }
           }@else {
             {{cell}}
           }
+
+          <ng-template #dropdown>
+            <nz-ux-cell-dropdown
+              [value]="cell"
+              [list]="columns[colI].dropDownItems??[]"
+              [isOnEditMode]="isCellOnEditMode(colI, rowI)"
+              (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )"
+              (stopEdit)="stopEdit()">
+            </nz-ux-cell-dropdown>
+          </ng-template>
+
+          <ng-template #editableString>
+            <nz-ux-cell-editable-string
+              [value]="cell"
+              [isOnEditMode]="isCellOnEditMode(colI, rowI)"
+              (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )"
+              (stopEdit)="stopEdit()">
+            </nz-ux-cell-editable-string>
+          </ng-template>
+
+          <ng-template #editableNumber>
+              <nz-ux-cell-editable-number
+                [value]="cell"
+                [isOnEditMode]="isCellOnEditMode(colI, rowI)"
+                (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )"
+                (stopEdit)="stopEdit()">
+              </nz-ux-cell-editable-number>
+          </ng-template>
 
       </td>
       </ng-container>

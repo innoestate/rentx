@@ -38,7 +38,6 @@ export class UxTableComponent<T extends UxTableRow> {
   constructor() {
     effect(() => {
       this.nzRows = this.buildNzRows();
-      console.log(this.nzRows())
     })
   }
 
