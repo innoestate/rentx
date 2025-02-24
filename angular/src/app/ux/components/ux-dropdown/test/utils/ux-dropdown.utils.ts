@@ -10,7 +10,7 @@ export const configureModule = async () => {
   .compileComponents();
 }
 
-export const configureFixture = async (list: UxDropdownItem[]) => {
+export const configureFixture = async (list: UxDropdownItem<string>[]) => {
   let fixture: ComponentFixture<UxDropdownComponent> = TestBed.createComponent(UxDropdownComponent);
   fixture.componentRef.setInput('list', list);
   fixture.componentRef.instance.writeValue('item 1');

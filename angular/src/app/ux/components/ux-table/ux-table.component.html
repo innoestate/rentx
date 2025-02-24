@@ -16,33 +16,7 @@
       <ng-container *ngFor="let cell of row; let colI = index">
         <td>
 
-          <!-- @if(column()[colI].editable){
-            {{cell}}
-          }@else {
-            {{cell}}
-          } -->
-
-
-          @if( columns()[colI].type === CELL_TYPE.EDITABLE_STRING) {
-
-            <nz-ux-cell-editable-string
-              [value]="cell"
-              [isOnEditMode]="isCellOnEditMode(colI, rowI)"
-              (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )"
-              (stopEdit)="stopEdit()">
-            </nz-ux-cell-editable-string>
-
-          }@else if( columns()[colI].type === CELL_TYPE.EDITABLE_NUMBER) {
-
-            <nz-ux-cell-editable-number
-              [value]="cell"
-              [isOnEditMode]="isCellOnEditMode(colI, rowI)"
-              (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )"
-              (stopEdit)="stopEdit()">
-            </nz-ux-cell-editable-number>
-
-          }@else if( columns()[colI].type === CELL_TYPE.DROPDOWN) {
-
+          @if(nzColumns()[colI].dropDownItems){
             <nz-ux-cell-dropdown
               [value]="cell"
               [list]="columns()[colI].dropDownItems??[]"
@@ -51,9 +25,31 @@
               (stopEdit)="stopEdit()">
             </nz-ux-cell-dropdown>
 
+          }@else if(nzColumns()[colI].editable){
+
+            @if(typeof cell === 'string'){
+              <nz-ux-cell-editable-string
+                [value]="cell"
+                [isOnEditMode]="isCellOnEditMode(colI, rowI)"
+                (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )"
+                (stopEdit)="stopEdit()">
+              </nz-ux-cell-editable-string>
+
+            }@else if(typeof cell === 'number'){
+              <nz-ux-cell-editable-number
+                [value]="cell"
+                [isOnEditMode]="isCellOnEditMode(colI, rowI)"
+                (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )"
+                (stopEdit)="stopEdit()">
+              </nz-ux-cell-editable-number>
+
+            }@else {
+              {{cell}}
+            }
           }@else {
-            {{ cell }}
+            {{cell}}
           }
+
       </td>
       </ng-container>
     </tr>

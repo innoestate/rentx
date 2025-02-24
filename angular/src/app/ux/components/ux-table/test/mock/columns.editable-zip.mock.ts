@@ -1,4 +1,3 @@
-import { CELL_TYPE_ENUM } from "../../enums/ux-table.cell.enum";
 import { UxTableColumnItem } from "../../models/ux-table.column.model";
 
 export const columnsWithEditableZipMock: UxTableColumnItem[] = [
@@ -21,6 +20,6 @@ export const columnsWithEditableZipMock: UxTableColumnItem[] = [
   {
     key: 'zip',
     label: 'Zip',
-    type: CELL_TYPE_ENUM.EDITABLE_NUMBER
+    editable: true
   }
 ]

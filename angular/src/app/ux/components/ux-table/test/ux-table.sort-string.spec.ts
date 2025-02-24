@@ -33,7 +33,7 @@ describe('UxTableComponent test sorting on a string column', () => {
     tick(500);
     fixture.detectChanges();
     const targetedCell = fixture.debugElement.queryAll(By.css("body td:nth-child(2)"));
-    expect(targetedCell[0].nativeElement.textContent).toBe(rows[1].name);
+    expect(targetedCell[0].nativeElement.textContent).toContain(rows[1].name);
   }));
 
   it('should sort the table and get the first element by descending alphabetic order', fakeAsync(() => {
@@ -43,7 +43,7 @@ describe('UxTableComponent test sorting on a string column', () => {
     tick(500);
     fixture.detectChanges();
     const targetedCell = fixture.debugElement.queryAll(By.css("body td:nth-child(2)"));
-    expect(targetedCell[0].nativeElement.textContent).toBe(rows[0].name);
+    expect(targetedCell[0].nativeElement.textContent).toContain(rows[0].name);
   }));
 
 });

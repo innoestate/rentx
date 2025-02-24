@@ -1,6 +1,6 @@
 import { UxDropdownItem } from "../../model/ux-dropdown-item.model";
 
-export const list: UxDropdownItem[] = [{
+export const list: UxDropdownItem<string>[] = [{
   label: 'item 1',
   target: 'item 1'
 }, {

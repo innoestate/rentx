@@ -28,7 +28,7 @@ describe('UxTableComponent test the update of a value in a cell', () => {
 
   it('should have a value in a specific cell', () => {
     const cellToUpdate = fixture.debugElement.queryAll(By.css("body td:nth-child(2)"));
-    expect(cellToUpdate[1].nativeElement.textContent).toBe(rows[1].name);
+    expect(cellToUpdate[1].nativeElement.textContent).toContain(rows[1].name);
   });
 
   it('should have a modified value in a specific cell', fakeAsync(() => {
@@ -36,7 +36,7 @@ describe('UxTableComponent test the update of a value in a cell', () => {
     fixture.componentRef.setInput('rows', [...rows]);
     fixture.detectChanges();
     const cellToUpdate = fixture.debugElement.queryAll(By.css("body td:nth-child(2)"));
-    expect(cellToUpdate[1].nativeElement.textContent).toBe('Modified name');
+    expect(cellToUpdate[1].nativeElement.textContent).toContain('Modified name');
   }))
 
 });

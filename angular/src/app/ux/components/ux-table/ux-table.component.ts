@@ -3,7 +3,6 @@ import { Component, computed, effect, input, output, Signal } from '@angular/cor
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzUxColumnConfig } from './models/nz-ux-column.config.model';
-import { CELL_TYPE_ENUM as CELL_TYPE_ENUM } from './enums/ux-table.cell.enum';
 import { UxTableColumnItem } from './models/ux-table.column.model';
 import { NzUxCellEditableStringComponent } from './nz-ux-cell-editable-string/nz-ux-cell-editable-string.component';
 import { formatNzColumnConfig, formatNzRows } from './utils/utils';
@@ -28,7 +27,6 @@ import { NzUxCellDropdownComponent } from './nz-ux-cell-dropdown/nz-ux-cell-drop
 })
 export class UxTableComponent<T extends UxTableRow> {
 
-  CELL_TYPE = CELL_TYPE_ENUM;
   rows = input.required<T[]>();
   columns = input.required<UxTableColumnItem[]>();
   editRow = output<T>();

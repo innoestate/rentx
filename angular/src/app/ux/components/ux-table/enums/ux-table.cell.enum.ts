@@ -1,6 +1,0 @@
-export enum CELL_TYPE_ENUM {
-  DEFAULT = 0,
-  EDITABLE_STRING = 1,
-  EDITABLE_NUMBER = 2,
-  DROPDOWN = 3
-}

@@ -1,6 +1,5 @@
-<!-- <ux-dropdown [(ngModel)]="editedValue" [list]="dropDown().list"></ux-dropdown> -->
 @if(isOnEditMode()){
-  <ux-dropdown [list]="list()" [(ngModel)]="dropDownTarget" ></ux-dropdown>
+  <ux-dropdown [list]="list()" [(ngModel)]="dropDownTarget" [openAtInit]="true"></ux-dropdown>
 }@else{
-  <div class="clickable" (click)="startToEdit()">{{ visibleTarget?.label }}</div>
+  <div class="clickable" (click)="startToEdit()">{{ placeHolderTarget?.label }}</div>
 }
