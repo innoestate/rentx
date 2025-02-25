@@ -7,6 +7,7 @@ export interface RowMock {
   phone: string;
   zip: number;
   language: UxDropdownItem<string>;
+  skills: UxDropdownItem<string>;
 }
 
 export const rowsMockItems: RowMock[] = [
@@ -19,6 +20,10 @@ export const rowsMockItems: RowMock[] = [
     language: {
       label: 'Français',
       target: 'fr'
+    },
+    skills: {
+      label: 'Developer',
+      target: 'dev'
     }
   },
   {
@@ -30,6 +35,10 @@ export const rowsMockItems: RowMock[] = [
     language: {
       label: 'English',
       target: 'en'
+    },
+    skills: {
+      label: 'Ux designer',
+      target: 'ux'
     }
   }
 ]
