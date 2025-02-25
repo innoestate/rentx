@@ -1,0 +1,12 @@
+<a nz-dropdown [nzDropdownMenu]="menu">{{ displayedLabel }}</a>
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu nzSelectable>
+    @for(item of list(); track item){
+      @if(isDropdown(item)){
+        <li nz-menu-item ><ux-nested-dropdown [value]="item" (onSelect)="clickOnItem($event)" [list]="item.target"></ux-nested-dropdown></li>
+      }@else{
+        <li nz-menu-item (click)="clickOnItem(item)">{{ item.label }}</li>
+      }
+    }
+  </ul>
+</nz-dropdown-menu>

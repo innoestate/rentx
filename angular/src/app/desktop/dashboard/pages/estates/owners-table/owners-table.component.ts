@@ -23,7 +23,24 @@ export class OwnersTableComponent implements OnInit {
     },
     {
       label: 'Lyon',
-      target: 'lyon'
+      target: [
+        { label: '5em', target: 'lyon5' },
+        { label: '3em ', target: 'lyon3' },
+        { label: '8em ', target: 'lyon8' },
+        { label: 'nested2', target: [
+          { label: 'quartier X', target: 'nested2-5' },
+          { label: 'quartier Y ', target: 'nested2-3' },
+          { label: 'command', command: () => {
+            alert('YES')
+            return true;
+          } },
+          { label: 'et z ', target: 'nested2-8' },
+        ]},
+        { label: 'message', target: 'lyon-message', command: () => {
+          alert('OK!');
+          return true;
+        }}
+      ]
     }
   ];
 
@@ -33,7 +50,7 @@ export class OwnersTableComponent implements OnInit {
       editable: true
     },
     { key: 'street', label: 'adresse', sort: 1 },
-    { key: 'city', label: 'ville', dropDownItems: this.cities, editable: true },
+    { key: 'city', label: 'ville', dropDownItems: this.cities },
     { key: 'zip', label: 'code postal', sort: 3, editable: true },
     { key: 'email', label: 'email', sort: 4 },
     { key: 'phone', label: 'phone', sort: 5 },
