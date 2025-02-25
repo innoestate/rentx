@@ -11,10 +11,8 @@ import { UxDropdownItem } from '../ux-dropdown/model/ux-dropdown-item.model';
 })
 export class UxNestedDropdownComponent {
 
-  onChange: any = () => { };
-  onTouched = () => { };
-
-  value = input<UxDropdownItem<any>>();
+  triggerType = input<'click' | 'hover'>('click');
+  value = input<UxDropdownItem<any> | any>();
   list = input.required<UxDropdownItem<any>[]>();
   insideValue = signal<UxDropdownItem<any> | null>(null);
   displayedLabel!: string;

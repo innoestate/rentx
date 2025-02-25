@@ -18,7 +18,11 @@
         <td>
 
           @if(columns[colI].dropDownItems){
-            <ng-container *ngTemplateOutlet="dropdown"></ng-container>
+            @if(isNestedDropdown(columns[colI].dropDownItems)){
+              <ux-nested-dropdown [list]="columns[colI].dropDownItems??[]" [value]="cell"></ux-nested-dropdown>
+            }@else {
+              <ng-container *ngTemplateOutlet="dropdown"></ng-container>
+            }
           }@else if(columns[colI].editable){
             @if(typeof cell === 'string'){
               <ng-container *ngTemplateOutlet="editableString"></ng-container>

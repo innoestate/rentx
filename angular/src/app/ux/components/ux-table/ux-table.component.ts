@@ -10,6 +10,8 @@ import { NzUxCellEditableNumberComponent } from './nz-ux-cell-editable-number/nz
 import { UxTableRow } from './models/ux-table-row.model';
 import { CellType } from './types/ux-table.cell.type';
 import { NzUxCellDropdownComponent } from './nz-ux-cell-dropdown/nz-ux-cell-dropdown.component';
+import { UxDropdownItem } from '../ux-dropdown/model/ux-dropdown-item.model';
+import { UxNestedDropdownComponent } from "../ux-nested-dropdown/ux-nested-dropdown.component";
 
 
 @Component({
@@ -20,8 +22,8 @@ import { NzUxCellDropdownComponent } from './nz-ux-cell-dropdown/nz-ux-cell-drop
     NzTableModule,
     NzUxCellEditableStringComponent,
     NzUxCellEditableNumberComponent,
-    NzUxCellDropdownComponent
-  ],
+    NzUxCellDropdownComponent,
+    UxNestedDropdownComponent],
   templateUrl: './ux-table.component.html',
   styleUrl: './ux-table.component.scss'
 })
@@ -58,6 +60,13 @@ export class UxTableComponent<T extends UxTableRow> {
 
   isCellOnEditMode(columnIndex: number, rowIndex: number): boolean {
     return this.editId === (columnIndex + this.columns()[rowIndex].key);
+  }
+
+  isNestedDropdown(cell: UxDropdownItem<any> | any): boolean {
+    return (cell as UxDropdownItem<any>[] ?? []).reduce((acc, cur) => {
+      if (Array.isArray(cur.target)) return true;
+      return acc;
+    }, false);
   }
 
   private buildNzColumns(): Signal<NzUxColumnConfig[]> {
