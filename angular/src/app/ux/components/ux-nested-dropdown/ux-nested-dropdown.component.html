@@ -1,4 +1,4 @@
-<a nz-dropdown [nzDropdownMenu]="menu" [nzTrigger]="triggerType()">{{ displayedLabel }}</a>
+<a #nzTrigger nz-dropdown [nzDropdownMenu]="menu" [nzTrigger]="triggerType()">{{ displayedLabel }}</a>
 <nz-dropdown-menu #menu="nzDropdownMenu">
   <ul nz-menu nzSelectable>
     @for(item of list(); track item){

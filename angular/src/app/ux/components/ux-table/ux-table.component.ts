@@ -8,10 +8,11 @@ import { formatNzColumnConfig, formatNzRows } from './utils/utils';
 import { NzUxCellEditableNumberComponent } from './nz-ux-cell-editable/number/number.component';
 import { UxTableRow } from './models/ux-table-row.model';
 import { CellType } from './types/ux-table.cell.type';
-import { NzUxCellDropdownComponent } from './nz-ux-cell-dropdown/nz-ux-cell-dropdown.component';
+import { NzUxCellDropdownComponent } from './nz-ux-cell-editable/dropdown/dropdown.component';
 import { UxDropdownItem } from '../ux-dropdown/model/ux-dropdown-item.model';
 import { UxNestedDropdownComponent } from "../ux-nested-dropdown/ux-nested-dropdown.component";
 import { NzUxCellEditableStringComponent } from './nz-ux-cell-editable/string/string.component';
+import { NzUxCellNestedDropdownComponent } from './nz-ux-cell-editable/nested-dropdown/string.component';
 
 
 @Component({
@@ -23,7 +24,9 @@ import { NzUxCellEditableStringComponent } from './nz-ux-cell-editable/string/st
     NzUxCellEditableStringComponent,
     NzUxCellEditableNumberComponent,
     NzUxCellDropdownComponent,
-    UxNestedDropdownComponent],
+    NzUxCellNestedDropdownComponent,
+    // UxNestedDropdownComponent
+  ],
   templateUrl: './ux-table.component.html',
   styleUrl: './ux-table.component.scss'
 })

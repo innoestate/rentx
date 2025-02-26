@@ -28,13 +28,14 @@ describe('UxTableComponent test a dropdown in a cell', () => {
     fixture.componentRef.setInput('columns', columns);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    spyOn(component.editRow, 'emit');
+    spyOn(component, 'startEdit');
   });
 
-  it('should have the default value in the cell of nested dropdown', fakeAsync(() => {
-    let cellToEdit = fixture.debugElement.query(By.css('.ant-dropdown-trigger'));
-    console.log(cellToEdit);
-    expect(cellToEdit).toBeTruthy();
-    expect(cellToEdit.nativeElement.textContent).toBe(rows[0].skills.label);
+  it('should open the nested dropdown', fakeAsync(() => {
+    let cellToEdit = fixture.debugElement.queryAll(By.css('nz-ux-cell-nested-dropdown > .clickable'))[0].nativeElement;
+    cellToEdit.click();
+    expect(component.startEdit).toHaveBeenCalled();
   }))
 
 });

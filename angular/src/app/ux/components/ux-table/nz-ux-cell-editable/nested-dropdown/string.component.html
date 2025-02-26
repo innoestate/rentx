@@ -1,0 +1,6 @@
+@if(isOnEditMode()){
+  <ux-nested-dropdown [list]="list()" [value]="insideValue" [openAtInit]="true"></ux-nested-dropdown>
+}@else{
+  <div class="clickable" (click)="startToEdit()">{{ insideValue?.label }}</div>
+}
+

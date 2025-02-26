@@ -19,7 +19,9 @@
 
           @if(columns[colI].dropDownItems){
             @if(isNestedDropdown(columns[colI].dropDownItems)){
-              <ux-nested-dropdown [list]="columns[colI].dropDownItems??[]" [value]="cell"></ux-nested-dropdown>
+              <nz-ux-cell-nested-dropdown [isOnEditMode]="isCellOnEditMode(colI, rowI)"
+              (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )"
+              (stopEdit)="stopEdit()" [list]="columns[colI].dropDownItems??[]" [value]="cell"></nz-ux-cell-nested-dropdown>
             }@else {
               <ng-container *ngTemplateOutlet="dropdown"></ng-container>
             }

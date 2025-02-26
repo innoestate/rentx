@@ -8,10 +8,10 @@ export class NzUxCellEditableComponent {
   isOnEditMode = input.required<boolean>();
   startEdit = output<void>();
   stopEdit = output<void>();
-  edit = output<string>();
+  edit = output<CellType>();
 
   protected isOnViewMode = computed(() => !this.isOnEditMode());
-  protected insideValue = '';
+  protected insideValue!: CellType;
 
   constructor(){
     this.fitInsideValue();

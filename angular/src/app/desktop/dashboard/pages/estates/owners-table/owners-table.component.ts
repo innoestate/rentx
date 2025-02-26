@@ -27,21 +27,33 @@ export class OwnersTableComponent implements OnInit {
         { label: '5em', target: 'lyon5' },
         { label: '3em ', target: 'lyon3' },
         { label: '8em ', target: 'lyon8' },
-        { label: 'nested2', target: [
-          { label: 'quartier X', target: 'nested2-5' },
-          { label: 'quartier Y ', target: 'nested2-3' },
-          { label: 'command', command: () => {
-            alert('YES')
+        {
+          label: 'nested2', target: [
+            { label: 'quartier X', target: 'nested2-5' },
+            { label: 'quartier Y ', target: 'nested2-3' },
+            {
+              label: 'command', command: () => {
+                alert('YES')
+                return true;
+              }
+            },
+            { label: 'et z ', target: 'nested2-8' },
+          ]
+        },
+        {
+          label: 'message', target: 'lyon-message', command: () => {
+            alert('OK!');
             return true;
-          } },
-          { label: 'et z ', target: 'nested2-8' },
-        ]},
-        { label: 'message', target: 'lyon-message', command: () => {
-          alert('OK!');
-          return true;
-        }}
+          }
+        }
       ]
     }
+  ];
+
+  languages = [
+    { label: 'Français', target: 'fr' },
+    { label: 'Anglais ', target: 'en' },
+    { label: 'Espagnol ', target: 'es' }
   ];
 
   columns: UxTableColumnItem[] = [
@@ -52,6 +64,7 @@ export class OwnersTableComponent implements OnInit {
     { key: 'street', label: 'adresse', sort: 1 },
     { key: 'city', label: 'ville', dropDownItems: this.cities },
     { key: 'zip', label: 'code postal', sort: 3, editable: true },
+    { key: 'language', label: 'langue', dropDownItems: this.languages },
     { key: 'email', label: 'email', sort: 4 },
     { key: 'phone', label: 'phone', sort: 5 },
   ]
@@ -60,7 +73,8 @@ export class OwnersTableComponent implements OnInit {
       owner => ({
         ...owner,
         zip: parseInt(owner.zip, 10),
-        city: {...this.cities[Math.floor(Math.random() * this.cities.length)]}
+        language: { ...this.languages[Math.floor(Math.random() * this.languages.length)] },
+        city: { ...this.cities[Math.floor(Math.random() * this.cities.length)] },
       })
     )) as unknown as UxTableRow[];
 

@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash';
-import { NzUxCellDropdownComponent } from '../nz-ux-cell-dropdown.component';
+import { NzUxCellDropdownComponent } from '../dropdown.component';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
