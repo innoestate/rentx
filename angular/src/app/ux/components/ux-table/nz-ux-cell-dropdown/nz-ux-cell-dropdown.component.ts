@@ -1,9 +1,9 @@
-import { Component, computed, effect, input, output } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { isEqual } from 'lodash';
 import { UxDropdownItem } from '../../ux-dropdown/model/ux-dropdown-item.model';
 import { UxDropdownComponent } from '../../ux-dropdown/ux-dropdown.component';
-import { CellType } from '../types/ux-table.cell.type';
+import { NzUxCellEditableComponent } from '../nz-ux-cell-editable/nz-ux-cell-editable.component';
 
 /**
  * Component that represents a cell of type dropdown in a table.
@@ -16,40 +16,33 @@ import { CellType } from '../types/ux-table.cell.type';
   templateUrl: './nz-ux-cell-dropdown.component.html',
   styleUrl: './nz-ux-cell-dropdown.component.scss'
 })
-export class NzUxCellDropdownComponent {
+export class NzUxCellDropdownComponent extends NzUxCellEditableComponent {
 
-  value = input.required<CellType>();
   list = input.required<UxDropdownItem<any>[]>();
-  isOnEditMode = input.required<boolean>();
-  isOnViewMode = computed(() => !this.isOnEditMode());
-  startEdit = output<void>();
-  stopEdit = output<void>();
-  edit = output<string>();
+  protected dropDownTarget!: any;
+  protected override insideValue!: any;
 
-  dropDownTarget!: any;
-  placeHolderTarget!: any;
-
-  constructor() {
+  protected override fitInsideValue() {
     effect(() => {
       this.fitPlaceHolderTargetFromInputValue();
       this.fitTargetsFromEditMode();
     })
   }
 
-  startToEdit() {
+  override startToEdit() {
     this.startEdit.emit();
   }
 
-  makeEdit() {
+  override makeEdit() {
     this.edit.emit(this.dropDownTarget);
   }
 
-  endEdit() {
+  override endEdit() {
     this.stopEdit.emit();
   }
 
   private fitPlaceHolderTargetFromInputValue() {
-    this.placeHolderTarget = this.value();
+    this.insideValue = this.value();
   }
 
   private fitTargetsFromEditMode() {
@@ -62,11 +55,11 @@ export class NzUxCellDropdownComponent {
   }
 
   private setDropDownTargetWhenOpen(){
-    this.dropDownTarget = this.list().find(item => isEqual((this.placeHolderTarget??this.value() as UxDropdownItem<any>).target, item.target))?.target;
+    this.dropDownTarget = this.list().find(item => isEqual((this.insideValue??this.value() as UxDropdownItem<any>).target, item.target))?.target;
   }
 
   private setVisibleTargetAsUptadeValueFromDropdown() {
-    this.placeHolderTarget = this.list().find(item => isEqual(this.dropDownTarget, item.target));
+    this.insideValue = this.list().find(item => isEqual(this.dropDownTarget, item.target));
   }
 
 }

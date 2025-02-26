@@ -1,3 +1,0 @@
-<div class="clickable" [hidden]="isOnEditMode()" (click)="startToEdit()">{{ editedValue }}</div>
-<input [value]="editedValue" [hidden]="isOnViewMode()" type="text" nz-input
-  (change)="makeEdit($event)" (blur)="endEdit()" />
