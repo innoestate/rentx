@@ -1,18 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, input, output, Signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTableModule } from 'ng-zorro-antd/table';
-import { NzUxColumnConfig } from './models/nz-ux-column.config.model';
-import { UxTableColumnItem } from './models/ux-table.column.model';
-import { formatNzColumnConfig, formatNzRows } from './utils/utils';
-import { NzUxCellEditableNumberComponent } from './nz-ux-cell-editable/number/number.component';
-import { UxTableRow } from './models/ux-table-row.model';
-import { CellType } from './types/ux-table.cell.type';
-import { NzUxCellDropdownComponent } from './nz-ux-cell-editable/dropdown/dropdown.component';
 import { UxDropdownItem } from '../ux-dropdown/model/ux-dropdown-item.model';
-import { UxNestedDropdownComponent } from "../ux-nested-dropdown/ux-nested-dropdown.component";
-import { NzUxCellEditableStringComponent } from './nz-ux-cell-editable/string/string.component';
+import { NzUxColumnConfig } from './models/nz-ux-column.config.model';
+import { UxTableRow } from './models/ux-table-row.model';
+import { UxTableColumnItem } from './models/ux-table.column.model';
+import { NzUxCellDropdownComponent } from './nz-ux-cell-editable/dropdown/dropdown.component';
 import { NzUxCellNestedDropdownComponent } from './nz-ux-cell-editable/nested-dropdown/string.component';
+import { NzUxCellEditableNumberComponent } from './nz-ux-cell-editable/number/number.component';
+import { NzUxCellEditableStringComponent } from './nz-ux-cell-editable/string/string.component';
+import { NzUxCellItemComponent } from './nz-ux-cell-item/nz-ux-cell-item.component';
+import { CellType } from './types/ux-table.cell.type';
+import { formatNzColumnConfig, formatNzRows } from './utils/utils';
 
 
 @Component({
@@ -21,11 +22,12 @@ import { NzUxCellNestedDropdownComponent } from './nz-ux-cell-editable/nested-dr
     FormsModule,
     ReactiveFormsModule,
     NzTableModule,
+    NzIconModule,
     NzUxCellEditableStringComponent,
     NzUxCellEditableNumberComponent,
     NzUxCellDropdownComponent,
     NzUxCellNestedDropdownComponent,
-    // UxNestedDropdownComponent
+    NzUxCellItemComponent,
   ],
   templateUrl: './ux-table.component.html',
   styleUrl: './ux-table.component.scss'
@@ -70,6 +72,10 @@ export class UxTableComponent<T extends UxTableRow> {
       if (Array.isArray(cur.target)) return true;
       return acc;
     }, false);
+  }
+
+  isUxItem(cell: any | any): boolean {
+    return cell instanceof Object;
   }
 
   private buildNzColumns(): Signal<NzUxColumnConfig[]> {

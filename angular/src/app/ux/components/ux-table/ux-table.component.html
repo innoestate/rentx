@@ -33,6 +33,8 @@
             }@else {
               {{cell}}
             }
+          }@else if(isUxItem(cell)){
+            <nz-ux-cell-item [item]="cell"></nz-ux-cell-item>
           }@else {
             {{cell}}
           }

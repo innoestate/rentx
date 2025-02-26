@@ -67,6 +67,7 @@ export class OwnersTableComponent implements OnInit {
     { key: 'language', label: 'langue', dropDownItems: this.languages },
     { key: 'email', label: 'email', sort: 4 },
     { key: 'phone', label: 'phone', sort: 5 },
+    { key: 'delete', label: 'delete'}
   ]
   owners = computed(() => {
     return (this.store.selectSignal(selectOwners)().map(
@@ -75,6 +76,10 @@ export class OwnersTableComponent implements OnInit {
         zip: parseInt(owner.zip, 10),
         language: { ...this.languages[Math.floor(Math.random() * this.languages.length)] },
         city: { ...this.cities[Math.floor(Math.random() * this.cities.length)] },
+        delete: {icon: 'delete', command: () => {
+          alert('YES')
+          return true;
+        }}
       })
     )) as unknown as UxTableRow[];
 
