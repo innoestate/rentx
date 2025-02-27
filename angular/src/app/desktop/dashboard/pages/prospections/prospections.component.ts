@@ -55,7 +55,6 @@ export class ProspectionsDesktopComponent  implements OnInit {
     const statusFilter = filters?.find(filter => filter.key === 'status');
     const citiesFilter = filters?.find(filter => filter.key === 'city');
     const sellersFilter = filters?.find(filter => filter.key === 'seller');
-    console.log('sellers', sellersFilter);
     if (statusFilter || citiesFilter || sellersFilter) {
       this.store.dispatch(setProspectionFilters({ filters: { status: statusFilter?.value as PropertyStatusTypes[], city: citiesFilter?.value as string[], sellers: sellersFilter?.value as string[] } }));
     }

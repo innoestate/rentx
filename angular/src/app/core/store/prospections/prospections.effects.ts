@@ -27,9 +27,7 @@ export class ProspectionsEffects {
   loadProspections$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadProspections),
-      tap(load => console.log('loadProspections', load)),
       switchMap(() => this.prospectionsService.getAll()),
-      tap(prospections => console.log('prospections res', prospections)),
       map((prospections: Prospection[]) => (loadProspectionsSuccess({ prospections })))
     )
   );
@@ -39,7 +37,6 @@ export class ProspectionsEffects {
       ofType(createProspection),
       mergeMap(action =>
         this.prospectionsService.create(action.prospection).pipe(
-          tap(console.log),
           map((newProspection: Prospection) => (createProspectionSuccess({ prospection: newProspection })))
         )
       )
