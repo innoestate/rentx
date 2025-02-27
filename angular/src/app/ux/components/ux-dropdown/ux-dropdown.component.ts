@@ -43,6 +43,14 @@ export class UxDropdownComponent implements ControlValueAccessor, AfterViewInit{
     }
   }
 
+  clickOnItem(item: UxDropdownItem<any>) {
+    if (item.command !== undefined) {
+      item.command();
+    } else {
+      // this.selectItem(item);
+    }
+  }
+
   writeValue(target: any): void {
     const item = this.list().find(i => i.target === target);
     this.nzFormControl.setValue(item?.target);
