@@ -55,6 +55,7 @@ export class UxTableComponent<T extends UxTableRow> {
     const key = this.columns()[columnIndex].key;
     const newRow = { ...row, [key]: value } as T;
     this.editRow.emit(newRow);
+    this.editId = null;
   }
 
   stopEdit(): void {

@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { UxDropdownItem } from '../../../ux-dropdown/model/ux-dropdown-item.model';
 import { UxNestedDropdownComponent } from '../../ux-nested-dropdown/ux-nested-dropdown.component';
 import { NzUxCellEditableComponent } from '../nz-ux-cell-editable.component';
@@ -14,6 +14,10 @@ export class NzUxCellNestedDropdownComponent extends NzUxCellEditableComponent {
 
   protected override insideValue!:any;
   list = input.required<UxDropdownItem<string>[]>();
+
+  constructor(){
+    super();
+  }
 
 }
 

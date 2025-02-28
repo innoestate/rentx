@@ -37,20 +37,20 @@
             }
 
             <ng-template #dropdown>
-              <nz-ux-cell-nested-dropdown [isOnEditMode]="isCellOnEditMode(colI, rowI)"
+              <nz-ux-cell-nested-dropdown
                 (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )" (stopEdit)="stopEdit()"
                 [list]="columns[colI].dropDownItems??[]" [value]="cell"></nz-ux-cell-nested-dropdown>
 
             </ng-template>
 
             <ng-template #editableString>
-              <nz-ux-cell-editable-string [value]="cell" [isOnEditMode]="isCellOnEditMode(colI, rowI)"
+              <nz-ux-cell-editable-string [value]="cell"
                 (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )" (stopEdit)="stopEdit()">
               </nz-ux-cell-editable-string>
             </ng-template>
 
             <ng-template #editableNumber>
-              <nz-ux-cell-editable-number [value]="cell" [isOnEditMode]="isCellOnEditMode(colI, rowI)"
+              <nz-ux-cell-editable-number [value]="cell"
                 (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )" (stopEdit)="stopEdit()">
               </nz-ux-cell-editable-number>
             </ng-template>

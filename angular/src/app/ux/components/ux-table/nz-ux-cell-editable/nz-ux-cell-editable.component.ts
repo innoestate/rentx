@@ -1,11 +1,11 @@
-import { computed, Directive, effect, input, output } from '@angular/core';
+import { computed, Directive, effect, input, output, signal } from '@angular/core';
 import { CellType } from '../types/ux-table.cell.type';
 
 @Directive()
 export class NzUxCellEditableComponent {
 
   value = input.required<CellType>();
-  isOnEditMode = input.required<boolean>();
+  isOnEditMode = signal(false);// input.required<boolean>();
   startEdit = output<void>();
   stopEdit = output<void>();
   edit = output<CellType>();
@@ -18,6 +18,7 @@ export class NzUxCellEditableComponent {
   }
 
   startToEdit(){
+    this.isOnEditMode.set(true);
     this.startEdit.emit();
   }
 
@@ -27,6 +28,7 @@ export class NzUxCellEditableComponent {
   }
 
   endEdit(){
+    this.isOnEditMode.set(false);
     this.stopEdit.emit();
   }
 
