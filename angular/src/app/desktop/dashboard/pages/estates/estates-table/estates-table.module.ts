@@ -17,7 +17,7 @@ import { RentsModule } from 'src/app/core/modules/rents.module';
 import { EstatesEffects } from 'src/app/core/store/estate/estates.effects';
 import { estatesReducer } from 'src/app/core/store/estate/estates.reducers';
 import { DevPopupService } from 'src/app/ux/popup/services/dev.popup.service';
-import { PopupService } from 'src/app/ux/popup/services/popup.service';
+import { UxPopupService } from 'src/app/ux/popup/services/popup.service';
 import { UxModule } from 'src/app/ux/ux.module';
 import { environment } from 'src/environments/environment';
 import { EstateTableLodgerCellComponent } from '../estate-table-lodger-cell/estate-table-lodger-cell.component';
@@ -53,7 +53,7 @@ import { EstatesTableComponent } from './estates-table.component';
   ],
   providers: [
     RentService,
-    { provide: PopupService, useClass: environment.production ? PopupService : DevPopupService },
+    { provide: UxPopupService, useClass: environment.production ? UxPopupService : DevPopupService },
   ]
 })
 export class EstatesTableModule { }

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzModalModule } from 'ng-zorro-antd/modal';
-import { PopupService } from './popup/services/popup.service';
+import { UxPopupService } from './popup/services/popup.service';
 import { UxButtonComponent } from './components/ux-button/ux-button.component';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { FormsModule } from '@angular/forms';
@@ -19,7 +19,7 @@ import { FormsModule } from '@angular/forms';
     UxButtonComponent
   ],
   providers: [
-    PopupService,
+    UxPopupService,
   ]
 })
 export class UxModule { }

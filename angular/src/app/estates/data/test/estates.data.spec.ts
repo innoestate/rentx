@@ -6,13 +6,13 @@ import { EstatesService } from 'src/app/core/services/estates.service';
 import { LodgersService } from 'src/app/core/services/lodgers.service';
 import { OwnersService } from 'src/app/core/services/owners.http.service';
 import { RentsHttpService } from 'src/app/core/services/rents.http.service';
-import { EstatesDataService } from '../esates.data.service';
-import { EstatesDataModule } from '../estates.data.module';
 import { EstatesComponent } from './mock/estates.directive';
 import { MockEstatesService } from './mock/estates.service.mocked';
 import { MockLodgersService } from './mock/lodgers.service.mocked';
 import { MockOwnersService } from './mock/owners.service.mocked';
 import { MockRentsHttpService } from './mock/rents.http.service.mocked';
+import { EstatesDataService } from '../esates.data.service';
+import { EstatesDataModule } from '../estates.data.module';
 
 describe('EstatesDataService', () => {
   let dataService: EstatesDataService;

@@ -18,18 +18,20 @@
         <ng-container *ngFor="let cell of row; let colI = index">
           <td>
 
-            @if(columns[colI].dropDownItems){
+            @if(cell === undefined || cell === null){
+
+            }@else if(columns[colI].dropDownItems){
               <ng-container *ngTemplateOutlet="dropdown"></ng-container>
             }@else if(columns[colI].editable){
-            @if(typeof cell === 'string'){
-              <ng-container *ngTemplateOutlet="editableString"></ng-container>
-            }@else if(typeof cell === 'number'){
-              <ng-container *ngTemplateOutlet="editableNumber"></ng-container>
-            }@else {
-            {{cell}}
-            }
+              @if(typeof cell === 'string'){
+                <ng-container *ngTemplateOutlet="editableString"></ng-container>
+              }@else if(typeof cell === 'number'){
+                <ng-container *ngTemplateOutlet="editableNumber"></ng-container>
+              }@else {
+                {{cell}}
+              }
             }@else if(isUxItem(cell)){
-              <ng-container *ngTemplateOutlet="item"></ng-container>
+              <nz-ux-cell-item [item]="cell"></nz-ux-cell-item>
             }@else {
               {{cell}}
             }
@@ -38,6 +40,7 @@
               <nz-ux-cell-nested-dropdown [isOnEditMode]="isCellOnEditMode(colI, rowI)"
                 (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )" (stopEdit)="stopEdit()"
                 [list]="columns[colI].dropDownItems??[]" [value]="cell"></nz-ux-cell-nested-dropdown>
+
             </ng-template>
 
             <ng-template #editableString>

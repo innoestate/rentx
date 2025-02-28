@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { UxDropdownItem } from '../../../ux-dropdown/model/ux-dropdown-item.model';
-import { UxNestedDropdownComponent } from '../../../ux-nested-dropdown/ux-nested-dropdown.component';
+import { UxNestedDropdownComponent } from '../../ux-nested-dropdown/ux-nested-dropdown.component';
 import { NzUxCellEditableComponent } from '../nz-ux-cell-editable.component';
 
 @Component({

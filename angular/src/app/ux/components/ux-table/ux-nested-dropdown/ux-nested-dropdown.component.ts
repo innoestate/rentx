@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, effect, ElementRef, input, output, signal, ViewChild } from '@angular/core';
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-import { UxDropdownItem } from '../ux-dropdown/model/ux-dropdown-item.model';
+import { NzDropdownMenuComponent, NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { UxDropdownItem } from '../../ux-dropdown/model/ux-dropdown-item.model';
 
 @Component({
   selector: 'ux-nested-dropdown',
@@ -12,6 +12,7 @@ import { UxDropdownItem } from '../ux-dropdown/model/ux-dropdown-item.model';
 export class UxNestedDropdownComponent implements AfterViewInit {
 
   @ViewChild('nzTrigger', { static: false }) nzTrigger!: ElementRef;
+  @ViewChild('menu', { static: false }) menu!: NzDropdownMenuComponent;
   triggerType = input<'click' | 'hover'>('click');
   value = input<UxDropdownItem<any> | any>();
   list = input.required<UxDropdownItem<any>[]>();

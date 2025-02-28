@@ -7,21 +7,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 // ng-zorro
-import { CalendarFill, FormOutline, SwapLeftOutline, CheckCircleFill, CheckOutline, CloseCircleFill, EyeFill, FileDoneOutline, HourglassFill, LockFill, MessageFill, QuestionCircleFill, StopFill, SwapOutline, TrophyFill } from '@ant-design/icons-angular/icons';
+import { CalendarFill, CheckCircleFill, CheckOutline, CloseCircleFill, DatabaseFill, DeleteFill, EyeFill, FileDoneOutline, FormOutline, HourglassFill, LockFill, MailOutline, MessageFill, QuestionCircleFill, StopFill, SwapLeftOutline, SwapOutline, ToolFill, TrophyFill } from '@ant-design/icons-angular/icons';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { DatabaseFill, DeleteFill, MailOutline, ToolFill } from '@ant-design/icons-angular/icons';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-import { NzModalModule } from 'ng-zorro-antd/modal';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -33,9 +31,6 @@ import { DeviceGuard } from './core/guards/device.guard';
 import { UserEffects } from './core/store/user/user.effects';
 import { userReducer } from './core/store/user/user.reducers';
 import { LoginComponent } from './login/login.component';
-import { UxModule } from './ux/ux.module';
-import { PopupService } from './ux/popup/services/popup.service';
-import { DevPopupService } from './ux/popup/services/dev.popup.service';
 
 registerLocaleData(en);
 

@@ -5,7 +5,7 @@ import { Observable, take } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class PopupService {
+export class UxPopupService {
 
   constructor(protected modalService: NzModalService) { }
 

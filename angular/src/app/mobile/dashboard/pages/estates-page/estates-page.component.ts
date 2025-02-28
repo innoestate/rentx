@@ -1,18 +1,17 @@
 import { Component } from '@angular/core';
-import { EstatePage } from '../../../../common/pages/estates.page.component';
-import { CreateOwnerPopupComponent } from 'src/app/common/popups/create-owner-popup/create-owner-popup.component';
-import { CreateLodgerPopupComponent } from 'src/app/common/popups/create-lodger-popup/create-lodger-popup.component';
-import { Store } from '@ngrx/store';
 import { Actions } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { CreateOwnerPopupComponent } from 'src/app/common/popups/create-owner-popup/create-owner-popup.component';
+import { OwnerService } from 'src/app/common/services/owners.service';
 import { RentService } from 'src/app/common/services/rents.service';
 import { Estate } from 'src/app/core/models/estate.model';
-import { OwnerService } from 'src/app/common/services/owners.service';
-import { Owner } from 'src/app/core/models/owner.model';
-import { deleteOwner } from 'src/app/core/store/owner/owners.actions';
-import { deleteLodger } from 'src/app/core/store/lodger/lodgers.actions';
 import { Lodger } from 'src/app/core/models/lodger.model';
+import { Owner } from 'src/app/core/models/owner.model';
 import { RentsHttpService } from 'src/app/core/services/rents.http.service';
-import { PopupService } from 'src/app/ux/popup/services/popup.service';
+import { deleteLodger } from 'src/app/core/store/lodger/lodgers.actions';
+import { deleteOwner } from 'src/app/core/store/owner/owners.actions';
+import { UxPopupService } from 'src/app/ux/popup/services/popup.service';
+import { EstatePage } from '../../../../common/pages/estates.page.component';
 
 @Component({
     selector: 'app-estates-page',
@@ -22,7 +21,7 @@ import { PopupService } from 'src/app/ux/popup/services/popup.service';
 })
 export class EstatesMobilePageComponent extends EstatePage {
 
-  constructor(protected override store: Store, protected override actions$: Actions, protected rentService: RentService, protected ownerService: OwnerService, protected override rentHttpService: RentsHttpService, protected override popupService: PopupService) {
+  constructor(protected override store: Store, protected override actions$: Actions, protected rentService: RentService, protected ownerService: OwnerService, protected override rentHttpService: RentsHttpService, protected override popupService: UxPopupService) {
     super(store, actions$, rentHttpService, popupService);
   }
 

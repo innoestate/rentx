@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { DevPopupService } from '../dev.popup.service';
-import { PopupService } from '../popup.service';
+import { UxPopupService } from '../popup.service';
 import { configureModule } from './test/test.utils';
 
 @Component({
@@ -10,7 +10,7 @@ import { configureModule } from './test/test.utils';
 class MockComponent {}
 
 describe('PopupService test that close icon has correct selector for tests (especially e2e tests).', () => {
-  let service: PopupService;
+  let service: UxPopupService;
   let fixture: ComponentFixture<any>;
 
   beforeEach(() => {

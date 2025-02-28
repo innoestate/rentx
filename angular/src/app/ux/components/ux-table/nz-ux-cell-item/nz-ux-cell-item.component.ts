@@ -17,8 +17,15 @@ export class NzUxCellItemComponent {
 
   constructor(elRef: ElementRef) {
     elRef.nativeElement.addEventListener('click', () => {
-        this.insideItem()?.command?.();
+      const insideItem = this.insideItem();
+      if (insideItem?.command) {
+        insideItem?.command();
+      }
     })
+  }
+
+  clickOnItem() {
+    this.insideItem()?.command?.();
   }
 
 }

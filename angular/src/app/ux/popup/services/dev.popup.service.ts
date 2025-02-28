@@ -1,11 +1,11 @@
 import { Injectable, Type } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PopupService } from './popup.service';
+import { UxPopupService } from './popup.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DevPopupService extends PopupService {
+export class DevPopupService extends UxPopupService {
 
   override openPopup(component: Type<any>, title: string, data?: any): Observable<any> {
     this.addTestSelectorOnNzCloseIcon();

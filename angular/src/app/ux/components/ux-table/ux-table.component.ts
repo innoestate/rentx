@@ -7,7 +7,6 @@ import { UxDropdownItem } from '../ux-dropdown/model/ux-dropdown-item.model';
 import { NzUxColumnConfig } from './models/nz-ux-column.config.model';
 import { UxTableRow } from './models/ux-table-row.model';
 import { UxTableColumnItem } from './models/ux-table.column.model';
-import { NzUxCellDropdownComponent } from './nz-ux-cell-editable/dropdown/dropdown.component';
 import { NzUxCellNestedDropdownComponent } from './nz-ux-cell-editable/nested-dropdown/string.component';
 import { NzUxCellEditableNumberComponent } from './nz-ux-cell-editable/number/number.component';
 import { NzUxCellEditableStringComponent } from './nz-ux-cell-editable/string/string.component';
@@ -25,7 +24,6 @@ import { formatNzColumnConfig, formatNzRows } from './utils/utils';
     NzIconModule,
     NzUxCellEditableStringComponent,
     NzUxCellEditableNumberComponent,
-    NzUxCellDropdownComponent,
     NzUxCellNestedDropdownComponent,
     NzUxCellItemComponent,
   ],
@@ -64,7 +62,7 @@ export class UxTableComponent<T extends UxTableRow> {
   }
 
   isCellOnEditMode(columnIndex: number, rowIndex: number): boolean {
-    return this.editId === (columnIndex + this.columns()[rowIndex].key);
+    return this.editId === (columnIndex + this.columns()[rowIndex]?.key);
   }
 
   isNestedDropdown(cell: UxDropdownItem<any> | any): boolean {

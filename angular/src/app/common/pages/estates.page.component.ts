@@ -8,7 +8,7 @@ import { deleteEstate, loadEstates } from 'src/app/core/store/estate/estates.act
 import { selectEstates } from 'src/app/core/store/estate/estates.selectors';
 import { selectLodgers } from 'src/app/core/store/lodger/lodgers.selectors';
 import { selectOwners } from 'src/app/core/store/owner/owners.selectors';
-import { PopupService } from 'src/app/ux/popup/services/popup.service';
+import { UxPopupService } from 'src/app/ux/popup/services/popup.service';
 import { CreateDesktopEstatePopupComponent } from '../popups/create-estate-popup/create-estate-popup.component';
 
 @Directive()
@@ -19,7 +19,7 @@ export class EstatePage implements OnInit {
   estates = this.store.selectSignal(selectEstates);
   editId!: string | null;
 
-  constructor(protected store: Store, protected actions$: Actions, protected rentHttpService: RentsHttpService, protected popupService: PopupService) { }
+  constructor(protected store: Store, protected actions$: Actions, protected rentHttpService: RentsHttpService, protected popupService: UxPopupService) { }
 
   ngOnInit(): void {
     this.store.dispatch(loadEstates());

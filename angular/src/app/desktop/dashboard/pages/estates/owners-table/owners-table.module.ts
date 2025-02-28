@@ -7,7 +7,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { OwnersEffects } from 'src/app/core/store/owner/owners.effects';
 import { ownersReducer } from 'src/app/core/store/owner/owners.reducers';
-import { UxNestedDropdownComponent } from 'src/app/ux/components/ux-nested-dropdown/ux-nested-dropdown.component';
+import { UxNestedDropdownComponent } from 'src/app/ux/components/ux-table/ux-nested-dropdown/ux-nested-dropdown.component';
 
 
 @NgModule({

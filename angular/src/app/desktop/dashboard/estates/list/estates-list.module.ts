@@ -1,9 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { EstatesDataModule } from 'src/app/common/estates/data/estates.data.module';
+import { EstatesDataModule } from 'src/app/estates/data/estates.data.module';
 import { UxTableComponent } from 'src/app/ux/components/ux-table/ux-table.component';
 import { EstatesListComponent } from './estates-list.component';
+import { UxModule } from 'src/app/ux/ux.module';
+import { UxPopupService } from 'src/app/ux/popup/services/popup.service';
+import { EstatesBusinessModuleModule } from 'src/app/estates/business/estates.business.module.module';
 
 
 
@@ -13,7 +16,11 @@ import { EstatesListComponent } from './estates-list.component';
     CommonModule,
     RouterModule.forChild([{ path: '', component: EstatesListComponent }]),
     UxTableComponent,
-    EstatesDataModule
+    EstatesBusinessModuleModule,
+    UxModule
+  ],
+  providers: [
+    UxPopupService,
   ]
 })
 export class EstatesListModule {

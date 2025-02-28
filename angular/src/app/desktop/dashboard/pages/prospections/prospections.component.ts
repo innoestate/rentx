@@ -8,7 +8,7 @@ import { Prospection } from 'src/app/core/models/prospection.model';
 import { loadProspections, removeProspection, setProspectionFilters, updateProspection } from 'src/app/core/store/prospections/prospections.actions';
 import { selectAllCities, selectFilteredProspections } from 'src/app/core/store/prospections/prospections.selectors';
 import { selectAllSellers } from 'src/app/core/store/sellers/sellers.selectors';
-import { PopupService } from 'src/app/ux/popup/services/popup.service';
+import { UxPopupService } from 'src/app/ux/popup/services/popup.service';
 import { PROSPECTION_COLUMNS } from './utils/prospections.utils';
 
 @Component({
@@ -36,7 +36,7 @@ export class ProspectionsDesktopComponent  implements OnInit {
   hoveredRow: any = null;
   editLink = false;
 
-  constructor(private store: Store, private popupService: PopupService) {
+  constructor(private store: Store, private popupService: UxPopupService) {
     this.store.dispatch(loadProspections());
   }
 

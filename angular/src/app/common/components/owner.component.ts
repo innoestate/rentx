@@ -8,7 +8,7 @@ import { Owner } from 'src/app/core/models/owner.model';
 import { editEstate } from 'src/app/core/store/estate/estates.actions';
 import { deleteOwner as deleteOwnerOnStore } from 'src/app/core/store/owner/owners.actions';
 import { selectOwners } from 'src/app/core/store/owner/owners.selectors';
-import { PopupService } from 'src/app/ux/popup/services/popup.service';
+import { UxPopupService } from 'src/app/ux/popup/services/popup.service';
 
 @Directive()
 export class OwnerComponent {
@@ -16,7 +16,7 @@ export class OwnerComponent {
   estate = input.required<Estate>();
   owners = this.store.selectSignal(selectOwners);
 
-  constructor(protected store: Store, protected popupService: PopupService, protected actions$: Actions) { }
+  constructor(protected store: Store, protected popupService: UxPopupService, protected actions$: Actions) { }
 
 
   openCreateOwnerPopup() {

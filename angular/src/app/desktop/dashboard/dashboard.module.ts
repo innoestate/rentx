@@ -8,8 +8,6 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { DashboardDesktopComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard.routing';
 import { MenuDesktopComponent } from './menu/menu.component';
-import { PopupService } from 'src/app/ux/popup/services/popup.service';
-import { DevPopupService } from 'src/app/ux/popup/services/dev.popup.service';
 
 @NgModule({
   declarations: [

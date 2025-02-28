@@ -12,14 +12,14 @@ import { downloadRentReceipt, senddRentReceipt } from "src/app/core/store/rents/
 import { CompleteRentReceiptPopupComponent } from "../popups/complete-rent-receipt-popup/complete-rent-receipt-popup.component";
 import { CreateCustomizedRentReceiptPopupComponent } from "../popups/create-customized-rent-receipt-popup/create-customized-rent-receipt-popup.component";
 import { CreateLodgerPopupComponent } from "../popups/create-lodger-popup/create-lodger-popup.component";
-import { PopupService } from "src/app/ux/popup/services/popup.service";
+import { UxPopupService } from "src/app/ux/popup/services/popup.service";
 
 @Injectable({
   providedIn: 'root',
 })
 export class RentService {
 
-  constructor(private store: Store, private popupService: PopupService, private actions$: Actions) { }
+  constructor(private store: Store, private popupService: UxPopupService, private actions$: Actions) { }
 
 
   protected sendDownloadRentReceiptRequest(estate: Estate) {

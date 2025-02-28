@@ -1,7 +1,7 @@
 import { Component, Directive, effect } from "@angular/core";
-import { EstatesDataService } from "../../esates.data.service";
 import { selectEstates } from "src/app/core/store/estate/estates.selectors";
 import { Store } from "@ngrx/store";
+import { EstatesDataService } from "../../esates.data.service";
 
 @Component({
   selector: 'estates',

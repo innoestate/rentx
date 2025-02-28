@@ -5,10 +5,10 @@ import { State as LodgerState } from "../lodger/lodgers.reducers";
 import { State as OwnerState } from "../owner/owners.reducers";
 import { State as RentsStore } from "../rents/rents.reducer";
 import { State as EstateState } from "./estates.reducers";
+import { ownersSelector } from "../owner/owners.selectors";
 
 
 export const estatesSelector = createFeatureSelector<EstateState>('estates');
-export const ownersSelector = createFeatureSelector<OwnerState>('owners');
 export const lodgersSelector = createFeatureSelector<LodgerState>('lodgers');
 export const rentsSelector = createFeatureSelector<RentsStore>('rents');
 
