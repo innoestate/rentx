@@ -33,7 +33,6 @@ describe('UxTableComponent test the edition of a string cell', () => {
     fixture = TestBed.createComponent(NzUxCellDropdownComponent);
     fixture.componentRef.setInput('list', countries);
     fixture.componentRef.setInput('value', target);
-    fixture.componentRef.setInput('isOnEditMode', false);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
