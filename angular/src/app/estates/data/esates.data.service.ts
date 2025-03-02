@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { deleteEstate, loadEstates } from "../../core/store/estate/estates.actions";
+import { deleteEstate, editEstate, loadEstates } from "../../core/store/estate/estates.actions";
 import { selectEstates } from "../../core/store/estate/estates.selectors";
+import { Estate } from "src/app/core/models/estate.model";
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,10 @@ export class EstatesDataService {
 
   getEstates(){
     return this.store.selectSignal(selectEstates);
+  }
+
+  updateEstate(estate: Partial<Estate>){
+    return this.store.dispatch(editEstate({ estate }));
   }
 
   remove(estateId: string){

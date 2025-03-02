@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DesktopEstatesComponent } from './estates.component';
 import { EstatesDesktopRoutingModule } from './estates.routing';
+import { EstatesModule } from 'src/app/estates/estates.module';
 
 
 
@@ -9,7 +10,8 @@ import { EstatesDesktopRoutingModule } from './estates.routing';
   declarations: [DesktopEstatesComponent],
   imports: [
     CommonModule,
-    EstatesDesktopRoutingModule
+    EstatesModule,
+    EstatesDesktopRoutingModule,
   ]
 })
-export class EstatesModule { }
+export class DesktopEstatesModule { }

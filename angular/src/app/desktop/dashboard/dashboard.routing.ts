@@ -7,7 +7,7 @@ const routes: Routes = [
     path: '', component: DashboardDesktopComponent, children: [
       {
         path: 'estates',
-        loadChildren: () => import('./estates/estates.module').then(m => m.EstatesModule),
+        loadChildren: () => import('./estates/estates.module').then(m => m.DesktopEstatesModule),
       },
       {
         path: 'prospections',

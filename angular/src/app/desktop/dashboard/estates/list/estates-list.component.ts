@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { EstatesTableDirective } from 'src/app/estates/directives/estates.table.directive';
+import { EstatesTableDirective } from 'src/app/estates/components/estates.table.directive';
 
 @Component({
   selector: 'app-estates-list',

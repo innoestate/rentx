@@ -1,1 +1,1 @@
-<ux-table [rows]="estatesTable().rows" [columns]="estatesTable().columns"></ux-table>
+<ux-table (editRow)="updateRow($event)" [rows]="estatesTable().rows" [columns]="estatesTable().columns"></ux-table>

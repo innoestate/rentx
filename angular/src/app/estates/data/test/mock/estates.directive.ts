@@ -13,13 +13,7 @@ export class EstatesComponent{
 
   estates = this.store.selectSignal(selectEstates);
 
-  constructor(protected estatesData: EstatesDataService, protected store: Store) {
-
-    effect(() => {
-      console.log('estates', this.estates());
-    })
-
-  }
+  constructor(protected estatesData: EstatesDataService, protected store: Store) {}
 
 
 }

@@ -13,7 +13,6 @@ export class MockEstatesService {
   ];
 
   getEstates(): Observable<Estate_Dto[]> {
-    console.log('getting estates from mock', this.estates.length);
     return of([...this.estates]).pipe(delay(0));
   }
 
