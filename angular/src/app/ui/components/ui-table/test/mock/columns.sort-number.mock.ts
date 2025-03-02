@@ -23,3 +23,5 @@ export const columnsWithSortNumberOnNameMock: UiTableColumnItem[] = [
     sort: 1
   }
 ]
+
+export const ZIP_COLUMN_INDEX = 5;

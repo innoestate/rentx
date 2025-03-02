@@ -4,7 +4,7 @@ import { UiTableColumnItem } from '../models/ui-table.column.model';
 import { UiTableComponent } from '../ui-table.component';
 import { rowsMockItems } from './mock/rows.mock';
 import { cloneDeep } from 'lodash';
-import { columnsWithSortNumberOnNameMock } from './mock/columns.sort-number.mock';
+import { columnsWithSortNumberOnNameMock, ZIP_COLUMN_INDEX } from './mock/columns.sort-number.mock';
 
 
 describe('UiTableComponent test sorting on a number column', () => {
@@ -27,25 +27,37 @@ describe('UiTableComponent test sorting on a number column', () => {
     fixture.detectChanges();
   });
 
-  it('should sort the table and get the first number element by ascending', fakeAsync(() => {
-    const sortUpButton = fixture.debugElement.queryAll(By.css(".ant-table-column-sorter-up"));
-    let targetedCell = fixture.debugElement.queryAll(By.css("body td:nth-child(5)"));
-    expect(targetedCell[0].nativeElement.textContent).toContain(rows[0].zip.toString());
-    sortUpButton[0].nativeElement.click();
+  it('should sort the table and get the first number element by ascending order after 1 click', fakeAsync(() => {
+    const sortUpButton = fixture.debugElement.queryAll(By.css(".ant-table-column-sorter-up"))[0];
+    const targetedCellB = fixture.debugElement.queryAll(By.css(`body td:nth-child(${ZIP_COLUMN_INDEX})`))[0].nativeElement;
+    expect(targetedCellB.textContent).toContain(rows[0].zip.toString());
+    sortUpButton.nativeElement.click();
     tick(500);
     fixture.detectChanges();
-    targetedCell = fixture.debugElement.queryAll(By.css("body td:nth-child(4)"));
-    expect(targetedCell[0].nativeElement.textContent).toContain(rows[1].zip.toString());
+    const targetedCell = fixture.debugElement.queryAll(By.css(`body td:nth-child(${ZIP_COLUMN_INDEX})`))[0].nativeElement;
+    expect(targetedCell.textContent).toContain(rows[0].zip.toString());
   }));
 
-  it('should sort the table and get the first number element by descending order', fakeAsync(() => {
-    const sortUpButton = fixture.debugElement.queryAll(By.css(".ant-table-column-sorter-up"));
-    sortUpButton[0].nativeElement.click();
-    sortUpButton[0].nativeElement.click();
+
+  it('should sort the table and get the first number element by descending order after 2 click', fakeAsync(() => {
+    const sortUpButton = fixture.debugElement.queryAll(By.css(".ant-table-column-sorter-up"))[0];
+    sortUpButton.nativeElement.click();
+    sortUpButton.nativeElement.click();
     tick(500);
     fixture.detectChanges();
-    const targetedCell = fixture.debugElement.queryAll(By.css("body td:nth-child(5)"));
-    expect(targetedCell[0].nativeElement.textContent).toContain(rows[1].zip.toString());
+    const targetedCell = fixture.debugElement.queryAll(By.css(`body td:nth-child(${ZIP_COLUMN_INDEX})`))[0].nativeElement;
+    expect(targetedCell.textContent).toContain(rows[1].zip.toString());
+  }));
+
+  it('should sort the table and get the first number element by ascending order after 3 click', fakeAsync(() => {
+    const sortUpButton = fixture.debugElement.queryAll(By.css(".ant-table-column-sorter-up"))[0];
+    sortUpButton.nativeElement.click();
+    sortUpButton.nativeElement.click();
+    sortUpButton.nativeElement.click();
+    tick(500);
+    fixture.detectChanges();
+    const targetedCell = fixture.debugElement.queryAll(By.css(`body td:nth-child(${ZIP_COLUMN_INDEX})`))[0].nativeElement;
+    expect(targetedCell.textContent).toContain(rows[0].zip.toString());
   }));
 
 });

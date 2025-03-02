@@ -2,7 +2,7 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { By } from '@angular/platform-browser';
 import { UiTableColumnItem } from '../models/ui-table.column.model';
 import { UiTableComponent } from '../ui-table.component';
-import { columnsWithSortStringOnNameMock } from './mock/columns.sort-string.mock';
+import { columnsWithSortStringOnNameMock, NAME_COLUMN_INDEX } from './mock/columns.sort-string.mock';
 import { rowsMockItems } from './mock/rows.mock';
 import { cloneDeep } from 'lodash';
 
@@ -29,12 +29,12 @@ describe('UiTableComponent test sorting on a string column', () => {
 
   it('should sort the table and get the first element by ascending alphabetic order', fakeAsync(() => {
     const sortUpButton = fixture.debugElement.queryAll(By.css(".ant-table-column-sorter-up"));
-    let targetedCell = fixture.debugElement.queryAll(By.css("body td:nth-child(2)"));
+    let targetedCell = fixture.debugElement.queryAll(By.css(`body td:nth-child(${NAME_COLUMN_INDEX})`));
     expect(targetedCell[0].nativeElement.textContent).toContain(rows[0].name);
     sortUpButton[0].nativeElement.click();
     tick(500);
     fixture.detectChanges();
-    targetedCell = fixture.debugElement.queryAll(By.css("body td:nth-child(2)"));
+    targetedCell = fixture.debugElement.queryAll(By.css(`body td:nth-child(${NAME_COLUMN_INDEX})`));
     expect(targetedCell[0].nativeElement.textContent).toContain(rows[1].name);
   }));
 
@@ -44,7 +44,7 @@ describe('UiTableComponent test sorting on a string column', () => {
     sortUpButton[0].nativeElement.click();
     tick(500);
     fixture.detectChanges();
-    const targetedCell = fixture.debugElement.queryAll(By.css("body td:nth-child(2)"));
+    const targetedCell = fixture.debugElement.queryAll(By.css(`body td:nth-child(${NAME_COLUMN_INDEX})`));
     expect(targetedCell[0].nativeElement.textContent).toContain(rows[0].name);
   }));
 

@@ -28,25 +28,25 @@ describe('UiTableComponent test sorting on a dropdown column', () => {
 
   it('should sort the table and get the first element by ascending alphabetic order', fakeAsync(() => {
     const sortUpButton = fixture.debugElement.queryAll(By.css(".ant-table-column-sorter-up"))[0];
-    let targetedColumn = fixture.debugElement.queryAll(By.css(`body td:nth-child(${LANGUAGES_COLUMN_INDEX})`));
-    expect(targetedColumn[0].nativeElement.textContent).toContain(rows[0].language.label);
+    let targetedCell = fixture.debugElement.queryAll(By.css(`body td:nth-child(${LANGUAGES_COLUMN_INDEX})`))[0].nativeElement;
+    expect(targetedCell.textContent).toContain(rows[0].language.label);
     sortUpButton.nativeElement.click();
     tick(500);
     fixture.detectChanges();
-    targetedColumn = fixture.debugElement.queryAll(By.css(`body td:nth-child(${LANGUAGES_COLUMN_INDEX})`));
-    expect(targetedColumn[0].nativeElement.textContent).toContain(rows[1].language.label);
+    targetedCell = fixture.debugElement.queryAll(By.css(`body td:nth-child(${LANGUAGES_COLUMN_INDEX})`))[0].nativeElement;
+    expect(targetedCell.textContent).toContain(rows[1].language.label);
   }));
 
   it('should sort the table and get the first element by descending alphabetic order', fakeAsync(() => {
     const sortUpButton = fixture.debugElement.queryAll(By.css(".ant-table-column-sorter-up"))[0];
-    let targetedColumn = fixture.debugElement.queryAll(By.css(`body td:nth-child(${LANGUAGES_COLUMN_INDEX})`));
-    expect(targetedColumn[0].nativeElement.textContent).toContain(rows[0].language.label);
+    let targetedCell = fixture.debugElement.queryAll(By.css(`body td:nth-child(${LANGUAGES_COLUMN_INDEX})`))[0].nativeElement;
+    expect(targetedCell.textContent).toContain(rows[0].language.label);
     sortUpButton.nativeElement.click();
     sortUpButton.nativeElement.click();
     tick(500);
     fixture.detectChanges();
-    targetedColumn = fixture.debugElement.queryAll(By.css(`body td:nth-child(${LANGUAGES_COLUMN_INDEX})`));
-    expect(targetedColumn[0].nativeElement.textContent).toContain(rows[0].language.label);
+    targetedCell = fixture.debugElement.queryAll(By.css(`body td:nth-child(${LANGUAGES_COLUMN_INDEX})`))[0].nativeElement;
+    expect(targetedCell.textContent).toContain(rows[0].language.label);
   }));
 
 });
