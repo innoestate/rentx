@@ -25,6 +25,7 @@ export const columnsWithCityAsDropDownMock: UiTableColumnItem[] = [
   {
     key: 'language',
     label: 'Langue',
+    sort: 1,
     dropDownItems: [
       {
         label: 'Français',
@@ -89,3 +90,5 @@ export const columnsWithCityAsDropDownMock: UiTableColumnItem[] = [
     ],
   }
 ]
+
+export const LANGUAGES_COLUMN_INDEX = 6;
