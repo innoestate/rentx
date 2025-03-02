@@ -1,5 +1,5 @@
 @if(isOnEditMode()){
-  <ui-nested-dropdown [list]="list()" [value]="insideValue" [openAtInit]="isOnEditMode()"></ui-nested-dropdown>
+  <ui-nested-dropdown (onSelect)="editNestedDropdown($event)" [list]="list()" [value]="insideValue" [openAtInit]="isOnEditMode()"></ui-nested-dropdown>
 }@else{
   <div class="clickable" (click)="startToEdit()">{{ insideValue?.label }}</div>
 }

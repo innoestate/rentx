@@ -12,16 +12,16 @@ describe('UiTableComponent test the edition of a string cell', () => {
   let countries = [
     {
       label: 'France',
-      target: 'france'
+      value: 'france'
     },
     {
       label: 'Angleterre',
-      target: 'england'
+      value: 'england'
     }
   ]
-  let target = {
+  let value = {
     label: 'France',
-    target: 'france'
+    value: 'france'
   }
 
   beforeEach(async () => {
@@ -32,7 +32,7 @@ describe('UiTableComponent test the edition of a string cell', () => {
 
     fixture = TestBed.createComponent(NzUxCellDropdownComponent);
     fixture.componentRef.setInput('list', countries);
-    fixture.componentRef.setInput('value', target);
+    fixture.componentRef.setInput('value', value);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

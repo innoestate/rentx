@@ -1,5 +1,5 @@
 <nz-select test-selector="nz-select" #nzSelect [nzPlaceHolder]="placeHolder()" [formControl]="nzFormControl">
   @for (item of list(); track item){
-    <nz-option [nzValue]="item.target" [nzLabel]="item.label"></nz-option>
+    <nz-option [nzValue]="item.value" [nzLabel]="item.label"></nz-option>
   }
 </nz-select>

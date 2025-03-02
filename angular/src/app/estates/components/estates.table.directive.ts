@@ -14,7 +14,8 @@ export class EstatesTableDirective {
   constructor(protected estatesData: EstatesDataService, protected estatesUiAdapter: EstatesUiTableAdapter, protected ownersData: OwnersDataService) { }
 
   updateRow(row: UiTableRow) {
-    const estate = this.estatesUiAdapter.extractEstateFromRow(this.estates(), row);
+    console.log('updated row', row);
+    const estate = this.estatesUiAdapter.extractUpdatedFieldsFromRow(this.estates(), row);
     this.estatesData.updateEstate(estate);
   }
 

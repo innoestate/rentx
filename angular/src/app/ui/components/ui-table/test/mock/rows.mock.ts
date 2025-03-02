@@ -19,11 +19,11 @@ export const rowsMockItems: RowMock[] = [
     zip: 10000,
     language: {
       label: 'Français',
-      target: 'fr'
+      value: 'fr'
     },
     skills: {
       label: 'Developer',
-      target: 'dev'
+      value: 'dev'
     }
   },
   {
@@ -34,11 +34,11 @@ export const rowsMockItems: RowMock[] = [
     zip: 12345,
     language: {
       label: 'English',
-      target: 'en'
+      value: 'en'
     },
     skills: {
       label: 'ui designer',
-      target: 'ui'
+      value: 'ui'
     }
   }
 ]

@@ -35,7 +35,7 @@ export class UiNestedDropdownComponent implements AfterViewInit {
   }
 
   isDropdown(item: UiDropdownItem<any>): boolean {
-    return item.target instanceof Array;
+    return item.value instanceof Array;
   }
 
   clickOnItem(item: UiDropdownItem<any>) {

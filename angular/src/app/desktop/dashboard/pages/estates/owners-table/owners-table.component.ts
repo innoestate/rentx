@@ -15,33 +15,33 @@ export class OwnersTableComponent implements OnInit {
   cities = [
     {
       label: 'Paris',
-      target: 'paris'
+      value: 'paris'
     },
     {
       label: 'Marseille',
-      target: 'marseille'
+      value: 'marseille'
     },
     {
       label: 'Lyon',
-      target: [
-        { label: '5em', target: 'lyon5' },
-        { label: '3em ', target: 'lyon3' },
-        { label: '8em ', target: 'lyon8' },
+      value: [
+        { label: '5em', value: 'lyon5' },
+        { label: '3em ', value: 'lyon3' },
+        { label: '8em ', value: 'lyon8' },
         {
-          label: 'nested2', target: [
-            { label: 'quartier X', target: 'nested2-5' },
-            { label: 'quartier Y ', target: 'nested2-3' },
+          label: 'nested2', value: [
+            { label: 'quartier X', value: 'nested2-5' },
+            { label: 'quartier Y ', value: 'nested2-3' },
             {
               label: 'command', command: () => {
                 alert('YES')
                 return true;
               }
             },
-            { label: 'et z ', target: 'nested2-8' },
+            { label: 'et z ', value: 'nested2-8' },
           ]
         },
         {
-          label: 'message', target: 'lyon-message', command: () => {
+          label: 'message', value: 'lyon-message', command: () => {
             alert('OK!');
             return true;
           }
@@ -51,9 +51,9 @@ export class OwnersTableComponent implements OnInit {
   ];
 
   languages = [
-    { label: 'Français', target: 'fr' },
-    { label: 'Anglais ', target: 'en' },
-    { label: 'Espagnol ', target: 'es' }
+    { label: 'Français', value: 'fr' },
+    { label: 'Anglais ', value: 'en' },
+    { label: 'Espagnol ', value: 'es' }
   ];
 
   columns: UiTableColumnItem[] = [

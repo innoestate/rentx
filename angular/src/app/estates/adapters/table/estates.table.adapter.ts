@@ -1,12 +1,11 @@
 import { Injectable } from "@angular/core";
+import { isEqual } from "lodash";
 import { Estate } from "src/app/core/models/estate.model";
 import { Owner } from "src/app/core/models/owner.model";
 import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { EstatesCommandsProvider } from "../../commands/estates.commands.provider";
-import { estatesColumnItems } from "./estates.table.columns";
-import { difference, differenceWith, isEqual } from "lodash";
 
 @Injectable({
   providedIn: 'root'
@@ -18,64 +17,72 @@ export class EstatesUiTableAdapter {
   constructor(private estatesCommands: EstatesCommandsProvider) { }
 
   buildTableList(estates: Estate[], owners: Owner[]): { columns: UiTableColumnItem[], rows: UiTableRow[] } {
-
-    const ownersDropDown = this.createOwnerDropdownItems(owners);
-
-    this.columns = this.createColumns(estatesColumnItems, [{ key: 'owner', items: ownersDropDown }]);
-
     return {
-      columns: this.columns,
+      columns: this.createColumns(owners),
       rows: this.createRows(estates)
     };
   }
 
-  createColumns(columnItems: UiTableColumnItem[], dropDowns: { key: string, items: UiDropdownItem<any>[] }[]): UiTableColumnItem[] {
-    return columnItems.map(column => {
-      const dropDown = dropDowns.find(dropDown => dropDown.key === column.key);
-      return {
-        ...column,
-        dropDownItems: dropDown ? dropDown.items : undefined
-      };
-    });
+  createColumns(owners: Owner[]): UiTableColumnItem[] {
+
+    const ownersDropDown = this.createOwnerDropdownItems(owners);
+
+    return [
+      { key: 'address', label: 'Adresse', sort: 1 },
+      { key: 'plot', label: 'lot', editable: true },
+      { key: 'rent', label: 'loyer', editable: true },
+      { key: 'charges', label: 'charges', editable: true },
+      { key: 'owner_dropdown', label: 'propriétaire', dropDownItems: ownersDropDown, sort: 1 },
+      { key: 'lodger_dropdown', label: 'locataire' },
+      { key: 'actions', label: 'Actions' }
+    ]
   }
 
-  extractEstateFromRow(estates: Estate[], row: UiTableRow): Estate {
+  extractUpdatedFieldsFromRow(estates: Estate[], row: UiTableRow): Record<string, any> {
     const estate = estates.find(estate => estate.id === row['id']);
     if (!estate) throw new Error('Estate not matching with table row');
 
-    const updatedFields = this.updatableFields();
+    const updatedFields = this.getUpdatedFields(estate, row);
 
-    const actualEstateFields: Record<string, any> = {};
-    const updatedEstateFields: Record<string, any> = {};
-
-    updatedFields.forEach(key => {
-      actualEstateFields[key] = (estate as any)[key];
-      if (!isEqual(actualEstateFields[key], row[key])) {
-        updatedEstateFields[key] = row[key];
-      }
-    });
-
-    // const changedKeys = differenceWith(Object.keys(updatedFields), Object.keys(row), (a, b) => isEqual((estate as any)[a], row[b]));
-    console.log('updatedEstateFields', updatedEstateFields);
-    // console.log('changes', changedKeys.map(key => row[key]));
-
-    if (!estate) throw new Error('Estate not matching with table row');
     return {
-      ...estate
+      id: estate.id,
+      ...updatedFields
     }
   }
 
-  private updatableFields(): string[] {
-    return this.columns.reduce((acc, column) => {
-      if (column.dropDownItems || column.editable) acc.push(column.key);
-      return acc;
-    }, [] as string[]);
+  private getUpdatedFields(estate: Estate, row: UiTableRow) {
+
+    const potentialUpdatedFiedls = {
+      plot: row['plot'],
+      rent: row['rent'],
+      charges: row['charges'],
+      owner_id: (row['owner_dropdown'] as UiDropdownItem<any>)?.value,
+      // lodger_id: row['lodger'],
+    }
+
+    console.log('potentialUpdatedFiedls', potentialUpdatedFiedls)
+
+    const actualEstateUpdatableFields = {
+      plot: estate.plot,
+      rent: estate.rent,
+      charges: estate.charges,
+      owner_id: estate.owner_id,
+      // lodger_id: estate.lodger_id,
+    }
+
+    return Object.keys(potentialUpdatedFiedls).reduce((acc, key) => {
+      if (!isEqual((actualEstateUpdatableFields as any)[key], (potentialUpdatedFiedls as any)[key])) {
+        acc[key] = (potentialUpdatedFiedls as any)[key]
+      }
+      return acc
+    }, {} as Record<string, any>)
+
   }
 
   private createOwnerDropdownItems(owners: Owner[]): UiDropdownItem<any>[] {
-    const ownersDropdownItems: UiDropdownItem<any>[] = owners.map(owner => ({ target: owner.id, label: owner.name }));
+    const ownersDropdownItems: UiDropdownItem<any>[] = owners.map(owner => ({ value: owner.id, label: owner.name }));
     ownersDropdownItems.push({
-      target: 'new', label: 'créer un nouveau', command: () => this.estatesCommands.createEstate()
+      value: 'new', label: 'créer un nouveau', command: () => this.estatesCommands.createEstate()
     })
     return ownersDropdownItems;
   }
@@ -91,8 +98,8 @@ export class EstatesUiTableAdapter {
       plot: estate.plot ?? '',
       rent: estate.rent ?? 0,
       charges: estate.charges ?? 0,
-      owner: ({ label: estate.owner?.name, target: estate.owner?.id } as any),
-      lodger: estate.lodger?.name ?? '',
+      owner_dropdown: ({ label: estate.owner?.name, value: estate.owner?.id } as any),
+      lodger_dropdown: estate.lodger?.name ?? '',
       actions: ({
         icon: 'delete', label: '', command: () => {
           // this.estatesData.remove(estate.id)

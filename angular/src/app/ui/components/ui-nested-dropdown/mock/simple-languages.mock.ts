@@ -1,14 +1,14 @@
 export const simpleLanguagesList = [
   {
     label: 'Français',
-    target: 'fr'
+    value: 'fr'
   },
   {
     label: 'Anglais',
-    target: 'en'
+    value: 'en'
   },
   {
     label: 'Espagnol',
-    target: 'es'
+    value: 'es'
   }
 ];

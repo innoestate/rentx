@@ -28,15 +28,15 @@ export const columnsWithCityAsDropDownMock: UiTableColumnItem[] = [
     dropDownItems: [
       {
         label: 'Français',
-        target: 'fr'
+        value: 'fr'
       },
       {
         label: 'English',
-        target: 'en'
+        value: 'en'
       },
       {
         label: 'Espagnol',
-        target: 'es'
+        value: 'es'
       }
     ],
   },
@@ -46,43 +46,43 @@ export const columnsWithCityAsDropDownMock: UiTableColumnItem[] = [
     dropDownItems: [
       {
         label: 'Developer',
-        target: 'dev'
+        value: 'dev'
       },
       {
         label: 'ui designer',
-        target: 'ui'
+        value: 'ui'
       },
       {
         label: 'Product owner',
-        target: 'po'
+        value: 'po'
       },
       {
         label: 'R&D',
-        target: [
+        value: [
           {
             label: 'Product owner',
-            target: 'po'
+            value: 'po'
           },
           {
             label: 'Developer',
-            target: 'dev'
+            value: 'dev'
           },
           {
             label: 'ui designer',
-            target: 'ui'
+            value: 'ui'
           },
         ]
       },
       {
         label: 'Sales',
-        target: [
+        value: [
           {
             label: 'Dirrecteur de vente',
-            target: 'sales director'
+            value: 'sales director'
           },
           {
             label: 'Setter',
-            target: 'setter'
+            value: 'setter'
           }
         ]
       }

@@ -19,7 +19,7 @@ export class CreateDesktopEstatePopupComponent extends CreateEstateComponent {
 
   ownersDropdown = computed(() => {
 
-    return this.owners().map(owner => ({ label: owner.name, target: owner.id}));
+    return this.owners().map(owner => ({ label: owner.name, value: owner.id}));
 
   });
 

@@ -55,11 +55,11 @@ export class NzUxCellDropdownComponent extends NzUxCellEditableComponent {
   }
 
   private setDropDownTargetWhenOpen(){
-    this.dropDownTarget = this.list().find(item => isEqual((this.insideValue??this.value() as UiDropdownItem<any>).target, item.target))?.target;
+    this.dropDownTarget = this.list().find(item => isEqual((this.insideValue??this.value() as UiDropdownItem<any>).value, item.value))?.value;
   }
 
   private setVisibleTargetAsUptadeValueFromDropdown() {
-    this.insideValue = this.list().find(item => isEqual(this.dropDownTarget, item.target));
+    this.insideValue = this.list().find(item => isEqual(this.dropDownTarget, item.value));
   }
 
 }

@@ -51,6 +51,7 @@ export class UiTableComponent<T extends UiTableRow> {
   }
 
   edit(value: any, rowIndex: number, columnIndex: number) {
+    console.log('edit');
     const row = this.rows()[rowIndex] as UiTableRow;
     const key = this.columns()[columnIndex].key;
     const newRow = { ...row, [key]: value } as T;
@@ -68,7 +69,7 @@ export class UiTableComponent<T extends UiTableRow> {
 
   isNestedDropdown(cell: UiDropdownItem<any> | any): boolean {
     return (cell as UiDropdownItem<any>[] ?? []).reduce((acc, cur) => {
-      if (Array.isArray(cur.target)) return true;
+      if (Array.isArray(cur.value)) return true;
       return acc;
     }, false);
   }

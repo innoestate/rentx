@@ -51,9 +51,9 @@ export class UiDropdownComponent implements ControlValueAccessor, AfterViewInit{
     }
   }
 
-  writeValue(target: any): void {
-    const item = this.list().find(i => i.target === target);
-    this.nzFormControl.setValue(item?.target);
+  writeValue(value: any): void {
+    const item = this.list().find(i => i.value === value);
+    this.nzFormControl.setValue(item?.value);
   }
 
   registerOnChange(fn: any): void {
