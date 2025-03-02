@@ -5,11 +5,11 @@ import { Lodger } from 'src/app/core/models/lodger.model';
 import { Owner } from 'src/app/core/models/owner.model';
 import { SignatureComponent } from '../../components/signature-pad/signature.component';
 import { Estate } from 'src/app/core/models/estate.model';
-import { UxButtonComponent } from 'src/app/ux/components/ux-button/ux-button.component';
+import { UiButtonComponent } from 'src/app/ui/components/ui-button/ui-button.component';
 
 @Component({
     selector: 'app-complete-rent-receipt-popup',
-    imports: [ReactiveFormsModule, SignatureComponent, UxButtonComponent],
+    imports: [ReactiveFormsModule, SignatureComponent, UiButtonComponent],
     templateUrl: './complete-rent-receipt-popup.component.html',
     styleUrl: './complete-rent-receipt-popup.component.scss',
     standalone: true

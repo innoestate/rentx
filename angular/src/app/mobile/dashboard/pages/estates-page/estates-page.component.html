@@ -1,7 +1,7 @@
 <div class="add-estate-button-container">
-  <ux-button [text]="'+ bien'" [type]="'primary'" (click)="openCreateEstatePopup()"></ux-button>
-  <ux-button [text]="'propriétaire'" [type]="'primary'" nz-dropdown [nzDropdownMenu]="owner"></ux-button>
-  <ux-button [text]="'locataire'" [type]="'primary'" nz-dropdown [nzDropdownMenu]="lodger"></ux-button>
+  <ui-button [text]="'+ bien'" [type]="'primary'" (click)="openCreateEstatePopup()"></ui-button>
+  <ui-button [text]="'propriétaire'" [type]="'primary'" nz-dropdown [nzDropdownMenu]="owner"></ui-button>
+  <ui-button [text]="'locataire'" [type]="'primary'" nz-dropdown [nzDropdownMenu]="lodger"></ui-button>
 </div>
 
 <nz-dropdown-menu #owner nz-selectable>
@@ -81,8 +81,8 @@
 
           <li nz-menu-item>
             <div class="row footer-buttons">
-              <ux-button [text]="'quittances'" [type]="'primary'" (click)="openRentReceipt(estate)"></ux-button>
-              <ux-button [text]="'supprimer'" [type]="'danger'" (click)="deleteEstate(estate)"></ux-button>
+              <ui-button [text]="'quittances'" [type]="'primary'" (click)="openRentReceipt(estate)"></ui-button>
+              <ui-button [text]="'supprimer'" [type]="'danger'" (click)="deleteEstate(estate)"></ui-button>
             </div>
           </li>
 

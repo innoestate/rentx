@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import SignaturePad from 'signature_pad';
-import { UxButtonComponent } from 'src/app/ux/components/ux-button/ux-button.component';
+import { UiButtonComponent } from 'src/app/ui/components/ui-button/ui-button.component';
 
 
 @Component({
@@ -9,7 +9,7 @@ import { UxButtonComponent } from 'src/app/ux/components/ux-button/ux-button.com
     templateUrl: './signature.component.html',
     styleUrl: './signature.component.less',
     standalone: true,
-    imports: [UxButtonComponent],
+    imports: [UiButtonComponent],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,

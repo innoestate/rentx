@@ -10,7 +10,7 @@ import { Owner } from 'src/app/core/models/owner.model';
 import { RentsHttpService } from 'src/app/core/services/rents.http.service';
 import { deleteLodger } from 'src/app/core/store/lodger/lodgers.actions';
 import { deleteOwner } from 'src/app/core/store/owner/owners.actions';
-import { UxPopupService } from 'src/app/ux/popup/services/popup.service';
+import { UiPopupService } from 'src/app/ui/popup/services/popup.service';
 import { EstatePage } from '../../../../common/pages/estates.page.component';
 
 @Component({
@@ -21,7 +21,7 @@ import { EstatePage } from '../../../../common/pages/estates.page.component';
 })
 export class EstatesMobilePageComponent extends EstatePage {
 
-  constructor(protected override store: Store, protected override actions$: Actions, protected rentService: RentService, protected ownerService: OwnerService, protected override rentHttpService: RentsHttpService, protected override popupService: UxPopupService) {
+  constructor(protected override store: Store, protected override actions$: Actions, protected rentService: RentService, protected ownerService: OwnerService, protected override rentHttpService: RentsHttpService, protected override popupService: UiPopupService) {
     super(store, actions$, rentHttpService, popupService);
   }
 

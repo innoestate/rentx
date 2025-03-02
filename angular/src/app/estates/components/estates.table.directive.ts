@@ -1,5 +1,5 @@
 import { computed, Directive } from "@angular/core";
-import { UxTableRow } from "src/app/ux/components/ux-table/models/ux-table-row.model";
+import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { EstatesUiTableAdapter } from "../adapters/table/estates.table.adapter";
 import { EstatesDataService } from "../data/esates.data.service";
 import { OwnersDataService } from "src/app/owners/data/owners.data.service";
@@ -13,7 +13,7 @@ export class EstatesTableDirective {
 
   constructor(protected estatesData: EstatesDataService, protected estatesUiAdapter: EstatesUiTableAdapter, protected ownersData: OwnersDataService) { }
 
-  updateRow(row: UxTableRow) {
+  updateRow(row: UiTableRow) {
     const estate = this.estatesUiAdapter.extractEstateFromRow(this.estates(), row);
     this.estatesData.updateEstate(estate);
   }

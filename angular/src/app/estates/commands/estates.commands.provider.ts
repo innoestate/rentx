@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { UxPopupService } from "src/app/ux/popup/services/popup.service";
+import { UiPopupService } from "src/app/ui/popup/services/popup.service";
 import { CreateEstateCommand } from "./create.estate.command";
 
 @Injectable({
@@ -7,7 +7,7 @@ import { CreateEstateCommand } from "./create.estate.command";
 })
 export class EstatesCommandsProvider {
 
-  constructor(private popupService: UxPopupService) {}
+  constructor(private popupService: UiPopupService) {}
 
   createEstate(){
     return new CreateEstateCommand(this.popupService).execute();

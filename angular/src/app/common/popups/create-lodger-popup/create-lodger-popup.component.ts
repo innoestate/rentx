@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { UxButtonComponent } from 'src/app/ux/components/ux-button/ux-button.component';
+import { UiButtonComponent } from 'src/app/ui/components/ui-button/ui-button.component';
 import { CreateLodgerComponent } from '../../components/create-lodger.component';
 
 @Component({
@@ -9,7 +9,7 @@ import { CreateLodgerComponent } from '../../components/create-lodger.component'
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        UxButtonComponent
+        UiButtonComponent
     ],
     templateUrl: './create-lodger-popup.component.html',
     styleUrls: ['./create-lodger-popup.component.scss'],

@@ -5,7 +5,7 @@ import { NzModalRef } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { ProspectionStoreFacade } from 'src/app/core/facade/prospection.store.facade';
 import { SellerDTO } from 'src/app/core/models/dtos/seller.dto.model';
-import { UxButtonComponent } from 'src/app/ux/components/ux-button/ux-button.component';
+import { UiButtonComponent } from 'src/app/ui/components/ui-button/ui-button.component';
 
 @Component({
     selector: 'app-create-seller-popup',
@@ -14,7 +14,7 @@ import { UxButtonComponent } from 'src/app/ux/components/ux-button/ux-button.com
         CommonModule,
         ReactiveFormsModule,
         NzSelectModule,
-        UxButtonComponent
+        UiButtonComponent
     ],
     styleUrls: ['./create-seller-popup.component.css'],
     standalone: true

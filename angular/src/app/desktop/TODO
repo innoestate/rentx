@@ -1,4 +1,4 @@
-ok maintenant il faut remplacer le nz-table de estates par ux-table.
+ok maintenant il faut remplacer le nz-table de estates par ui-table.
 
 Ce serait l'occasion de créer d'abord une facade par exemple un objet business.
 Cet objet gèreral l'interaction avec le store et fournira au composant EstateTable le tableau en tant qu'objet JS.
@@ -6,7 +6,7 @@ Cet objet gèreral l'interaction avec le store et fournira au composant EstateTa
 Prenons l'exmemple de l'appel du rentsService pour créer une quittance.
 Comment est-ce que ça se passe?
 
-1- ux-table va ouvrir la commande passé dans l'objet JS.
+1- ui-table va ouvrir la commande passé dans l'objet JS.
 ...bah en fait c'est tout ?
 Eh non!
 
@@ -38,14 +38,14 @@ Via par exemple des fichiers utils.
 
 Sinon on mélange tout.
 On aurait donc une couche business pour gérer l'interraction avec le store (et donc le serveur car ça peut être autre chose qu'un store, il s'agit d'une façade).
-Et une couche ux dans le composant qui elle va préparer le tableau pour le composant.
+Et une couche ui dans le composant qui elle va préparer le tableau pour le composant.
 
-Ce serait par exemple un service estate-table-ux.ts qui ferait appel a business.estate.ts.
+Ce serait par exemple un service estate-table-ui.ts qui ferait appel a business.estate.ts.
 Il aurait une fonction createTable() qui renvoie le tableau a utiliser dans le composant.
 
 Oui mais pour createTable il faut utiliser les services pour configurer les commandes...
 C'est pas plutôt du business ça?
-Pas vraiment...mais ce n'est pas non plus du ux.
+Pas vraiment...mais ce n'est pas non plus du ui.
 
 
 
@@ -53,11 +53,11 @@ Pas vraiment...mais ce n'est pas non plus du ux.
 Pour résumer.
 
 On aurait un service business = façade, qui gère les données.
-Un service ux qui var transformer ces données en tableau affichable.
+Un service ui qui var transformer ces données en tableau affichable.
 
-Quel est le problème de mettre les interactions avec d'autres services comme la création de quittance personnalisée dans la couche ux ?
+Quel est le problème de mettre les interactions avec d'autres services comme la création de quittance personnalisée dans la couche ui ?
 
-En fait le nom ux est peut être mal choisi.
+En fait le nom ui est peut être mal choisi.
 IL faudrait plutôt quelque chose comme utils...
 Mais j'aime pas trop.
 C'est vague.
@@ -70,8 +70,8 @@ ah mais...la gestion des quittances par exemple serait alors un service appelé 
 
 Et si on avait plutôt plusieurs couches business ?
 
-Comme par exemple business-ux, business-data.
-Business ux gèrerait par exemple l'ouverture des popups.
+Comme par exemple business-ui, business-data.
+Business ui gèrerait par exemple l'ouverture des popups.
 et business-data le store.
 
 

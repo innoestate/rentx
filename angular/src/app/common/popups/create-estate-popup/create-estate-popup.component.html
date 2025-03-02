@@ -14,9 +14,9 @@
 
   <label for="owner">Propriétaire</label>
 
-  <ux-dropdown [list]="ownersDropdown()" [placeHolder]="'Propriétaire'" formControlName="owner_id"></ux-dropdown>
+  <ui-dropdown [list]="ownersDropdown()" [placeHolder]="'Propriétaire'" formControlName="owner_id"></ui-dropdown>
 
 </form>
 <div class="footer">
-  <ux-button [testSelector]="'create-estate-submit'" [text]="'créer'" [type]="'primary'" [disabled]="formGroup.invalid" (click)="create()"></ux-button>
+  <ui-button [testSelector]="'create-estate-submit'" [text]="'créer'" [type]="'primary'" [disabled]="formGroup.invalid" (click)="create()"></ui-button>
 </div>

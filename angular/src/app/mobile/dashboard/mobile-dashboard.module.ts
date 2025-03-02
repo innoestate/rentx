@@ -8,7 +8,7 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
-import { UxModule } from 'src/app/ux/ux.module';
+import { UiModule } from 'src/app/ui/ui.module';
 
 
 @NgModule({
@@ -19,7 +19,7 @@ import { UxModule } from 'src/app/ux/ux.module';
   imports: [
     CommonModule,
     MobileDashboardRoutingModule,
-    UxModule,
+    UiModule,
     NzLayoutModule,
     NzMenuModule,
     NzButtonModule,

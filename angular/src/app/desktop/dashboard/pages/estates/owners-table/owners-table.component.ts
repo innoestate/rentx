@@ -2,8 +2,8 @@ import { Component, computed, OnInit, Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { loadOwners } from 'src/app/core/store/owner/owners.actions';
 import { selectOwners } from 'src/app/core/store/owner/owners.selectors';
-import { UxTableRow } from 'src/app/ux/components/ux-table/models/ux-table-row.model';
-import { UxTableColumnItem } from 'src/app/ux/components/ux-table/models/ux-table.column.model';
+import { UiTableRow } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
+import { UiTableColumnItem } from 'src/app/ui/components/ui-table/models/ui-table.column.model';
 
 @Component({
   standalone: false,
@@ -56,7 +56,7 @@ export class OwnersTableComponent implements OnInit {
     { label: 'Espagnol ', target: 'es' }
   ];
 
-  columns: UxTableColumnItem[] = [
+  columns: UiTableColumnItem[] = [
     {
       key: 'name', label: 'nom et prénom',
       editable: true
@@ -81,7 +81,7 @@ export class OwnersTableComponent implements OnInit {
           return true;
         }}
       })
-    )) as unknown as UxTableRow[];
+    )) as unknown as UiTableRow[];
 
   })
 

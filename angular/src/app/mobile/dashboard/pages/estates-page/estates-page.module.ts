@@ -20,7 +20,7 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { RentsModule } from 'src/app/core/modules/rents.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { MailOutline } from '@ant-design/icons-angular/icons';
-import { UxModule } from 'src/app/ux/ux.module';
+import { UiModule } from 'src/app/ui/ui.module';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,7 @@ import { UxModule } from 'src/app/ux/ux.module';
     FormsModule,
     LodgersModule,
     RentsModule,
-    UxModule,
+    UiModule,
     NzModalModule,
     NzButtonModule,
     NzMenuModule,

@@ -1,6 +1,6 @@
-import { UxTableColumnItem } from "src/app/ux/components/ux-table/models/ux-table.column.model";
+import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 
-export const estatesColumnItems: UxTableColumnItem[] = [
+export const estatesColumnItems: UiTableColumnItem[] = [
   { key: 'address', label: 'Adresse' },
   { key: 'plot', label: 'lot', editable: true },
   { key: 'rent', label: 'loyer', editable: true },

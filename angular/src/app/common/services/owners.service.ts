@@ -4,7 +4,7 @@ import { Store } from "@ngrx/store";
 import { Estate } from "src/app/core/models/estate.model";
 import { Owner } from "src/app/core/models/owner.model";
 import { downloadRentReceipt } from "src/app/core/store/rents/rents.actions";
-import { UxPopupService } from "src/app/ux/popup/services/popup.service";
+import { UiPopupService } from "src/app/ui/popup/services/popup.service";
 import { EditOwnerPopupComponent } from "../popups/edit-owner-popup/edit-owner-popup.component";
 
 @Injectable({
@@ -12,7 +12,7 @@ import { EditOwnerPopupComponent } from "../popups/edit-owner-popup/edit-owner-p
 })
 export class OwnerService {
 
-  constructor(private store: Store, private popupService: UxPopupService, private actions$: Actions) {}
+  constructor(private store: Store, private popupService: UiPopupService, private actions$: Actions) {}
 
 
   protected sendDownloadRentReceiptRequest(estate: Estate) {

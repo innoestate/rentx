@@ -1,14 +1,14 @@
 import { Component, computed } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CreateEstateComponent } from 'src/app/common/components/create-estate.component';
-import { UxButtonComponent } from 'src/app/ux/components/ux-button/ux-button.component';
-import { UxDropdownComponent } from 'src/app/ux/components/ux-dropdown/ux-dropdown.component';
+import { UiButtonComponent } from 'src/app/ui/components/ui-button/ui-button.component';
+import { UiDropdownComponent } from 'src/app/ui/components/ui-dropdown/ui-dropdown.component';
 
 @Component({
     imports: [
         ReactiveFormsModule,
-        UxButtonComponent,
-        UxDropdownComponent
+        UiButtonComponent,
+        UiDropdownComponent
     ],
     selector: 'create-estate-popup',
     templateUrl: './create-estate-popup.component.html',

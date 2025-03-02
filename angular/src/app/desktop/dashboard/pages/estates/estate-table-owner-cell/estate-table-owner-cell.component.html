@@ -32,7 +32,7 @@
     @if(owners(); as owners){
     @if(owners.length){
     <li nz-menu-item (click)="createOwner(estate())" class="primary">
-      <ux-button [text]="'ajouter un propriétaire'" [type]="'primary'"></ux-button>
+      <ui-button [text]="'ajouter un propriétaire'" [type]="'primary'"></ui-button>
     </li>
     }@else{
     <li nz-menu-item (click)="createOwner()" class="primary">ajouter un nouveau propriétaire</li>

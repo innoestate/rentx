@@ -3,14 +3,14 @@ import { CreateEstateCommand } from "./commands/create.estate.command";
 import { EstatesDataModule } from "./data/estates.data.module";
 import { EstatesUiTableAdapter } from "./adapters/table/estates.table.adapter";
 import { EstatesTableDirective } from "./components/estates.table.directive";
-import { UxModule } from "../ux/ux.module";
+import { UiModule } from "../ui/ui.module";
 import { EstatesCommandsProvider } from "./commands/estates.commands.provider";
 
 @NgModule({
   imports: [
     EstatesDataModule,
     EstatesTableDirective,
-    UxModule
+    UiModule
   ],
   providers: [
     CreateEstateCommand,

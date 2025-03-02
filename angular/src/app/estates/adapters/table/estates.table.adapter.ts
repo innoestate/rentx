@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Estate } from "src/app/core/models/estate.model";
 import { Owner } from "src/app/core/models/owner.model";
-import { UxDropdownItem } from "src/app/ux/components/ux-dropdown/model/ux-dropdown-item.model";
-import { UxTableRow } from "src/app/ux/components/ux-table/models/ux-table-row.model";
-import { UxTableColumnItem } from "src/app/ux/components/ux-table/models/ux-table.column.model";
+import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
+import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
+import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { EstatesCommandsProvider } from "../../commands/estates.commands.provider";
 import { estatesColumnItems } from "./estates.table.columns";
 import { difference, differenceWith, isEqual } from "lodash";
@@ -13,11 +13,11 @@ import { difference, differenceWith, isEqual } from "lodash";
 })
 export class EstatesUiTableAdapter {
 
-  columns: UxTableColumnItem[] = [];
+  columns: UiTableColumnItem[] = [];
 
   constructor(private estatesCommands: EstatesCommandsProvider) { }
 
-  buildTableList(estates: Estate[], owners: Owner[]): { columns: UxTableColumnItem[], rows: UxTableRow[] } {
+  buildTableList(estates: Estate[], owners: Owner[]): { columns: UiTableColumnItem[], rows: UiTableRow[] } {
 
     const ownersDropDown = this.createOwnerDropdownItems(owners);
 
@@ -29,7 +29,7 @@ export class EstatesUiTableAdapter {
     };
   }
 
-  createColumns(columnItems: UxTableColumnItem[], dropDowns: { key: string, items: UxDropdownItem<any>[] }[]): UxTableColumnItem[] {
+  createColumns(columnItems: UiTableColumnItem[], dropDowns: { key: string, items: UiDropdownItem<any>[] }[]): UiTableColumnItem[] {
     return columnItems.map(column => {
       const dropDown = dropDowns.find(dropDown => dropDown.key === column.key);
       return {
@@ -39,7 +39,7 @@ export class EstatesUiTableAdapter {
     });
   }
 
-  extractEstateFromRow(estates: Estate[], row: UxTableRow): Estate {
+  extractEstateFromRow(estates: Estate[], row: UiTableRow): Estate {
     const estate = estates.find(estate => estate.id === row['id']);
     if (!estate) throw new Error('Estate not matching with table row');
 
@@ -72,19 +72,19 @@ export class EstatesUiTableAdapter {
     }, [] as string[]);
   }
 
-  private createOwnerDropdownItems(owners: Owner[]): UxDropdownItem<any>[] {
-    const ownersDropdownItems: UxDropdownItem<any>[] = owners.map(owner => ({ target: owner.id, label: owner.name }));
+  private createOwnerDropdownItems(owners: Owner[]): UiDropdownItem<any>[] {
+    const ownersDropdownItems: UiDropdownItem<any>[] = owners.map(owner => ({ target: owner.id, label: owner.name }));
     ownersDropdownItems.push({
       target: 'new', label: 'créer un nouveau', command: () => this.estatesCommands.createEstate()
     })
     return ownersDropdownItems;
   }
 
-  private createRows(estates: Estate[]): UxTableRow[] {
-    return estates.map(estate => this.formatUxTableRow(estate));
+  private createRows(estates: Estate[]): UiTableRow[] {
+    return estates.map(estate => this.formatUiTableRow(estate));
   }
 
-  private formatUxTableRow(estate: Estate): UxTableRow {
+  private formatUiTableRow(estate: Estate): UiTableRow {
     return {
       id: estate.id,
       address: estate.street + ' ' + estate.city + ' ' + estate.zip,

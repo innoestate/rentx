@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RentService } from 'src/app/common/services/rents.service';
-import { DevPopupService } from 'src/app/ux/popup/services/dev.popup.service';
-import { UxPopupService } from 'src/app/ux/popup/services/popup.service';
-import { UxModule } from 'src/app/ux/ux.module';
+import { DevPopupService } from 'src/app/ui/popup/services/dev.popup.service';
+import { UiPopupService } from 'src/app/ui/popup/services/popup.service';
+import { UiModule } from 'src/app/ui/ui.module';
 import { environment } from 'src/environments/environment';
 import { EstatesPageDesktopComponent } from './estates.component';
 import { EstatesDesktopRoutingModule } from './estates.routing';
@@ -15,11 +15,11 @@ import { EstatesDesktopRoutingModule } from './estates.routing';
   imports: [
     CommonModule,
     EstatesDesktopRoutingModule,
-    UxModule,
+    UiModule,
   ],
   providers: [
     RentService,
-    { provide: UxPopupService, useClass: environment.production ? UxPopupService : DevPopupService }
+    { provide: UiPopupService, useClass: environment.production ? UiPopupService : DevPopupService }
   ]
 })
 export class EstatesModule { }
