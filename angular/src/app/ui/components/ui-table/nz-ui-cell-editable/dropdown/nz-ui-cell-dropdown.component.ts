@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { isEqual } from 'lodash';
 import { UiDropdownItem } from '../../../ui-dropdown/model/ui-dropdown-item.model';
 import { UiDropdownComponent } from '../../../ui-dropdown/ui-dropdown.component';
-import { NzUxCellEditableComponent } from '../nz-ui-cell-editable.component';
+import { NzUxCellEditableComponent } from '../nz-ui-cell-editable.directive';
 
 /**
  * Component that represents a cell of type dropdown in a table.
@@ -13,10 +13,10 @@ import { NzUxCellEditableComponent } from '../nz-ui-cell-editable.component';
   selector: 'nz-ui-cell-dropdown',
   imports: [UiDropdownComponent, FormsModule],
   standalone: true,
-  templateUrl: './dropdown.component.html',
-  styleUrl: './dropdown.component.scss'
+  templateUrl: './nz-ui-cell-dropdown.component.html',
+  styleUrl: './nz-ui-cell-dropdown.component.scss'
 })
-export class NzUxCellDropdownComponent extends NzUxCellEditableComponent {
+export class NzUiCellDropdownComponent extends NzUxCellEditableComponent {
 
   list = input.required<UiDropdownItem<any>[]>();
   protected dropDownTarget!: any;

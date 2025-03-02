@@ -1,7 +1,7 @@
 import { Component, input, signal } from '@angular/core';
 import { UiDropdownItem } from '../../../ui-dropdown/model/ui-dropdown-item.model';
 import { UiNestedDropdownComponent } from '../../../ui-nested-dropdown/ui-nested-dropdown.component';
-import { NzUxCellEditableComponent } from '../nz-ui-cell-editable.component';
+import { NzUxCellEditableComponent } from '../nz-ui-cell-editable.directive';
 import { isEqual } from 'lodash';
 
 @Component({

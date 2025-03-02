@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { NzUxCellEditableComponent } from '../nz-ui-cell-editable.component';
+import { NzUxCellEditableComponent } from '../nz-ui-cell-editable.directive';
 
 @Component({
   selector: 'nz-ui-cell-editable-number',
   imports: [],
   standalone: true,
-  templateUrl: './number.component.html',
-  styleUrl: './number.component.scss'
+  templateUrl: './nz-ui-cell-editable-number.component.html',
+  styleUrl: './nz-ui-cell-editable-number.component.scss'
 })
 export class NzUxCellEditableNumberComponent extends NzUxCellEditableComponent {
 

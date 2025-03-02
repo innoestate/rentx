@@ -1,13 +1,13 @@
 import { cloneDeep } from 'lodash';
-import { NzUxCellDropdownComponent } from '../dropdown.component';
+import { NzUiCellDropdownComponent } from '../nz-ui-cell-dropdown.component';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('UiTableComponent test the edition of a string cell', () => {
 
-  let component: NzUxCellDropdownComponent;
-  let fixture: ComponentFixture<NzUxCellDropdownComponent>;
+  let component: NzUiCellDropdownComponent;
+  let fixture: ComponentFixture<NzUiCellDropdownComponent>;
 
   let countries = [
     {
@@ -26,11 +26,11 @@ describe('UiTableComponent test the edition of a string cell', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NzUxCellDropdownComponent, BrowserAnimationsModule]
+      imports: [NzUiCellDropdownComponent, BrowserAnimationsModule]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(NzUxCellDropdownComponent);
+    fixture = TestBed.createComponent(NzUiCellDropdownComponent);
     fixture.componentRef.setInput('list', countries);
     fixture.componentRef.setInput('value', value);
     component = fixture.componentInstance;

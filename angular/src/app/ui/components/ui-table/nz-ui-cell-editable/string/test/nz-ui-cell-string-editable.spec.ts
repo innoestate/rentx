@@ -1,6 +1,6 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
-import { NzUxCellEditableStringComponent } from "../string.component";
+import { NzUxCellEditableStringComponent } from "../nz-ui-cell-editable-string.component";
 
 describe('NzUxCellEditableStringComponent unit test', () => {
 
