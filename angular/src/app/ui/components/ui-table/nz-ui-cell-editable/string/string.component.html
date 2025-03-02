@@ -1,3 +1,3 @@
-<div class="clickable" [hidden]="isOnEditMode()" (click)="startToEdit()">{{ insideValue() }}</div>
+<div class="clickable" [class.loading-value]="loadingValue()" [hidden]="isOnEditMode()" (click)="startToEdit()">{{ insideValue() }}</div>
 <input [value]="insideValue()" [hidden]="isOnViewMode()" type="text" nz-input
-  (change)="makeEdit($event)" (blur)="endEdit()" />
+  (change)="makeEdit($event)" (blur)="endEdit()"  />

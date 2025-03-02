@@ -12,6 +12,8 @@ html {
 
   --ant-danger-color: rgb(214, 25, 25);
 
+  --ui-loading-color: #808080;
+
   --rentx-prospection-color-unresponsive: #FFAB00;  // Orange pour signaler un état en attente
   --rentx-prospection-color-contacted: #FFD700;     // Jaune pour un état initial mais pas encore avancé
   --rentx-prospection-color-scheduled: #1E90FF;     // Bleu clair pour une étape planifiée
@@ -194,3 +196,10 @@ html {
 
 
 }
+
+//UI STYLES (to recatoyze later)
+.loading-value {
+  color: var(--ui-loading-color);
+  opacity: 0.75;
+}
+

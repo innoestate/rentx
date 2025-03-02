@@ -51,7 +51,6 @@ export class UiTableComponent<T extends UiTableRow> {
   }
 
   edit(value: any, rowIndex: number, columnIndex: number) {
-    console.log('edit');
     const row = this.rows()[rowIndex] as UiTableRow;
     const key = this.columns()[columnIndex].key;
     const newRow = { ...row, [key]: value } as T;

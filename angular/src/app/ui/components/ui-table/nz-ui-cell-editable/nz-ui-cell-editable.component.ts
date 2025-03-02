@@ -12,7 +12,11 @@ export class NzUxCellEditableComponent {
 
   protected isOnViewMode = computed(() => !this.isOnEditMode());
   protected insideValue = signal<CellType>(undefined!);
-
+  protected loadingValue = computed(() => {
+    const frontendValue = this.insideValue();
+    const backendValue = this.value();
+    return frontendValue !== backendValue;
+  })
 
   constructor(){
     this.fitInsideValue();
