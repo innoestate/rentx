@@ -63,17 +63,6 @@ export class UiTableComponent<T extends UiTableRow> {
     this.editId = null;
   }
 
-  isCellOnEditMode(columnIndex: number, rowIndex: number): boolean {
-    return this.editId === (columnIndex + this.columns()[rowIndex]?.key);
-  }
-
-  isNestedDropdown(cell: UiDropdownItem<any> | any): boolean {
-    return (cell as UiDropdownItem<any>[] ?? []).reduce((acc, cur) => {
-      if (Array.isArray(cur.value)) return true;
-      return acc;
-    }, false);
-  }
-
   isUiItem(cell: any | any): boolean {
     return cell instanceof Object;
   }

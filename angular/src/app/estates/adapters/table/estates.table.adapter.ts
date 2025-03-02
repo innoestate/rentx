@@ -29,7 +29,7 @@ export class EstatesUiTableAdapter {
 
     return [
       { key: 'address', label: 'Adresse', sort: 1 },
-      { key: 'plot', label: 'lot', editable: true },
+      { key: 'plot', label: 'lot', editable: true, sort: 2 },
       { key: 'rent', label: 'loyer', editable: true },
       { key: 'charges', label: 'charges', editable: true },
       { key: 'owner_dropdown', label: 'propriétaire', dropDownItems: ownersDropDown, sort: 1 },
