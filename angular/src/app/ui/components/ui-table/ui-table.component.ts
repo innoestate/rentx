@@ -3,11 +3,10 @@ import { Component, computed, effect, input, output, Signal } from '@angular/cor
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTableModule } from 'ng-zorro-antd/table';
-import { UiDropdownItem } from '../ui-dropdown/model/ui-dropdown-item.model';
 import { NzUiColumnConfig } from './models/nz-ui-column.config.model';
 import { UiTableRow } from './models/ui-table-row.model';
 import { UiTableColumnItem } from './models/ui-table.column.model';
-import { NzUxCellNestedDropdownComponent } from './nz-ui-cell-editable/nested-dropdown/string.component';
+import { NzUiCellNestedDropdownComponent } from './nz-ui-cell-editable/nested-dropdown/nz-ui-cell-nested-dropdown.component';
 import { NzUxCellEditableNumberComponent } from './nz-ui-cell-editable/number/number.component';
 import { NzUxCellEditableStringComponent } from './nz-ui-cell-editable/string/string.component';
 import { NzUxCellItemComponent } from './nz-ui-cell-item/nz-ui-cell-item.component';
@@ -24,7 +23,7 @@ import { formatNzColumnConfig, formatNzRows } from './utils/utils';
     NzIconModule,
     NzUxCellEditableStringComponent,
     NzUxCellEditableNumberComponent,
-    NzUxCellNestedDropdownComponent,
+    NzUiCellNestedDropdownComponent,
     NzUxCellItemComponent,
   ],
   templateUrl: './ui-table.component.html',

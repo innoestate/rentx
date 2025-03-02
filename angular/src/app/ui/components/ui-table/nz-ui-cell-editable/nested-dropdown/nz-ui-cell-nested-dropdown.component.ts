@@ -8,21 +8,18 @@ import { isEqual } from 'lodash';
   selector: 'nz-ui-cell-nested-dropdown',
   imports: [UiNestedDropdownComponent],
   standalone: true,
-  templateUrl: './string.component.html',
-  styleUrl: './string.component.scss'
+  templateUrl: './nz-ui-cell-nested-dropdown.component.html',
+  styleUrl: './nz-ui-cell-nested-dropdown.component.scss'
 })
-export class NzUxCellNestedDropdownComponent extends NzUxCellEditableComponent {
+export class NzUiCellNestedDropdownComponent extends NzUxCellEditableComponent {
 
   protected override insideValue = signal<any>(undefined!);
   list = input.required<UiDropdownItem<string>[]>();
 
-  constructor() {
-    super();
-  }
-
   editNestedDropdown(value: UiDropdownItem<any>) {
     this.edit.emit(value);
     this.insideValue.set(this.list().find(item => isEqual(value, item)));
+    this.isOnEditMode.set(false);
   }
 
 }
