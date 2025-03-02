@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { NzUxCellEditableComponent } from '../nz-ui-cell-editable.component';
 
 @Component({
@@ -10,12 +10,12 @@ import { NzUxCellEditableComponent } from '../nz-ui-cell-editable.component';
 })
 export class NzUxCellEditableNumberComponent extends NzUxCellEditableComponent {
 
-  protected override insideValue!: number;
+  protected override insideValue = signal<number>(0);
 
   override makeEdit(event: Event){
     const value = parseFloat((event.target as HTMLInputElement).value);
     this.edit.emit(value);
-    this.insideValue = value;
+    this.insideValue.set(value);
   }
 
 }

@@ -15,14 +15,19 @@ export class NzUxCellItemComponent {
   item = input.required<CellType>();
   insideItem = computed(() => this.item() as UiItem);
 
-  constructor(elRef: ElementRef) {
-    elRef.nativeElement.addEventListener('click', () => {
+  constructor(private elRef: ElementRef) {
+    this.activeCommandOnClick();
+  }
+
+  private activeCommandOnClick(){
+    this.elRef.nativeElement.addEventListener('click', () => {
       const insideItem = this.insideItem();
       if (insideItem?.command) {
         insideItem?.command();
       }
     })
   }
+
 
   clickOnItem() {
     this.insideItem()?.command?.();

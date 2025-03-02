@@ -1,5 +1,4 @@
-import { Component, computed, effect, input, output } from '@angular/core';
-import { CellType } from '../../types/ui-table.cell.type';
+import { Component } from '@angular/core';
 import { NzUxCellEditableComponent } from '../nz-ui-cell-editable.component';
 
 @Component({

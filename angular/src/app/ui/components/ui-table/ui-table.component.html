@@ -40,7 +40,6 @@
               <nz-ui-cell-nested-dropdown
                 (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )" (stopEdit)="stopEdit()"
                 [list]="columns[colI].dropDownItems??[]" [value]="cell"></nz-ui-cell-nested-dropdown>
-
             </ng-template>
 
             <ng-template #editableString>

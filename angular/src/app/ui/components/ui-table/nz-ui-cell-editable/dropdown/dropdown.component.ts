@@ -1,4 +1,4 @@
-import { Component, effect, input } from '@angular/core';
+import { Component, effect, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { isEqual } from 'lodash';
 import { UiDropdownItem } from '../../../ui-dropdown/model/ui-dropdown-item.model';
@@ -20,7 +20,7 @@ export class NzUxCellDropdownComponent extends NzUxCellEditableComponent {
 
   list = input.required<UiDropdownItem<any>[]>();
   protected dropDownTarget!: any;
-  protected override insideValue!: any;
+  protected override insideValue = signal<any>(undefined!);
 
   protected override fitInsideValue() {
     effect(() => {
@@ -42,7 +42,7 @@ export class NzUxCellDropdownComponent extends NzUxCellEditableComponent {
   }
 
   private fitPlaceHolderTargetFromInputValue() {
-    this.insideValue = this.value();
+    this.insideValue.set(this.value());
   }
 
   private fitTargetsFromEditMode() {
@@ -55,11 +55,11 @@ export class NzUxCellDropdownComponent extends NzUxCellEditableComponent {
   }
 
   private setDropDownTargetWhenOpen(){
-    this.dropDownTarget = this.list().find(item => isEqual((this.insideValue??this.value() as UiDropdownItem<any>).value, item.value))?.value;
+    this.dropDownTarget = this.list().find(item => isEqual((this.insideValue()??this.value() as UiDropdownItem<any>).value, item.value))?.value;
   }
 
   private setVisibleTargetAsUptadeValueFromDropdown() {
-    this.insideValue = this.list().find(item => isEqual(this.dropDownTarget, item.value));
+    this.insideValue.set(this.list().find(item => isEqual(this.dropDownTarget, item.value)));
   }
 
 }

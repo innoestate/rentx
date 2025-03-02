@@ -5,13 +5,14 @@ import { CellType } from '../types/ui-table.cell.type';
 export class NzUxCellEditableComponent {
 
   value = input.required<CellType>();
-  isOnEditMode = signal(false);// input.required<boolean>();
+  isOnEditMode = signal(false);
   startEdit = output<void>();
   stopEdit = output<void>();
   edit = output<CellType>();
 
   protected isOnViewMode = computed(() => !this.isOnEditMode());
-  protected insideValue!: CellType;
+  protected insideValue = signal<CellType>(undefined!);
+
 
   constructor(){
     this.fitInsideValue();
@@ -24,7 +25,7 @@ export class NzUxCellEditableComponent {
 
   makeEdit(event: Event){
     this.edit.emit((event.target as HTMLInputElement).value);
-    this.insideValue = (event.target as HTMLInputElement).value;
+    this.insideValue.set((event.target as HTMLInputElement).value);
   }
 
   endEdit(){
@@ -34,7 +35,7 @@ export class NzUxCellEditableComponent {
 
   protected fitInsideValue(){
     effect(() => {
-      this.insideValue = this.value() as string;
+      this.insideValue.set(this.value());
     })
   }
 
