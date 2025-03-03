@@ -1,5 +1,4 @@
 import { NgModule } from "@angular/core";
-import { CreateEstateCommand } from "./commands/create.estate.command";
 import { EstatesDataModule } from "./data/estates.data.module";
 import { EstatesUiTableAdapter } from "./adapters/table/estates.table.adapter";
 import { EstatesTableDirective } from "./components/estates.table.directive";
@@ -14,7 +13,6 @@ import { RentService } from "../common/services/rents.service";
     UiModule
   ],
   providers: [
-    CreateEstateCommand,
     EstatesCommandsProvider,
     EstatesUiTableAdapter,
     RentService

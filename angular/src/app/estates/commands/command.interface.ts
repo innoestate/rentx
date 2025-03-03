@@ -1,3 +1,3 @@
 export interface Command {
-  execute(): boolean;
+  execute(): boolean | void;
 }

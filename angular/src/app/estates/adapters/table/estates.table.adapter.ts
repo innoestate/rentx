@@ -91,7 +91,10 @@ export class EstatesUiTableAdapter {
   private createOwnerDropdownItems(owners: Owner[]): UiDropdownItem<any>[] {
     const ownersDropdownItems: UiDropdownItem<any>[] = owners.map(owner => ({ value: owner.id, label: owner.name }));
     ownersDropdownItems.push({
-      value: 'new', label: 'créer un nouveau', command: () => this.estatesCommands.createEstate()
+      value: 'new', label: 'créer un nouveau', command: () => {
+        this.estatesCommands.createEstate()
+        return true;
+      }
     })
     return ownersDropdownItems;
   }
@@ -119,7 +122,7 @@ export class EstatesUiTableAdapter {
         lodger_dropdown: ({ label: estate.lodger?.name ?? '', value: estate.lodger?.id } as any),
         actions: ({
           icon: 'delete', label: '', command: () => {
-            // this.estatesData.remove(estate.id)
+            this.estatesCommands.removeEstate(estate)
           }
         } as any)
       }

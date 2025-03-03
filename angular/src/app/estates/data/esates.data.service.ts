@@ -23,6 +23,10 @@ export class EstatesDataService {
     return this.store.dispatch(editEstate({ estate }));
   }
 
+  removeEstate(estateId: string){
+    return this.store.dispatch(deleteEstate({ estateId }));
+  }
+
   remove(estateId: string){
     this.store.dispatch(deleteEstate({ estateId }));
   }

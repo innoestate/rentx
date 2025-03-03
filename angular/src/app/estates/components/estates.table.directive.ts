@@ -4,6 +4,7 @@ import { EstatesUiTableAdapter } from "../adapters/table/estates.table.adapter";
 import { EstatesDataService } from "../data/esates.data.service";
 import { OwnersDataService } from "src/app/owners/data/owners.data.service";
 import { LodgersDataService } from "src/app/lodgers/data/lodgers.data.service";
+import { EstatesCommandsProvider } from "../commands/estates.commands.provider";
 
 @Directive()
 export class EstatesTableDirective {
@@ -16,11 +17,24 @@ export class EstatesTableDirective {
   constructor(protected estatesData: EstatesDataService,
               protected estatesUiAdapter: EstatesUiTableAdapter,
               protected ownersData: OwnersDataService,
-              protected lodgersData: LodgersDataService) { }
+              protected lodgersData: LodgersDataService,
+              protected estatesCommands: EstatesCommandsProvider) { }
 
   updateRow(row: UiTableRow) {
     const estate = this.estatesUiAdapter.extractUpdatedFieldsFromRow(this.estates(), row);
     this.estatesData.updateEstate(estate);
+  }
+
+  createNewEstate() {
+    this.estatesCommands.createEstate();
+  }
+
+  createNewOwner() {
+    this.estatesCommands.createOwner();
+  }
+
+  createNewLodger() {
+    this.estatesCommands.createLodger();
   }
 
 }
