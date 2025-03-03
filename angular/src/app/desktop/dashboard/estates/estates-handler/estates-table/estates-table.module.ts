@@ -4,15 +4,15 @@ import { RouterModule } from '@angular/router';
 import { UiTableComponent } from 'src/app/ui/components/ui-table/ui-table.component';
 import { UiPopupService } from 'src/app/ui/popup/services/popup.service';
 import { UiModule } from 'src/app/ui/ui.module';
-import { EstatesListComponent } from './estates-list.component';
+import { EstatesTableComponent } from './estates-table.component';
 
 
 
 @NgModule({
-  declarations: [EstatesListComponent],
+  declarations: [EstatesTableComponent],
   imports: [
     CommonModule,
-    RouterModule.forChild([{ path: '', component: EstatesListComponent }]),
+    RouterModule.forChild([{ path: '', component: EstatesTableComponent }]),
     UiTableComponent,
     UiModule
   ],
@@ -20,7 +20,7 @@ import { EstatesListComponent } from './estates-list.component';
     UiPopupService,
   ]
 })
-export class EstatesListModule {
+export class EstatesTableModule {
 
 
 }

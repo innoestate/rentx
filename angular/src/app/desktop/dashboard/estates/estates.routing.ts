@@ -1,13 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DesktopEstatesComponent } from './estates.component';
+import { DesktopEstatesHandlerComponent } from './estates-handler/estates-handler.component';
 
 const routes: Routes = [
-  { path: '', component: DesktopEstatesComponent, children: [
-    { path: 'list', loadChildren: () => import('./list/estates-list.module').then(m => m.EstatesListModule) },
-    // { path: 'owners', loadChildren: () => import('./owners-table/owners-table.module').then(m => m.OwnersTableModule) },
-    { path: '', redirectTo: 'list', pathMatch: 'full' }
-  ]},
+  {
+    path: '', component: DesktopEstatesComponent, children: [
+      {
+        path: 'handler', component: DesktopEstatesHandlerComponent, children: [
+          { path: 'estates-table', loadChildren: () => import('./estates-handler/estates-table/estates-table.module').then(m => m.EstatesTableModule) },
+          { path: 'owners-table', loadChildren: () => import('./estates-handler/owners-table/desktop-owners-table.module').then(m => m.DesktopOwnersTableModule) },
+          { path: '', redirectTo: 'estates-table', pathMatch: 'full' }
+        ]
+      },
+      { path: '', redirectTo: 'handler', pathMatch: 'full' }
+    ]
+  },
 ];
 
 @NgModule({
