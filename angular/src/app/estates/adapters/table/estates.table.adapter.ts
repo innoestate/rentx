@@ -18,14 +18,15 @@ export class EstatesUiTableAdapter {
 
   buildTableList(estates: Estate[], owners: Owner[]): { columns: UiTableColumnItem[], rows: UiTableRow[] } {
     return {
-      columns: this.createColumns(owners),
+      columns: this.createColumns(estates,owners),
       rows: this.createRows(estates)
     };
   }
 
-  createColumns(owners: Owner[]): UiTableColumnItem[] {
+  createColumns(estates: Estate[], owners: Owner[]): UiTableColumnItem[] {
 
     const ownersDropDown = this.createOwnerDropdownItems(owners);
+    const lodgersDropDown = this.createLodgerDropdownItems(estates);
 
     return [
       { key: 'address', label: 'Adresse', sort: 1 },
@@ -33,13 +34,13 @@ export class EstatesUiTableAdapter {
       { key: 'rent', label: 'loyer', editable: true },
       { key: 'charges', label: 'charges', editable: true },
       { key: 'owner_dropdown', label: 'propriétaire', dropDownItems: ownersDropDown, sort: 1 },
-      { key: 'lodger_dropdown', label: 'locataire' },
+      { key: 'lodger_dropdown', label: 'locataire', dropDownItems: lodgersDropDown, sort: 2 },
       { key: 'actions', label: 'Actions' }
     ]
   }
 
   extractUpdatedFieldsFromRow(estates: Estate[], row: UiTableRow): Record<string, any> {
-    const estate = estates.find(estate => estate.id === row['id']);
+    const estate = estates.find(estate => estate.id === row.data['id']);
     if (!estate) throw new Error('Estate not matching with table row');
 
     const updatedFields = this.getUpdatedFields(estate, row);
@@ -50,13 +51,19 @@ export class EstatesUiTableAdapter {
     }
   }
 
+  extractEstateFromRow(estates: Estate[], row: UiTableRow): Estate {
+    const estate = estates.find(estate => estate.id === row.data['id']);
+    if (!estate) throw new Error('Estate not matching with table row');
+    return estate;
+  }
+
   private getUpdatedFields(estate: Estate, row: UiTableRow) {
 
     const potentialUpdatedFiedls = {
-      plot: row['plot'],
-      rent: row['rent'],
-      charges: row['charges'],
-      owner_id: (row['owner_dropdown'] as UiDropdownItem<any>)?.value,
+      plot: row.cells['plot'],
+      rent: row.cells['rent'],
+      charges: row.cells['charges'],
+      owner_id: (row.cells['owner_dropdown'] as UiDropdownItem<any>)?.value,
       // lodger_id: row['lodger'],
     }
 
@@ -87,24 +94,38 @@ export class EstatesUiTableAdapter {
     return ownersDropdownItems;
   }
 
+  private createLodgerDropdownItems(estates: Estate[]): UiDropdownItem<any>[] {
+    const lodgersDropdownItems: UiDropdownItem<any>[] = [];
+    lodgersDropdownItems.push({
+      value: 'downloadRentReceipt', label: 'téléharger', command: ( estateRow: any ) => {
+        const estate = this.extractEstateFromRow(estates, estateRow);
+        this.estatesCommands.downloadRentReceipt(estate);
+        return true;
+      }
+    })
+    return lodgersDropdownItems;
+  }
+
   private createRows(estates: Estate[]): UiTableRow[] {
     return estates.map(estate => this.formatUiTableRow(estate));
   }
 
   private formatUiTableRow(estate: Estate): UiTableRow {
     return {
-      id: estate.id,
-      address: estate.street + ' ' + estate.city + ' ' + estate.zip,
-      plot: estate.plot ?? '',
-      rent: estate.rent ?? 0,
-      charges: estate.charges ?? 0,
-      owner_dropdown: ({ label: estate.owner?.name, value: estate.owner?.id } as any),
-      lodger_dropdown: estate.lodger?.name ?? '',
-      actions: ({
-        icon: 'delete', label: '', command: () => {
-          // this.estatesData.remove(estate.id)
-        }
-      } as any)
+      data: { id: estate.id},
+      cells: {
+        address: estate.street + ' ' + estate.city + ' ' + estate.zip,
+        plot: estate.plot ?? '',
+        rent: estate.rent ?? 0,
+        charges: estate.charges ?? 0,
+        owner_dropdown: ({ label: estate.owner?.name, value: estate.owner?.id } as any),
+        lodger_dropdown: estate.lodger?.name ?? '',
+        actions: ({
+          icon: 'delete', label: '', command: () => {
+            // this.estatesData.remove(estate.id)
+          }
+        } as any)
+      }
     }
   }
 

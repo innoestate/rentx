@@ -7,11 +7,13 @@ import { NzUiColumnConfig } from './models/nz-ui-column.config.model';
 import { UiTableRow } from './models/ui-table-row.model';
 import { UiTableColumnItem } from './models/ui-table.column.model';
 import { NzUiCellNestedDropdownComponent } from './nz-ui-cell-editable/nested-dropdown/nz-ui-cell-nested-dropdown.component';
-import { NzUxCellEditableNumberComponent } from './nz-ui-cell-editable/number/nz-ui-cell-editable-number.component';
-import { NzUxCellEditableStringComponent } from './nz-ui-cell-editable/string/nz-ui-cell-editable-string.component';
 import { NzUxCellItemComponent } from './nz-ui-cell-item/nz-ui-cell-item.component';
 import { CellType } from './types/ui-table.cell.type';
 import { formatNzColumnConfig, formatNzRows } from './utils/utils';
+import { UiItem } from '../../models/ui-item.model';
+import { NzUxCellEditableNumberComponent } from './nz-ui-cell-editable/number/nz-ui-cell-editable-number.component';
+import { NzUxCellEditableStringComponent } from './nz-ui-cell-editable/string/nz-ui-cell-editable-string.component';
+import { NzUiTableRow } from './models/nz-ui-table-row.model';
 
 
 @Component({
@@ -29,30 +31,26 @@ import { formatNzColumnConfig, formatNzRows } from './utils/utils';
   templateUrl: './ui-table.component.html',
   styleUrl: './ui-table.component.scss'
 })
-export class UiTableComponent<T extends UiTableRow> {
+export class UiTableComponent {
 
-  rows = input.required<T[]>();
+  rows = input.required<UiTableRow[]>();
   columns = input.required<UiTableColumnItem[]>();
-  editRow = output<T>();
+  editRow = output<UiTableRow>();
 
-  nzRows: Signal<CellType[][]> = this.buildNzRows();
+  nzRows: Signal<NzUiTableRow[]> = this.buildNzRows();
   nzColumns: Signal<NzUiColumnConfig[]> = this.buildNzColumns();
   editId: string | null = null;
 
-  constructor() {
-    effect(() => {
-      this.nzRows = this.buildNzRows();
-    })
-  }
+  constructor() {}
 
   startEdit(columnIndex: number, rowIndex: number) {
     this.editId = (columnIndex + this.columns()[rowIndex].key);
   }
 
-  edit(value: any, rowIndex: number, columnIndex: number) {
-    const row = this.rows()[rowIndex] as UiTableRow;
+  edit(value: any, nzRow: NzUiTableRow, columnIndex: number) {
+    const row = this.rows()[nzRow.inputRowIndex];
     const key = this.columns()[columnIndex].key;
-    const newRow = { ...row, [key]: value } as T;
+    const newRow = { ...row, cells: { ...row.cells, [key]: value } } as UiTableRow;
     this.editRow.emit(newRow);
     this.editId = null;
   }
@@ -69,7 +67,7 @@ export class UiTableComponent<T extends UiTableRow> {
     return computed(() => this.columns().map((column, columnIndex) => formatNzColumnConfig(column, columnIndex)))
   }
 
-  private buildNzRows(): Signal<CellType[][]> {
+  private buildNzRows(): Signal<NzUiTableRow[]> {
     return computed(() => formatNzRows(this.rows(), this.columns()));
   }
 }

@@ -5,14 +5,15 @@ import { UiTableComponent } from '../ui-table.component';
 import { rowsMockItems } from './mock/rows.mock';
 import { cloneDeep } from 'lodash';
 import { columnsWithSortNumberOnNameMock, ZIP_COLUMN_INDEX } from './mock/columns.sort-number.mock';
+import { UiTableRow } from '../models/ui-table-row.model';
 
 
 describe('UiTableComponent test sorting on a number column', () => {
 
-  let rows: any[] = cloneDeep(rowsMockItems);
+  let rows: UiTableRow[] = cloneDeep(rowsMockItems);
   let columns: UiTableColumnItem[] = [...columnsWithSortNumberOnNameMock];
-  let component: UiTableComponent<any>;
-  let fixture: ComponentFixture<UiTableComponent<any>>;
+  let component: UiTableComponent;
+  let fixture: ComponentFixture<UiTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -30,14 +31,13 @@ describe('UiTableComponent test sorting on a number column', () => {
   it('should sort the table and get the first number element by ascending order after 1 click', fakeAsync(() => {
     const sortUpButton = fixture.debugElement.queryAll(By.css(".ant-table-column-sorter-up"))[0];
     const targetedCellB = fixture.debugElement.queryAll(By.css(`body td:nth-child(${ZIP_COLUMN_INDEX})`))[0].nativeElement;
-    expect(targetedCellB.textContent).toContain(rows[0].zip.toString());
+    expect(targetedCellB.textContent).toContain(rows[0].cells['zip'].toString());
     sortUpButton.nativeElement.click();
     tick(500);
     fixture.detectChanges();
     const targetedCell = fixture.debugElement.queryAll(By.css(`body td:nth-child(${ZIP_COLUMN_INDEX})`))[0].nativeElement;
-    expect(targetedCell.textContent).toContain(rows[0].zip.toString());
+    expect(targetedCell.textContent).toContain(rows[0].cells['zip'].toString());
   }));
-
 
   it('should sort the table and get the first number element by descending order after 2 click', fakeAsync(() => {
     const sortUpButton = fixture.debugElement.queryAll(By.css(".ant-table-column-sorter-up"))[0];
@@ -46,7 +46,7 @@ describe('UiTableComponent test sorting on a number column', () => {
     tick(500);
     fixture.detectChanges();
     const targetedCell = fixture.debugElement.queryAll(By.css(`body td:nth-child(${ZIP_COLUMN_INDEX})`))[0].nativeElement;
-    expect(targetedCell.textContent).toContain(rows[1].zip.toString());
+    expect(targetedCell.textContent).toContain(rows[1].cells['zip'].toString());
   }));
 
   it('should sort the table and get the first number element by ascending order after 3 click', fakeAsync(() => {
@@ -57,7 +57,7 @@ describe('UiTableComponent test sorting on a number column', () => {
     tick(500);
     fixture.detectChanges();
     const targetedCell = fixture.debugElement.queryAll(By.css(`body td:nth-child(${ZIP_COLUMN_INDEX})`))[0].nativeElement;
-    expect(targetedCell.textContent).toContain(rows[0].zip.toString());
+    expect(targetedCell.textContent).toContain(rows[0].cells['zip'].toString());
   }));
 
 });

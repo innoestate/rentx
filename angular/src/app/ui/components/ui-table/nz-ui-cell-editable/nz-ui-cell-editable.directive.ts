@@ -1,9 +1,11 @@
 import { computed, Directive, effect, input, output, signal } from '@angular/core';
 import { CellType } from '../types/ui-table.cell.type';
+import { NzUiTableRow } from '../models/nz-ui-table-row.model';
 
 @Directive()
 export class NzUxCellEditableComponent {
 
+  row = input.required<NzUiTableRow>();
   value = input.required<CellType>();
   isOnEditMode = signal(false);
   startEdit = output<void>();

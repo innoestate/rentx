@@ -5,6 +5,7 @@ import { EstatesUiTableAdapter } from "./adapters/table/estates.table.adapter";
 import { EstatesTableDirective } from "./components/estates.table.directive";
 import { UiModule } from "../ui/ui.module";
 import { EstatesCommandsProvider } from "./commands/estates.commands.provider";
+import { RentService } from "../common/services/rents.service";
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { EstatesCommandsProvider } from "./commands/estates.commands.provider";
   providers: [
     CreateEstateCommand,
     EstatesCommandsProvider,
-    EstatesUiTableAdapter
+    EstatesUiTableAdapter,
+    RentService
   ],
   exports: [
     EstatesTableDirective

@@ -1,5 +1,6 @@
 import { CellType } from "../types/ui-table.cell.type";
 
 export interface UiTableRow {
-  [key: string]: CellType
+  data: any,
+  cells: { [key: string]: CellType }
 }

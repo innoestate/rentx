@@ -11,8 +11,8 @@ describe('UiTableComponent test the edition of a number cell', () => {
 
   let rows: any[] = cloneDeep(rowsMockItems);
   let columns: UiTableColumnItem[] = [...columnsWithEditableZipMock];
-  let component: UiTableComponent<any>;
-  let fixture: ComponentFixture<UiTableComponent<any>>;
+  let component: UiTableComponent;
+  let fixture: ComponentFixture<UiTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -56,7 +56,7 @@ describe('UiTableComponent test the edition of a number cell', () => {
     cellToEdit = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-number > .clickable'))[1].nativeElement;
     expect(cellToEdit.textContent).toBe('5000');
     const emittedRow = (component.editRow.emit as jasmine.Spy).calls.mostRecent().args[0];
-    expect(emittedRow.zip).toBe(5000);
+    expect(emittedRow.cells.zip).toBe(5000);
   }));
 
 });

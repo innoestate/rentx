@@ -10,8 +10,8 @@ describe('UiTableComponent test the edition of a string cell', () => {
 
   let rows: RowMock[] = cloneDeep(rowsMockItems);
   let columns: UiTableColumnItem[] = [...columnsWithEditableNameMock];
-  let component: UiTableComponent<any>;
-  let fixture: ComponentFixture<UiTableComponent<any>>;
+  let component: UiTableComponent;
+  let fixture: ComponentFixture<UiTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

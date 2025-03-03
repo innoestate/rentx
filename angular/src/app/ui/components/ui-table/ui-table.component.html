@@ -3,19 +3,19 @@
   <thead>
     <tr>
       @for(column of columns; track column.key; let columnI = $index) {
-      @if(column.sort){
-      <th [nzSortFn]="column.sort.fn" [nzSortPriority]="column.sort.priority" [nzColumnKey]="column.key">{{ column.label
-        }}</th>
-      }@else {
-      <th>{{ column.label }}</th>
-      }
+        @if(column.sort){
+          <th [nzSortFn]="column.sort.fn" [nzSortPriority]="column.sort.priority" [nzColumnKey]="column.key">{{ column.label
+            }}</th>
+        }@else {
+          <th>{{ column.label }}</th>
+        }
       }
     </tr>
   </thead>
   <tbody>
-    <ng-container *ngFor="let row of table.data; let rowI = index">
+    <ng-container *ngFor="let nzRow of table.data; let rowI = index">
       <tr>
-        <ng-container *ngFor="let cell of row; let colI = index">
+        <ng-container *ngFor="let cell of nzRow.cells; let colI = index">
           <td>
 
             @if(cell === undefined || cell === null){
@@ -37,20 +37,20 @@
             }
 
             <ng-template #dropdown>
-              <nz-ui-cell-nested-dropdown
-                (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )" (stopEdit)="stopEdit()"
+              <nz-ui-cell-nested-dropdown [row]="nzRow"
+                (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, nzRow, colI )" (stopEdit)="stopEdit()"
                 [list]="columns[colI].dropDownItems??[]" [value]="cell"></nz-ui-cell-nested-dropdown>
             </ng-template>
 
             <ng-template #editableString>
-              <nz-ui-cell-editable-string [value]="cell"
-                (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )" (stopEdit)="stopEdit()">
+              <nz-ui-cell-editable-string [row]="nzRow" [value]="cell"
+                (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, nzRow, colI )" (stopEdit)="stopEdit()">
               </nz-ui-cell-editable-string>
             </ng-template>
 
             <ng-template #editableNumber>
-              <nz-ui-cell-editable-number [value]="cell"
-                (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, rowI, colI )" (stopEdit)="stopEdit()">
+              <nz-ui-cell-editable-number [row]="nzRow" [value]="cell"
+                (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, nzRow, colI )" (stopEdit)="stopEdit()">
               </nz-ui-cell-editable-number>
             </ng-template>
 

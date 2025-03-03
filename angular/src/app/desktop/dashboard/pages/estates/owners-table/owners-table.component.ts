@@ -72,14 +72,17 @@ export class OwnersTableComponent implements OnInit {
   owners = computed(() => {
     return (this.store.selectSignal(selectOwners)().map(
       owner => ({
-        ...owner,
-        zip: parseInt(owner.zip, 10),
-        language: { ...this.languages[Math.floor(Math.random() * this.languages.length)] },
-        city: { ...this.cities[Math.floor(Math.random() * this.cities.length)] },
-        delete: {icon: 'delete', command: () => {
-          alert('YES')
-          return true;
-        }}
+        data: owner,
+        cells: {
+          ...owner,
+          zip: parseInt(owner.zip, 10),
+          language: { ...this.languages[Math.floor(Math.random() * this.languages.length)] },
+          city: { ...this.cities[Math.floor(Math.random() * this.cities.length)] },
+          delete: {icon: 'delete', command: () => {
+            alert('YES')
+            return true;
+          }}
+        }
       })
     )) as unknown as UiTableRow[];
 

@@ -8,7 +8,8 @@ export const columnsWithSortStringOnNameMock: UiTableColumnItem[] = [
   {
     key: 'name',
     label: 'Name',
-    sort: 1
+    sort: 1,
+    editable: true
   },
   {
     key: 'email',
