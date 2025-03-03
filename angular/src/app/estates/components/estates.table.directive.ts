@@ -3,18 +3,22 @@ import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.m
 import { EstatesUiTableAdapter } from "../adapters/table/estates.table.adapter";
 import { EstatesDataService } from "../data/esates.data.service";
 import { OwnersDataService } from "src/app/owners/data/owners.data.service";
+import { LodgersDataService } from "src/app/lodgers/data/lodgers.data.service";
 
 @Directive()
 export class EstatesTableDirective {
 
   estates = this.estatesData.getEstates();
   owners = this.ownersData.getOwners();
-  estatesTable = computed(() => this.estatesUiAdapter.buildTableList(this.estates(), this.owners()));
+  lodgers = this.lodgersData.getLodgers();
+  estatesTable = computed(() => this.estatesUiAdapter.buildTableList(this.estates(), this.owners(), this.lodgers()));
 
-  constructor(protected estatesData: EstatesDataService, protected estatesUiAdapter: EstatesUiTableAdapter, protected ownersData: OwnersDataService) { }
+  constructor(protected estatesData: EstatesDataService,
+              protected estatesUiAdapter: EstatesUiTableAdapter,
+              protected ownersData: OwnersDataService,
+              protected lodgersData: LodgersDataService) { }
 
   updateRow(row: UiTableRow) {
-    console.log('updated row', row);
     const estate = this.estatesUiAdapter.extractUpdatedFieldsFromRow(this.estates(), row);
     this.estatesData.updateEstate(estate);
   }

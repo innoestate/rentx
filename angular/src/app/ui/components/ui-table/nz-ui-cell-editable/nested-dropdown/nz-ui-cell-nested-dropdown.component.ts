@@ -30,7 +30,6 @@ export class NzUiCellNestedDropdownComponent extends NzUxCellEditableComponent {
         return { label: item.label, value: this.addRowArgumentInCommands(item.value) };
       } else if( item.command !== undefined ){
         return { ...item, command: () => {
-          console.log('create command with row', this.row());
           item.command(this.row());
           return true;
         }};

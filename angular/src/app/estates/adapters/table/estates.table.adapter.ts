@@ -1,11 +1,13 @@
 import { Injectable } from "@angular/core";
 import { isEqual } from "lodash";
 import { Estate } from "src/app/core/models/estate.model";
+import { Lodger } from "src/app/core/models/lodger.model";
 import { Owner } from "src/app/core/models/owner.model";
 import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { EstatesCommandsProvider } from "../../commands/estates.commands.provider";
+import { createLodgersDropdown, createRentReceiptDropdown } from "./estates.lodgers.table.utils";
 
 @Injectable({
   providedIn: 'root'
@@ -16,17 +18,17 @@ export class EstatesUiTableAdapter {
 
   constructor(private estatesCommands: EstatesCommandsProvider) { }
 
-  buildTableList(estates: Estate[], owners: Owner[]): { columns: UiTableColumnItem[], rows: UiTableRow[] } {
+  buildTableList(estates: Estate[], owners: Owner[], lodgers: Lodger[]): { columns: UiTableColumnItem[], rows: UiTableRow[] } {
     return {
-      columns: this.createColumns(estates,owners),
+      columns: this.createColumns(estates,owners, lodgers),
       rows: this.createRows(estates)
     };
   }
 
-  createColumns(estates: Estate[], owners: Owner[]): UiTableColumnItem[] {
+  createColumns(estates: Estate[], owners: Owner[], lodgers: Lodger[]): UiTableColumnItem[] {
 
     const ownersDropDown = this.createOwnerDropdownItems(owners);
-    const lodgersDropDown = this.createLodgerDropdownItems(estates);
+    const lodgersDropDown = this.createLodgerDropdownItems(estates, lodgers);
 
     return [
       { key: 'address', label: 'Adresse', sort: 1 },
@@ -59,22 +61,22 @@ export class EstatesUiTableAdapter {
 
   private getUpdatedFields(estate: Estate, row: UiTableRow) {
 
+    console.log('getUpdatedFields', estate, row);
+
     const potentialUpdatedFiedls = {
       plot: row.cells['plot'],
       rent: row.cells['rent'],
       charges: row.cells['charges'],
       owner_id: (row.cells['owner_dropdown'] as UiDropdownItem<any>)?.value,
-      // lodger_id: row['lodger'],
+      lodger_id: (row.cells['lodger_dropdown'] as UiDropdownItem<any>)?.value,
     }
-
-    console.log('potentialUpdatedFiedls', potentialUpdatedFiedls)
 
     const actualEstateUpdatableFields = {
       plot: estate.plot,
       rent: estate.rent,
       charges: estate.charges,
       owner_id: estate.owner_id,
-      // lodger_id: estate.lodger_id,
+      lodger_id: estate.lodger_id,
     }
 
     return Object.keys(potentialUpdatedFiedls).reduce((acc, key) => {
@@ -94,16 +96,11 @@ export class EstatesUiTableAdapter {
     return ownersDropdownItems;
   }
 
-  private createLodgerDropdownItems(estates: Estate[]): UiDropdownItem<any>[] {
-    const lodgersDropdownItems: UiDropdownItem<any>[] = [];
-    lodgersDropdownItems.push({
-      value: 'downloadRentReceipt', label: 'téléharger', command: ( estateRow: any ) => {
-        const estate = this.extractEstateFromRow(estates, estateRow);
-        this.estatesCommands.downloadRentReceipt(estate);
-        return true;
-      }
-    })
-    return lodgersDropdownItems;
+  private createLodgerDropdownItems(estates: Estate[], lodgers: Lodger[]): UiDropdownItem<any>[] {
+    let lodgersActionsDropdownItems: UiDropdownItem<any>[] = [];
+    lodgersActionsDropdownItems.push(createLodgersDropdown(this.estatesCommands, lodgers, estates))
+    lodgersActionsDropdownItems.push(createRentReceiptDropdown(this.estatesCommands, estates))
+    return lodgersActionsDropdownItems;
   }
 
   private createRows(estates: Estate[]): UiTableRow[] {
@@ -119,7 +116,7 @@ export class EstatesUiTableAdapter {
         rent: estate.rent ?? 0,
         charges: estate.charges ?? 0,
         owner_dropdown: ({ label: estate.owner?.name, value: estate.owner?.id } as any),
-        lodger_dropdown: estate.lodger?.name ?? '',
+        lodger_dropdown: ({ label: estate.lodger?.name ?? '', value: estate.lodger?.id } as any),
         actions: ({
           icon: 'delete', label: '', command: () => {
             // this.estatesData.remove(estate.id)
