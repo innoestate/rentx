@@ -8,7 +8,6 @@ describe('OwnersTableAdapter', () => {
 
   beforeEach(() => {
     adapter = new OwnersTableAdapter({} as any);
-
   });
 
   it('should return modified fields', () => {
@@ -17,6 +16,7 @@ describe('OwnersTableAdapter', () => {
     row.cells['zip'] = '54321';
     row.cells['phone'] = '098-765-4321';
     const updates = adapter.getUpdatedFields(row, owners);
+    expect(updates.id).toEqual(ownerMock1.id);
     expect(updates.zip).toEqual('54321');
     expect(updates.phone).toEqual('098-765-4321');
   });

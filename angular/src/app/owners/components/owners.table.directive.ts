@@ -12,6 +12,9 @@ export class OwnersTableDirective {
   constructor(protected ownersData: OwnersDataService, protected ownersUiAdapter: OwnersTableAdapter) { }
 
   updateRow(row: UiTableRow) {
-
+    console.log('update row', row);
+    const updates = this.ownersUiAdapter.getUpdatedFields(row, this.owners());
+    console.log('updates', updates);
+    this.ownersData.updateOwner(updates);
   }
 }

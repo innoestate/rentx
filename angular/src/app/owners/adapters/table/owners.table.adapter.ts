@@ -30,23 +30,28 @@ export class OwnersTableAdapter {
       },
       {
         label: "Adresse",
-        key: "address"
+        key: "address",
+        editable: true
       },
       {
         label: "Code Postal",
-        key: "zip"
+        key: "zip",
+        editable: true
       },
       {
         label: "Ville",
-        key: "city"
+        key: "city",
+        editable: true
       },
       {
         label: "email",
-        key: "email"
+        key: "email",
+        editable: true
       },
       {
         label: "telephone",
-        key: "phone"
+        key: "phone",
+        editable: true
       },
       {
         label: "actions",
@@ -59,12 +64,12 @@ export class OwnersTableAdapter {
     return owners.map(owner => this.formatUiTableRow(owner));
   }
 
-  private formatUiTableRow(owner: Owner): UiTableRow {
+  formatUiTableRow(owner: Owner): UiTableRow {
     return {
       data: { id: owner.id },
       cells: {
         name: owner.name,
-        address: owner.street,
+        street: owner.street,
         zip: owner.zip,
         city: owner.city,
         email: owner.email,
@@ -80,6 +85,14 @@ export class OwnersTableAdapter {
         }
       }
     }
+  }
+
+  getUpdatedFields(row: UiTableRow, owners: Owner[]): Partial<Owner> {
+    const owner = owners.find(o => o.id === row.data.id);
+    if (!owner) throw new Error('Owner not found');
+    const fieldsToCheck = ['name', 'street', 'zip', 'city', 'email', 'phone'];
+    const updates = {id: owner.id};
+    return fieldsToCheck.reduce((acc, field) => (row.cells[field] !== (owner as any)[field]) ? {...acc, [field]: row.cells[field]} : acc, updates);
   }
 
 }

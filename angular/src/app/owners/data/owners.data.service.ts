@@ -1,7 +1,7 @@
 import { Injectable, Signal } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { selectOwners } from "../../core/store/owner/owners.selectors";
-import { deleteOwner, loadOwners as loadOwnersAction } from "src/app/core/store/owner/owners.actions";
+import { deleteOwner, loadOwners as loadOwnersAction, updateOwner } from "src/app/core/store/owner/owners.actions";
 import { Owner } from "src/app/core/models/owner.model";
 
 @Injectable({
@@ -17,6 +17,10 @@ export class OwnersDataService {
 
   getOwners(): Signal<Owner[]> {
     return this.store.selectSignal(selectOwners);
+  }
+
+  updateOwner(ownerData: Partial<Owner>) {
+    this.store.dispatch(updateOwner({ owner: ownerData }));
   }
 
   deleteOwner(ownerId: string) {
