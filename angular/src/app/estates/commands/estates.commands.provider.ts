@@ -5,7 +5,6 @@ import { RentService } from "src/app/common/services/rents.service";
 import { Estate } from "src/app/core/models/estate.model";
 import { UiPopupService } from "src/app/ui/popup/services/popup.service";
 import { EstatesDataService } from "../data/esates.data.service";
-import { CreateOwnerPopupComponent } from "src/app/common/popups/create-owner-popup/create-owner-popup.component";
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +19,6 @@ export class EstatesCommandsProvider {
 
   removeEstate(estate: Estate){
     this.estatesData.removeEstate(estate.id)
-  }
-
-  createOwner(){
-    return this.popupService.openPopup(CreateOwnerPopupComponent, 'Ajouter un propriétaire');
   }
 
   createLodger(estate?: Estate){

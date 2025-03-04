@@ -8,6 +8,7 @@ import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.m
 import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { EstatesCommandsProvider } from "../../commands/estates.commands.provider";
 import { createLodgersDropdown, createRentReceiptDropdown } from "./estates.lodgers.table.utils";
+import { OwnersCommands } from "src/app/owners/commands/owners.command";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class EstatesUiTableAdapter {
 
   columns: UiTableColumnItem[] = [];
 
-  constructor(private estatesCommands: EstatesCommandsProvider) { }
+  constructor(private estatesCommands: EstatesCommandsProvider, private ownersCommands: OwnersCommands) { }
 
   buildTableList(estates: Estate[], owners: Owner[], lodgers: Lodger[]): { columns: UiTableColumnItem[], rows: UiTableRow[] } {
     return {
@@ -61,8 +62,6 @@ export class EstatesUiTableAdapter {
 
   private getUpdatedFields(estate: Estate, row: UiTableRow) {
 
-    console.log('getUpdatedFields', estate, row);
-
     const potentialUpdatedFiedls = {
       plot: row.cells['plot'],
       rent: row.cells['rent'],
@@ -92,7 +91,7 @@ export class EstatesUiTableAdapter {
     const ownersDropdownItems: UiDropdownItem<any>[] = owners.map(owner => ({ value: owner.id, label: owner.name }));
     ownersDropdownItems.push({
       value: 'new', label: 'créer un nouveau', command: () => {
-        this.estatesCommands.createEstate()
+        this.ownersCommands.createOwner()
         return true;
       }
     })
