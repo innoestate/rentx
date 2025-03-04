@@ -1,0 +1,12 @@
+Problématique:
+
+je veux pouvoir utiliser une commande d'un dropdow situé dans les colonnes du tableau.
+
+Comment envoyer en argulement le bon row depuis lequel sera exécuté le dropdown?
+
+On peut overrider la liste du dropdown utilisé dans chaque cellule de row...
+Le problème est qu'on  justement mis le dropdown dans la colonne et non le row afin d'éviter à copier la dropdown à chaque fois et donc pour optimiser.
+
+Ceci dit le problème ne se pose pas:
+En effet, la dropdown est protégée par un @if(isEditing)
+Donc on peut overrider sans problème!

@@ -40,7 +40,6 @@ const addCreatingLodger = (dropDownActionsItems: UiDropdownItem<any>[], estatesC
     value: '',
     command: (estateRow: UiTableRow) => {
       const estate = extractEstateFromRow(estates, estateRow);
-      console.log('estate', estate);
       estatesCommands.createLodger(estate)
       return true;
     },

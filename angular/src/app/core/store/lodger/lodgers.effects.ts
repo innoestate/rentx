@@ -55,8 +55,8 @@ export class LodgersEffects {
 
   updateLodger$ = createEffect(() => this.actions$.pipe(
     ofType(updateLodger),
-    switchMap(data => this.lodgerService.update((data as any).lodger).pipe(
-      map(lodger => updateLodgerSuccess({ lodger })),
+    switchMap(frontLodgerData => this.lodgerService.update((frontLodgerData as any).lodger).pipe(
+      map(() => updateLodgerSuccess({ lodger: (frontLodgerData as any).lodger })),
       catchError(err => of(updateLodgerFailure(err))
     ))
   )))

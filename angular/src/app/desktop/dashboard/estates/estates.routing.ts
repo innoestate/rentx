@@ -10,6 +10,7 @@ const routes: Routes = [
         path: 'handler', component: DesktopEstatesHandlerComponent, children: [
           { path: 'estates-table', loadChildren: () => import('./estates-handler/estates-table/estates-table.module').then(m => m.EstatesTableModule) },
           { path: 'owners-table', loadChildren: () => import('./estates-handler/owners-table/desktop-owners-table.module').then(m => m.DesktopOwnersTableModule) },
+          { path: 'lodgers-table', loadChildren: () => import('./estates-handler/lodgers-table/lodgers-table.module').then(m => m.DesktopLodgersTableModule) },
           { path: '', redirectTo: 'estates-table', pathMatch: 'full' }
         ]
       },
