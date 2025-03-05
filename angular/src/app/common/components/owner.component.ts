@@ -7,7 +7,7 @@ import { Estate } from 'src/app/core/models/estate.model';
 import { Owner } from 'src/app/core/models/owner.model';
 import { editEstate } from 'src/app/core/store/estate/estates.actions';
 import { deleteOwner as deleteOwnerOnStore } from 'src/app/core/store/owner/owners.actions';
-import { selectOwners } from 'src/app/core/store/owner/owners.selectors';
+import { selectOwners } from 'src/app/owners/data/ngrx/owners.selectors';
 import { UiPopupService } from 'src/app/ui/popup/services/popup.service';
 
 @Directive()

@@ -2,17 +2,17 @@ import { Injectable } from "@angular/core";
 import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { combineLatest, delay, map, Observable, of, race, switchMap, take, tap } from "rxjs";
-import { Estate } from "src/app/core/models/estate.model";
 import { Lodger } from "src/app/core/models/lodger.model";
 import { Owner } from "src/app/core/models/owner.model";
-import { editEstate, editEstateFailure, editEstateSuccess } from "src/app/core/store/estate/estates.actions";
+import { editEstate, editEstateFailure, editEstateSuccess } from "src/app/estates/data/ngrx/estates.actions";
 import { updateLodger, updateLodgerFailure, updateLodgerSuccess } from "src/app/core/store/lodger/lodgers.actions";
-import { updateOwner, updateOwnerFailure, updateOwnerSuccess } from "src/app/core/store/owner/owners.actions";
-import { downloadRentReceipt, senddRentReceipt } from "src/app/core/store/rents/rents.actions";
+import { downloadRentReceipt, senddRentReceipt } from "src/app/rents/data/ngrx/rents.actions";
 import { CompleteRentReceiptPopupComponent } from "../popups/complete-rent-receipt-popup/complete-rent-receipt-popup.component";
 import { CreateCustomizedRentReceiptPopupComponent } from "../popups/create-customized-rent-receipt-popup/create-customized-rent-receipt-popup.component";
 import { CreateLodgerPopupComponent } from "../popups/create-lodger-popup/create-lodger-popup.component";
 import { UiPopupService } from "src/app/ui/popup/services/popup.service";
+import { Estate } from "src/app/estates/models/estate.model";
+import { updateOwner, updateOwnerFailure, updateOwnerSuccess } from "src/app/owners/data/ngrx/owners.actions";
 
 @Injectable({
   providedIn: 'root',

@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { UiPopupService } from './popup/services/popup.service';
 import { UiButtonComponent } from './components/ui-button/ui-button.component';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -14,15 +14,39 @@ import { UiTableComponent } from './components/ui-table/ui-table.component';
     NzButtonModule,
     UiButtonComponent,
     UiTableComponent,
-    FormsModule
+    FormsModule,
   ],
   exports: [
     NzModalModule,
     UiButtonComponent,
-    UiTableComponent
+    UiTableComponent,
   ],
   providers: [
-    UiPopupService,
+    NzModalService
   ]
 })
-export class UiModule { }
+export class UiModule {
+  constructor() {
+    console.log('UiModule constructor');
+  }
+
+  static forRoot(): ModuleWithProviders<UiModule> {
+    return {
+      ngModule: UiModule,
+      providers: [
+        UiPopupService,
+        NzModalService
+      ]
+    }
+  }
+
+  static forChild(): ModuleWithProviders<UiModule> {
+    return {
+      ngModule: UiModule,
+      providers: [
+        UiPopupService,
+        NzModalService
+      ]
+    }
+  }
+}

@@ -7,7 +7,9 @@ import { Observable, take } from 'rxjs';
 })
 export class UiPopupService {
 
-  constructor(protected modalService: NzModalService) { }
+  constructor(protected modalService: NzModalService) {
+    console.log('UiPopupService constructor');
+  }
 
   openPopup(component: Type<any>, title: string, data?: any): Observable<any> {
     const modal = this.modalService.create({

@@ -2,14 +2,14 @@ import { Injectable } from "@angular/core";
 import { Owner } from "src/app/core/models/owner.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
-import { OwnersCommands } from "../../commands/owners.command";
+import { OwnersCommandsService } from "../../commands/owners.command.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class OwnersTableAdapter {
+export class OwnersTableAdapterService {
 
-  constructor(private ownersCommands: OwnersCommands) { }
+  constructor(private ownersCommands: OwnersCommandsService) { }
 
   buildTable(owners: Owner[]): { columns: UiTableColumnItem[], rows: UiTableRow[] }  {
 

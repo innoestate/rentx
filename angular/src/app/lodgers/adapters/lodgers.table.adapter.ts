@@ -2,15 +2,15 @@ import { Injectable } from "@angular/core";
 import { Lodger } from "src/app/core/models/lodger.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
-import { LodgersCommands } from "../commands/lodgers.commands";
+import { LodgersCommandsService } from "../commands/lodgers.commands.service";
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class LodgersTableAdapter {
+export class LodgersTableAdapterService {
 
-  constructor(private lodgersCommands: LodgersCommands) { }
+  constructor(private lodgersCommands: LodgersCommandsService) { }
 
   buildTable(lodgers: Lodger[]): { columns: UiTableColumnItem[], rows: UiTableRow[] } {
     return {

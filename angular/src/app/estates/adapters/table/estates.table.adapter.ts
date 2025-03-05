@@ -1,14 +1,15 @@
 import { Injectable } from "@angular/core";
 import { isEqual } from "lodash";
-import { Estate } from "src/app/core/models/estate.model";
 import { Lodger } from "src/app/core/models/lodger.model";
 import { Owner } from "src/app/core/models/owner.model";
 import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
-import { EstatesCommandsProvider } from "../../commands/estates.commands.provider";
+import { EstatesCommandsService } from "../../commands/estates.commands.service";
 import { createLodgersDropdown, createRentReceiptDropdown } from "./estates.lodgers.table.utils";
-import { OwnersCommands } from "src/app/owners/commands/owners.command";
+import { OwnersCommandsService } from "src/app/owners/commands/owners.command.service";
+import { Estate } from "../../models/estate.model";
+import { RentsCommandsService } from "src/app/rents/commands/rents.commands.service";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,9 @@ export class EstatesUiTableAdapter {
 
   columns: UiTableColumnItem[] = [];
 
-  constructor(private estatesCommands: EstatesCommandsProvider, private ownersCommands: OwnersCommands) { }
+  constructor(private estatesCommands: EstatesCommandsService, private ownersCommands: OwnersCommandsService, private rentsCommands: RentsCommandsService) {
+    console.log('esate ui table adapter constructor');
+  }
 
   buildTableList(estates: Estate[], owners: Owner[], lodgers: Lodger[]): { columns: UiTableColumnItem[], rows: UiTableRow[] } {
     return {
@@ -101,7 +104,7 @@ export class EstatesUiTableAdapter {
   private createLodgerDropdownItems(estates: Estate[], lodgers: Lodger[]): UiDropdownItem<any>[] {
     let lodgersActionsDropdownItems: UiDropdownItem<any>[] = [];
     lodgersActionsDropdownItems.push(createLodgersDropdown(this.estatesCommands, lodgers, estates))
-    lodgersActionsDropdownItems.push(createRentReceiptDropdown(this.estatesCommands, estates))
+    lodgersActionsDropdownItems.push(createRentReceiptDropdown(this.rentsCommands, estates))
     return lodgersActionsDropdownItems;
   }
 

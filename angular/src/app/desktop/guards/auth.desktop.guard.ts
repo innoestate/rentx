@@ -3,7 +3,8 @@ import { CanActivate, Router } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { map, merge, Observable, take } from 'rxjs';
+import { delay, map, merge, Observable, take } from 'rxjs';
+import { loadUser } from 'src/app/core/store/user/user.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,7 @@ export class AuthDesktopGuard implements CanActivate {
         return false;
       })
     );
-    this.store.dispatch({ type: '[User] Load User' });
+    this.store.dispatch(loadUser());
 
     return merge(failure$, success$).pipe(
       take(1)

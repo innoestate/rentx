@@ -4,8 +4,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { EstatesService } from 'src/app/core/services/estates.service';
 import { LodgersService } from 'src/app/core/services/lodgers.service';
-import { OwnersService } from 'src/app/core/services/owners.http.service';
-import { RentsHttpService } from 'src/app/core/services/rents.http.service';
+import { OwnersHttpService } from 'src/app/owners/data/http/owners.http.service';
+import { RentsHttpService } from 'src/app/rents/data/http/rents.http.service';
 import { EstatesComponent } from './mock/estates.directive';
 import { MockEstatesService } from './mock/estates.service.mocked';
 import { MockLodgersService } from './mock/lodgers.service.mocked';
@@ -29,7 +29,7 @@ describe('EstatesDataService', () => {
       ],
       providers: [
         { provide: EstatesService, useClass: MockEstatesService },
-        { provide: OwnersService, useClass: MockOwnersService },
+        { provide: OwnersHttpService, useClass: MockOwnersService },
         { provide: LodgersService, useClass: MockLodgersService },
         { provide: RentsHttpService, useClass: MockRentsHttpService }
       ]

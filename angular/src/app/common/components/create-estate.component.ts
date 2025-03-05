@@ -1,9 +1,9 @@
 import { Directive, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Store } from "@ngrx/store";
-import { Estate_Form } from "src/app/core/models/forms/estate-form.model";
-import { createEstate } from "src/app/core/store/estate/estates.actions";
-import { selectOwners } from "src/app/core/store/owner/owners.selectors";
+import { Estate_Form } from "src/app/estates/models/estate-form.model";
+import { createEstate } from "src/app/estates/data/ngrx/estates.actions";
+import { selectOwners } from "src/app/owners/data/ngrx/owners.selectors";
 import { formatEstateToEstateFormToEstatePostRequest } from "src/app/core/utils/estate.utils";
 
 @Directive()

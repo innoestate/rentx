@@ -1,13 +1,11 @@
-import { NgModule } from "@angular/core";
+import { ModuleWithProviders, NgModule } from "@angular/core";
 import { EffectsModule } from "@ngrx/effects";
-import { Store, StoreModule } from "@ngrx/store";
+import { StoreModule } from "@ngrx/store";
 import { RentsModule } from "src/app/core/modules/rents.module";
-import { loadEstates } from "src/app/core/store/estate/estates.actions";
-import { EstatesEffects } from "src/app/core/store/estate/estates.effects";
-import { estatesReducer } from "src/app/core/store/estate/estates.reducers";
 import { LodgersDataModule } from "src/app/lodgers/data/lodgers.data.module";
 import { EstatesDataService } from "./esates.data.service";
-import { OwnersModule } from "src/app/owners/owners.module";
+import { EstatesEffects } from "./ngrx/estates.effects";
+import { estatesReducer } from "./ngrx/estates.reducers";
 
 @NgModule({
   imports: [
@@ -15,14 +13,24 @@ import { OwnersModule } from "src/app/owners/owners.module";
     EffectsModule.forFeature(EstatesEffects),
     LodgersDataModule,
     RentsModule,
-    OwnersModule,
-  ],
-  providers: [
-    EstatesDataService,
   ]
 })
 export class EstatesDataModule {
-  constructor(private store: Store) {
-    this.store.dispatch(loadEstates());
+  constructor() {
+    console.log('EstatesDataModule constructor');
+  }
+
+  static forRoot(): ModuleWithProviders<EstatesDataModule> {
+    return {
+      ngModule: EstatesDataModule,
+      providers: [EstatesDataService]
+    }
+  }
+
+  static forChild(): ModuleWithProviders<EstatesDataModule> {
+    return {
+      ngModule: EstatesDataModule,
+      providers: []
+    }
   }
 }

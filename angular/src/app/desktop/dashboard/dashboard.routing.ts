@@ -6,8 +6,8 @@ const routes: Routes = [
   {
     path: '', component: DashboardDesktopComponent, children: [
       {
-        path: 'estates',
-        loadChildren: () => import('./estates/estates.module').then(m => m.DesktopEstatesModule),
+        path: 'properties',
+        loadChildren: () => import('./properties/properties.module').then(m => m.DesktopPropertiesModule),
       },
       {
         path: 'prospections',
@@ -20,7 +20,7 @@ const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo: 'estates'
+        redirectTo: 'properties'
       }
     ]
   },

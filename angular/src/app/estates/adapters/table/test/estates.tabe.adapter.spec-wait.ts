@@ -1,5 +1,5 @@
 import { TestBed } from "@angular/core/testing";
-import { EstatesCommandsProvider } from "../../../commands/estates.commands.provider";
+import { EstatesCommandsService } from "../../../commands/estates.commands.service";
 import { EstatesCommandsProviderMock } from "../../../commands/test/mock.estates.commands.provider.mock";
 import { EstatesUiTableAdapter } from "../estates.table.adapter";
 import { estate1Mock, estate2Mock } from "./mocks/estates.mock";
@@ -17,9 +17,9 @@ describe('EstatesTableAdapter test usage of table adapter', () => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        EstatesCommandsProvider,
+        EstatesCommandsService,
         EstatesUiTableAdapter,
-        { provide: EstatesCommandsProvider, useClass: EstatesCommandsProviderMock }
+        { provide: EstatesCommandsService, useClass: EstatesCommandsProviderMock }
       ]
     });
     estatesUiTableAdapter = TestBed.inject(EstatesUiTableAdapter);

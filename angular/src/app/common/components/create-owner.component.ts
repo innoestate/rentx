@@ -2,8 +2,8 @@ import { Directive, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Store } from "@ngrx/store";
 import { Owner_Form } from "src/app/core/models/forms/owner-form.model";
-import { addOwner } from "src/app/core/store/owner/owners.actions";
 import { formatOwnerFormValueToEstatePostRequest } from "src/app/core/utils/owner.utils";
+import { addOwner } from "src/app/owners/data/ngrx/owners.actions";
 
 @Directive()
 export class CreateOwnerComponent implements OnInit {

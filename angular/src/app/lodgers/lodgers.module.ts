@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { loadLodgers } from '../core/store/lodger/lodgers.actions';
 import { UiPopupService } from '../ui/popup/services/popup.service';
-import { LodgersTableAdapter } from './adapters/lodgers.table.adapter';
-import { LodgersCommands } from './commands/lodgers.commands';
+import { LodgersTableAdapterService } from './adapters/lodgers.table.adapter';
+import { LodgersCommandsService } from './commands/lodgers.commands.service';
 import { LodgersTableDirective } from './components/lodgers.table.directive';
 import { LodgersDataModule } from './data/lodgers.data.module';
 
@@ -17,13 +17,9 @@ import { LodgersDataModule } from './data/lodgers.data.module';
     LodgersDataModule,
   ],
   providers: [
-    LodgersTableAdapter,
-    LodgersCommands,
+    LodgersTableAdapterService,
+    LodgersCommandsService,
     UiPopupService,
   ]
 })
-export class LodgersModule {
-  constructor(private store: Store) {
-    this.store.dispatch(loadLodgers());
-  }
-}
+export class LodgersModule {}

@@ -6,10 +6,10 @@ import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { Subject, take, takeUntil, tap } from 'rxjs';
 import { Owner } from 'src/app/core/models/owner.model';
-import { updateOwnerSuccess } from 'src/app/core/store/owner/owners.actions';
 import { UiButtonComponent } from 'src/app/ui/components/ui-button/ui-button.component';
 import { EditOwnerComponent } from '../../components/edit-owner.component';
 import { SignatureComponent } from '../../components/signature-pad/signature.component';
+import { updateOwnerSuccess } from 'src/app/owners/data/ngrx/owners.actions';
 
 @Component({
     selector: 'edit-owner-popup',

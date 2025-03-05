@@ -3,10 +3,10 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from "@ngrx/store";
 import { catchError, map, of, switchMap, tap, withLatestFrom } from "rxjs";
 import { LodgersService } from "../../services/lodgers.service";
-import { loadOwnersFailure } from "../owner/owners.actions";
+import { loadOwnersFailure } from "../../../owners/data/ngrx/owners.actions";
 import { createLodger, createLodgerFailure, createLodgerSuccess, deleteLodger, deleteLodgerSuccess, loadLodgers, loadLodgersSuccess, updateLodger, updateLodgerFailure, updateLodgerSuccess } from "./lodgers.actions";
 import { selectLodgers } from "./lodgers.selectors";
-import { editEstate } from "../estate/estates.actions";
+import { editEstate } from "../../../estates/data/ngrx/estates.actions";
 import { NzMessageService } from "ng-zorro-antd/message";
 
 @Injectable()

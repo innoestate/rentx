@@ -1,10 +1,11 @@
-import { Estate } from "src/app/core/models/estate.model";
 import { Lodger } from "src/app/core/models/lodger.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { EstatesCommandsProvider } from "../../commands/estates.commands.provider";
+import { EstatesCommandsService } from "../../commands/estates.commands.service";
 import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
+import { Estate } from "../../models/estate.model";
+import { RentsCommandsService } from "src/app/rents/commands/rents.commands.service";
 
-export const createLodgersDropdown = (estatesCommands: EstatesCommandsProvider, lodgers: Lodger[], estates: Estate[]) => {
+export const createLodgersDropdown = (estatesCommands: EstatesCommandsService, lodgers: Lodger[], estates: Estate[]) => {
   let lodgerDropdownItems: UiDropdownItem<any>[] = [];
   lodgerDropdownItems = addChoosingLodger(estatesCommands, estates, lodgers);
   const lodgersDropDown = {
@@ -14,18 +15,18 @@ export const createLodgersDropdown = (estatesCommands: EstatesCommandsProvider, 
   return lodgersDropDown;
 }
 
-export const createRentReceiptDropdown = (estatesCommands: EstatesCommandsProvider, estates: Estate[]) => {
+export const createRentReceiptDropdown = (rentsCommands: RentsCommandsService, estates: Estate[]) => {
   let rentReceiptDropdownItems: UiDropdownItem<any>[] = [];
-  rentReceiptDropdownItems = addDownloadRentReceipt(rentReceiptDropdownItems, estatesCommands, estates);
-  rentReceiptDropdownItems = sendRentReceiptByEmail(rentReceiptDropdownItems, estatesCommands, estates);
-  rentReceiptDropdownItems = addCustomizeRentReceipt(rentReceiptDropdownItems, estatesCommands, estates);
+  rentReceiptDropdownItems = addDownloadRentReceipt(rentReceiptDropdownItems, rentsCommands, estates);
+  rentReceiptDropdownItems = sendRentReceiptByEmail(rentReceiptDropdownItems, rentsCommands, estates);
+  rentReceiptDropdownItems = addCustomizeRentReceipt(rentReceiptDropdownItems, rentsCommands, estates);
   return {
     value: rentReceiptDropdownItems,
     label: "quittances de loyers"
   };
 }
 
-const addChoosingLodger = (estatesCommands: EstatesCommandsProvider, estates: Estate[], lodgers: Lodger[]): UiDropdownItem<any>[] => {
+const addChoosingLodger = (estatesCommands: EstatesCommandsService, estates: Estate[], lodgers: Lodger[]): UiDropdownItem<any>[] => {
   let lodgersDropDownItems: UiDropdownItem<any>[] = lodgers.map(lodger => ({ value: lodger.id, label: lodger.name }));
   lodgersDropDownItems.push({
     value: '',
@@ -35,7 +36,7 @@ const addChoosingLodger = (estatesCommands: EstatesCommandsProvider, estates: Es
   return lodgersDropDownItems;
 }
 
-const addCreatingLodger = (dropDownActionsItems: UiDropdownItem<any>[], estatesCommands: EstatesCommandsProvider, estates: Estate[]): UiDropdownItem<any>[]  => {
+const addCreatingLodger = (dropDownActionsItems: UiDropdownItem<any>[], estatesCommands: EstatesCommandsService, estates: Estate[]): UiDropdownItem<any>[]  => {
   dropDownActionsItems.push({
     value: '',
     command: (estateRow: UiTableRow) => {
@@ -48,39 +49,39 @@ const addCreatingLodger = (dropDownActionsItems: UiDropdownItem<any>[], estatesC
   return dropDownActionsItems;
 }
 
-const addDownloadRentReceipt = (dropDownActionsItems: UiDropdownItem<any>[], estatesCommands: EstatesCommandsProvider, estates: Estate[]): UiDropdownItem<any>[] => {
+const addDownloadRentReceipt = (dropDownActionsItems: UiDropdownItem<any>[], rentsCommands: RentsCommandsService, estates: Estate[]): UiDropdownItem<any>[] => {
   dropDownActionsItems.push({
     value: 'downloadRentReceipt',
     label: 'téléharger une quittance',
     command: ( estateRow: any ) => {
       const estate = extractEstateFromRow(estates, estateRow);
-      estatesCommands.downloadRentReceipt(estate);
+      rentsCommands.downloadRentReceipt(estate);
       return true;
     }
   })
   return dropDownActionsItems;
 }
 
-const sendRentReceiptByEmail = (dropDownActionsItems: UiDropdownItem<any>[], estatesCommands: EstatesCommandsProvider, estates: Estate[]): UiDropdownItem<any>[] => {
+const sendRentReceiptByEmail = (dropDownActionsItems: UiDropdownItem<any>[], rentsCommands: RentsCommandsService, estates: Estate[]): UiDropdownItem<any>[] => {
   dropDownActionsItems.push({
     value: 'sendRentReceipt',
     label: 'envoyer une quittance par email',
     command: ( estateRow: any ) => {
       const estate = extractEstateFromRow(estates, estateRow);
-      estatesCommands.senRentReceiptByEmail(estate);
+      rentsCommands.senRentReceiptByEmail(estate);
       return true;
     }
   })
   return dropDownActionsItems;
 }
 
-const addCustomizeRentReceipt = (dropDownActionsItems: UiDropdownItem<any>[], estatesCommands: EstatesCommandsProvider, estates: Estate[]): UiDropdownItem<any>[] => {
+const addCustomizeRentReceipt = (dropDownActionsItems: UiDropdownItem<any>[], rentsCommands: RentsCommandsService, estates: Estate[]): UiDropdownItem<any>[] => {
   dropDownActionsItems.push({
     value: 'customizeRentReceipt',
     label: 'quittance personnalisée',
     command: ( estateRow: any ) => {
       const estate = extractEstateFromRow(estates, estateRow);
-      estatesCommands.customizeRentReceipt(estate);
+      rentsCommands.customizeRentReceipt(estate);
       return true;
     }
   })

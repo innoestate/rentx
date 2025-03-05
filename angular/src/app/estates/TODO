@@ -1,4 +1,12 @@
 refacto structurelle.
 
-Pour bien respecter le principe SOLID je dois repenser la structure du projet;
-Le guide des bonnes pratiques d'angular
+Bonne gestion des modules.
+
+Il faut isoler RentsService qui utilise le store.
+
+Rents Service doit donc être transformé en RentsCommandsService.
+Il doit utiliser les DataServices et non le store.
+
+Ensuite il devra être providé dans le module estates-table, avec également donc tout ce dont il à besoin.
+En l'occurente il faudra OwnersDataService et LodgersDataService.
+

@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { Store, StoreModule } from '@ngrx/store';
 import { take, tap } from 'rxjs';
-import { loadOwners } from '../../store/owner/owners.actions';
-import { OwnersEffects } from '../../store/owner/owners.effects';
-import { ownersReducer } from '../../store/owner/owners.reducers';
+import { loadOwners } from '../../../owners/data/ngrx/owners.actions';
+import { OwnersEffects } from '../../../owners/data/ngrx/owners.effects';
+import { ownersReducer } from '../../../owners/data/ngrx/owners.reducers';
 import { userSelector } from '../../store/user/user.selectors';
 
 

@@ -3,11 +3,11 @@ import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Estate } from 'src/app/core/models/estate.model';
-import { RentsHttpService } from 'src/app/core/services/rents.http.service';
+import { RentsHttpService } from 'src/app/rents/data/http/rents.http.service';
 import { deleteEstate, loadEstates } from 'src/app/core/store/estate/estates.actions';
 import { selectEstates } from 'src/app/core/store/estate/estates.selectors';
 import { selectLodgers } from 'src/app/core/store/lodger/lodgers.selectors';
-import { selectOwners } from 'src/app/core/store/owner/owners.selectors';
+import { selectOwners } from 'src/app/owners/data/ngrx/owners.selectors';
 import { UiPopupService } from 'src/app/ui/popup/services/popup.service';
 import { CreateDesktopEstatePopupComponent } from '../popups/create-estate-popup/create-estate-popup.component';
 

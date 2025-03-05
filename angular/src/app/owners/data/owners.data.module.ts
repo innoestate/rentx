@@ -1,10 +1,10 @@
-import { NgModule } from "@angular/core";
+import { ModuleWithProviders, NgModule } from "@angular/core";
 import { EffectsModule } from "@ngrx/effects";
 import { Store, StoreModule } from "@ngrx/store";
-import { loadOwners } from "src/app/core/store/owner/owners.actions";
-import { OwnersEffects } from "src/app/core/store/owner/owners.effects";
-import { ownersReducer } from "src/app/core/store/owner/owners.reducers";
+import { ownersReducer } from "src/app/owners/data/ngrx/owners.reducers";
 import { OwnersDataService } from "./owners.data.service";
+import { OwnersEffects } from "./ngrx/owners.effects";
+import { loadOwners } from "./ngrx/owners.actions";
 
 @NgModule({
   imports: [
@@ -18,5 +18,21 @@ import { OwnersDataService } from "./owners.data.service";
 export class OwnersDataModule {
   constructor(private store: Store) {
     this.store.dispatch(loadOwners());
+  }
+
+  static forRoot(): ModuleWithProviders<OwnersDataModule> {
+    return {
+      ngModule: OwnersDataModule,
+      providers: [
+        OwnersDataService
+      ]
+    }
+  }
+
+  static forChild(): ModuleWithProviders<OwnersDataModule> {
+    return {
+      ngModule: OwnersDataModule,
+      providers: []
+    }
   }
 }

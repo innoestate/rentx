@@ -1,21 +1,23 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { deleteEstate, editEstate, loadEstates } from "../../core/store/estate/estates.actions";
-import { selectEstates } from "../../core/store/estate/estates.selectors";
-import { Estate } from "src/app/core/models/estate.model";
+import { deleteEstate, editEstate, loadEstates } from "./ngrx/estates.actions";
+import { estatesSelector, selectEstates } from "./ngrx/estates.selectors";
+import { Estate } from "../models/estate.model";
 
 @Injectable({
   providedIn: 'root',
 })
 export class EstatesDataService {
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {
+    console.log('EstatesDataService constructor');
+  }
 
   loadEstates(){
     this.store.dispatch(loadEstates());
   }
 
-  getEstates(){
+  getEstates() {
     return this.store.selectSignal(selectEstates);
   }
 
@@ -24,6 +26,7 @@ export class EstatesDataService {
   }
 
   removeEstate(estateId: string){
+    if(!estateId) throw new Error('Estate id is required');
     return this.store.dispatch(deleteEstate({ estateId }));
   }
 

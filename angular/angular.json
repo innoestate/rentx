@@ -17,6 +17,8 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "watch": true,
+            "aot": false,
             "outputPath": {
               "base": "../../rentx_prod/front"
             },

@@ -1,13 +1,13 @@
 import { Owner } from 'src/app/core/models/owner.model';
 import { UiTableRow } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
-import { OwnersTableAdapter } from '../owners.table.adapter';
+import { OwnersTableAdapterService } from '../owners.table.adapter';
 import { ownerMock1 } from './mocks/owners.mock';
 
 describe('OwnersTableAdapter', () => {
-  let adapter: OwnersTableAdapter;
+  let adapter: OwnersTableAdapterService;
 
   beforeEach(() => {
-    adapter = new OwnersTableAdapter({} as any);
+    adapter = new OwnersTableAdapterService({} as any);
   });
 
   it('should return modified fields', () => {

@@ -4,8 +4,8 @@ import { Store } from "@ngrx/store";
 import { NZ_MODAL_DATA } from "ng-zorro-antd/modal";
 import { Owner_Form } from "src/app/core/models/forms/owner-form.model";
 import { Owner } from "src/app/core/models/owner.model";
-import { updateOwner } from "src/app/core/store/owner/owners.actions";
 import { formatOwnerForPatch } from "src/app/core/utils/owner.utils";
+import { updateOwner } from "src/app/owners/data/ngrx/owners.actions";
 
 @Directive()
 export class EditOwnerComponent implements OnInit {

@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { take, tap } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
-import { createEstateFailure } from '../core/store/estate/estates.actions';
+import { createEstateFailure } from '../estates/data/ngrx/estates.actions';
 
 @Directive()
 export class DashboardComponent {

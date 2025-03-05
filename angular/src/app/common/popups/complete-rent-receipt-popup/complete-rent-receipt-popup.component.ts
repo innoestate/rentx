@@ -1,11 +1,11 @@
-import { Component, computed, effect, EventEmitter, Inject, input, Signal } from '@angular/core';
+import { Component, computed, effect, Inject, Signal } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { Lodger } from 'src/app/core/models/lodger.model';
 import { Owner } from 'src/app/core/models/owner.model';
-import { SignatureComponent } from '../../components/signature-pad/signature.component';
-import { Estate } from 'src/app/core/models/estate.model';
 import { UiButtonComponent } from 'src/app/ui/components/ui-button/ui-button.component';
+import { SignatureComponent } from '../../components/signature-pad/signature.component';
+import { Estate } from 'src/app/estates/models/estate.model';
 
 @Component({
     selector: 'app-complete-rent-receipt-popup',

@@ -3,11 +3,10 @@ import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms"
 import { Actions } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { NZ_MODAL_DATA } from "ng-zorro-antd/modal";
-import { Estate } from "src/app/core/models/estate.model";
 import { Lodger_Form } from "src/app/core/models/forms/lodger-form.model";
-import { editEstate } from "src/app/core/store/estate/estates.actions";
 import { createLodger } from "src/app/core/store/lodger/lodgers.actions";
 import { formatLodgerFormValueToEstatePostRequest } from "src/app/core/utils/lodger.utils";
+import { Estate } from "src/app/estates/models/estate.model";
 
 @Directive()
 export class CreateLodgerComponent implements OnInit {
@@ -31,6 +30,7 @@ export class CreateLodgerComponent implements OnInit {
     if (this.formGroup.invalid)
       return;
     const lodger = formatLodgerFormValueToEstatePostRequest(this.formGroup);
+    //TODO refacto using data facade
     this.store.dispatch(createLodger({ lodger, estateId: this.data.estate?.id }));
   }
 

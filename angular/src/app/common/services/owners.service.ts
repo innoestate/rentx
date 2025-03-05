@@ -3,7 +3,7 @@ import { Actions } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { Estate } from "src/app/core/models/estate.model";
 import { Owner } from "src/app/core/models/owner.model";
-import { downloadRentReceipt } from "src/app/core/store/rents/rents.actions";
+import { downloadRentReceipt } from "src/app/rents/data/ngrx/rents.actions";
 import { UiPopupService } from "src/app/ui/popup/services/popup.service";
 import { EditOwnerPopupComponent } from "../popups/edit-owner-popup/edit-owner-popup.component";
 

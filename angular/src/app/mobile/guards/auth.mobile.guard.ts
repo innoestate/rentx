@@ -4,6 +4,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { map, merge, Observable, take, tap } from 'rxjs';
+import { loadUser } from 'src/app/core/store/user/user.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,7 @@ export class AuthMobileGuard implements CanActivate {
         return false;
       })
     );
-    this.store.dispatch({ type: '[User] Load User' });
+    this.store.dispatch(loadUser());
 
     return merge(failure$, success$).pipe(
       take(1)

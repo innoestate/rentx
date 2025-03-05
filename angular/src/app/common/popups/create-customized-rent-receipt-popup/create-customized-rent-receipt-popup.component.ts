@@ -2,11 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
-import { Estate } from 'src/app/core/models/estate.model';
-import { downloadRentReceipt, senddRentReceipt } from 'src/app/core/store/rents/rents.actions';
+import { downloadRentReceipt, senddRentReceipt } from 'src/app/rents/data/ngrx/rents.actions';
+import { Estate } from 'src/app/estates/models/estate.model';
 import { UiButtonComponent } from 'src/app/ui/components/ui-button/ui-button.component';
 
 @Component({

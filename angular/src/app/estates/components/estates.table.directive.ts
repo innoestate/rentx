@@ -1,4 +1,4 @@
-import { computed, Directive } from "@angular/core";
+import { computed, Directive, effect } from "@angular/core";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { EstatesUiTableAdapter } from "../adapters/table/estates.table.adapter";
 import { EstatesDataService } from "../data/esates.data.service";
@@ -11,12 +11,23 @@ export class EstatesTableDirective {
   estates = this.estatesData.getEstates();
   owners = this.ownersData.getOwners();
   lodgers = this.lodgersData.getLodgers();
-  estatesTable = computed(() => this.estatesUiAdapter.buildTableList(this.estates(), this.owners(), this.lodgers()));
+  estatesTable = computed(() => {
+
+    const estates = this.estates();
+    const owners = this.owners();
+    const lodgers = this.lodgers();
+
+    if (!estates || !owners || !lodgers) return { columns: [], rows: [] };
+    return this.estatesUiAdapter.buildTableList(estates, owners, lodgers);
+
+  });
 
   constructor(protected estatesData: EstatesDataService,
               protected estatesUiAdapter: EstatesUiTableAdapter,
               protected ownersData: OwnersDataService,
-              protected lodgersData: LodgersDataService) { }
+              protected lodgersData: LodgersDataService) {
+                console.log('EstatesTableDirective constructor');
+              }
 
   updateRow(row: UiTableRow) {
     const estate = this.estatesUiAdapter.extractUpdatedFieldsFromRow(this.estates(), row);
