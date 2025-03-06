@@ -11,8 +11,8 @@ export const addOwnerSuccess = createAction('[Owners] Add Owner Success', props<
 export const addOwnerFailure = createAction('[Owners] Add Owner Failure', props<{ error: any }>());
 
 export const updateOwner = createAction('[Owners] Update Owner', props<{ owner: Partial<Owner> }>());
-export const updateOwnerSuccess = createAction('[Owners] Update Owner Success', props<{ owner: any }>());
-export const updateOwnerFailure = createAction('[Owners] Update Owner Failure', props<{ error: any }>());
+export const updateOwnerSuccess = createAction('[Owners] Update Owner Success', props<{ owner: Owner }>());
+export const updateOwnerFailure = createAction('[Owners] Update Owner Failure', props<{ error: string }>());
 
 export const deleteOwner = createAction('[Owners] Delete Owner', props<{ ownerId: string }>());
 export const deleteOwnerSuccess = createAction('[Owners] Delete Owner Success', props<{ ownerId: string }>());

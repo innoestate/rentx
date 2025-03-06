@@ -1,15 +1,17 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { deleteEstate, editEstate, loadEstates } from "./ngrx/estates.actions";
+import { deleteEstate, editEstate, editEstateFailure, editEstateSuccess, loadEstates } from "./ngrx/estates.actions";
 import { estatesSelector, selectEstates } from "./ngrx/estates.selectors";
 import { Estate } from "../models/estate.model";
+import { DataNgrxService } from "src/app/core/data/ngrx/data.ngrx.service";
+import { editEstate as updateEstateInNgrx } from "./ngrx/estates.actions";
 
 @Injectable({
   providedIn: 'root',
 })
 export class EstatesDataService {
 
-  constructor(private store: Store) {
+  constructor(private dataNgrxService: DataNgrxService, private store: Store) {
     console.log('EstatesDataService constructor');
   }
 
@@ -22,7 +24,8 @@ export class EstatesDataService {
   }
 
   updateEstate(estate: Partial<Estate>){
-    return this.store.dispatch(editEstate({ estate }));
+    return this.dataNgrxService.updateObjectInNgrx(updateEstateInNgrx, editEstateSuccess, editEstateFailure, {estate});
+    // return this.store.dispatch(editEstate({ estate }));
   }
 
   removeEstate(estateId: string){

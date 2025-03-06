@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
+import { DataNgrxService } from "src/app/core/data/ngrx/data.ngrx.service";
 import { Lodger } from "src/app/core/models/lodger.model";
-import { deleteLodger, loadLodgers, updateLodger } from "src/app/core/store/lodger/lodgers.actions";
+import { deleteLodger, loadLodgers, updateLodger, updateLodgerFailure, updateLodgerSuccess } from "src/app/core/store/lodger/lodgers.actions";
 import { selectLodgers } from "src/app/core/store/lodger/lodgers.selectors";
 
 @Injectable({
@@ -9,7 +10,7 @@ import { selectLodgers } from "src/app/core/store/lodger/lodgers.selectors";
 })
 export class LodgersDataService {
 
-  constructor(private store: Store) { }
+  constructor(private dataNgrxService: DataNgrxService, private store: Store) { }
 
   loadLodgers(){
     this.store.dispatch(loadLodgers());
@@ -20,7 +21,7 @@ export class LodgersDataService {
   }
 
   updateLodger(lodger: Partial<Lodger>) {
-    this.store.dispatch(updateLodger({lodger}));
+    return this.dataNgrxService.updateObjectInNgrx(updateLodger, updateLodgerSuccess, updateLodgerFailure, {lodger});
   }
 
   deleteLodger(lodgerId: string){
