@@ -1,8 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, ofType } from "@ngrx/effects";
-import { Action, Store } from "@ngrx/store";
-import { map, Observable, race, take } from "rxjs";
-import { updateOwnerSuccess } from "src/app/owners/data/ngrx/owners.actions";
+import { Store } from "@ngrx/store";
+import { Observable, race, take } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -21,14 +20,7 @@ export class DataNgrxService {
       take(1)
     );
     this.store.dispatch(actionToDispatch(objectToUpdate));
-    return race(successObservable, failObservable).pipe(
-      map(result => {
-        if (result.type === updateOwnerSuccess.type) {
-          return result.owner;
-        }
-        throw new Error('Update owner failed: ' + result as string);
-      })
-    )
+    return race(successObservable, failObservable);
   }
 
 

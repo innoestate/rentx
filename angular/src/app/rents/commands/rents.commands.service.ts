@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Estate } from "src/app/estates/models/estate.model";
-import { getNeededFieldsForDownloadRentReceipt } from "./rents.commands.utils";
+import { getMandatoryFieldsForDownload, getMandatoryFieldsForEmail } from "./rents.commands.utils";
 import { UiPopupService } from "src/app/ui/popup/services/popup.service";
 import { CompleteRentReceiptPopupComponent } from "src/app/common/popups/complete-rent-receipt-popup/complete-rent-receipt-popup.component";
 import { combineLatest, delay, map, Observable, of, switchMap, take, tap } from "rxjs";
@@ -26,33 +26,37 @@ export class RentsCommandsService {
   }
 
   downloadRentReceipt(estate: Estate) {
-    this.getCompletedEstate(estate).pipe(
+    const mandatoryFields = getMandatoryFieldsForDownload(estate);
+    this.getCompletedEstate(estate, mandatoryFields).pipe(
       take(1),
       tap(estate => this.downloadRentReceiptOnBrowser(estate))
     ).subscribe();
   }
 
   senRentReceiptByEmail(estate: Estate) {
-    console.log('senRentReceiptByEmail', estate);
+    const mandatoryFields = getMandatoryFieldsForEmail(estate);
+    this.getCompletedEstate(estate, mandatoryFields).pipe(
+      take(1),
+      tap(estate => this.sendReceiptByEmailRequest(estate))
+    ).subscribe();
   }
 
   customizeRentReceipt(estate: Estate) {
     console.log('customizeRentReceipt', estate);
   }
 
-  protected getCompletedEstate(estateWithoutModification: Estate): Observable<Estate> {
+  protected getCompletedEstate(estateWithoutModification: Estate, fields: string[]): Observable<Estate> {
 
     const estateId = estateWithoutModification.id;
     const ownerId = estateWithoutModification.owner?.id;
     const lodgerId = estateWithoutModification.lodger?.id;
 
-    let fields = getNeededFieldsForDownloadRentReceipt(estateWithoutModification);
     if (fields.length > 0) {
 
       return this.popupService.openPopup(CompleteRentReceiptPopupComponent, 'Compléter les informations pour la quittance', { fields }).pipe(
         take(1),
         switchMap(({ owner, lodger, estate }) => this.updateCompletedObjects({ ...owner, id: ownerId }, { ...estate, id: estateId }, { ...lodger, id: lodgerId })),
-        map(estate => ({...estateWithoutModification, ...estate}))
+        map(estate => ({ ...estateWithoutModification, ...estate }))
       );
 
     } else {
@@ -86,7 +90,9 @@ export class RentsCommandsService {
   }
 
   protected sendReceiptByEmailRequest(estate: Estate) {
-    this.rentsHttpService.sendRentReceiptByEmail(estate.id)
+    this.rentsHttpService.sendRentReceiptByEmail(estate.id).pipe(
+      take(1)
+    ).subscribe();
   }
 
 }

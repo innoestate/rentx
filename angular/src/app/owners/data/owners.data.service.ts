@@ -1,7 +1,7 @@
 import { Injectable, Signal } from "@angular/core";
 import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { map, Observable, race, take } from "rxjs";
+import { catchError, map, Observable, of, race, take } from "rxjs";
 import { Owner } from "src/app/core/models/owner.model";
 import { deleteOwner, loadOwners as loadOwnersAction, updateOwner, updateOwnerFailure, updateOwnerSuccess } from "./ngrx/owners.actions";
 import { selectOwners } from "./ngrx/owners.selectors";
@@ -23,7 +23,12 @@ export class OwnersDataService {
   }
 
   updateOwner(ownerData: Partial<Owner>): Observable<Owner> {
-    return this.dataNgrxService.updateObjectInNgrx(updateOwner, updateOwnerSuccess, updateOwnerFailure, {owner: ownerData});
+    return this.dataNgrxService.updateObjectInNgrx<Owner>(updateOwner, updateOwnerSuccess, updateOwnerFailure, { owner: ownerData }).pipe(
+      catchError(err => {
+        console.error('Failed to update owner with ngrx.', err);
+        return of(err);
+      })
+    );
   }
 
   deleteOwner(ownerId: string) {

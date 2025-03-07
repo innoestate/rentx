@@ -1,6 +1,6 @@
 import { Estate } from "src/app/estates/models/estate.model";
 
-export const getNeededFieldsForDownloadRentReceipt = (estate: Estate) =>{
+export const getMandatoryFieldsForDownload = (estate: Estate) =>{
     const fields = [];
     if (!estate.owner?.street || estate.owner?.street === '') {
       fields.push('street');
@@ -22,3 +22,12 @@ export const getNeededFieldsForDownloadRentReceipt = (estate: Estate) =>{
     }
     return fields;
   }
+
+
+export const getMandatoryFieldsForEmail = (estate: Estate)  => {
+  const fields = getMandatoryFieldsForDownload(estate);
+  if (estate.lodger?.email === '' || !estate.lodger?.email) {
+    fields.push('lodgerEmail');
+  }
+  return fields;
+}
