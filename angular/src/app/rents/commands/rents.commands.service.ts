@@ -3,7 +3,7 @@ import { Estate } from "src/app/estates/models/estate.model";
 import { getMandatoryFieldsForDownload, getMandatoryFieldsForEmail } from "./rents.commands.utils";
 import { UiPopupService } from "src/app/ui/popup/services/popup.service";
 import { CompleteRentReceiptPopupComponent } from "src/app/common/popups/complete-rent-receipt-popup/complete-rent-receipt-popup.component";
-import { combineLatest, delay, map, Observable, of, switchMap, take, tap } from "rxjs";
+import { catchError, combineLatest, delay, map, Observable, of, switchMap, take, tap } from "rxjs";
 import { Lodger } from "src/app/core/models/lodger.model";
 import { Owner } from "src/app/core/models/owner.model";
 import { OwnersDataService } from "src/app/owners/data/owners.data.service";
@@ -29,7 +29,7 @@ export class RentsCommandsService {
     const mandatoryFields = getMandatoryFieldsForDownload(estate);
     this.getCompletedEstate(estate, mandatoryFields).pipe(
       take(1),
-      tap(estate => this.downloadRentReceiptOnBrowser(estate))
+      tap(estateId => this.downloadRentReceiptOnBrowser(estateId))
     ).subscribe();
   }
 
@@ -37,7 +37,7 @@ export class RentsCommandsService {
     const mandatoryFields = getMandatoryFieldsForEmail(estate);
     this.getCompletedEstate(estate, mandatoryFields).pipe(
       take(1),
-      tap(estate => this.sendReceiptByEmailRequest(estate))
+      tap(estateId => this.sendReceiptByEmailRequest(estateId))
     ).subscribe();
   }
 
@@ -45,7 +45,7 @@ export class RentsCommandsService {
     console.log('customizeRentReceipt', estate);
   }
 
-  protected getCompletedEstate(estateWithoutModification: Estate, fields: string[]): Observable<Estate> {
+  protected getCompletedEstate(estateWithoutModification: Estate, fields: string[]): Observable<string> {
 
     const estateId = estateWithoutModification.id;
     const ownerId = estateWithoutModification.owner?.id;
@@ -56,15 +56,15 @@ export class RentsCommandsService {
       return this.popupService.openPopup(CompleteRentReceiptPopupComponent, 'Compléter les informations pour la quittance', { fields }).pipe(
         take(1),
         switchMap(({ owner, lodger, estate }) => this.updateCompletedObjects({ ...owner, id: ownerId }, { ...estate, id: estateId }, { ...lodger, id: lodgerId })),
-        map(estate => ({ ...estateWithoutModification, ...estate }))
+        map(_ => (estateId!))
       );
 
     } else {
-      return of(estateWithoutModification);
+      return of(estateId!);
     }
   }
 
-  protected updateCompletedObjects(owner: Partial<Owner>, estate: Partial<Estate>, lodger?: Partial<Lodger>): Observable<Partial<Estate>> {
+  protected updateCompletedObjects(owner: Partial<Owner>, estate: Partial<Estate>, lodger?: Partial<Lodger>): Observable<boolean> {
     let asyncUpdates: Observable<any>[] = [];
     if (Object.keys(owner).length > 1) {
       asyncUpdates.push(this.ownersDataService.updateOwner({ ...owner, id: owner?.id! }));
@@ -78,19 +78,20 @@ export class RentsCommandsService {
     return combineLatest(asyncUpdates).pipe(
       take(1),
       delay(0),
-      map(_ => estate)
+      catchError(err => of(false)),
+      map(_ => true)
     );
   }
 
-  protected downloadRentReceiptOnBrowser(estate: Estate) {
-    this.rentsHttpService.downloadRentReceipt(estate.id).pipe(
+  protected downloadRentReceiptOnBrowser(estateId: string) {
+    this.rentsHttpService.downloadRentReceipt(estateId).pipe(
       take(1),
-      tap(blob => downloadFileOnBrowser(blob, `quittance_${estate.id}.pdf`)),
+      tap(blob => downloadFileOnBrowser(blob, `quittance.pdf`)),
     ).subscribe();
   }
 
-  protected sendReceiptByEmailRequest(estate: Estate) {
-    this.rentsHttpService.sendRentReceiptByEmail(estate.id).pipe(
+  protected sendReceiptByEmailRequest(estateId: string) {
+    this.rentsHttpService.sendRentReceiptByEmail(estateId).pipe(
       take(1)
     ).subscribe();
   }
