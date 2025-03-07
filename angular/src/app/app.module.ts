@@ -26,7 +26,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { CallbackComponent } from './callback/callback.component';
-import { RentService } from './common/services/rents.service';
 import { DeviceGuard } from './core/guards/device.guard';
 import { UserEffects } from './core/store/user/user.effects';
 import { userReducer } from './core/store/user/user.reducers';
@@ -84,7 +83,6 @@ registerLocaleData(en);
   providers: [
     DeviceGuard,
     DeviceDetectorService,
-    RentService,
     { provide: NZ_I18N, useValue: en_US },
     {
       provide: HTTP_INTERCEPTORS,

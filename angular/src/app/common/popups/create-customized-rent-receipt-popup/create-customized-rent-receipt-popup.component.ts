@@ -4,7 +4,6 @@ import { FormControl, FormGroup, ReactiveFormsModule, UntypedFormGroup, Validato
 import { Store } from '@ngrx/store';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
-import { downloadRentReceipt, senddRentReceipt } from 'src/app/rents/data/ngrx/rents.actions';
 import { Estate } from 'src/app/estates/models/estate.model';
 import { UiButtonComponent } from 'src/app/ui/components/ui-button/ui-button.component';
 
@@ -25,7 +24,7 @@ export class CreateCustomizedRentReceiptPopupComponent {
   formGroup!: UntypedFormGroup;
   estate!: Estate;
 
-  constructor(@Inject(NZ_MODAL_DATA) public data: { estate: Estate }, private modalRef: NzModalRef, private store: Store) {
+  constructor(@Inject(NZ_MODAL_DATA) public data: { estate: Estate }, private modalRef: NzModalRef) {
     this.estate = data.estate;
   }
 
@@ -41,17 +40,12 @@ export class CreateCustomizedRentReceiptPopupComponent {
   }
 
   download() {
-    const downloadCommand = () => {
-      this.store.dispatch(downloadRentReceipt({ estateId: this.data.estate.id, startDate: this.formGroup.value.startDate, endDate: this.formGroup.value.endDate }));
-    }
-    this.modalRef.close({ command: downloadCommand, type: 'download' });
+    this.modalRef.close({ type: 'download', startDate: this.formGroup.value.startDate, endDate: this.formGroup.value.endDate });
   }
 
   sendByEmail() {
-    const sendByEmail = () => {
-      this.store.dispatch(senddRentReceipt({ estate: this.data.estate, startDate: this.formGroup.value.startDate, endDate: this.formGroup.value.endDate }));
-    };
-    this.modalRef.close({ command: sendByEmail, type: 'send' });
+    this.modalRef.close({ type: 'send', startDate: this.formGroup.value.startDate, endDate: this.formGroup.value.endDate });
+
   }
 
 }

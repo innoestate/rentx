@@ -11,6 +11,7 @@ import { LodgersDataService } from "src/app/lodgers/data/lodgers.data.service";
 import { EstatesDataService } from "src/app/estates/data/esates.data.service";
 import { RentsHttpService } from "../data/http/rents.http.service";
 import { downloadFileOnBrowser } from "src/app/core/files/files.utils";
+import { CreateCustomizedRentReceiptPopupComponent } from "src/app/common/popups/create-customized-rent-receipt-popup/create-customized-rent-receipt-popup.component";
 
 @Injectable({
   providedIn: 'root'
@@ -25,11 +26,11 @@ export class RentsCommandsService {
     console.log('rents commands service constructor');
   }
 
-  downloadRentReceipt(estate: Estate) {
+  downloadRentReceipt(estate: Estate, startDate?: string, endDate?: string) {
     const mandatoryFields = getMandatoryFieldsForDownload(estate);
     this.getCompletedEstate(estate, mandatoryFields).pipe(
       take(1),
-      tap(estateId => this.downloadRentReceiptOnBrowser(estateId))
+      tap(estateId => this.downloadRentReceiptOnBrowser(estateId, startDate, endDate))
     ).subscribe();
   }
 
@@ -41,8 +42,16 @@ export class RentsCommandsService {
     ).subscribe();
   }
 
-  customizeRentReceipt(estate: Estate) {
-    console.log('customizeRentReceipt', estate);
+  customizeRentReceipt(estateWithoutModification: Estate) {
+    this.popupService.openPopup(CreateCustomizedRentReceiptPopupComponent, 'Créer une quittance personnalisée', { estate: estateWithoutModification }).pipe(
+      tap(({ type, startDate, endDate }) => {
+        if(type === 'download') {
+          this.downloadRentReceipt(estateWithoutModification, startDate, endDate);
+        } else {
+          this.senRentReceiptByEmail(estateWithoutModification);
+        }
+      })
+    ).subscribe();
   }
 
   protected getCompletedEstate(estateWithoutModification: Estate, fields: string[]): Observable<string> {
@@ -83,8 +92,8 @@ export class RentsCommandsService {
     );
   }
 
-  protected downloadRentReceiptOnBrowser(estateId: string) {
-    this.rentsHttpService.downloadRentReceipt(estateId).pipe(
+  protected downloadRentReceiptOnBrowser(estateId: string, startDate?: string, endDate?: string) {
+    this.rentsHttpService.downloadRentReceipt(estateId, startDate, endDate).pipe(
       take(1),
       tap(blob => downloadFileOnBrowser(blob, `quittance.pdf`)),
     ).subscribe();

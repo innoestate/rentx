@@ -1,6 +1,5 @@
 import { ModuleWithProviders, NgModule } from "@angular/core";
 import { RentsCommandsService } from "./rents.commands.service";
-import { RentService } from "src/app/common/services/rents.service";
 
 @NgModule({
   providers: []
@@ -12,7 +11,6 @@ export class RentsCommandsModule {
       ngModule: RentsCommandsModule,
       providers: [
         RentsCommandsService,
-        RentService
       ]
     };
   }
