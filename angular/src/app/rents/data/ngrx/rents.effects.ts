@@ -32,7 +32,7 @@ export class RentsEffects {
 
   sendRentReceipt$ = createEffect(() => this.actions$.pipe(
     ofType(senddRentReceipt),
-    switchMap(({ estate, startDate, endDate }) => this.rentsService.sendRentReceipt(estate.id, startDate, endDate).pipe(
+    switchMap(({ estate, startDate, endDate }) => this.rentsService.sendRentReceiptByEmail(estate.id, startDate, endDate).pipe(
       map(estate => (sendRentReceiptSuccess({ estate }))),
       catchError(err => of(sendRentReceiptFailure(err)))
     ))

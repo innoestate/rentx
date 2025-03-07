@@ -32,7 +32,7 @@ export class RentsHttpService {
     return this.http.get<any>(`${this.API_URL}/rents/pdf?${queryParams}`, { responseType: 'blob' as 'json' });
   }
 
-  sendRentReceipt(estateId: string | undefined, startDate?: string, endDate?: string): Observable<any> {
+  sendRentReceiptByEmail(estateId: string | undefined, startDate?: string, endDate?: string): Observable<any> {
 
     if(!estateId) throw new Error('Estate id is required');
 

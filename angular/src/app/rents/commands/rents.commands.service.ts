@@ -10,6 +10,7 @@ import { OwnersDataService } from "src/app/owners/data/owners.data.service";
 import { LodgersDataService } from "src/app/lodgers/data/lodgers.data.service";
 import { EstatesDataService } from "src/app/estates/data/esates.data.service";
 import { RentsHttpService } from "../data/http/rents.http.service";
+import { downloadFileOnBrowser } from "src/app/core/files/files.utils";
 
 @Injectable({
   providedIn: 'root'
@@ -24,24 +25,11 @@ export class RentsCommandsService {
     console.log('rents commands service constructor');
   }
 
-  downloadRentReceipt(estateWithoutModification: Estate) {
-
-    const ownerId = estateWithoutModification.owner?.id;
-    const lodgerId = estateWithoutModification.lodger?.id;
-
-    let fields = getNeededFieldsForDownloadRentReceipt(estateWithoutModification);
-    if (fields.length > 0) {
-
-      this.popupService.openPopup(CompleteRentReceiptPopupComponent, 'Compléter les informations pour la quittance', { fields }).pipe(
-        take(1),
-        switchMap(({ owner, lodger, estate }) => this.updateCompletedObjects({ ...owner, id: ownerId }, { ...estateWithoutModification, ...estate }, { ...lodger, id: lodgerId })),
-        tap(estate => this.downloadRentReceiptOnBrowser(estate))
-      ).subscribe();
-
-    } else {
-      this.downloadRentReceiptOnBrowser(estateWithoutModification);
-    }
-
+  downloadRentReceipt(estate: Estate) {
+    this.getCompletedEstate(estate).pipe(
+      take(1),
+      tap(estate => this.downloadRentReceiptOnBrowser(estate))
+    ).subscribe();
   }
 
   senRentReceiptByEmail(estate: Estate) {
@@ -52,29 +40,35 @@ export class RentsCommandsService {
     console.log('customizeRentReceipt', estate);
   }
 
-  protected downloadRentReceiptOnBrowser(estate: Estate) {
-    this.rentsHttpService.downloadRentReceipt(estate.id).pipe(
-      take(1),
-      tap(blob => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'quittance.pdf';
-        a.click();
-        window.URL.revokeObjectURL(url);
-      }),
-    ).subscribe();
+  protected getCompletedEstate(estateWithoutModification: Estate): Observable<Estate> {
+
+    const estateId = estateWithoutModification.id;
+    const ownerId = estateWithoutModification.owner?.id;
+    const lodgerId = estateWithoutModification.lodger?.id;
+
+    let fields = getNeededFieldsForDownloadRentReceipt(estateWithoutModification);
+    if (fields.length > 0) {
+
+      return this.popupService.openPopup(CompleteRentReceiptPopupComponent, 'Compléter les informations pour la quittance', { fields }).pipe(
+        take(1),
+        switchMap(({ owner, lodger, estate }) => this.updateCompletedObjects({ ...owner, id: ownerId }, { ...estate, id: estateId }, { ...lodger, id: lodgerId })),
+        map(estate => ({...estateWithoutModification, ...estate}))
+      );
+
+    } else {
+      return of(estateWithoutModification);
+    }
   }
 
-  protected updateCompletedObjects(owner: Owner, estate: Estate, lodger?: Lodger): Observable<Estate> {
+  protected updateCompletedObjects(owner: Partial<Owner>, estate: Partial<Estate>, lodger?: Partial<Lodger>): Observable<Partial<Estate>> {
     let asyncUpdates: Observable<any>[] = [];
-    if (owner) {
+    if (Object.keys(owner).length > 1) {
       asyncUpdates.push(this.ownersDataService.updateOwner({ ...owner, id: owner?.id! }));
     }
-    if (estate) {
+    if (Object.keys(estate).length > 1) {
       asyncUpdates.push(this.estatesDataService.updateEstate({ ...estate }));
     }
-    if (lodger) {
+    if (lodger && Object.keys(lodger).length > 1) {
       asyncUpdates.push(this.lodgersDataService.updateLodger({ ...lodger }));
     }
     return combineLatest(asyncUpdates).pipe(
@@ -82,6 +76,17 @@ export class RentsCommandsService {
       delay(0),
       map(_ => estate)
     );
+  }
+
+  protected downloadRentReceiptOnBrowser(estate: Estate) {
+    this.rentsHttpService.downloadRentReceipt(estate.id).pipe(
+      take(1),
+      tap(blob => downloadFileOnBrowser(blob, `quittance_${estate.id}.pdf`)),
+    ).subscribe();
+  }
+
+  protected sendReceiptByEmailRequest(estate: Estate) {
+    this.rentsHttpService.sendRentReceiptByEmail(estate.id)
   }
 
 }

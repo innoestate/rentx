@@ -5,7 +5,7 @@ services:
     build: 
       context: ./angular
       dockerfile: Dockerfile.dev  # We'll create this
-    container_name: angular
+    container_name: rentx_nextjs-angular
     ports:
       - "4200:4200"
     volumes:

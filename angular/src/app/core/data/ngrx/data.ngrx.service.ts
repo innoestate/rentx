@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, ofType } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
-import { map, race, take } from "rxjs";
+import { map, Observable, race, take } from "rxjs";
 import { updateOwnerSuccess } from "src/app/owners/data/ngrx/owners.actions";
 
 @Injectable({
@@ -11,7 +11,7 @@ export class DataNgrxService {
 
   constructor(private store: Store, private actions$: Actions) { }
 
-  updateObjectInNgrx(actionToDispatch: any, successAction: any, failAction: any, objectToUpdate: any){
+  updateObjectInNgrx<T>(actionToDispatch: any, successAction: any, failAction: any, objectToUpdate: any): Observable<T> {
     const successObservable = this.actions$.pipe(
       ofType(successAction),
       take(1)
