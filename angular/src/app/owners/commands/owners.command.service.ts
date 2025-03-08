@@ -1,14 +1,15 @@
 import { Injectable } from "@angular/core";
 import { take, tap } from "rxjs";
-import { CreatePopupComponent, CreatePopupFieldData } from "src/app/common/popups/create-popup/create-popup.component";
+import { FormContinuablePopupComponent } from "src/app/common/popups/form-continuable-popup/form-continuable-popup.component";
+import { FormPopupComponent } from "src/app/common/popups/form-popup/form-popup.component";
+import { FormPopupFieldData } from "src/app/common/popups/form-popup/models/form-popup.fields-data.model";
 import { Owner } from "src/app/core/models/owner.model";
 import { Owner_Post_Request } from "src/app/core/models/requests/owner-post-request.model";
 import { getUpdatedFields } from "src/app/core/utils/objects.utils";
 import { UiPopupService } from "src/app/ui/popup/services/popup.service";
 import { OwnersDataService } from "../data/owners.data.service";
-import { FormPopupComponent } from "src/app/common/popups/form-popup/form-popup.component";
 
-const createPopupFields: CreatePopupFieldData[] = [
+const createPopupFields: FormPopupFieldData[] = [
   {
     key: 'name',
     label: 'Nom',
@@ -55,9 +56,9 @@ export class OwnersCommandsService {
   }
 
   createOwner() {
-    return this.popupService.openPopup(CreatePopupComponent, 'Ajouter un propriétaire', {
+    return this.popupService.openPopup(FormContinuablePopupComponent, 'Ajouter un propriétaire', {
       fields: createPopupFields,
-      onCreate: (owner: Owner_Post_Request, successCallback: () => void) => {
+      onValidate: (owner: Owner_Post_Request, successCallback: () => void) => {
         this.ownersDataService.createOwner(owner).pipe(
           take(1),
           tap(() => successCallback())
@@ -70,7 +71,7 @@ export class OwnersCommandsService {
     return this.popupService.openPopup(FormPopupComponent, 'éditer un propriétaire', {
       fields: createPopupFields,
       value: fullOwner,
-      onCreate: (ownerUpdates: Owner_Post_Request, successCallback: () => void) => {
+      onValidate: (ownerUpdates: Owner_Post_Request, successCallback: () => void) => {
 
         const updatedFields: Partial<Owner> = getUpdatedFields(fullOwner, ownerUpdates);
         updatedFields.id = fullOwner.id;

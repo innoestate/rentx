@@ -2,15 +2,17 @@ import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
-import { CreatePopupData, CreatePopupFieldData, FormGroupObject } from '../create-popup/create-popup.component';
-import { FormGroupBodyComponent } from './form-group-body/form-group-body.component';
-import { FormGroupFooterComponent } from './form-group-footer/form-group-footer.component';
+import { FormGroupFooterComponent } from './components/footer/form-popup-footer.component';
+import { FormPopupFieldData } from './models/form-popup.fields-data.model';
+import { FormPopupFieldsData } from './models/form-popup.input-data.model';
+import { FormGroupObject } from './models/form-object.model';
+import { FormPopupBodyComponent } from './components/body/form-popup-body.component';
 
 @Component({
   templateUrl: './form-popup.component.html',
   imports: [
     CommonModule,
-    FormGroupBodyComponent,
+    FormPopupBodyComponent,
     FormGroupFooterComponent
   ],
   styleUrls: ['./form-popup.component.scss'],
@@ -19,10 +21,10 @@ import { FormGroupFooterComponent } from './form-group-footer/form-group-footer.
 export class FormPopupComponent<T extends Object> implements OnInit {
 
   formGroup!: FormGroup<{ [K in keyof FormGroupObject]: AbstractControl<any, any> }>;
-  fieldsData: CreatePopupFieldData[] = [];
+  fieldsData: FormPopupFieldData[] = [];
   initialValues: any = {};
 
-  constructor(@Inject(NZ_MODAL_DATA) public data: CreatePopupData<T>, private nzModalRef: NzModalRef, protected formBuilder: FormBuilder) {
+  constructor(@Inject(NZ_MODAL_DATA) public data: FormPopupFieldsData<T>, protected nzModalRef: NzModalRef, protected formBuilder: FormBuilder) {
     this.fieldsData = data.fields;
     this.initialValues = data.value || {};
   }
@@ -40,7 +42,7 @@ export class FormPopupComponent<T extends Object> implements OnInit {
   validate() {
     if (this.formGroup.invalid)
       return;
-    this.data.onCreate(this.formGroup.value as T, () => {
+    this.data.onValidate(this.formGroup.value as T, () => {
       this.nzModalRef.close(this.formGroup);
     });
   }

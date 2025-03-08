@@ -4,12 +4,12 @@ import { Subject, takeUntil, tap } from 'rxjs';
 import { UiButtonComponent } from 'src/app/ui/components/ui-button/ui-button.component';
 
 @Component({
-  selector: 'form-group-footer',
+  selector: 'form-popup-footer',
   imports: [
     UiButtonComponent
   ],
-  templateUrl: './form-group-footer.component.html',
-  styleUrl: './form-group-footer.component.scss'
+  templateUrl: './form-popup-footer.component.html',
+  styleUrl: './form-popup-footer.component.scss'
 })
 export class FormGroupFooterComponent implements AfterViewInit, OnDestroy {
 
@@ -18,18 +18,19 @@ export class FormGroupFooterComponent implements AfterViewInit, OnDestroy {
   onValidate = output<void>();
 
   okButtonDisabled = computed(() => {
-    const invalid = this.formGroup().invalid;
+    const invalid = this.invalid();
     const pristine = this.pristine();
-    console.log('pristine', pristine);
     return invalid || pristine;
   })
   pristine = signal(true);
+  invalid = signal(false);
 
   ngAfterViewInit(): void {
     this.formGroup().statusChanges.pipe(
       takeUntil(this.destroyed$),
       tap(() => {
         this.pristine.set(this.formGroup().pristine);
+        this.invalid.set(this.formGroup().invalid);
       })
     ).subscribe();
   }

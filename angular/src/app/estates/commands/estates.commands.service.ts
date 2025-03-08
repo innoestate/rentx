@@ -3,11 +3,12 @@ import { take, tap } from "rxjs";
 import { Estate_Post_Request } from "src/app/estates/models/estate-post-request.model";
 import { OwnersDataService } from "src/app/owners/data/owners.data.service";
 import { UiPopupService } from "src/app/ui/popup/services/popup.service";
-import { CreatePopupComponent, CreatePopupFieldData } from "../../common/popups/create-popup/create-popup.component";
+import { FormContinuablePopupComponent } from "../../common/popups/form-continuable-popup/form-continuable-popup.component";
 import { EstatesDataService } from "../data/esates.data.service";
 import { Estate } from "../models/estate.model";
+import { FormPopupFieldData } from "src/app/common/popups/form-popup/models/form-popup.fields-data.model";
 
-const createEstateFieldsDataPopup: CreatePopupFieldData[] = [
+const createEstateFieldsDataPopup: FormPopupFieldData[] = [
   {
     key: 'street',
     label: 'Rue',
@@ -72,9 +73,9 @@ export class EstatesCommandsService {
       dropdownItems: this.owners().map(owner => ({ label: owner.name, value: owner.id }))
     }
 
-    return this.popupService.openPopup(CreatePopupComponent, 'Ajouter un propriétaire', {
+    return this.popupService.openPopup(FormContinuablePopupComponent, 'Ajouter un propriétaire', {
       fields: createEstateFieldsDataPopup,
-      onCreate: (estate: Estate_Post_Request, successCallback: () => void) => {
+      onValidate: (estate: Estate_Post_Request, successCallback: () => void) => {
         this.estatesData.createEstate(estate).pipe(
           take(1),
           tap( () => successCallback())

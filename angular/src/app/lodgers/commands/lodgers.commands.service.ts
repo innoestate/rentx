@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { take, tap } from "rxjs";
-import { CreatePopupComponent } from "src/app/common/popups/create-popup/create-popup.component";
+import { FormContinuablePopupComponent } from "src/app/common/popups/form-continuable-popup/form-continuable-popup.component";
 import { Lodger_Post } from "src/app/core/models/requests/lodger-post-request.model";
 import { UiPopupService } from "src/app/ui/popup/services/popup.service";
 import { LodgersDataService } from "../data/lodgers.data.service";
@@ -29,9 +29,9 @@ export class LodgersCommandsService {
 
     createLodger() {
 
-      this.popupService.openPopup(CreatePopupComponent<Lodger_Post>, 'Ajouter un locataire', {
+      this.popupService.openPopup(FormContinuablePopupComponent<Lodger_Post>, 'Ajouter un locataire', {
         fields: createPopupFields,
-        onCreate: (createdTarget: Lodger_Post, performedActionSuccessfullCallback: () => void) => {
+        onValidate: (createdTarget: Lodger_Post, performedActionSuccessfullCallback: () => void) => {
             this.lodgersDataService.createLodger(createdTarget).pipe(
               take(1),
               tap(() => performedActionSuccessfullCallback())
