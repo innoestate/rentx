@@ -34,11 +34,11 @@ export class RentsCommandsService {
     ).subscribe();
   }
 
-  senRentReceiptByEmail(estate: Estate) {
+  senRentReceiptByEmail(estate: Estate, startDate?: string, endDate?: string) {
     const mandatoryFields = getMandatoryFieldsForEmail(estate);
     this.getCompletedEstate(estate, mandatoryFields).pipe(
       take(1),
-      tap(estateId => this.sendReceiptByEmailRequest(estateId))
+      tap(estateId => this.sendReceiptByEmailRequest(estateId, startDate, endDate))
     ).subscribe();
   }
 
@@ -48,7 +48,7 @@ export class RentsCommandsService {
         if(type === 'download') {
           this.downloadRentReceipt(estateWithoutModification, startDate, endDate);
         } else {
-          this.senRentReceiptByEmail(estateWithoutModification);
+          this.senRentReceiptByEmail(estateWithoutModification, startDate, endDate);
         }
       })
     ).subscribe();
@@ -99,8 +99,8 @@ export class RentsCommandsService {
     ).subscribe();
   }
 
-  protected sendReceiptByEmailRequest(estateId: string) {
-    this.rentsHttpService.sendRentReceiptByEmail(estateId).pipe(
+  protected sendReceiptByEmailRequest(estateId: string, startDate?: string, endDate?: string) {
+    this.rentsHttpService.sendRentReceiptByEmail(estateId, startDate, endDate).pipe(
       take(1)
     ).subscribe();
   }
