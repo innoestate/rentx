@@ -19,4 +19,7 @@
 </form>
 <div class="footer">
   <ui-button [testSelector]="'create-estate-submit'" [text]="'créer'" [type]="'primary'" [disabled]="formGroup.invalid" (click)="create()"></ui-button>
+  @if(showCloseButton){
+    <ui-button [text]="'fermer'" [type]="'danger'" (click)="close()"></ui-button>
+  }
 </div>

@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from "@ngrx/store";
 import { catchError, map, of, switchMap, tap, withLatestFrom } from "rxjs";
 import { OwnersHttpService } from "../http/owners.http.service";
-import { addOwnerFailure, addOwnerSuccess, loadOwners, updateOwnerSuccess } from "./owners.actions";
+import { createOwner, createOwnerFailure, createOwnerSuccess, loadOwners, updateOwnerSuccess } from "./owners.actions";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { selectOwners } from "./owners.selectors";
 
@@ -27,21 +27,21 @@ export class OwnersEffects {
     }
     )))
 
-  addOwner$ = createEffect(() => this.actions$.pipe(
-    ofType('[Owners] Add Owner'),
+  createOwner$ = createEffect(() => this.actions$.pipe(
+    ofType(createOwner),
     switchMap(({ owner }) => this.ownerService.create(owner).pipe(
-      map(data => ({ type: '[Owners] Add Owner Success', owner: data })),
-      catchError(() => of({ type: '[Owners] Load Owners Failure' }))
+      map(data => (createOwnerSuccess({ owner: data }))),
+      catchError(() => of(createOwnerFailure))
     ))
   ))
 
-  addOwnerSuccess$ = createEffect(() => this.actions$.pipe(
-    ofType(addOwnerSuccess),
+  createOwnerSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(createOwnerSuccess),
     tap(() => this.message.success('propriétaire ajouté avec succès!'))
   ), { dispatch: false })
 
-  addOwnerFailure$ = createEffect(() => this.actions$.pipe(
-    ofType(addOwnerFailure),
+  createOwnerFailure$ = createEffect(() => this.actions$.pipe(
+    ofType(createOwnerFailure),
     tap(err  => this.message.error(err.error.message))
   ), { dispatch: false })
 

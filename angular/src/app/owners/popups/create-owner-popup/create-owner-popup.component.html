@@ -18,4 +18,7 @@
 </form>
 <div class="footer">
   <ui-button [text]="'créer'" [type]="'primary'" (click)="create()"></ui-button>
+  @if(showCloseButton){
+    <ui-button [text]="'fermer'" [type]="'danger'" (click)="close()"></ui-button>
+  }
 </div>

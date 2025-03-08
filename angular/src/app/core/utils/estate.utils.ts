@@ -1,27 +1,11 @@
-import { FormGroup } from '@angular/forms';
+import { Estate_Dto } from 'src/app/estates/models/estate.dto.model';
+import { Estate } from 'src/app/estates/models/estate.model';
 import { Lodger_Dto } from '../models/dtos/lodger.dto.model';
 import { MonthlyRents_Dto } from '../models/dtos/monthly-rents.dto.model';
 import { Owner_Dto } from '../models/dtos/owner.dto.model';
 import { Rent } from '../models/rent.model';
-import { Estate_Post_Request } from '../models/requests/estate-post-request.model';
-import { Estate_Dto } from 'src/app/estates/models/estate.dto.model';
-import { Estate_Form } from 'src/app/estates/models/estate-form.model';
-import { Estate } from 'src/app/estates/models/estate.model';
 
-export const formatEstateToEstateFormToEstatePostRequest = (estate: FormGroup<Estate_Form>): Estate_Post_Request => {
-  let ownerId = estate.get('owner_id')?.value;
-  return {
-    street: estate.get('street')!.value,
-    city: estate.get('city')!.value,
-    zip: estate.get('zip')!.value,
-    plot: estate.get('plot')?.value,
-    rent: estate.get('rent')?.value,
-    charges: estate.get('charges')?.value,
-    owner_id: ownerId as any,
-    lodger_id: estate.get('lodger')?.value
-  }
 
-}
 
 export const formatEstateDtoToEstateUx = (estate: Estate_Dto, owners: Owner_Dto[], lodgers: Lodger_Dto[], monthlyRents: Rent[]): Estate => {
   return {

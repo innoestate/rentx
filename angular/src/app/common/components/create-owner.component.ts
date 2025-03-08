@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms"
 import { Store } from "@ngrx/store";
 import { Owner_Form } from "src/app/core/models/forms/owner-form.model";
 import { formatOwnerFormValueToEstatePostRequest } from "src/app/core/utils/owner.utils";
-import { addOwner } from "src/app/owners/data/ngrx/owners.actions";
+import { createOwner } from "src/app/owners/data/ngrx/owners.actions";
 
 @Directive()
 export class CreateOwnerComponent implements OnInit {
@@ -30,7 +30,7 @@ export class CreateOwnerComponent implements OnInit {
     if (this.formGroup.invalid)
       return;
     const owner = formatOwnerFormValueToEstatePostRequest(this.formGroup) ;
-    this.store.dispatch(addOwner({ owner }))
+    this.store.dispatch(createOwner({ owner }))
   }
 
 }

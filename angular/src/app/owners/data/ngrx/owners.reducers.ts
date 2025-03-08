@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { Owner } from "../../../core/models/owner.model";
-import { addOwner, addOwnerFailure, addOwnerSuccess, deleteOwner, deleteOwnerFailure, deleteOwnerSuccess, loadOwners, loadOwnersFailure, loadOwnersSuccess, updateOwnerSuccess } from "./owners.actions";
+import { createOwner, createOwnerFailure, createOwnerSuccess, deleteOwner, deleteOwnerFailure, deleteOwnerSuccess, loadOwners, loadOwnersFailure, loadOwnersSuccess, updateOwnerSuccess } from "./owners.actions";
 
 export interface State {
     owners: Owner[];
@@ -28,18 +28,18 @@ export const ownersReducer = createReducer(
             ...state,
         }
     }),
-    on(addOwner, (state, data) => {
+    on(createOwner, (state, data) => {
         return {
             ...state,
         }
     }),
-    on(addOwnerSuccess, (state, data) => {
+    on(createOwnerSuccess, (state, data) => {
         return {
             ...state,
             owners: state.owners.concat(data.owner)
         }
     }),
-    on(addOwnerFailure, (state, error) => {
+    on(createOwnerFailure, (state, error) => {
         return {
             ...state,
         }

@@ -4,6 +4,7 @@ import { EstatesUiTableAdapter } from "../adapters/table/estates.table.adapter";
 import { EstatesDataService } from "../data/esates.data.service";
 import { OwnersDataService } from "src/app/owners/data/owners.data.service";
 import { LodgersDataService } from "src/app/lodgers/data/lodgers.data.service";
+import { extractUpdatedFieldsFromRow } from "../adapters/table/estates.lodgers.table.utils";
 
 @Directive()
 export class EstatesTableDirective {
@@ -30,7 +31,7 @@ export class EstatesTableDirective {
               }
 
   updateRow(row: UiTableRow) {
-    const estate = this.estatesUiAdapter.extractUpdatedFieldsFromRow(this.estates(), row);
+    const estate = extractUpdatedFieldsFromRow(this.estates(), row);
     this.estatesData.updateEstate(estate);
   }
 

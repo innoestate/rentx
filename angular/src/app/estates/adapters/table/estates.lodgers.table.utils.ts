@@ -1,13 +1,14 @@
+import { isEqual } from "lodash";
 import { Lodger } from "src/app/core/models/lodger.model";
-import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { EstatesCommandsService } from "../../commands/estates.commands.service";
-import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
-import { Estate } from "../../models/estate.model";
+import { LodgersCommandsService } from "src/app/lodgers/commands/lodgers.commands.service";
 import { RentsCommandsService } from "src/app/rents/commands/rents.commands.service";
+import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
+import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
+import { Estate } from "../../models/estate.model";
 
-export const createLodgersDropdown = (estatesCommands: EstatesCommandsService, lodgers: Lodger[], estates: Estate[]) => {
+export const createLodgersDropdown = (lodgersCommands: LodgersCommandsService, lodgers: Lodger[], estates: Estate[]) => {
   let lodgerDropdownItems: UiDropdownItem<any>[] = [];
-  lodgerDropdownItems = addChoosingLodger(estatesCommands, estates, lodgers);
+  lodgerDropdownItems = addChoosingLodger(lodgersCommands, estates, lodgers);
   const lodgersDropDown = {
     value: lodgerDropdownItems,
     label: "locataires"
@@ -26,22 +27,22 @@ export const createRentReceiptDropdown = (rentsCommands: RentsCommandsService, e
   };
 }
 
-const addChoosingLodger = (estatesCommands: EstatesCommandsService, estates: Estate[], lodgers: Lodger[]): UiDropdownItem<any>[] => {
+const addChoosingLodger = (lodgersCommands: LodgersCommandsService, estates: Estate[], lodgers: Lodger[]): UiDropdownItem<any>[] => {
   let lodgersDropDownItems: UiDropdownItem<any>[] = lodgers.map(lodger => ({ value: lodger.id, label: lodger.name }));
   lodgersDropDownItems.push({
     value: '',
     label: "vacant"
   })
-  lodgersDropDownItems = addCreatingLodger(lodgersDropDownItems, estatesCommands, estates);
+  lodgersDropDownItems = addCreatingLodger(lodgersDropDownItems, lodgersCommands, estates);
   return lodgersDropDownItems;
 }
 
-const addCreatingLodger = (dropDownActionsItems: UiDropdownItem<any>[], estatesCommands: EstatesCommandsService, estates: Estate[]): UiDropdownItem<any>[]  => {
+const addCreatingLodger = (dropDownActionsItems: UiDropdownItem<any>[], lodgersCommands: LodgersCommandsService, estates: Estate[]): UiDropdownItem<any>[] => {
   dropDownActionsItems.push({
     value: '',
     command: (estateRow: UiTableRow) => {
       const estate = extractEstateFromRow(estates, estateRow);
-      estatesCommands.createLodger(estate)
+      lodgersCommands.createLodger(estate)
       return true;
     },
     label: "créer un locataire"
@@ -53,7 +54,7 @@ const addDownloadRentReceipt = (dropDownActionsItems: UiDropdownItem<any>[], ren
   dropDownActionsItems.push({
     value: 'downloadRentReceipt',
     label: 'téléharger une quittance',
-    command: ( estateRow: any ) => {
+    command: (estateRow: any) => {
       const estate = extractEstateFromRow(estates, estateRow);
       rentsCommands.downloadRentReceipt(estate);
       return true;
@@ -66,7 +67,7 @@ const sendRentReceiptByEmail = (dropDownActionsItems: UiDropdownItem<any>[], ren
   dropDownActionsItems.push({
     value: 'sendRentReceipt',
     label: 'envoyer une quittance par email',
-    command: ( estateRow: any ) => {
+    command: (estateRow: any) => {
       const estate = extractEstateFromRow(estates, estateRow);
       rentsCommands.senRentReceiptByEmail(estate);
       return true;
@@ -79,7 +80,7 @@ const addCustomizeRentReceipt = (dropDownActionsItems: UiDropdownItem<any>[], re
   dropDownActionsItems.push({
     value: 'customizeRentReceipt',
     label: 'quittance personnalisée',
-    command: ( estateRow: any ) => {
+    command: (estateRow: any) => {
       const estate = extractEstateFromRow(estates, estateRow);
       rentsCommands.customizeRentReceipt(estate);
       return true;
@@ -92,4 +93,43 @@ export const extractEstateFromRow = (estates: Estate[], row: UiTableRow): Estate
   const estate = estates.find(estate => estate.id === row.data['id']);
   if (!estate) throw new Error('Estate not matching with table row');
   return estate;
+}
+
+export const extractUpdatedFieldsFromRow = (estates: Estate[], row: UiTableRow): Record<string, any> =>{
+  const estate = estates.find(estate => estate.id === row.data['id']);
+  if (!estate) throw new Error('Estate not matching with table row');
+
+  const updatedFields = getUpdatedFields(estate, row);
+
+  return {
+    id: estate.id,
+    ...updatedFields
+  }
+}
+
+export const getUpdatedFields = (estate: Estate, row: UiTableRow) => {
+
+  const potentialUpdatedFiedls = {
+    plot: row.cells['plot'],
+    rent: row.cells['rent'],
+    charges: row.cells['charges'],
+    owner_id: (row.cells['owner_dropdown'] as UiDropdownItem<any>)?.value,
+    lodger_id: (row.cells['lodger_dropdown'] as UiDropdownItem<any>)?.value,
+  }
+
+  const actualEstateUpdatableFields = {
+    plot: estate.plot,
+    rent: estate.rent,
+    charges: estate.charges,
+    owner_id: estate.owner_id,
+    lodger_id: estate.lodger_id,
+  }
+
+  return Object.keys(potentialUpdatedFiedls).reduce((acc, key) => {
+    if (!isEqual((actualEstateUpdatableFields as any)[key], (potentialUpdatedFiedls as any)[key])) {
+      acc[key] = (potentialUpdatedFiedls as any)[key]
+    }
+    return acc
+  }, {} as Record<string, any>)
+
 }

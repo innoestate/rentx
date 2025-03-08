@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, ofType } from "@ngrx/effects";
-import { Store } from "@ngrx/store";
-import { Observable, race, take } from "rxjs";
+import { Action, Store } from "@ngrx/store";
+import { map, Observable, race, take, tap } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +17,16 @@ export class DataNgrxService {
     );
     const failObservable = this.actions$.pipe(
       ofType(failAction),
-      take(1)
+      take(1),
     );
     this.store.dispatch(actionToDispatch(objectToUpdate));
-    return race(successObservable, failObservable);
+    return race(successObservable, failObservable).pipe(
+      tap( result => {
+        if((result as Action).type === failAction.type){
+          throw new Error('Failed to update object in ngrx');
+        }
+      })
+    )
   }
 
 

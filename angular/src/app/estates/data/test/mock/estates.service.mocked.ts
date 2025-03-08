@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { delay, Observable, of } from 'rxjs';
 import { Estate_Dto } from 'src/app/core/models/dtos/estate.dto.model';
-import { Estate_Post_Request } from 'src/app/core/models/requests/estate-post-request.model';
+import { Estate_Post_Request } from 'src/app/estates/models/estate-post-request.model';
 
 @Injectable({
   providedIn: 'root'
