@@ -3,14 +3,16 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { UiButtonComponent } from 'src/app/ui/components/ui-button/ui-button.component';
-
-// export interface CreateData { target: T, onCreateLodger: (lodger: Lodger_Post, successCallback: () => void) => void }
+import { UiDropdownItem } from 'src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model';
+import { UiDropdownComponent } from 'src/app/ui/components/ui-dropdown/ui-dropdown.component';
+import { SignatureComponent } from '../../components/signature-pad/signature.component';
 
 export interface CreatePopupFieldData {
   key: string;
   label: string;
-  type: 'text' | 'number' | 'date' | 'signature';
-  required: boolean
+  type: 'text' | 'number' | 'dropdown' | 'signature';
+  required: boolean,
+  dropdownItems?: UiDropdownItem<any>[]
 }
 
 export interface FormGroupObject {
@@ -27,7 +29,9 @@ export interface CreatePopupData<T> {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    UiButtonComponent
+    UiButtonComponent,
+    UiDropdownComponent,
+    SignatureComponent
   ],
   templateUrl: './create-popup.component.html',
   styleUrls: ['./create-popup.component.scss'],
@@ -48,7 +52,6 @@ export class CreatePopupComponent<T extends Object> implements OnInit {
   }
 
   buildFormGroup() {
-
     const keys: string[] = this.fieldsData.map(fieldData => fieldData.key);
     const object = keys.reduce((acc, key) => {
       const fieldData = this.fieldsData.find(fieldData => fieldData.key === key);

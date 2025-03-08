@@ -1,11 +1,58 @@
 import { Injectable } from "@angular/core";
 import { take, tap } from "rxjs";
 import { Estate_Post_Request } from "src/app/estates/models/estate-post-request.model";
-import { CreateDesktopEstatePopupComponent } from "src/app/estates/popups/create-estate-popup/create-estate-popup.component";
 import { OwnersDataService } from "src/app/owners/data/owners.data.service";
 import { UiPopupService } from "src/app/ui/popup/services/popup.service";
+import { CreatePopupComponent, CreatePopupFieldData } from "../../common/popups/create-popup/create-popup.component";
 import { EstatesDataService } from "../data/esates.data.service";
 import { Estate } from "../models/estate.model";
+
+const createEstateFieldsDataPopup: CreatePopupFieldData[] = [
+  {
+    key: 'street',
+    label: 'Rue',
+    type: 'text',
+    required: true
+  },
+  {
+    key: 'city',
+    label: 'Ville',
+    type: 'text',
+    required: true
+  },
+  {
+    key: 'zip',
+    label: 'Code postal',
+    type: 'text',
+    required: true
+  },
+  {
+    key: 'plot',
+    label: 'Parcelle',
+    type: 'text',
+    required: false
+  },
+  {
+    key: 'rent',
+    label: 'Loyer',
+    type: 'number',
+    required: false
+  },
+  {
+    key: 'charges',
+    label: 'Charges',
+    type: 'number',
+    required: false
+  },
+  {
+    key: 'owner_id',
+    label: 'Propriétaire',
+    type: 'dropdown',
+    required: true,
+    dropdownItems: []
+  }
+  // owner_id: new FormControl(this.data.owners.length ? this.data.owners[0].id : null),
+]
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +66,15 @@ export class EstatesCommandsService {
    }
 
   createEstate() {
-    return this.popupService.openPopup(CreateDesktopEstatePopupComponent, 'Ajouter un propriétaire', {
-      owners: this.owners(),
-      onEstateCreated: (estate: Estate_Post_Request, successCallback: () => void) => {
+
+    createEstateFieldsDataPopup[6] = {
+      ...createEstateFieldsDataPopup[6],
+      dropdownItems: this.owners().map(owner => ({ label: owner.name, value: owner.id }))
+    }
+
+    return this.popupService.openPopup(CreatePopupComponent, 'Ajouter un propriétaire', {
+      fields: createEstateFieldsDataPopup,
+      onCreate: (estate: Estate_Post_Request, successCallback: () => void) => {
         this.estatesData.createEstate(estate).pipe(
           take(1),
           tap( () => successCallback())

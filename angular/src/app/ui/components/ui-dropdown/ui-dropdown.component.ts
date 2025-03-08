@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, forwardRef, input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, effect, forwardRef, input, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { NzSelectComponent, NzSelectModule } from 'ng-zorro-antd/select';
 import { UiDropdownItem } from './model/ui-dropdown-item.model';
@@ -33,6 +33,12 @@ export class UiDropdownComponent implements ControlValueAccessor, AfterViewInit{
     this.nzFormControl.valueChanges.subscribe(value => {
       this.onChange(value);
     });
+
+    effect(() => {
+      if(this.list()?.length && !this.nzFormControl.value){
+        this.nzFormControl.setValue(this.list()[0].value);
+      }
+    })
   }
 
   ngAfterViewInit(): void {
