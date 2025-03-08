@@ -21,8 +21,7 @@ export class LodgersDataService {
   createLodger(lodger: Lodger_Post): Observable<Lodger> {
     return this.dataNgrxService.updateObjectInNgrx<Lodger>(createLodgerOnNgrx, createLodgerSuccess, createLodgerFailure, { lodger }).pipe(
       catchError(err => {
-        console.error('Failed to create lodger with ngrx.', err);
-        return of(err);
+        throw new Error('Failed to create lodger with ngrx.', err);
       })
     );
   }

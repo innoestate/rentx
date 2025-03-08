@@ -1,0 +1,14 @@
+<form [formGroup]="formGroup" class="form-group-popup">
+
+  <ng-container *ngFor="let field of fieldsData">
+    <label for="name" [class.mandatory]="field.required">{{field.label}}</label>
+    <input type="text" class="form-control" [formControlName]="field.key">
+  </ng-container>
+
+</form>
+<div class="footer">
+  <ui-button [text]="'créer'" [type]="'primary'" [disabled]="formGroup.invalid" (click)="create()"></ui-button>
+  @if(showCloseButton){
+    <ui-button [text]="'fermer'" [type]="'danger'" (click)="close()"></ui-button>
+  }
+</div>

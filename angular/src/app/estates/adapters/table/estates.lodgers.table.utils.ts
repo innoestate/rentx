@@ -41,8 +41,7 @@ const addCreatingLodger = (dropDownActionsItems: UiDropdownItem<any>[], lodgersC
   dropDownActionsItems.push({
     value: '',
     command: (estateRow: UiTableRow) => {
-      const estate = extractEstateFromRow(estates, estateRow);
-      lodgersCommands.createLodger(estate)
+      lodgersCommands.createLodger()
       return true;
     },
     label: "créer un locataire"
