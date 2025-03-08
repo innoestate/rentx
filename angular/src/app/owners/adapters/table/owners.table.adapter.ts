@@ -3,6 +3,9 @@ import { Owner } from "src/app/core/models/owner.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { OwnersCommandsService } from "../../commands/owners.command.service";
+import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
+import { getUpdatedFields as getUpdatedFieldsUtils} from "src/app/core/utils/objects.utils";
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +16,7 @@ export class OwnersTableAdapterService {
 
   buildTable(owners: Owner[]): { columns: UiTableColumnItem[], rows: UiTableRow[] }  {
 
-    const columns = this.createColumns();
+    const columns = this.createColumns(owners);
     const rows = this.createRows(owners);
 
     return {
@@ -22,7 +25,7 @@ export class OwnersTableAdapterService {
     }
   }
 
-  private createColumns(): UiTableColumnItem[] {
+  private createColumns(owners: Owner[]): UiTableColumnItem[] {
     return [
       {
         label: "Nom Prénom / raison sociale",
@@ -55,13 +58,39 @@ export class OwnersTableAdapterService {
       },
       {
         label: "actions",
-        key: "actions"
+        key: "actions",
+        dropDownItems: this.buildActionsDropDownItems(owners)
       }
     ];
   }
 
   private createRows(owners: Owner[]): UiTableRow[] {
     return owners.map(owner => this.formatUiTableRow(owner));
+  }
+
+  private buildActionsDropDownItems(owners: Owner[]): UiDropdownItem<any>[] {
+    return [
+      {
+        label: "Editer",
+        icon: "edit",
+        value: "edit",
+        command: (row: UiTableRow) => {
+          const owner = owners.find(o => o.id === row.data.id);
+          if (!owner) throw new Error('Owner not found');
+          this.ownersCommands.editOwner(owner);
+          return true;
+        }
+      },
+      {
+        label: "Supprimer",
+        icon: "delete",
+        value: "delete",
+        command: (row: UiTableRow) => {
+          this.ownersCommands.deleteOwner(row.data.id);
+          return true;
+        }
+      }
+    ]
   }
 
   formatUiTableRow(owner: Owner): UiTableRow {
@@ -76,23 +105,20 @@ export class OwnersTableAdapterService {
         phone: owner.phone,
         actions: {
           value: "",
-          label: "",
+          label: "action",
           icon: "delete",
-          command: () => {
-            this.ownersCommands.deleteOwner(owner.id);
-            return true;
-          }
         }
       }
     }
   }
 
-  getUpdatedFields(row: UiTableRow, owners: Owner[]): Partial<Owner> {
+  buildUpdateFields(row: UiTableRow, owners: Owner[]): Partial<Owner> {
     const owner = owners.find(o => o.id === row.data.id);
     if (!owner) throw new Error('Owner not found');
-    const fieldsToCheck = ['name', 'street', 'zip', 'city', 'email', 'phone'];
-    const updates = {id: owner.id};
-    return fieldsToCheck.reduce((acc, field) => (row.cells[field] !== (owner as any)[field]) ? {...acc, [field]: row.cells[field]} : acc, updates);
+    const potentialUpdates = row.cells as any;
+    const updates = getUpdatedFieldsUtils(owner, potentialUpdates);
+    updates['id'] = owner.id;
+    return updates;
   }
 
 }

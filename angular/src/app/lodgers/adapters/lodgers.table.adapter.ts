@@ -3,7 +3,7 @@ import { Lodger } from "src/app/core/models/lodger.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { LodgersCommandsService } from "../commands/lodgers.commands.service";
-
+import { getUpdatedFields as getUpdatedFieldsUtils} from './../../core/utils/objects.utils';
 
 @Injectable({
   providedIn: 'root'
@@ -61,12 +61,13 @@ export class LodgersTableAdapterService {
     }
   }
 
-  getUpdatedFields(row: UiTableRow, lodgers: Lodger[]): Partial<Lodger> {
+  buildUpdateFields(row: UiTableRow, lodgers: Lodger[]): Partial<Lodger> {
     const lodger = lodgers.find(o => o.id === row.data.id);
     if (!lodger) throw new Error('Lodger not found');
-    const fieldsToCheck = ['email'];
-    const updates = {id: lodger.id};
-    return fieldsToCheck.reduce((acc, field) => (row.cells[field] !== (lodger as any)[field]) ? {...acc, [field]: row.cells[field]} : acc, updates);
+    const potentialUpdates = row.cells as any;
+    const updates = getUpdatedFieldsUtils(lodger, potentialUpdates);
+    updates['id'] = lodger.id;
+    return updates;
   }
 
 }

@@ -15,7 +15,7 @@ describe('OwnersTableAdapter', () => {
     const row = adapter.formatUiTableRow(owners[0]);
     row.cells['zip'] = '54321';
     row.cells['phone'] = '098-765-4321';
-    const updates = adapter.getUpdatedFields(row, owners);
+    const updates = adapter.buildUpdateFields(row, owners);
     expect(updates.id).toEqual(ownerMock1.id);
     expect(updates.zip).toEqual('54321');
     expect(updates.phone).toEqual('098-765-4321');
@@ -27,6 +27,6 @@ describe('OwnersTableAdapter', () => {
       data: { id: 99 },
       cells: {}
     };
-    expect(() => adapter.getUpdatedFields(row, owners)).toThrowError('Owner not found');
+    expect(() => adapter.buildUpdateFields(row, owners)).toThrowError('Owner not found');
   });
 });

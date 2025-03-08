@@ -5,6 +5,7 @@ import { RentsCommandsService } from "src/app/rents/commands/rents.commands.serv
 import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { Estate } from "../../models/estate.model";
+import { getUpdatedFields as getUpdatedFieldsUtils } from "../../../core/utils/objects.utils";
 
 export const createLodgersDropdown = (lodgersCommands: LodgersCommandsService, lodgers: Lodger[], estates: Estate[]) => {
   let lodgerDropdownItems: UiDropdownItem<any>[] = [];
@@ -107,28 +108,12 @@ export const extractUpdatedFieldsFromRow = (estates: Estate[], row: UiTableRow):
 }
 
 export const getUpdatedFields = (estate: Estate, row: UiTableRow) => {
-
-  const potentialUpdatedFiedls = {
-    plot: row.cells['plot'],
-    rent: row.cells['rent'],
-    charges: row.cells['charges'],
+  const potentialUpdatedFields: Partial<Estate> = {
+    plot: row.cells['plot'] as string,
+    rent: row.cells['rent'] as number,
+    charges: row.cells['charges'] as number,
     owner_id: (row.cells['owner_dropdown'] as UiDropdownItem<any>)?.value,
     lodger_id: (row.cells['lodger_dropdown'] as UiDropdownItem<any>)?.value,
   }
-
-  const actualEstateUpdatableFields = {
-    plot: estate.plot,
-    rent: estate.rent,
-    charges: estate.charges,
-    owner_id: estate.owner_id,
-    lodger_id: estate.lodger_id,
-  }
-
-  return Object.keys(potentialUpdatedFiedls).reduce((acc, key) => {
-    if (!isEqual((actualEstateUpdatableFields as any)[key], (potentialUpdatedFiedls as any)[key])) {
-      acc[key] = (potentialUpdatedFiedls as any)[key]
-    }
-    return acc
-  }, {} as Record<string, any>)
-
+  return getUpdatedFieldsUtils<Partial<Estate>>(estate, potentialUpdatedFields);
 }

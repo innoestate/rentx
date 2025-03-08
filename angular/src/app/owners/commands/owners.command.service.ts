@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { take, tap } from "rxjs";
 import { CreatePopupComponent, CreatePopupFieldData } from "src/app/common/popups/create-popup/create-popup.component";
-import { EditOwnerPopupComponent } from "src/app/common/popups/edit-owner-popup/edit-owner-popup.component";
 import { Owner } from "src/app/core/models/owner.model";
 import { Owner_Post_Request } from "src/app/core/models/requests/owner-post-request.model";
+import { getUpdatedFields } from "src/app/core/utils/objects.utils";
 import { UiPopupService } from "src/app/ui/popup/services/popup.service";
 import { OwnersDataService } from "../data/owners.data.service";
 
@@ -55,18 +55,31 @@ export class OwnersCommandsService {
 
   createOwner() {
     return this.popupService.openPopup(CreatePopupComponent, 'Ajouter un propriétaire', {
-        fields: createPopupFields,
-        onCreate: (owner: Owner_Post_Request, successCallback: () => void) => {
-          this.ownersDataService.createOwner(owner).pipe(
-            take(1),
-            tap(() => successCallback())
-          ).subscribe();
-        }
-      });
+      fields: createPopupFields,
+      onCreate: (owner: Owner_Post_Request, successCallback: () => void) => {
+        this.ownersDataService.createOwner(owner).pipe(
+          take(1),
+          tap(() => successCallback())
+        ).subscribe();
+      }
+    });
   }
 
-  updateOwner(owner: Partial<Owner>) {
-    return this.popupService.openPopup(EditOwnerPopupComponent, 'éditer un propriétaire', { owner });
+  editOwner(fullOwner: Owner) {
+    return this.popupService.openPopup(CreatePopupComponent, 'éditer un propriétaire', {
+      fields: createPopupFields,
+      value: fullOwner,
+      onCreate: (ownerUpdates: Owner_Post_Request, successCallback: () => void) => {
+
+        const updatedFields: Partial<Owner> = getUpdatedFields(fullOwner, ownerUpdates);
+        updatedFields.id = fullOwner.id;
+
+        this.ownersDataService.updateOwner(updatedFields).pipe(
+          take(1),
+          tap(() => successCallback())
+        ).subscribe();
+      }
+    })
   }
 
 }

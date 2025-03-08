@@ -12,7 +12,8 @@ export class LodgersTableDirective {
   constructor(protected lodgersData: LodgersDataService, protected lodgersUiAdapter: LodgersTableAdapterService) { }
 
   updateRow(row: UiTableRow) {
-    const updates = this.lodgersUiAdapter.getUpdatedFields(row, this.lodgers());
+    const updates = this.lodgersUiAdapter.buildUpdateFields(row, this.lodgers());
+    console.log('updates', updates);
     this.lodgersData.updateLodger(updates);
   }
 }

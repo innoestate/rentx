@@ -20,6 +20,7 @@ export interface FormGroupObject {
 }
 
 export interface CreatePopupData<T> {
+  value?: T,
   fields: CreatePopupFieldData[],
   onCreate: (createdObject: T, performedActionSuccessfullCallback?: () => void ) => void
 }
@@ -42,9 +43,11 @@ export class CreatePopupComponent<T extends Object> implements OnInit {
   formGroup!: FormGroup<{ [K in keyof FormGroupObject]: AbstractControl<any, any> }>;
   showCloseButton = false;
   fieldsData: CreatePopupFieldData[] = [];
+  initialValues: any = {};
 
   constructor(@Inject(NZ_MODAL_DATA) public data: CreatePopupData<T>, private nzModalRef: NzModalRef, protected formBuilder: FormBuilder) {
     this.fieldsData = data.fields;
+    this.initialValues = data.value || {};
   }
 
   ngOnInit(): void {
@@ -55,12 +58,11 @@ export class CreatePopupComponent<T extends Object> implements OnInit {
     const keys: string[] = this.fieldsData.map(fieldData => fieldData.key);
     const object = keys.reduce((acc, key) => {
       const fieldData = this.fieldsData.find(fieldData => fieldData.key === key);
-      acc[key] = new FormControl('', fieldData?.required ? Validators.required : null);
+      acc[key] = new FormControl(this.initialValues[key]??'', fieldData?.required ? Validators.required : null);
       return acc;
     }, {} as { [K in keyof FormGroupObject]: AbstractControl<any> });
 
     this.formGroup = this.formBuilder.group(object);
-
   }
 
   create() {
