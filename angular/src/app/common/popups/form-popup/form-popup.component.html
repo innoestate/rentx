@@ -1,0 +1,5 @@
+@if(formGroup){
+  <form-group-body [fieldsData]="fieldsData" [formGroup]="formGroup"></form-group-body>
+  <form-group-footer [formGroup]="formGroup" (onValidate)="validate()"></form-group-footer>
+}
+

@@ -1,0 +1,16 @@
+<form [formGroup]="formGroup()" class="form-group-popup">
+
+  <ng-container *ngFor="let field of fieldsData()">
+    @if(field.dropdownItems && field.dropdownItems.length){
+      <label for="name" [class.mandatory]="field.required">{{field.label}}</label>
+      <ui-dropdown [list]="field.dropdownItems" [formControlName]="field.key"></ui-dropdown>
+    }@else if(field.type === 'signature') {
+      <label for="name" [class.mandatory]="field.required">{{field.label}}</label>
+      <signature-pad [formControlName]="field.key"></signature-pad>
+    }@else {
+      <label for="name" [class.mandatory]="field.required">{{field.label}}</label>
+      <input [type]="field.type" class="form-control" [formControlName]="field.key">
+    }
+  </ng-container>
+
+</form>
