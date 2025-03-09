@@ -7,13 +7,14 @@ import { DataNgrxService } from "src/app/core/data/ngrx/data.ngrx.service";
 import { editEstate as updateEstateInNgrx } from "./ngrx/estates.actions";
 import { catchError, Observable, of, tap } from "rxjs";
 import { Estate_Post_Request } from "src/app/estates/models/estate-post-request.model";
+import { EstatesMessagesService } from "./messages/estates.messages.service";
 
 @Injectable({
   providedIn: 'root',
 })
 export class EstatesDataService {
 
-  constructor(private dataNgrxService: DataNgrxService, private store: Store) {
+  constructor(private dataNgrxService: DataNgrxService, private store: Store, private estatesMessagesService: EstatesMessagesService) {
     console.log('EstatesDataService constructor');
   }
 

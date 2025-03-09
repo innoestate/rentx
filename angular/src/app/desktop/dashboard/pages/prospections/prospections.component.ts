@@ -8,7 +8,7 @@ import { Prospection } from 'src/app/core/models/prospection.model';
 import { loadProspections, removeProspection, setProspectionFilters, updateProspection } from 'src/app/core/store/prospections/prospections.actions';
 import { selectAllCities, selectFilteredProspections } from 'src/app/core/store/prospections/prospections.selectors';
 import { selectAllSellers } from 'src/app/core/store/sellers/sellers.selectors';
-import { UiPopupService } from 'src/app/ui/popup/services/popup.service';
+import { UiPopupService } from 'src/app/ui/services/popup/popup.service';
 import { PROSPECTION_COLUMNS } from './utils/prospections.utils';
 
 @Component({

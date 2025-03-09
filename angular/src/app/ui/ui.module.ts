@@ -1,11 +1,13 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
-import { UiPopupService } from './popup/services/popup.service';
+import { UiPopupService } from './services/popup/popup.service';
 import { UiButtonComponent } from './components/ui-button/ui-button.component';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { FormsModule } from '@angular/forms';
 import { UiTableComponent } from './components/ui-table/ui-table.component';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { UiMessageService } from './services/message/message.service';
 
 @NgModule({
   imports: [
@@ -22,7 +24,10 @@ import { UiTableComponent } from './components/ui-table/ui-table.component';
     UiTableComponent,
   ],
   providers: [
-    NzModalService
+    UiPopupService,
+    UiMessageService,
+    NzModalService,
+    NzMessageService,
   ]
 })
 export class UiModule {

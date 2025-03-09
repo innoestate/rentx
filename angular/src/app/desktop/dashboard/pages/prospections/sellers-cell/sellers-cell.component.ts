@@ -4,7 +4,7 @@ import { ShowSellerContactPopupComponent } from 'src/app/common/popups/show-sell
 import { ProspectionStoreFacade } from 'src/app/core/facade/prospection.store.facade';
 import { Prospection } from 'src/app/core/models/prospection.model';
 import { Seller } from 'src/app/core/models/seller.model';
-import { UiPopupService } from 'src/app/ui/popup/services/popup.service';
+import { UiPopupService } from 'src/app/ui/services/popup/popup.service';
 
 @Component({
     selector: 'sellers-cell',

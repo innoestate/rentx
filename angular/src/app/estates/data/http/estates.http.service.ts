@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable, of, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Estate_Dto } from '../../models/estate.dto.model';
+import { Estate } from '../../models/estate.model';
 
 
 @Injectable({
@@ -18,8 +19,8 @@ export class EstatesHttpService {
     return this.http.get<Estate_Dto[]>(`${this.API_URL}/estates`);
   }
 
-  create(estate: Estate_Dto): Observable<Estate_Dto> {
-    return this.http.post<Estate_Dto>(`${this.API_URL}/estates`, estate);
+  create(estate: Estate_Dto): Observable<Estate> {
+    return this.http.post<Estate>(`${this.API_URL}/estates`, estate);
   }
 
   editEstate(estate: Estate_Dto): Observable<any> {

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Estate } from "src/app/estates/models/estate.model";
 import { getMandatoryFieldsForDownload, getMandatoryFieldsForEmail } from "./rents.commands.utils";
-import { UiPopupService } from "src/app/ui/popup/services/popup.service";
+import { UiPopupService } from "src/app/ui/services/popup/popup.service";
 import { CompleteRentReceiptPopupComponent } from "src/app/common/popups/complete-rent-receipt-popup/complete-rent-receipt-popup.component";
 import { catchError, combineLatest, delay, map, Observable, of, switchMap, take, tap } from "rxjs";
 import { Lodger } from "src/app/core/models/lodger.model";

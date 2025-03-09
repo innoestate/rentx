@@ -3,6 +3,7 @@ import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
 import { RentsModule } from "src/app/core/modules/rents.module";
 import { LodgersDataModule } from "src/app/lodgers/data/lodgers.data.module";
+import { UiMessageService } from "src/app/ui/services/message/message.service";
 import { EstatesDataService } from "./esates.data.service";
 import { EstatesEffects } from "./ngrx/estates.effects";
 import { estatesReducer } from "./ngrx/estates.reducers";
@@ -16,7 +17,7 @@ import { estatesReducer } from "./ngrx/estates.reducers";
   ]
 })
 export class EstatesDataModule {
-  constructor() {
+  constructor(messageService: UiMessageService) {
     console.log('EstatesDataModule constructor');
   }
 

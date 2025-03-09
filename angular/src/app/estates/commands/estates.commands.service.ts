@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { take, tap } from "rxjs";
 import { Estate_Post_Request } from "src/app/estates/models/estate-post-request.model";
 import { OwnersDataService } from "src/app/owners/data/owners.data.service";
-import { UiPopupService } from "src/app/ui/popup/services/popup.service";
+import { UiPopupService } from "src/app/ui/services/popup/popup.service";
 import { FormContinuablePopupComponent } from "../../common/popups/form-continuable-popup/form-continuable-popup.component";
 import { EstatesDataService } from "../data/esates.data.service";
 import { Estate } from "../models/estate.model";

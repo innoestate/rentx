@@ -50,3 +50,18 @@ Commencons par les test.
 
 
 Je voudrais tester que mon service data a bien les estates chargées.
+
+//MESSAGE SERVICE
+
+Maintenant il s'agit de refactoriser les message service.
+
+Afin de respecter le S de SOLIDE (SRP ou Single Responsability Principle), il faut que ce service soit indépendant.
+Il doit être appelé depuis les bons endroits, et donc, pas le store.
+
+Je suis tenté de l'utiliser dans l'object data par exemple.
+Mais cela viole, me semble-t-il le S de Solid.
+
+Idéalement, il faudrait qu'il puisse être appelé dans un fichier du type data.messages.ts
+Ce service écouterait les datas et enverrai les message.
+Dans ces conditions il pourrait être basé sur le store?
+Ou dans l'idéal, il écouterait le data service.

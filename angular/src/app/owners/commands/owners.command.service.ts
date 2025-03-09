@@ -6,7 +6,7 @@ import { FormPopupFieldData } from "src/app/common/popups/form-popup/models/form
 import { Owner } from "src/app/core/models/owner.model";
 import { Owner_Post_Request } from "src/app/core/models/requests/owner-post-request.model";
 import { getUpdatedFields } from "src/app/core/utils/objects.utils";
-import { UiPopupService } from "src/app/ui/popup/services/popup.service";
+import { UiPopupService } from "src/app/ui/services/popup/popup.service";
 import { OwnersDataService } from "../data/owners.data.service";
 
 const createPopupFields: FormPopupFieldData[] = [
