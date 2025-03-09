@@ -45,7 +45,7 @@ export class EstatesUiTableAdapter {
       { key: 'plot', label: 'lot', editable: true, sort: 2 },
       { key: 'rent', label: 'loyer', editable: true },
       { key: 'charges', label: 'charges', editable: true },
-      { key: 'owner_dropdown', label: 'propriétaire', dropDownItems: ownersDropDown, sort: 1 },
+      this.buildOwnersColumnField(estates, owners),
       { key: 'lodger_dropdown', label: 'locataire', dropDownItems: lodgersDropDown, sort: 2 },
       { key: 'actions', label: 'Actions' }
     ]
@@ -65,6 +65,27 @@ export class EstatesUiTableAdapter {
     }else{
       return { key: 'address', label: 'Adresse', sort: 1 };
     }
+  }
+
+  private buildOwnersColumnField(estates: Estate[], owners: Owner[]): UiTableColumnItem{
+
+    const ownersDropdownItems = this.createOwnerDropdownItems(owners);
+
+    const usedOwners = estates.filter(estate => estate.owner_id !== null);
+    const uniqUsedOwnersIds = uniq(usedOwners.map(estate => estate.owner_id));
+    if(uniqUsedOwnersIds.length < usedOwners.length){
+      const ownersList: NzTableFilterList = uniqUsedOwnersIds.map(ownerId => ({
+        text: owners.find(owner => owner.id === ownerId)?.name as string,
+        value: ownerId
+      }));
+      const ownersFilterFn: NzTableFilterFn<UiTableRow> = (values: string[], filter: UiTableRow) => {
+        console.log(values, filter);
+        return values.includes((filter.cells[4] as UiDropdownItem<string>)?.value as string);
+      };
+      return { key: 'owner_dropdown', label: 'propriétaire', dropDownItems: ownersDropdownItems, sort: 1, filter: ownersList, filterFn: ownersFilterFn };
+    }
+
+    return { key: 'owner_dropdown', label: 'propriétaire', dropDownItems: ownersDropdownItems, sort: 1 };
   }
 
   private createRows(estates: Estate[]): UiTableRow[] {
