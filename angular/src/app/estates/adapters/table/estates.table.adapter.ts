@@ -37,16 +37,13 @@ export class EstatesUiTableAdapter {
 
   private createColumns(estates: Estate[], owners: Owner[], lodgers: Lodger[]): UiTableColumnItem[] {
 
-    const ownersDropDown = this.createOwnerDropdownItems(owners);
-    const lodgersDropDown = this.createLodgerDropdownItems(estates, lodgers);
-
     return [
       this.buildAdressColumnField(estates),
       { key: 'plot', label: 'lot', editable: true, sort: 2 },
       { key: 'rent', label: 'loyer', editable: true },
       { key: 'charges', label: 'charges', editable: true },
       this.buildOwnersColumnField(estates, owners),
-      { key: 'lodger_dropdown', label: 'locataire', dropDownItems: lodgersDropDown, sort: 2 },
+      this.buildLodgersColumnField(estates, lodgers),
       { key: 'actions', label: 'Actions' }
     ]
   }
@@ -79,13 +76,32 @@ export class EstatesUiTableAdapter {
         value: ownerId
       }));
       const ownersFilterFn: NzTableFilterFn<UiTableRow> = (values: string[], filter: UiTableRow) => {
-        console.log(values, filter);
         return values.includes((filter.cells[4] as UiDropdownItem<string>)?.value as string);
       };
       return { key: 'owner_dropdown', label: 'propriétaire', dropDownItems: ownersDropdownItems, sort: 1, filter: ownersList, filterFn: ownersFilterFn };
     }
 
     return { key: 'owner_dropdown', label: 'propriétaire', dropDownItems: ownersDropdownItems, sort: 1 };
+  }
+
+  private buildLodgersColumnField(estates: Estate[], lodgers: Lodger[]): UiTableColumnItem {
+
+    const lodgersDropdownItems = this.createLodgerDropdownItems(estates, lodgers);
+
+    const usedLodgers = estates.filter(estate => estate.lodger_id !== null);
+    const uniqUsedLodgersIds = uniq(usedLodgers.map(estate => estate.lodger_id));
+    if(uniqUsedLodgersIds.length < usedLodgers.length){
+      const lodgersList: NzTableFilterList = uniqUsedLodgersIds.map(lodgerId => ({
+        text: lodgers.find(lodger => lodger.id === lodgerId)?.name as string,
+        value: lodgerId
+      }));
+      const lodgersFilterFn: NzTableFilterFn<UiTableRow> = (values: string[], filter: UiTableRow) => {
+        return values.includes((filter.cells[5] as UiDropdownItem<string>)?.value as string);
+      };
+      return { key: 'lodger_dropdown', label: 'locataire', dropDownItems: lodgersDropdownItems, sort: 1, filter: lodgersList, filterFn: lodgersFilterFn };
+    }
+
+    return { key: 'lodger_dropdown', label: 'locataire', dropDownItems: lodgersDropdownItems, sort: 1 };
   }
 
   private createRows(estates: Estate[]): UiTableRow[] {
