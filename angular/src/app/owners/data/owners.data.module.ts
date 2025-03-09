@@ -5,6 +5,7 @@ import { ownersReducer } from "src/app/owners/data/ngrx/owners.reducers";
 import { OwnersDataService } from "./owners.data.service";
 import { OwnersEffects } from "./ngrx/owners.effects";
 import { loadOwners } from "./ngrx/owners.actions";
+import { OwnersMessagesService } from "./messages/owners.messages.service";
 
 @NgModule({
   imports: [
@@ -16,7 +17,7 @@ import { loadOwners } from "./ngrx/owners.actions";
   ]
 })
 export class OwnersDataModule {
-  constructor(private store: Store) {
+  constructor(private store: Store, ownersMessagesService: OwnersMessagesService) {
     this.store.dispatch(loadOwners());
   }
 
