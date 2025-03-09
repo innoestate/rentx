@@ -23,7 +23,7 @@ export class EstatesHttpService {
     return this.http.post<Estate>(`${this.API_URL}/estates`, estate);
   }
 
-  editEstate(estate: Estate_Dto): Observable<any> {
+  editEstate(estate: Partial<Estate>): Observable<any> {
     return this.http.patch<Estate_Dto>(`${this.API_URL}/estate`, estate);
   }
 
