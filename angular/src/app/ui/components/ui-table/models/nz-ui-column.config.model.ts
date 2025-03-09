@@ -1,4 +1,4 @@
-import { NzTableSortFn } from "ng-zorro-antd/table";
+import { NzTableFilterFn, NzTableFilterList, NzTableSortFn } from "ng-zorro-antd/table";
 import { UiDropdownItem } from "../../ui-dropdown/model/ui-dropdown-item.model";
 
 export interface NzUiColumnConfig {
@@ -11,4 +11,6 @@ export interface NzUiColumnConfig {
     fn: NzTableSortFn;
     priority: number;
   }
+  filter?: NzTableFilterList;
+  filterFn?: NzTableFilterFn;
 }

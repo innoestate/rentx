@@ -10,6 +10,9 @@ import { EstatesCommandsService } from "../../commands/estates.commands.service"
 import { Estate } from "../../models/estate.model";
 import { createLodgersDropdown, createRentReceiptDropdown } from "./estates.lodgers.table.utils";
 import { LodgersCommandsService } from "src/app/lodgers/commands/lodgers.commands.service";
+import { uniq } from "lodash";
+import { NzTableFilterFn, NzTableFilterList, NzTableFilterValue } from "ng-zorro-antd/table";
+import { UiItem } from "src/app/ui/models/ui-item.model";
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +41,7 @@ export class EstatesUiTableAdapter {
     const lodgersDropDown = this.createLodgerDropdownItems(estates, lodgers);
 
     return [
-      { key: 'address', label: 'Adresse', sort: 1 },
+      this.buildAdressColumnField(estates),
       { key: 'plot', label: 'lot', editable: true, sort: 2 },
       { key: 'rent', label: 'loyer', editable: true },
       { key: 'charges', label: 'charges', editable: true },
@@ -46,6 +49,22 @@ export class EstatesUiTableAdapter {
       { key: 'lodger_dropdown', label: 'locataire', dropDownItems: lodgersDropDown, sort: 2 },
       { key: 'actions', label: 'Actions' }
     ]
+  }
+
+  private buildAdressColumnField(estates: Estate[]): UiTableColumnItem{
+    const adresses = uniq(estates.map(estate => estate.address));
+    if(adresses.length < estates.length){
+      const addressList: NzTableFilterList = uniq(adresses).map(address => ({
+        text: address,
+        value: address
+      }));
+      const addressFilterFn: NzTableFilterFn<UiTableRow> = (values: string[], filter: UiTableRow) => {
+        return values.includes(filter.cells[0] as string);
+      };
+      return { key: 'address', label: 'Adresse', sort: 1, filter: addressList, filterFn: addressFilterFn };
+    }else{
+      return { key: 'address', label: 'Adresse', sort: 1 };
+    }
   }
 
   private createRows(estates: Estate[]): UiTableRow[] {

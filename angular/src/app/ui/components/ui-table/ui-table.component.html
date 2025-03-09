@@ -4,10 +4,23 @@
     <tr>
       @for(column of columns; track column.key; let columnI = $index) {
         @if(column.sort){
-          <th [nzSortFn]="column.sort.fn" [nzSortPriority]="column.sort.priority" [nzColumnKey]="column.key">{{ column.label
-            }}</th>
+          @if(column.filter){
+            <th [nzSortFn]="column.sort.fn"
+                [nzSortPriority]="column.sort.priority"
+                [nzColumnKey]="column.key"
+                [nzFilterFn]="column.filterFn || true"
+                [nzFilters]="column.filter">{{ column.label}}</th>
+          }@else {
+            <th [nzSortFn]="column.sort.fn"
+                [nzSortPriority]="column.sort.priority"
+                [nzColumnKey]="column.key">{{ column.label}}</th>
+          }
         }@else {
-          <th>{{ column.label }}</th>
+          @if(column.filter){
+            <th [nzColumnKey]="column.key" [nzFilterFn]="!!column.filter" [nzFilters]="column.filter">{{ column.label }}</th>
+          }@else {
+            <th>{{ column.label }}</th>
+          }
         }
       }
     </tr>
