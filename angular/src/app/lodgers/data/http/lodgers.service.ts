@@ -2,16 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Owner_Dto } from '../../core/models/dtos/owner.dto.model';
-import { Lodger_Dto } from '../models/dtos/lodger.dto.model';
-import { Lodger_Post } from '../models/requests/lodger-post-request.model';
-import { Lodger_Patch } from '../models/requests/lodger-patch-request.model';
+import { Owner_Dto } from '../../../core/models/dtos/owner.dto.model';
+import { Lodger_Dto } from '../../models/lodger.dto.model';
+import { Lodger_Post } from '../../models/lodger-post-request.model';
+import { Lodger_Patch } from '../../models/lodger-patch-request.model';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class LodgersService {
+export class LodgersHttpService {
 
   private API_URL = environment.apiURL;
 

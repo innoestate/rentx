@@ -3,7 +3,7 @@ import { Estate } from "../../models/estate.model";
 import { formatEstatesDtoToEstateUx } from "./estate.utils";
 import { State as EstatesState } from "./estates.reducers";
 import { ownersSelector } from "../../../owners/data/ngrx/owners.selectors";
-import { State as LodgerState } from "../../../core/store/lodger/lodgers.reducers";
+import { State as LodgerState } from "../../../lodgers/data/ngrx/lodgers.reducers";
 import { State as RentsStore } from "../../../rents/data/ngrx/rents.reducer";
 
 

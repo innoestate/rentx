@@ -1,5 +1,5 @@
 import { isEqual } from "lodash";
-import { Lodger } from "src/app/core/models/lodger.model";
+import { Lodger } from "src/app/lodgers/models/lodger.model";
 import { LodgersCommandsService } from "src/app/lodgers/commands/lodgers.commands.service";
 import { RentsCommandsService } from "src/app/rents/commands/rents.commands.service";
 import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";

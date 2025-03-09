@@ -1,4 +1,4 @@
-import { Lodger } from "src/app/core/models/lodger.model";
+import { Lodger } from "src/app/lodgers/models/lodger.model";
 
 export const lodger1Mock: Lodger = {
   id: 'lodger1',

@@ -3,7 +3,7 @@ import { Actions, ofType } from "@ngrx/effects";
 import { ActionCreator } from "@ngrx/store";
 import { Subject, takeUntil, tap } from "rxjs";
 import { UiMessageService } from "src/app/ui/services/message/message.service";
-import { createLodgerFailure, createLodgerSuccess, deleteLodger, loadLodgersFailure, updateLodgerFailure, updateLodgerSuccess } from "src/app/core/store/lodger/lodgers.actions";
+import { createLodgerFailure, createLodgerSuccess, deleteLodger, deleteLodgerFailure, deleteLodgerSuccess, loadLodgersFailure, updateLodgerFailure, updateLodgerSuccess } from "../ngrx/lodgers.actions";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,7 @@ export class LodgersMessagesService implements OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(private message: UiMessageService, private actions$: Actions) {
+    console.log('lodger message service constructor')
     this.displayAsyncMessages();
   }
 
@@ -30,8 +31,8 @@ export class LodgersMessagesService implements OnDestroy {
     this.displaySuccessMessageOnAction(updateLodgerSuccess, 'Locataire mis à jour avec succès!');
     this.displayFailureMessageOnAction(updateLodgerFailure, 'Échec de la mise à jour du locataire!');
 
-    this.displaySuccessMessageOnAction(deleteLodger, 'Locataire supprimé avec succès!');
-    this.displayFailureMessageOnAction(deleteLodger, 'Échec de la suppression du locataire!');
+    this.displaySuccessMessageOnAction(deleteLodgerSuccess, 'Locataire supprimé avec succès!');
+    this.displayFailureMessageOnAction(deleteLodgerFailure, 'Échec de la suppression du locataire!');
   }
 
   private displaySuccessMessageOnAction(action: ActionCreator, message: string) {

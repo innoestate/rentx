@@ -1,6 +1,6 @@
 import { Estate_Dto } from 'src/app/estates/models/estate.dto.model';
 import { Estate } from 'src/app/estates/models/estate.model';
-import { Lodger_Dto } from '../models/dtos/lodger.dto.model';
+import { Lodger_Dto } from '../../lodgers/models/lodger.dto.model';
 import { MonthlyRents_Dto } from '../models/dtos/monthly-rents.dto.model';
 import { Owner_Dto } from '../models/dtos/owner.dto.model';
 import { Rent } from '../models/rent.model';

@@ -2,17 +2,16 @@ import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from "@ngrx/store";
 import { catchError, map, of, switchMap, tap, withLatestFrom } from "rxjs";
-import { LodgersService } from "../../services/lodgers.service";
+import { editEstate } from "../../../estates/data/ngrx/estates.actions";
 import { loadOwnersFailure } from "../../../owners/data/ngrx/owners.actions";
+import { LodgersHttpService } from "../http/lodgers.service";
 import { createLodger, createLodgerFailure, createLodgerSuccess, deleteLodger, deleteLodgerSuccess, loadLodgers, loadLodgersSuccess, updateLodger, updateLodgerFailure, updateLodgerSuccess } from "./lodgers.actions";
 import { selectLodgers } from "./lodgers.selectors";
-import { editEstate } from "../../../estates/data/ngrx/estates.actions";
-import { NzMessageService } from "ng-zorro-antd/message";
 
 @Injectable()
 export class LodgersEffects {
 
-  constructor(private actions$: Actions, private lodgerService: LodgersService, private store: Store, private message: NzMessageService) { }
+  constructor(private actions$: Actions, private lodgerHttp: LodgersHttpService, private store: Store) { }
 
   loadOwners$ = createEffect(() => this.actions$.pipe(
     ofType(loadLodgers),
@@ -22,7 +21,7 @@ export class LodgersEffects {
       if (actualLodgers && actualLodgers.length > 0) {
         return of(loadLodgersSuccess({ lodgers: actualLodgers }));
       } else {
-        return this.lodgerService.read().pipe(
+        return this.lodgerHttp.read().pipe(
           map(lodgers => loadLodgersSuccess({ lodgers })),
           catchError(err => of(loadOwnersFailure(err)))
         )
@@ -32,7 +31,7 @@ export class LodgersEffects {
 
   createLodger$ = createEffect(() => this.actions$.pipe(
     ofType(createLodger),
-    switchMap(({ lodger, estateId }) => this.lodgerService.create(lodger).pipe(
+    switchMap(({ lodger, estateId }) => this.lodgerHttp.create(lodger).pipe(
       map(lodger => {
         if (estateId) {
           this.store.dispatch(editEstate({ estate: { id: estateId, lodger_id: lodger.id } }));
@@ -43,19 +42,9 @@ export class LodgersEffects {
       ))
     )))
 
-  createLodgerSuccess$ = createEffect(() => this.actions$.pipe(
-    ofType(createLodgerSuccess),
-    tap(() => this.message.success('locataire ajouté avec succès!'))
-  ), { dispatch: false })
-
-  createLodgerFailure$ = createEffect(() => this.actions$.pipe(
-    ofType(createLodgerFailure),
-    tap(err => this.message.error((err.error.message)))
-  ), { dispatch: false })
-
   updateLodger$ = createEffect(() => this.actions$.pipe(
     ofType(updateLodger),
-    switchMap(frontLodgerData => this.lodgerService.update((frontLodgerData as any).lodger).pipe(
+    switchMap(frontLodgerData => this.lodgerHttp.update((frontLodgerData as any).lodger).pipe(
       map(() => updateLodgerSuccess({ lodger: (frontLodgerData as any).lodger })),
       catchError(err => of(updateLodgerFailure(err))
     ))
@@ -63,7 +52,7 @@ export class LodgersEffects {
 
   deleteLodger$ = createEffect(() => this.actions$.pipe(
     ofType(deleteLodger),
-    switchMap(data => this.lodgerService.delete((data as any).lodgerId).pipe(
+    switchMap(data => this.lodgerHttp.delete((data as any).lodgerId).pipe(
       map(lodgerId => deleteLodgerSuccess({lodgerId})),
       catchError(() => of(deleteLodgerSuccess((data as any).ownerId)))
     ))

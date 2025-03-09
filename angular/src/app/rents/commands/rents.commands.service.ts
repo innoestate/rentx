@@ -4,7 +4,7 @@ import { getMandatoryFieldsForDownload, getMandatoryFieldsForEmail } from "./ren
 import { UiPopupService } from "src/app/ui/services/popup/popup.service";
 import { CompleteRentReceiptPopupComponent } from "src/app/common/popups/complete-rent-receipt-popup/complete-rent-receipt-popup.component";
 import { catchError, combineLatest, delay, map, Observable, of, switchMap, take, tap } from "rxjs";
-import { Lodger } from "src/app/core/models/lodger.model";
+import { Lodger } from "src/app/lodgers/models/lodger.model";
 import { Owner } from "src/app/core/models/owner.model";
 import { OwnersDataService } from "src/app/owners/data/owners.data.service";
 import { LodgersDataService } from "src/app/lodgers/data/lodgers.data.service";

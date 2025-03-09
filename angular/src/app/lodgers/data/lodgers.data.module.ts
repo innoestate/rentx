@@ -1,10 +1,11 @@
 import { ModuleWithProviders, NgModule } from "@angular/core";
 import { EffectsModule } from "@ngrx/effects";
 import { Store, StoreModule } from "@ngrx/store";
-import { LodgersEffects } from "src/app/core/store/lodger/lodgers.effects";
-import { lodgersReducer } from "src/app/core/store/lodger/lodgers.reducers";
 import { LodgersDataService } from "./lodgers.data.service";
-import { loadLodgers } from "src/app/core/store/lodger/lodgers.actions";
+import { LodgersMessagesService } from "./messages/lodgers.messages.service";
+import { lodgersReducer } from "./ngrx/lodgers.reducers";
+import { LodgersEffects } from "./ngrx/lodgers.effects";
+import { loadLodgers } from "./ngrx/lodgers.actions";
 
 @NgModule({
   imports: [
@@ -16,7 +17,7 @@ import { loadLodgers } from "src/app/core/store/lodger/lodgers.actions";
   ]
 })
 export class LodgersDataModule {
-  constructor(private store: Store) {
+  constructor(private store: Store, lodgersMessagesService: LodgersMessagesService) {
     this.store.dispatch(loadLodgers());
   }
 

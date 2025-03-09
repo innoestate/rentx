@@ -3,7 +3,7 @@ import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { EstatesService } from 'src/app/core/services/estates.service';
-import { LodgersService } from 'src/app/core/services/lodgers.service';
+import { LodgersHttpService } from 'src/app/lodgers/data/http/lodgers.service';
 import { OwnersHttpService } from 'src/app/owners/data/http/owners.http.service';
 import { RentsHttpService } from 'src/app/rents/data/http/rents.http.service';
 import { EstatesComponent } from './mock/estates.directive';
@@ -30,7 +30,7 @@ describe('EstatesDataService', () => {
       providers: [
         { provide: EstatesService, useClass: MockEstatesService },
         { provide: OwnersHttpService, useClass: MockOwnersService },
-        { provide: LodgersService, useClass: MockLodgersService },
+        { provide: LodgersHttpService, useClass: MockLodgersService },
         { provide: RentsHttpService, useClass: MockRentsHttpService }
       ]
     }).createComponent(EstatesComponent);

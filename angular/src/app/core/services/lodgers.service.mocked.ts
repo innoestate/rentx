@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Lodger_Dto } from '../models/dtos/lodger.dto.model';
-import { Lodger_Post } from '../models/requests/lodger-post-request.model';
-import { Lodger_Patch } from '../models/requests/lodger-patch-request.model';
+import { Lodger_Dto } from '../../lodgers/models/lodger.dto.model';
+import { Lodger_Post } from '../../lodgers/models/lodger-post-request.model';
+import { Lodger_Patch } from '../../lodgers/models/lodger-patch-request.model';
 
 @Injectable({
   providedIn: 'root'

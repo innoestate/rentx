@@ -1,6 +1,6 @@
 import { createAction, props } from "@ngrx/store";
-import { Lodger_Dto } from "../../models/dtos/lodger.dto.model";
-import { Lodger_Post } from "../../models/requests/lodger-post-request.model";
+import { Lodger_Dto } from "../../models/lodger.dto.model";
+import { Lodger_Post } from "../../models/lodger-post-request.model";
 import { Lodger } from "../../models/lodger.model";
 
 

@@ -2,10 +2,10 @@ import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { catchError, Observable, of } from "rxjs";
 import { DataNgrxService } from "src/app/core/data/ngrx/data.ngrx.service";
-import { Lodger } from "src/app/core/models/lodger.model";
-import { Lodger_Post } from "src/app/core/models/requests/lodger-post-request.model";
-import { deleteLodger, loadLodgers, updateLodger as updateLodgerOnNgrx, updateLodgerFailure, updateLodgerSuccess, createLodger as createLodgerOnNgrx, createLodgerSuccess, createLodgerFailure} from "src/app/core/store/lodger/lodgers.actions";
-import { selectLodgers } from "src/app/core/store/lodger/lodgers.selectors";
+import { Lodger } from "src/app/lodgers/models/lodger.model";
+import { Lodger_Post } from "src/app/lodgers/models/lodger-post-request.model";
+import { deleteLodger, loadLodgers, updateLodger as updateLodgerOnNgrx, updateLodgerFailure, updateLodgerSuccess, createLodger as createLodgerOnNgrx, createLodgerSuccess, createLodgerFailure} from "./ngrx/lodgers.actions";
+import { selectLodgers } from "./ngrx/lodgers.selectors";
 
 @Injectable({
   providedIn: 'root',

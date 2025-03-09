@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Lodger } from "src/app/core/models/lodger.model";
+import { Lodger } from "src/app/lodgers/models/lodger.model";
 import { Owner } from "src/app/core/models/owner.model";
 import { OwnersCommandsService } from "src/app/owners/commands/owners.command.service";
 import { RentsCommandsService } from "src/app/rents/commands/rents.commands.service";

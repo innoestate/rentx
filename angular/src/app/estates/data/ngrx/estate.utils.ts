@@ -1,6 +1,6 @@
 import { FormGroup } from '@angular/forms';
 import { Estate_Dto } from '../../models/estate.dto.model';
-import { Lodger_Dto } from 'src/app/core/models/dtos/lodger.dto.model';
+import { Lodger_Dto } from 'src/app/lodgers/models/lodger.dto.model';
 import { Owner_Dto } from 'src/app/core/models/dtos/owner.dto.model';
 import { Rent } from 'src/app/core/models/rent.model';
 import { Estate } from '../../models/estate.model';

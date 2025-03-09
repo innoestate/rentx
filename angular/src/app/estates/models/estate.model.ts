@@ -1,6 +1,6 @@
 import { Owner } from "src/app/core/models/owner.model";
 import { Estate_Dto } from "./estate.dto.model";
-import { Lodger } from "src/app/core/models/lodger.model";
+import { Lodger } from "src/app/lodgers/models/lodger.model";
 
 
 export interface Estate extends Estate_Dto {

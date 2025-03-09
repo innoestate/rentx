@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Lodger } from "src/app/core/models/lodger.model";
+import { Lodger } from "src/app/lodgers/models/lodger.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { LodgersCommandsService } from "../commands/lodgers.commands.service";

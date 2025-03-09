@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { take, tap } from "rxjs";
 import { FormContinuablePopupComponent } from "src/app/common/popups/form-continuable-popup/form-continuable-popup.component";
-import { Lodger_Post } from "src/app/core/models/requests/lodger-post-request.model";
+import { Lodger_Post } from "src/app/lodgers/models/lodger-post-request.model";
 import { UiPopupService } from "src/app/ui/services/popup/popup.service";
 import { LodgersDataService } from "../data/lodgers.data.service";
 
