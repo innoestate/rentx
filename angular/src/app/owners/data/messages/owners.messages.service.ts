@@ -3,7 +3,7 @@ import { Actions, ofType } from "@ngrx/effects";
 import { ActionCreator } from "@ngrx/store";
 import { Subject, takeUntil, tap } from "rxjs";
 import { UiMessageService } from "src/app/ui/services/message/message.service";
-import { createOwnerFailure, createOwnerSuccess, deleteOwner, loadOwnersFailure, updateOwnerFailure, updateOwnerSuccess } from "./../ngrx/owners.actions";
+import { createOwnerFailure, createOwnerSuccess, deleteOwnerFailure, deleteOwnerSuccess, loadOwnersFailure, updateOwnerFailure, updateOwnerSuccess } from "./../ngrx/owners.actions";
 
 @Injectable({
   providedIn: 'root'
@@ -31,8 +31,8 @@ export class OwnersMessagesService implements OnDestroy {
     this.displaySuccessMessageOnAction(updateOwnerSuccess, 'Propriétaire mis à jour avec succès!');
     this.displayFailureMessageOnAction(updateOwnerFailure, 'Échec de la mise à jour du propriétaire!');
 
-    this.displaySuccessMessageOnAction(deleteOwner, 'Propriétaire supprimé avec succès!');
-    this.displayFailureMessageOnAction(deleteOwner, 'Échec de la suppression du propriétaire!');
+    this.displaySuccessMessageOnAction(deleteOwnerSuccess, 'Propriétaire supprimé avec succès!');
+    this.displayFailureMessageOnAction(deleteOwnerFailure, 'Échec de la suppression du propriétaire!');
   }
 
   private displaySuccessMessageOnAction(action: ActionCreator, message: string) {

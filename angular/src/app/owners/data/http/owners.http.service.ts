@@ -4,6 +4,7 @@ import { map, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Owner_Dto } from '../../../core/models/dtos/owner.dto.model';
 import { Owner_Post_Request } from '../../../core/models/requests/owner-post-request.model';
+import { Owner } from 'src/app/core/models/owner.model';
 
 
 @Injectable({
@@ -23,7 +24,7 @@ export class OwnersHttpService {
     return this.http.post<Owner_Dto>(`${this.API_URL}/owners`, owner);
   }
 
-  edit(owner: Owner_Dto): Observable<any> {
+  edit(owner: Partial<Owner>): Observable<any> {
     return this.http.patch<Owner_Dto>(`${this.API_URL}/owners`, owner).pipe(
       map( result => owner)
     )

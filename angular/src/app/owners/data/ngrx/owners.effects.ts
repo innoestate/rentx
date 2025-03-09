@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from "@ngrx/store";
 import { catchError, map, of, switchMap, tap, withLatestFrom } from "rxjs";
 import { OwnersHttpService } from "../http/owners.http.service";
-import { createOwner, createOwnerFailure, createOwnerSuccess, loadOwners, updateOwnerSuccess } from "./owners.actions";
+import { createOwner, createOwnerFailure, createOwnerSuccess, deleteOwner, deleteOwnerFailure, deleteOwnerSuccess, loadOwners, loadOwnersFailure, loadOwnersSuccess, updateOwner, updateOwnerFailure, updateOwnerSuccess } from "./owners.actions";
 import { selectOwners } from "./owners.selectors";
 
 @Injectable()
@@ -17,37 +17,38 @@ export class OwnersEffects {
     map(([_, owners]) => owners),
     switchMap(actualOwners => {
       if (actualOwners && actualOwners.length > 0) {
-        return of({ type: '[Owners] Load Owners Success', owners: actualOwners });
+        return of(loadOwnersSuccess({ owners: actualOwners }));
       } else {
         return this.ownerService.get().pipe(
-          map(owners => ({ type: '[Owners] Load Owners Success', owners })),
-          catchError(() => of({ type: '[Owners] Load Owners Failure' })))
+          map(owners => (loadOwnersSuccess({ owners }))),
+          catchError(err => of(loadOwnersFailure(err)))
+        )
       }
     }
-    )))
+  )))
 
   createOwner$ = createEffect(() => this.actions$.pipe(
     ofType(createOwner),
     switchMap(({ owner }) => this.ownerService.create(owner).pipe(
       map(data => (createOwnerSuccess({ owner: data }))),
-      catchError(() => of(createOwnerFailure))
+      catchError(err => of(createOwnerFailure(err)))
     ))
   ))
 
   updateOwner$ = createEffect(() => this.actions$.pipe(
-    ofType('[Owners] Update Owner'),
+    ofType(updateOwner),
     switchMap(({ owner }) => this.ownerService.edit(owner).pipe(
       map(data => (updateOwnerSuccess({ owner: data }))),
-      catchError(() => of({ type: '[Owners] Update Owner Failure' }))
+      catchError(err => of(updateOwnerFailure(err)))
     ))
   ))
 
   deleteOwner$ = createEffect(() => this.actions$.pipe(
-    ofType('[Owners] Delete Owner'),
+    ofType(deleteOwner),
     switchMap(data => this.ownerService.delete((data as any).ownerId).pipe(
-      map(id => ({ type: '[Owners] Delete Owner Success', ownerId: id })),
-      catchError(() => of({ type: '[Owners] Delete Owner Failure' }))
-    ))
+      map(id => (deleteOwnerSuccess({ ownerId: id })),
+        catchError(err => of(deleteOwnerFailure(err)))
+      )))
   ))
 
 }
