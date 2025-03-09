@@ -4,7 +4,7 @@ import { NzMessageService } from "ng-zorro-antd/message";
 import { catchError, map, of, switchMap, tap } from "rxjs";
 import { Estate_Dto } from "../../models/estate.dto.model";
 import { EstatesHttpService } from "../http/estates.http.service";
-import { createEstateSuccess, deleteEstate, deleteEstateSuccess } from "./estates.actions";
+import { createEstateSuccess, deleteEstate, deleteEstateSuccess, editEstateFailure } from "./estates.actions";
 
 @Injectable()
 export class EstatesEffects {
@@ -33,6 +33,7 @@ export class EstatesEffects {
     })
   ), { dispatch: false })
 
+
   editEstate$ = createEffect(() => this.actions$.pipe(
     ofType('[Estates] Edit Estate'),
     switchMap(({ estate }) => this.estatesService.editEstate(estate).pipe(
@@ -40,6 +41,13 @@ export class EstatesEffects {
       catchError(() => of({ type: '[Estates] Edit Estate Failure' }))
     ))
   ))
+
+  editEstateFaillure$ = createEffect(() => this.actions$.pipe(
+    ofType(editEstateFailure),
+    tap(() => {
+      this.message.error('Erreur lors de la modification du bien');
+    })
+  ), { dispatch: false })
 
   deleteEstate$ = createEffect(() => this.actions$.pipe(
     ofType(deleteEstate),

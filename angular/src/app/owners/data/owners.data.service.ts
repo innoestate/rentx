@@ -34,12 +34,7 @@ export class OwnersDataService {
   }
 
   updateOwner(ownerData: Partial<Owner>): Observable<Owner> {
-    return this.dataNgrxService.updateObjectInNgrx<Owner>(updateOwner, updateOwnerSuccess, updateOwnerFailure, { owner: ownerData }).pipe(
-      catchError(err => {
-        console.error('Failed to update owner with ngrx.', err);
-        return of(err);
-      })
-    );
+    return this.dataNgrxService.updateObjectInNgrx<Owner>(updateOwner, updateOwnerSuccess, updateOwnerFailure, { owner: ownerData });
   }
 
   deleteOwner(ownerId: string) {

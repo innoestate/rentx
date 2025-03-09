@@ -31,12 +31,7 @@ export class LodgersDataService {
   }
 
   updateLodger(lodger: Partial<Lodger>): Observable<Lodger> {
-    return this.dataNgrxService.updateObjectInNgrx<Lodger>(updateLodgerOnNgrx, updateLodgerSuccess, updateLodgerFailure, { lodger }).pipe(
-      catchError(err => {
-        console.error('Failed to update lodger with ngrx.', err);
-        return of(err);
-      })
-    );
+    return this.dataNgrxService.updateObjectInNgrx<Lodger>(updateLodgerOnNgrx, updateLodgerSuccess, updateLodgerFailure, { lodger });
   }
 
   deleteLodger(lodgerId: string) {

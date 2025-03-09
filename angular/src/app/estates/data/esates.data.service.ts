@@ -5,7 +5,7 @@ import { estatesSelector, selectEstates } from "./ngrx/estates.selectors";
 import { Estate } from "../models/estate.model";
 import { DataNgrxService } from "src/app/core/data/ngrx/data.ngrx.service";
 import { editEstate as updateEstateInNgrx } from "./ngrx/estates.actions";
-import { catchError, Observable, of } from "rxjs";
+import { catchError, Observable, of, tap } from "rxjs";
 import { Estate_Post_Request } from "src/app/estates/models/estate-post-request.model";
 
 @Injectable({
@@ -34,11 +34,7 @@ export class EstatesDataService {
   }
 
   updateEstate(estate: Partial<Estate>): Observable<Estate>{
-    return this.dataNgrxService.updateObjectInNgrx<Estate>(updateEstateInNgrx, editEstateSuccess, editEstateFailure, {estate}).pipe(
-      catchError(err => {
-        throw new Error('Failed to update estate with ngrx.', err);
-      })
-    );
+    return this.dataNgrxService.updateObjectInNgrx<Estate>(updateEstateInNgrx, editEstateSuccess, editEstateFailure, {estate});
   }
 
   removeEstate(estateId: string){

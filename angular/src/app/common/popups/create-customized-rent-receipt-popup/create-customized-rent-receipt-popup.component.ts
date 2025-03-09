@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { Estate } from 'src/app/estates/models/estate.model';

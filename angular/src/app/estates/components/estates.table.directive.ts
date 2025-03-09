@@ -5,6 +5,8 @@ import { EstatesDataService } from "../data/esates.data.service";
 import { OwnersDataService } from "src/app/owners/data/owners.data.service";
 import { LodgersDataService } from "src/app/lodgers/data/lodgers.data.service";
 import { extractUpdatedFieldsFromRow } from "../adapters/table/estates.lodgers.table.utils";
+import { catchError, of, take } from "rxjs";
+import { Estate } from "../models/estate.model";
 
 @Directive()
 export class EstatesTableDirective {
@@ -32,7 +34,17 @@ export class EstatesTableDirective {
 
   updateRow(row: UiTableRow) {
     const estate = extractUpdatedFieldsFromRow(this.estates(), row);
-    this.estatesData.updateEstate(estate);
+    this.estatesData.updateEstate(estate).pipe(
+      catchError(() => this.reloadEstateForResetCellPreviusValue(row.data.id))
+    ).pipe(
+      take(1)
+    ).subscribe();
+  }
+
+  private reloadEstateForResetCellPreviusValue(estateId: string) {
+    const oldEstate = this.estates().find(e => e.id === estateId);
+    this.estatesData.updateEstate(oldEstate as Partial<Estate>);
+    return of(null);
   }
 
 }
