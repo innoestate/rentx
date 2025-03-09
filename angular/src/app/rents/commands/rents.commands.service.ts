@@ -2,16 +2,16 @@ import { Injectable } from "@angular/core";
 import { Estate } from "src/app/estates/models/estate.model";
 import { getMandatoryFieldsForDownload, getMandatoryFieldsForEmail } from "./rents.commands.utils";
 import { UiPopupService } from "src/app/ui/services/popup/popup.service";
-import { CompleteRentReceiptPopupComponent } from "src/app/common/popups/complete-rent-receipt-popup/complete-rent-receipt-popup.component";
+import { CompleteRentReceiptPopupComponent } from "src/app/rents/popups/complete-rent-receipt-popup/complete-rent-receipt-popup.component";
 import { catchError, combineLatest, delay, map, Observable, of, switchMap, take, tap } from "rxjs";
 import { Lodger } from "src/app/lodgers/models/lodger.model";
-import { Owner } from "src/app/core/models/owner.model";
+import { Owner } from "src/app/owners/models/owner.model";
 import { OwnersDataService } from "src/app/owners/data/owners.data.service";
 import { LodgersDataService } from "src/app/lodgers/data/lodgers.data.service";
 import { EstatesDataService } from "src/app/estates/data/esates.data.service";
 import { RentsHttpService } from "../data/http/rents.http.service";
 import { downloadFileOnBrowser } from "src/app/core/files/files.utils";
-import { CreateCustomizedRentReceiptPopupComponent } from "src/app/common/popups/create-customized-rent-receipt-popup/create-customized-rent-receipt-popup.component";
+import { CreateCustomizedRentReceiptPopupComponent } from "src/app/rents/popups/create-customized-rent-receipt-popup/create-customized-rent-receipt-popup.component";
 
 @Injectable({
   providedIn: 'root'

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Owner_Dto } from 'src/app/core/models/dtos/owner.dto.model';
-import { Owner_Post_Request } from 'src/app/core/models/requests/owner-post-request.model';
+import { Owner_Dto } from 'src/app/owners/models/owner.dto.model';
+import { Owner_Post_Request } from 'src/app/owners/models/owner-post-request.model';
 
 @Injectable({
   providedIn: 'root'

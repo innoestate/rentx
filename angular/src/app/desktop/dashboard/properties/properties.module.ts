@@ -1,11 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { LodgersCommandsModule } from 'src/app/lodgers/commands/lodgers.commands.module';
-import { OwnersCommandsModule } from 'src/app/owners/commands/owners.commands.module';
+import { EstatesCommandsService } from 'src/app/estates/commands/estates.commands.service';
+import { EstatesDataModule } from 'src/app/estates/data/estates.data.module';
+import { LodgersCommandsService } from 'src/app/lodgers/commands/lodgers.commands.service';
+import { LodgersDataModule } from 'src/app/lodgers/data/lodgers.data.module';
+import { OwnersCommandsService } from 'src/app/owners/commands/owners.command.service';
+import { OwnersDataModule } from 'src/app/owners/data/owners.data.module';
 import { EstatesHandlerMenuModule } from './menu/estates-handler-menu.module';
 import { DesktopEstatesHandlerComponent } from './properties.component';
 import { DesktopEstatesHandlerRoutingModule } from './properties.routing';
-import { EstatesCommandsModule } from 'src/app/estates/commands/estates.commands.module';
+import { RentsDataModule } from 'src/app/rents/data/rents.data.module';
+import { RentsCommandsService } from 'src/app/rents/commands/rents.commands.service';
 
 
 
@@ -14,19 +19,19 @@ import { EstatesCommandsModule } from 'src/app/estates/commands/estates.commands
   imports: [
     CommonModule,
 
-    // LodgersDataModule.forRoot(),
-    // OwnersDataModule.forRoot(),
-    // EstatesDataModule.forRoot(),
-
-    LodgersCommandsModule.forRoot(),
-    OwnersCommandsModule.forRoot(),
-    EstatesCommandsModule.forRoot(),
-
-    // UiModule.forChild(),
+    EstatesDataModule,
+    OwnersDataModule,
+    LodgersDataModule,
+    RentsDataModule,
 
     DesktopEstatesHandlerRoutingModule,
-
     EstatesHandlerMenuModule,
+  ],
+  providers: [
+    EstatesCommandsService,
+    OwnersCommandsService,
+    LodgersCommandsService,
+    RentsCommandsService
   ]
 })
 export class DesktopPropertiesModule {

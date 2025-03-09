@@ -1,13 +1,12 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { createEstate, createEstateFailure, createEstateSuccess, deleteEstate, editEstate, editEstateFailure, editEstateSuccess, loadEstates } from "./ngrx/estates.actions";
-import { estatesSelector, selectEstates } from "./ngrx/estates.selectors";
-import { Estate } from "../models/estate.model";
+import { catchError, Observable } from "rxjs";
 import { DataNgrxService } from "src/app/core/data/ngrx/data.ngrx.service";
-import { editEstate as updateEstateInNgrx } from "./ngrx/estates.actions";
-import { catchError, Observable, of, tap } from "rxjs";
 import { Estate_Post_Request } from "src/app/estates/models/estate-post-request.model";
+import { Estate } from "../models/estate.model";
 import { EstatesMessagesService } from "./messages/estates.messages.service";
+import { createEstate, createEstateFailure, createEstateSuccess, deleteEstate, editEstateFailure, editEstateSuccess, loadEstates, editEstate as updateEstateInNgrx } from "./ngrx/estates.actions";
+import { selectEstates } from "./ngrx/estates.selectors";
 
 @Injectable({
   providedIn: 'root',

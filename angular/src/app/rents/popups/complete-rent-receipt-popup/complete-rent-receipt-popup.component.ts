@@ -2,9 +2,9 @@ import { Component, computed, effect, Inject, Signal } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { Lodger } from 'src/app/lodgers/models/lodger.model';
-import { Owner } from 'src/app/core/models/owner.model';
+import { Owner } from 'src/app/owners/models/owner.model';
 import { UiButtonComponent } from 'src/app/ui/components/ui-button/ui-button.component';
-import { SignatureComponent } from '../../components/signature-pad/signature.component';
+import { SignatureComponent } from '../../../common/components/signature-pad/signature.component';
 import { Estate } from 'src/app/estates/models/estate.model';
 
 @Component({

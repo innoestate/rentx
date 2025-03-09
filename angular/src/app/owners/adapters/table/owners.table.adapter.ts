@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Owner } from "src/app/core/models/owner.model";
+import { Owner } from "src/app/owners/models/owner.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { OwnersCommandsService } from "../../commands/owners.command.service";
@@ -33,7 +33,7 @@ export class OwnersTableAdapterService {
       },
       {
         label: "Adresse",
-        key: "address",
+        key: "street",
         editable: true
       },
       {

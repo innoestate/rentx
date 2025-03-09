@@ -61,6 +61,10 @@ export class UiNestedDropdownComponent implements AfterViewInit {
   private selectItem(item: UiDropdownItem<any>) {
     this.insideValue.set(item);
     this.onSelect.emit(item);
+    console.log('select item', item);
   }
 
 }
+//TODO:
+//1 - create an optionnal command when an item is selected with the item value as argument.
+//2 - add this command

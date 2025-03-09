@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { EstateRents } from '../../models/estate.rents.model';
 
 
 @Injectable({
@@ -13,8 +14,8 @@ export class RentsHttpService {
 
   constructor(private http: HttpClient) { }
 
-  fetchMonthlyRents(): Observable<any> {
-    return this.http.get<any>(`${this.API_URL}/rents`);
+  fetchMonthlyRents(): Observable<EstateRents[]> {
+    return this.http.get<EstateRents[]>(`${this.API_URL}/rents`);
   }
 
   downloadRentReceipt(estateId: string | undefined, startDate?: string, endDate?: string): Observable<any> {

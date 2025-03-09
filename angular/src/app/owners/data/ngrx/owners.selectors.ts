@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { Owner } from "../../../core/models/owner.model";
+import { Owner } from "../../models/owner.model";
 import { State } from "./owners.reducers";
 
 

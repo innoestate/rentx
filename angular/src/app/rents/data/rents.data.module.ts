@@ -1,9 +1,8 @@
-import { ModuleWithProviders, NgModule } from "@angular/core";
-import { StoreModule } from "@ngrx/store";
-import { rentsReducer } from "./ngrx/rents.reducer";
+import { NgModule } from "@angular/core";
 import { EffectsModule } from "@ngrx/effects";
+import { StoreModule } from "@ngrx/store";
 import { RentsEffects } from "./ngrx/rents.effects";
-import { RentsDataService } from "./rents.data.service";
+import { rentsReducer } from "./ngrx/rents.reducer";
 
 @NgModule({
   imports: [
@@ -11,22 +10,4 @@ import { RentsDataService } from "./rents.data.service";
     EffectsModule.forFeature(RentsEffects)
   ],
 })
-export class RentsDataModule {
-
-  static forRoot(): ModuleWithProviders<RentsDataModule> {
-    return {
-      ngModule: RentsDataModule,
-      providers: [
-        RentsDataService
-      ]
-    }
-  }
-
-  static forFeature(): ModuleWithProviders<RentsDataModule> {
-    return {
-      ngModule: RentsDataModule,
-      providers: []
-    }
-  }
-
-}
+export class RentsDataModule {}

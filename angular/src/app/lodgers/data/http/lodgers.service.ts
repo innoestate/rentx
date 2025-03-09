@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Owner_Dto } from '../../../core/models/dtos/owner.dto.model';
+import { Owner_Dto } from '../../../owners/models/owner.dto.model';
 import { Lodger_Dto } from '../../models/lodger.dto.model';
 import { Lodger_Post } from '../../models/lodger-post-request.model';
 import { Lodger_Patch } from '../../models/lodger-patch-request.model';

@@ -1,7 +1,7 @@
 import { Form, FormGroup } from "@angular/forms";
-import { Owner_Form } from "../models/forms/owner-form.model";
-import { Owner_Post_Request } from "../models/requests/owner-post-request.model";
-import { Owner_Patch } from "../models/patchs/owners.patch.model";
+import { Owner_Form } from "../../owners/models/owner-form.model";
+import { Owner_Post_Request } from "../../owners/models/owner-post-request.model";
+import { Owner_Patch } from "../../owners/models/owners.patch.model";
 
 export const formatOwnerFormValueToEstatePostRequest = (owner: FormGroup<Owner_Form>): Owner_Post_Request => {
   return {

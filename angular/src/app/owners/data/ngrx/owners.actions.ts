@@ -1,6 +1,6 @@
 import { createAction, props } from "@ngrx/store";
-import { Owner } from "../../../core/models/owner.model";
-import { Owner_Post_Request } from "../../../core/models/requests/owner-post-request.model";
+import { Owner } from "../../models/owner.model";
+import { Owner_Post_Request } from "../../models/owner-post-request.model";
 
 export const loadOwners = createAction('[Owners] Load Owners');
 export const loadOwnersSuccess = createAction('[Owners] Load Owners Success', props<{ owners: any[] }>());

@@ -1,4 +1,4 @@
-import { Owner } from "src/app/core/models/owner.model";
+import { Owner } from "src/app/owners/models/owner.model";
 
 export const owner1Mock: Owner = {
   id: 'owner1',

@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { Estate } from "../../models/estate.model";
-import { formatEstatesDtoToEstateUx } from "./estate.utils";
+import { fillEstates } from "./estate.utils";
 import { State as EstatesState } from "./estates.reducers";
 import { ownersSelector } from "../../../owners/data/ngrx/owners.selectors";
 import { State as LodgerState } from "../../../lodgers/data/ngrx/lodgers.reducers";
@@ -17,6 +17,6 @@ export const selectEstates = createSelector(
   lodgersSelector,
   rentsSelector,
   (estateState, ownerState, lodgerState, rentsState): Estate[] => {
-    return formatEstatesDtoToEstateUx(estateState.estates??[], ownerState.owners, lodgerState.lodgers, rentsState.monthlyRents_Dto);
+    return fillEstates(estateState.estates??[], ownerState.owners, lodgerState.lodgers, rentsState.monthlyRents_Dto);
   }
 );

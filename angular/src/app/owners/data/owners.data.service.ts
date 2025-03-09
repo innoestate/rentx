@@ -2,11 +2,11 @@ import { Injectable, Signal } from "@angular/core";
 import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { catchError, map, Observable, of, race, take, tap } from "rxjs";
-import { Owner } from "src/app/core/models/owner.model";
+import { Owner } from "src/app/owners/models/owner.model";
 import { createOwner as CreateOwnerOnNgrx, createOwnerFailure, createOwnerSuccess, deleteOwner, loadOwners as loadOwnersAction, updateOwner, updateOwnerFailure, updateOwnerSuccess } from "./ngrx/owners.actions";
 import { selectOwners } from "./ngrx/owners.selectors";
 import { DataNgrxService } from "src/app/core/data/ngrx/data.ngrx.service";
-import { Owner_Post_Request } from "src/app/core/models/requests/owner-post-request.model";
+import { Owner_Post_Request } from "src/app/owners/models/owner-post-request.model";
 
 @Injectable({
   providedIn: 'root',
@@ -20,13 +20,7 @@ export class OwnersDataService {
   }
 
   createOwner(owner: Owner_Post_Request): Observable<Owner> {
-    console.log('create owner for ngrx', owner);
-    return this.dataNgrxService.updateObjectInNgrx<Owner>(CreateOwnerOnNgrx, createOwnerSuccess, createOwnerFailure, { owner }).pipe(
-      tap(console.log),
-      catchError(err => {
-        throw new Error('Failed to create owner with ngrx: ' + err);
-      })
-    );
+    return this.dataNgrxService.updateObjectInNgrx<Owner>(CreateOwnerOnNgrx, createOwnerSuccess, createOwnerFailure, { owner });
   }
 
   getOwners(): Signal<Owner[]> {

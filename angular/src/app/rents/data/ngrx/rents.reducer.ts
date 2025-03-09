@@ -1,9 +1,9 @@
 import { createReducer, on } from "@ngrx/store";
-import { MonthlyRents_Dto } from "../../../core/models/dtos/monthly-rents.dto.model";
+import { EstateRents } from "../../models/estate.rents.model";
 import { loadMonthlyRentsSuccess } from "./rents.actions";
 
 export interface State {
-  monthlyRents_Dto: MonthlyRents_Dto[];
+  monthlyRents_Dto: EstateRents[];
 }
 
 export const initialState: State = {

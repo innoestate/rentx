@@ -5,10 +5,14 @@ import { Estate_Dto } from "../../models/estate.dto.model";
 import { EstatesHttpService } from "../http/estates.http.service";
 import { deleteEstate, deleteEstateSuccess, editEstateSuccess, loadEstates, loadEstatesFailure, loadEstatesSuccess } from "./estates.actions";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class EstatesEffects {
 
-  constructor(private actions$: Actions, private estatesService: EstatesHttpService) {}
+  constructor(private actions$: Actions, private estatesService: EstatesHttpService) {
+    console.log('estates effect constructor')
+  }
 
   loadEstates$ = createEffect(() => this.actions$.pipe(
     ofType(loadEstates),

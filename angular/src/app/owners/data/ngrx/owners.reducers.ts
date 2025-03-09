@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
-import { Owner } from "../../../core/models/owner.model";
+import { Owner } from "../../models/owner.model";
 import { createOwner, createOwnerFailure, createOwnerSuccess, deleteOwner, deleteOwnerFailure, deleteOwnerSuccess, loadOwners, loadOwnersFailure, loadOwnersSuccess, updateOwnerSuccess } from "./owners.actions";
 
 export interface State {
