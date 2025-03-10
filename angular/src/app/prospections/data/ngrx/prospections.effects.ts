@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { Prospection } from '../../models/prospection.model';
 import { ProspectionsHttpService } from '../http/prospections.http.service';
 import {
@@ -46,9 +46,8 @@ export class ProspectionsEffects {
   updateProspection$ = createEffect(() =>
     this.actions$.pipe(
       ofType(updateProspection),
-      mergeMap(action =>
-        this.prospectionsService.update(action.id, action.changes).pipe(
-          map(() => updateProspectionSuccess({ id: action.id, changes: action.changes })),
+      mergeMap(({ prospection }) => this.prospectionsService.update(prospection.id!, prospection).pipe(
+          map(() => updateProspectionSuccess({ prospection })),
           catchError(error => of(updateProspectionFailure({ error })))
         )
       )

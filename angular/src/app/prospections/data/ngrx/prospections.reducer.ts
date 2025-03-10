@@ -3,6 +3,7 @@ import { Prospection_Dto } from '../../models/prospection.dto.model';
 import {
   createProspectionSuccess,
   loadProspectionsSuccess,
+  reloadProspection,
   removeProspectionSuccess,
   updateProspectionSuccess
 } from './prospections.actions';
@@ -31,10 +32,18 @@ export const prospectionReducer = createReducer(
     ...state,
     prospections: state.prospections.filter(prospection => prospection.id !== id)
   })),
-  on(updateProspectionSuccess, (state, { id, changes }) => ({
+  on(updateProspectionSuccess, (state, { prospection }) => {
+    return {
+      ...state,
+      prospections: state.prospections.map(actualProspection =>
+        actualProspection.id === prospection.id ? { ...actualProspection, ...prospection } : actualProspection
+      )
+    };
+  }),
+  on(reloadProspection, (state, { prospectionId }) => ({
     ...state,
-    prospections: state.prospections.map(prospection =>
-      prospection.id === id ? { ...prospection, ...changes } : prospection
+    prospections: state.prospections.map(actualProspection =>
+      actualProspection.id === prospectionId ? { ...actualProspection, isReloaded: true } : actualProspection
     )
   }))
 );
