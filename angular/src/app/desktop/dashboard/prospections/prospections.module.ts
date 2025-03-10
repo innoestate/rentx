@@ -4,6 +4,7 @@ import { DesktopProspectionsComponent } from './prospections.component';
 import { ProspectionsDesktopRoutingModule } from './prospections.routing';
 import { DesktopProspectionsHandlerMenuComponent } from './menu/desktop-prospections-handler-menu.component';
 import { UiModule } from 'src/app/ui/ui.module';
+import { ProspectionsDataModule } from 'src/app/prospections/data/module/prospections.data.module';
 
 
 
@@ -15,7 +16,8 @@ import { UiModule } from 'src/app/ui/ui.module';
   imports: [
     CommonModule,
     ProspectionsDesktopRoutingModule,
-    UiModule
+    UiModule,
+    ProspectionsDataModule
   ]
 })
 export class ProspectionsModule { }

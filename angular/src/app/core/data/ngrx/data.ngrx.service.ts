@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, ofType } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
-import { map, Observable, race, take, tap } from "rxjs";
+import { Observable, race, take, tap } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
