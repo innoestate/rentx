@@ -11,8 +11,12 @@ const routes: Routes = [
       },
       {
         path: 'prospections',
-        loadChildren: () => import('./pages/prospections/prospections.module').then(m => m.ProspectionsModule),
+        loadChildren: () => import('./prospections/prospections.module').then(m => m.ProspectionsModule),
       },
+      // {
+      //   path: 'prospections',
+      //   loadChildren: () => import('./pages/prospections/prospections.module').then(m => m.ProspectionsModule),
+      // },
       {
         path: '',
         pathMatch: 'full',
