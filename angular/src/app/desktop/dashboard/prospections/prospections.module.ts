@@ -5,6 +5,7 @@ import { ProspectionsDesktopRoutingModule } from './prospections.routing';
 import { DesktopProspectionsHandlerMenuComponent } from './menu/desktop-prospections-handler-menu.component';
 import { UiModule } from 'src/app/ui/ui.module';
 import { ProspectionsDataModule } from 'src/app/prospections/data/module/prospections.data.module';
+import { ProspectionsDataMessagesService } from 'src/app/prospections/data/messages/prospections.messages.service';
 
 
 
@@ -20,4 +21,6 @@ import { ProspectionsDataModule } from 'src/app/prospections/data/module/prospec
     ProspectionsDataModule
   ]
 })
-export class ProspectionsModule { }
+export class ProspectionsModule {
+  constructor(private dataMessageService: ProspectionsDataMessagesService) {}
+}
