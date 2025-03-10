@@ -4,7 +4,7 @@ import { catchError, Observable } from "rxjs";
 import { DataNgrxService } from "src/app/core/data/ngrx/data.ngrx.service";
 import { Estate_Post_Request } from "src/app/estates/models/estate-post-request.model";
 import { Estate } from "../models/estate.model";
-import { EstatesMessagesService } from "./messages/estates.messages.service";
+import { EstatesDataMessagesService } from "./messages/estates.messages.service";
 import { createEstate, createEstateFailure, createEstateSuccess, deleteEstate, editEstateFailure, editEstateSuccess, loadEstates, editEstate as updateEstateInNgrx } from "./ngrx/estates.actions";
 import { selectEstates } from "./ngrx/estates.selectors";
 
@@ -13,7 +13,7 @@ import { selectEstates } from "./ngrx/estates.selectors";
 })
 export class EstatesDataService {
 
-  constructor(private dataNgrxService: DataNgrxService, private store: Store, private estatesMessagesService: EstatesMessagesService) {
+  constructor(private dataNgrxService: DataNgrxService, private store: Store, private estatesMessagesService: EstatesDataMessagesService) {
     console.log('EstatesDataService constructor');
   }
 

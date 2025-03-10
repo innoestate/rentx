@@ -1,7 +1,7 @@
 import { ModuleWithProviders, NgModule } from "@angular/core";
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
-import { EstatesMessagesService } from "./messages/estates.messages.service";
+import { EstatesDataMessagesService } from "./messages/estates.messages.service";
 import { EstatesEffects } from "./ngrx/estates.effects";
 import { estatesReducer } from "./ngrx/estates.reducers";
 
@@ -12,5 +12,5 @@ import { estatesReducer } from "./ngrx/estates.reducers";
   ]
 })
 export class EstatesDataModule {
-  constructor(private messageService: EstatesMessagesService) { }
+  constructor(private messageService: EstatesDataMessagesService) { }
 }

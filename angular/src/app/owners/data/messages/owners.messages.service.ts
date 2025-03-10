@@ -8,7 +8,7 @@ import { createOwnerFailure, createOwnerSuccess, deleteOwnerFailure, deleteOwner
 @Injectable({
   providedIn: 'root'
 })
-export class OwnersMessagesService implements OnDestroy {
+export class OwnersDataMessagesService implements OnDestroy {
 
   private destroy$ = new Subject<void>();
 

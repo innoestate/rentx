@@ -8,7 +8,7 @@ import { createEstateFailure, createEstateSuccess, deleteEstateFailure, deleteEs
 @Injectable({
   providedIn: 'root'
 })
-export class EstatesMessagesService implements OnDestroy{
+export class EstatesDataMessagesService implements OnDestroy{
 
   destroy$ = new Subject<void>();
 

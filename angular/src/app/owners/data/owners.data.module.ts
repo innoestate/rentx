@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
 import { ownersReducer } from "src/app/owners/data/ngrx/owners.reducers";
-import { OwnersMessagesService } from "./messages/owners.messages.service";
+import { OwnersDataMessagesService } from "./messages/owners.messages.service";
 import { OwnersEffects } from "./ngrx/owners.effects";
 
 @NgModule({
@@ -12,5 +12,5 @@ import { OwnersEffects } from "./ngrx/owners.effects";
   ]
 })
 export class OwnersDataModule {
-  constructor(private ownersMessagesService: OwnersMessagesService) {}
+  constructor(private ownersMessagesService: OwnersDataMessagesService) {}
 }

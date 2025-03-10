@@ -8,7 +8,7 @@ import { createLodgerFailure, createLodgerSuccess, deleteLodger, deleteLodgerFai
 @Injectable({
   providedIn: 'root'
 })
-export class LodgersMessagesService implements OnDestroy {
+export class LodgersDataMessagesService implements OnDestroy {
 
   private destroy$ = new Subject<void>();
 
