@@ -41,54 +41,55 @@ export class SpreadSheetsProspectionsService {
     }
 
     async synchronizeGoogleSheet(user_id: string, accessToken, refreshToken, clientId, clientSecret) {
-        try {
+        // try {
 
-            const userDoc = (await lastValueFrom(this.docsServices.getByUser(user_id)))?.[0];
+        //     const userDoc = (await lastValueFrom(this.docsServices.getByUser(user_id)))?.[0];
 
-            this.runOrNotSynchronizationWithDelay(userDoc, async doTheJob => {
+        //     this.runOrNotSynchronizationWithDelay(userDoc, async doTheJob => {
 
                 
-                const prospections = await this.ProspectionsDbService.findAll(user_id);
-                const sellers = await this.sellersServicer.findAllSellers(user_id);
-                const googleSheetId = userDoc?.prospections_google_sheet_id
-                let googleStrategy;
-                if (this.configService.get('NODE_ENV') === 'test') {
-                    googleStrategy = new MockedGoogleSpreadSheetStrategy();
-                } else {
-                    googleStrategy = new SpreadSheetGoogleStrategy();
-                    await googleStrategy.init(accessToken, refreshToken, clientId, clientSecret);
-                }
-                const spreadSheet = await synchronizeProspections(googleStrategy, prospections, sellers, googleSheetId);
-                if (!googleSheetId) { 
-                    if (!userDoc) {
-                        await lastValueFrom(this.docsServices.create({
-                            user_id,
-                            prospections_google_sheet_id: spreadSheet.id,
-                            lastSynchronization: new Date()
-                        }));
-                    } else {
-                        await lastValueFrom(this.docsServices.update({
-                            id: userDoc.id,
-                            prospections_google_sheet_id: spreadSheet.id,
-                            lastSynchronization: new Date()
-                        }))
-                    }
-                } else if (googleSheetId !== spreadSheet.id) {
-                    await lastValueFrom(this.docsServices.update({
-                        id: userDoc.id,
-                        prospections_google_sheet_id: spreadSheet.id,
-                        lastSynchronization: new Date()
-                    }))
-                }
+        //         const prospections = await this.ProspectionsDbService.findAll(user_id);
+        //         const sellers = await this.sellersServicer.findAllSellers(user_id);
+        //         const googleSheetId = userDoc?.prospections_google_sheet_id
+        //         let googleStrategy;
+        //         if (this.configService.get('NODE_ENV') === 'test') {
+        //             googleStrategy = new MockedGoogleSpreadSheetStrategy();
+        //         } else {
+        //             googleStrategy = new SpreadSheetGoogleStrategy();
+        //             await googleStrategy.init(accessToken, refreshToken, clientId, clientSecret);
+        //         }
+        //         const spreadSheet = await synchronizeProspections(googleStrategy, prospections, sellers, googleSheetId);
+        //         if (!googleSheetId) { 
+        //             if (!userDoc) {
+        //                 await lastValueFrom(this.docsServices.create({
+        //                     user_id,
+        //                     prospections_google_sheet_id: spreadSheet.id,
+        //                     lastSynchronization: new Date()
+        //                 }));
+        //             } else {
+        //                 await lastValueFrom(this.docsServices.update({
+        //                     id: userDoc.id,
+        //                     prospections_google_sheet_id: spreadSheet.id,
+        //                     lastSynchronization: new Date()
+        //                 }))
+        //             }
+        //         } else if (googleSheetId !== spreadSheet.id) {
+        //             await lastValueFrom(this.docsServices.update({
+        //                 id: userDoc.id,
+        //                 prospections_google_sheet_id: spreadSheet.id,
+        //                 lastSynchronization: new Date()
+        //             }))
+        //         }
 
 
-            }, doNothing => {
-                console.log('a synchronization is already scheduled');
-            });
+        //     }, doNothing => {
+        //         console.log('a synchronization is already scheduled');
+        //     });
 
-        } catch (e) {
-            console.log(e);
-        }
+        // } catch (e) {
+        //     console.log(e);
+        // }
+        return null;
     }
     
 
