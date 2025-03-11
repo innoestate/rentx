@@ -4,8 +4,8 @@ import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { Lodger } from 'src/app/lodgers/models/lodger.model';
 import { Owner } from 'src/app/owners/models/owner.model';
 import { UiButtonComponent } from 'src/app/ui/components/ui-button/ui-button.component';
-import { SignatureComponent } from '../../../common/components/signature-pad/signature.component';
 import { Estate } from 'src/app/estates/models/estate.model';
+import { SignatureComponent } from 'src/app/views/common/components/signature-pad/signature.component';
 
 @Component({
     selector: 'app-complete-rent-receipt-popup',

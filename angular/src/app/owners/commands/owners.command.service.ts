@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
 import { take, tap } from "rxjs";
-import { FormContinuablePopupComponent } from "src/app/common/popups/form-continuable-popup/form-continuable-popup.component";
-import { FormPopupComponent } from "src/app/common/popups/form-popup/form-popup.component";
-import { FormPopupFieldData } from "src/app/common/popups/form-popup/models/form-popup.fields-data.model";
 import { Owner } from "src/app/owners/models/owner.model";
 import { Owner_Post_Request } from "src/app/owners/models/owner-post-request.model";
 import { getUpdatedFields } from "src/app/core/utils/objects.utils";
 import { UiPopupService } from "src/app/ui/services/popup/popup.service";
 import { OwnersDataService } from "../data/owners.data.service";
+import { FormPopupFieldData } from "src/app/views/common/popups/form-popup/models/form-popup.fields-data.model";
+import { FormContinuablePopupComponent } from "src/app/views/common/popups/form-continuable-popup/form-continuable-popup.component";
+import { FormPopupComponent } from "src/app/views/common/popups/form-popup/form-popup.component";
 
 const createPopupFields: FormPopupFieldData[] = [
   {

@@ -1,4 +1,0 @@
-Ajout du filtre de prospections par status
-
-1- mapper un array qui transforme PROSPECTION_STATUS label en "shortLabel" en value
-2- ajouter [nzFilter] et [nzFilterFn]

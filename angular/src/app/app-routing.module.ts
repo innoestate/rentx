@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DeviceGuard } from './core/guards/device.guard';
-import { CallbackComponent } from './callback/callback.component';
+import { CallbackComponent } from './views/common/pages/callback/callback.component';
 
 const routes: Routes = [
   { path: 'callback', component: CallbackComponent },
@@ -11,23 +11,23 @@ const routes: Routes = [
     children: [
       {
         path: 'mobile',
-        loadChildren: () => import('./mobile/mobile.module').then(m => m.MobileModule),
+        loadChildren: () => import('./views/mobile/mobile.module').then(m => m.MobileModule),
       },
       {
         path: 'desktop',
-        loadChildren: () => import('./desktop/desktop.module').then(m => m.DesktopModule),
+        loadChildren: () => import('./views/desktop/desktop.module').then(m => m.DesktopModule),
       },
       {
         path: 'cdu',
-        loadChildren: () => import('./common/pages/cdu/cdu.module').then(m => m.CduModule)
+        loadChildren: () => import('./views/common/pages/cdu/cdu.module').then(m => m.CduModule)
       },
       {
         path: 'policies',
-        loadChildren: () => import('./common/pages/policies/policies.module').then(m => m.PoliciesModule)
+        loadChildren: () => import('./views/common/pages/policies/policies.module').then(m => m.PoliciesModule)
       },
       {
         path: 'welcom',
-        loadChildren: () => import('./common/pages/welcome/welcome.module').then(m => m.WelcomeModule)
+        loadChildren: () => import('./views/common/pages/welcome/welcome.module').then(m => m.WelcomeModule)
       },
       { path: '', redirectTo: '/me', pathMatch: 'full' }
     ]

@@ -25,11 +25,11 @@ import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
-import { CallbackComponent } from './callback/callback.component';
+import { CallbackComponent } from './views/common/pages/callback/callback.component';
 import { DeviceGuard } from './core/guards/device.guard';
 import { UserEffects } from './core/store/user/user.effects';
 import { userReducer } from './core/store/user/user.reducers';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './views/common/pages/login/login.component';
 
 registerLocaleData(en);
 

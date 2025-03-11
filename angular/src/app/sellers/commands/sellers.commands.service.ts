@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Seller_Dto } from "../models/seller.dto.model";
 import { UiPopupService } from "src/app/ui/services/popup/popup.service";
-import { FormContinuablePopupComponent } from "src/app/common/popups/form-continuable-popup/form-continuable-popup.component";
-import { FormPopupFieldData } from "src/app/common/popups/form-popup/models/form-popup.fields-data.model";
 import { SellersDataService } from "../data/service/sellers.data.service";
 import { take, tap } from "rxjs";
+import { FormContinuablePopupComponent } from "src/app/views/common/popups/form-continuable-popup/form-continuable-popup.component";
+import { FormPopupFieldData } from "src/app/views/common/popups/form-popup/models/form-popup.fields-data.model";
 
 @Injectable({
   providedIn: 'root'
