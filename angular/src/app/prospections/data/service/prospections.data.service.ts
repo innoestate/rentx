@@ -19,12 +19,12 @@ export class ProspectionsDataService {
     return this.dataNgrxService.updateObjectInNgrx(loadProspectionsOnNgrx, loadProspectionsSuccess, loadProspectionsFailure, {});
   }
 
-  createProspection(): Observable<Prospection_Dto> {
-    return this.dataNgrxService.updateObjectInNgrx(createProspection, createProspectionSuccess, createProspectionFailure, {});
+  createProspection(prospection: Prospection_Dto): Observable<Prospection_Dto> {
+    return this.dataNgrxService.updateObjectInNgrx(createProspection, createProspectionSuccess, createProspectionFailure, { prospection });
   }
 
   updateProspection(prospection: Partial<Prospection_Dto>): Observable<Partial<Prospection_Dto>> {
-    return this.dataNgrxService.updateObjectInNgrx(updateProspection, updateProspectionSuccess, updateProspectionFailure, {prospection});
+    return this.dataNgrxService.updateObjectInNgrx(updateProspection, updateProspectionSuccess, updateProspectionFailure, { prospection });
   }
 
   deleteProspection(id: string): Observable<void> {

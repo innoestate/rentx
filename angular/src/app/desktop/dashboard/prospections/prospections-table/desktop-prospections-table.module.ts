@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { DesktopProspectionsTableComponent } from './desktop-prospections-table.component';
-import { EstatesUiTableAdapter } from 'src/app/estates/adapters/table/estates.table.adapter';
+import { ProspectionsTableAdapter } from 'src/app/prospections/adapters/prospections.table.adapter';
 import { UiModule } from 'src/app/ui/ui.module';
+import { DesktopProspectionsTableComponent } from './desktop-prospections-table.component';
 
 
 
@@ -17,7 +17,7 @@ import { UiModule } from 'src/app/ui/ui.module';
     UiModule.forChild(),
   ],
   providers: [
-    EstatesUiTableAdapter
+    ProspectionsTableAdapter
   ]
 })
 export class DesktopProspectionsTableModule { }

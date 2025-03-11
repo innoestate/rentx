@@ -38,8 +38,18 @@ export class SellersCommandsService {
         required: true
       },
       {
-        key: 'street',
+        key: 'address',
         label: 'Rue',
+        type: 'text',
+      },
+      {
+        key: 'city',
+        label: 'Ville',
+        type: 'text',
+      },
+      {
+        key: 'zip',
+        label: 'Code postal',
         type: 'text',
       },
       {

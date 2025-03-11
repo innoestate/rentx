@@ -8,6 +8,7 @@ import { ProspectionsDataModule } from 'src/app/prospections/data/module/prospec
 import { ProspectionsDataMessagesService } from 'src/app/prospections/data/messages/prospections.messages.service';
 import { SellersDataModule } from 'src/app/sellers/data/module/sellers.data.module';
 import { SellersCommandsService } from 'src/app/sellers/commands/sellers.commands.service';
+import { ProspectionsCommandsService } from 'src/app/prospections/commands/prospections.commands.service';
 
 
 
@@ -19,11 +20,12 @@ import { SellersCommandsService } from 'src/app/sellers/commands/sellers.command
   imports: [
     CommonModule,
     ProspectionsDesktopRoutingModule,
-    UiModule,
+    UiModule.forChild(),
     ProspectionsDataModule,
     SellersDataModule
   ],
   providers: [
+    ProspectionsCommandsService,
     SellersCommandsService
   ]
 })

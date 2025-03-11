@@ -52,7 +52,6 @@ export class SellersTableAdapterService {
   }
 
   private extractRow(seller: Seller_Dto): UiTableRow {
-    console.log('seller', seller);
     return {
       data: { id: seller.id },
       cells: {

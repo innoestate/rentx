@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { ProspectionsCommandsService } from 'src/app/prospections/commands/prospections.commands.service';
 import { SellersCommandsService } from 'src/app/sellers/commands/sellers.commands.service';
+import { SellersDataService } from 'src/app/sellers/data/service/sellers.data.service';
+import { Seller_Dto } from 'src/app/sellers/models/seller.dto.model';
 
 @Component({
   selector: 'prospections-handler-menu',
@@ -10,10 +13,12 @@ import { SellersCommandsService } from 'src/app/sellers/commands/sellers.command
 })
 export class DesktopProspectionsHandlerMenuComponent {
 
-  constructor(private router: Router, private sellersCommands: SellersCommandsService){}
+  sellers: Signal<Seller_Dto[]> = this.SellersData.get();
+
+  constructor(private router: Router, private SellersData: SellersDataService, private sellersCommands: SellersCommandsService, private prospectionsCommands: ProspectionsCommandsService){}
 
   createNewProspectionEstate(){
-
+    this.prospectionsCommands.createNew(this.sellers());
   }
 
   createNewSeller(){

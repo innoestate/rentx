@@ -6,6 +6,7 @@ import { Prospection_Dto } from "../models/prospection.dto.model";
 import { getUpdatedFields } from "../../core/utils/objects.utils";
 import { ProspectionsCommandsService } from "../commands/prospections.commands.service";
 import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
+import { Seller_Dto } from "src/app/sellers/models/seller.dto.model";
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,10 @@ export class ProspectionsTableAdapter {
 
   constructor(private prospectionsCommands: ProspectionsCommandsService) { }
 
-  buildTable(prospections: Prospection_Dto[]): UiTable {
+  buildTable(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTable {
     return {
-      columns: this.createColumns(),
-      rows: this.createRows(prospections)
+      columns: this.createColumns(sellers),
+      rows: this.createRows(prospections, sellers)
     }
   }
 
@@ -27,20 +28,20 @@ export class ProspectionsTableAdapter {
       zip: row.cells['zip'] as string,
       address: row.cells['address'] as string,
       link: row.cells['link'] as string,
-      // seller_id: row.cells['seller_id'] as string,
+      seller_id: (row.cells['seller'] as any).value,
       price: row.cells['price'] as number,
       // status: row.cells['status'] as string
     }
     return getUpdatedFields(previusProspection, potentialModifications as any)
   }
 
-  private createColumns(): UiTableColumnItem[] {
+  private createColumns(sellers: Seller_Dto[]): UiTableColumnItem[] {
     return [
       { key: 'city', label: 'Ville', editable: true },
       { key: 'zip', label: 'Code postal', editable: true },
       { key: 'street', label: 'Rue', editable: true },
       { key: 'link', label: 'lien', editable: true},
-      { key: 'seller_id', label: 'Vendeur' },
+      this.buildSellersColumn(sellers),
       { key: 'price', label: 'Prix', editable: true },
       { key: 'status', label: 'Status' },
       { key: 'actions', label: 'Actions', dropDownItems: this.buildActionsDropdownColumn() }
@@ -61,11 +62,27 @@ export class ProspectionsTableAdapter {
     ]
   }
 
-  private createRows(prospections: Prospection_Dto[]): UiTableRow[] {
-    return prospections.map( prospection => this.formatUiTableRow(prospection))
+  private buildSellersColumn(sellers: Seller_Dto[]): UiTableColumnItem {
+    return {
+      key: 'seller',
+      label: 'Vendeur',
+      editable: true,
+      dropDownItems: this.buildSellersDropdownColumn(sellers)
+    }
   }
 
-  private formatUiTableRow(prospection: Prospection_Dto): UiTableRow {
+  private buildSellersDropdownColumn(sellers: Seller_Dto[]): UiDropdownItem<any>[] {
+    return sellers.map( seller => ({
+      label: seller.name,
+      value: seller.id
+    }))
+  }
+
+  private createRows(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTableRow[] {
+    return prospections.map( prospection => this.formatUiTableRow(prospection, sellers))
+  }
+
+  private formatUiTableRow(prospection: Prospection_Dto, sellers: Seller_Dto[]): UiTableRow {
     return {
       data: {
         id: prospection.id
@@ -75,7 +92,10 @@ export class ProspectionsTableAdapter {
         zip: prospection.zip??'',
         address: prospection.address??'',
         link: prospection.link??'',
-        seller_id: prospection.seller_id??'',
+        seller: {
+          value: prospection.seller_id??'',
+          label: sellers.find( seller => seller.id === prospection.seller_id )?.name??''
+        },
         price: prospection.price??0,
         status: prospection.status??'',
         actions: {
