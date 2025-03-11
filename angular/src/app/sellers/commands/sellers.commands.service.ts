@@ -25,6 +25,10 @@ export class SellersCommandsService {
     });
   }
 
+  delete(id: string) {
+    this.sellersData.delete(id);
+  }
+
   private getCreateFields(): FormPopupFieldData[] {
     return [
       {

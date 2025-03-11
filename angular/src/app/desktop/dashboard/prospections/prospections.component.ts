@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ProspectionsDataService } from 'src/app/prospections/data/service/prospections.data.service';
+import { SellersDataService } from 'src/app/sellers/data/service/sellers.data.service';
 
 @Component({
   selector: 'app-prospections',
@@ -7,5 +9,12 @@ import { Component } from '@angular/core';
   standalone: false
 })
 export class DesktopProspectionsComponent {
+
+  constructor(private prospectionsData: ProspectionsDataService,
+              private sellersData: SellersDataService){
+
+      this.prospectionsData.loadProspections();
+      this.sellersData.load();
+  }
 
 }

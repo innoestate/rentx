@@ -8,7 +8,7 @@ import { SellersHttpService } from '../http/sellers.http.service';
 @Injectable()
 export class SellersEffects {
 
-  constructor(private actions$: Actions, private http: SellersHttpService) {}
+  constructor(private actions$: Actions, private http: SellersHttpService) { }
 
   loadSellers$ = createEffect(() =>
     this.actions$.pipe(
@@ -37,7 +37,7 @@ export class SellersEffects {
   updateSeller$ = createEffect(() =>
     this.actions$.pipe(
       ofType(SellerActions.updateSeller),
-      mergeMap( ({seller}) =>
+      mergeMap(({ seller }) =>
         this.http.update(seller).pipe(
           map(seller => SellerActions.updateSellerSuccess({ seller })),
           catchError(error => of(SellerActions.updateSellerFailure({ error })))
@@ -49,9 +49,9 @@ export class SellersEffects {
   removeSeller$ = createEffect(() =>
     this.actions$.pipe(
       ofType(SellerActions.removeSeller),
-      mergeMap(action =>
-        this.http.delete(action.id).pipe(
-          map(() => SellerActions.removeSellerSuccess({ id: action.id })),
+      mergeMap(({ id }) =>
+        this.http.delete(id).pipe(
+          map(() => SellerActions.removeSellerSuccess({ id })),
           catchError(error => of(SellerActions.removeSellerFailure({ error })))
         )
       )

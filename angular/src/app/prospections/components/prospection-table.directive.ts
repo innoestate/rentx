@@ -15,7 +15,6 @@ export class ProspectionTableDirective {
 
   constructor(private dataService: ProspectionsDataService, private adapter: ProspectionsTableAdapter) {
     console.log('prospectionTableDirective constructor.');
-    dataService.loadProspections();
   }
 
   buildTable() {
