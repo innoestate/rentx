@@ -1,4 +1,11 @@
-<a #nzTrigger nz-dropdown [nzDropdownMenu]="menu" [nzTrigger]="triggerType()">{{ displayedLabel }}</a>
+<a #nzTrigger nz-dropdown [nzDropdownMenu]="menu" [nzTrigger]="triggerType()">
+
+  @if(displayedValue.icon){
+    <div class="icon" nz-icon [nzType]="displayedValue.icon" nzTheme="fill"></div>
+  }
+  {{ displayedValue.label }}
+
+</a>
 <nz-dropdown-menu #menu="nzDropdownMenu">
   <ul nz-menu nzSelectable>
     @for(item of list(); track item){

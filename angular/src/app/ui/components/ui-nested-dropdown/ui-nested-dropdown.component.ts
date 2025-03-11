@@ -1,10 +1,14 @@
 import { AfterViewInit, Component, effect, ElementRef, input, output, signal, ViewChild } from '@angular/core';
 import { NzDropdownMenuComponent, NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { UiDropdownItem } from '../ui-dropdown/model/ui-dropdown-item.model';
+import { UiItem } from '../../models/ui-item.model';
+import { CommonModule } from '@angular/common';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { ToolFill } from '@ant-design/icons-angular/icons';
 
 @Component({
   selector: 'ui-nested-dropdown',
-  imports: [NzDropDownModule],
+  imports: [NzDropDownModule, CommonModule, NzIconModule],
   standalone: true,
   templateUrl: './ui-nested-dropdown.component.html',
   styleUrl: './ui-nested-dropdown.component.scss',
@@ -20,7 +24,7 @@ export class UiNestedDropdownComponent implements AfterViewInit {
   onSelect = output<UiDropdownItem<any>>();
   openAtInit = input<boolean>(false);
 
-  protected displayedLabel!: string;
+  protected displayedValue!: UiDropdownItem<any>;
 
   constructor() {
     this.fitInsideValueFromValue();
@@ -54,7 +58,7 @@ export class UiNestedDropdownComponent implements AfterViewInit {
 
   private fitDisplayedLabelFromInsideValue() {
     effect(() => {
-      this.displayedLabel = this.insideValue()?.label ?? '';
+      this.displayedValue = this.insideValue()!;
     })
   }
 
@@ -64,6 +68,3 @@ export class UiNestedDropdownComponent implements AfterViewInit {
   }
 
 }
-//TODO:
-//1 - create an optionnal command when an item is selected with the item value as argument.
-//2 - add this command

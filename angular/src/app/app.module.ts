@@ -80,6 +80,9 @@ registerLocaleData(en);
     }),
     EffectsModule.forRoot([UserEffects]),
   ],
+  exports: [
+    NzIconModule
+  ],
   providers: [
     DeviceGuard,
     DeviceDetectorService,

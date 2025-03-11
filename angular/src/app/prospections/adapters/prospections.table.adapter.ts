@@ -44,7 +44,11 @@ export class ProspectionsTableAdapter {
       this.buildSellersColumn(sellers),
       { key: 'price', label: 'Prix', editable: true },
       { key: 'status', label: 'Status' },
-      { key: 'actions', label: 'Actions', dropDownItems: this.buildActionsDropdownColumn() }
+      { key: 'actions', label: 'Actions', dropDownItems: this.buildActionsDropdownColumn(), dropDownCellsUniqueItem: {
+        label: '',
+        icon: 'tool',
+        value: 'action'
+      }}
     ]
   }
 
@@ -98,11 +102,7 @@ export class ProspectionsTableAdapter {
         },
         price: prospection.price??0,
         status: prospection.status??'',
-        actions: {
-          value: '',
-          label: "action",
-          icon: "delete"
-        }
+        actions: ''
       }
     }
   }

@@ -3,10 +3,12 @@ import { UiDropdownItem } from '../../../ui-dropdown/model/ui-dropdown-item.mode
 import { UiNestedDropdownComponent } from '../../../ui-nested-dropdown/ui-nested-dropdown.component';
 import { NzUxCellEditableComponent } from '../nz-ui-cell-editable.directive';
 import { isEqual } from 'lodash';
+import { NzUxCellItemComponent } from '../../nz-ui-cell-item/nz-ui-cell-item.component';
+import { UiTableColumnItem } from '../../models/ui-table.column.model';
 
 @Component({
   selector: 'nz-ui-cell-nested-dropdown',
-  imports: [UiNestedDropdownComponent],
+  imports: [UiNestedDropdownComponent, NzUxCellItemComponent],
   standalone: true,
   templateUrl: './nz-ui-cell-nested-dropdown.component.html',
   styleUrl: './nz-ui-cell-nested-dropdown.component.scss'
@@ -14,7 +16,9 @@ import { isEqual } from 'lodash';
 export class NzUiCellNestedDropdownComponent extends NzUxCellEditableComponent {
 
   protected override insideValue = signal<any>(undefined!);
-  list = input.required<UiDropdownItem<string>[]>();
+  column = input.required<UiTableColumnItem>();
+  list = computed(() => this.column().dropDownItems ?? []);
+  dropDownCellsUniqueItem = computed(() => this.column().dropDownCellsUniqueItem);
   nzTableList = computed(() => this.addRowArgumentInCommands(this.list()));
 
   editNestedDropdown(value: UiDropdownItem<any>) {

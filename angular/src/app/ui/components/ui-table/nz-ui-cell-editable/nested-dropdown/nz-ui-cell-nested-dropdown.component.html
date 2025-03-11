@@ -1,6 +1,14 @@
 @if(isOnEditMode()){
-  <ui-nested-dropdown (onSelect)="editNestedDropdown($event)" [list]="nzTableList()" [value]="insideValue()" [openAtInit]="isOnEditMode()"></ui-nested-dropdown>
-}@else{
-  <div class="clickable" [class.loading-value]="loadingValue()" (click)="startToEdit()">{{ insideValue()?.label }}</div>
+  @if(dropDownCellsUniqueItem(); as item) {
+    <ui-nested-dropdown (onSelect)="editNestedDropdown($event)" [list]="nzTableList()" [value]="item" [openAtInit]="isOnEditMode()"></ui-nested-dropdown>
+  }@else {
+    <ui-nested-dropdown (onSelect)="editNestedDropdown($event)" [list]="nzTableList()" [value]="insideValue()" [openAtInit]="isOnEditMode()"></ui-nested-dropdown>
+  }
+}@else {
+  @if(dropDownCellsUniqueItem(); as item) {
+    <nz-ui-cell-item [item]="item" (click)="startToEdit()"></nz-ui-cell-item>
+  }@else {
+    <div class="clickable" [class.loading-value]="loadingValue()" (click)="startToEdit()">{{ insideValue()?.label }}</div>
+  }
 }
 

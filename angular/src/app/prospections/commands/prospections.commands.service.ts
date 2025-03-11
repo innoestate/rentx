@@ -21,7 +21,6 @@ export class ProspectionsCommandsService {
     this.popupService.openPopup(FormContinuablePopupComponent, 'Ajouter un bien à la prospection.', {
       fields: this.getCreateNewFields(sellers),
       onValidate: ((prospection: Prospection_Dto) => {
-        console.log('prospection', prospection)
         this.prospectionsDataService.createProspection(prospection);
       })
     })
