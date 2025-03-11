@@ -8,7 +8,12 @@
   @if(dropDownCellsUniqueItem(); as item) {
     <nz-ui-cell-item [item]="item" (click)="startToEdit()"></nz-ui-cell-item>
   }@else {
-    <div class="clickable" [class.loading-value]="loadingValue()" (click)="startToEdit()">{{ insideValue()?.label }}</div>
+    <div class="clickable" [class.loading-value]="loadingValue()" (click)="startToEdit()">
+      @if(insideValue()?.icon){
+        <div class="icon" nz-icon [nzType]="insideValue().icon" nzTheme="fill"></div>
+      }
+      {{ insideValue()?.label }}
+    </div>
   }
 }
 

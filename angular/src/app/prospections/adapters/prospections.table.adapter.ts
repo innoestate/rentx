@@ -7,6 +7,9 @@ import { getUpdatedFields } from "../../core/utils/objects.utils";
 import { ProspectionsCommandsService } from "../commands/prospections.commands.service";
 import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
 import { Seller_Dto } from "src/app/sellers/models/seller.dto.model";
+import { PROSPECTION_STATUS } from "../models/prospection.status.model";
+import { CellType } from "src/app/ui/components/ui-table/types/ui-table.cell.type";
+import { UiItem } from "src/app/ui/models/ui-item.model";
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +33,7 @@ export class ProspectionsTableAdapter {
       link: row.cells['link'] as string,
       seller_id: (row.cells['seller'] as any).value,
       price: row.cells['price'] as number,
-      // status: row.cells['status'] as string
+      status: (row.cells['status'] as UiDropdownItem<any>)?.value
     }
     return getUpdatedFields(previusProspection, potentialModifications as any)
   }
@@ -43,7 +46,7 @@ export class ProspectionsTableAdapter {
       { key: 'link', label: 'lien', editable: true},
       this.buildSellersColumn(sellers),
       { key: 'price', label: 'Prix', editable: true },
-      { key: 'status', label: 'Status' },
+      { key: 'status', label: 'Status', dropDownItems: this.buildStatusDropdownItems() },
       { key: 'actions', label: 'Actions', dropDownItems: this.buildActionsDropdownColumn(), dropDownCellsUniqueItem: {
         label: '',
         icon: 'tool',
@@ -64,6 +67,14 @@ export class ProspectionsTableAdapter {
         }
       }
     ]
+  }
+
+  private buildStatusDropdownItems(): UiDropdownItem<any>[] {
+    return PROSPECTION_STATUS.map( status => ({
+      label: status.shortLabel,
+      value: status.key,
+      icon: status.icon
+    }))
   }
 
   private buildSellersColumn(sellers: Seller_Dto[]): UiTableColumnItem {
@@ -101,9 +112,23 @@ export class ProspectionsTableAdapter {
           label: sellers.find( seller => seller.id === prospection.seller_id )?.name??''
         },
         price: prospection.price??0,
-        status: prospection.status??'',
+        status: this.getStatusValue(prospection.status),
         actions: ''
       }
+    }
+  }
+
+  private getStatusValue(statusKey?: string): CellType{
+    if(!statusKey) return {
+      label: '',
+      icon: '',
+      value: ''
+    };
+    const status = PROSPECTION_STATUS.find( status => status.key === statusKey );
+    return {
+      label: status?.shortLabel??'',
+      icon: status?.icon??'',
+      value: status?.key??''
     }
   }
 

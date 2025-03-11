@@ -12,7 +12,12 @@
       @if(isDropdown(item)){
         <li nz-menu-item ><ui-nested-dropdown [value]="item" triggerType="hover" (onSelect)="clickOnItem($event)" [list]="item.value"></ui-nested-dropdown></li>
       }@else{
-        <li nz-menu-item (click)="clickOnItem(item)">{{ item.label }}</li>
+        <li nz-menu-item (click)="clickOnItem(item)">
+          @if(item.icon){
+            <div class="icon" nz-icon [nzType]="item.icon" nzTheme="fill"></div>
+          }
+          {{ item.label }}
+        </li>
       }
     }
   </ul>

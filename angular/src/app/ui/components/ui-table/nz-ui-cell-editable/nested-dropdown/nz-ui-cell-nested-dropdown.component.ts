@@ -5,10 +5,11 @@ import { NzUxCellEditableComponent } from '../nz-ui-cell-editable.directive';
 import { isEqual } from 'lodash';
 import { NzUxCellItemComponent } from '../../nz-ui-cell-item/nz-ui-cell-item.component';
 import { UiTableColumnItem } from '../../models/ui-table.column.model';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'nz-ui-cell-nested-dropdown',
-  imports: [UiNestedDropdownComponent, NzUxCellItemComponent],
+  imports: [UiNestedDropdownComponent, NzUxCellItemComponent, NzIconModule],
   standalone: true,
   templateUrl: './nz-ui-cell-nested-dropdown.component.html',
   styleUrl: './nz-ui-cell-nested-dropdown.component.scss'
