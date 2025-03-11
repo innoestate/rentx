@@ -7,6 +7,7 @@ import { UiModule } from 'src/app/ui/ui.module';
 import { ProspectionsDataModule } from 'src/app/prospections/data/module/prospections.data.module';
 import { ProspectionsDataMessagesService } from 'src/app/prospections/data/messages/prospections.messages.service';
 import { SellersDataModule } from 'src/app/sellers/data/module/sellers.data.module';
+import { SellersCommandsService } from 'src/app/sellers/commands/sellers.commands.service';
 
 
 
@@ -21,6 +22,9 @@ import { SellersDataModule } from 'src/app/sellers/data/module/sellers.data.modu
     UiModule,
     ProspectionsDataModule,
     SellersDataModule
+  ],
+  providers: [
+    SellersCommandsService
   ]
 })
 export class ProspectionsModule {

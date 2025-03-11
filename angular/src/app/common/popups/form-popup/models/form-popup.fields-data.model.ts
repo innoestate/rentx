@@ -4,6 +4,6 @@ export interface FormPopupFieldData {
   key: string;
   label: string;
   type: 'text' | 'number' | 'dropdown' | 'signature';
-  required: boolean,
+  required?: boolean,
   dropdownItems?: UiDropdownItem<any>[]
 }

@@ -12,12 +12,12 @@ export class SellersDataService {
 
   constructor(private dataNgrxService: DataNgrxService, private store: Store) { }
 
-  loead() {
-    this.dataNgrxService.updateObjectInNgrx(loadSellers, loadSellersSuccess, loadSellersFailure, {});
+  load() {
+    return this.dataNgrxService.updateObjectInNgrx(loadSellers, loadSellersSuccess, loadSellersFailure, {});
   }
 
-  create() {
-    this.dataNgrxService.updateObjectInNgrx(createSeller, createSellerSuccess, createSellerFailure, {});
+  create(seller: Seller_Dto) {
+    return this.dataNgrxService.updateObjectInNgrx(createSeller, createSellerSuccess, createSellerFailure, { seller });
   }
 
   update(seller: Partial<Seller_Dto>) {

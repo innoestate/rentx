@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { SellersCommandsService } from 'src/app/sellers/commands/sellers.commands.service';
 
 @Component({
   selector: 'prospections-handler-menu',
@@ -9,13 +10,15 @@ import { Router } from '@angular/router';
 })
 export class DesktopProspectionsHandlerMenuComponent {
 
-  constructor(private router: Router){}
+  constructor(private router: Router, private sellersCommands: SellersCommandsService){}
 
   createNewProspectionEstate(){
 
   }
 
-  createNewSeller(){}
+  createNewSeller(){
+    this.sellersCommands.createNew();
+  }
 
 
   navigate(route: string) {
