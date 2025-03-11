@@ -1,6 +1,6 @@
 import { Injectable, Signal } from "@angular/core";
 import { DataNgrxService } from "src/app/core/data/ngrx/data.ngrx.service";
-import { createProspectionFailure, createProspectionSuccess, reloadProspection, updateProspectionFailure, updateProspectionSuccess } from "../ngrx/prospections.actions";
+import { createProspectionFailure, createProspectionSuccess, reloadProspection, removeProspection, updateProspectionFailure, updateProspectionSuccess } from "../ngrx/prospections.actions";
 import { createProspection, removeProspectionFailure, removeProspectionSuccess, updateProspection } from "../ngrx/prospections.actions";
 import { loadProspectionsFailure, loadProspections as loadProspectionsOnNgrx, loadProspectionsSuccess } from "../ngrx/prospections.actions";
 import { Store } from "@ngrx/store";
@@ -27,8 +27,8 @@ export class ProspectionsDataService {
     return this.dataNgrxService.updateObjectInNgrx(updateProspection, updateProspectionSuccess, updateProspectionFailure, {prospection});
   }
 
-  deleteProspection(): Observable<void> {
-    return this.dataNgrxService.updateObjectInNgrx(removeProspectionFailure, removeProspectionSuccess, removeProspectionFailure, {});
+  deleteProspection(id: string): Observable<void> {
+    return this.dataNgrxService.updateObjectInNgrx(removeProspection, removeProspectionSuccess, removeProspectionFailure, { id });
   }
 
   getProspections(): Signal<Prospection_Dto[]> {

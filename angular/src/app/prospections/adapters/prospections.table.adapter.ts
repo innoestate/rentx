@@ -4,13 +4,15 @@ import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-tabl
 import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
 import { Prospection_Dto } from "../models/prospection.dto.model";
 import { getUpdatedFields } from "../../core/utils/objects.utils";
+import { ProspectionsCommandsService } from "../commands/prospections.commands.service";
+import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProspectionsTableAdapter {
 
-  constructor() { }
+  constructor(private prospectionsCommands: ProspectionsCommandsService) { }
 
   buildTable(prospections: Prospection_Dto[]): UiTable {
     return {
@@ -41,7 +43,21 @@ export class ProspectionsTableAdapter {
       { key: 'seller_id', label: 'Vendeur' },
       { key: 'price', label: 'Prix', editable: true },
       { key: 'status', label: 'Status' },
-      { key: 'actions', label: 'Actions' }
+      { key: 'actions', label: 'Actions', dropDownItems: this.buildActionsDropdownColumn() }
+    ]
+  }
+
+  private buildActionsDropdownColumn(): UiDropdownItem<any>[] {
+    return [
+      {
+        label: 'Supprimer',
+        icon: 'delete',
+        value: "delete",
+        command: (row: UiTableRow) => {
+          this.prospectionsCommands.delete(row.data.id);
+          return true;
+        }
+      }
     ]
   }
 
