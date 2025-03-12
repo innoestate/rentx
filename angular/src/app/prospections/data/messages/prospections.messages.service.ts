@@ -1,22 +1,13 @@
-import { Injectable, OnDestroy } from "@angular/core";
-import { Actions, ofType } from "@ngrx/effects";
-import { ActionCreator } from "@ngrx/store";
-import { Subject, takeUntil, tap } from "rxjs";
-import { UiMessageService } from "src/app/ui/services/message/message.service";
+import { Injectable } from "@angular/core";
+import { DataMessagesService } from "src/app/core/data/message/data.message.service";
 import { createProspectionFailure, createProspectionSuccess, loadProspectionsFailure, removeProspectionFailure, removeProspectionSuccess, updateProspectionFailure, updateProspectionSuccess } from "../ngrx/prospections.actions";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProspectionsDataMessagesService implements OnDestroy{
+export class ProspectionsDataMessagesService extends DataMessagesService{
 
-  destroy$ = new Subject<void>();
-
-  constructor(private message: UiMessageService, private actions$: Actions) {
-    this.displayAsyncMessages();
-  }
-
-  displayAsyncMessages(){
+  override displayAsyncMessages(){
 
     this.displayFailureMessageOnAction(loadProspectionsFailure, 'Echec de chargement des prospections!');
 
@@ -30,23 +21,4 @@ export class ProspectionsDataMessagesService implements OnDestroy{
     this.displayFailureMessageOnAction(removeProspectionFailure, 'Echec de la suppression de la prospection!');
   }
 
-  private displaySuccessMessageOnAction(action: ActionCreator, message: string){
-    this.actions$.pipe(
-      takeUntil(this.destroy$),
-      ofType(action),
-      tap(() => this.message.success(message))
-    ).subscribe();
-  }
-
-  private displayFailureMessageOnAction(action: ActionCreator, message: string){
-    this.actions$.pipe(
-      takeUntil(this.destroy$),
-      ofType(action),
-      tap(() => this.message.error(message))
-    ).subscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.complete();
-  }
 }

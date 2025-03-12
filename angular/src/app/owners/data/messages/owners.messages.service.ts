@@ -1,27 +1,13 @@
-import { Injectable, OnDestroy } from "@angular/core";
-import { Actions, ofType } from "@ngrx/effects";
-import { ActionCreator } from "@ngrx/store";
-import { Subject, takeUntil, tap } from "rxjs";
-import { UiMessageService } from "src/app/ui/services/message/message.service";
+import { Injectable } from "@angular/core";
+import { DataMessagesService } from "src/app/core/data/message/data.message.service";
 import { createOwnerFailure, createOwnerSuccess, deleteOwnerFailure, deleteOwnerSuccess, loadOwnersFailure, updateOwnerFailure, updateOwnerSuccess } from "./../ngrx/owners.actions";
 
 @Injectable({
   providedIn: 'root'
 })
-export class OwnersDataMessagesService implements OnDestroy {
+export class OwnersDataMessagesService extends DataMessagesService {
 
-  private destroy$ = new Subject<void>();
-
-  constructor(private message: UiMessageService, private actions$: Actions) {
-    this.displayAsyncMessages();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  private displayAsyncMessages() {
+  override displayAsyncMessages() {
 
     this.displayFailureMessageOnAction(loadOwnersFailure, 'Échec de la chargement des propriétaires!');
 
@@ -35,19 +21,4 @@ export class OwnersDataMessagesService implements OnDestroy {
     this.displayFailureMessageOnAction(deleteOwnerFailure, 'Échec de la suppression du propriétaire!');
   }
 
-  private displaySuccessMessageOnAction(action: ActionCreator, message: string) {
-    this.actions$.pipe(
-      takeUntil(this.destroy$),
-      ofType(action),
-      tap(() => this.message.success(message))
-    ).subscribe();
-  }
-
-  private displayFailureMessageOnAction(action: ActionCreator, message: string) {
-    this.actions$.pipe(
-      takeUntil(this.destroy$),
-      ofType(action),
-      tap(() => this.message.error(message))
-    ).subscribe();
-  }
 }

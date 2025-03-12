@@ -1,43 +1,15 @@
-import { Injectable, OnDestroy } from "@angular/core";
-import { Actions, ofType } from "@ngrx/effects";
-import { ActionCreator } from "@ngrx/store";
-import { Subject, takeUntil, tap } from "rxjs";
-import { UiMessageService } from "src/app/ui/services/message/message.service";
+import { Injectable } from "@angular/core";
+import { DataMessagesService } from "src/app/core/data/message/data.message.service";
 import { loadUserFailure, loadUserSuccess } from "../ngrx/user.actions";
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserDataMessagesService implements OnDestroy{
+export class UserDataMessagesService extends DataMessagesService{
 
-  destroy$ = new Subject<void>();
-
-  constructor(private message: UiMessageService, private actions$: Actions) {
-    this.displayAsyncMessages();
-  }
-
-  displayAsyncMessages(){
+  override displayAsyncMessages(){
     this.displaySuccessMessageOnAction(loadUserSuccess, "Authentification réussit");
     this.displayFailureMessageOnAction(loadUserFailure, "Echec de chargement de l'utilisateur");
   }
 
-  private displaySuccessMessageOnAction(action: ActionCreator, message: string){
-    this.actions$.pipe(
-      takeUntil(this.destroy$),
-      ofType(action),
-      tap(() => this.message.success(message))
-    ).subscribe();
-  }
-
-  private displayFailureMessageOnAction(action: ActionCreator, message: string){
-    this.actions$.pipe(
-      takeUntil(this.destroy$),
-      ofType(action),
-      tap(() => this.message.error(message))
-    ).subscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.complete();
-  }
 }

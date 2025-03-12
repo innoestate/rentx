@@ -1,22 +1,13 @@
-import { Injectable, OnDestroy } from "@angular/core";
-import { Actions, ofType } from "@ngrx/effects";
-import { ActionCreator } from "@ngrx/store";
-import { Subject, takeUntil, tap } from "rxjs";
-import { UiMessageService } from "src/app/ui/services/message/message.service";
+import { Injectable } from "@angular/core";
+import { DataMessagesService } from "src/app/core/data/message/data.message.service";
 import { createSellerFailure, createSellerSuccess, loadSellersFailure, removeSellerFailure, removeSellerSuccess, updateSellerFailure, updateSellerSuccess } from "../ngrx/sellers.actions";
 
 @Injectable({
   providedIn: 'root'
 })
-export class SellersDataMessagesService implements OnDestroy{
+export class SellersDataMessagesService extends DataMessagesService{
 
-  destroy$ = new Subject<void>();
-
-  constructor(private message: UiMessageService, private actions$: Actions) {
-    this.displayAsyncMessages();
-  }
-
-  displayAsyncMessages(){
+  override displayAsyncMessages(){
 
     this.displayFailureMessageOnAction(loadSellersFailure, 'Echec de chargement des vendeurs!');
 
@@ -30,23 +21,4 @@ export class SellersDataMessagesService implements OnDestroy{
     this.displayFailureMessageOnAction(removeSellerFailure, 'Echec de la suppression du vendeur!');
   }
 
-  private displaySuccessMessageOnAction(action: ActionCreator, message: string){
-    this.actions$.pipe(
-      takeUntil(this.destroy$),
-      ofType(action),
-      tap(() => this.message.success(message))
-    ).subscribe();
-  }
-
-  private displayFailureMessageOnAction(action: ActionCreator, message: string){
-    this.actions$.pipe(
-      takeUntil(this.destroy$),
-      ofType(action),
-      tap(() => this.message.error(message))
-    ).subscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.complete();
-  }
 }

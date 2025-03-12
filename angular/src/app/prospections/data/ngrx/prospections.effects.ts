@@ -46,6 +46,7 @@ export class ProspectionsEffects {
   updateProspection$ = createEffect(() =>
     this.actions$.pipe(
       ofType(updateProspection),
+      tap(({ prospection }) => console.log('prospection', prospection)),
       mergeMap(({ prospection }) => this.prospectionsService.update(prospection.id!, prospection).pipe(
           map(() => updateProspectionSuccess({ prospection })),
           catchError(error => of(updateProspectionFailure({ error })))

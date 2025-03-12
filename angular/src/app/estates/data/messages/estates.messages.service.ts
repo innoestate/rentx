@@ -1,23 +1,13 @@
-import { Injectable, OnDestroy } from "@angular/core";
-import { Actions, ofType } from "@ngrx/effects";
-import { ActionCreator } from "@ngrx/store";
-import { Subject, takeUntil, tap } from "rxjs";
-import { UiMessageService } from "src/app/ui/services/message/message.service";
+import { Injectable } from "@angular/core";
+import { DataMessagesService } from "src/app/core/data/message/data.message.service";
 import { createEstateFailure, createEstateSuccess, deleteEstateFailure, deleteEstateSuccess, editEstateFailure, editEstateSuccess, loadEstatesFailure } from "../ngrx/estates.actions";
 
 @Injectable({
   providedIn: 'root'
 })
-export class EstatesDataMessagesService implements OnDestroy{
+export class EstatesDataMessagesService extends DataMessagesService{
 
-  destroy$ = new Subject<void>();
-
-  constructor(private message: UiMessageService, private actions$: Actions) {
-    console.log('estate messageService constructor');
-    this.displayAsyncMessages();
-  }
-
-  displayAsyncMessages(){
+  override displayAsyncMessages(){
 
     this.displayFailureMessageOnAction(loadEstatesFailure, 'Echec de chargement des biens!');
 
@@ -29,27 +19,6 @@ export class EstatesDataMessagesService implements OnDestroy{
 
     this.displaySuccessMessageOnAction(deleteEstateSuccess, 'Bien supprimé avec succès!');
     this.displayFailureMessageOnAction(deleteEstateFailure, 'Echec de la suppression du bien!');
-  }
-
-  private displaySuccessMessageOnAction(action: ActionCreator, message: string){
-    this.actions$.pipe(
-      takeUntil(this.destroy$),
-      ofType(action),
-      tap(() => this.message.success(message))
-    ).subscribe();
-  }
-
-  private displayFailureMessageOnAction(action: ActionCreator, message: string){
-    this.actions$.pipe(
-      takeUntil(this.destroy$),
-      ofType(action),
-      tap(() => this.message.error(message))
-    ).subscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.complete();
-    this.destroy$.unsubscribe();
   }
 
 }

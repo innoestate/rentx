@@ -9,7 +9,7 @@ import { OwnersDataModule } from 'src/app/owners/data/owners.data.module';
 import { EstatesHandlerMenuModule } from './menu/estates-handler-menu.module';
 import { DesktopEstatesHandlerComponent } from './properties.component';
 import { DesktopEstatesHandlerRoutingModule } from './properties.routing';
-import { RentsDataModule } from 'src/app/rents/data/rents.data.module';
+import { RentsDataModule } from 'src/app/rents/data/module/rents.data.module';
 import { RentsCommandsService } from 'src/app/rents/commands/rents.commands.service';
 
 
