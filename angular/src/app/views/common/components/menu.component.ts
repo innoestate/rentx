@@ -1,6 +1,6 @@
 import { Directive } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectUser } from 'src/app/core/store/user/user.selectors';
+import { selectUser } from 'src/app/user/data/ngrx/user.selectors';
 
 @Directive()
 export class MenuComponent {

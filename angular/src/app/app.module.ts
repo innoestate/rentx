@@ -27,9 +27,10 @@ import { AppComponent } from './app.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { CallbackComponent } from './views/common/pages/callback/callback.component';
 import { DeviceGuard } from './core/guards/device.guard';
-import { UserEffects } from './core/store/user/user.effects';
-import { userReducer } from './core/store/user/user.reducers';
+import { UserEffects } from './user/data/ngrx/user.effects';
+import { userReducer } from './user/data/ngrx/user.reducers';
 import { LoginComponent } from './views/common/pages/login/login.component';
+import { UserDataModule } from './user/data/module/user.data.module';
 
 registerLocaleData(en);
 
@@ -73,12 +74,13 @@ registerLocaleData(en);
     ]),
     NzLayoutModule,
     NzDropDownModule,
-    StoreModule.forRoot({ user: userReducer }),
+    // StoreModule.forRoot({ user: userReducer }),
+    // EffectsModule.forRoot([UserEffects]),
+    UserDataModule,
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: !environment.production,
     }),
-    EffectsModule.forRoot([UserEffects]),
   ],
   exports: [
     NzIconModule

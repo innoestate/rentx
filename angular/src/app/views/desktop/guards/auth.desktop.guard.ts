@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { Actions, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { delay, map, merge, Observable, take } from 'rxjs';
-import { loadUser } from 'src/app/core/store/user/user.actions';
+import { catchError, map, Observable, of } from 'rxjs';
+import { UserDataService } from 'src/app/user/data/service/user.data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,28 +9,24 @@ import { loadUser } from 'src/app/core/store/user/user.actions';
 export class AuthDesktopGuard implements CanActivate {
   constructor(
     private router: Router,
-    private message: NzMessageService,
-    private store: Store,
-    private actions$: Actions
+    private dataService: UserDataService
   ) { }
 
   canActivate(): Observable<boolean> | boolean {
-    const success$ = this.actions$.pipe(
-      ofType('[User] Load User Success'),
+    return this.loadUser(err => this.navigateToLogin());
+  }
+
+  private loadUser(failLoading: (err?: Error) => void) {
+    return this.dataService.loadUser().pipe(
       map(() => true),
-    );
-    const failure$ = this.actions$.pipe(
-      ofType('[User] Load User Failure'),
-      map(() => {
-        this.message.warning('Please login to access this page');
-        this.router.navigate(['/desktop/login']);
-        return false;
+      catchError(err => {
+        failLoading(err);
+        return of(err);
       })
     );
-    this.store.dispatch(loadUser());
+  }
 
-    return merge(failure$, success$).pipe(
-      take(1)
-    );
+  private navigateToLogin() {
+    this.router.navigate(['/desktop/login']);
   }
 }
