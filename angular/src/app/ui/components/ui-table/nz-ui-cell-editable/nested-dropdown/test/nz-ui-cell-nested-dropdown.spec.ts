@@ -3,12 +3,16 @@ import { By } from "@angular/platform-browser";
 import { isEqual } from "lodash";
 import { columnsWithCityAsDropDownMock, LANGUAGES_COLUMN_INDEX } from "../../../test/mock/columns.dropdown.mock";
 import { NzUiCellNestedDropdownComponent } from "../nz-ui-cell-nested-dropdown.component";
+import { isUiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
 
 describe('NzUiCellNestedDropdownComponent unit test', () => {
 
   let fixture: ComponentFixture<NzUiCellNestedDropdownComponent>;
   let component: NzUiCellNestedDropdownComponent;
   let list = columnsWithCityAsDropDownMock[LANGUAGES_COLUMN_INDEX -1].dropDownItems;
+  let column = {
+    isUiDropdownItem: list
+  }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -17,7 +21,7 @@ describe('NzUiCellNestedDropdownComponent unit test', () => {
     .compileComponents();
 
     fixture = TestBed.createComponent(NzUiCellNestedDropdownComponent);
-    fixture.componentRef.setInput('list', list);
+    fixture.componentRef.setInput('column', column);
     fixture.componentRef.setInput('value', list![0]);
     component = fixture.componentInstance;
     fixture.detectChanges();

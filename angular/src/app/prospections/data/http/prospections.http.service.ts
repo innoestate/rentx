@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Prospection_Dto } from '../../models/prospection.dto.model';
 
@@ -25,7 +25,11 @@ export class ProspectionsHttpService {
   }
 
   update(id: string, data: Partial<Prospection_Dto>): Observable<Prospection_Dto> {
-    return this.http.patch<Prospection_Dto>(`${this.apiUrl}/${id}`, data);
+    return this.http.patch<Prospection_Dto>(`${this.apiUrl}/${id}`, data).pipe(
+      map(() => {
+        throw new Error('Update not implemented');
+      })
+    )
   }
 
   delete(id: string): Observable<Prospection_Dto> {
