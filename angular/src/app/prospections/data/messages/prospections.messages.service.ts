@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { DataMessagesService } from "src/app/core/data/message/data.message.service";
-import { createProspectionFailure, createProspectionSuccess, loadProspectionsFailure, removeProspectionFailure, removeProspectionSuccess, updateProspectionFailure, updateProspectionSuccess } from "../ngrx/prospections.actions";
+import { createProspectionFailure, createProspectionSuccess, loadProspectionsFailure, deleteProspectionFailure, deleteProspectionSuccess, updateProspectionFailure, updateProspectionSuccess } from "../ngrx/prospections.actions";
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,8 @@ export class ProspectionsDataMessagesService extends DataMessagesService{
     this.displaySuccessMessageOnAction(updateProspectionSuccess, 'Prospection modifiée avec succès!');
     this.displayFailureMessageOnAction(updateProspectionFailure, 'Echec de la modification de la prospection!');
 
-    this.displaySuccessMessageOnAction(removeProspectionSuccess, 'Prospection supprimée avec succès!');
-    this.displayFailureMessageOnAction(removeProspectionFailure, 'Echec de la suppression de la prospection!');
+    this.displaySuccessMessageOnAction(deleteProspectionSuccess, 'Prospection supprimée avec succès!');
+    this.displayFailureMessageOnAction(deleteProspectionFailure, 'Echec de la suppression de la prospection!');
   }
 
 }

@@ -4,7 +4,7 @@ import {
   createProspectionSuccess,
   loadProspectionsSuccess,
   reloadProspection,
-  removeProspectionSuccess,
+  deleteProspectionSuccess,
   updateProspectionSuccess
 } from './prospections.actions';
 
@@ -28,7 +28,7 @@ export const prospectionReducer = createReducer(
     ...state,
     prospections: [...state.prospections, prospection]
   })),
-  on(removeProspectionSuccess, (state, { id }) => ({
+  on(deleteProspectionSuccess, (state, { id }) => ({
     ...state,
     prospections: state.prospections.filter(prospection => prospection.id !== id)
   })),

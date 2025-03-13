@@ -6,12 +6,14 @@ import { Prospection } from '../../models/prospection.model';
 import { ProspectionsHttpService } from '../http/prospections.http.service';
 import {
   createProspection,
+  createProspectionFailure,
   createProspectionSuccess,
   loadProspections,
+  loadProspectionsFailure,
   loadProspectionsSuccess,
-  removeProspection,
-  removeProspectionFailure,
-  removeProspectionSuccess,
+  deleteProspection,
+  deleteProspectionFailure,
+  deleteProspectionSuccess,
   updateProspection,
   updateProspectionFailure,
   updateProspectionSuccess
@@ -27,17 +29,20 @@ export class ProspectionsEffects {
   loadProspections$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadProspections),
-      switchMap(() => this.prospectionsService.getAll()),
-      map((prospections: Prospection[]) => (loadProspectionsSuccess({ prospections })))
+      switchMap(() => this.prospectionsService.getAll().pipe(
+        map((prospections: Prospection[]) => (loadProspectionsSuccess({ prospections }))),
+        catchError(err => of(loadProspectionsFailure(err)))
+      ))
     )
   );
 
   createProspection$ = createEffect(() =>
     this.actions$.pipe(
       ofType(createProspection),
-      mergeMap(action =>
+      switchMap(action =>
         this.prospectionsService.create(action.prospection).pipe(
-          map((newProspection: Prospection) => (createProspectionSuccess({ prospection: newProspection })))
+          map((newProspection: Prospection) => (createProspectionSuccess({ prospection: newProspection }))),
+          catchError(err => of(createProspectionFailure(err)))
         )
       )
     )
@@ -46,22 +51,21 @@ export class ProspectionsEffects {
   updateProspection$ = createEffect(() =>
     this.actions$.pipe(
       ofType(updateProspection),
-      tap(({ prospection }) => console.log('prospection', prospection)),
-      mergeMap(({ prospection }) => this.prospectionsService.update(prospection.id!, prospection).pipe(
+      switchMap(({ prospection }) => this.prospectionsService.update(prospection.id!, prospection).pipe(
           map(() => updateProspectionSuccess({ prospection })),
-          catchError(error => of(updateProspectionFailure({ error })))
+          catchError(err => of(updateProspectionFailure(err)))
         )
       )
     )
   );
 
-  removeProspection$ = createEffect(() =>
+  deleteProspection$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(removeProspection),
+      ofType(deleteProspection),
       mergeMap(action =>
         this.prospectionsService.delete(action.id).pipe(
-          map(() => removeProspectionSuccess({ id: action.id })),
-          catchError(error => of(removeProspectionFailure({ error })))
+          map(() => deleteProspectionSuccess({ id: action.id })),
+          catchError(err => of(deleteProspectionFailure(err)))
         )
       )
     )
