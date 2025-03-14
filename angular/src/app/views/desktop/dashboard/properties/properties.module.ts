@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { EstatesCommandsService } from 'src/app/estates/commands/estates.commands.service';
-import { EstatesDataModule } from 'src/app/estates/data/estates.data.module';
+import { EstatesDataModule } from 'src/app/estates/data/module/estates.data.module';
 import { LodgersCommandsService } from 'src/app/lodgers/commands/lodgers.commands.service';
 import { LodgersDataModule } from 'src/app/lodgers/data/lodgers.data.module';
 import { OwnersCommandsService } from 'src/app/owners/commands/owners.command.service';

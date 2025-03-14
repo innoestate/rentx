@@ -1,7 +1,7 @@
 import { TestBed } from "@angular/core/testing";
 import { EstatesCommandsService } from "../../../commands/estates.commands.service";
 import { EstatesCommandsProviderMock } from "../../../commands/test/mock.estates.commands.provider.mock";
-import { EstatesUiTableAdapter } from "../estates.table.adapter";
+import { EstatesUiTableAdapter } from "../estates.table.adapter.service";
 import { estate1Mock, estate2Mock } from "./mocks/estates.mock";
 import { owner1Mock, owner2Mock } from "./mocks/owners.mock";
 import { estatesColumnItems } from "../estates.table.columns";

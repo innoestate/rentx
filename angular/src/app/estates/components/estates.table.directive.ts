@@ -1,24 +1,29 @@
 import { computed, Directive, effect } from "@angular/core";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { EstatesUiTableAdapter } from "../adapters/table/estates.table.adapter";
-import { EstatesDataService } from "../data/esates.data.service";
+import { EstatesUiTableAdapter } from "../adapters/table/estates.table.adapter.service";
+import { EstatesDataService } from "../data/service/esates.data.service";
 import { OwnersDataService } from "src/app/owners/data/owners.data.service";
 import { LodgersDataService } from "src/app/lodgers/data/lodgers.data.service";
 import { extractUpdatedFieldsFromRow } from "../adapters/table/estates.lodgers.table.utils";
 import { catchError, of, take } from "rxjs";
 import { Estate } from "../models/estate.model";
+import { fillEstates } from "../adapters/estate.adapter.utils";
+import { RentsDataService } from "src/app/rents/data/service/rents.data.service";
 
 @Directive()
 export class EstatesTableDirective {
 
-  estates = this.estatesData.getEstates();
-  owners = this.ownersData.getOwners();
-  lodgers = this.lodgersData.getLodgers();
+  estates_dto = this.estatesData.getEstates();
+  owners_dto = this.ownersData.getOwners();
+  lodgers_dto = this.lodgersData.getLodgers();
+  monthlyRents_dto = this.monthlyRentsData.get();
+
+  estates = computed(() => fillEstates(this.estates_dto(), this.owners_dto(), this.lodgers_dto(), this.monthlyRents_dto()));
   estatesTable = computed(() => {
 
     const estates = this.estates();
-    const owners = this.owners();
-    const lodgers = this.lodgers();
+    const owners = this.owners_dto();
+    const lodgers = this.lodgers_dto();
 
     if (!estates || !owners || !lodgers) return { columns: [], rows: [] };
     return this.estatesUiAdapter.buildTableList(estates, owners, lodgers);
@@ -28,7 +33,8 @@ export class EstatesTableDirective {
   constructor(protected estatesData: EstatesDataService,
               protected estatesUiAdapter: EstatesUiTableAdapter,
               protected ownersData: OwnersDataService,
-              protected lodgersData: LodgersDataService) {
+              protected lodgersData: LodgersDataService,
+              protected monthlyRentsData: RentsDataService) {
                 console.log('EstatesTableDirective constructor');
               }
 

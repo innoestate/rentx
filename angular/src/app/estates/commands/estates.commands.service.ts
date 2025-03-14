@@ -4,7 +4,7 @@ import { Estate_Post_Request } from "src/app/estates/models/estate-post-request.
 import { OwnersDataService } from "src/app/owners/data/owners.data.service";
 import { UiPopupService } from "src/app/ui/services/popup/popup.service";
 import { FormContinuablePopupComponent } from "../../views/common/popups/form-continuable-popup/form-continuable-popup.component";
-import { EstatesDataService } from "../data/esates.data.service";
+import { EstatesDataService } from "../data/service/esates.data.service";
 import { Estate } from "../models/estate.model";
 import { FormPopupFieldData } from "src/app/views/common/popups/form-popup/models/form-popup.fields-data.model";
 

@@ -2,8 +2,8 @@ import { Lodger_Dto } from 'src/app/lodgers/models/lodger.dto.model';
 import { Owner_Dto } from 'src/app/owners/models/owner.dto.model';
 import { EstateRents } from 'src/app/rents/models/estate.rents.model';
 import { Rent } from 'src/app/rents/models/rent.model';
-import { Estate_Dto } from '../../models/estate.dto.model';
-import { Estate } from '../../models/estate.model';
+import { Estate_Dto } from '../models/estate.dto.model';
+import { Estate } from '../models/estate.model';
 
 export const fillEstate = (estate: Estate_Dto, owners: Owner_Dto[], lodgers: Lodger_Dto[], monthlyRents: Rent[]): Estate => {
   return {
