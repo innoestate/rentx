@@ -5,11 +5,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-
-// ng-zorro
 import { CalendarFill, CheckCircleFill, CheckOutline, CloseCircleFill, DatabaseFill, DeleteFill, EyeFill, FileDoneOutline, FormOutline, HourglassFill, LockFill, MailOutline, MessageFill, QuestionCircleFill, StopFill, SwapLeftOutline, SwapOutline, ToolFill, TrophyFill } from '@ant-design/icons-angular/icons';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -23,20 +19,16 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
-import { CallbackComponent } from './views/common/pages/callback/callback.component';
 import { DeviceGuard } from './core/guards/device.guard';
-import { UserEffects } from './user/data/ngrx/user.effects';
-import { userReducer } from './user/data/ngrx/user.reducers';
-import { LoginComponent } from './views/common/pages/login/login.component';
 import { UserDataModule } from './user/data/module/user.data.module';
+import { CallbackComponent } from './views/common/pages/callback/callback.component';
+import { LoginComponent } from './views/common/pages/login/login.component';
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [
-    AppComponent,
     LoginComponent,
     CallbackComponent,
   ],
@@ -74,8 +66,6 @@ registerLocaleData(en);
     ]),
     NzLayoutModule,
     NzDropDownModule,
-    // StoreModule.forRoot({ user: userReducer }),
-    // EffectsModule.forRoot([UserEffects]),
     UserDataModule,
     StoreDevtoolsModule.instrument({
       maxAge: 25,
@@ -95,6 +85,6 @@ registerLocaleData(en);
       multi: true
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: []
 })
 export class AppModule { }
