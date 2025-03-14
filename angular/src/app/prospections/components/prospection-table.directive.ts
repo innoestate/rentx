@@ -51,7 +51,7 @@ export class ProspectionTableDirective {
   }
 
   private reloadProspectionBeforeUpdate(prospectionBeforeUpdate: Prospection_Dto){
-    this.ProspectionsData.reloadProspection(prospectionBeforeUpdate);
+    this.ProspectionsData.reloadProspection(prospectionBeforeUpdate.id!);
     return of(prospectionBeforeUpdate);
   }
 

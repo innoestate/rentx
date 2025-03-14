@@ -25,11 +25,7 @@ export class ProspectionsHttpService {
   }
 
   update(id: string, data: Partial<Prospection_Dto>): Observable<Prospection_Dto> {
-    return this.http.patch<Prospection_Dto>(`${this.apiUrl}/${id}`, data).pipe(
-      map(() => {
-        throw new Error('Update not implemented');
-      })
-    )
+    return this.http.patch<Prospection_Dto>(`${this.apiUrl}/${id}`, data);
   }
 
   delete(id: string): Observable<Prospection_Dto> {

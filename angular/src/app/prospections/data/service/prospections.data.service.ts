@@ -5,7 +5,7 @@ import { createProspection, deleteProspectionFailure, deleteProspectionSuccess, 
 import { loadProspectionsFailure, loadProspections as loadProspectionsOnNgrx, loadProspectionsSuccess } from "../ngrx/prospections.actions";
 import { Store } from "@ngrx/store";
 import { selectProspections } from "../ngrx/prospections.selectors";
-import { Observable } from "rxjs";
+import { Observable, tap } from "rxjs";
 import { Prospection_Dto } from "../../models/prospection.dto.model";
 
 @Injectable({
@@ -23,7 +23,7 @@ export class ProspectionsDataService {
     return this.dataNgrxService.updateObjectInNgrx(createProspection, createProspectionSuccess, createProspectionFailure, { prospection });
   }
 
-  updateProspection(prospection: Partial<Prospection_Dto>): Observable<Partial<Prospection_Dto>> {
+  updateProspection(prospection: Partial<Prospection_Dto>): any {
     return this.dataNgrxService.updateObjectInNgrx(updateProspection, updateProspectionSuccess, updateProspectionFailure, { prospection });
   }
 
@@ -35,8 +35,8 @@ export class ProspectionsDataService {
     return this.store.selectSignal(selectProspections);
   }
 
-  reloadProspection(prospection: Prospection_Dto) {
-    return this.store.dispatch(updateProspectionSuccess({ prospection }));
+  reloadProspection(prospectionId: string) {//use other method to not dispatch a success that is not (and display wrong message)
+    return this.store.dispatch(reloadProspection({ prospectionId }));
   }
 
 }

@@ -14,9 +14,51 @@ describe('Prospections NGRX Tests', () => {
   let dataService: jasmine.SpyObj<ProspectionsHttpService>;
 
   beforeEach(() => {
+    configureTestingModule();
+  })
 
+  it('should complete loadSuccessful action after loading prospections', () => {
+    const expected = getSuccessfulyLoadingCompletion();
+    expect(effects.loadProspections$).toBeObservable(expected);
+  })
+
+  it('should complete loadError action after loading prospeections', () => {
+    const expected = getFailLoadingCompletion();
+    expect(effects.loadProspections$).toBeObservable(expected);
+  })
+
+  it('should complete createSuccess action after creating a new prospection', () => {
+    const expected = getSuccessfulyCreatingCompletion();
+    expect(effects.createProspection$).toBeObservable(expected);
+  })
+
+  it('should complete createError action after creating a new prospection', () => {
+    const expected = getFailCreatingCompletion();
+    expect(effects.createProspection$).toBeObservable(expected);
+  })
+
+  it('should complete update success after updating a prospection', () => {
+    const expected = getSuccessfulyUpdatingCompletion();
+    expect(effects.updateProspection$).toBeObservable(expected);
+  })
+
+  it('should complete update error after updating a prospection', () => {
+    const expected = getFailUpdatingCompletion();
+    expect(effects.updateProspection$).toBeObservable(expected);
+  })
+
+  it('should complete delete success after deleting a prospection', () => {
+    const expected = getSuccessfulyDeletingCompletion();
+    expect(effects.deleteProspection$).toBeObservable(expected);
+  })
+
+  it('should complete delete error after deleting a prospection', () => {
+    const expected = getFailDeletingCompletion();
+    expect(effects.deleteProspection$).toBeObservable(expected);
+  })
+
+  const configureTestingModule = () => {
     const spy = jasmine.createSpyObj('ProspectionsHttpService', ['getAll', 'create', 'update', 'delete']);
-
     TestBed.configureTestingModule({
       providers: [
         ProspectionsEffects,
@@ -29,79 +71,67 @@ describe('Prospections NGRX Tests', () => {
     })
     dataService = TestBed.inject(ProspectionsHttpService) as jasmine.SpyObj<ProspectionsHttpService>;
     effects = TestBed.inject(ProspectionsEffects);
+  }
 
-  })
-
-  it('should dispatch load success', () => {
-    const completion = loadProspectionsSuccess({ prospections: [{...ProspectionDtoMock1}]});
-    actions$ = hot('a', { a: loadProspections() });
-    dataService.getAll.and.returnValue(cold('---b', { b: [{...ProspectionDtoMock1}]}));
-    const expected = cold('---b', { b: completion});
-    expect(effects.loadProspections$).toBeObservable(expected);
-  })
-
-  it('should dispatch load error', () => {
+  const getFailLoadingCompletion = () => {
     const error = new Error('Error loading prospections from mocked http service.');
     const completion = loadProspectionsFailure({ error });
-
     actions$ = hot('a', { a: loadProspections() });
     dataService.getAll.and.returnValue(cold('---#', {}, { error }));
     const expected = cold('---b', { b: completion });
-    expect(effects.loadProspections$).toBeObservable(expected);
-  })
+    return expected;
+  }
 
-  it('should dispatch create success', () => {
+  const getSuccessfulyLoadingCompletion = () => {
+    const completion = loadProspectionsSuccess({ prospections: [{...ProspectionDtoMock1}]});
+    actions$ = hot('a', { a: loadProspections() });
+    dataService.getAll.and.returnValue(cold('---b', { b: [{...ProspectionDtoMock1}]}));
+    return cold('---b', { b: completion});
+  }
+
+  const getSuccessfulyCreatingCompletion = () => {
     const completion = createProspectionSuccess({ prospection : {...ProspectionDtoMock1}});
     actions$ = hot('a', { a: createProspection({ prospection: {...ProspectionDtoMock1}}) });
     dataService.create.and.returnValue(cold('--b', { b: {...ProspectionDtoMock1}}));
-    const expected = cold('--b', { b: completion});
-    expect(effects.createProspection$).toBeObservable(expected);
-  })
+    return cold('--b', { b: completion});
+  }
 
-  it('should dispatch create error', () => {
+  const getFailCreatingCompletion = () => {
     const error = new Error('Error creating prospection from mocked http service.');
     const completion = createProspectionFailure({ error });
-
     actions$ = hot('a', { a: createProspection({ prospection: {...ProspectionDtoMock1}}) });
     dataService.create.and.returnValue(cold('--#', {}, { error }));
-    const expected = cold('--b', { b: completion });
-    expect(effects.createProspection$).toBeObservable(expected);
-  })
+    return cold('--b', { b: completion });
+  }
 
-  it('should dispatch update success', () => {
+  const getSuccessfulyUpdatingCompletion = () => {
     const completion = updateProspectionSuccess({ prospection : {...ProspectionDtoMock1}});
     actions$ = hot('a', { a: updateProspection({ prospection: {...ProspectionDtoMock1}}) });
     dataService.update.and.returnValue(cold('--b', { b: {...ProspectionDtoMock1}}));
-    const expected = cold('--b', { b: completion});
-    expect(effects.updateProspection$).toBeObservable(expected);
-  })
+    return cold('--b', { b: completion});
+  }
 
-  it('should dispatch update error', () => {
+  const getFailUpdatingCompletion = () => {
     const error = new Error('Error updating prospection from mocked http service.');
     const completion = updateProspectionFailure({ error });
-
     actions$ = hot('a', { a: updateProspection({ prospection: {...ProspectionDtoMock1}}) });
     dataService.update.and.returnValue(cold('--#', {}, { error }));
-    const expected = cold('--b', { b: completion });
-    expect(effects.updateProspection$).toBeObservable(expected);
-  })
+    return cold('--b', { b: completion });
+  }
 
-  it('should dispatch delete success', () => {
+  const getSuccessfulyDeletingCompletion = () => {
     const completion = deleteProspectionSuccess({ id: '1' });
     actions$ = hot('a', { a: deleteProspection({ id: '1' }) });
     dataService.delete.and.returnValue(cold('--b', { b: '1' }));
-    const expected = cold('--b', { b: completion });
-    expect(effects.deleteProspection$).toBeObservable(expected);
-  })
+    return cold('--b', { b: completion });
+  }
 
-  it('should dispatch delete error', () => {
+  const getFailDeletingCompletion = () => {
     const error = new Error('Error deleting prospection from mocked http service.');
     const completion = deleteProspectionFailure({ error });
-
     actions$ = hot('a', { a: deleteProspection({ id: '1' }) });
     dataService.delete.and.returnValue(cold('--#', {}, { error }));
-    const expected = cold('--b', { b: completion });
-    expect(effects.deleteProspection$).toBeObservable(expected);
-  })
+    return cold('--b', { b: completion });
+  }
 
-})
+});
