@@ -7,7 +7,7 @@ import { ProspectionDtoMock1 } from "../../test/mocks/prospections.dto.mock"
 import { createProspection, createProspectionFailure, createProspectionSuccess, deleteProspection, deleteProspectionFailure, deleteProspectionSuccess, loadProspections, loadProspectionsFailure, loadProspectionsSuccess, updateProspection, updateProspectionFailure, updateProspectionSuccess } from "../prospections.actions"
 import { ProspectionsEffects } from "../prospections.effects"
 
-describe('Prospections NGRX Tests', () => {
+describe('Prospections NGRX test effects', () => {
 
   let actions$: Observable<any>;
   let effects: ProspectionsEffects;
