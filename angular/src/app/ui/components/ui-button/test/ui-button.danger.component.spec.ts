@@ -1,6 +1,7 @@
 import { ComponentFixture } from '@angular/core/testing';
 import { UiButtonComponent } from '../ui-button.component';
-import { configureModule, configureFixture } from './utils/ui-button.danger.utils';
+import { configureFixture } from './utils/ui-button.danger.utils';
+import { configureModule } from './utils/ui-button.utils';
 
 describe('UiButtonComponent danger', () => {
   let component: UiButtonComponent;

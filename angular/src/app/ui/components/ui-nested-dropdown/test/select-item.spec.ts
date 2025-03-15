@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { cloneDeep } from 'lodash';
 import { simpleLanguagesList } from '../mock/simple-languages.mock';
 import { UiNestedDropdownComponent } from '../ui-nested-dropdown.component';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
 describe('UiNestedDropdownComponent test selection of an item', () => {
   let component: UiNestedDropdownComponent;
@@ -10,10 +11,10 @@ describe('UiNestedDropdownComponent test selection of an item', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UiNestedDropdownComponent]
+      imports: [UiNestedDropdownComponent],
+      providers: [provideExperimentalZonelessChangeDetection()]
     })
     .compileComponents();
-
     fixture = TestBed.createComponent(UiNestedDropdownComponent);
     fixture.componentRef.setInput('list', list);
     fixture.componentRef.setInput('value', list[0]);

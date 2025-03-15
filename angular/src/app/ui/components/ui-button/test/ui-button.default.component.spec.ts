@@ -1,6 +1,7 @@
 import { ComponentFixture } from '@angular/core/testing';
 import { UiButtonComponent } from '../ui-button.component';
-import { configureFixture, configureModule } from './utils/ui-button.default.utils';
+import { configureFixture } from './utils/ui-button.default.utils';
+import { configureModule } from './utils/ui-button.utils';
 
 describe('UiButtonComponent default', () => {
   let component: UiButtonComponent;

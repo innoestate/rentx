@@ -1,6 +1,7 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { NzUxCellEditableStringComponent } from "../nz-ui-cell-editable-string.component";
+import { provideExperimentalZonelessChangeDetection } from "@angular/core";
 
 describe('NzUxCellEditableStringComponent unit test', () => {
 
@@ -9,7 +10,8 @@ describe('NzUxCellEditableStringComponent unit test', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NzUxCellEditableStringComponent]
+      imports: [NzUxCellEditableStringComponent],
+      providers: [provideExperimentalZonelessChangeDetection()]
     })
     .compileComponents();
 
