@@ -16,26 +16,14 @@ export interface RowMock {
 export const rowsMockItems: RowMock[] = [
   {
     data:   {
-      id: '1',
-      name: 'John Doe',
-      email: 'john@example.com',
-      phone: '1234567890',
-      zip: 10000,
-      language: {
-        label: 'Français',
-        value: 'fr'
-      },
-      skills: {
-        label: 'Developer',
-        value: 'dev'
-      }
+      id: '1'
     },
     cells:   {
       id: '1',
       name: 'John Doe',
       email: 'john@example.com',
       phone: '1234567890',
-      zip: 10000,
+      zip: 2,
       language: {
         label: 'Français',
         value: 'fr'
@@ -48,26 +36,14 @@ export const rowsMockItems: RowMock[] = [
   },
   {
     data: {
-      id: '2',
-      name: 'Jane Smith',
-      email: 'jane@example.com',
-      phone: '9876543210',
-      zip: 12345,
-      language: {
-        label: 'English',
-        value: 'en'
-      },
-      skills: {
-        label: 'ui designer',
-        value: 'ui'
-      }
+      id: '2'
     },
     cells: {
       id: '2',
       name: 'Jane Smith',
       email: 'jane@example.com',
       phone: '9876543210',
-      zip: 12345,
+      zip: 1,
       language: {
         label: 'English',
         value: 'en'

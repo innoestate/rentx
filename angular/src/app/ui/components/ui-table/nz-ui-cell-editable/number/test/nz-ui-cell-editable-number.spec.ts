@@ -1,12 +1,13 @@
 import { provideExperimentalZonelessChangeDetection } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
+import { NzUiCellEditableHelper } from "../../test/helper/ui-editable-cell.helper";
 import { NzUxCellEditableNumberComponent } from "../nz-ui-cell-editable-number.component";
 
 describe('NzUxCellEditableNumberComponent unit test', () => {
 
   let fixture: ComponentFixture<NzUxCellEditableNumberComponent>;
   let component: NzUxCellEditableNumberComponent;
+  let helper: NzUiCellEditableHelper;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -16,6 +17,7 @@ describe('NzUxCellEditableNumberComponent unit test', () => {
     .compileComponents();
 
     fixture = TestBed.createComponent(NzUxCellEditableNumberComponent);
+    helper = new NzUiCellEditableHelper(fixture);
     fixture.componentRef.setInput('value', 1);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -26,35 +28,16 @@ describe('NzUxCellEditableNumberComponent unit test', () => {
   })
 
 
-  it('should have a specific class when loading value', () => {
+  it('should have the loading cell style when loading value', () => {
 
-    expectLoadingValueStyleToBe(false);
+    helper.expectLoadingValueStyleToBe(false);
 
-    updateSelectedItemFromInside(2);
-    expectLoadingValueStyleToBe(true);
+    helper.updateValueFromInside(2);
+    helper.expectLoadingValueStyleToBe(true);
 
-    updateSelectedItemFromOutside(2);
-    expectLoadingValueStyleToBe(false);
+    helper.updateValueFromOutside(2);
+    helper.expectLoadingValueStyleToBe(false);
 
   })
-
-
-  const expectLoadingValueStyleToBe = (loading: boolean ) => {
-    let clickableElement = fixture.debugElement.query(By.css('.clickable')).nativeElement;
-    expect(clickableElement.classList.contains('loading-value')).toEqual(loading);
-  }
-
-  const updateSelectedItemFromInside = (value: number) => {
-    const input = fixture.debugElement.query(By.css('input')).nativeElement;
-    input.value = value;
-    input.dispatchEvent(new Event('change'));
-    fixture.detectChanges();
-  }
-
-  const updateSelectedItemFromOutside = (value: number) => {
-    fixture.componentRef.setInput('value', value);
-    fixture.detectChanges();
-  }
-
 
 });

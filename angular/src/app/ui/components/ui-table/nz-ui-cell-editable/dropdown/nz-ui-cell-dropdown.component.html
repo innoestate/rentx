@@ -1,5 +1,0 @@
-@if(isOnEditMode()){
-  <ui-dropdown [list]="list()" [(ngModel)]="dropDownTarget" [openAtInit]="true"></ui-dropdown>
-}@else{
-  <div class="clickable" (click)="startToEdit()">{{ insideValue()?.label }}</div>
-}

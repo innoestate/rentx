@@ -1,7 +1,7 @@
+import { provideExperimentalZonelessChangeDetection } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NzModalModule } from "ng-zorro-antd/modal";
-import { DevPopupService } from "../../dev.popup.service";
 
 export const configureModule = () => {
   TestBed.configureTestingModule({
@@ -10,7 +10,7 @@ export const configureModule = () => {
       NzModalModule
     ],
     providers: [
-      DevPopupService
+      provideExperimentalZonelessChangeDetection()
     ]
   });
 }

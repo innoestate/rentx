@@ -1,3 +1,4 @@
+import { provideExperimentalZonelessChangeDetection } from '@angular/core'
 import { TestBed } from "@angular/core/testing"
 import { provideMockActions } from "@ngrx/effects/testing"
 import { cold, hot } from 'jasmine-marbles'
@@ -61,6 +62,7 @@ describe('Prospections NGRX test effects', () => {
     const spy = jasmine.createSpyObj('ProspectionsHttpService', ['getAll', 'create', 'update', 'delete']);
     TestBed.configureTestingModule({
       providers: [
+        provideExperimentalZonelessChangeDetection(),
         ProspectionsEffects,
         provideMockActions(() => actions$),
         {

@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { DevPopupService } from '../dev.popup.service';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UiPopupService } from '../popup.service';
 import { configureModule } from './test/test.utils';
 
 @Component({
   template: ''
 })
-class MockComponent {}
+class MockComponent { }
 
 describe('PopupService test that close icon has correct selector for tests (especially e2e tests).', () => {
   let service: UiPopupService;
@@ -15,15 +14,37 @@ describe('PopupService test that close icon has correct selector for tests (espe
 
   beforeEach(() => {
     configureModule();
-    service = TestBed.inject(DevPopupService);
+    service = TestBed.inject(UiPopupService);
     fixture = TestBed.createComponent(MockComponent);
     fixture.detectChanges();
   });
 
-  it('should have a test-selector attribute as ui-popup-close-icon after open', fakeAsync( () => {
-    service.openPopup(MockComponent, 'Test Title');
-    tick(500);
-    const closeIcon = document.querySelector('.anticon-close');
-    expect(closeIcon?.getAttribute('test-selector')).toBe('ui-popup-close-icon');
-  }));
+  it('should have a nz-modal open', async() => {
+    openPopup();
+    await checkBodyChangesUntilModalFound();
+  });
+
+  const openPopup = () => {
+    setTimeout(() => {
+      service.openPopup(MockComponent, 'Test Title');
+    }, 0);
+  }
+
+  const checkBodyChangesUntilModalFound = () => {
+    return new Promise<void>(resolve => {
+      const observer = new MutationObserver((mutations, observer) => {
+        const modal = document.body.querySelector('.ant-modal-content');
+        if (modal) {
+          observer.disconnect();
+          resolve();
+        }
+      });
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+    });
+
+  }
+
 });

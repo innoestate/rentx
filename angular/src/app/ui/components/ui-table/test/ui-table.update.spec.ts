@@ -1,11 +1,12 @@
-import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { cloneDeep } from 'lodash';
+import { UiTableRow } from '../models/ui-table-row.model';
 import { UiTableColumnItem } from '../models/ui-table.column.model';
 import { UiTableComponent } from '../ui-table.component';
 import { columnsMock } from './mock/columns.mock';
 import { rowsMockItems } from './mock/rows.mock';
-import { cloneDeep } from 'lodash';
-import { UiTableRow } from '../models/ui-table-row.model';
 
 describe('UiTableComponent test the update of a value in a cell', () => {
 
@@ -16,7 +17,8 @@ describe('UiTableComponent test the update of a value in a cell', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UiTableComponent]
+      imports: [UiTableComponent],
+      providers: [provideExperimentalZonelessChangeDetection()]
     })
       .compileComponents();
 
@@ -32,12 +34,12 @@ describe('UiTableComponent test the update of a value in a cell', () => {
     expect(cellToUpdate[1].nativeElement.textContent).toContain(rows[1].cells['name']);
   });
 
-  it('should have a modified value in a specific cell', fakeAsync(() => {
+  it('should have a modified value in a specific cell', () => {
     rows[1].cells['name'] = 'Modified name';
     fixture.componentRef.setInput('rows', [...rows]);
     fixture.detectChanges();
     const cellToUpdate = fixture.debugElement.queryAll(By.css("body td:nth-child(2)"));
     expect(cellToUpdate[1].nativeElement.textContent).toContain('Modified name');
-  }))
+  })
 
 });

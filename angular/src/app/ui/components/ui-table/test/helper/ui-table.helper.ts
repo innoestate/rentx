@@ -9,7 +9,6 @@ export class UiTableHelper {
   observeChangeInTable = () => {
     return new Promise<void>((resolve) => {
       const observer = new MutationObserver((mutations, observer) => {
-        console.log('muatations', mutations);
         resolve();
       });
       const table = this.fixture.debugElement.query(By.css('.ant-table-wrapper'));
@@ -28,6 +27,5 @@ export class UiTableHelper {
     const targetedCell = this.fixture.debugElement.queryAll(By.css(`body td:nth-child(${columnIndex})`));
     expect(targetedCell[0].nativeElement.textContent).toContain(content);
   }
-
 
 }

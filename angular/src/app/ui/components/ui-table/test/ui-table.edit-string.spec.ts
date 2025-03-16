@@ -5,6 +5,7 @@ import { UiTableComponent } from '../ui-table.component';
 import { columnsWithEditableNameMock } from './mock/columns.editable-name.mock';
 import { RowMock, rowsMockItems } from './mock/rows.mock';
 import { cloneDeep } from 'lodash';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
 describe('UiTableComponent test the edition of a string cell', () => {
 
@@ -15,7 +16,8 @@ describe('UiTableComponent test the edition of a string cell', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UiTableComponent]
+      imports: [UiTableComponent],
+      providers: [provideExperimentalZonelessChangeDetection()]
     })
     .compileComponents();
 
@@ -27,7 +29,7 @@ describe('UiTableComponent test the edition of a string cell', () => {
     spyOn(component.editRow, 'emit');
   });
 
-  it('should hide the field and show input after clicking', fakeAsync(() => {
+  it('should hide the field and show input after clicking', () => {
     let cellToEdit = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-string > .clickable'))[1].nativeElement;
     let inputElement = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-string > input'))[1].nativeElement;
     expect(cellToEdit.hidden).toBeFalse();
@@ -38,23 +40,21 @@ describe('UiTableComponent test the edition of a string cell', () => {
 
     expect(cellToEdit.hidden).toBeTrue();
     expect(inputElement.hidden).toBeFalse();
-  }))
+  })
 
-  it('should modify the value and emit editRow event', fakeAsync(() => {
+  it('should modify the value and emit editRow event', () => {
     let cellToEdit = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-string > .clickable'))[1].nativeElement;
     cellToEdit.click();
-    tick(500);
     fixture.detectChanges();
 
     let inputElement = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-string > input'))[1].nativeElement;
     inputElement.value = 'Modified name';
     inputElement.dispatchEvent(new Event('change'));
-    tick(500);
     fixture.detectChanges();
 
     cellToEdit = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-string > .clickable'))[1].nativeElement;
     expect(cellToEdit.textContent).toBe('Modified name');
     expect(component.editRow.emit).toHaveBeenCalled();
-  }))
+  });
 
 });
