@@ -12,7 +12,7 @@ export class RentsDataService {
   constructor(private dataNgrxService: DataNgrxService, private store: Store) { }
 
   loadMonthlyRents(): Observable<EstateRents[]> {
-    return this.dataNgrxService.updateObjectInNgrx<EstateRents[]>(loadMonthlyRents, loadMonthlyRentsSuccess, loadMonthlyRentsFailure, {});
+    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx<EstateRents[]>(loadMonthlyRents, loadMonthlyRentsSuccess, loadMonthlyRentsFailure, {});
   }
 
   get(){

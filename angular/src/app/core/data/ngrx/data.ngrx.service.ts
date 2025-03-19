@@ -10,7 +10,7 @@ export class DataNgrxService {
 
   constructor(private store: Store, private actions$: Actions) { }
 
-  updateObjectInNgrx<T>(actionToDispatch: any, successAction: any, failAction: any, objectToUpdate: any): Observable<T> {
+  DispatchWithFailOrSuccessActionsInNgrx<T>(actionToDispatch: any, successAction: any, failAction: any, objectToUpdate: any): Observable<T> {
     const successObservable = this.actions$.pipe(
       ofType(successAction),
       take(1)

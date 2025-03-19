@@ -16,19 +16,19 @@ export class ProspectionsDataService {
   constructor(private dataNgrxService: DataNgrxService, private store: Store) { }
 
   loadProspections(): Observable<Prospection_Dto[]> {
-    return this.dataNgrxService.updateObjectInNgrx(loadProspectionsOnNgrx, loadProspectionsSuccess, loadProspectionsFailure, {});
+    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(loadProspectionsOnNgrx, loadProspectionsSuccess, loadProspectionsFailure, {});
   }
 
   createProspection(prospection: Prospection_Dto): Observable<Prospection_Dto> {
-    return this.dataNgrxService.updateObjectInNgrx(createProspection, createProspectionSuccess, createProspectionFailure, { prospection });
+    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(createProspection, createProspectionSuccess, createProspectionFailure, { prospection });
   }
 
   updateProspection(prospection: Partial<Prospection_Dto>): any {
-    return this.dataNgrxService.updateObjectInNgrx(updateProspection, updateProspectionSuccess, updateProspectionFailure, { prospection });
+    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(updateProspection, updateProspectionSuccess, updateProspectionFailure, { prospection });
   }
 
   deleteProspection(id: string): Observable<void> {
-    return this.dataNgrxService.updateObjectInNgrx(deleteProspection, deleteProspectionSuccess, deleteProspectionFailure, { id });
+    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(deleteProspection, deleteProspectionSuccess, deleteProspectionFailure, { id });
   }
 
   getProspections(): Signal<Prospection_Dto[]> {

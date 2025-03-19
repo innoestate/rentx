@@ -18,7 +18,7 @@ export class EstatesDataService {
   }
 
   createEstate(estate: Estate_Post_Request){
-    return this.dataNgrxService.updateObjectInNgrx<Estate>(createEstate, createEstateSuccess, createEstateFailure, {estate}).pipe(
+    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx<Estate>(createEstate, createEstateSuccess, createEstateFailure, {estate}).pipe(
       catchError(err => {
         throw new Error('Failed to create estate with ngrx.', err);
       })
@@ -34,7 +34,7 @@ export class EstatesDataService {
   }
 
   updateEstate(estate: Partial<Estate>): Observable<Estate>{
-    return this.dataNgrxService.updateObjectInNgrx<Estate>(updateEstateInNgrx, editEstateSuccess, editEstateFailure, {estate});
+    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx<Estate>(updateEstateInNgrx, editEstateSuccess, editEstateFailure, {estate});
   }
 
   removeEstate(estateId: string){

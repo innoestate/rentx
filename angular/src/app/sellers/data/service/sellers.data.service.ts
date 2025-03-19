@@ -14,19 +14,19 @@ export class SellersDataService {
   constructor(private dataNgrxService: DataNgrxService, private store: Store, private sellersDataMessageService: SellersDataMessagesService) { }
 
   load() {
-    return this.dataNgrxService.updateObjectInNgrx(loadSellers, loadSellersSuccess, loadSellersFailure, {});
+    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(loadSellers, loadSellersSuccess, loadSellersFailure, {});
   }
 
   create(seller: Seller_Dto) {
-    return this.dataNgrxService.updateObjectInNgrx(createSeller, createSellerSuccess, createSellerFailure, { seller });
+    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(createSeller, createSellerSuccess, createSellerFailure, { seller });
   }
 
   update(seller: Partial<Seller_Dto>) {
-    this.dataNgrxService.updateObjectInNgrx(updateSeller, updateSellerSuccess, updateSellerFailure, seller);
+    this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(updateSeller, updateSellerSuccess, updateSellerFailure, seller);
   }
 
   delete(id: string) {
-    this.dataNgrxService.updateObjectInNgrx(removeSeller, removeSellerSuccess, removeSellerFailure, { id });
+    this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(removeSeller, removeSellerSuccess, removeSellerFailure, { id });
   }
 
   get() {

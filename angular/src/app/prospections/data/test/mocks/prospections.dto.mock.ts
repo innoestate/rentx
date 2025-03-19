@@ -56,3 +56,22 @@ export const ProspectionDtoMock3: Prospection_Dto = {
   resume: 'Mock property resume 3',
   comment: 'Mock property comment 3'
 };
+
+export const ProspectionDtoMock4: Prospection_Dto = {
+  id: 'mock-id-4',
+  user_id: 'mock-user-id-4',
+  city: 'Toulouse',
+  zip: '31000',
+  address: '321 Example St',
+  link: 'http://example-link.com',
+  seller_id: 'mock-seller-id-4',
+  status: 'Signed',
+  price: 220000,
+  counter_proposal: 210000,
+  emission_date: new Date('2025-03-09'),
+  offer_id: 'mock-offer-id-4',
+  construction_cost: 105000,
+  rents: 2200,
+  resume: 'Mock property resume 4',
+  comment: 'Mock property comment 4'
+};
