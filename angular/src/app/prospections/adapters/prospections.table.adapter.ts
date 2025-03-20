@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
 import { Seller_Dto } from "src/app/sellers/models/seller.dto.model";
 import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
+import { UiTableAdapter } from "src/app/ui/components/ui-table/adapter/ui-table.adapter";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
 import { CellType } from "src/app/ui/components/ui-table/types/ui-table.cell.type";
-import { getUpdatedFields } from "../../core/utils/objects.utils";
 import { ProspectionsCommandsService } from "../commands/prospections.commands.service";
 import { Prospection_Dto } from "../models/prospection.dto.model";
 import { PROSPECTION_STATUS } from "../models/prospection.status.model";
@@ -13,9 +13,11 @@ import { PROSPECTION_STATUS } from "../models/prospection.status.model";
 @Injectable({
   providedIn: 'root'
 })
-export class ProspectionsTableAdapter {
+export class ProspectionsTableAdapter extends UiTableAdapter {
 
-  constructor(private prospectionsCommands: ProspectionsCommandsService) { }
+  constructor(private prospectionsCommands: ProspectionsCommandsService) {
+    super();
+  }
 
   buildTable(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTable {
     return {
@@ -24,7 +26,7 @@ export class ProspectionsTableAdapter {
     }
   }
 
-  private createColumns(sellers: Seller_Dto[]): UiTableColumnItem[] {
+  protected createColumns(sellers: Seller_Dto[]): UiTableColumnItem[] {
     return [
       { key: 'city', label: 'Ville', editable: true },
       { key: 'zip', label: 'Code postal', editable: true },
@@ -41,7 +43,11 @@ export class ProspectionsTableAdapter {
     ]
   }
 
-  private buildActionsDropdownColumn(): UiDropdownItem<any>[] {
+  protected createRows(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTableRow[] {
+    return prospections.map( prospection => this.formatUiTableRow(prospection, sellers))
+  }
+
+  protected buildActionsDropdownColumn(): UiDropdownItem<any>[] {
     return [
       {
         label: 'Supprimer',
@@ -77,10 +83,6 @@ export class ProspectionsTableAdapter {
       label: seller.name,
       value: seller.id
     }))
-  }
-
-  private createRows(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTableRow[] {
-    return prospections.map( prospection => this.formatUiTableRow(prospection, sellers))
   }
 
   private formatUiTableRow(prospection: Prospection_Dto, sellers: Seller_Dto[]): UiTableRow {

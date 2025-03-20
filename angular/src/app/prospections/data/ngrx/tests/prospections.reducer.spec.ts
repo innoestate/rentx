@@ -7,7 +7,7 @@ import {
   updateProspectionSuccess
 } from '../prospections.actions';
 import { Prospection_Dto } from 'src/app/prospections/models/prospection.dto.model';
-import { ProspectionDtoMock1, ProspectionDtoMock2 } from '../../test/mocks/prospections.dto.mock';
+import { ProspectionDtoMock1, ProspectionDtoMock2 } from '../../../test/mocks/prospections.dto.mock';
 
 
 describe('Prospection Reducer', () => {

@@ -11,7 +11,7 @@ import { ProspectionsTableAdapter } from "../../adapters/prospections.table.adap
 import { ProspectionsHttpService } from "../../data/http/prospections.http.service";
 import { ProspectionsDataModule } from "../../data/module/prospections.data.module";
 import { ProspectionsDataService } from "../../data/service/prospections.data.service";
-import { ProspectionDtoMock1 } from "../../data/test/mocks/prospections.dto.mock";
+import { ProspectionDtoMock1 } from "../../test/mocks/prospections.dto.mock";
 import { ProspectionHttpMockService } from "../../data/test/service/prospection.http.success.mock.service";
 import { ProspectionTableDirectiveMock } from "./mock/prospection-table.mock.component";
 

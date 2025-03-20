@@ -7,7 +7,7 @@ import { DataNgrxService } from "src/app/core/data/ngrx/data.ngrx.service"
 import { ProspectionsHttpService } from "../http/prospections.http.service"
 import { ProspectionsDataModule } from "../module/prospections.data.module"
 import { ProspectionsDataService } from "../service/prospections.data.service"
-import { ProspectionDtoMock4 } from "./mocks/prospections.dto.mock"
+import { ProspectionDtoMock4 } from "../../test/mocks/prospections.dto.mock"
 import { ProspectionHttpMockService } from "./service/prospection.http.success.mock.service"
 
 describe('ProspectionsDataService test successful CRUD ', () => {

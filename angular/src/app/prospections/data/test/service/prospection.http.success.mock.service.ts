@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { Prospection_Dto } from "src/app/prospections/models/prospection.dto.model";
-import { ProspectionDtoMock1, ProspectionDtoMock2, ProspectionDtoMock3 } from "../mocks/prospections.dto.mock";
+import { ProspectionDtoMock1, ProspectionDtoMock2, ProspectionDtoMock3 } from "../../../test/mocks/prospections.dto.mock";
 
 @Injectable({
   providedIn: 'root'
