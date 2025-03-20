@@ -37,9 +37,9 @@ export class UiTableComponent {
   columns = input.required<UiTableColumnItem[]>();
   editRow = output<UiTableRow>();
 
-  nzRows: Signal<NzUiTableRow[]> = this.buildNzRows();
-  nzColumns: Signal<NzUiColumnConfig[]> = this.buildNzColumns();
-  editId: string | null = null;
+  protected nzRows: Signal<NzUiTableRow[]> = this.buildNzRows();
+  protected nzColumns: Signal<NzUiColumnConfig[]> = this.buildNzColumns();
+  protected editId: string | null = null;
 
   constructor() {}
 
@@ -50,7 +50,7 @@ export class UiTableComponent {
   edit(value: any, nzRow: NzUiTableRow, columnIndex: number) {
     const row = this.rows()[nzRow.inputRowIndex];
     const key = this.columns()[columnIndex].key;
-    const newRow = { ...row, cells: { ...row.cells, [key]: value } } as UiTableRow;
+    const newRow = { ...row, cells: { [key]: value } } as UiTableRow;
     this.editRow.emit(newRow);
     this.editId = null;
   }

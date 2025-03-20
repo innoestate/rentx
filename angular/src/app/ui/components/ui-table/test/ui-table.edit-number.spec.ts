@@ -30,33 +30,64 @@ describe('UiTableComponent test the edition of a number cell', () => {
     spyOn(component.editRow, 'emit');
   });
 
-  it('should hide the field and show input after clicking', () => {
-    let cellToEdit = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-number > .clickable'))[1].nativeElement;
-    let inputElement = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-number > input'))[1].nativeElement;
+  it('should trigger the displaying of input for editing cell after clicking', () => {
+    expectTheCellToBeNotYetEditableBeforeClick(1);
+    expectTheCellToBeEditableAfterClick(1);
+  })
+
+  it('should modify the number value and emit editRow event', () => {
+    expectTheCellToBeEditableAfterClick(1);
+    editCell(1, 5000);
+    expectValueOfCellToBe(1, 5000);
+  });
+
+  it('should modify the number value and emit editRow event', () => {
+    expectTheCellToBeEditableAfterClick(1);
+    editCell(1, 44);
+    expectValueOfCellToBe(1, 44);
+  });
+
+  it('should has only one value edited and emitted in cells', () => {
+    editCell(1, 30);
+    expectOnlyOneCellToBeEdited();
+  })
+
+  const expectTheCellToBeNotYetEditableBeforeClick = (editableCellColumnIndex: number) => {
+    let cellToEdit = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-number > .clickable'))[editableCellColumnIndex].nativeElement;
+    let inputElement = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-number > input'))[editableCellColumnIndex].nativeElement;
     expect(cellToEdit.hidden).toBeFalse();
     expect(inputElement.hidden).toBeTrue();
+  }
 
+  const expectTheCellToBeEditableAfterClick = (editableCellColumnIndex: number) => {
+    let cellToEdit = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-number > .clickable'))[editableCellColumnIndex].nativeElement;
+    let inputElement = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-number > input'))[editableCellColumnIndex].nativeElement;
     cellToEdit.click();
     fixture.detectChanges();
 
     expect(cellToEdit.hidden).toBeTrue();
     expect(inputElement.hidden).toBeFalse();
-  })
+  }
 
-  it('should modify the number value and emit editRow event', () => {
-    let cellToEdit = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-number > .clickable'))[1].nativeElement;
-    cellToEdit.click();
-    fixture.detectChanges();
-
-    let inputElement = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-number > input'))[1].nativeElement;
-    inputElement.value = 5000;
+  const editCell = (editableCellColumnIndex: number, value: number) => {
+    let inputElement = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-number > input'))[editableCellColumnIndex].nativeElement;
+    inputElement.value = value;
     inputElement.dispatchEvent(new Event('change'));
     fixture.detectChanges();
+  }
 
-    cellToEdit = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-number > .clickable'))[1].nativeElement;
-    expect(cellToEdit.textContent).toBe('5000');
+  const expectValueOfCellToBe = (editableCellColumnIndex: number, value: number) => {
+    let cellToEdit = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-number > .clickable'))[editableCellColumnIndex].nativeElement;
+    cellToEdit = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-number > .clickable'))[editableCellColumnIndex].nativeElement;
+    expect(cellToEdit.textContent).toBe(value + '');
     const emittedRow = (component.editRow.emit as jasmine.Spy).calls.mostRecent().args[0];
-    expect(emittedRow.cells.zip).toBe(5000);
-  });
+    expect(emittedRow.cells.zip).toBe(value);
+    expect(Object.keys(emittedRow.cells).length).toBe(1);
+  }
+
+  const expectOnlyOneCellToBeEdited = () => {
+    const emittedRow = (component.editRow.emit as jasmine.Spy).calls.mostRecent().args[0];
+    expect(Object.keys(emittedRow.cells).length).toBe(1);
+  }
 
 });
