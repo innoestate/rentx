@@ -1,15 +1,14 @@
 import { Injectable } from "@angular/core";
+import { Seller_Dto } from "src/app/sellers/models/seller.dto.model";
+import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
-import { Prospection_Dto } from "../models/prospection.dto.model";
+import { CellType } from "src/app/ui/components/ui-table/types/ui-table.cell.type";
 import { getUpdatedFields } from "../../core/utils/objects.utils";
 import { ProspectionsCommandsService } from "../commands/prospections.commands.service";
-import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
-import { Seller_Dto } from "src/app/sellers/models/seller.dto.model";
+import { Prospection_Dto } from "../models/prospection.dto.model";
 import { PROSPECTION_STATUS } from "../models/prospection.status.model";
-import { CellType } from "src/app/ui/components/ui-table/types/ui-table.cell.type";
-import { UiItem } from "src/app/ui/models/ui-item.model";
 
 @Injectable({
   providedIn: 'root'
@@ -23,19 +22,6 @@ export class ProspectionsTableAdapter {
       columns: this.createColumns(sellers),
       rows: this.createRows(prospections, sellers)
     }
-  }
-
-  getModifications(previusProspection: Prospection_Dto, row: UiTableRow): Partial<Prospection_Dto> {
-    const potentialModifications = {
-      city: row.cells['city'] as string,
-      zip: row.cells['zip'] as string,
-      address: row.cells['address'] as string,
-      link: row.cells['link'] as string,
-      seller_id: (row.cells['seller'] as any).value,
-      price: row.cells['price'] as number,
-      status: (row.cells['status'] as UiDropdownItem<any>)?.value
-    }
-    return getUpdatedFields(previusProspection, potentialModifications as any)
   }
 
   private createColumns(sellers: Seller_Dto[]): UiTableColumnItem[] {

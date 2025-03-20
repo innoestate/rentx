@@ -1,13 +1,12 @@
 import { computed, Directive, Signal } from "@angular/core";
-import { ProspectionsDataService } from "../data/service/prospections.data.service";
-import { Prospection } from "../models/prospection.model";
+import { catchError, of, take } from "rxjs";
+import { SellersDataService } from "src/app/sellers/data/service/sellers.data.service";
+import { Seller_Dto } from "src/app/sellers/models/seller.dto.model";
+import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
 import { ProspectionsTableAdapter } from "../adapters/prospections.table.adapter";
-import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { catchError, of, take } from "rxjs";
-import { Prospection_Dto } from "../models/prospection.dto.model";
-import { Seller_Dto } from "src/app/sellers/models/seller.dto.model";
-import { SellersDataService } from "src/app/sellers/data/service/sellers.data.service";
+import { ProspectionsDataService } from "../data/service/prospections.data.service";
+import { Prospection } from "../models/prospection.model";
 
 @Directive()
 export class ProspectionTableDirective {
@@ -27,9 +26,11 @@ export class ProspectionTableDirective {
   }
 
   updateRow(rowWidthUpdate: UiTableRow) {
-    const propspectionBeforeUpdate = this.getProspectionBeforeUpdate(rowWidthUpdate.data['id']);
-    const prospectionUpdates = this.extractProspectionUpdates(propspectionBeforeUpdate, rowWidthUpdate);
-    this.performUpdate(propspectionBeforeUpdate, prospectionUpdates);
+    const update = { id: rowWidthUpdate.data['id'], ...rowWidthUpdate.cells }
+    this.ProspectionsData.updateProspection(update).pipe(
+      take(1),
+      catchError(() => this.reloadProspectionAsBeforeUpdate(rowWidthUpdate.data['id']))
+    ).subscribe();
   }
 
   private getProspectionBeforeUpdate(id: string){
@@ -38,19 +39,8 @@ export class ProspectionTableDirective {
     return prospectionBeforeUpdate;
   }
 
-  private extractProspectionUpdates(propspectionBeforeUpdate: Prospection_Dto, rowWidthUpdate: UiTableRow){
-    const modifications = this.adapter.getModifications(propspectionBeforeUpdate, rowWidthUpdate);
-    return {...modifications, id: rowWidthUpdate.data['id']};
-  }
-
-  private performUpdate(prospectionBeforeUpdate: Prospection_Dto, prospectionUpdates: Partial<Prospection_Dto>){
-    this.ProspectionsData.updateProspection(prospectionUpdates).pipe(
-      take(1),
-      catchError(() => this.reloadProspectionBeforeUpdate(prospectionBeforeUpdate))
-    ).subscribe();
-  }
-
-  private reloadProspectionBeforeUpdate(prospectionBeforeUpdate: Prospection_Dto){
+  private reloadProspectionAsBeforeUpdate(id: string){
+    const prospectionBeforeUpdate = this.getProspectionBeforeUpdate(id);
     this.ProspectionsData.reloadProspection(prospectionBeforeUpdate.id!);
     return of(prospectionBeforeUpdate);
   }
