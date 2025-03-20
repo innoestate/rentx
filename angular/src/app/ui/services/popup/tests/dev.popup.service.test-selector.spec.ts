@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UiPopupService } from '../popup.service';
-import { configureModule } from './test/test.utils';
+import { configureModule } from './test.utils';
 
 @Component({
   template: ''
 })
 class MockComponent { }
 
-describe('PopupService test that close icon has correct selector for tests (especially e2e tests).', () => {
+describe('PopupService', () => {
   let service: UiPopupService;
   let fixture: ComponentFixture<any>;
 
