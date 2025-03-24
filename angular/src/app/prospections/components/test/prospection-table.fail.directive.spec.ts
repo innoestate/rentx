@@ -12,11 +12,11 @@ import { ProspectionsHttpService } from "../../data/http/prospections.http.servi
 import { ProspectionsDataModule } from "../../data/module/prospections.data.module";
 import { ProspectionsDataService } from "../../data/service/prospections.data.service";
 import { ProspectionDtoMock1 } from "../../test/mocks/prospections.dto.mock";
-import { ProspectionHttpFailUpdateMockService } from "../../data/test/service/prospection.http.fail.update.mock.service";
+import { ProspectionHttpFailUpdateMockService } from "../../data/service/test/service/prospection.http.fail.update.mock.service";
 import { ProspectionTableDirectiveMock } from "./mock/prospection-table.mock.component";
 
 
-describe('ProspectionTableDirective', () => {
+describe('ProspectionTableDirective test with fail update', () => {
 
   let fixture: ComponentFixture<ProspectionTableDirectiveMock>;
   let component: ProspectionTableDirectiveMock;

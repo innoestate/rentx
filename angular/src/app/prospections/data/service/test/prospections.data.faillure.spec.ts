@@ -4,11 +4,11 @@ import { EffectsModule } from "@ngrx/effects"
 import { Store, StoreModule } from "@ngrx/store"
 import { catchError, of, take } from "rxjs"
 import { DataNgrxService } from "src/app/core/data/ngrx/data.ngrx.service"
-import { ProspectionsHttpService } from "../http/prospections.http.service"
-import { ProspectionsDataModule } from "../module/prospections.data.module"
-import { ProspectionsDataService } from "../service/prospections.data.service"
+import { ProspectionsHttpService } from "../../http/prospections.http.service"
+import { ProspectionsDataModule } from "../../module/prospections.data.module"
+import { ProspectionsDataService } from "../prospections.data.service"
 import { ProspectionHttpFailMockService } from "./service/prospection.http.fail.mock.service"
-import { ProspectionDtoMock1 } from "../../test/mocks/prospections.dto.mock"
+import { ProspectionDtoMock1 } from "../../../test/mocks/prospections.dto.mock"
 
 describe('ProspectionsDataService test faillure CRUD ', () => {
 

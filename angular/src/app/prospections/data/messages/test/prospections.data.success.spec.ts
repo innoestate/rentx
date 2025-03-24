@@ -8,7 +8,7 @@ import { ProspectionsHttpService } from "../../http/prospections.http.service"
 import { ProspectionsDataModule } from "../../module/prospections.data.module"
 import { ProspectionsDataService } from "../../service/prospections.data.service"
 import { ProspectionDtoMock4 } from "../../../test/mocks/prospections.dto.mock"
-import { ProspectionHttpMockService } from "../../test/service/prospection.http.success.mock.service"
+import { ProspectionHttpMockService } from "../../service/test/service/prospection.http.success.mock.service"
 
 
 describe('ProspectionsDataService test successful CRUD ', () => {

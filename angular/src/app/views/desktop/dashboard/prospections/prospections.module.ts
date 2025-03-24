@@ -1,14 +1,14 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ProspectionsDataMessagesService } from 'src/app/prospections/data/messages/prospections.messages.service';
+import { ProspectionsDataModule } from 'src/app/prospections/data/module/prospections.data.module';
+import { SellersCommandsService } from 'src/app/sellers/commands/sellers.commands.service';
+import { SellersDataModule } from 'src/app/sellers/data/module/sellers.data.module';
+import { UiModule } from 'src/app/ui/ui.module';
+import { DesktopProspectionsCommandsService } from './commands/desktop.prospections.commands.service';
+import { DesktopProspectionsHandlerMenuComponent } from './menu/desktop-prospections-handler-menu.component';
 import { DesktopProspectionsComponent } from './prospections.component';
 import { ProspectionsDesktopRoutingModule } from './prospections.routing';
-import { DesktopProspectionsHandlerMenuComponent } from './menu/desktop-prospections-handler-menu.component';
-import { UiModule } from 'src/app/ui/ui.module';
-import { ProspectionsDataModule } from 'src/app/prospections/data/module/prospections.data.module';
-import { ProspectionsDataMessagesService } from 'src/app/prospections/data/messages/prospections.messages.service';
-import { SellersDataModule } from 'src/app/sellers/data/module/sellers.data.module';
-import { SellersCommandsService } from 'src/app/sellers/commands/sellers.commands.service';
-import { ProspectionsCommandsService } from 'src/app/prospections/commands/prospections.commands.service';
 
 
 
@@ -25,7 +25,7 @@ import { ProspectionsCommandsService } from 'src/app/prospections/commands/prosp
     SellersDataModule
   ],
   providers: [
-    ProspectionsCommandsService,
+    DesktopProspectionsCommandsService,
     SellersCommandsService
   ]
 })

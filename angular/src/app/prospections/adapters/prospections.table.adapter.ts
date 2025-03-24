@@ -3,30 +3,28 @@ import { Seller_Dto } from "src/app/sellers/models/seller.dto.model";
 import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
 import { UiTableAdapter } from "src/app/ui/components/ui-table/adapter/ui-table.adapter";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
-import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
 import { CellType } from "src/app/ui/components/ui-table/types/ui-table.cell.type";
-import { ProspectionsCommandsService } from "../commands/prospections.commands.service";
 import { Prospection_Dto } from "../models/prospection.dto.model";
 import { PROSPECTION_STATUS } from "../models/prospection.status.model";
+import { ProspectionsColumns, SellerColumn, UiTableProspection } from "./interfaces/prospections.table.adapter.interfaces";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProspectionsTableAdapter extends UiTableAdapter {
 
-  constructor(private prospectionsCommands: ProspectionsCommandsService) {
+  constructor() {
     super();
   }
 
-  buildTable(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTable {
+  buildTable(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTableProspection {
     return {
       columns: this.createColumns(sellers),
       rows: this.createRows(prospections, sellers)
     }
   }
 
-  protected createColumns(sellers: Seller_Dto[]): UiTableColumnItem[] {
+  protected createColumns(sellers: Seller_Dto[]): ProspectionsColumns {
     return [
       { key: 'city', label: 'Ville', editable: true },
       { key: 'zip', label: 'Code postal', editable: true },
@@ -53,8 +51,8 @@ export class ProspectionsTableAdapter extends UiTableAdapter {
         label: 'Supprimer',
         icon: 'delete',
         value: "delete",
-        command: (row: UiTableRow) => {
-          this.prospectionsCommands.delete(row.data.id);
+        command: () => {
+          console.log('implement command here');
           return true;
         }
       }
@@ -69,7 +67,7 @@ export class ProspectionsTableAdapter extends UiTableAdapter {
     }))
   }
 
-  private buildSellersColumn(sellers: Seller_Dto[]): UiTableColumnItem {
+  private buildSellersColumn(sellers: Seller_Dto[]): SellerColumn {
     return {
       key: 'seller',
       label: 'Vendeur',

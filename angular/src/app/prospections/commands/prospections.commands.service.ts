@@ -1,32 +1,15 @@
-import { Injectable } from "@angular/core";
 import { Seller_Dto } from "src/app/sellers/models/seller.dto.model";
-import { UiPopupService } from "src/app/ui/services/popup/popup.service";
-import { ProspectionsDataService } from "../data/service/prospections.data.service";
-import { Prospection_Dto } from "../models/prospection.dto.model";
-import { FormContinuablePopupComponent } from "src/app/views/common/popups/form-continuable-popup/form-continuable-popup.component";
 import { FormPopupFieldData } from "src/app/views/common/popups/form-popup/models/form-popup.fields-data.model";
 
-@Injectable({
-  providedIn: 'root'
-})
-export class ProspectionsCommandsService {
+export abstract class ProspectionsCommandsService {
 
-  constructor(private prospectionsDataService: ProspectionsDataService, private popupService: UiPopupService) { }
+  constructor() { }
 
-  delete(id: string) {
-    this.prospectionsDataService.deleteProspection(id);
-  }
+  delete(id: string) {}
 
-  createNew(sellers: Seller_Dto[]) {
-    this.popupService.openPopup(FormContinuablePopupComponent, 'Ajouter un bien à la prospection.', {
-      fields: this.getCreateNewFields(sellers),
-      onValidate: ((prospection: Prospection_Dto) => {
-        this.prospectionsDataService.createProspection(prospection);
-      })
-    })
-  }
+  createNew(sellers: Seller_Dto[]) {}
 
-  private getCreateNewFields(sellers: Seller_Dto[]): FormPopupFieldData[] {
+  protected getCreateNewFormFields(sellers: Seller_Dto[]): FormPopupFieldData[] {
     return [
       {
         key: 'address',

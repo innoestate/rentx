@@ -4,6 +4,7 @@ import { ProspectionsCommandsService } from 'src/app/prospections/commands/prosp
 import { SellersCommandsService } from 'src/app/sellers/commands/sellers.commands.service';
 import { SellersDataService } from 'src/app/sellers/data/service/sellers.data.service';
 import { Seller_Dto } from 'src/app/sellers/models/seller.dto.model';
+import { DesktopProspectionsCommandsService } from '../commands/desktop.prospections.commands.service';
 
 @Component({
   selector: 'prospections-handler-menu',
@@ -15,7 +16,7 @@ export class DesktopProspectionsHandlerMenuComponent {
 
   sellers: Signal<Seller_Dto[]> = this.SellersData.get();
 
-  constructor(private router: Router, private SellersData: SellersDataService, private sellersCommands: SellersCommandsService, private prospectionsCommands: ProspectionsCommandsService){}
+  constructor(private router: Router, private SellersData: SellersDataService, private sellersCommands: SellersCommandsService, private prospectionsCommands: DesktopProspectionsCommandsService){}
 
   createNewProspectionEstate(){
     this.prospectionsCommands.createNew(this.sellers());
