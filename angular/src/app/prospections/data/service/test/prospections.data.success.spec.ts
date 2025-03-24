@@ -7,7 +7,7 @@ import { DataNgrxService } from "src/app/core/data/ngrx/data.ngrx.service"
 import { ProspectionsHttpService } from "../../http/prospections.http.service"
 import { ProspectionsDataModule } from "../../module/prospections.data.module"
 import { ProspectionsDataService } from "../prospections.data.service"
-import { ProspectionDtoMock4 } from "../../../test/mocks/prospections.dto.mock"
+import { ProspectionDtoMock3, ProspectionDtoMock4 } from "../../../test/mocks/prospections.dto.mock"
 import { ProspectionHttpMockService } from "./service/prospection.http.success.mock.service"
 
 describe('ProspectionsDataService test successful CRUD ', () => {
@@ -72,9 +72,9 @@ describe('ProspectionsDataService test successful CRUD ', () => {
 
     const prospections = dataService.getProspections();
     dataService.loadProspections();
-    dataService.createProspection(cloneDeep(ProspectionDtoMock4));
-    dataService.deleteProspection(ProspectionDtoMock4.id!);
-    expect(prospections().length).toEqual(3);
+    expect(prospections().find(prospection => prospection.id === ProspectionDtoMock3.id)).toBeTruthy();
+    dataService.deleteProspection(ProspectionDtoMock3.id!);
+    expect(prospections().length).toEqual(2);
 
   })
 

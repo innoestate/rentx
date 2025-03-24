@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ProspectionsDataMessagesService } from 'src/app/prospections/data/messages/prospections.messages.service';
+import { ProspectionsDataMessagesService } from 'src/app/prospections/data/messages/service/prospections.messages.service';
 import { ProspectionsDataModule } from 'src/app/prospections/data/module/prospections.data.module';
 import { SellersCommandsService } from 'src/app/sellers/commands/sellers.commands.service';
 import { SellersDataModule } from 'src/app/sellers/data/module/sellers.data.module';

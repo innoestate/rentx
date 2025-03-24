@@ -41,10 +41,13 @@ export class ProspectionHttpMockService {
   }
 
   delete(id: string): Observable<void> {
-    const index = this.mockProspections.findIndex(p => p.id === id);
-    if (index !== -1) {
-      this.mockProspections.splice(index, 1);
-    }
+    const newMock: any[] = []
+    this.mockProspections.forEach( p => {
+      if( p.id !== id) {
+        newMock.push(p)
+      }
+    });
+    this.mockProspections = newMock;
     return of(void 0);
   }
 }

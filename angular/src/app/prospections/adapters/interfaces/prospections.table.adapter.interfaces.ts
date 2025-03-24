@@ -24,7 +24,7 @@ interface LinkColumn extends UiTableColumnItem {
   label: string;
 }
 
-export interface SellerColumn extends UiTableColumnItem {
+export interface UiTableSellerColumn extends UiTableColumnItem {
   key: 'seller';
   label: string;
   editable: true;
@@ -49,7 +49,7 @@ interface ActionColumn extends UiTableColumnItem {
   dropDownItems: UiDropdownItem<any>[];
 }
 
-export type ProspectionsColumns = [CityColumn, ZipColumn, StreetColumn, LinkColumn, SellerColumn, PriceColumn, StatusColumn, ActionColumn];
+export type UiTableProspectionsColumns = [CityColumn, ZipColumn, StreetColumn, LinkColumn, UiTableSellerColumn, PriceColumn, StatusColumn, ActionColumn];
 
 export interface UiTableRowProspections extends UiTableRow {
   data: {
@@ -59,6 +59,6 @@ export interface UiTableRowProspections extends UiTableRow {
 }
 
 export interface UiTableProspection extends UiTable {
-  columns: ProspectionsColumns;
+  columns: UiTableProspectionsColumns;
   rows: UiTableRowProspections[];
 }
