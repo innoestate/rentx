@@ -10,7 +10,7 @@ import { OwnersDataService } from "src/app/owners/data/owners.data.service";
 import { LodgersDataService } from "src/app/lodgers/data/lodgers.data.service";
 import { EstatesDataService } from "src/app/estates/data/service/esates.data.service";
 import { RentsHttpService } from "../data/http/rents.http.service";
-import { downloadFileOnBrowser } from "src/app/core/utils/files.utils";
+import { downloadFileOnBrowser } from "src/app/shared/utils/files.utils";
 import { CreateCustomizedRentReceiptPopupComponent } from "src/app/rents/popups/create-customized-rent-receipt-popup/create-customized-rent-receipt-popup.component";
 
 @Injectable({

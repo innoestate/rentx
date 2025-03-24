@@ -3,7 +3,7 @@ import { Actions, ofType } from "@ngrx/effects";
 import { ActionCreator } from "@ngrx/store";
 import { Subject, takeUntil, tap } from "rxjs";
 import { UiMessageService } from "src/app/ui/services/message/message.service";
-import { LocalizationsService } from "../../localizations/localizations.service";
+import { LocalizationsService } from "../../../core/localizations/localizations.service";
 
 @Injectable({
   providedIn: 'root'

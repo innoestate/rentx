@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { catchError, Observable, of } from "rxjs";
-import { DataNgrxService } from "src/app/core/data/ngrx/data.ngrx.service";
+import { DataNgrxService } from "src/app/shared/data/ngrx/data.ngrx.service";
 import { Lodger } from "src/app/lodgers/models/lodger.model";
 import { Lodger_Post } from "src/app/lodgers/models/lodger-post-request.model";
 import { deleteLodger, loadLodgers, updateLodger as updateLodgerOnNgrx, updateLodgerFailure, updateLodgerSuccess, createLodger as createLodgerOnNgrx, createLodgerSuccess, createLodgerFailure} from "./ngrx/lodgers.actions";

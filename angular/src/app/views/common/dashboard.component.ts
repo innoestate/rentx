@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { take, tap } from 'rxjs';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthService } from 'src/app/core/auth/auth.service';
 
 @Directive()
 export class DashboardComponent {

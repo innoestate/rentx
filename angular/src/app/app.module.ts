@@ -19,7 +19,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
-import { AuthInterceptor } from './auth/auth.interceptor';
+import { AuthInterceptor } from './core/auth/auth.interceptor';
 import { DeviceGuard } from './core/guards/device.guard';
 import { UserDataModule } from './user/data/module/user.data.module';
 import { CallbackComponent } from './views/common/pages/callback/callback.component';

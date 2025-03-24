@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { DataNgrxService } from "src/app/core/data/ngrx/data.ngrx.service";
+import { DataNgrxService } from "src/app/shared/data/ngrx/data.ngrx.service";
 import { loadUser, loadUserFailure, loadUserSuccess } from "../ngrx/user.actions";
 import { selectUser } from "../ngrx/user.selectors";
 import { User_Dto } from "../../models/user.dto.model";

@@ -5,7 +5,7 @@ import { RentsCommandsService } from "src/app/rents/commands/rents.commands.serv
 import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { Estate } from "../../models/estate.model";
-import { getUpdatedFields as getUpdatedFieldsUtils } from "../../../core/utils/objects.utils";
+import { getUpdatedFields as getUpdatedFieldsUtils } from "../../../shared/utils/objects.utils";
 
 export const createLodgersDropdown = (lodgersCommands: LodgersCommandsService, lodgers: Lodger[], estates: Estate[]) => {
   let lodgerDropdownItems: UiDropdownItem<any>[] = [];

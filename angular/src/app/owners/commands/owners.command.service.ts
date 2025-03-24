@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { take, tap } from "rxjs";
 import { Owner } from "src/app/owners/models/owner.model";
 import { Owner_Post_Request } from "src/app/owners/models/owner-post-request.model";
-import { getUpdatedFields } from "src/app/core/utils/objects.utils";
+import { getUpdatedFields } from "src/app/shared/utils/objects.utils";
 import { UiPopupService } from "src/app/ui/services/popup/popup.service";
 import { OwnersDataService } from "../data/owners.data.service";
 import { FormPopupFieldData } from "src/app/views/common/popups/form-popup/models/form-popup.fields-data.model";

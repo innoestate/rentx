@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { DataNgrxService } from "src/app/core/data/ngrx/data.ngrx.service";
+import { DataNgrxService } from "src/app/shared/data/ngrx/data.ngrx.service";
 import { createSeller, createSellerFailure, createSellerSuccess, loadSellers, loadSellersFailure, loadSellersSuccess, removeSeller, removeSellerFailure, removeSellerSuccess, updateSeller, updateSellerFailure, updateSellerSuccess } from "../ngrx/sellers.actions";
 import { Seller_Dto } from "../../models/seller.dto.model";
 import { selectAllSellers } from "../ngrx/sellers.selectors";

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { DataMessagesService } from "src/app/core/data/message/data.message.service";
+import { DataMessagesService } from "src/app/shared/data/message/data.message.service";
 import { createSellerFailure, createSellerSuccess, loadSellersFailure, removeSellerFailure, removeSellerSuccess, updateSellerFailure, updateSellerSuccess } from "../ngrx/sellers.actions";
 
 @Injectable({

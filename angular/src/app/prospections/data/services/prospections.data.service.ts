@@ -1,7 +1,7 @@
 import { Injectable, Signal } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import { DataNgrxService } from "src/app/core/data/ngrx/data.ngrx.service";
+import { DataNgrxService } from "src/app/shared/data/ngrx/data.ngrx.service";
 import { Prospection_Dto } from "../../models/prospection.dto.model";
 import { createProspection, createProspectionFailure, createProspectionSuccess, deleteProspection, deleteProspectionFailure, deleteProspectionSuccess, loadProspectionsFailure, loadProspections as loadProspectionsOnNgrx, loadProspectionsSuccess, reloadProspection, updateProspection, updateProspectionFailure, updateProspectionSuccess } from "../ngrx/prospections.actions";
 import { selectProspections } from "../ngrx/prospections.selectors";

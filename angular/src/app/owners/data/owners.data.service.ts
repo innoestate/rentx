@@ -5,7 +5,7 @@ import { catchError, map, Observable, of, race, take, tap } from "rxjs";
 import { Owner } from "src/app/owners/models/owner.model";
 import { createOwner as CreateOwnerOnNgrx, createOwnerFailure, createOwnerSuccess, deleteOwner, loadOwners as loadOwnersAction, updateOwner, updateOwnerFailure, updateOwnerSuccess } from "./ngrx/owners.actions";
 import { selectOwners } from "./ngrx/owners.selectors";
-import { DataNgrxService } from "src/app/core/data/ngrx/data.ngrx.service";
+import { DataNgrxService } from "src/app/shared/data/ngrx/data.ngrx.service";
 import { Owner_Post_Request } from "src/app/owners/models/owner-post-request.model";
 
 @Injectable({

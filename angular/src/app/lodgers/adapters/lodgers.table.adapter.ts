@@ -3,7 +3,7 @@ import { Lodger } from "src/app/lodgers/models/lodger.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { LodgersCommandsService } from "../commands/lodgers.commands.service";
-import { getUpdatedFields as getUpdatedFieldsUtils} from './../../core/utils/objects.utils';
+import { getUpdatedFields as getUpdatedFieldsUtils} from '../../shared/utils/objects.utils';
 
 @Injectable({
   providedIn: 'root'

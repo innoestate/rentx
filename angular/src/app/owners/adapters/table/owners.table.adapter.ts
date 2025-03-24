@@ -4,7 +4,7 @@ import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.m
 import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { OwnersCommandsService } from "../../commands/owners.command.service";
 import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
-import { getUpdatedFields as getUpdatedFieldsUtils} from "src/app/core/utils/objects.utils";
+import { getUpdatedFields as getUpdatedFieldsUtils} from "src/app/shared/utils/objects.utils";
 
 
 @Injectable({

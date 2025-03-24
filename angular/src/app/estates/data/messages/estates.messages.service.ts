@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { DataMessagesService } from "src/app/core/data/message/data.message.service";
+import { DataMessagesService } from "src/app/shared/data/message/data.message.service";
 import { createEstateFailure, createEstateSuccess, deleteEstateFailure, deleteEstateSuccess, editEstateFailure, editEstateSuccess, loadEstatesFailure } from "../ngrx/estates.actions";
 
 @Injectable({
