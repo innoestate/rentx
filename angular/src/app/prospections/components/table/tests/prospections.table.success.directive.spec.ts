@@ -7,16 +7,16 @@ import { SellersDataModule } from "src/app/sellers/data/module/sellers.data.modu
 import { SellersDataService } from "src/app/sellers/data/service/sellers.data.service";
 import { SellersHttpSuccessMockService } from "src/app/sellers/data/test/mock/sellers.http.success.mock.service";
 import { UiModule } from "src/app/ui/ui.module";
-import { ProspectionsTableAdapter } from "../../adapters/prospections.table.adapter";
-import { ProspectionsHttpService } from "../../data/http/prospections.http.service";
-import { ProspectionsDataModule } from "../../data/module/prospections.data.module";
-import { ProspectionsDataService } from "../../data/service/prospections.data.service";
-import { ProspectionDtoMock1 } from "../../test/mocks/prospections.dto.mock";
-import { ProspectionHttpFailUpdateMockService } from "../../data/service/test/service/prospection.http.fail.update.mock.service";
-import { ProspectionTableDirectiveMock } from "./mock/prospection-table.mock.component";
+import { ProspectionsTableAdapterService } from "../../../adapters/table/prospections.table.adapter.service";
+import { ProspectionsHttpService } from "../../../data/http/prospections.http.service";
+import { ProspectionsDataModule } from "../../../data/modules/prospections.data.module";
+import { ProspectionsDataService } from "../../../data/services/prospections.data.service";
+import { ProspectionDtoMock1 } from "../../../mocks/prospections.dto.mock";
+import { ProspectionHttpMockService } from "../../../data/services/tests/mocks/prospections.http.success.mock.service";
+import { ProspectionTableDirectiveMock } from "./mocks/prospections.table.mock.component";
 
 
-describe('ProspectionTableDirective test with fail update', () => {
+describe('ProspectionTableDirective successful update testing', () => {
 
   let fixture: ComponentFixture<ProspectionTableDirectiveMock>;
   let component: ProspectionTableDirectiveMock;
@@ -38,7 +38,7 @@ describe('ProspectionTableDirective test with fail update', () => {
       providers: [
         {
           provide: ProspectionsHttpService,
-          useClass: ProspectionHttpFailUpdateMockService
+          useClass: ProspectionHttpMockService
         },
         {
           provide: SellersHttpService,
@@ -47,7 +47,7 @@ describe('ProspectionTableDirective test with fail update', () => {
         provideExperimentalZonelessChangeDetection(),
         ProspectionsDataService,
         SellersDataService,
-        ProspectionsTableAdapter,
+        ProspectionsTableAdapterService,
       ]
     });
 
@@ -69,11 +69,11 @@ describe('ProspectionTableDirective test with fail update', () => {
     expect(component.table().rows.length).toBe(3);
   })
 
-  it('should fail to update a row', () => {
+  it('should update a row', () => {
     component.updateRow({ data: { id: ProspectionDtoMock1.id }, cells: { zip: '2345' } });
     const prospection = component.prospections().find(prospection => prospection.id === ProspectionDtoMock1.id);
     fixture.detectChanges();
-    expect(prospection!.zip).toBe('75001');
+    expect(prospection!.zip).toBe('2345');
   })
 
 })

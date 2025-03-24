@@ -4,11 +4,11 @@ import { provideMockActions } from "@ngrx/effects/testing"
 import { cold, hot } from 'jasmine-marbles'
 import { Observable } from "rxjs"
 import { ProspectionsHttpService } from "../../http/prospections.http.service"
-import { ProspectionDtoMock1 } from "../../../test/mocks/prospections.dto.mock"
+import { ProspectionDtoMock1 } from "../../../mocks/prospections.dto.mock"
 import { createProspection, createProspectionFailure, createProspectionSuccess, deleteProspection, deleteProspectionFailure, deleteProspectionSuccess, loadProspections, loadProspectionsFailure, loadProspectionsSuccess, updateProspection, updateProspectionFailure, updateProspectionSuccess } from "../prospections.actions"
 import { ProspectionsEffects } from "../prospections.effects"
 
-describe('Prospections NGRX test effects', () => {
+describe('Prospections ngrx test effects', () => {
 
   let actions$: Observable<any>;
   let effects: ProspectionsEffects;

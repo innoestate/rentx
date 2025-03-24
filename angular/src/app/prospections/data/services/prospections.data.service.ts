@@ -1,12 +1,10 @@
 import { Injectable, Signal } from "@angular/core";
-import { DataNgrxService } from "src/app/core/data/ngrx/data.ngrx.service";
-import { createProspectionFailure, createProspectionSuccess, reloadProspection, deleteProspection, updateProspectionFailure, updateProspectionSuccess } from "../ngrx/prospections.actions";
-import { createProspection, deleteProspectionFailure, deleteProspectionSuccess, updateProspection } from "../ngrx/prospections.actions";
-import { loadProspectionsFailure, loadProspections as loadProspectionsOnNgrx, loadProspectionsSuccess } from "../ngrx/prospections.actions";
 import { Store } from "@ngrx/store";
-import { selectProspections } from "../ngrx/prospections.selectors";
-import { Observable, tap } from "rxjs";
+import { Observable } from "rxjs";
+import { DataNgrxService } from "src/app/core/data/ngrx/data.ngrx.service";
 import { Prospection_Dto } from "../../models/prospection.dto.model";
+import { createProspection, createProspectionFailure, createProspectionSuccess, deleteProspection, deleteProspectionFailure, deleteProspectionSuccess, loadProspectionsFailure, loadProspections as loadProspectionsOnNgrx, loadProspectionsSuccess, reloadProspection, updateProspection, updateProspectionFailure, updateProspectionSuccess } from "../ngrx/prospections.actions";
+import { selectProspections } from "../ngrx/prospections.selectors";
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +33,7 @@ export class ProspectionsDataService {
     return this.store.selectSignal(selectProspections);
   }
 
-  reloadProspection(prospectionId: string) {//use other method to not dispatch a success that is not (and display wrong message)
+  reloadProspection(prospectionId: string) {
     return this.store.dispatch(reloadProspection({ prospectionId }));
   }
 

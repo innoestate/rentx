@@ -4,14 +4,14 @@ import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropd
 import { UiTableAdapter } from "src/app/ui/components/ui-table/adapter/ui-table.adapter";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { CellType } from "src/app/ui/components/ui-table/types/ui-table.cell.type";
-import { Prospection_Dto } from "../models/prospection.dto.model";
-import { PROSPECTION_STATUS } from "../models/prospection.status.model";
-import { UiTableProspectionsColumns, UiTableSellerColumn, UiTableProspection, UiTableRowProspections } from "./interfaces/prospections.table.adapter.interfaces";
+import { Prospection_Dto } from "../../models/prospection.dto.model";
+import { PROSPECTION_STATUS } from "../../models/prospection.status.model";
+import { UiTableProspectionsColumns, UiTableSellerColumn, UiTableProspection, UiTableRowProspections } from "./prospections.table.adapter.type";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProspectionsTableAdapter extends UiTableAdapter {
+export class ProspectionsTableAdapterService extends UiTableAdapter {
 
   constructor() {
     super();

@@ -8,12 +8,12 @@ import { catchError, of, take } from "rxjs"
 import { DataNgrxService } from "src/app/core/data/ngrx/data.ngrx.service"
 import { LocalizationsService } from "src/app/core/localizations/localizations.service"
 import { MessageTestHelper } from "src/app/ui/services/message/test/message.test.helper"
-import { ProspectionDtoMock1, ProspectionDtoMock3 } from "../../../../test/mocks/prospections.dto.mock"
-import { ProspectionsHttpService } from "../../../http/prospections.http.service"
-import { ProspectionsDataModule } from "../../../module/prospections.data.module"
-import { ProspectionsDataService } from "../../../service/prospections.data.service"
-import { ProspectionHttpFailMockService } from "../../../service/test/service/prospection.http.fail.mock.service"
-import { MessageModuleInitializer } from "./mock/message.module.initializer"
+import { MessagesModuleInitializer } from "./mocks/messages.module.initializer"
+import { ProspectionsDataModule } from "../../modules/prospections.data.module"
+import { ProspectionsDataService } from "../../services/prospections.data.service"
+import { ProspectionsHttpService } from "../../http/prospections.http.service"
+import { ProspectionHttpFailMockService } from "../../services/tests/mocks/prospections.http.fail.mock.service"
+import { ProspectionDtoMock1, ProspectionDtoMock3 } from "src/app/prospections/mocks/prospections.dto.mock"
 
 describe('ProspectionsDataMessagesService test fail CRUD displaying messages ', () => {
 
@@ -29,7 +29,7 @@ describe('ProspectionsDataMessagesService test fail CRUD displaying messages ', 
         StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
         ProspectionsDataModule,
-        MessageModuleInitializer
+        MessagesModuleInitializer
       ],
       providers: [
         provideExperimentalZonelessChangeDetection(),

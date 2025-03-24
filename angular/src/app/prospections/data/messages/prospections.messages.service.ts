@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { DataMessagesService } from "src/app/core/data/message/data.message.service";
-import { createProspectionFailure, createProspectionSuccess, loadProspectionsFailure, deleteProspectionFailure, deleteProspectionSuccess, updateProspectionFailure, updateProspectionSuccess } from "../../ngrx/prospections.actions";
+import { createProspectionFailure, createProspectionSuccess, loadProspectionsFailure, deleteProspectionFailure, deleteProspectionSuccess, updateProspectionFailure, updateProspectionSuccess } from "../ngrx/prospections.actions";
 
 
 @Injectable({

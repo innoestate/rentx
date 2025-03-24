@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ProspectionsCommandsService } from "src/app/prospections/commands/prospections.commands.service";
-import { ProspectionsDataService } from "src/app/prospections/data/service/prospections.data.service";
+import { ProspectionsDataService } from "src/app/prospections/data/services/prospections.data.service";
 import { Prospection_Dto } from "src/app/prospections/models/prospection.dto.model";
 import { Seller_Dto } from "src/app/sellers/models/seller.dto.model";
 import { UiPopupService } from "src/app/ui/services/popup/popup.service";

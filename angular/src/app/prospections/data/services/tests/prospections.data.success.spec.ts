@@ -5,10 +5,10 @@ import { Store, StoreModule } from "@ngrx/store"
 import { cloneDeep } from "lodash"
 import { DataNgrxService } from "src/app/core/data/ngrx/data.ngrx.service"
 import { ProspectionsHttpService } from "../../http/prospections.http.service"
-import { ProspectionsDataModule } from "../../module/prospections.data.module"
+import { ProspectionsDataModule } from "../../modules/prospections.data.module"
 import { ProspectionsDataService } from "../prospections.data.service"
-import { ProspectionDtoMock3, ProspectionDtoMock4 } from "../../../test/mocks/prospections.dto.mock"
-import { ProspectionHttpMockService } from "./service/prospection.http.success.mock.service"
+import { ProspectionDtoMock3, ProspectionDtoMock4 } from "../../../mocks/prospections.dto.mock"
+import { ProspectionHttpMockService } from "./mocks/prospections.http.success.mock.service"
 
 describe('ProspectionsDataService test successful CRUD ', () => {
 

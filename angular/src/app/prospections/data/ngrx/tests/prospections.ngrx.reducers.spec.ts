@@ -1,4 +1,4 @@
-import { prospectionReducer, initialState, ProspectionState } from '../prospections.reducer';
+import { prospectionReducer, initialState, ProspectionState } from '../prospections.reducers';
 import {
   createProspectionSuccess,
   loadProspectionsSuccess,
@@ -7,10 +7,10 @@ import {
   updateProspectionSuccess
 } from '../prospections.actions';
 import { Prospection_Dto } from 'src/app/prospections/models/prospection.dto.model';
-import { ProspectionDtoMock1, ProspectionDtoMock2 } from '../../../test/mocks/prospections.dto.mock';
+import { ProspectionDtoMock1, ProspectionDtoMock2 } from '../../../mocks/prospections.dto.mock';
 
 
-describe('Prospection Reducer', () => {
+describe('Prospection ngrx Reducer', () => {
   it('should return the default state', () => {
     const state = prospectionReducer(undefined, { type: '@@INIT' });
     expect(state).toEqual(initialState);

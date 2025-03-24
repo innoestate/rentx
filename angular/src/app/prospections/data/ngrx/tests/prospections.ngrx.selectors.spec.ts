@@ -1,8 +1,8 @@
 import { selectProspectionState, selectProspections } from '../prospections.selectors';
-import { ProspectionState } from '../prospections.reducer';
-import { ProspectionDtoMock1, ProspectionDtoMock2 } from '../../../test/mocks/prospections.dto.mock';
+import { ProspectionState } from '../prospections.reducers';
+import { ProspectionDtoMock1, ProspectionDtoMock2 } from '../../../mocks/prospections.dto.mock';
 
-describe('Prospection Selectors', () => {
+describe('Prospection ngrx Selectors', () => {
   const initialState: ProspectionState = {
     prospections: [
       { ...ProspectionDtoMock1 },

@@ -1,4 +1,4 @@
-import { PropertyStatusTypes, ProspectionStatus } from "./prospection.status.model";
+import { PropertyStatusTypes } from "./prospection.status.model";
 
 export interface Prospection_Dto {
   id?: string;
@@ -9,7 +9,6 @@ export interface Prospection_Dto {
   link?: string;
   seller_id?: string;
   status?: PropertyStatusTypes;
-  // statusObject?: ProspectionStatus;
   price?: number;
   counter_proposal?: number;
   emission_date?: Date;
