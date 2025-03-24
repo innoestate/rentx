@@ -4,6 +4,8 @@ import { ProspectionsDataService } from 'src/app/prospections/data/services/pros
 import { SellersMock } from 'src/app/prospections/mocks/sellers.dto.mock';
 import { UiPopupService } from 'src/app/ui/services/popup/popup.service';
 import { DesktopProspectionsCommandsService } from './desktop.prospections.commands.service';
+import { FormContinuablePopupComponent } from 'src/app/views/common/popups/form-continuable-popup/form-continuable-popup.component';
+import { By } from '@angular/platform-browser';
 
 describe('DesktopProspectionsCommandsService', () => {
   let service: DesktopProspectionsCommandsService;
@@ -37,5 +39,15 @@ describe('DesktopProspectionsCommandsService', () => {
     service.createNew(SellersMock);
     expect(popupServiceSpy.openPopup).toHaveBeenCalled();
   });
+
+  it('should create fields without sellers field', () => {
+    expect(service.getCreateNewFormFields([]).find( field => field.key === 'seller_id')).toBeUndefined();
+  })
+
+  it('should create fields with sellers field', () => {
+    const sellers = SellersMock;
+    expect(service.getCreateNewFormFields(sellers).find( field => field.key === 'seller_id')).not.toBeUndefined();
+  })
+
 
 });

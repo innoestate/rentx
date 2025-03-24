@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { ProspectionsDataAdapter } from "src/app/prospections/adapters/data/prospections.data.adapter.service";
 import { ProspectionsCommandsService } from "src/app/prospections/commands/prospections.commands.service";
 import { ProspectionsDataService } from "src/app/prospections/data/services/prospections.data.service";
 import { Prospection_Dto } from "src/app/prospections/models/prospection.dto.model";
@@ -23,7 +24,8 @@ export class DesktopProspectionsCommandsService extends ProspectionsCommandsServ
     this.popupService.openPopup(FormContinuablePopupComponent, 'Ajouter un bien à la prospection.', {
       fields: this.getCreateNewFormFields(sellers),
       onValidate: ((prospection: Prospection_Dto) => {
-        this.prospectionsDataService.createProspection(prospection);
+        const prospectionDto = ProspectionsDataAdapter.formatToDto(prospection);
+        this.prospectionsDataService.createProspection(prospectionDto);
       })
     })
   }

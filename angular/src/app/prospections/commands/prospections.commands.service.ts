@@ -5,12 +5,12 @@ export abstract class ProspectionsCommandsService {
 
   constructor() { }
 
-  delete(id: string) {}
+  delete(id: string) { }
 
-  createNew(sellers: Seller_Dto[]) {}
+  createNew(sellers: Seller_Dto[]) { }
 
-  protected getCreateNewFormFields(sellers: Seller_Dto[]): FormPopupFieldData[] {
-    return [
+  getCreateNewFormFields(sellers: Seller_Dto[]): FormPopupFieldData[] {
+    const fields: FormPopupFieldData[] = [
       {
         key: 'address',
         label: 'rue',
@@ -31,13 +31,22 @@ export abstract class ProspectionsCommandsService {
         label: 'lien',
         type: 'text'
       },
-      {
+    ]
+
+    if (sellers?.length > 0) {
+
+      const dropDown = sellers.map((seller) => ({ value: seller.id, label: seller.name }));
+      dropDown.push({ value: '', label: 'Aucun' })
+
+      fields.push({
         key: 'seller_id',
         label: 'Vendeur',
         type: 'dropdown',
-        dropdownItems: sellers.map((seller) => ({ value: seller.id, label: seller.name }))
-      }
-    ]
+        dropdownItems: dropDown
+      });
+    }
+
+    return fields;
   }
 
 }

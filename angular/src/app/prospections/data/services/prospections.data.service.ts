@@ -17,7 +17,7 @@ export class ProspectionsDataService {
     return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(loadProspectionsOnNgrx, loadProspectionsSuccess, loadProspectionsFailure, {});
   }
 
-  createProspection(prospection: Prospection_Dto): Observable<Prospection_Dto> {
+  createProspection(prospection: Partial<Prospection_Dto>): Observable<Prospection_Dto> {
     return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(createProspection, createProspectionSuccess, createProspectionFailure, { prospection });
   }
 
