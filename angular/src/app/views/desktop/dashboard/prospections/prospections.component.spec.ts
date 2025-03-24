@@ -17,6 +17,7 @@ import { DesktopProspectionsHandlerMenuComponent } from './menu/desktop-prospect
 import { DesktopProspectionsCommandsService } from './commands/desktop.prospections.commands.service';
 import { UiModule } from 'src/app/ui/ui.module';
 import { ProspectionsDesktopRoutingModule } from './prospections.routing';
+import { By } from '@angular/platform-browser';
 
 describe('DesktopProspectionsComponent', () => {
   let component: DesktopProspectionsComponent;
@@ -66,13 +67,17 @@ describe('DesktopProspectionsComponent', () => {
   });
 
   it('should have loaded prospections and sellers', () => {
-
       const prospections = prospectionsDataService.getProspections();
       const sellers = sellersDataService.get();
-
       expect(prospections().length > 0).toEqual(true);
       expect(sellers().length > 0).toEqual(true);
+  });
 
-  })
+  it('should display the prospections handler menu', () => {
+    const handlerMenuElement = fixture.debugElement.query(By.directive(DesktopProspectionsHandlerMenuComponent));
+    expect(handlerMenuElement).toBeTruthy();
+  });
+
+
 
 });

@@ -36,4 +36,4 @@ export const sellerMock3: Seller_Dto = {
   agency: 'Agency 3'
 };
 
-export const sellersMock: Seller_Dto[] = [sellerMock1, sellerMock2, sellerMock3];
+export const SellersMock: Seller_Dto[] = [sellerMock1, sellerMock2, sellerMock3];
