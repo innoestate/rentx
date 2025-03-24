@@ -12,7 +12,7 @@ import { ProspectionsHttpService } from "../../../data/http/prospections.http.se
 import { ProspectionsDataModule } from "../../../data/modules/prospections.data.module";
 import { ProspectionsDataService } from "../../../data/services/prospections.data.service";
 import { ProspectionDtoMock1 } from "../../../mocks/prospections.dto.mock";
-import { ProspectionHttpMockService } from "../../../data/services/tests/mocks/prospections.http.success.mock.service";
+import { ProspectionHttpSuccessMockService } from "../../../data/services/tests/mocks/prospections.http.success.mock.service";
 import { ProspectionsTableDirectiveMock } from "./mocks/prospections.table.mock.component";
 
 
@@ -38,7 +38,7 @@ describe('ProspectionsTableDirective successful update testing', () => {
       providers: [
         {
           provide: ProspectionsHttpService,
-          useClass: ProspectionHttpMockService
+          useClass: ProspectionHttpSuccessMockService
         },
         {
           provide: SellersHttpService,

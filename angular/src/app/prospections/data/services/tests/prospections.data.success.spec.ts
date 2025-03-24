@@ -8,7 +8,7 @@ import { ProspectionsHttpService } from "../../http/prospections.http.service"
 import { ProspectionsDataModule } from "../../modules/prospections.data.module"
 import { ProspectionsDataService } from "../prospections.data.service"
 import { ProspectionDtoMock3, ProspectionDtoMock4 } from "../../../mocks/prospections.dto.mock"
-import { ProspectionHttpMockService } from "./mocks/prospections.http.success.mock.service"
+import { ProspectionHttpSuccessMockService } from "./mocks/prospections.http.success.mock.service"
 
 describe('ProspectionsDataService test successful CRUD ', () => {
 
@@ -28,7 +28,7 @@ describe('ProspectionsDataService test successful CRUD ', () => {
         ProspectionsDataService,
         {
           provide: ProspectionsHttpService,
-          useClass: ProspectionHttpMockService
+          useClass: ProspectionHttpSuccessMockService
         }
       ]
     })

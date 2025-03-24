@@ -11,7 +11,7 @@ import { MessagesModuleInitializer } from "./mocks/messages.module.initializer"
 import { ProspectionsDataService } from "../../services/prospections.data.service"
 import { ProspectionsDataModule } from "../../modules/prospections.data.module"
 import { ProspectionsHttpService } from "../../http/prospections.http.service"
-import { ProspectionHttpMockService } from "../../services/tests/mocks/prospections.http.success.mock.service"
+import { ProspectionHttpSuccessMockService } from "../../services/tests/mocks/prospections.http.success.mock.service"
 import { ProspectionDtoMock1, ProspectionDtoMock3, ProspectionDtoMock4 } from "src/app/prospections/mocks/prospections.dto.mock"
 
 describe('ProspectionsDataMessagesService test successful CRUD displaying messages ', () => {
@@ -36,7 +36,7 @@ describe('ProspectionsDataMessagesService test successful CRUD displaying messag
         ProspectionsDataService,
         {
           provide: ProspectionsHttpService,
-          useClass: ProspectionHttpMockService
+          useClass: ProspectionHttpSuccessMockService
         }
       ]
     })

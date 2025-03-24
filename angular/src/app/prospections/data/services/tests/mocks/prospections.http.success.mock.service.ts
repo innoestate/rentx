@@ -6,7 +6,7 @@ import { ProspectionDtoMock1, ProspectionDtoMock2, ProspectionDtoMock3 } from ".
 @Injectable({
   providedIn: 'root'
 })
-export class ProspectionHttpMockService {
+export class ProspectionHttpSuccessMockService {
 
   private mockProspections: Prospection_Dto[] = [
     ProspectionDtoMock1,
