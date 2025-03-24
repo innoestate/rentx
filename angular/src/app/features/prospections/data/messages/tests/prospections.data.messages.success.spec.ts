@@ -12,7 +12,7 @@ import { ProspectionsDataService } from "../../services/prospections.data.servic
 import { ProspectionsDataModule } from "../../modules/prospections.data.module"
 import { ProspectionsHttpService } from "../../http/prospections.http.service"
 import { ProspectionHttpSuccessMockService } from "../../services/tests/mocks/prospections.http.success.mock.service"
-import { ProspectionDtoMock1, ProspectionDtoMock3, ProspectionDtoMock4 } from "src/app/prospections/mocks/prospections.dto.mock"
+import { ProspectionDtoMock1, ProspectionDtoMock3, ProspectionDtoMock4 } from "src/app/features/prospections/mocks/prospections.dto.mock"
 
 describe('ProspectionsDataMessagesService test successful CRUD displaying messages ', () => {
 

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { ProspectionsTableAdapterService } from 'src/app/prospections/adapters/table/prospections.table.adapter.service';
-import { ProspectionsTableCommands } from 'src/app/prospections/commands/table/prospections.table.commands.interface';
-import { ProspectionsTableDirective } from 'src/app/prospections/components/table/prospections.table.directive';
-import { ProspectionsDataService } from 'src/app/prospections/data/services/prospections.data.service';
+import { ProspectionsTableAdapterService } from 'src/app/features/prospections/adapters/table/prospections.table.adapter.service';
+import { ProspectionsTableCommands } from 'src/app/features/prospections/commands/table/prospections.table.commands.interface';
+import { ProspectionsTableDirective } from 'src/app/features/prospections/components/table/prospections.table.directive';
+import { ProspectionsDataService } from 'src/app/features/prospections/data/services/prospections.data.service';
 import { SellersDataService } from 'src/app/sellers/data/service/sellers.data.service';
 import { UiTableRow } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
 import { DesktopProspectionsCommandsService } from '../commands/desktop.prospections.commands.service';

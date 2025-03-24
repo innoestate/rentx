@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ProspectionsDataMessagesService } from 'src/app/prospections/data/messages/prospections.messages.service';
-import { ProspectionsDataModule } from 'src/app/prospections/data/modules/prospections.data.module';
+import { ProspectionsDataMessagesService } from 'src/app/features/prospections/data/messages/prospections.messages.service';
+import { ProspectionsDataModule } from 'src/app/features/prospections/data/modules/prospections.data.module';
 import { SellersCommandsService } from 'src/app/sellers/commands/sellers.commands.service';
 import { SellersDataModule } from 'src/app/sellers/data/module/sellers.data.module';
 import { UiModule } from 'src/app/ui/ui.module';

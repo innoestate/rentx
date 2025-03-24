@@ -3,11 +3,11 @@ import { catchError, of, take } from "rxjs";
 import { SellersDataService } from "src/app/sellers/data/service/sellers.data.service";
 import { Seller_Dto } from "src/app/sellers/models/seller.dto.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { UiTableProspections } from "src/app/features/prospections/adapters/table/prospections.table.adapter.type";
-import { ProspectionsTableCommands } from "src/app/features/prospections/commands/table/prospections.table.commands.interface";
-import { Prospection } from "src/app/features/prospections/models/prospection.model";
-import { ProspectionsDataService } from "src/app/features/prospections/data/services/prospections.data.service";
-import { ProspectionsTableAdapterService } from "src/app/features/prospections/adapters/table/prospections.table.adapter.service";
+import { UiTableProspections } from "../../adapters/table/prospections.table.adapter.type";
+import { ProspectionsTableAdapterService } from "../../adapters/table/prospections.table.adapter.service";
+import { ProspectionsTableCommands } from "../../commands/table/prospections.table.commands.interface";
+import { ProspectionsDataService } from "../../data/services/prospections.data.service";
+import { Prospection } from "../../models/prospection.model";
 
 @Directive()
 export class ProspectionsTableDirective implements ProspectionsTableCommands {

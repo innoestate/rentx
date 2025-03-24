@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ProspectionsDataService } from 'src/app/prospections/data/services/prospections.data.service';
+import { ProspectionsDataService } from 'src/app/features/prospections/data/services/prospections.data.service';
 import { SellersDataService } from 'src/app/sellers/data/service/sellers.data.service';
 
 @Component({

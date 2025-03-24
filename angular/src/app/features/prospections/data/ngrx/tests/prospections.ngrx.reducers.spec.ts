@@ -6,7 +6,7 @@ import {
   deleteProspectionSuccess,
   updateProspectionSuccess
 } from '../prospections.actions';
-import { Prospection_Dto } from 'src/app/prospections/models/prospection.dto.model';
+import { Prospection_Dto } from 'src/app/features/prospections/models/prospection.dto.model';
 import { ProspectionDtoMock1, ProspectionDtoMock2 } from '../../../mocks/prospections.dto.mock';
 
 

@@ -1,4 +1,4 @@
-import { Prospection_Dto } from "src/app/prospections/models/prospection.dto.model";
+import { Prospection_Dto } from "src/app/features/prospections/models/prospection.dto.model";
 
 export const ProspectionDtoMock1: Prospection_Dto = {
   id: 'mock-id-1',

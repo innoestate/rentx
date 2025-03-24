@@ -1,15 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DesktopProspectionsComponent } from './prospections.component';
-import { ProspectionsDataModule } from 'src/app/prospections/data/modules/prospections.data.module';
+import { ProspectionsDataModule } from 'src/app/features/prospections/data/modules/prospections.data.module';
 import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SellersDataModule } from 'src/app/sellers/data/module/sellers.data.module';
-import { ProspectionsHttpService } from 'src/app/prospections/data/http/prospections.http.service';
-import { ProspectionHttpSuccessMockService } from 'src/app/prospections/data/services/tests/mocks/prospections.http.success.mock.service';
+import { ProspectionsHttpService } from 'src/app/features/prospections/data/http/prospections.http.service';
+import { ProspectionHttpSuccessMockService } from 'src/app/features/prospections/data/services/tests/mocks/prospections.http.success.mock.service';
 import { SellersHttpService } from 'src/app/sellers/data/http/sellers.http.service';
 import { SellersHttpSuccessMockService } from 'src/app/sellers/data/test/mock/sellers.http.success.mock.service';
-import { ProspectionsDataService } from 'src/app/prospections/data/services/prospections.data.service';
+import { ProspectionsDataService } from 'src/app/features/prospections/data/services/prospections.data.service';
 import { SellersDataService } from 'src/app/sellers/data/service/sellers.data.service';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';

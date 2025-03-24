@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ProspectionsTableAdapterService } from 'src/app/prospections/adapters/table/prospections.table.adapter.service';
+import { ProspectionsTableAdapterService } from 'src/app/features/prospections/adapters/table/prospections.table.adapter.service';
 import { UiModule } from 'src/app/ui/ui.module';
 import { DesktopProspectionsTableComponent } from './desktop-prospections-table.component';
 
