@@ -4,8 +4,6 @@ import { ProspectionsDataService } from 'src/app/prospections/data/services/pros
 import { SellersMock } from 'src/app/prospections/mocks/sellers.dto.mock';
 import { UiPopupService } from 'src/app/ui/services/popup/popup.service';
 import { DesktopProspectionsCommandsService } from './desktop.prospections.commands.service';
-import { FormContinuablePopupComponent } from 'src/app/views/common/popups/form-continuable-popup/form-continuable-popup.component';
-import { By } from '@angular/platform-browser';
 
 describe('DesktopProspectionsCommandsService', () => {
   let service: DesktopProspectionsCommandsService;

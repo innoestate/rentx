@@ -5,6 +5,7 @@ import { ProspectionsCommandsService } from "../../commands/prospections.command
 import { ProspectionDtoMock1 } from "../../mocks/prospections.dto.mock"
 import { sellerMock1 } from "../../mocks/sellers.dto.mock"
 import { ProspectionsTableAdapterService } from "./prospections.table.adapter.service"
+import { uiTableRowProspectionsUpdateMock1 } from "./mocks/prospection.table.row.mocl"
 
 describe('ProspectionsTableAdapterService', () => {
 
@@ -27,6 +28,14 @@ describe('ProspectionsTableAdapterService', () => {
   it('should pass all basic table adapter tests', () => {
     const adapterTestHelper = new UiTableAdapterTestHelper(adapter, [{...ProspectionDtoMock1}], [{...sellerMock1}]);
     adapterTestHelper.testTable();
+  })
+
+  it('should provide the correct Dto object for update', () => {
+    const dto = adapter.getDtoFromRow(uiTableRowProspectionsUpdateMock1);
+    expect(dto).toEqual({
+      id: '1234',
+      seller_id: 'abcd'
+    })
   })
 
 

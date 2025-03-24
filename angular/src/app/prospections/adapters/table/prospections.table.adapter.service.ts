@@ -24,25 +24,36 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
     }
   }
 
+  getDtoFromRow(row: UiTableRowProspections): Partial<Prospection_Dto> {
+    const data: any = { id: row.data['id'], ...row.cells }
+    if(data['seller']){
+      data['seller_id'] = data['seller'].value
+      delete data.seller;
+    }
+    return data;
+  }
+
   protected createColumns(sellers: Seller_Dto[]): UiTableColumnsProspections {
     return [
       { key: 'city', label: 'Ville', editable: true },
       { key: 'zip', label: 'Code postal', editable: true },
       { key: 'street', label: 'Rue', editable: true },
-      { key: 'link', label: 'lien', editable: true},
+      { key: 'link', label: 'lien', editable: true },
       this.buildSellersColumn(sellers),
       { key: 'price', label: 'Prix', editable: true },
       { key: 'status', label: 'Status', dropDownItems: this.buildStatusDropdownItems() },
-      { key: 'actions', label: 'Actions', dropDownItems: this.buildActionsDropdownColumn(), dropDownCellsUniqueItem: {
-        label: '',
-        icon: 'tool',
-        value: 'action'
-      }}
+      {
+        key: 'actions', label: 'Actions', dropDownItems: this.buildActionsDropdownColumn(), dropDownCellsUniqueItem: {
+          label: '',
+          icon: 'tool',
+          value: 'action'
+        }
+      }
     ]
   }
 
   protected createRows(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTableRowProspections[] {
-    return prospections.map( prospection => this.formatUiTableRow(prospection, sellers))
+    return prospections.map(prospection => this.formatUiTableRow(prospection, sellers))
   }
 
   protected buildActionsDropdownColumn(): UiDropdownItem<any>[] {
@@ -60,7 +71,7 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
   }
 
   private buildStatusDropdownItems(): UiDropdownItem<any>[] {
-    return PROSPECTION_STATUS.map( status => ({
+    return PROSPECTION_STATUS.map(status => ({
       label: status.shortLabel,
       value: status.key,
       icon: status.icon
@@ -77,7 +88,7 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
   }
 
   private buildSellersDropdownColumn(sellers: Seller_Dto[]): UiDropdownItem<any>[] {
-    return sellers.map( seller => ({
+    return sellers.map(seller => ({
       label: seller.name,
       value: seller.id
     }))
@@ -89,32 +100,32 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
         id: prospection.id
       },
       cells: {
-        city: prospection.city??'',
-        zip: prospection.zip??'',
-        address: prospection.address??'',
-        link: prospection.link??'',
+        city: prospection.city ?? '',
+        zip: prospection.zip ?? '',
+        address: prospection.address ?? '',
+        link: prospection.link ?? '',
         seller: {
-          value: prospection.seller_id??'',
-          label: sellers.find( seller => seller.id === prospection.seller_id )?.name??''
+          value: prospection.seller_id ?? '',
+          label: sellers.find(seller => seller.id === prospection.seller_id)?.name ?? ''
         },
-        price: prospection.price??0,
+        price: prospection.price ?? 0,
         status: this.getStatusValue(prospection.status),
         actions: ''
       }
     }
   }
 
-  private getStatusValue(statusKey?: string): CellType{
-    if(!statusKey) return {
+  private getStatusValue(statusKey?: string): CellType {
+    if (!statusKey) return {
       label: '',
       icon: '',
       value: ''
     };
-    const status = PROSPECTION_STATUS.find( status => status.key === statusKey );
+    const status = PROSPECTION_STATUS.find(status => status.key === statusKey);
     return {
-      label: status?.shortLabel??'',
-      icon: status?.icon??'',
-      value: status?.key??''
+      label: status?.shortLabel ?? '',
+      icon: status?.icon ?? '',
+      value: status?.key ?? ''
     }
   }
 

@@ -29,7 +29,7 @@ export class ProspectionsTableDirective implements ProspectionsTableCommands {
   }
 
   updateRow(rowWidthUpdate: UiTableRow) {
-    const update = { id: rowWidthUpdate.data['id'], ...rowWidthUpdate.cells }
+    const update = this.adapter.getDtoFromRow(rowWidthUpdate);
     this.prospectionsData.updateProspection(update).pipe(
       take(1),
       catchError(() => this.reloadProspectionAsBeforeUpdate(rowWidthUpdate.data['id']))
