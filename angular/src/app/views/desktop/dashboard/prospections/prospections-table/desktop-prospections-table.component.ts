@@ -16,9 +16,9 @@ export class DesktopProspectionsTableComponent extends ProspectionsTableDirectiv
 
   constructor(protected override prospectionsData: ProspectionsDataService,
               protected override SellersData: SellersDataService,
-              protected override adapter: ProspectionsTableAdapterService,
+              protected override tableAdapter: ProspectionsTableAdapterService,
               private commandsService: DesktopProspectionsCommandsService ) {
-    super(prospectionsData, SellersData, adapter);
+    super(prospectionsData, SellersData, tableAdapter);
   }
 
   override delete(row: UiTableRow) {

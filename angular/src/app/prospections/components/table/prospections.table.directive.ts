@@ -16,20 +16,20 @@ export class ProspectionsTableDirective implements ProspectionsTableCommands {
   sellers: Signal<Seller_Dto[]> = this.SellersData.get();
   table: Signal<UiTableProspections> = this.buildTable();
 
-  constructor(protected prospectionsData: ProspectionsDataService, protected SellersData: SellersDataService, protected adapter: ProspectionsTableAdapterService) {
+  constructor(protected prospectionsData: ProspectionsDataService, protected SellersData: SellersDataService, protected tableAdapter: ProspectionsTableAdapterService) {
     console.log('prospectionsTableDirective constructor.');
   }
 
   buildTable() {
     return computed(() => {
-      const table = this.adapter.buildTable(this.prospections(), this.sellers());
+      const table = this.tableAdapter.buildTable(this.prospections(), this.sellers());
       table.columns.find(column => column.key === 'actions')!.dropDownItems[0].command = this.delete.bind(this);
       return table;
     })
   }
 
   updateRow(rowWidthUpdate: UiTableRow) {
-    const update = this.adapter.getDtoFromRow(rowWidthUpdate);
+    const update = this.tableAdapter.getDtoFromRow(rowWidthUpdate);
     this.prospectionsData.updateProspection(update).pipe(
       take(1),
       catchError(() => this.reloadProspectionAsBeforeUpdate(rowWidthUpdate.data['id']))
