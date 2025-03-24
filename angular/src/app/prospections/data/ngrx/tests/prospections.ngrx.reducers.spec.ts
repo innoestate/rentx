@@ -1,4 +1,4 @@
-import { prospectionReducer, initialState, ProspectionState } from '../prospections.reducers';
+import { prospectionReducer, initialState, ProspectionsState } from '../prospections.reducers';
 import {
   createProspectionSuccess,
   loadProspectionsSuccess,
@@ -10,7 +10,7 @@ import { Prospection_Dto } from 'src/app/prospections/models/prospection.dto.mod
 import { ProspectionDtoMock1, ProspectionDtoMock2 } from '../../../mocks/prospections.dto.mock';
 
 
-describe('Prospection ngrx Reducer', () => {
+describe('Prospections ngrx Reducer', () => {
   it('should return the default state', () => {
     const state = prospectionReducer(undefined, { type: '@@INIT' });
     expect(state).toEqual(initialState);
@@ -29,7 +29,7 @@ describe('Prospection ngrx Reducer', () => {
   });
 
   it('should delete a prospection', () => {
-    const initialStateWithProspections: ProspectionState = {
+    const initialStateWithProspections: ProspectionsState = {
       prospections: [{ ...ProspectionDtoMock1 }]
     };
     const state = prospectionReducer(initialStateWithProspections, deleteProspectionSuccess({ id: ProspectionDtoMock1.id! }));
@@ -37,7 +37,7 @@ describe('Prospection ngrx Reducer', () => {
   });
 
   it('should update a prospection', () => {
-    const initialStateWithProspections: ProspectionState = {
+    const initialStateWithProspections: ProspectionsState = {
       prospections: [{ ...ProspectionDtoMock1 }]
     };
     const updatedProspection: Partial<Prospection_Dto> = { id: ProspectionDtoMock1.id, city: 'London' };
@@ -46,7 +46,7 @@ describe('Prospection ngrx Reducer', () => {
   });
 
   it('should reload a prospection', () => {
-    const initialStateWithProspections: ProspectionState = {
+    const initialStateWithProspections: ProspectionsState = {
       prospections: [{ ...ProspectionDtoMock1 }]
     };
     const state = prospectionReducer(initialStateWithProspections, reloadProspection({ prospectionId: ProspectionDtoMock1.id! }));

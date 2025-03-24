@@ -13,13 +13,13 @@ import { ProspectionsDataModule } from "../../../data/modules/prospections.data.
 import { ProspectionsDataService } from "../../../data/services/prospections.data.service";
 import { ProspectionDtoMock1 } from "../../../mocks/prospections.dto.mock";
 import { ProspectionHttpFailUpdateMockService } from "../../../data/services/tests/mocks/prospections.http.fail.update.mock.service";
-import { ProspectionTableDirectiveMock } from "./mocks/prospections.table.mock.component";
+import { ProspectionsTableDirectiveMock } from "./mocks/prospections.table.mock.component";
 
 
-describe('ProspectionTableDirective test with fail update', () => {
+describe('ProspectionsTableDirective test with fail update', () => {
 
-  let fixture: ComponentFixture<ProspectionTableDirectiveMock>;
-  let component: ProspectionTableDirectiveMock;
+  let fixture: ComponentFixture<ProspectionsTableDirectiveMock>;
+  let component: ProspectionsTableDirectiveMock;
   let prospectionDataService;
   let sellersDataService;
 
@@ -30,7 +30,7 @@ describe('ProspectionTableDirective test with fail update', () => {
       imports:  [
         StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
-        ProspectionTableDirectiveMock,
+        ProspectionsTableDirectiveMock,
         ProspectionsDataModule,
         SellersDataModule,
         UiModule
@@ -51,7 +51,7 @@ describe('ProspectionTableDirective test with fail update', () => {
       ]
     });
 
-    fixture = TestBed.createComponent(ProspectionTableDirectiveMock);
+    fixture = TestBed.createComponent(ProspectionsTableDirectiveMock);
     component = fixture.componentInstance;
 
     prospectionDataService = TestBed.inject(ProspectionsDataService);

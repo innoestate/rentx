@@ -6,7 +6,7 @@ import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.m
 import { CellType } from "src/app/ui/components/ui-table/types/ui-table.cell.type";
 import { Prospection_Dto } from "../../models/prospection.dto.model";
 import { PROSPECTION_STATUS } from "../../models/prospection.status.model";
-import { UiTableProspectionsColumns, UiTableSellerColumn, UiTableProspection, UiTableRowProspections } from "./prospections.table.adapter.type";
+import { UiTableColumnsProspections, UiTableColumnSeller, UiTableProspections, UiTableRowProspections } from "./prospections.table.adapter.type";
 
 @Injectable({
   providedIn: 'root'
@@ -17,14 +17,14 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
     super();
   }
 
-  buildTable(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTableProspection {
+  buildTable(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTableProspections {
     return {
       columns: this.createColumns(sellers),
       rows: this.createRows(prospections, sellers)
     }
   }
 
-  protected createColumns(sellers: Seller_Dto[]): UiTableProspectionsColumns {
+  protected createColumns(sellers: Seller_Dto[]): UiTableColumnsProspections {
     return [
       { key: 'city', label: 'Ville', editable: true },
       { key: 'zip', label: 'Code postal', editable: true },
@@ -67,7 +67,7 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
     }))
   }
 
-  private buildSellersColumn(sellers: Seller_Dto[]): UiTableSellerColumn {
+  private buildSellersColumn(sellers: Seller_Dto[]): UiTableColumnSeller {
     return {
       key: 'seller',
       label: 'Vendeur',

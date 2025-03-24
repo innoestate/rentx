@@ -3,21 +3,21 @@ import { catchError, of, take } from "rxjs";
 import { SellersDataService } from "src/app/sellers/data/service/sellers.data.service";
 import { Seller_Dto } from "src/app/sellers/models/seller.dto.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { UiTableProspection } from "../../adapters/table/prospections.table.adapter.type";
+import { UiTableProspections } from "../../adapters/table/prospections.table.adapter.type";
 import { ProspectionsTableAdapterService } from "../../adapters/table/prospections.table.adapter.service";
 import { ProspectionsTableCommands } from "../../commands/table/prospections.table.commands.interface";
 import { ProspectionsDataService } from "../../data/services/prospections.data.service";
 import { Prospection } from "../../models/prospection.model";
 
 @Directive()
-export class ProspectionTableDirective implements ProspectionsTableCommands {
+export class ProspectionsTableDirective implements ProspectionsTableCommands {
 
   prospections: Signal<Prospection[]> = this.prospectionsData.getProspections();
   sellers: Signal<Seller_Dto[]> = this.SellersData.get();
-  table: Signal<UiTableProspection> = this.buildTable();
+  table: Signal<UiTableProspections> = this.buildTable();
 
   constructor(protected prospectionsData: ProspectionsDataService, protected SellersData: SellersDataService, protected adapter: ProspectionsTableAdapterService) {
-    console.log('prospectionTableDirective constructor.');
+    console.log('prospectionsTableDirective constructor.');
   }
 
   buildTable() {

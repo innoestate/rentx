@@ -8,11 +8,11 @@ import {
   updateProspectionSuccess
 } from './prospections.actions';
 
-export interface ProspectionState {
+export interface ProspectionsState {
   prospections: Prospection_Dto[];
 }
 
-export const initialState: ProspectionState = {
+export const initialState: ProspectionsState = {
   prospections: []
 };
 

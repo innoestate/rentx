@@ -1,9 +1,9 @@
-import { selectProspectionState, selectProspections } from '../prospections.selectors';
-import { ProspectionState } from '../prospections.reducers';
+import { selectProspectionsState, selectProspections } from '../prospections.selectors';
+import { ProspectionsState } from '../prospections.reducers';
 import { ProspectionDtoMock1, ProspectionDtoMock2 } from '../../../mocks/prospections.dto.mock';
 
-describe('Prospection ngrx Selectors', () => {
-  const initialState: ProspectionState = {
+describe('Prospections ngrx Selectors', () => {
+  const initialState: ProspectionsState = {
     prospections: [
       { ...ProspectionDtoMock1 },
       { ...ProspectionDtoMock2 }
@@ -11,7 +11,7 @@ describe('Prospection ngrx Selectors', () => {
   };
 
   it('should select the feature state', () => {
-    const result = selectProspectionState.projector(initialState);
+    const result = selectProspectionsState.projector(initialState);
     expect(result).toEqual(initialState);
   });
 
@@ -22,7 +22,7 @@ describe('Prospection ngrx Selectors', () => {
 
   it('should reflect updated prospection in the selected prospections', () => {
     const updatedProspection = { ...ProspectionDtoMock1, city: 'Strassburg' };
-    const updatedState: ProspectionState = {
+    const updatedState: ProspectionsState = {
       prospections: [
         updatedProspection,
         { ...ProspectionDtoMock2 }

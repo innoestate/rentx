@@ -4,52 +4,52 @@ import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.m
 import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
 
-interface CityColumn extends UiTableColumnItem {
+interface UiTableColumnCity extends UiTableColumnItem {
   key: 'city';
   label: string;
 }
 
-interface ZipColumn extends UiTableColumnItem {
+interface UiTableColumnZip extends UiTableColumnItem {
   key: 'zip';
   label: string;
 }
 
-interface StreetColumn extends UiTableColumnItem {
+interface UiTableColumnStreet extends UiTableColumnItem {
   key: 'street';
   label: string;
 }
 
-interface LinkColumn extends UiTableColumnItem {
+interface UiTableColumnLink extends UiTableColumnItem {
   key: 'link';
   label: string;
 }
 
-export interface UiTableSellerColumn extends UiTableColumnItem {
+export interface UiTableColumnSeller extends UiTableColumnItem {
   key: 'seller';
   label: string;
   editable: true;
   dropDownItems: UiDropdownItem<Seller_Dto>[];
 }
 
-interface PriceColumn extends UiTableColumnItem {
+interface UiTableColumnPrice extends UiTableColumnItem {
   key: 'price';
   label: string;
   editable: true;
 }
 
-interface StatusColumn extends UiTableColumnItem {
+interface UiTableColumnStatus extends UiTableColumnItem {
   key: 'status';
   label: string;
   dropDownItems: UiDropdownItem<any>[];
 }
 
-interface ActionColumn extends UiTableColumnItem {
+interface UiTableColumnActions extends UiTableColumnItem {
   key: 'actions';
   label: string;
   dropDownItems: UiDropdownItem<any>[];
 }
 
-export type UiTableProspectionsColumns = [CityColumn, ZipColumn, StreetColumn, LinkColumn, UiTableSellerColumn, PriceColumn, StatusColumn, ActionColumn];
+export type UiTableColumnsProspections = [UiTableColumnCity, UiTableColumnZip, UiTableColumnStreet, UiTableColumnLink, UiTableColumnSeller, UiTableColumnPrice, UiTableColumnStatus, UiTableColumnActions];
 
 export interface UiTableRowProspections extends UiTableRow {
   data: {
@@ -58,7 +58,7 @@ export interface UiTableRowProspections extends UiTableRow {
   cells: {}
 }
 
-export interface UiTableProspection extends UiTable {
-  columns: UiTableProspectionsColumns;
+export interface UiTableProspections extends UiTable {
+  columns: UiTableColumnsProspections;
   rows: UiTableRowProspections[];
 }
