@@ -1,5 +1,5 @@
-import { Seller_Dto } from "src/app/sellers/models/seller.dto.model";
-import { FormPopupFieldData } from "src/app/views/common/popups/form-popup/models/form-popup.fields-data.model";
+import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
+import { FormPopupFieldData } from "src/app/displays/common/popups/form-popup/models/form-popup.fields-data.model";
 
 export abstract class ProspectionsCommandsService {
 

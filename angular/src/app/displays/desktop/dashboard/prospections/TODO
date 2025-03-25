@@ -1,0 +1,27 @@
+l'objectif ici va être de créer les tests unitaires et d'intégration sur la view desktop prospection.
+puis éventuellement de cleaner et refactoriser.
+
+(ensuite si tout se passe bien on passera aux tests cypress)
+
+On pourrait commencer par DesktopProspectionsComponent en s'assurant qu'il charge bien les données des prospections et du sellers.
+Il faudrait aussi tester le routing.
+Et le composant menu en s'assurant qu'il redirige bien vers les bonnes routes.
+Aussi les desktop commands, en s'assurant qu'il crée bien une nouvelle prospection.
+-> ici par exemple tester le cas où on a pas de sellers (et corriger)
+
+
+Ensuit attaquer DesktopProspectionsTableComponent et s'assurer que la commande delete fonctionne bien.
+
+On pourrait aussi tester le tableau uiTable et s'assurer que celui ci s'affiche correctement.
+
+
+
+OK c'est parti.
+
+Je suis sur le test de la command.
+Et je me pose la question...quels test sont pertinents ?
+
+Je pourrais tester que si on envoie x ou y dans le formulaire, le bouton de validation s'active ou pas.
+
+Un cas d'erreur actuellement est que, s'il n'y a pas de vendeurs, le formControl mets un champ string à la place de dropdown.
+

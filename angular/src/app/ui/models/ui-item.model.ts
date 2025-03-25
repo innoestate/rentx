@@ -1,4 +1,4 @@
-import { Command } from "src/app/estates/commands/command.interface";
+import { Command } from "src/app/features/estates/commands/command.interface";
 
 export interface UiItem {
   label: string;

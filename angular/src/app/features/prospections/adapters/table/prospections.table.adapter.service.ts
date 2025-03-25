@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Seller_Dto } from "src/app/sellers/models/seller.dto.model";
+import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
 import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
 import { UiTableAdapter } from "src/app/ui/components/ui-table/adapter/ui-table.adapter";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";

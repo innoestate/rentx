@@ -1,4 +1,4 @@
-import { Seller_Dto } from "src/app/sellers/models/seller.dto.model";
+import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
 
 export const sellerMock1: Seller_Dto = {
   id: 'mock-seller-id-1',

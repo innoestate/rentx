@@ -21,9 +21,9 @@ import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthInterceptor } from './core/auth/auth.interceptor';
 import { DeviceGuard } from './core/guards/device.guard';
-import { UserDataModule } from './user/data/module/user.data.module';
-import { CallbackComponent } from './views/common/pages/callback/callback.component';
-import { LoginComponent } from './views/common/pages/login/login.component';
+import { UserDataModule } from './features/user/data/module/user.data.module';
+import { LoginComponent } from './displays/pages/login/login.component';
+import { CallbackComponent } from './displays/pages/callback/callback.component';
 
 registerLocaleData(en);
 

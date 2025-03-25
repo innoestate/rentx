@@ -1,7 +1,7 @@
 import { computed, Directive, Signal } from "@angular/core";
 import { catchError, of, take } from "rxjs";
-import { SellersDataService } from "src/app/sellers/data/service/sellers.data.service";
-import { Seller_Dto } from "src/app/sellers/models/seller.dto.model";
+import { SellersDataService } from "src/app/features/sellers/data/service/sellers.data.service";
+import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableProspections } from "../../adapters/table/prospections.table.adapter.type";
 import { ProspectionsTableAdapterService } from "../../adapters/table/prospections.table.adapter.service";

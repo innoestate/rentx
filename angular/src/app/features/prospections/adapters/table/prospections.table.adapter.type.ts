@@ -1,4 +1,4 @@
-import { Seller_Dto } from "src/app/sellers/models/seller.dto.model";
+import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
 import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";

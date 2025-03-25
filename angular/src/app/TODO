@@ -1,0 +1,11 @@
+Ok i have a nice structure respecting separation of concerns for the features.
+
+Now i'd like to go deeper in the global structure.
+
+So we have a core forlder to handler global logic for all like auth, guards etc...
+A shared module to handle stuffs used in different features
+We also have UI that provide all ui components used for displaying stuffs.
+
+And we have a views folder that display pages and components.
+In this folder we have desktop, and mobile.
+Also common...but this name is not very good.
