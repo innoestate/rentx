@@ -2,11 +2,10 @@ import { Injectable } from "@angular/core";
 import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
 import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
 import { UiTableAdapter } from "src/app/ui/components/ui-table/adapter/ui-table.adapter";
-import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { CellType } from "src/app/ui/components/ui-table/types/ui-table.cell.type";
 import { Prospection_Dto } from "../../models/prospection.dto.model";
 import { PROSPECTION_STATUS } from "../../models/prospection.status.model";
-import { UiTableColumnsProspections, UiTableColumnSeller, UiTableProspections, UiTableRowProspection } from "./prospections.table.adapter.type";
+import { UiTableColumnSeller, UiTableColumnsProspections, UiTableProspections, UiTableRowProspection } from "./prospections.table.adapter.type";
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +24,7 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
   }
 
   getDtoFromRow(row: UiTableRowProspection): Partial<Prospection_Dto> {
+    if (!row.data['id']) throw new Error('Need an id in row data.');
     const data: any = { id: row.data['id'], ...row.cells }
     if(data['seller']){
       data['seller_id'] = data['seller'].value
@@ -53,10 +53,10 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
   }
 
   protected createRows(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTableRowProspection[] {
-    return prospections.map(prospection => this.formatUiTableRow(prospection, sellers))
+    return prospections.map(prospection => this.extractRow(prospection, sellers))
   }
 
-  protected buildActionsDropdownColumn(): UiDropdownItem<any>[] {
+  private buildActionsDropdownColumn(): UiDropdownItem<any>[] {
     return [
       {
         label: 'Supprimer',
@@ -94,10 +94,10 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
     }))
   }
 
-  private formatUiTableRow(prospection: Prospection_Dto, sellers: Seller_Dto[]): UiTableRow {
+  private extractRow(prospection: Prospection_Dto, sellers: Seller_Dto[]): UiTableRowProspection {
     return {
       data: {
-        id: prospection.id
+        id: prospection.id!
       },
       cells: {
         city: prospection.city ?? '',

@@ -22,6 +22,7 @@ export class SellersTableAdapterService extends UiTableAdapter {
   }
 
   getDtoFromRow(row: UiTableRow): Partial<Seller_Dto> {
+    if (!row.data['id']) throw new Error('Need an id in row data.');
     const data: any = { id: row.data['id'], ...row.cells }
     return data;
   }

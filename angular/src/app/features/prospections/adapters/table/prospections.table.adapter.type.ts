@@ -55,7 +55,6 @@ export interface UiTableRowProspection extends UiTableRow {
   data: {
     id: string
   },
-  cells: {}
 }
 
 export interface UiTableProspections extends UiTable {

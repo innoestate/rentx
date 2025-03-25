@@ -34,5 +34,11 @@ describe('SellersTableAdapterService', () => {
     });
   });
 
+  it('should throw an error because no id', () => {
+    expect(() => {
+      adapter.getDtoFromRow({ data: {}, cells: {}} as any);
+    }).toThrow();
+  })
+
 
 });

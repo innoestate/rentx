@@ -3,7 +3,7 @@ import { TestBed } from "@angular/core/testing"
 import { sellerDtoMock1 } from "src/app/features/sellers/mocks/sellers.dto.mock"
 import { UiTableAdapterTestHelper } from "src/app/ui/components/ui-table/adapter/test/helper/ui-table.adapter.test.helper"
 import { prospectionDtoMock1 } from "../../mocks/prospections.dto.mock"
-import { uiTableRowProspectionsUpdateMock1 } from "./mocks/prospection.table.row.mocl"
+import { uiTableRowProspectionsUpdateMock1 } from "./mocks/prospection.table.row.mock"
 import { ProspectionsTableAdapterService } from "./prospections.table.adapter.service"
 
 describe('ProspectionsTableAdapterService', () => {
@@ -32,6 +32,12 @@ describe('ProspectionsTableAdapterService', () => {
       id: '1234',
       seller_id: 'abcd'
     })
+  })
+
+  it('should throw an error because no id', () => {
+    expect(() => {
+      adapter.getDtoFromRow({ data: {}, cells: {}} as any);
+    }).toThrow();
   })
 
 })
