@@ -1,26 +1,32 @@
 import { Injectable } from "@angular/core";
-import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
-import { Seller_Dto } from "../models/seller.dto.model";
-import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
-import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
-import { SellersCommandsService } from "../commands/sellers.commands.service";
+import { UiTableAdapter } from "src/app/ui/components/ui-table/adapter/ui-table.adapter";
+import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
+import { Seller_Dto } from "../models/seller.dto.model";
+import { UiTableColumnsSellers, UiTableSellers } from "./sellers.table.adapter.type";
 
 @Injectable({
   providedIn: 'root'
 })
-export class SellersTableAdapterService {
+export class SellersTableAdapterService extends UiTableAdapter {
 
-  constructor(private sellersCommands: SellersCommandsService) { }
+  constructor() {
+    super();
+   }
 
-  buildTable(sellers: Seller_Dto[]): UiTable {
+  buildTable(sellers: Seller_Dto[]): UiTableSellers {
     return {
       columns: this.createColumns(),
       rows: this.createRows(sellers)
     }
   }
 
-  private createColumns(): UiTableColumnItem[] {
+  getDtoFromRow(row: UiTableRow): Partial<Seller_Dto> {
+    const data: any = { id: row.data['id'], ...row.cells }
+    return data;
+  }
+
+  protected createColumns(): UiTableColumnsSellers {
     return [
       { key: 'name', label: 'Nom', editable: true },
       { key: 'street', label: 'Rue', editable: true },
@@ -33,6 +39,10 @@ export class SellersTableAdapterService {
     ]
   }
 
+  protected createRows(sellers: Seller_Dto[]): UiTableRow[] {
+    return sellers.map(seller => this.extractRow(seller));
+  }
+
   private buildActionsDropdownColumn(): UiDropdownItem<any>[] {
     return [
       {
@@ -40,15 +50,11 @@ export class SellersTableAdapterService {
         icon: 'delete',
         value: "delete",
         command: (row: UiTableRow) => {
-          this.sellersCommands.delete(row.data.id);
+          // this.sellersCommands.delete(row.data.id);
           return true;
         }
       }
     ]
-  }
-
-  private createRows(sellers: Seller_Dto[]): UiTableRow[] {
-    return sellers.map(seller => this.extractRow(seller));
   }
 
   private extractRow(seller: Seller_Dto): UiTableRow {
