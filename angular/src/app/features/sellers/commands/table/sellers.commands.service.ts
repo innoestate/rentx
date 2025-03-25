@@ -5,21 +5,24 @@ import { SellersDataService } from "../../data/services/sellers.data.service";
 import { take, tap } from "rxjs";
 import { FormContinuablePopupComponent } from "src/app/displays/common/popups/form-continuable-popup/form-continuable-popup.component";
 import { FormPopupFieldData } from "src/app/displays/common/popups/form-popup/models/form-popup.fields-data.model";
+import { LocalizationsService } from "src/app/core/localizations/localizations.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SellersCommandsService {
 
-  constructor(private popupService: UiPopupService, private sellersData: SellersDataService ) { }
+  constructor(private popupService: UiPopupService,
+    private sellersData: SellersDataService,
+    private localizationsService: LocalizationsService) { }
 
   createNew() {
-    this.popupService.openPopup(FormContinuablePopupComponent, 'créer un vendeur', {
+    this.popupService.openPopup(FormContinuablePopupComponent, this.localizationsService.getLocalization('sellers', 'createSellerFromTitle'), {
       fields: this.getCreateFields(),
       onValidate: (seller: Seller_Dto, successCallback: () => void) => {
         this.sellersData.createSeller(seller).pipe(
           take(1),
-          tap( () => successCallback())
+          tap(() => successCallback())
         ).subscribe();
       }
     });

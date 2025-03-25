@@ -16,7 +16,8 @@ export const Localizations: Record<string, Record<string, string>> = {
     updateSellerSuccess: 'Vendeur modifié avec succès!',
     updateSellerFailure: 'Echec de la modification du vendeur!',
     deleteSellerSuccess: 'Vendeur supprimé avec succès!',
-    deleteSellerFailure: 'Echec de la suppression du vendeur!'
+    deleteSellerFailure: 'Echec de la suppression du vendeur!',
+    createSellerFromTitle: 'créer un vendeur'
   },
 
 }
