@@ -22,7 +22,7 @@ export class SellersDataService {
   }
 
   updateSeller(seller: Partial<Seller_Dto>) {
-    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(updateSeller, updateSellerSuccess, updateSellerFailure, seller);
+    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(updateSeller, updateSellerSuccess, updateSellerFailure, { seller });
   }
 
   deleteSeller(id: string) {

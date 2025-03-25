@@ -37,7 +37,7 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
     return [
       { key: 'city', label: 'Ville', editable: true },
       { key: 'zip', label: 'Code postal', editable: true },
-      { key: 'street', label: 'Rue', editable: true },
+      { key: 'address', label: 'Rue', editable: true },
       { key: 'link', label: 'lien', editable: true },
       this.buildSellersColumn(sellers),
       { key: 'price', label: 'Prix', editable: true },

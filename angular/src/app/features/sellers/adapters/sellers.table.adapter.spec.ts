@@ -26,11 +26,11 @@ describe('SellersTableAdapterService', () => {
     adapterTestHelper.testTable();
   });
 
-  it('should provide the correct Dto object for update', () => {
+  it('should provide the correct address Dto object for update', () => {
     const dto = adapter.getDtoFromRow(uiTableRowSellersUpdateMock1);
     expect(dto).toEqual({
       id: '5678',
-      name: 'Johnny'
+      address: '123 test street'
     });
   });
 

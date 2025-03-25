@@ -26,7 +26,7 @@ export const sellersReducer = createReducer(
   })),
   on(SellerActions.updateSellerSuccess, (state, { seller }) => ({
     ...state,
-    sellers: state.sellers.map(s => (s.id === seller.id ? seller : s)),
+    sellers: state.sellers.map(actualSeller => (actualSeller.id === seller.id ? {...actualSeller, ...seller} : actualSeller)),
   }))
 );
 

@@ -14,8 +14,8 @@ interface UiTableColumnZip extends UiTableColumnItem {
   label: string;
 }
 
-interface UiTableColumnStreet extends UiTableColumnItem {
-  key: 'street';
+interface UiTableColumnAddress extends UiTableColumnItem {
+  key: 'address';
   label: string;
 }
 
@@ -49,7 +49,7 @@ interface UiTableColumnActions extends UiTableColumnItem {
   dropDownItems: UiDropdownItem<any>[];
 }
 
-export type UiTableColumnsProspections = [UiTableColumnCity, UiTableColumnZip, UiTableColumnStreet, UiTableColumnLink, UiTableColumnSeller, UiTableColumnPrice, UiTableColumnStatus, UiTableColumnActions];
+export type UiTableColumnsProspections = [UiTableColumnCity, UiTableColumnZip, UiTableColumnAddress, UiTableColumnLink, UiTableColumnSeller, UiTableColumnPrice, UiTableColumnStatus, UiTableColumnActions];
 
 export interface UiTableRowProspection extends UiTableRow {
   data: {

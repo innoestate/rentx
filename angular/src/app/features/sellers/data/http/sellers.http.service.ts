@@ -25,7 +25,7 @@ export class SellersHttpService {
     return this.http.post<Seller_Dto>(this.apiUrl, seller);
   }
 
-  update(seller: Seller_Dto): Observable<Seller_Dto> {
+  update(seller: Partial<Seller_Dto>): Observable<Partial<Seller_Dto>> {
     return this.http.patch<Seller_Dto>(`${this.apiUrl}/${seller.id}`, seller);
   }
 

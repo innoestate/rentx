@@ -9,8 +9,8 @@ export const createSeller = createAction('[Seller] Create Seller', props<{ selle
 export const createSellerSuccess = createAction('[Seller] Create Seller Success', props<{ seller: Seller_Dto }>());
 export const createSellerFailure = createAction('[Seller] Create Seller Failure', props<{ error: any }>());
 
-export const updateSeller = createAction('[Seller] Update Seller', props<{ seller: Seller_Dto }>());
-export const updateSellerSuccess = createAction('[Seller] Update Seller Success', props<{ seller: Seller_Dto }>());
+export const updateSeller = createAction('[Seller] Update Seller', props<{ seller: Partial<Seller_Dto> }>());
+export const updateSellerSuccess = createAction('[Seller] Update Seller Success', props<{ seller: Partial<Seller_Dto> }>());
 export const updateSellerFailure = createAction('[Seller] Update Seller Failure', props<{ error: any }>());
 
 export const removeSeller = createAction('[Seller] Remove Seller', props<{ id: string }>());

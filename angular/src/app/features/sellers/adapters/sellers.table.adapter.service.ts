@@ -29,7 +29,7 @@ export class SellersTableAdapterService extends UiTableAdapter {
   protected createColumns(): UiTableColumnsSellers {
     return [
       { key: 'name', label: 'Nom', editable: true },
-      { key: 'street', label: 'Rue', editable: true },
+      { key: 'address', label: 'Rue', editable: true },
       { key: 'city', label: 'Ville', editable: true },
       { key: 'zip', label: 'Code postal', editable: true },
       { key: 'phone', label: 'téléphone', editable: true },
@@ -62,7 +62,7 @@ export class SellersTableAdapterService extends UiTableAdapter {
       data: { id: seller.id },
       cells: {
         name: seller.name,
-        street: seller.address??'',
+        address: seller.address??'',
         city: seller.city??'',
         zip: seller.zip??'',
         phone: seller.phone??'',

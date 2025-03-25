@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
-import * as SellerActions from './sellers.actions';
+import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { SellersHttpService } from '../http/sellers.http.service';
+import { createSeller, createSellerFailure, createSellerSuccess, loadSellers, loadSellersFailure, loadSellersSuccess, removeSeller, removeSellerFailure, removeSellerSuccess, updateSeller, updateSellerFailure, updateSellerSuccess } from './sellers.actions';
 
 @Injectable()
 export class SellersEffects {
@@ -12,11 +12,11 @@ export class SellersEffects {
 
   loadSellers$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SellerActions.loadSellers),
+      ofType(loadSellers),
       mergeMap(() =>
         this.http.getAll().pipe(
-          map(sellers => SellerActions.loadSellersSuccess({ sellers })),
-          catchError(error => of(SellerActions.loadSellersFailure({ error })))
+          map(sellers => loadSellersSuccess({ sellers })),
+          catchError(error => of(loadSellersFailure({ error })))
         )
       )
     )
@@ -24,11 +24,11 @@ export class SellersEffects {
 
   addSeller$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SellerActions.createSeller),
+      ofType(createSeller),
       mergeMap(action =>
         this.http.create(action.seller).pipe(
-          map(seller => SellerActions.createSellerSuccess({ seller })),
-          catchError(error => of(SellerActions.createSellerFailure({ error })))
+          map(seller => createSellerSuccess({ seller })),
+          catchError(error => of(createSellerFailure({ error })))
         )
       )
     )
@@ -36,23 +36,21 @@ export class SellersEffects {
 
   updateSeller$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SellerActions.updateSeller),
-      mergeMap(({ seller }) =>
-        this.http.update(seller).pipe(
-          map(seller => SellerActions.updateSellerSuccess({ seller })),
-          catchError(error => of(SellerActions.updateSellerFailure({ error })))
-        )
+      ofType(updateSeller),
+      switchMap(({ seller }) => this.http.update(seller).pipe(
+        map(() => updateSellerSuccess({ seller })),
+        catchError(err => of(updateSellerFailure(err)))
       )
-    )
+    ))
   );
 
   removeSeller$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SellerActions.removeSeller),
+      ofType(removeSeller),
       mergeMap(({ id }) =>
         this.http.delete(id).pipe(
-          map(() => SellerActions.removeSellerSuccess({ id })),
-          catchError(error => of(SellerActions.removeSellerFailure({ error })))
+          map(() => removeSellerSuccess({ id })),
+          catchError(error => of(removeSellerFailure({ error })))
         )
       )
     )

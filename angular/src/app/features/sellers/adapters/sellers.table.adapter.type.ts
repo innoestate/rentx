@@ -9,8 +9,8 @@ interface UiTableColumnName extends UiTableColumnItem {
   editable: true;
 }
 
-interface UiTableColumnStreet extends UiTableColumnItem {
-  key: 'street';
+interface UiTableColumnAddress extends UiTableColumnItem {
+  key: 'address';
   label: string;
   editable: true;
 }
@@ -51,7 +51,7 @@ interface UiTableColumnActions extends UiTableColumnItem {
   dropDownItems: UiDropdownItem<any>[];
 }
 
-export type UiTableColumnsSellers = [UiTableColumnName, UiTableColumnStreet, UiTableColumnCity, UiTableColumnZip, UiTableColumnPhone, UiTableColumnEmail, UiTableColumnAgency, UiTableColumnActions]
+export type UiTableColumnsSellers = [UiTableColumnName, UiTableColumnAddress, UiTableColumnCity, UiTableColumnZip, UiTableColumnPhone, UiTableColumnEmail, UiTableColumnAgency, UiTableColumnActions]
 
 export interface UiTableRowSellers extends UiTableRow {
   data: {

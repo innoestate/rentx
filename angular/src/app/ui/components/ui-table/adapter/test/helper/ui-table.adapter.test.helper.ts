@@ -21,7 +21,10 @@ export class UiTableAdapterTestHelper {
 
   private testRowsMatching() {
     const table = this.uiTableAdapter.buildTable(...this.buildArguments);
-    expect(Object.keys(table.rows[0].cells!).length).toEqual(table.columns.length)
+    const rowKeys = Object.keys(table.rows[0].cells!);
+    const columnKeys = table.columns.map(column => column.key);
+    expect(rowKeys.length).toEqual(columnKeys.length);
+    expect(rowKeys).toEqual(columnKeys);
   }
 
   private testDropdownMatching() {

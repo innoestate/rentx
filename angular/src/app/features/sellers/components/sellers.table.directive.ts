@@ -33,6 +33,7 @@ export class SellersTableDirective implements SellersTableCommands{
 
   updateRow(rowWidthUpdate: UiTableRow) {
     const update = this.sellersAdater.getDtoFromRow(rowWidthUpdate);
+    console.log('update', update);
     this.sellersDataService.updateSeller(update).pipe(
       take(1),
       // catchError(() => this.reloadSellerAsBeforeUpdate(rowWidthUpdate.data['id']))

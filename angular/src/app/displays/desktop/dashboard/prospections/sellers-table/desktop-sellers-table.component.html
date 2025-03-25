@@ -1,2 +1,2 @@
 
-<ui-table [columns]="table().columns" [rows]="table().rows"></ui-table>
+<ui-table (editRow)="updateRow($event)" [columns]="table().columns" [rows]="table().rows"></ui-table>
