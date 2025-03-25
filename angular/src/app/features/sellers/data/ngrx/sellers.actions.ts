@@ -16,3 +16,5 @@ export const updateSellerFailure = createAction('[Seller] Update Seller Failure'
 export const removeSeller = createAction('[Seller] Remove Seller', props<{ id: string }>());
 export const removeSellerSuccess = createAction('[Seller] Remove Seller Success', props<{ id: string }>());
 export const removeSellerFailure = createAction('[Seller] Remove Seller Failure', props<{ error: any }>());
+
+export const reloadSeller = createAction('[Seller] Reload Seller', props<{ sellerId: string }>());

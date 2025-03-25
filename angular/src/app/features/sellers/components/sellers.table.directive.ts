@@ -3,7 +3,7 @@ import { SellersDataService } from "../data/services/sellers.data.service";
 import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
 import { SellersTableAdapterService } from "../adapters/sellers.table.adapter.service";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { take } from "rxjs";
+import { catchError, of, take } from "rxjs";
 import { SellersTableCommands } from "../commands/table/sellers.table.commands.interface";
 import { UiTableRowSellers, UiTableSellers } from "../adapters/sellers.table.adapter.type";
 import { SellersCommandsService } from "../commands/table/sellers.commands.service";
@@ -36,8 +36,21 @@ export class SellersTableDirective implements SellersTableCommands{
     console.log('update', update);
     this.sellersDataService.updateSeller(update).pipe(
       take(1),
-      // catchError(() => this.reloadSellerAsBeforeUpdate(rowWidthUpdate.data['id']))
+      catchError(() => this.reloadSellerAsBeforeUpdate(rowWidthUpdate.data['id']))
     ).subscribe();
+  }
+
+  private getSellerBeforeUpdate(id: string) {
+    const sellerBeforeUpdate = this.sellers().find(seller => seller.id === id);
+    if (!sellerBeforeUpdate) throw new Error('Previous seller not found');
+    return sellerBeforeUpdate;
+  }
+
+
+  private reloadSellerAsBeforeUpdate(id: string) {
+    const sellerBeforeUpdate = this.getSellerBeforeUpdate(id);
+    this.sellersDataService.reloadSeller(sellerBeforeUpdate.id!);
+    return of(sellerBeforeUpdate);
   }
 
 }
