@@ -61,12 +61,12 @@ describe('SellersDataService test successful CRUD ', () => {
     expect(sellers().find(s => s.id === updatedSeller.id)!.name).toEqual('Updated Name');
   });
 
-  // it('should delete a seller', () => {
-  //   dataService.loadSellers();
-  //   const sellerIdToDelete = sellerDtoMock2.id;
-  //   dataService.deleteSeller(sellerIdToDelete!);
-  //   const sellers = dataService.getSellers();
-  //   expect(sellers().find(s => s.id === sellerIdToDelete)).toBeUndefined();
-  // });
+  it('should delete a seller', () => {
+    dataService.loadSellers();
+    const sellerIdToDelete = sellerDtoMock2.id;
+    dataService.deleteSeller(sellerIdToDelete!);
+    const sellers = dataService.getSellers();
+    expect(sellers().find(s => s.id === sellerIdToDelete)).toBeUndefined();
+  });
 
 });

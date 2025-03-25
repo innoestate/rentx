@@ -38,25 +38,20 @@ describe('ProspectionsDataService test successful CRUD ', () => {
   })
 
   it('should load prospections and emit the prospections from signals', () => {
-
     const prospections = dataService.getProspections();
     expect(prospections()).toEqual([])
     dataService.loadProspections();
     expect(prospections().length).toEqual(3)
-
   })
 
   it('should add a new prospection', () => {
-
     dataService.loadProspections();
     dataService.createProspection(cloneDeep(prospectionDtoMock4));
     const prospections = dataService.getProspections();
     expect(prospections().length).toEqual(4);
-
   })
 
   it('should update a prospection', () => {
-
     const prospections = dataService.getProspections();
     dataService.loadProspections();
     const newProspection = cloneDeep(prospectionDtoMock4);
@@ -65,17 +60,14 @@ describe('ProspectionsDataService test successful CRUD ', () => {
     const update = { id: newProspection.id, price: 100000};
     dataService.updateProspection(update);
     expect(prospections()[3].price).toEqual(100000);
-
   })
 
   it('should delete a prospection', () => {
-
     const prospections = dataService.getProspections();
     dataService.loadProspections();
     expect(prospections().find(prospection => prospection.id === prospectionDtoMock3.id)).toBeTruthy();
     dataService.deleteProspection(prospectionDtoMock3.id!);
     expect(prospections().length).toEqual(2);
-
   })
 
 })
