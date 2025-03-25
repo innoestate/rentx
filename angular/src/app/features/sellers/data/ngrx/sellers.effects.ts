@@ -13,10 +13,9 @@ export class SellersEffects {
   loadSellers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadSellers),
-      mergeMap(() =>
-        this.http.getAll().pipe(
+      switchMap(() => this.http.getAll().pipe(
           map(sellers => loadSellersSuccess({ sellers })),
-          catchError(error => of(loadSellersFailure({ error })))
+          catchError(err => of(loadSellersFailure(err)))
         )
       )
     )
@@ -25,10 +24,10 @@ export class SellersEffects {
   addSeller$ = createEffect(() =>
     this.actions$.pipe(
       ofType(createSeller),
-      mergeMap(action =>
+      switchMap(action =>
         this.http.create(action.seller).pipe(
           map(seller => createSellerSuccess({ seller })),
-          catchError(error => of(createSellerFailure({ error })))
+          catchError(err => of(createSellerFailure(err)))
         )
       )
     )
@@ -47,10 +46,10 @@ export class SellersEffects {
   removeSeller$ = createEffect(() =>
     this.actions$.pipe(
       ofType(removeSeller),
-      mergeMap(({ id }) =>
+      switchMap(({ id }) =>
         this.http.delete(id).pipe(
           map(() => removeSellerSuccess({ id })),
-          catchError(error => of(removeSellerFailure({ error })))
+          catchError(err => of(removeSellerFailure(err)))
         )
       )
     )
