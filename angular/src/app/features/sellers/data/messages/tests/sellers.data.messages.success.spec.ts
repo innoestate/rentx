@@ -52,14 +52,14 @@ describe('SellersDataMessagesService test successful CRUD displaying messages ',
     messageTestHelper.hasDisplaySuccessMessage(localizationService.getLocalization('sellers','addSellerSuccess'));
   })
 
-  // it('should update a seller and show success message', () => {
-  //   dataService.updateSeller({...cloneDeep(sellerDtoMock1), city: 'Las Vegas'});
-  //   messageTestHelper.hasDisplaySuccessMessage(localizationService.getLocalization('sellers','updateSellerSuccess'));
-  // })
+  it('should update a seller and show success message', () => {
+    dataService.updateSeller({...cloneDeep(sellerDtoMock1), city: 'Las Vegas'});
+    messageTestHelper.hasDisplaySuccessMessage(localizationService.getLocalization('sellers','updateSellerSuccess'));
+  })
 
-  // it('should delete a seller and show success message', () => {
-  //   dataService.deleteSeller(sellerDtoMock3.id!);
-  //   messageTestHelper.hasDisplaySuccessMessage(localizationService.getLocalization('sellers','deleteSellerSuccess'));
-  // })
+  it('should delete a seller and show success message', () => {
+    dataService.deleteSeller(sellerDtoMock3.id!);
+    messageTestHelper.hasDisplaySuccessMessage(localizationService.getLocalization('sellers','deleteSellerSuccess'));
+  })
 
 });
