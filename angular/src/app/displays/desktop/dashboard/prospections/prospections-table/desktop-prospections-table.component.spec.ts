@@ -10,7 +10,7 @@ import { ProspectionsHttpSuccessMockService } from 'src/app/features/prospection
 import { SellersHttpService } from 'src/app/features/sellers/data/http/sellers.http.service';
 import { SellersDataModule } from 'src/app/features/sellers/data/modules/sellers.data.module';
 import { SellersDataService } from 'src/app/features/sellers/data/services/sellers.data.service';
-import { SellersHttpSuccessMockService } from 'src/app/features/sellers/data/test/mock/sellers.http.success.mock.service';
+import { SellersHttpSuccessMockService } from 'src/app/features/sellers/mocks/sellers.http.success.mock.service';
 import { UiTableHelper } from 'src/app/ui/components/ui-table/test/helper/ui-table.helper';
 import { UiModule } from 'src/app/ui/ui.module';
 import { DesktopProspectionsCommandsService } from '../commands/desktop.prospections.commands.service';

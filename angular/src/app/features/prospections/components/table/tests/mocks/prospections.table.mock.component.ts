@@ -6,4 +6,4 @@ import { ProspectionsTableDirective } from "../../prospections.table.directive";
   template: '<div></div>',
   standalone: true,
 })
-export class ProspectionsTableDirectiveMock extends ProspectionsTableDirective {}
+export class ProspectionsTableComponentMock extends ProspectionsTableDirective {}
