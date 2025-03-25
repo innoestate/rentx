@@ -8,6 +8,15 @@ export const Localizations: Record<string, Record<string, string>> = {
     updateProspectionFailure: 'Echec de la modification de la prospection!',
     deleteProspectionSuccess: 'Prospection supprimée avec succès!',
     deleteProspectionFailure: 'Echec de la suppression de la prospection!'
-  }
+  },
+  sellers: {
+    failLoading: 'Echec de chargement des vendeurs!',
+    addSellerSuccess: 'Vendeur ajouté avec succès!',
+    addSellerFailure: 'Echec de l\'ajout du vendeur!',
+    updateSellerSuccess: 'Vendeur modifié avec succès!',
+    updateSellerFailure: 'Echec de la modification du vendeur!',
+    deleteSellerSuccess: 'Vendeur supprimé avec succès!',
+    deleteSellerFailure: 'Echec de la suppression du vendeur!'
+  },
 
 }

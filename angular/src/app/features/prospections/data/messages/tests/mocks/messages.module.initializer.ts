@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { ProspectionsDataMessagesService } from "../../prospections.messages.service";
+import { ProspectionsDataMessagesService } from "../../prospections.data.messages.service";
 
 @NgModule()
 export class MessagesModuleInitializer {
