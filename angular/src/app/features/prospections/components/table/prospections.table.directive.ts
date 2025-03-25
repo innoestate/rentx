@@ -1,9 +1,9 @@
 import { computed, Directive, Signal } from "@angular/core";
 import { catchError, of, take } from "rxjs";
-import { SellersDataService } from "src/app/features/sellers/data/service/sellers.data.service";
+import { SellersDataService } from "src/app/features/sellers/data/services/sellers.data.service";
 import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { UiTableProspections } from "../../adapters/table/prospections.table.adapter.type";
+import { UiTableProspections, UiTableRowProspections } from "../../adapters/table/prospections.table.adapter.type";
 import { ProspectionsTableAdapterService } from "../../adapters/table/prospections.table.adapter.service";
 import { ProspectionsTableCommands } from "../../commands/table/prospections.table.commands.interface";
 import { ProspectionsDataService } from "../../data/services/prospections.data.service";
@@ -13,7 +13,7 @@ import { Prospection } from "../../models/prospection.model";
 export class ProspectionsTableDirective implements ProspectionsTableCommands {
 
   prospections: Signal<Prospection[]> = this.prospectionsData.getProspections();
-  sellers: Signal<Seller_Dto[]> = this.SellersData.get();
+  sellers: Signal<Seller_Dto[]> = this.SellersData.getSellers();
   table: Signal<UiTableProspections> = this.buildTable();
 
   constructor(protected prospectionsData: ProspectionsDataService, protected SellersData: SellersDataService, protected tableAdapter: ProspectionsTableAdapterService) {
@@ -28,7 +28,7 @@ export class ProspectionsTableDirective implements ProspectionsTableCommands {
     })
   }
 
-  updateRow(rowWidthUpdate: UiTableRow) {
+  updateRow(rowWidthUpdate: UiTableRowProspections) {
     const update = this.tableAdapter.getDtoFromRow(rowWidthUpdate);
     this.prospectionsData.updateProspection(update).pipe(
       take(1),

@@ -4,13 +4,13 @@ import { DesktopProspectionsComponent } from './prospections.component';
 import { ProspectionsDataModule } from 'src/app/features/prospections/data/modules/prospections.data.module';
 import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SellersDataModule } from 'src/app/features/sellers/data/module/sellers.data.module';
+import { SellersDataModule } from 'src/app/features/sellers/data/modules/sellers.data.module';
 import { ProspectionsHttpService } from 'src/app/features/prospections/data/http/prospections.http.service';
-import { ProspectionHttpSuccessMockService } from 'src/app/features/prospections/mocks/prospections.http.success.mock.service';
+import { ProspectionsHttpSuccessMockService } from 'src/app/features/prospections/mocks/prospections.http.success.mock.service';
 import { SellersHttpService } from 'src/app/features/sellers/data/http/sellers.http.service';
 import { SellersHttpSuccessMockService } from 'src/app/features/sellers/data/test/mock/sellers.http.success.mock.service';
 import { ProspectionsDataService } from 'src/app/features/prospections/data/services/prospections.data.service';
-import { SellersDataService } from 'src/app/features/sellers/data/service/sellers.data.service';
+import { SellersDataService } from 'src/app/features/sellers/data/services/sellers.data.service';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { DesktopProspectionsHandlerMenuComponent } from './menu/desktop-prospections-handler-menu.component';
@@ -40,7 +40,7 @@ describe('DesktopProspectionsComponent', () => {
       providers: [
         {
           provide: ProspectionsHttpService,
-          useClass: ProspectionHttpSuccessMockService
+          useClass: ProspectionsHttpSuccessMockService
         },
         {
           provide: SellersHttpService,
@@ -68,7 +68,7 @@ describe('DesktopProspectionsComponent', () => {
 
   it('should have loaded prospections and sellers', () => {
       const prospections = prospectionsDataService.getProspections();
-      const sellers = sellersDataService.get();
+      const sellers = sellersDataService.getSellers();
       expect(prospections().length > 0).toEqual(true);
       expect(sellers().length > 0).toEqual(true);
   });

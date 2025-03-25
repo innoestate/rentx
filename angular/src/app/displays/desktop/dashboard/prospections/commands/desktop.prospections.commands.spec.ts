@@ -1,7 +1,7 @@
 import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ProspectionsDataService } from 'src/app/features/prospections/data/services/prospections.data.service';
-import { SellersMock } from 'src/app/features/sellers/mocks/sellers.dto.mock';
+import { sellersDtoMock } from 'src/app/features/sellers/mocks/sellers.dto.mock';
 import { UiPopupService } from 'src/app/ui/services/popup/popup.service';
 import { DesktopProspectionsCommandsService } from './desktop.prospections.commands.service';
 
@@ -34,7 +34,7 @@ describe('DesktopProspectionsCommandsService', () => {
   });
 
   it('should call openPopup when createNew is called', () => {
-    service.createNew(SellersMock);
+    service.createNew(sellersDtoMock);
     expect(popupServiceSpy.openPopup).toHaveBeenCalled();
   });
 
@@ -43,7 +43,7 @@ describe('DesktopProspectionsCommandsService', () => {
   })
 
   it('should create fields with sellers field', () => {
-    const sellers = SellersMock;
+    const sellers = sellersDtoMock;
     expect(service.getCreateNewFormFields(sellers).find( field => field.key === 'seller_id')).not.toBeUndefined();
   })
 

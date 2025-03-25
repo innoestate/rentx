@@ -8,12 +8,12 @@ import { catchError, of, take } from "rxjs"
 import { DataNgrxService } from "src/app/shared/data/ngrx/data.ngrx.service"
 import { LocalizationsService } from "src/app/core/localizations/localizations.service"
 import { MessageTestHelper } from "src/app/ui/services/message/test/message.test.helper"
-import { MessagesModuleInitializer } from "./mocks/prospections.data.messages.module.initializer"
+import { ProspectionsDataMessagesModuleInitializer } from "./mocks/prospections.data.messages.module.initializer"
 import { ProspectionsDataModule } from "../../modules/prospections.data.module"
 import { ProspectionsDataService } from "../../services/prospections.data.service"
 import { ProspectionsHttpService } from "../../http/prospections.http.service"
 import { ProspectionHttpFailMockService } from "../../../mocks/prospections.http.fail.mock.service"
-import { prospectionDtoMock1, ProspectionDtoMock3 } from "src/app/features/prospections/mocks/prospections.dto.mock"
+import { prospectionDtoMock1, prospectionDtoMock3 } from "src/app/features/prospections/mocks/prospections.dto.mock"
 
 describe('ProspectionsDataMessagesService test fail CRUD displaying messages ', () => {
 
@@ -29,7 +29,7 @@ describe('ProspectionsDataMessagesService test fail CRUD displaying messages ', 
         StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
         ProspectionsDataModule,
-        MessagesModuleInitializer
+        ProspectionsDataMessagesModuleInitializer
       ],
       providers: [
         provideExperimentalZonelessChangeDetection(),
@@ -81,7 +81,7 @@ describe('ProspectionsDataMessagesService test fail CRUD displaying messages ', 
   })
 
   it('should fail to delete a prospection and show error message', done => {
-    dataService.deleteProspection(ProspectionDtoMock3.id!).pipe(
+    dataService.deleteProspection(prospectionDtoMock3.id!).pipe(
       take(1),
       catchError(() => {
         messageTestHelper.isDisplayingFailMessage(localizationService.getLocalization('prospections','deleteProspectionFailure'));

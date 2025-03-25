@@ -1,7 +1,7 @@
 import { Component, Signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { SellersCommandsService } from 'src/app/features/sellers/commands/sellers.commands.service';
-import { SellersDataService } from 'src/app/features/sellers/data/service/sellers.data.service';
+import { SellersDataService } from 'src/app/features/sellers/data/services/sellers.data.service';
 import { Seller_Dto } from 'src/app/features/sellers/models/seller.dto.model';
 import { DesktopProspectionsCommandsService } from '../commands/desktop.prospections.commands.service';
 
@@ -13,7 +13,7 @@ import { DesktopProspectionsCommandsService } from '../commands/desktop.prospect
 })
 export class DesktopProspectionsHandlerMenuComponent {
 
-  sellers: Signal<Seller_Dto[]> = this.SellersData.get();
+  sellers: Signal<Seller_Dto[]> = this.SellersData.getSellers();
 
   constructor(private router: Router, private SellersData: SellersDataService, private sellersCommands: SellersCommandsService, private prospectionsCommands: DesktopProspectionsCommandsService){}
 

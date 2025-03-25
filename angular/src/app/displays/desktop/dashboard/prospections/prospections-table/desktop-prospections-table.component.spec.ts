@@ -6,10 +6,10 @@ import { StoreModule } from '@ngrx/store';
 import { ProspectionsHttpService } from 'src/app/features/prospections/data/http/prospections.http.service';
 import { ProspectionsDataModule } from 'src/app/features/prospections/data/modules/prospections.data.module';
 import { ProspectionsDataService } from 'src/app/features/prospections/data/services/prospections.data.service';
-import { ProspectionHttpSuccessMockService } from 'src/app/features/prospections/mocks/prospections.http.success.mock.service';
+import { ProspectionsHttpSuccessMockService } from 'src/app/features/prospections/mocks/prospections.http.success.mock.service';
 import { SellersHttpService } from 'src/app/features/sellers/data/http/sellers.http.service';
-import { SellersDataModule } from 'src/app/features/sellers/data/module/sellers.data.module';
-import { SellersDataService } from 'src/app/features/sellers/data/service/sellers.data.service';
+import { SellersDataModule } from 'src/app/features/sellers/data/modules/sellers.data.module';
+import { SellersDataService } from 'src/app/features/sellers/data/services/sellers.data.service';
 import { SellersHttpSuccessMockService } from 'src/app/features/sellers/data/test/mock/sellers.http.success.mock.service';
 import { UiTableHelper } from 'src/app/ui/components/ui-table/test/helper/ui-table.helper';
 import { UiModule } from 'src/app/ui/ui.module';
@@ -34,7 +34,7 @@ describe('DesktopProspectionsTableComponent', () => {
       providers: [
         {
           provide: ProspectionsHttpService,
-          useClass: ProspectionHttpSuccessMockService
+          useClass: ProspectionsHttpSuccessMockService
         },
         {
           provide: SellersHttpService,

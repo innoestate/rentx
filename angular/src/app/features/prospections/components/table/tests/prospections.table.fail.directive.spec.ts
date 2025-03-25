@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
 import { SellersHttpService } from "src/app/features/sellers/data/http/sellers.http.service";
-import { SellersDataModule } from "src/app/features/sellers/data/module/sellers.data.module";
-import { SellersDataService } from "src/app/features/sellers/data/service/sellers.data.service";
+import { SellersDataModule } from "src/app/features/sellers/data/modules/sellers.data.module";
+import { SellersDataService } from "src/app/features/sellers/data/services/sellers.data.service";
 import { SellersHttpSuccessMockService } from "src/app/features/sellers/data/test/mock/sellers.http.success.mock.service";
 import { UiModule } from "src/app/ui/ui.module";
 import { ProspectionsTableAdapterService } from "../../../adapters/table/prospections.table.adapter.service";
@@ -58,7 +58,7 @@ describe('ProspectionsTableDirective test with fail update', () => {
     sellersDataService = TestBed.inject(SellersDataService);
 
     prospectionDataService.loadProspections();
-    sellersDataService.load();
+    sellersDataService.loadSellers();
   })
 
   it('should create an instance', () => {
@@ -70,7 +70,7 @@ describe('ProspectionsTableDirective test with fail update', () => {
   })
 
   it('should fail to update a row', () => {
-    component.updateRow({ data: { id: prospectionDtoMock1.id }, cells: { zip: '2345' } });
+    component.updateRow({ data: { id: prospectionDtoMock1.id! }, cells: { zip: '2345' } });
     const prospection = component.prospections().find(prospection => prospection.id === prospectionDtoMock1.id);
     fixture.detectChanges();
     expect(prospection!.zip).toBe('75001');

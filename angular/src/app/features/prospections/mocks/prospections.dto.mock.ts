@@ -38,7 +38,7 @@ export const prospectionDtoMock2: Prospection_Dto = {
   comment: 'Mock property comment 2'
 };
 
-export const ProspectionDtoMock3: Prospection_Dto = {
+export const prospectionDtoMock3: Prospection_Dto = {
   id: 'mock-id-3',
   user_id: 'mock-user-id-3',
   city: 'Marseille',

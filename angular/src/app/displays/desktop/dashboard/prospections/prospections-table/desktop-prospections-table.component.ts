@@ -3,7 +3,7 @@ import { ProspectionsTableAdapterService } from 'src/app/features/prospections/a
 import { ProspectionsTableCommands } from 'src/app/features/prospections/commands/table/prospections.table.commands.interface';
 import { ProspectionsTableDirective } from 'src/app/features/prospections/components/table/prospections.table.directive';
 import { ProspectionsDataService } from 'src/app/features/prospections/data/services/prospections.data.service';
-import { SellersDataService } from 'src/app/features/sellers/data/service/sellers.data.service';
+import { SellersDataService } from 'src/app/features/sellers/data/services/sellers.data.service';
 import { UiTableRow } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
 import { DesktopProspectionsCommandsService } from '../commands/desktop.prospections.commands.service';
 

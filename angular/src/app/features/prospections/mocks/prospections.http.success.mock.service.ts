@@ -1,17 +1,17 @@
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { Prospection_Dto } from "src/app/features/prospections/models/prospection.dto.model";
-import { prospectionDtoMock1, prospectionDtoMock2, ProspectionDtoMock3 } from "./prospections.dto.mock";
+import { prospectionDtoMock1, prospectionDtoMock2, prospectionDtoMock3 } from "./prospections.dto.mock";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProspectionHttpSuccessMockService {
+export class ProspectionsHttpSuccessMockService {
 
   private mockProspections: Prospection_Dto[] = [
     prospectionDtoMock1,
     prospectionDtoMock2,
-    ProspectionDtoMock3
+    prospectionDtoMock3
   ];
 
   getAll(): Observable<Prospection_Dto[]> {

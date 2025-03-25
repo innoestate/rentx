@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ProspectionsDataMessagesService } from 'src/app/features/prospections/data/messages/prospections.data.messages.service';
 import { ProspectionsDataModule } from 'src/app/features/prospections/data/modules/prospections.data.module';
 import { SellersCommandsService } from 'src/app/features/sellers/commands/sellers.commands.service';
-import { SellersDataModule } from 'src/app/features/sellers/data/module/sellers.data.module';
+import { SellersDataModule } from 'src/app/features/sellers/data/modules/sellers.data.module';
 import { UiModule } from 'src/app/ui/ui.module';
 import { DesktopProspectionsCommandsService } from './commands/desktop.prospections.commands.service';
 import { DesktopProspectionsHandlerMenuComponent } from './menu/desktop-prospections-handler-menu.component';

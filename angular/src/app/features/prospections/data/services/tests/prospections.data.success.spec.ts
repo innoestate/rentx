@@ -7,8 +7,8 @@ import { DataNgrxService } from "src/app/shared/data/ngrx/data.ngrx.service"
 import { ProspectionsHttpService } from "../../http/prospections.http.service"
 import { ProspectionsDataModule } from "../../modules/prospections.data.module"
 import { ProspectionsDataService } from "../prospections.data.service"
-import { ProspectionDtoMock3, prospectionDtoMock4 } from "../../../mocks/prospections.dto.mock"
-import { ProspectionHttpSuccessMockService } from "../../../mocks/prospections.http.success.mock.service"
+import { prospectionDtoMock3, prospectionDtoMock4 } from "../../../mocks/prospections.dto.mock"
+import { ProspectionsHttpSuccessMockService } from "../../../mocks/prospections.http.success.mock.service"
 
 describe('ProspectionsDataService test successful CRUD ', () => {
 
@@ -28,7 +28,7 @@ describe('ProspectionsDataService test successful CRUD ', () => {
         ProspectionsDataService,
         {
           provide: ProspectionsHttpService,
-          useClass: ProspectionHttpSuccessMockService
+          useClass: ProspectionsHttpSuccessMockService
         }
       ]
     })
@@ -72,8 +72,8 @@ describe('ProspectionsDataService test successful CRUD ', () => {
 
     const prospections = dataService.getProspections();
     dataService.loadProspections();
-    expect(prospections().find(prospection => prospection.id === ProspectionDtoMock3.id)).toBeTruthy();
-    dataService.deleteProspection(ProspectionDtoMock3.id!);
+    expect(prospections().find(prospection => prospection.id === prospectionDtoMock3.id)).toBeTruthy();
+    dataService.deleteProspection(prospectionDtoMock3.id!);
     expect(prospections().length).toEqual(2);
 
   })
