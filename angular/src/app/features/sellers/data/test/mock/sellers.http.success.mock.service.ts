@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { mockSellers } from './sellers.dto.mock';
+import { SellersMock } from '../../../mocks/sellers.dto.mock';
 import { Seller_Dto } from 'src/app/features/sellers/models/seller.dto.model';
 
 @Injectable({
@@ -8,7 +8,7 @@ import { Seller_Dto } from 'src/app/features/sellers/models/seller.dto.model';
 })
 export class SellersHttpSuccessMockService {
 
-  private mockSellers: Seller_Dto[] = mockSellers;
+  private mockSellers: Seller_Dto[] = SellersMock;
 
   getAll(): Observable<Seller_Dto[]> {
     return of(this.mockSellers);

@@ -2,10 +2,10 @@ import { provideExperimentalZonelessChangeDetection } from "@angular/core"
 import { TestBed } from "@angular/core/testing"
 import { UiTableAdapterTestHelper } from "src/app/ui/components/ui-table/adapter/test/helper/ui-table.adapter.test.helper"
 import { ProspectionsCommandsService } from "../../commands/prospections.commands.service"
-import { ProspectionDtoMock1 } from "../../mocks/prospections.dto.mock"
-import { sellerMock1 } from "../../mocks/sellers.dto.mock"
+import { prospectionDtoMock1 } from "../../mocks/prospections.dto.mock"
 import { ProspectionsTableAdapterService } from "./prospections.table.adapter.service"
 import { uiTableRowProspectionsUpdateMock1 } from "./mocks/prospection.table.row.mocl"
+import { sellerMock1 } from "src/app/features/sellers/mocks/sellers.dto.mock"
 
 describe('ProspectionsTableAdapterService', () => {
 
@@ -26,7 +26,7 @@ describe('ProspectionsTableAdapterService', () => {
   })
 
   it('should pass all basic table adapter tests', () => {
-    const adapterTestHelper = new UiTableAdapterTestHelper(adapter, [{...ProspectionDtoMock1}], [{...sellerMock1}]);
+    const adapterTestHelper = new UiTableAdapterTestHelper(adapter, [{...prospectionDtoMock1}], [{...sellerMock1}]);
     adapterTestHelper.testTable();
   })
 

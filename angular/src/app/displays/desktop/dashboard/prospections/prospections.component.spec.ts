@@ -6,7 +6,7 @@ import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SellersDataModule } from 'src/app/features/sellers/data/module/sellers.data.module';
 import { ProspectionsHttpService } from 'src/app/features/prospections/data/http/prospections.http.service';
-import { ProspectionHttpSuccessMockService } from 'src/app/features/prospections/data/services/tests/mocks/prospections.http.success.mock.service';
+import { ProspectionHttpSuccessMockService } from 'src/app/features/prospections/mocks/prospections.http.success.mock.service';
 import { SellersHttpService } from 'src/app/features/sellers/data/http/sellers.http.service';
 import { SellersHttpSuccessMockService } from 'src/app/features/sellers/data/test/mock/sellers.http.success.mock.service';
 import { ProspectionsDataService } from 'src/app/features/prospections/data/services/prospections.data.service';

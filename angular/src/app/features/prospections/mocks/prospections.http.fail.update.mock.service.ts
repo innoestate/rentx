@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { delay, Observable, of, tap } from "rxjs";
 import { Prospection_Dto } from "src/app/features/prospections/models/prospection.dto.model";
-import { ProspectionDtoMock1, ProspectionDtoMock2, ProspectionDtoMock3 } from "../../../../mocks/prospections.dto.mock";
+import { prospectionDtoMock1, prospectionDtoMock2, ProspectionDtoMock3 } from "./prospections.dto.mock";
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +9,8 @@ import { ProspectionDtoMock1, ProspectionDtoMock2, ProspectionDtoMock3 } from ".
 export class ProspectionHttpFailUpdateMockService {
 
   private mockProspections: Prospection_Dto[] = [
-    ProspectionDtoMock1,
-    ProspectionDtoMock2,
+    prospectionDtoMock1,
+    prospectionDtoMock2,
     ProspectionDtoMock3
   ];
 

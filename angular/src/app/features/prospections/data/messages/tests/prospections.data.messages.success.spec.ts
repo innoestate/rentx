@@ -7,12 +7,12 @@ import { cloneDeep } from "lodash"
 import { DataNgrxService } from "src/app/shared/data/ngrx/data.ngrx.service"
 import { LocalizationsService } from "src/app/core/localizations/localizations.service"
 import { MessageTestHelper } from "src/app/ui/services/message/test/message.test.helper"
-import { MessagesModuleInitializer } from "./mocks/messages.module.initializer"
+import { MessagesModuleInitializer } from "./mocks/prospections.data.messages.module.initializer"
 import { ProspectionsDataService } from "../../services/prospections.data.service"
 import { ProspectionsDataModule } from "../../modules/prospections.data.module"
 import { ProspectionsHttpService } from "../../http/prospections.http.service"
-import { ProspectionHttpSuccessMockService } from "../../services/tests/mocks/prospections.http.success.mock.service"
-import { ProspectionDtoMock1, ProspectionDtoMock3, ProspectionDtoMock4 } from "src/app/features/prospections/mocks/prospections.dto.mock"
+import { ProspectionHttpSuccessMockService } from "../../../mocks/prospections.http.success.mock.service"
+import { prospectionDtoMock1, ProspectionDtoMock3, prospectionDtoMock4 } from "src/app/features/prospections/mocks/prospections.dto.mock"
 
 describe('ProspectionsDataMessagesService test successful CRUD displaying messages ', () => {
 
@@ -48,12 +48,12 @@ describe('ProspectionsDataMessagesService test successful CRUD displaying messag
   })
 
   it('should add a new prospection and show success message', () => {
-    dataService.createProspection(cloneDeep(ProspectionDtoMock4));
+    dataService.createProspection(cloneDeep(prospectionDtoMock4));
     messageTestHelper.hasDisplaySuccessMessage(localizationService.getLocalization('prospections','addProspectionSuccess'));
   })
 
   it('should update a prospection and show success message', () => {
-    dataService.updateProspection({...cloneDeep(ProspectionDtoMock1), city: 'Las Vegas'});
+    dataService.updateProspection({...cloneDeep(prospectionDtoMock1), city: 'Las Vegas'});
     messageTestHelper.hasDisplaySuccessMessage(localizationService.getLocalization('prospections','updateProspectionSuccess'));
   })
 

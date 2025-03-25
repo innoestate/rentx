@@ -1,4 +1,4 @@
-import { delay, Observable, of, tap, throwError } from 'rxjs';
+import { delay, Observable, of, tap } from 'rxjs';
 
 export class ProspectionHttpFailMockService {
 

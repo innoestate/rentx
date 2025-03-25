@@ -1,6 +1,6 @@
 import { Prospection_Dto } from "src/app/features/prospections/models/prospection.dto.model";
 
-export const ProspectionDtoMock1: Prospection_Dto = {
+export const prospectionDtoMock1: Prospection_Dto = {
   id: 'mock-id-1',
   user_id: 'mock-user-id-1',
   city: 'Paris',
@@ -19,7 +19,7 @@ export const ProspectionDtoMock1: Prospection_Dto = {
   comment: 'Mock property comment 1'
 };
 
-export const ProspectionDtoMock2: Prospection_Dto = {
+export const prospectionDtoMock2: Prospection_Dto = {
   id: 'mock-id-2',
   user_id: 'mock-user-id-2',
   city: 'Lyon',
@@ -57,7 +57,7 @@ export const ProspectionDtoMock3: Prospection_Dto = {
   comment: 'Mock property comment 3'
 };
 
-export const ProspectionDtoMock4: Prospection_Dto = {
+export const prospectionDtoMock4: Prospection_Dto = {
   id: 'mock-id-4',
   user_id: 'mock-user-id-4',
   city: 'Toulouse',

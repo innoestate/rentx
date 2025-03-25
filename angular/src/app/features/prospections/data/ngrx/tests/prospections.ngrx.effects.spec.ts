@@ -4,7 +4,7 @@ import { provideMockActions } from "@ngrx/effects/testing"
 import { cold, hot } from 'jasmine-marbles'
 import { Observable } from "rxjs"
 import { ProspectionsHttpService } from "../../http/prospections.http.service"
-import { ProspectionDtoMock1 } from "../../../mocks/prospections.dto.mock"
+import { prospectionDtoMock1 } from "../../../mocks/prospections.dto.mock"
 import { createProspection, createProspectionFailure, createProspectionSuccess, deleteProspection, deleteProspectionFailure, deleteProspectionSuccess, loadProspections, loadProspectionsFailure, loadProspectionsSuccess, updateProspection, updateProspectionFailure, updateProspectionSuccess } from "../prospections.actions"
 import { ProspectionsEffects } from "../prospections.effects"
 
@@ -85,38 +85,38 @@ describe('Prospections ngrx test effects', () => {
   }
 
   const getSuccessfulyLoadingCompletion = () => {
-    const completion = loadProspectionsSuccess({ prospections: [{...ProspectionDtoMock1}]});
+    const completion = loadProspectionsSuccess({ prospections: [{...prospectionDtoMock1}]});
     actions$ = hot('a', { a: loadProspections() });
-    dataService.getAll.and.returnValue(cold('---b', { b: [{...ProspectionDtoMock1}]}));
+    dataService.getAll.and.returnValue(cold('---b', { b: [{...prospectionDtoMock1}]}));
     return cold('---b', { b: completion});
   }
 
   const getSuccessfulyCreatingCompletion = () => {
-    const completion = createProspectionSuccess({ prospection : {...ProspectionDtoMock1}});
-    actions$ = hot('a', { a: createProspection({ prospection: {...ProspectionDtoMock1}}) });
-    dataService.create.and.returnValue(cold('--b', { b: {...ProspectionDtoMock1}}));
+    const completion = createProspectionSuccess({ prospection : {...prospectionDtoMock1}});
+    actions$ = hot('a', { a: createProspection({ prospection: {...prospectionDtoMock1}}) });
+    dataService.create.and.returnValue(cold('--b', { b: {...prospectionDtoMock1}}));
     return cold('--b', { b: completion});
   }
 
   const getFailCreatingCompletion = () => {
     const error = new Error('Error creating prospection from mocked http service.');
     const completion = createProspectionFailure({ error });
-    actions$ = hot('a', { a: createProspection({ prospection: {...ProspectionDtoMock1}}) });
+    actions$ = hot('a', { a: createProspection({ prospection: {...prospectionDtoMock1}}) });
     dataService.create.and.returnValue(cold('--#', {}, { error }));
     return cold('--b', { b: completion });
   }
 
   const getSuccessfulyUpdatingCompletion = () => {
-    const completion = updateProspectionSuccess({ prospection : {...ProspectionDtoMock1}});
-    actions$ = hot('a', { a: updateProspection({ prospection: {...ProspectionDtoMock1}}) });
-    dataService.update.and.returnValue(cold('--b', { b: {...ProspectionDtoMock1}}));
+    const completion = updateProspectionSuccess({ prospection : {...prospectionDtoMock1}});
+    actions$ = hot('a', { a: updateProspection({ prospection: {...prospectionDtoMock1}}) });
+    dataService.update.and.returnValue(cold('--b', { b: {...prospectionDtoMock1}}));
     return cold('--b', { b: completion});
   }
 
   const getFailUpdatingCompletion = () => {
     const error = new Error('Error updating prospection from mocked http service.');
     const completion = updateProspectionFailure({ error });
-    actions$ = hot('a', { a: updateProspection({ prospection: {...ProspectionDtoMock1}}) });
+    actions$ = hot('a', { a: updateProspection({ prospection: {...prospectionDtoMock1}}) });
     dataService.update.and.returnValue(cold('--#', {}, { error }));
     return cold('--b', { b: completion });
   }

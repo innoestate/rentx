@@ -7,8 +7,8 @@ import { DataNgrxService } from "src/app/shared/data/ngrx/data.ngrx.service"
 import { ProspectionsHttpService } from "../../http/prospections.http.service"
 import { ProspectionsDataModule } from "../../modules/prospections.data.module"
 import { ProspectionsDataService } from "../prospections.data.service"
-import { ProspectionDtoMock3, ProspectionDtoMock4 } from "../../../mocks/prospections.dto.mock"
-import { ProspectionHttpSuccessMockService } from "./mocks/prospections.http.success.mock.service"
+import { ProspectionDtoMock3, prospectionDtoMock4 } from "../../../mocks/prospections.dto.mock"
+import { ProspectionHttpSuccessMockService } from "../../../mocks/prospections.http.success.mock.service"
 
 describe('ProspectionsDataService test successful CRUD ', () => {
 
@@ -49,7 +49,7 @@ describe('ProspectionsDataService test successful CRUD ', () => {
   it('should add a new prospection', () => {
 
     dataService.loadProspections();
-    dataService.createProspection(cloneDeep(ProspectionDtoMock4));
+    dataService.createProspection(cloneDeep(prospectionDtoMock4));
     const prospections = dataService.getProspections();
     expect(prospections().length).toEqual(4);
 
@@ -59,7 +59,7 @@ describe('ProspectionsDataService test successful CRUD ', () => {
 
     const prospections = dataService.getProspections();
     dataService.loadProspections();
-    const newProspection = cloneDeep(ProspectionDtoMock4);
+    const newProspection = cloneDeep(prospectionDtoMock4);
     dataService.createProspection(newProspection);
 
     const update = { id: newProspection.id, price: 100000};

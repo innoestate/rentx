@@ -6,7 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { ProspectionsHttpService } from 'src/app/features/prospections/data/http/prospections.http.service';
 import { ProspectionsDataModule } from 'src/app/features/prospections/data/modules/prospections.data.module';
 import { ProspectionsDataService } from 'src/app/features/prospections/data/services/prospections.data.service';
-import { ProspectionHttpSuccessMockService } from 'src/app/features/prospections/data/services/tests/mocks/prospections.http.success.mock.service';
+import { ProspectionHttpSuccessMockService } from 'src/app/features/prospections/mocks/prospections.http.success.mock.service';
 import { SellersHttpService } from 'src/app/features/sellers/data/http/sellers.http.service';
 import { SellersDataModule } from 'src/app/features/sellers/data/module/sellers.data.module';
 import { SellersDataService } from 'src/app/features/sellers/data/service/sellers.data.service';

@@ -1,7 +1,7 @@
 import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ProspectionsDataService } from 'src/app/features/prospections/data/services/prospections.data.service';
-import { SellersMock } from 'src/app/features/prospections/mocks/sellers.dto.mock';
+import { SellersMock } from 'src/app/features/sellers/mocks/sellers.dto.mock';
 import { UiPopupService } from 'src/app/ui/services/popup/popup.service';
 import { DesktopProspectionsCommandsService } from './desktop.prospections.commands.service';
 

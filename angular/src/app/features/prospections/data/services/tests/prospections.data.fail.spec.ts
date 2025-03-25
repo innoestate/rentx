@@ -7,8 +7,8 @@ import { DataNgrxService } from "src/app/shared/data/ngrx/data.ngrx.service"
 import { ProspectionsHttpService } from "../../http/prospections.http.service"
 import { ProspectionsDataModule } from "../../modules/prospections.data.module"
 import { ProspectionsDataService } from "../prospections.data.service"
-import { ProspectionHttpFailMockService } from "./mocks/prospections.http.fail.mock.service"
-import { ProspectionDtoMock1 } from "../../../mocks/prospections.dto.mock"
+import { ProspectionHttpFailMockService } from "../../../mocks/prospections.http.fail.mock.service"
+import { prospectionDtoMock1 } from "../../../mocks/prospections.dto.mock"
 
 describe('ProspectionsDataService test faillure CRUD ', () => {
 
@@ -51,7 +51,7 @@ describe('ProspectionsDataService test faillure CRUD ', () => {
   })
 
   it('should fail to create prospection', (done) => {
-    dataService.createProspection({...ProspectionDtoMock1}).pipe(
+    dataService.createProspection({...prospectionDtoMock1}).pipe(
       take(1),
       catchError(err => {
         expect(err).toBeTruthy();

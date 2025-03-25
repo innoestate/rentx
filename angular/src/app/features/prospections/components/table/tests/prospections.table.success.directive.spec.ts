@@ -11,8 +11,8 @@ import { ProspectionsTableAdapterService } from "../../../adapters/table/prospec
 import { ProspectionsHttpService } from "../../../data/http/prospections.http.service";
 import { ProspectionsDataModule } from "../../../data/modules/prospections.data.module";
 import { ProspectionsDataService } from "../../../data/services/prospections.data.service";
-import { ProspectionDtoMock1 } from "../../../mocks/prospections.dto.mock";
-import { ProspectionHttpSuccessMockService } from "../../../data/services/tests/mocks/prospections.http.success.mock.service";
+import { prospectionDtoMock1 } from "../../../mocks/prospections.dto.mock";
+import { ProspectionHttpSuccessMockService } from "../../../mocks/prospections.http.success.mock.service";
 import { ProspectionsTableDirectiveMock } from "./mocks/prospections.table.mock.component";
 
 
@@ -70,8 +70,8 @@ describe('ProspectionsTableDirective successful update testing', () => {
   })
 
   it('should update a row', () => {
-    component.updateRow({ data: { id: ProspectionDtoMock1.id }, cells: { zip: '2345' } });
-    const prospection = component.prospections().find(prospection => prospection.id === ProspectionDtoMock1.id);
+    component.updateRow({ data: { id: prospectionDtoMock1.id }, cells: { zip: '2345' } });
+    const prospection = component.prospections().find(prospection => prospection.id === prospectionDtoMock1.id);
     fixture.detectChanges();
     expect(prospection!.zip).toBe('2345');
   })
