@@ -2,15 +2,15 @@ import { computed, Directive, Signal } from "@angular/core";
 import { catchError, of, take } from "rxjs";
 import { SellersDataService } from "src/app/features/sellers/data/services/sellers.data.service";
 import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
+import { UiTableDirective } from "src/app/ui/components/ui-table/directive/ui-table.directive";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { UiTableProspections, UiTableRowProspection } from "../../adapters/table/prospections.table.adapter.type";
 import { ProspectionsTableAdapterService } from "../../adapters/table/prospections.table.adapter.service";
-import { ProspectionsTableCommands } from "../../commands/table/prospections.table.commands.interface";
+import { UiTableProspections, UiTableRowProspection } from "../../adapters/table/prospections.table.adapter.type";
 import { ProspectionsDataService } from "../../data/services/prospections.data.service";
 import { Prospection } from "../../models/prospection.model";
 
 @Directive()
-export class ProspectionsTableDirective implements ProspectionsTableCommands {
+export class ProspectionsTableDirective extends UiTableDirective {
 
   prospections: Signal<Prospection[]> = this.prospectionsData.getProspections();
   sellers: Signal<Seller_Dto[]> = this.SellersData.getSellers();
@@ -18,17 +18,23 @@ export class ProspectionsTableDirective implements ProspectionsTableCommands {
 
   constructor(protected prospectionsData: ProspectionsDataService, protected SellersData: SellersDataService, protected tableAdapter: ProspectionsTableAdapterService) {
     console.log('prospectionsTableDirective constructor.');
+    super();
   }
 
-  buildTable() {
+  override buildTable() {
     return computed(() => {
-      const table = this.tableAdapter.buildTable(this.prospections(), this.sellers());
-      table.columns.find(column => column.key === 'actions')!.dropDownItems[0].command = this.delete.bind(this);
+      let table = this.tableAdapter.buildTable(this.prospections(), this.sellers());
+      table = this.bindCommands(table);
       return table;
     })
   }
 
-  updateRow(rowWidthUpdate: UiTableRowProspection) {
+  protected override bindCommands(table: UiTableProspections): UiTableProspections {
+    table.columns.find(column => column.key === 'actions')!.dropDownItems[0].command = this.deleteRow.bind(this);
+    return table;
+  }
+
+  override updateRow(rowWidthUpdate: UiTableRowProspection) {
     const update = this.tableAdapter.getDtoFromRow(rowWidthUpdate);
     this.prospectionsData.updateProspection(update).pipe(
       take(1),
@@ -36,7 +42,7 @@ export class ProspectionsTableDirective implements ProspectionsTableCommands {
     ).subscribe();
   }
 
-  delete(row: UiTableRow) {
+  deleteRow(row: UiTableRow) {
     console.log('implement delete in displays component.')
     return true;
   }

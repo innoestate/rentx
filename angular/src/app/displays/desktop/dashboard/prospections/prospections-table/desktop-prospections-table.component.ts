@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ProspectionsTableAdapterService } from 'src/app/features/prospections/adapters/table/prospections.table.adapter.service';
-import { ProspectionsTableCommands } from 'src/app/features/prospections/commands/table/prospections.table.commands.interface';
 import { ProspectionsTableDirective } from 'src/app/features/prospections/components/table/prospections.table.directive';
 import { ProspectionsDataService } from 'src/app/features/prospections/data/services/prospections.data.service';
 import { SellersDataService } from 'src/app/features/sellers/data/services/sellers.data.service';
@@ -12,7 +11,7 @@ import { DesktopProspectionsCommandsService } from '../commands/desktop.prospect
   templateUrl: './desktop-prospections-table.component.html',
   styleUrl: './desktop-prospections-table.component.scss'
 })
-export class DesktopProspectionsTableComponent extends ProspectionsTableDirective implements ProspectionsTableCommands {
+export class DesktopProspectionsTableComponent extends ProspectionsTableDirective {
 
   constructor(protected override prospectionsData: ProspectionsDataService,
               protected override SellersData: SellersDataService,
@@ -21,7 +20,7 @@ export class DesktopProspectionsTableComponent extends ProspectionsTableDirectiv
     super(prospectionsData, SellersData, tableAdapter);
   }
 
-  override delete(row: UiTableRow) {
+  override deleteRow(row: UiTableRow) {
     this.commandsService.delete(row.data['id']);
     return true;
   }

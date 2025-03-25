@@ -1,43 +1,49 @@
 import { computed, Directive, Signal } from "@angular/core";
-import { SellersDataService } from "../data/services/sellers.data.service";
+import { catchError, of, take } from "rxjs";
+import { UiTableDirective } from "src/app/ui/components/ui-table/directive/ui-table.directive";
+import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
 import { SellersTableAdapterService } from "../adapters/sellers.table.adapter.service";
-import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { catchError, of, take } from "rxjs";
-import { SellersTableCommands } from "../commands/table/sellers.table.commands.interface";
 import { UiTableRowSellers, UiTableSellers } from "../adapters/sellers.table.adapter.type";
 import { SellersCommandsService } from "../commands/table/sellers.commands.service";
+import { SellersDataService } from "../data/services/sellers.data.service";
 
 @Directive()
-export class SellersTableDirective implements SellersTableCommands{
+export class SellersTableDirective extends UiTableDirective {
 
   sellers = this.sellersDataService.getSellers();
-  table: Signal<UiTable> = this.getTable();
+  table: Signal<UiTable> = this.buildTable();
 
   constructor(private sellersDataService: SellersDataService,
-              private sellersAdater: SellersTableAdapterService,
-              protected commandsService: SellersCommandsService) { }
+    private sellersAdater: SellersTableAdapterService,
+    protected commandsService: SellersCommandsService) {
+    super();
+  }
 
-  getTable(): Signal<UiTableSellers> {
+  override buildTable(): Signal<UiTableSellers> {
     return computed(() => {
       const table = this.sellersAdater.buildTable(this.sellers());
-      table.columns.find(column => column.key === 'actions')!.dropDownItems[0].command = this.delete.bind(this);
+      this.bindCommands(table);
       return table;
     });
   }
 
-  delete(row: UiTableRowSellers) {
-    console.log('implement delete in display component.');
-    return true;
+  override bindCommands(table: UiTableSellers): UiTableSellers {
+    table.columns.find(column => column.key === 'actions')!.dropDownItems[0].command = this.deleteRow.bind(this);
+    return table;
   }
 
-  updateRow(rowWidthUpdate: UiTableRow) {
+  override updateRow(rowWidthUpdate: UiTableRow) {
     const update = this.sellersAdater.getDtoFromRow(rowWidthUpdate);
-    console.log('update', update);
     this.sellersDataService.updateSeller(update).pipe(
       take(1),
       catchError(() => this.reloadSellerAsBeforeUpdate(rowWidthUpdate.data['id']))
     ).subscribe();
+  }
+
+  deleteRow(row: UiTableRowSellers) {
+    console.log('implement delete in display component.');
+    return true;
   }
 
   private getSellerBeforeUpdate(id: string) {
