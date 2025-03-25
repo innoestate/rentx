@@ -1,17 +1,17 @@
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
-import { sellerMock1, sellerMock2, sellerMock3 } from "./sellers.dto.mock";
+import { sellerDtoMock1, sellerDtoMock2, sellerDtoMock3 } from "./sellers.dto.mock";
 
 @Injectable({
   providedIn: 'root'
 })
-export class SellerHttpSuccessMockService {
+export class SellersHttpSuccessMockService {
 
   private mockSellers: Seller_Dto[] = [
-    sellerMock1,
-    sellerMock2,
-    sellerMock3
+    sellerDtoMock1,
+    sellerDtoMock2,
+    sellerDtoMock3
   ];
 
   getAll(): Observable<Seller_Dto[]> {

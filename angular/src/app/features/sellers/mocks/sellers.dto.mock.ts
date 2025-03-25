@@ -1,6 +1,6 @@
 import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
 
-export const sellerMock1: Seller_Dto = {
+export const sellerDtoMock1: Seller_Dto = {
   id: 'mock-seller-id-1',
   user_id: 'mock-user-id-1',
   name: 'John Doe',
@@ -12,7 +12,7 @@ export const sellerMock1: Seller_Dto = {
   agency: 'Agency 1'
 };
 
-export const sellerMock2: Seller_Dto = {
+export const sellerDtoMock2: Seller_Dto = {
   id: 'mock-seller-id-2',
   user_id: 'mock-user-id-2',
   name: 'Jane Smith',
@@ -24,7 +24,7 @@ export const sellerMock2: Seller_Dto = {
   agency: 'Agency 2'
 };
 
-export const sellerMock3: Seller_Dto = {
+export const sellerDtoMock3: Seller_Dto = {
   id: 'mock-seller-id-3',
   user_id: 'mock-user-id-3',
   name: 'Alice Johnson',
@@ -36,4 +36,17 @@ export const sellerMock3: Seller_Dto = {
   agency: 'Agency 3'
 };
 
-export const SellersMock: Seller_Dto[] = [sellerMock1, sellerMock2, sellerMock3];
+export const sellerDtoMock4: Seller_Dto = {
+  id: 'mock-seller-id-4',
+  user_id: 'mock-user-id-4',
+  name: 'Bob Johnson',
+  email: 'bob.johnson@example.com',
+  phone: '555-901-2345',
+  address: '321 Maple Street',
+  zip: '98101',
+  city: 'Seattle',
+  agency: 'Agency 4'
+};
+
+
+export const sellersDtoMock: Seller_Dto[] = [sellerDtoMock1, sellerDtoMock2, sellerDtoMock3];

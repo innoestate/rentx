@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { delay, Observable, of, tap } from "rxjs";
 import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
-import { sellerMock1, sellerMock2, sellerMock3 } from "./sellers.dto.mock";
+import { sellerDtoMock1, sellerDtoMock2, sellerDtoMock3 } from "./sellers.dto.mock";
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +9,9 @@ import { sellerMock1, sellerMock2, sellerMock3 } from "./sellers.dto.mock";
 export class SellerHttpFailUpdateMockService {
 
   private mockSellers: Seller_Dto[] = [
-    sellerMock1,
-    sellerMock2,
-    sellerMock3
+    sellerDtoMock1,
+    sellerDtoMock2,
+    sellerDtoMock3
   ];
 
   getAll(): Observable<Seller_Dto[]> {

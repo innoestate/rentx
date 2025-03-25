@@ -13,23 +13,23 @@ export class SellersDataService {
 
   constructor(private dataNgrxService: DataNgrxService, private store: Store, private sellersDataMessageService: SellersDataMessagesService) { }
 
-  load() {
+  loadSellers() {
     return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(loadSellers, loadSellersSuccess, loadSellersFailure, {});
   }
 
-  create(seller: Seller_Dto) {
+  createSeller(seller: Seller_Dto) {
     return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(createSeller, createSellerSuccess, createSellerFailure, { seller });
   }
 
-  update(seller: Partial<Seller_Dto>) {
+  updateSeller(seller: Partial<Seller_Dto>) {
     this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(updateSeller, updateSellerSuccess, updateSellerFailure, seller);
   }
 
-  delete(id: string) {
+  deleteSeller(id: string) {
     this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(removeSeller, removeSellerSuccess, removeSellerFailure, { id });
   }
 
-  get() {
+  getSellers() {
     return this.store.selectSignal(selectAllSellers);
   }
 
