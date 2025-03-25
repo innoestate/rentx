@@ -1,5 +1,5 @@
 import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
-import { FormPopupFieldData } from "src/app/displays/common/popups/form-popup/models/form-popup.fields-data.model";
+import { FormPopupFieldData } from "src/app/ui/components/ui-form/form-popup/models/form-popup.fields-data.model";
 
 export abstract class ProspectionsCommandsService {
 
@@ -29,7 +29,8 @@ export abstract class ProspectionsCommandsService {
       {
         key: 'link',
         label: 'lien',
-        type: 'text'
+        type: 'text',
+        required: true
       },
     ]
 

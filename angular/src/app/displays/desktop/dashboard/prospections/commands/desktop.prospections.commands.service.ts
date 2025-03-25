@@ -5,7 +5,7 @@ import { ProspectionsDataService } from "src/app/features/prospections/data/serv
 import { Prospection_Dto } from "src/app/features/prospections/models/prospection.dto.model";
 import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
 import { UiPopupService } from "src/app/ui/services/popup/popup.service";
-import { FormContinuablePopupComponent } from "src/app/displays/common/popups/form-continuable-popup/form-continuable-popup.component";
+import { FormContinuablePopupComponent } from "src/app/ui/components/ui-form/form-continuable-popup/form-continuable-popup.component";
 
 @Injectable({
   providedIn: 'root'

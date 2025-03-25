@@ -9,16 +9,16 @@ import { FormGroupObject } from './models/form-object.model';
 import { FormPopupBodyComponent } from './components/body/form-popup-body.component';
 
 @Component({
-  templateUrl: './form-popup.component.html',
+  templateUrl: './ui-form.component.html',
   imports: [
     CommonModule,
     FormPopupBodyComponent,
     FormGroupFooterComponent
   ],
-  styleUrls: ['./form-popup.component.scss'],
+  styleUrls: ['./ui-form.component.scss'],
   standalone: true
 })
-export class FormPopupComponent<T extends Object> implements OnInit {
+export class UiFormComponent<T extends Object> implements OnInit {
 
   formGroup!: FormGroup<{ [K in keyof FormGroupObject]: AbstractControl<any, any> }>;
   fieldsData: FormPopupFieldData[] = [];

@@ -5,8 +5,8 @@ import { OwnersDataService } from "src/app/features/owners/data/owners.data.serv
 import { UiPopupService } from "src/app/ui/services/popup/popup.service";
 import { EstatesDataService } from "../data/service/esates.data.service";
 import { Estate } from "../models/estate.model";
-import { FormPopupFieldData } from "src/app/displays/common/popups/form-popup/models/form-popup.fields-data.model";
-import { FormContinuablePopupComponent } from "src/app/displays/common/popups/form-continuable-popup/form-continuable-popup.component";
+import { FormPopupFieldData } from "src/app/ui/components/ui-form/form-popup/models/form-popup.fields-data.model";
+import { FormContinuablePopupComponent } from "src/app/ui/components/ui-form/form-continuable-popup/form-continuable-popup.component";
 
 const createEstateFieldsDataPopup: FormPopupFieldData[] = [
   {

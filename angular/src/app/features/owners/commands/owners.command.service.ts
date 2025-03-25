@@ -5,9 +5,9 @@ import { Owner_Post_Request } from "src/app/features/owners/models/owner-post-re
 import { getUpdatedFields } from "src/app/shared/utils/objects.utils";
 import { UiPopupService } from "src/app/ui/services/popup/popup.service";
 import { OwnersDataService } from "../data/owners.data.service";
-import { FormPopupFieldData } from "src/app/displays/common/popups/form-popup/models/form-popup.fields-data.model";
-import { FormContinuablePopupComponent } from "src/app/displays/common/popups/form-continuable-popup/form-continuable-popup.component";
-import { FormPopupComponent } from "src/app/displays/common/popups/form-popup/form-popup.component";
+import { FormPopupFieldData } from "src/app/ui/components/ui-form/form-popup/models/form-popup.fields-data.model";
+import { FormContinuablePopupComponent } from "src/app/ui/components/ui-form/form-continuable-popup/form-continuable-popup.component";
+import { UiFormComponent } from "src/app/ui/components/ui-form/form-popup/ui-form.component";
 
 const createPopupFields: FormPopupFieldData[] = [
   {
@@ -68,7 +68,7 @@ export class OwnersCommandsService {
   }
 
   editOwner(fullOwner: Owner) {
-    return this.popupService.openPopup(FormPopupComponent, 'éditer un propriétaire', {
+    return this.popupService.openPopup(UiFormComponent, 'éditer un propriétaire', {
       fields: createPopupFields,
       value: fullOwner,
       onValidate: (ownerUpdates: Owner_Post_Request, successCallback: () => void) => {

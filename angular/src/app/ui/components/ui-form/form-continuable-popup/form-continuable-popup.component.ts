@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormPopupBodyComponent } from '../form-popup/components/body/form-popup-body.component';
-import { FormPopupComponent } from '../form-popup/form-popup.component';
+import { UiFormComponent } from '../form-popup/ui-form.component';
 import { FormPopupContinueFooterComponent } from './continue-footer/form-popup-continue-footer.component';
 
 
@@ -16,7 +16,7 @@ import { FormPopupContinueFooterComponent } from './continue-footer/form-popup-c
   styleUrls: ['./form-continuable-popup.component.scss'],
   standalone: true
 })
-export class FormContinuablePopupComponent<T extends Object> extends FormPopupComponent<T> implements OnInit {
+export class FormContinuablePopupComponent<T extends Object> extends UiFormComponent<T> implements OnInit {
 
   showContinue = false;
 

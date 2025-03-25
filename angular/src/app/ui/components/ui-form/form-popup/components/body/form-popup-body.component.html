@@ -1,4 +1,4 @@
-<form [formGroup]="formGroup()" class="form-group-popup">
+<form test-selector="popup-form-body" [formGroup]="formGroup()" class="form-group-popup">
 
   <ng-container *ngFor="let field of fieldsData()">
     @if(field.dropdownItems && field.dropdownItems.length){
@@ -9,7 +9,7 @@
       <signature-pad [formControlName]="field.key"></signature-pad>
     }@else {
       <label for="name" [class.mandatory]="field.required">{{field.label}}</label>
-      <input [type]="field.type" class="form-control" [formControlName]="field.key">
+      <input [attr.test-selector]="'popup-form-input-' + field.key" [type]="field.type" class="form-control" [formControlName]="field.key">
     }
   </ng-container>
 

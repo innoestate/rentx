@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { LocalizationsService } from "src/app/core/localizations/localizations.service";
-import { FormPopupFieldData } from "src/app/displays/common/popups/form-popup/models/form-popup.fields-data.model";
+import { FormPopupFieldData } from "src/app/ui/components/ui-form/form-popup/models/form-popup.fields-data.model";
 import { SellersDataService } from "../../data/services/sellers.data.service";
 
 @Injectable({
