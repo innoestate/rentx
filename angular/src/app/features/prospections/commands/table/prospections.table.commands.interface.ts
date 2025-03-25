@@ -1,5 +1,5 @@
-import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model"
+import { UiTableRowProspection } from "../../adapters/table/prospections.table.adapter.type"
 
 export interface ProspectionsTableCommands {
-  delete: (row: UiTableRow) => void
+  delete: (row: UiTableRowProspection) => void
 }

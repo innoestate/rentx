@@ -1,6 +1,6 @@
 import { Component, Signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { SellersCommandsService } from 'src/app/features/sellers/commands/sellers.commands.service';
+import { SellersCommandsService } from 'src/app/features/sellers/commands/table/sellers.commands.service';
 import { SellersDataService } from 'src/app/features/sellers/data/services/sellers.data.service';
 import { Seller_Dto } from 'src/app/features/sellers/models/seller.dto.model';
 import { DesktopProspectionsCommandsService } from '../commands/desktop.prospections.commands.service';

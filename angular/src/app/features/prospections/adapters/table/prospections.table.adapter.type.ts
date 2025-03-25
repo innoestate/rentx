@@ -51,7 +51,7 @@ interface UiTableColumnActions extends UiTableColumnItem {
 
 export type UiTableColumnsProspections = [UiTableColumnCity, UiTableColumnZip, UiTableColumnStreet, UiTableColumnLink, UiTableColumnSeller, UiTableColumnPrice, UiTableColumnStatus, UiTableColumnActions];
 
-export interface UiTableRowProspections extends UiTableRow {
+export interface UiTableRowProspection extends UiTableRow {
   data: {
     id: string
   },
@@ -60,5 +60,5 @@ export interface UiTableRowProspections extends UiTableRow {
 
 export interface UiTableProspections extends UiTable {
   columns: UiTableColumnsProspections;
-  rows: UiTableRowProspections[];
+  rows: UiTableRowProspection[];
 }

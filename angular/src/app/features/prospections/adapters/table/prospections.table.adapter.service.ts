@@ -6,7 +6,7 @@ import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.m
 import { CellType } from "src/app/ui/components/ui-table/types/ui-table.cell.type";
 import { Prospection_Dto } from "../../models/prospection.dto.model";
 import { PROSPECTION_STATUS } from "../../models/prospection.status.model";
-import { UiTableColumnsProspections, UiTableColumnSeller, UiTableProspections, UiTableRowProspections } from "./prospections.table.adapter.type";
+import { UiTableColumnsProspections, UiTableColumnSeller, UiTableProspections, UiTableRowProspection } from "./prospections.table.adapter.type";
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,7 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
     }
   }
 
-  getDtoFromRow(row: UiTableRowProspections): Partial<Prospection_Dto> {
+  getDtoFromRow(row: UiTableRowProspection): Partial<Prospection_Dto> {
     const data: any = { id: row.data['id'], ...row.cells }
     if(data['seller']){
       data['seller_id'] = data['seller'].value
@@ -52,7 +52,7 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
     ]
   }
 
-  protected createRows(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTableRowProspections[] {
+  protected createRows(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTableRowProspection[] {
     return prospections.map(prospection => this.formatUiTableRow(prospection, sellers))
   }
 

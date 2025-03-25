@@ -3,7 +3,7 @@ import { catchError, of, take } from "rxjs";
 import { SellersDataService } from "src/app/features/sellers/data/services/sellers.data.service";
 import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { UiTableProspections, UiTableRowProspections } from "../../adapters/table/prospections.table.adapter.type";
+import { UiTableProspections, UiTableRowProspection } from "../../adapters/table/prospections.table.adapter.type";
 import { ProspectionsTableAdapterService } from "../../adapters/table/prospections.table.adapter.service";
 import { ProspectionsTableCommands } from "../../commands/table/prospections.table.commands.interface";
 import { ProspectionsDataService } from "../../data/services/prospections.data.service";
@@ -28,7 +28,7 @@ export class ProspectionsTableDirective implements ProspectionsTableCommands {
     })
   }
 
-  updateRow(rowWidthUpdate: UiTableRowProspections) {
+  updateRow(rowWidthUpdate: UiTableRowProspection) {
     const update = this.tableAdapter.getDtoFromRow(rowWidthUpdate);
     this.prospectionsData.updateProspection(update).pipe(
       take(1),
@@ -37,7 +37,7 @@ export class ProspectionsTableDirective implements ProspectionsTableCommands {
   }
 
   delete(row: UiTableRow) {
-    console.log('implement delete in view')
+    console.log('implement delete in displays component.')
     return true;
   }
 
