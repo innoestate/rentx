@@ -4,6 +4,7 @@ import { ProspectionsDataService } from 'src/app/features/prospections/data/serv
 import { sellersDtoMock } from 'src/app/features/sellers/mocks/sellers.dto.mock';
 import { UiPopupService } from 'src/app/ui/services/popup/popup.service';
 import { DesktopProspectionsCommandsService } from './desktop.prospections.commands.service';
+import { UiModule } from 'src/app/ui/ui.module';
 
 describe('DesktopProspectionsCommandsService', () => {
   let service: DesktopProspectionsCommandsService;
@@ -12,9 +13,12 @@ describe('DesktopProspectionsCommandsService', () => {
 
   beforeEach(() => {
     const dataServiceSpy = jasmine.createSpyObj('ProspectionsDataService', ['deleteProspection', 'createProspection']);
-    const popupSpy = jasmine.createSpyObj('UiPopupService', ['openPopup']);
+    const popupSpy = jasmine.createSpyObj('UiPopupService', ['openPopup', 'openFormPopup', 'openContinuableFormPopup']);
 
     TestBed.configureTestingModule({
+      imports: [
+        UiModule
+      ],
       providers: [
         provideExperimentalZonelessChangeDetection(),
         DesktopProspectionsCommandsService,
@@ -35,7 +39,7 @@ describe('DesktopProspectionsCommandsService', () => {
 
   it('should call openPopup when createNew is called', () => {
     service.createNew(sellersDtoMock);
-    expect(popupServiceSpy.openPopup).toHaveBeenCalled();
+    expect(popupServiceSpy.openContinuableFormPopup).toHaveBeenCalled();
   });
 
   it('should create fields without sellers field', () => {

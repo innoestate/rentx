@@ -1,5 +1,5 @@
 import { AbstractControl } from "@angular/forms";
 
-export interface FormGroupObject {
+export interface UiFormObject {
   [key: string]: AbstractControl<any, any>;
 }

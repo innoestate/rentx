@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
 import { take, tap } from "rxjs";
-import { FormContinuablePopupComponent } from "src/app/ui/components/ui-form/form-continuable-popup/form-continuable-popup.component";
 import { Lodger_Post } from "src/app/features/lodgers/models/lodger-post-request.model";
 import { UiPopupService } from "src/app/ui/services/popup/popup.service";
 import { LodgersDataService } from "../data/lodgers.data.service";
+import { UiFormFieldData } from "src/app/ui/components/ui-form/form-popup/models/ui-form.field-data.model";
 
-const createPopupFields = [
+const createPopupFields: UiFormFieldData[] = [
   {
     key: 'name',
     label: 'Nom et prénom',
@@ -29,15 +29,10 @@ export class LodgersCommandsService {
 
     createLodger() {
 
-      this.popupService.openPopup(FormContinuablePopupComponent<Lodger_Post>, 'Ajouter un locataire', {
-        fields: createPopupFields,
-        onValidate: (createdTarget: Lodger_Post, performedActionSuccessfullCallback: () => void) => {
-            this.lodgersDataService.createLodger(createdTarget).pipe(
-              take(1),
-              tap(() => performedActionSuccessfullCallback())
-            ).subscribe();
-        }
-      });
+      const title = 'Ajouter un locataire';
+      const popup = this.popupService.openContinuableFormPopup(title, createPopupFields);
+      popup?.performOnValidation((value) => this.lodgersDataService.createLodger(value));
+
     }
 
     deleteLodger(lodgerId: string) {

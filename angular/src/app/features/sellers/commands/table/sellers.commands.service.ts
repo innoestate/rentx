@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { LocalizationsService } from "src/app/core/localizations/localizations.service";
-import { FormPopupFieldData } from "src/app/ui/components/ui-form/form-popup/models/form-popup.fields-data.model";
+import { UiFormFieldData } from "src/app/ui/components/ui-form/form-popup/models/ui-form.field-data.model";
 import { SellersDataService } from "../../data/services/sellers.data.service";
 
 @Injectable({
@@ -19,7 +19,7 @@ export class SellersCommandsService {
     this.sellersData.deleteSeller(id);
   }
 
-  protected getCreateFields(): FormPopupFieldData[] {
+  protected getCreateFields(): UiFormFieldData[] {
     return [
       {
         key: 'name',

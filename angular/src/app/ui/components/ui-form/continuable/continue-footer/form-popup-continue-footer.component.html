@@ -1,0 +1,8 @@
+<div class="footer">
+  @if(continue()){
+    <ui-button [text]="'continuer'" [type]="'primary'" [disabled]="okButtonDisabled()" (click)="onValidate.emit()"></ui-button>
+    <ui-button [text]="'fermer'" [type]="'danger'" (click)="onClose.emit()"></ui-button>
+  }@else {
+    <ui-button test-selector="ui-button-confirm" [text]="'OK'" [type]="'primary'" [disabled]="okButtonDisabled()" (click)="onValidate.emit()"></ui-button>
+  }
+</div>

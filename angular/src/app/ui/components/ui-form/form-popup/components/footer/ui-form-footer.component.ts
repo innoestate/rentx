@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, computed, effect, input, OnDestroy, output, signal } from '@angular/core';
+import { AfterViewInit, Component, computed, input, OnDestroy, output, signal } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { UiButtonComponent } from 'src/app/ui/components/ui-button/ui-button.component';
@@ -8,10 +8,10 @@ import { UiButtonComponent } from 'src/app/ui/components/ui-button/ui-button.com
   imports: [
     UiButtonComponent
   ],
-  templateUrl: './form-popup-footer.component.html',
-  styleUrl: './form-popup-footer.component.scss'
+  templateUrl: './ui-form-footer.component.html',
+  styleUrl: './ui-form-footer.component.scss'
 })
-export class FormGroupFooterComponent implements AfterViewInit, OnDestroy {
+export class UiFormFooterComponent implements AfterViewInit, OnDestroy {
 
   destroyed$ = new Subject<void>();
   formGroup = input.required<FormGroup>();

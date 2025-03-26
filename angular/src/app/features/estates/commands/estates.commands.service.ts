@@ -1,14 +1,13 @@
 import { Injectable } from "@angular/core";
-import { take, tap } from "rxjs";
+import { catchError, delay, filter, of, switchMap, take, tap } from "rxjs";
 import { Estate_Post_Request } from "src/app/features/estates/models/estate-post-request.model";
 import { OwnersDataService } from "src/app/features/owners/data/owners.data.service";
+import { UiFormFieldData } from "src/app/ui/components/ui-form/form-popup/models/ui-form.field-data.model";
 import { UiPopupService } from "src/app/ui/services/popup/popup.service";
 import { EstatesDataService } from "../data/service/esates.data.service";
 import { Estate } from "../models/estate.model";
-import { FormPopupFieldData } from "src/app/ui/components/ui-form/form-popup/models/form-popup.fields-data.model";
-import { FormContinuablePopupComponent } from "src/app/ui/components/ui-form/form-continuable-popup/form-continuable-popup.component";
 
-const createEstateFieldsDataPopup: FormPopupFieldData[] = [
+const createEstateFieldsDataPopup: UiFormFieldData[] = [
   {
     key: 'street',
     label: 'Rue',
@@ -64,7 +63,7 @@ export class EstatesCommandsService {
 
   constructor(private estatesData: EstatesDataService, private ownersData: OwnersDataService, private popupService: UiPopupService) {
     console.log('EstatesCommandsService constructor');
-   }
+  }
 
   createEstate() {
 
@@ -73,15 +72,9 @@ export class EstatesCommandsService {
       dropdownItems: this.owners().map(owner => ({ label: owner.name, value: owner.id }))
     }
 
-    return this.popupService.openPopup(FormContinuablePopupComponent, 'Ajouter un propriétaire', {
-      fields: createEstateFieldsDataPopup,
-      onValidate: (estate: Estate_Post_Request, successCallback: () => void) => {
-        this.estatesData.createEstate(estate).pipe(
-          take(1),
-          tap( () => successCallback())
-        ).subscribe();
-      }
-    });
+    const popup = this.popupService.openContinuableFormPopup('Ajouter un propriétaire', createEstateFieldsDataPopup);
+    popup.performOnValidation((value) => this.estatesData.createEstate(value as any));
+
   }
 
   removeEstate(estate: Estate) {

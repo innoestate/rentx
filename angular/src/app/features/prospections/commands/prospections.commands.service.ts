@@ -1,5 +1,5 @@
 import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
-import { FormPopupFieldData } from "src/app/ui/components/ui-form/form-popup/models/form-popup.fields-data.model";
+import { UiFormFieldData } from "src/app/ui/components/ui-form/form-popup/models/ui-form.field-data.model";
 
 export abstract class ProspectionsCommandsService {
 
@@ -9,8 +9,8 @@ export abstract class ProspectionsCommandsService {
 
   createNew(sellers: Seller_Dto[]) { }
 
-  getCreateNewFormFields(sellers: Seller_Dto[]): FormPopupFieldData[] {
-    const fields: FormPopupFieldData[] = [
+  getCreateNewFormFields(sellers: Seller_Dto[]): UiFormFieldData[] {
+    const fields: UiFormFieldData[] = [
       {
         key: 'address',
         label: 'rue',

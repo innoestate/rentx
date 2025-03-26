@@ -1,15 +1,13 @@
 import { Injectable } from "@angular/core";
 import { take, tap } from "rxjs";
-import { Owner } from "src/app/features/owners/models/owner.model";
 import { Owner_Post_Request } from "src/app/features/owners/models/owner-post-request.model";
+import { Owner } from "src/app/features/owners/models/owner.model";
 import { getUpdatedFields } from "src/app/shared/utils/objects.utils";
+import { UiFormFieldData } from "src/app/ui/components/ui-form/form-popup/models/ui-form.field-data.model";
 import { UiPopupService } from "src/app/ui/services/popup/popup.service";
 import { OwnersDataService } from "../data/owners.data.service";
-import { FormPopupFieldData } from "src/app/ui/components/ui-form/form-popup/models/form-popup.fields-data.model";
-import { FormContinuablePopupComponent } from "src/app/ui/components/ui-form/form-continuable-popup/form-continuable-popup.component";
-import { UiFormComponent } from "src/app/ui/components/ui-form/form-popup/ui-form.component";
 
-const createPopupFields: FormPopupFieldData[] = [
+const createPopupFields: UiFormFieldData[] = [
   {
     key: 'name',
     label: 'Nom',
@@ -56,19 +54,15 @@ export class OwnersCommandsService {
   }
 
   createOwner() {
-    return this.popupService.openPopup(FormContinuablePopupComponent, 'Ajouter un propriétaire', {
-      fields: createPopupFields,
-      onValidate: (owner: Owner_Post_Request, successCallback: () => void) => {
-        this.ownersDataService.createOwner(owner).pipe(
-          take(1),
-          tap(() => successCallback())
-        ).subscribe();
-      }
-    });
+
+    const title = 'Ajouter un propriétaire:';
+    const popup = this.popupService.openContinuableFormPopup(title, createPopupFields);
+    popup?.performOnValidation((value) => this.ownersDataService.createOwner(value));
+
   }
 
   editOwner(fullOwner: Owner) {
-    return this.popupService.openPopup(UiFormComponent, 'éditer un propriétaire', {
+    return this.popupService.openFormPopup('éditer un propriétaire', {
       fields: createPopupFields,
       value: fullOwner,
       onValidate: (ownerUpdates: Owner_Post_Request, successCallback: () => void) => {
