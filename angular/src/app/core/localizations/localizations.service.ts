@@ -7,7 +7,11 @@ import { Localizations } from "./localizations";
 export class LocalizationsService {
 
   getLocalization(domain: string, key: string): string {
-    return Localizations[domain][key];
+    try{
+      return Localizations[domain][key];
+    }catch(e){
+      return key;
+    }
   }
 
 }
