@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { UiTableComponent } from './components/ui-table/ui-table.component';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { UiMessageService } from './services/message/message.service';
+import { UiSpinnerComponent } from './components/ui-spinner/ui-spinner.component';
 
 @NgModule({
   imports: [
@@ -17,11 +18,13 @@ import { UiMessageService } from './services/message/message.service';
     UiButtonComponent,
     UiTableComponent,
     FormsModule,
+    UiSpinnerComponent
   ],
   exports: [
     NzModalModule,
     UiButtonComponent,
     UiTableComponent,
+    UiSpinnerComponent
   ],
   providers: [
     UiPopupService,

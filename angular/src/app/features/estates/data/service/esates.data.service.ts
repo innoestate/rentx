@@ -17,7 +17,7 @@ export class EstatesDataService {
     console.log('EstatesDataService constructor');
   }
 
-  createEstate(estate: Estate_Post_Request){
+  createEstate(estate: Partial<Estate>){
     return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx<Estate>(createEstate, createEstateSuccess, createEstateFailure, {estate}).pipe(
       catchError(err => {
         throw new Error('Failed to create estate with ngrx.', err);

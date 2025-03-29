@@ -1,5 +1,5 @@
 import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
-import { UiFormFieldData } from "src/app/ui/components/ui-form/form-popup/models/ui-form.field-data.model";
+import { UiFormFieldData } from "src/app/ui/components/ui-form/models/ui-form.field-data.model";
 
 export abstract class ProspectionsCommandsService {
 

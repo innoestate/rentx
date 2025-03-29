@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { lastValueFrom } from "rxjs";
 import { ProspectionsDataAdapter } from "src/app/features/prospections/adapters/data/prospections.data.adapter.service";
 import { ProspectionsCommandsService } from "src/app/features/prospections/commands/prospections.commands.service";
 import { ProspectionsDataService } from "src/app/features/prospections/data/services/prospections.data.service";
@@ -19,8 +20,8 @@ export class DesktopProspectionsCommandsService extends ProspectionsCommandsServ
   }
 
   override createNew(sellers: Seller_Dto[]) {
-    const popup = this.popupService.openContinuableFormPopup('Ajouter un bien à la prospection test.', this.getCreateNewFormFields(sellers));
-    popup?.performOnValidation((value) => this.createProspection(value));
+    const action = (value: any) => lastValueFrom(this.createProspection(value));
+    this.popupService.openContinuableFormPopup(action, 'Ajouter un bien à la prospection test.', this.getCreateNewFormFields(sellers));
   }
 
   private createProspection(value: any){

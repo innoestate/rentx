@@ -1,44 +1,73 @@
 import { CommonModule } from '@angular/common';
-import { Component, model, OnInit, output } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { UiFormBodyComponent } from './form-popup/components/body/ui-form-body.component';
-import { UiFormFooterComponent } from './form-popup/components/footer/ui-form-footer.component';
-import { UiFormFieldData } from './form-popup/models/ui-form.field-data.model';
-import { UiFormObject } from './form-popup/models/ui-form.model';
+import { Component, input, model, OnDestroy, OnInit, output } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Subject, takeUntil, tap } from 'rxjs';
+import { SignatureComponent } from 'src/app/displays/common/components/signature-pad/signature.component';
+import { UiDropdownComponent } from '../ui-dropdown/ui-dropdown.component';
+import { UiFormFieldData } from './models/ui-form.field-data.model';
+import { UiFormObject } from './models/ui-form.model';
 
 @Component({
+  selector: 'ui-form',
   templateUrl: './ui-form.component.html',
   imports: [
     CommonModule,
-    UiFormBodyComponent,
-    UiFormFooterComponent
+    ReactiveFormsModule,
+    UiDropdownComponent,
+    SignatureComponent,
   ],
   styleUrls: ['./ui-form.component.scss'],
   standalone: true
 })
-export class UiFormComponent2<T extends Object> implements OnInit {
-
+export class UiFormComponent2<T extends Object> implements OnInit, OnDestroy {
+  private destroyed$ = new Subject<void>();
   formGroup!: FormGroup<{ [K in keyof UiFormObject]: AbstractControl<any, any> }>;
-  fields = model<UiFormFieldData[]>([]);
-  initialValues: any = {};
-  onSubmit = output<{ [K in keyof UiFormObject]: AbstractControl<any, any> }>();
+  fields = input<UiFormFieldData[]>([]);
+  initialValues = input<any>({});
+  valid = output<boolean>();
+  form = output<FormGroup<any>>();
 
-  constructor(protected formBuilder: FormBuilder) {}
+  values = model<any>();
+
+  constructor(protected formBuilder: FormBuilder) {
+    console.log('UiFormComponent3 constructor')
+  }
 
   ngOnInit(): void {
     this.buildFormGroup();
+    this.listenToFormStatus();
   }
 
   buildFormGroup() {
     const keys = this.getKeysFromFieldsData();
-    const object = this.extractFieldsForFormGroup(keys);
-    this.formGroup = this.formBuilder.group(object);
+    const values = this.extractFieldsForFormGroup(keys);
+    this.formGroup = this.formBuilder.group(values);
   }
 
-  submit() {
-    if (this.formGroup.invalid)
-      return;
-    this.onSubmit.emit(this.formGroup.value);
+  listenToFormStatus() {
+
+    this.formGroup.valueChanges.pipe(
+      tap( values => {
+        this.values.set(values);
+      }),
+      takeUntil(this.destroyed$),
+    ).subscribe();
+
+    this.formGroup.statusChanges.pipe(
+      tap( status => {
+        if(status === 'VALID'){
+          this.valid.emit(true);
+        }else if ( status === 'INVALID'){
+          this.valid.emit(false);
+        }
+      }),
+      takeUntil(this.destroyed$),
+    ).subscribe();
+  }
+
+  ngOnDestroy(){
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   private getKeysFromFieldsData(): string[] {
@@ -48,7 +77,11 @@ export class UiFormComponent2<T extends Object> implements OnInit {
   private extractFieldsForFormGroup(keys: string[]): { [K in keyof UiFormObject]: AbstractControl<any> } {
     return keys.reduce((acc, key) => {
       const fieldData = this.fields().find(fieldData => fieldData.key === key);
-      acc[key] = new FormControl(this.initialValues[key] ?? '', fieldData?.required ? Validators.required : null);
+      if(this.values()){
+        acc[key] = new FormControl(this.values()[key] ?? '', fieldData?.required ? Validators.required : null);
+      }else{
+        acc[key] = new FormControl('', fieldData?.required ? Validators.required : null);
+      }
       return acc;
     }, {} as { [K in keyof UiFormObject]: AbstractControl<any> });
   }

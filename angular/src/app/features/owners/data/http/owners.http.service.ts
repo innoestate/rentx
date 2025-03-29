@@ -26,7 +26,7 @@ export class OwnersHttpService {
 
   edit(owner: Partial<Owner>): Observable<any> {
     return this.http.patch<Owner_Dto>(`${this.API_URL}/owners`, owner).pipe(
-      map( result => owner)
+      map( () => owner)
     )
   }
 

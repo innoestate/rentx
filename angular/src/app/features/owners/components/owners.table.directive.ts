@@ -14,7 +14,7 @@ export class OwnersTableDirective {
 
   updateRow(row: UiTableRow) {
     const updates = this.ownersUiAdapter.buildUpdateFields(row, this.owners());
-    this.ownersData.updateOwner(updates).pipe(
+    this.ownersData.updateOwner(row.data.id, updates).pipe(
       take(1),
       tap(() => this.reloadOwnerForResetCellPreviusValue(row.data.id))
     )
@@ -22,6 +22,6 @@ export class OwnersTableDirective {
 
   reloadOwnerForResetCellPreviusValue(ownerId: string) {
     const oldOwner = this.owners().find(o => o.id === ownerId);
-    this.ownersData.updateOwner(oldOwner!);
+    this.ownersData.updateOwner(ownerId, {...oldOwner!});
   }
 }

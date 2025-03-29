@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
-import { take, tap } from "rxjs";
+import { lastValueFrom, take, tap } from "rxjs";
 import { Lodger_Post } from "src/app/features/lodgers/models/lodger-post-request.model";
 import { UiPopupService } from "src/app/ui/services/popup/popup.service";
 import { LodgersDataService } from "../data/lodgers.data.service";
-import { UiFormFieldData } from "src/app/ui/components/ui-form/form-popup/models/ui-form.field-data.model";
+import { UiFormFieldData } from "src/app/ui/components/ui-form/models/ui-form.field-data.model";
 
 const createPopupFields: UiFormFieldData[] = [
   {
@@ -30,9 +30,8 @@ export class LodgersCommandsService {
     createLodger() {
 
       const title = 'Ajouter un locataire';
-      const popup = this.popupService.openContinuableFormPopup(title, createPopupFields);
-      popup?.performOnValidation((value) => this.lodgersDataService.createLodger(value));
-
+      const action = (value: any) => lastValueFrom(this.lodgersDataService.createLodger(value));
+      this.popupService.openContinuableFormPopup(action, title, createPopupFields);
     }
 
     deleteLodger(lodgerId: string) {

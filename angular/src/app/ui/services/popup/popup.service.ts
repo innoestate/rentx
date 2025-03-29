@@ -1,12 +1,9 @@
 import { Injectable, Type } from '@angular/core';
-import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { Observable, Subject, take, tap } from 'rxjs';
-import { UiFormContinuableComponent2 } from '../../components/ui-form/continuable/form-continuable-popup.component';
-import { UiFormContinuableComponent } from '../../components/ui-form/form-continuable-popup/form-continuable-popup.component';
-import { UiFormFieldData } from '../../components/ui-form/form-popup/models/ui-form.field-data.model';
-import { UiFormComponent } from '../../components/ui-form/form-popup/ui-form.component';
-import { UiPopup } from './ui-popup';
-import { UiPopupContinuable } from './ui-popup-continuable';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { Observable, take } from 'rxjs';
+import { UiFormFieldData } from '../../components/ui-form/models/ui-form.field-data.model';
+import { UiPopupContinuableComponent2 } from '../../components/ui-popup/ui-popup-continuable/ui-popup-continuable.component';
+import { UiFormPopupComponent } from '../../components/ui-popup/ui-popup.component';
 
 @Injectable({
   providedIn: 'root'
@@ -18,48 +15,57 @@ export class UiPopupService {
   }
 
   openPopup(component: Type<any>, title: string, data?: any): Observable<any> {
-    const subject = new Subject<any>();
     const modal = this.modalService.create({
       nzTitle: title,
       nzContent: component,
       nzFooter: null,
       nzData: data
     });
-    modal.afterClose.pipe(
-      take(1),
-      tap(value => subject.next(value))
-    ).subscribe();
-    return subject;
+    return modal.afterClose.pipe(take(1));
   }
 
-  // openPopup(component: Type<any>, title: string, data?: any): Observable<any> {
-  //   const modal = this.modalService.create({
-  //     nzTitle: title,
-  //     nzContent: component,
-  //     nzFooter: null,
-  //     nzData: data
-  //   });
-  //   return modal.afterClose.pipe(take(1));
-  // }
+  openFormPopup<T>(action: (value: T) => Promise<T>, title: string, fields: UiFormFieldData[], value?: T): UiFormPopupComponent {
+    const modal = this.createModal(title, UiFormPopupComponent);
+    const popup = modal.componentInstance as UiFormPopupComponent;
 
-  openFormPopup(title: string, data?: any): Observable<any> {
-    return this.openPopup(UiFormComponent, title, data)
+    popup.fields.set(fields);
+    popup.values.set(value);
+    popup.onValidate.subscribe(() => {
+      popup.loading.set(true);
+      action(popup.values())
+        .then(() => modal.close())
+        .finally(() => popup.loading.set(false));
+    });
+
+    return popup;
   }
 
-  openContinuableFormPopup(title: string, fields: UiFormFieldData[], value?: any): UiPopupContinuable {
+  openContinuableFormPopup<T>(action: (value: T) => Promise<T>, title: string, fields: UiFormFieldData[], values?: any): UiPopupContinuableComponent2 {
 
-    const uiPopup = new UiPopupContinuable();
-    const modal = this.createModal(title, UiFormContinuableComponent2);
-    const uiForm = modal.componentInstance as UiFormContinuableComponent2<any>;
+    const modal = this.createModal(title, UiPopupContinuableComponent2);
+    const popup = modal.componentInstance as UiPopupContinuableComponent2;
 
-    uiForm.fields.set(fields);
-    uiForm.onValidate.subscribe(values => uiPopup.validate(values));
-    uiForm.onSubmit.subscribe(value => this.closePopup(value, uiPopup, modal));
+    popup.fields.set(fields);
+    if (values) {
+      popup.values.set(values);
+    }
+    popup.onValidate.subscribe(() => {
+      popup.loading.set(true);
+      action(popup.values())
+      .then(() => {
+        popup.continue.set(true);
+      })
+      .finally(() => {
+        popup.loading.set(false);
+      });
+    });
 
-    uiPopup.onEnableContinuation.subscribe(() => uiForm.enableContinuation());
+    popup.onClose.subscribe(() => {
+      modal.close();
+    });
 
 
-    return uiPopup;
+    return popup;
   }
 
   private createModal(title: string, component: any) {
@@ -68,11 +74,6 @@ export class UiPopupService {
       nzContent: component,
       nzFooter: null,
     })
-  }
-
-  private closePopup(value: any,popup: UiPopup, modal: NzModalRef) {
-    popup.close(value);
-    modal.close();
   }
 
 }

@@ -1,0 +1,9 @@
+:host{
+  position: relative;
+}
+.ui-popup-content{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}

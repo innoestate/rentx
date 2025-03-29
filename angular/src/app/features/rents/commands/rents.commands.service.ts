@@ -76,7 +76,7 @@ export class RentsCommandsService {
   protected updateCompletedObjects(owner: Partial<Owner>, estate: Partial<Estate>, lodger?: Partial<Lodger>): Observable<boolean> {
     let asyncUpdates: Observable<any>[] = [];
     if (Object.keys(owner).length > 1) {
-      asyncUpdates.push(this.ownersDataService.updateOwner({ ...owner, id: owner?.id! }));
+      asyncUpdates.push(this.ownersDataService.updateOwner(owner?.id!, { ...owner }));
     }
     if (Object.keys(estate).length > 1) {
       asyncUpdates.push(this.estatesDataService.updateEstate({ ...estate }));

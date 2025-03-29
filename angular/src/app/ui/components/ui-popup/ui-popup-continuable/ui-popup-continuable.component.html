@@ -1,0 +1,12 @@
+@if(loading()) {
+  <ui-spinner></ui-spinner>
+}
+<div test-selector="ui-popup-content">
+  <ui-form (valid)="setValidStatus($event)" [(values)]="values" [fields]="fields()!"></ui-form>
+  <div>
+    <ui-button test-selector="ui-popup-validation-button" (click)="validate()" [text]="validationButtonLabel()" [disabled]="!valid()"></ui-button>
+    @if(continue()){
+      <ui-button [text]="'fermer'" [type]="'danger'" (click)="onClose.emit()"></ui-button>
+    }
+  </div>
+</div>

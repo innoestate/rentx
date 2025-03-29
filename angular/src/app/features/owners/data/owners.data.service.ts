@@ -1,12 +1,12 @@
 import { Injectable, Signal } from "@angular/core";
 import { Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { catchError, map, Observable, of, race, take, tap } from "rxjs";
-import { Owner } from "src/app/features/owners/models/owner.model";
-import { createOwner as CreateOwnerOnNgrx, createOwnerFailure, createOwnerSuccess, deleteOwner, loadOwners as loadOwnersAction, updateOwner, updateOwnerFailure, updateOwnerSuccess } from "./ngrx/owners.actions";
-import { selectOwners } from "./ngrx/owners.selectors";
-import { DataNgrxService } from "src/app/shared/data/ngrx/data.ngrx.service";
+import { map, Observable, race, take } from "rxjs";
 import { Owner_Post_Request } from "src/app/features/owners/models/owner-post-request.model";
+import { Owner } from "src/app/features/owners/models/owner.model";
+import { DataNgrxService } from "src/app/shared/data/ngrx/data.ngrx.service";
+import { createOwnerFailure, createOwner as CreateOwnerOnNgrx, createOwnerSuccess, deleteOwner, loadOwners as loadOwnersAction, updateOwner, updateOwnerFailure, updateOwnerSuccess } from "./ngrx/owners.actions";
+import { selectOwners } from "./ngrx/owners.selectors";
 
 @Injectable({
   providedIn: 'root',
@@ -27,8 +27,8 @@ export class OwnersDataService {
     return this.store.selectSignal(selectOwners);
   }
 
-  updateOwner(ownerData: Partial<Owner>): Observable<Owner> {
-    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx<Owner>(updateOwner, updateOwnerSuccess, updateOwnerFailure, { owner: ownerData });
+  updateOwner(id: string, ownerData: Partial<Owner>): Observable<Owner> {
+    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx<Owner>(updateOwner, updateOwnerSuccess, updateOwnerFailure, { owner: {...ownerData, id} }).pipe();
   }
 
   deleteOwner(ownerId: string) {
