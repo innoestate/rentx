@@ -60,7 +60,7 @@ describe('SellersDataService test failure CRUD', () => {
   });
 
   it('should fail to update seller', (done) => {
-    dataService.updateSeller({}).pipe(
+    dataService.updateSeller('1',{}).pipe(
       take(1),
       catchError(err => {
         expect(err).toBeTruthy();

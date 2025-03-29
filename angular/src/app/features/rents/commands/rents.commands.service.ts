@@ -79,10 +79,10 @@ export class RentsCommandsService {
       asyncUpdates.push(this.ownersDataService.updateOwner(owner?.id!, { ...owner }));
     }
     if (Object.keys(estate).length > 1) {
-      asyncUpdates.push(this.estatesDataService.updateEstate({ ...estate }));
+      asyncUpdates.push(this.estatesDataService.updateEstate(estate?.id!, { ...estate }));
     }
     if (lodger && Object.keys(lodger).length > 1) {
-      asyncUpdates.push(this.lodgersDataService.updateLodger({ ...lodger }));
+      asyncUpdates.push(this.lodgersDataService.updateLodger(lodger?.id!, { ...lodger }));
     }
     return combineLatest(asyncUpdates).pipe(
       take(1),

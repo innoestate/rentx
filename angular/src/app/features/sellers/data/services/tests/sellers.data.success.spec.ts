@@ -56,7 +56,7 @@ describe('SellersDataService test successful CRUD ', () => {
   it('should update a seller', () => {
     dataService.loadSellers();
     const updatedSeller = { ...cloneDeep(sellerDtoMock1), name: 'Updated Name' };
-    dataService.updateSeller(updatedSeller);
+    dataService.updateSeller(updatedSeller.id!, updatedSeller);
     const sellers = dataService.getSellers();
     expect(sellers().find(s => s.id === updatedSeller.id)!.name).toEqual('Updated Name');
   });

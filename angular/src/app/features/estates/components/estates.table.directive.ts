@@ -40,7 +40,7 @@ export class EstatesTableDirective {
 
   updateRow(row: UiTableRow) {
     const estate = extractUpdatedFieldsFromRow(this.estates(), row);
-    this.estatesData.updateEstate(estate).pipe(
+    this.estatesData.updateEstate(row.data.id!, estate).pipe(
       catchError(() => this.reloadEstateForResetCellPreviusValue(row.data.id))
     ).pipe(
       take(1)
@@ -49,7 +49,7 @@ export class EstatesTableDirective {
 
   private reloadEstateForResetCellPreviusValue(estateId: string) {
     const oldEstate = this.estates().find(e => e.id === estateId);
-    this.estatesData.updateEstate(oldEstate as Partial<Estate>);
+    this.estatesData.updateEstate(oldEstate!.id!, oldEstate as Partial<Estate>);
     return of(null);
   }
 

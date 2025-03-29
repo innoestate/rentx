@@ -30,8 +30,8 @@ export class LodgersDataService {
     return this.store.selectSignal(selectLodgers);
   }
 
-  updateLodger(lodger: Partial<Lodger>): Observable<Lodger> {
-    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx<Lodger>(updateLodgerOnNgrx, updateLodgerSuccess, updateLodgerFailure, { lodger });
+  updateLodger(id: string, lodger: Partial<Lodger>): Observable<Lodger> {
+    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx<Lodger>(updateLodgerOnNgrx, updateLodgerSuccess, updateLodgerFailure, { lodger: { ...lodger, id } });
   }
 
   deleteLodger(lodgerId: string) {

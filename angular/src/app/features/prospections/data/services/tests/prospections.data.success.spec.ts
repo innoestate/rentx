@@ -58,7 +58,7 @@ describe('ProspectionsDataService test successful CRUD ', () => {
     dataService.createProspection(newProspection);
 
     const update = { id: newProspection.id, price: 100000};
-    dataService.updateProspection(update);
+    dataService.updateProspection(update.id!, update);
     expect(prospections()[3].price).toEqual(100000);
   })
 

@@ -61,4 +61,11 @@ describe('SellersTableDirective successful update testing', () => {
     fixture.detectChanges();
     expect(seller!.zip).toBe('2345');
   });
+
+  it('should throw an error with a null id', () => {
+    expect(() => {
+      component.updateRow({ data: {} as any, cells: { zip: '2345' } });
+    }).toThrowError('Need an id in row data.');
+  })
+
 });

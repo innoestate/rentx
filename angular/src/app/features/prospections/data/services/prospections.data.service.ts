@@ -21,8 +21,8 @@ export class ProspectionsDataService {
     return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(createProspection, createProspectionSuccess, createProspectionFailure, { prospection });
   }
 
-  updateProspection(prospection: Partial<Prospection_Dto>): any {
-    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(updateProspection, updateProspectionSuccess, updateProspectionFailure, { prospection });
+  updateProspection(id: string, prospection: Partial<Prospection_Dto>): any {
+    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(updateProspection, updateProspectionSuccess, updateProspectionFailure, { prospection: {...prospection, id} });
   }
 
   deleteProspection(id: string): Observable<void> {

@@ -53,7 +53,7 @@ describe('SellersDataMessagesService test successful CRUD displaying messages ',
   })
 
   it('should update a seller and show success message', () => {
-    dataService.updateSeller({...cloneDeep(sellerDtoMock1), city: 'Las Vegas'});
+    dataService.updateSeller(sellerDtoMock1.id!, {...cloneDeep(sellerDtoMock1), city: 'Las Vegas'});
     messageTestHelper.hasDisplaySuccessMessage(localizationService.getLocalization('sellers','updateSellerSuccess'));
   })
 

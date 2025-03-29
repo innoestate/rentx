@@ -34,8 +34,9 @@ export class SellersTableDirective extends UiTableDirective {
   }
 
   override updateRow(rowWidthUpdate: UiTableRow) {
+    this.verifyRowId(rowWidthUpdate);
     const update = this.sellersAdater.getDtoFromRow(rowWidthUpdate);
-    this.sellersDataService.updateSeller(update).pipe(
+    this.sellersDataService.updateSeller(rowWidthUpdate.data.id, update).pipe(
       take(1),
       catchError(() => this.reloadSellerAsBeforeUpdate(rowWidthUpdate.data['id']))
     ).subscribe();

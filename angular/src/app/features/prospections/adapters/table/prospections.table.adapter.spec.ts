@@ -29,15 +29,8 @@ describe('ProspectionsTableAdapterService', () => {
   it('should provide the correct Dto object for update', () => {
     const dto = adapter.getDtoFromRow(uiTableRowProspectionsUpdateMock1);
     expect(dto).toEqual({
-      id: '1234',
       seller_id: 'abcd'
     })
-  })
-
-  it('should throw an error because no id', () => {
-    expect(() => {
-      adapter.getDtoFromRow({ data: {}, cells: {}} as any);
-    }).toThrow();
   })
 
 })

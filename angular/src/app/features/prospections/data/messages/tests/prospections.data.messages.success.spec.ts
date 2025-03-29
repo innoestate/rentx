@@ -53,7 +53,7 @@ describe('ProspectionsDataMessagesService test successful CRUD displaying messag
   })
 
   it('should update a prospection and show success message', () => {
-    dataService.updateProspection({...cloneDeep(prospectionDtoMock1), city: 'Las Vegas'});
+    dataService.updateProspection('1', {...cloneDeep(prospectionDtoMock1), city: 'Las Vegas'});
     messageTestHelper.hasDisplaySuccessMessage(localizationService.getLocalization('prospections','updateProspectionSuccess'));
   })
 

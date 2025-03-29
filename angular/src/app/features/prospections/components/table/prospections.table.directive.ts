@@ -35,8 +35,9 @@ export class ProspectionsTableDirective extends UiTableDirective {
   }
 
   override updateRow(rowWidthUpdate: UiTableRowProspection) {
+    this.verifyRowId(rowWidthUpdate);
     const update = this.tableAdapter.getDtoFromRow(rowWidthUpdate);
-    this.prospectionsData.updateProspection(update).pipe(
+    this.prospectionsData.updateProspection(rowWidthUpdate.data.id, update).pipe(
       take(1),
       catchError(() => this.reloadProspectionAsBeforeUpdate(rowWidthUpdate.data['id']))
     ).subscribe();

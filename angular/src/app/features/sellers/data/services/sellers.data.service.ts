@@ -21,8 +21,8 @@ export class SellersDataService {
     return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(createSeller, createSellerSuccess, createSellerFailure, { seller });
   }
 
-  updateSeller(seller: Partial<Seller_Dto>) {
-    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(updateSeller, updateSellerSuccess, updateSellerFailure, { seller });
+  updateSeller(id: string, seller: Partial<Seller_Dto>) {
+    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(updateSeller, updateSellerSuccess, updateSellerFailure, { seller: {...seller, id} });
   }
 
   deleteSeller(id: string) {

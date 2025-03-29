@@ -33,8 +33,8 @@ export class EstatesDataService {
     return this.store.selectSignal(selectEstates);
   }
 
-  updateEstate(estate: Partial<Estate>): Observable<Estate>{
-    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx<Estate>(updateEstateInNgrx, editEstateSuccess, editEstateFailure, {estate});
+  updateEstate(id: string, estate: Partial<Estate>) {
+    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx<Estate>(updateEstateInNgrx, editEstateSuccess, editEstateFailure, {estate: {...estate, id}});
   }
 
   removeEstate(estateId: string){

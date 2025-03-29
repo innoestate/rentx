@@ -24,8 +24,7 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
   }
 
   getDtoFromRow(row: UiTableRowProspection): Partial<Prospection_Dto> {
-    if (!row.data['id']) throw new Error('Need an id in row data.');
-    const data: any = { id: row.data['id'], ...row.cells }
+    const data: any = {...row.cells }
     if(data['seller']){
       data['seller_id'] = data['seller'].value
       delete data.seller;

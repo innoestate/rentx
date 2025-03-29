@@ -14,7 +14,7 @@ export class LodgersTableDirective {
 
   updateRow(row: UiTableRow) {
     const updates = this.lodgersUiAdapter.buildUpdateFields(row, this.lodgers());
-    this.lodgersData.updateLodger(updates).pipe(
+    this.lodgersData.updateLodger(row.data.id!, updates).pipe(
       take(1),
       catchError(() => this.reloadLodgerForResetCellPreviusValue(row.data.id))
     )
@@ -22,7 +22,7 @@ export class LodgersTableDirective {
 
   reloadLodgerForResetCellPreviusValue(lodgerId: string) {
     const oldLodger = this.lodgers().find(l => l.id === lodgerId);
-    this.lodgersData.updateLodger(oldLodger!);
+    this.lodgersData.updateLodger(lodgerId, {...oldLodger!});
     return of(null);
   }
 }

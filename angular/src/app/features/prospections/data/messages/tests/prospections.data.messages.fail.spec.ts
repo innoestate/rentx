@@ -70,7 +70,7 @@ describe('ProspectionsDataMessagesService test fail CRUD displaying messages ', 
   })
 
   it('should fail to update a prospection and show error message', done => {
-    dataService.updateProspection({...cloneDeep(prospectionDtoMock1), city: 'Las Vegas'}).pipe(
+    dataService.updateProspection('mock-id-1', {...cloneDeep(prospectionDtoMock1), city: 'Las Vegas'}).pipe(
       take(1),
       catchError(() => {
         messageTestHelper.isDisplayingFailMessage(localizationService.getLocalization('prospections','updateProspectionFailure'));
