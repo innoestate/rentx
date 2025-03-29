@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UiFormPopupComponent } from './ui-popup.component';
+import { UiFormPopupComponent } from '../ui-popup.component';
 import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { UiSpinnerComponent } from 'src/app/ui/components/ui-spinner/ui-spinner.component';
 import { CommonModule } from '@angular/common';

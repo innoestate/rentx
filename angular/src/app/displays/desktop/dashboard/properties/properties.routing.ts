@@ -8,7 +8,7 @@ const routes: Routes = [
       { path: 'estates-table', loadChildren: () => import('./estates-table/estates-table.module').then(m => m.EstatesTableModule) },
       { path: 'owners-table', loadChildren: () => import('./owners-table/desktop-owners-table.module').then(m => m.DesktopOwnersTableModule) },
       { path: 'lodgers-table', loadChildren: () => import('./lodgers-table/lodgers-table.module').then(m => m.DesktopLodgersTableModule) },
-      { path: '', redirectTo: 'lodgers-table', pathMatch: 'full' }
+      { path: '', redirectTo: 'estates-table', pathMatch: 'full' }
     ]
   },
 ];

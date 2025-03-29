@@ -3,7 +3,7 @@
   <li class="logo">rentx</li>
   <div class="navigation">
     <li nz-menu-item [routerLink]="['estates']">Mes biens</li>
-    <li nz-menu-item [routerLink]="['prospections']">prospection</li>
+    <li test-selector="prospections-menu-routerLink" nz-menu-item [routerLink]="['prospections']">prospection</li>
   </div>
   <li class="right-menu" id="authenticated_user_avatar_container">
     <div nz-dropdown [nzDropdownMenu]="userDropdown" class="user-avatar">

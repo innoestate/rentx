@@ -27,9 +27,9 @@
   </thead>
   <tbody>
     <ng-container *ngFor="let nzRow of table.data; let rowI = index">
-      <tr>
+      <tr [attr.test-selector]="'ui-table-row-' + rowI">
         <ng-container *ngFor="let cell of nzRow.cells; let colI = index">
-          <td>
+          <td [attr.test-selector]="'ui-table-cell-c' + colI + '-r' + rowI">
 
             @if(cell === undefined || cell === null){
 

@@ -14,7 +14,7 @@ import { UiSpinnerComponent } from 'src/app/ui/components/ui-spinner/ui-spinner.
 })
 export class UiFormPopupComponent {
 
-  protected validationButtonLabel = signal(this.localizations.getLocalization('common', 'validationButton'));
+  protected validationButtonLabel = signal(this.localizations.getLocalization('commons', 'validationButton'));
   protected valid = signal(false);
 
   loading = signal(false);
