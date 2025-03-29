@@ -1,5 +1,8 @@
 export const Localizations: Record<string, Record<string, string>> = {
 
+  commons: {
+    validationButton: "OK"
+  },
   prospections : {
     failLoading: 'Echec de chargement des prospections!',
     addProspectionSuccess: 'Prospection ajoutée avec succès!',
