@@ -13,12 +13,12 @@ export class ProspectionsService {
     async createNewProspection(prospection: ProspectionDto, accessToken, refreshToken, clientId, clientSecret) {
         const result = await this.ProspectionsDbService.create(prospection);
         try {
-            await this.storageService.synchronize(prospection.user_id, accessToken, refreshToken, clientId, clientSecret);
+            // this.storageService.synchronize(prospection.user_id, accessToken, refreshToken, clientId, clientSecret);
         } catch (e) {
             console.error(e);
         }
         try {
-            await this.spreadsheetsService.synchronizeGoogleSheet(prospection.user_id, accessToken, refreshToken, clientId, clientSecret);
+            // this.spreadsheetsService.synchronizeGoogleSheet(prospection.user_id, accessToken, refreshToken, clientId, clientSecret);
         } catch (e) {
             console.error(e);
         }
@@ -40,8 +40,8 @@ export class ProspectionsService {
         return from(this.ProspectionsDbService.update(id, updateProspectionDto)).pipe(tap(update => {
 
             if (updateProspectionDto.address) {
-                this.storageService.synchronize(prospection.user_id, accessToken, refreshToken, clientId, clientSecret);
-                this.spreadsheetsService.synchronizeGoogleSheet(prospection.user_id, accessToken, refreshToken, clientId, clientSecret);
+                // this.storageService.synchronize(prospection.user_id, accessToken, refreshToken, clientId, clientSecret);
+                // this.spreadsheetsService.synchronizeGoogleSheet(prospection.user_id, accessToken, refreshToken, clientId, clientSecret);
             }
 
             return update;

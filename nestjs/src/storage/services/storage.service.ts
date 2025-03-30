@@ -4,6 +4,7 @@ import { synchronizeFoldersStorage } from "../storage.business";
 import { FolderStorageGoogleDriveStrategy } from "../strategy/folder-storage.google_drive.strategy";
 import { ConfigService } from "@nestjs/config";
 import { FolderStorageMockedStrategy } from "../strategy/folder-storage.mock.strategy";
+import { ProspectionDb } from "src/prospections/dto/prospection.db";
 
 @Injectable()
 export class StorageService {
@@ -25,7 +26,7 @@ export class StorageService {
             }
         }
 
-        const prospections = await this.prospectionsDbService.findAll(userId);
+        const prospections: ProspectionDb[] = await this.prospectionsDbService.findAll(userId);
         const createdProspections = await synchronizeFoldersStorage(prospections, this.folderStrategy);
         await Promise.all(Object.keys(createdProspections).map(async (prospectionId) => {
             await this.prospectionsDbService.update(prospectionId, { storage_folder_id: createdProspections[prospectionId] });
