@@ -29,36 +29,43 @@ export class OwnersTableAdapterService {
     return [
       {
         label: "Nom Prénom / raison sociale",
-        key: "name"
+        key: "name",
+        type: 'text'
       },
       {
         label: "Adresse",
         key: "street",
-        editable: true
+        editable: true,
+        type: 'text'
       },
       {
         label: "Code Postal",
         key: "zip",
-        editable: true
+        editable: true,
+        type: 'text'
       },
       {
         label: "Ville",
         key: "city",
-        editable: true
+        editable: true,
+        type: 'text'
       },
       {
         label: "email",
         key: "email",
-        editable: true
+        editable: true,
+        type: 'text'
       },
       {
         label: "telephone",
         key: "phone",
-        editable: true
+        editable: true,
+        type: 'text',
       },
       {
         label: "actions",
         key: "actions",
+        type: 'text',
         dropDownItems: this.buildActionsDropDownItems(owners)
       }
     ];

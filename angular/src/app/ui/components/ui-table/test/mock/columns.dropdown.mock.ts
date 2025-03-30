@@ -3,28 +3,34 @@ import { UiTableColumnItem } from "../../models/ui-table.column.model";
 export const columnsWithCityAsDropDownMock: UiTableColumnItem[] = [
   {
     key: 'id',
-    label: 'ID'
+    label: 'ID',
+    type: 'text'
   },
   {
     key: 'name',
     label: 'Name',
     editable: true,
+    type: 'text'
   },
   {
     key: 'email',
-    label: 'Email'
+    label: 'Email',
+    type: 'text'
   },
   {
     key: 'phone',
-    label: 'Phone'
+    label: 'Phone',
+    type: 'text'
   },
   {
     key: 'zip',
     label: 'Zip',
+    type: 'text'
   },
   {
     key: 'language',
     label: 'Langue',
+    type: 'text',
     sort: 1,
     dropDownItems: [
       {
@@ -44,6 +50,7 @@ export const columnsWithCityAsDropDownMock: UiTableColumnItem[] = [
   {
     key: 'skills',
     label: 'Compétences',
+    type: 'dropdown',
     dropDownItems: [
       {
         label: 'Developer',

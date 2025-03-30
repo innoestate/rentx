@@ -1,19 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, input, output, Signal } from '@angular/core';
+import { Component, computed, input, output, Signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzUiColumnConfig } from './models/nz-ui-column.config.model';
+import { NzUiTableRow } from './models/nz-ui-table-row.model';
 import { UiTableRow } from './models/ui-table-row.model';
 import { UiTableColumnItem } from './models/ui-table.column.model';
 import { NzUiCellNestedDropdownComponent } from './nz-ui-cell-editable/nested-dropdown/nz-ui-cell-nested-dropdown.component';
-import { NzUxCellItemComponent } from './nz-ui-cell-item/nz-ui-cell-item.component';
-import { CellType } from './types/ui-table.cell.type';
-import { formatNzColumnConfig, formatNzRows } from './utils/utils';
-import { UiItem } from '../../models/ui-item.model';
 import { NzUxCellEditableNumberComponent } from './nz-ui-cell-editable/number/nz-ui-cell-editable-number.component';
 import { NzUxCellEditableStringComponent } from './nz-ui-cell-editable/string/nz-ui-cell-editable-string.component';
-import { NzUiTableRow } from './models/nz-ui-table-row.model';
+import { NzUxCellItemComponent } from './nz-ui-cell-item/nz-ui-cell-item.component';
+import { formatNzColumnConfig, formatNzRows } from './utils/utils';
 
 
 @Component({

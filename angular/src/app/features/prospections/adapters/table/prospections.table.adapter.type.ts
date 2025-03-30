@@ -61,3 +61,22 @@ export interface UiTableProspections extends UiTable {
   columns: UiTableColumnsProspections;
   rows: UiTableRowProspection[];
 }
+
+
+export const prospectionsColumnModel: UiTableColumnsProspections = [
+  { key: 'city', label: 'Ville', editable: true, type: 'text' },
+  { key: 'zip', label: 'Code postal', editable: true, type: 'text' },
+  { key: 'address', label: 'Rue', editable: true, type: 'text' },
+  { key: 'link', label: 'lien', editable: true, type: 'text' },
+  { key: 'seller', label: 'Vendeur', editable: true, dropDownItems: [], type: 'dropdown' },
+  { key: 'price', label: 'Prix', editable: true, type: 'number' },
+  { key: 'status', label: 'Status', dropDownItems: [], type: 'dropdown' },
+  {
+    key: 'actions', label: 'Actions', type: 'dropdown', dropDownItems: [], dropDownCellsUniqueItem: {
+      label: '',
+      icon: 'tool',
+      value: 'action'
+    }
+  }
+]
+

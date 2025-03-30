@@ -6,7 +6,7 @@
   <div>
     <ui-button test-selector="ui-popup-validation-button" (click)="validate()" [text]="validationButtonLabel()" [disabled]="!valid()"></ui-button>
     @if(continue()){
-      <ui-button [text]="'fermer'" [type]="'danger'" (click)="onClose.emit()"></ui-button>
+      <ui-button test-selector="ui-popup-close-button" [text]="'fermer'" [type]="'danger'" (click)="onClose.emit()"></ui-button>
     }
   </div>
 </div>

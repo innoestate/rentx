@@ -2,9 +2,9 @@ import { provideExperimentalZonelessChangeDetection } from "@angular/core"
 import { TestBed } from "@angular/core/testing"
 import { sellerDtoMock1 } from "src/app/features/sellers/mocks/sellers.dto.mock"
 import { UiTableAdapterTestHelper } from "src/app/ui/components/ui-table/adapter/test/helper/ui-table.adapter.test.helper"
-import { prospectionDtoMock1 } from "../../mocks/prospections.dto.mock"
+import { prospectionDtoMock1 } from "../../../mocks/prospections.dto.mock"
 import { uiTableRowProspectionsUpdateMock1 } from "./mocks/prospection.table.row.mock"
-import { ProspectionsTableAdapterService } from "./prospections.table.adapter.service"
+import { ProspectionsTableAdapterService } from "../prospections.table.adapter.service"
 
 describe('ProspectionsTableAdapterService', () => {
 

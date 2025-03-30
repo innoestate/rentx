@@ -34,15 +34,15 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
 
   protected createColumns(sellers: Seller_Dto[]): UiTableColumnsProspections {
     return [
-      { key: 'city', label: 'Ville', editable: true },
-      { key: 'zip', label: 'Code postal', editable: true },
-      { key: 'address', label: 'Rue', editable: true },
-      { key: 'link', label: 'lien', editable: true },
+      { key: 'city', label: 'Ville', editable: true, type: 'text'  },
+      { key: 'zip', label: 'Code postal', editable: true, type: 'text' },
+      { key: 'address', label: 'Rue', editable: true, type: 'text' },
+      { key: 'link', label: 'lien', editable: true, type: 'text' },
       this.buildSellersColumn(sellers),
-      { key: 'price', label: 'Prix', editable: true },
-      { key: 'status', label: 'Status', dropDownItems: this.buildStatusDropdownItems() },
+      { key: 'price', label: 'Prix', editable: true, type: 'text' },
+      { key: 'status', label: 'Status', type: 'dropdown', dropDownItems: this.buildStatusDropdownItems() },
       {
-        key: 'actions', label: 'Actions', dropDownItems: this.buildActionsDropdownColumn(), dropDownCellsUniqueItem: {
+        key: 'actions', label: 'Actions', type: 'dropdown', dropDownItems: this.buildActionsDropdownColumn(), dropDownCellsUniqueItem: {
           label: '',
           icon: 'tool',
           value: 'action'
@@ -82,7 +82,8 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
       key: 'seller',
       label: 'Vendeur',
       editable: true,
-      dropDownItems: this.buildSellersDropdownColumn(sellers)
+      dropDownItems: this.buildSellersDropdownColumn(sellers),
+      type: 'dropdown'
     }
   }
 

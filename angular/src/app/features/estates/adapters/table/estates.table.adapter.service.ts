@@ -39,12 +39,12 @@ export class EstatesUiTableAdapter {
 
     return [
       this.buildAdressColumnField(estates),
-      { key: 'plot', label: 'lot', editable: true, sort: 2 },
-      { key: 'rent', label: 'loyer', editable: true },
-      { key: 'charges', label: 'charges', editable: true },
+      { key: 'plot', label: 'lot', editable: true, sort: 2, type: 'text' },
+      { key: 'rent', label: 'loyer', editable: true, type: 'number' },
+      { key: 'charges', label: 'charges', editable: true, type: 'number' },
       this.buildOwnersColumnField(estates, owners),
       this.buildLodgersColumnField(estates, lodgers),
-      { key: 'actions', label: 'Actions' }
+      { key: 'actions', label: 'Actions', type: 'text' }
     ]
   }
 
@@ -58,9 +58,9 @@ export class EstatesUiTableAdapter {
       const addressFilterFn: NzTableFilterFn<UiTableRow> = (values: string[], filter: UiTableRow) => {
         return values.includes(filter.cells[0] as string);
       };
-      return { key: 'address', label: 'Adresse', sort: 1, filter: addressList, filterFn: addressFilterFn };
+      return { key: 'address', label: 'Adresse', sort: 1, type: 'text', filter: addressList, filterFn: addressFilterFn };
     }else{
-      return { key: 'address', label: 'Adresse', sort: 1 };
+      return { key: 'address', label: 'Adresse', sort: 1, type: 'text' };
     }
   }
 
@@ -78,10 +78,10 @@ export class EstatesUiTableAdapter {
       const ownersFilterFn: NzTableFilterFn<UiTableRow> = (values: string[], filter: UiTableRow) => {
         return values.includes((filter.cells[4] as UiDropdownItem<string>)?.value as string);
       };
-      return { key: 'owner_dropdown', label: 'propriétaire', dropDownItems: ownersDropdownItems, sort: 1, filter: ownersList, filterFn: ownersFilterFn };
+      return { key: 'owner_dropdown', label: 'propriétaire', type: 'dropdown', dropDownItems: ownersDropdownItems, sort: 1, filter: ownersList, filterFn: ownersFilterFn };
     }
 
-    return { key: 'owner_dropdown', label: 'propriétaire', dropDownItems: ownersDropdownItems, sort: 1 };
+    return { key: 'owner_dropdown', label: 'propriétaire', type: 'dropdown', dropDownItems: ownersDropdownItems, sort: 1 };
   }
 
   private buildLodgersColumnField(estates: Estate[], lodgers: Lodger[]): UiTableColumnItem {
@@ -98,10 +98,10 @@ export class EstatesUiTableAdapter {
       const lodgersFilterFn: NzTableFilterFn<UiTableRow> = (values: string[], filter: UiTableRow) => {
         return values.includes((filter.cells[5] as UiDropdownItem<string>)?.value as string);
       };
-      return { key: 'lodger_dropdown', label: 'locataire', dropDownItems: lodgersDropdownItems, sort: 1, filter: lodgersList, filterFn: lodgersFilterFn };
+      return { key: 'lodger_dropdown', label: 'locataire', type: 'dropdown', dropDownItems: lodgersDropdownItems, sort: 1, filter: lodgersList, filterFn: lodgersFilterFn };
     }
 
-    return { key: 'lodger_dropdown', label: 'locataire', dropDownItems: lodgersDropdownItems, sort: 1 };
+    return { key: 'lodger_dropdown', label: 'locataire', type: 'dropdown', dropDownItems: lodgersDropdownItems, sort: 1 };
   }
 
   private createRows(estates: Estate[]): UiTableRow[] {

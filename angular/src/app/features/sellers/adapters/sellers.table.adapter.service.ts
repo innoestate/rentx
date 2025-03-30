@@ -29,14 +29,14 @@ export class SellersTableAdapterService extends UiTableAdapter {
 
   protected createColumns(): UiTableColumnsSellers {
     return [
-      { key: 'name', label: 'Nom', editable: true },
-      { key: 'address', label: 'Rue', editable: true },
-      { key: 'city', label: 'Ville', editable: true },
-      { key: 'zip', label: 'Code postal', editable: true },
-      { key: 'phone', label: 'téléphone', editable: true },
-      { key: 'email', label: 'email', editable: true },
-      { key: 'agency', label: 'Agence', editable: true },
-      { key: 'actions', label: 'Actions', dropDownItems: this.buildActionsDropdownColumn()}
+      { key: 'name', label: 'Nom', editable: true, type: 'text' },
+      { key: 'address', label: 'Rue', editable: true, type: 'text' },
+      { key: 'city', label: 'Ville', editable: true, type: 'text' },
+      { key: 'zip', label: 'Code postal', editable: true, type: 'text' },
+      { key: 'phone', label: 'téléphone', editable: true, type: 'text' },
+      { key: 'email', label: 'email', editable: true, type: 'text' },
+      { key: 'agency', label: 'Agence', editable: true, type: 'text' },
+      { key: 'actions', label: 'Actions', type: 'dropdown', dropDownItems: this.buildActionsDropdownColumn()}
     ]
   }
 

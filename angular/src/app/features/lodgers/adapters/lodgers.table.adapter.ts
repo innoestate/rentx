@@ -23,16 +23,19 @@ export class LodgersTableAdapterService {
     return [
       {
         key: 'name',
-        label: 'Nom Prénom'
+        label: 'Nom Prénom',
+        type: "text"
       },
       {
         key: 'email',
         label: 'Email',
-        editable: true
+        editable: true,
+        type: "text"
       },
       {
         key: 'actions',
         label: 'actions',
+        type: "text",
       }
     ];
   }
