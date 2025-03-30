@@ -9,6 +9,7 @@ import { DesktopProspectionsCommandsService } from './commands/desktop.prospecti
 import { DesktopProspectionsHandlerMenuComponent } from './menu/desktop-prospections-handler-menu.component';
 import { DesktopProspectionsComponent } from './prospections.component';
 import { ProspectionsDesktopRoutingModule } from './prospections.routing';
+import { DesktopSellersCommandsService } from './commands/desktop.sellers.commands.service';
 
 
 
@@ -26,7 +27,7 @@ import { ProspectionsDesktopRoutingModule } from './prospections.routing';
   ],
   providers: [
     DesktopProspectionsCommandsService,
-    SellersCommandsService
+    DesktopSellersCommandsService
   ]
 })
 export class ProspectionsModule {

@@ -14,19 +14,19 @@ export class ProspectionsDataService {
   constructor(private dataNgrxService: DataNgrxService, private store: Store) { }
 
   loadProspections(): Observable<Prospection_Dto[]> {
-    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(loadProspectionsOnNgrx, loadProspectionsSuccess, loadProspectionsFailure, {});
+    return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(loadProspectionsOnNgrx, loadProspectionsSuccess, loadProspectionsFailure, {});
   }
 
   createProspection(prospection: Partial<Prospection_Dto>): Observable<Prospection_Dto> {
-    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(createProspection, createProspectionSuccess, createProspectionFailure, { prospection });
+    return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(createProspection, createProspectionSuccess, createProspectionFailure, { prospection });
   }
 
   updateProspection(id: string, prospection: Partial<Prospection_Dto>): any {
-    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(updateProspection, updateProspectionSuccess, updateProspectionFailure, { prospection: {...prospection, id} });
+    return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(updateProspection, updateProspectionSuccess, updateProspectionFailure, { prospection: {...prospection, id} });
   }
 
   deleteProspection(id: string): Observable<void> {
-    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx(deleteProspection, deleteProspectionSuccess, deleteProspectionFailure, { id });
+    return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(deleteProspection, deleteProspectionSuccess, deleteProspectionFailure, { id });
   }
 
   getProspections(): Signal<Prospection_Dto[]> {

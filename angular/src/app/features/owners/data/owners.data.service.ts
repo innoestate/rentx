@@ -20,7 +20,7 @@ export class OwnersDataService {
   }
 
   createOwner(owner: Owner_Post_Request): Observable<Owner> {
-    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx<Owner>(CreateOwnerOnNgrx, createOwnerSuccess, createOwnerFailure, { owner });
+    return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx<Owner>(CreateOwnerOnNgrx, createOwnerSuccess, createOwnerFailure, { owner });
   }
 
   getOwners(): Signal<Owner[]> {
@@ -28,7 +28,7 @@ export class OwnersDataService {
   }
 
   updateOwner(id: string, ownerData: Partial<Owner>): Observable<Owner> {
-    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx<Owner>(updateOwner, updateOwnerSuccess, updateOwnerFailure, { owner: {...ownerData, id} }).pipe();
+    return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx<Owner>(updateOwner, updateOwnerSuccess, updateOwnerFailure, { owner: {...ownerData, id} }).pipe();
   }
 
   deleteOwner(ownerId: string) {

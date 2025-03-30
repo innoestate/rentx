@@ -1,12 +1,11 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { catchError, Observable } from "rxjs";
+import { catchError } from "rxjs";
 import { DataNgrxService } from "src/app/shared/data/ngrx/data.ngrx.service";
-import { Estate_Post_Request } from "src/app/features/estates/models/estate-post-request.model";
 import { Estate } from "../../models/estate.model";
 import { EstatesDataMessagesService } from "../messages/estates.messages.service";
 import { createEstate, createEstateFailure, createEstateSuccess, deleteEstate, editEstateFailure, editEstateSuccess, loadEstates, editEstate as updateEstateInNgrx } from "../ngrx/estates.actions";
-import { estatesSelector, selectEstates } from "../ngrx/estates.selectors";
+import { selectEstates } from "../ngrx/estates.selectors";
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +17,7 @@ export class EstatesDataService {
   }
 
   createEstate(estate: Partial<Estate>){
-    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx<Estate>(createEstate, createEstateSuccess, createEstateFailure, {estate}).pipe(
+    return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx<Estate>(createEstate, createEstateSuccess, createEstateFailure, {estate}).pipe(
       catchError(err => {
         throw new Error('Failed to create estate with ngrx.', err);
       })
@@ -34,7 +33,7 @@ export class EstatesDataService {
   }
 
   updateEstate(id: string, estate: Partial<Estate>) {
-    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx<Estate>(updateEstateInNgrx, editEstateSuccess, editEstateFailure, {estate: {...estate, id}});
+    return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx<Estate>(updateEstateInNgrx, editEstateSuccess, editEstateFailure, {estate: {...estate, id}});
   }
 
   removeEstate(estateId: string){

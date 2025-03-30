@@ -6,13 +6,15 @@ import { CellType } from "src/app/ui/components/ui-table/types/ui-table.cell.typ
 import { Prospection_Dto } from "../../models/prospection.dto.model";
 import { PROSPECTION_STATUS } from "../../models/prospection.status.model";
 import { UiTableColumnSeller, UiTableColumnsProspections, UiTableProspections, UiTableRowProspection } from "./prospections.table.adapter.type";
+import { LocalizationsService } from "src/app/core/localizations/localizations.service";
+import { Localizations } from "src/app/core/localizations/localizations";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProspectionsTableAdapterService extends UiTableAdapter {
 
-  constructor() {
+  constructor(private localization: LocalizationsService) {
     super();
   }
 
@@ -58,7 +60,7 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
   private buildActionsDropdownColumn(): UiDropdownItem<any>[] {
     return [
       {
-        label: 'Supprimer',
+        label: this.localization.getLocalization('commons', 'delete'),
         icon: 'delete',
         value: "delete",
         command: () => {

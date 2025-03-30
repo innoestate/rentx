@@ -19,7 +19,7 @@ export class LodgersDataService {
   }
 
   createLodger(lodger: Lodger_Post): Observable<Lodger> {
-    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx<Lodger>(createLodgerOnNgrx, createLodgerSuccess, createLodgerFailure, { lodger }).pipe(
+    return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx<Lodger>(createLodgerOnNgrx, createLodgerSuccess, createLodgerFailure, { lodger }).pipe(
       catchError(err => {
         throw new Error('Failed to create lodger with ngrx.', err);
       })
@@ -31,7 +31,7 @@ export class LodgersDataService {
   }
 
   updateLodger(id: string, lodger: Partial<Lodger>): Observable<Lodger> {
-    return this.dataNgrxService.DispatchWithFailOrSuccessActionsInNgrx<Lodger>(updateLodgerOnNgrx, updateLodgerSuccess, updateLodgerFailure, { lodger: { ...lodger, id } });
+    return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx<Lodger>(updateLodgerOnNgrx, updateLodgerSuccess, updateLodgerFailure, { lodger: { ...lodger, id } });
   }
 
   deleteLodger(lodgerId: string) {

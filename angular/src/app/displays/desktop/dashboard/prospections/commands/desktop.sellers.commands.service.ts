@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { take, tap } from "rxjs";
+import { lastValueFrom, take, tap } from "rxjs";
 import { LocalizationsService } from "src/app/core/localizations/localizations.service";
 import { SellersCommandsService } from "src/app/features/sellers/commands/table/sellers.commands.service";
 import { SellersDataService } from "src/app/features/sellers/data/services/sellers.data.service";
@@ -20,8 +20,8 @@ export class DesktopSellersCommandsService extends SellersCommandsService {
   override createNew() {
 
     const title = this.localizationsService.getLocalization('sellers', 'createSellerFromTitle');
-    const popup = this.popupService.openContinuableFormPopup(title, this.getCreateFields());
-    popup?.performOnValidation((value) => this.sellersData.createSeller(value));
+    const action = (value: Seller_Dto) => lastValueFrom(this.sellersData.createSeller(value)) as Promise<Seller_Dto>;
+    this.popupService.openContinuableFormPopup<Seller_Dto>(action, title, this.getCreateFields());
 
   }
 

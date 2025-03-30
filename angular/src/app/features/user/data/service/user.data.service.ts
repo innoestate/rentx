@@ -13,7 +13,7 @@ export class UserDataService {
   constructor(private dataService: DataNgrxService, private store: Store) { }
 
   loadUser() {
-    return this.dataService.DispatchWithFailOrSuccessActionsInNgrx<User_Dto>(loadUser, loadUserSuccess, loadUserFailure, {});
+    return this.dataService.dispatchWithFailOrSuccessActionsInNgrx<User_Dto>(loadUser, loadUserSuccess, loadUserFailure, {});
   }
 
   get() {

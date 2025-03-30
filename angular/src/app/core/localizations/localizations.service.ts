@@ -6,9 +6,9 @@ import { Localizations } from "./localizations";
 })
 export class LocalizationsService {
 
-  getLocalization(domain: string, key: string): string {
+  getLocalization(set: string, key: string): string {
     try{
-      return Localizations[domain][key];
+      return Localizations[set][key];
     }catch(e){
       return key;
     }
