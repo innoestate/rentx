@@ -1,0 +1,87 @@
+OK.
+J'attaque les tests cypress.
+
+Problématique pour tester les popups: 
+
+Actuellement les popups sont crées en 2 parties: 
+une partie qui est la popup elle même et contient le titre.
+une autre partie est le formulaire qui est crée dynamiquement.
+
+On peut donc facilement retrouver les champs avec les noms de chaque formControl.
+
+Cependant dans le cas (qui arrivera innévitablement) où il y a plusieurs popups ouvertes en même temps
+avec des champs identiques (comme address, zip etc...)
+
+Alors là on est mal.
+
+
+-> pour résoudre le problème il faudrait que pour les tests un attribut vraiment unique et contrôlé soit 
+mis dans chaqeu formcontrol.
+
+On pourrait utiliser le titre...mais c'est pas génial.
+On pourrait utiliser une clé mais elle n'a rien a faire dans un environement autre que le dev ou le test 
+    -> implémenter une nouvelle patern factory juste pour ça c'est un peu lourd...
+
+Pourquoi implémenter le titre n'est pas génial ?
+1- car ça peut être un titre long -> mais on s'en fiche un peu
+2- car il peut très rapidement changer et ça risque d'être pénible à gérer.
+    -> ceci dit, on peut peut être utiliser le service de localisation (du moins pour l'instant en dur) pour ça.
+    -> oui mais ça revient au même sur le fait qu'il faut implémenter une nouvelle patern
+
+en effet, dans les 2 cas, notre formulaire qui est dans le body devrait prendre en input le titre.
+C'est donc une violation du principe de la ségrégation des interfaces (si je ne me trompe pas).
+
+Il y a certainement un autre moyen de gérer ça avec cypress.
+
+Si on mets le titre dans un test-selector dans le container du body, on pourra sans doute aller chercher la suite
+comme avec un querySelector(.x > .y)
+
+Question vite répondu:
+On peut utiliser get().find()...
+
+Attention à l'overingeneering!!
+
+Ceci dit...
+Il reste le problème que le titre n'est pas reçu dans ce qui est faussement nomé popup-form (qui n'est en fait qu'un form finalement
+encapsulé dans une popup).
+-> il va falloire refactoriser ça.
+
+Mais je trouve la logique de n'avoir qu'un form bonne (le titre est finalement géré par la popup qui peut aussi être une sidebar par exemple).
+
+-> on pourrait ajouter un id à ce form mais ça revient (un peu) à ce qu'on a dit plus haut.
+
+mais non!
+on a qu'a mettre le test-selector dans la popup!
+
+
+OK.
+Effectivement on peut aisément aller chercher et tester des éléments nested.
+
+Par contre je me suis apperçu d'un problème d'archi: 
+en effet, FormPopup et FormContinuablePopup devraient être juste des forms.
+Et encapsulés dans UiPopup.
+
+Car on devrait pouvoir les utiliser facilement en tant que sidebar par exemple ou dans une page ou n'importe où.
+
+Or actuellement ils sont dans displays et utilise l'injection de NZ_DATA ce qui est une erreur de SPR si je ne m'abuse.
+Car l'utilisation de la lib nz n'est pas la responsabilité du formulaire.
+En plus il devrait être ségrégationné dans ui et non display (violation du I de interface ségregation).
+
+Donc l'idée est de refactoriser.
+
+On va avoir un simple ui-form qui va pouvoir gérer tout l'atirail ui (dropdowns, signature etc...) (d'ailleurs il faudra aussi bouger signature).
+Ce composant ui-form aura des inputs à la place de l'injection de data nz.
+
+Et on aura un composant héritier qui lui, utilisera a la place l'injection.
+
+Plusieurs soucis: 
+- il faudra utiliser pour l'héritier les data nz à la place des inputs...or overrider n'est pas forcément possible.
+- comment gérer le callback ?
+
+on pourrait faire un retour d'observable avec la donnée du formulaire ce qui serait simplifié et plus clair.
+Cependant il y a aussi le successCallback, qui permet, pour continuablePopup, d'indiquer que l'opération est terminée et qu'on peut afficher le 
+bouton continuer ou fermer.
+
+cela remettrait en cause l'archi actuelle car la dynamique de callback est DANS le composant...
+
+A réfléchir.

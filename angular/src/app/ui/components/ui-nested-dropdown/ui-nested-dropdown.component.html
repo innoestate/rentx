@@ -1,4 +1,4 @@
-<a #nzTrigger nz-dropdown [nzDropdownMenu]="menu" [nzTrigger]="triggerType()">
+<a test-selector="ui-nested-dropdown-trigger" #nzTrigger nz-dropdown [nzDropdownMenu]="menu" [nzTrigger]="triggerType()">
 
   @if(displayedValue.icon){
     <div class="icon" nz-icon [nzType]="displayedValue.icon" nzTheme="fill"></div>
@@ -10,9 +10,9 @@
   <ul nz-menu nzSelectable>
     @for(item of list(); track item){
       @if(isDropdown(item)){
-        <li nz-menu-item ><ui-nested-dropdown [value]="item" triggerType="hover" (onSelect)="clickOnItem($event)" [list]="item.value"></ui-nested-dropdown></li>
+        <li test-selector="ui-nested-dropdown-item" nz-menu-item ><ui-nested-dropdown [value]="item" triggerType="hover" (onSelect)="clickOnItem($event)" [list]="item.value"></ui-nested-dropdown></li>
       }@else{
-        <li nz-menu-item (click)="clickOnItem(item)">
+        <li test-selector="ui-nested-dropdown-item" nz-menu-item (click)="clickOnItem(item)">
           @if(item.icon){
             <div class="icon" nz-icon [nzType]="item.icon" nzTheme="fill"></div>
           }
