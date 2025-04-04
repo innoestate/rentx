@@ -1,12 +1,12 @@
 <div class="dashboard-menu">
 
   <div class="left">
-    <div class="logo">rentx</div>
+    <div>rentx</div>
+    <div [routerLink]="['estates']">Mes biens</div>
+    <div [routerLink]="['prospections']">Prospection</div>
   </div>
 
   <div class="right">
-    <div class="nav-link" routerLinkActive="active" [routerLink]="['properties']">biens</div>
-    <div class="nav-link" routerLinkActive="active" [routerLink]="['prospections']">prospection</div>
     <div class="user-avatar">
       <img [src]="user()?.picture">
     </div>

@@ -1,0 +1,11 @@
+<div class="left-buttons">
+  <ui-button [text]="' nouveau bien +'" (click)="createNewEstate()"></ui-button>
+  <ui-button [text]="' nouveau propriétaire +'" (click)="createNewOwner()"></ui-button>
+  <ui-button [text]="' nouveau locataire +'" (click)="createNewLodger()"></ui-button>
+</div>
+
+<div class="right-buttons">
+  <ui-button [text]="'biens'" (click)="navigate('estates-table')"></ui-button>
+  <ui-button [text]="'propriétaires'" (click)="navigate('owners-table')"></ui-button>
+  <ui-button [text]="'locataires'" (click)="navigate('lodgers-table')"></ui-button>
+</div>

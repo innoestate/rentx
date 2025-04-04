@@ -1,4 +1,16 @@
 :root[data-theme="default"] {
+
+  // Basic color
+  --color-basic-100: #ffffff;
+  --color-basic-200: #E5E5EA;
+  --color-basic-300: #CFCFD4;
+  --color-basic-400: #B1B1B8;
+  --color-basic-500: #9B9B9F;
+  --color-basic-600: #808080;
+  --color-basic-700: #595959;
+  --color-basic-800: #373737;
+  --color-basic-900: #000000;
+
   // Primary color
   --color-primary-100: #5D0C58;
   --color-primary-200: #4A134C;
@@ -28,9 +40,9 @@
   --color-tertiary-400: #8DB9D8;
   --color-tertiary-500: #78A4C6;
   --color-tertiary-600: #5F89A4;
-  --color-tertiary-700: #46767E;
-  --color-tertiary-800: #2E5D59;
-  --color-tertiary-900: #1A4A3A;
+  --color-tertiary-700: #496d83;
+  --color-tertiary-800: #34556a;
+  --color-tertiary-900: #1d3a4c;
 
   // Accent colors
   --color-accent-1: #8F46A0; // Purple with a vibrant accent

@@ -2,14 +2,19 @@
 @use "themes/default/theme" as default;
 @use "themes/pink/theme" as pink;
 @use "_bases.scss";
+@use "_fonts.scss";
 @import "node_modules/ng-zorro-antd/ng-zorro-antd.min.css";
 @import "node_modules/ng-zorro-antd/ng-zorro-antd.variable.css";
 
 
-body{
+body {
   background-color: var(--color-tertiary-100) !important;
+  // font-family: 'Roboto', sans-serif;
 }
 
+*{
+  font-family: 'primary', sans-serif;
+}
 // * {
 //   color: black;
 // }

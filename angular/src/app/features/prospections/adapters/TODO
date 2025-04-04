@@ -1,0 +1,9 @@
+rethink adapters.
+
+Le but de l'adapter est de transformer des données comme par exemple des ProspectionDto, SellerDto en table.
+
+Fondamentalement, la problématique est qu'on ne sait pas vraiment les colonnes et les rows.
+
+Pour palier à ça, on a crée une interface typé stricte qui permet de s'assurer que notre colonne est conforme.
+
+On pourrait aussi
