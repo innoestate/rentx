@@ -24,6 +24,7 @@ import { DeviceGuard } from './core/guards/device.guard';
 import { UserDataModule } from './features/user/data/module/user.data.module';
 import { LoginComponent } from './displays/pages/login/login.component';
 import { CallbackComponent } from './displays/pages/callback/callback.component';
+import { ThemeService } from './core/design-system/services/theme.service';
 
 registerLocaleData(en);
 
@@ -78,6 +79,7 @@ registerLocaleData(en);
   providers: [
     DeviceGuard,
     DeviceDetectorService,
+    ThemeService,
     { provide: NZ_I18N, useValue: en_US },
     {
       provide: HTTP_INTERCEPTORS,
@@ -87,4 +89,6 @@ registerLocaleData(en);
   ],
   bootstrap: []
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private themeService: ThemeService) {}
+}

@@ -5,6 +5,6 @@ import { DashboardComponent } from '../../common/dashboard.component';
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.scss',
-    standalone: false
+    standalone: false,
 })
 export class DashboardDesktopComponent extends DashboardComponent {}

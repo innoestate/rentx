@@ -1,0 +1,72 @@
+:root[data-theme="default"] {
+  // Primary color
+  --color-primary-100: #5D0C58;
+  --color-primary-200: #4A134C;
+  --color-primary-300: #3F1A3F;
+  --color-primary-400: #381849;
+  --color-primary-500: #301240;
+  --color-primary-600: #280C38;
+  --color-primary-700: #200731;
+  --color-primary-800: #180322;
+  --color-primary-900: #0F0114;
+
+  // Secondary color
+  --color-secondary-100: #7D829A;
+  --color-secondary-200: #70798E;
+  --color-secondary-300: #5F6C83;
+  --color-secondary-400: #4E5F78;
+  --color-secondary-500: #3E536D;
+  --color-secondary-600: #2F455D;
+  --color-secondary-700: #203852;
+  --color-secondary-800: #112745;
+  --color-secondary-900: #021638;
+
+  // Tertiary color
+  --color-tertiary-100: #D0E3F3;
+  --color-tertiary-200: #B0D4EB;
+  --color-tertiary-300: #A7C7E7;
+  --color-tertiary-400: #8DB9D8;
+  --color-tertiary-500: #78A4C6;
+  --color-tertiary-600: #5F89A4;
+  --color-tertiary-700: #46767E;
+  --color-tertiary-800: #2E5D59;
+  --color-tertiary-900: #1A4A3A;
+
+  // Accent colors
+  --color-accent-1: #8F46A0; // Purple with a vibrant accent
+  --color-accent-2: #F39C12; // Bright Yellow for an energetic feel
+
+  // Success color (green)
+  --color-success-100: #B9F6CA;
+  --color-success-200: #7EF7A2;
+  --color-success-300: #4CF77A;
+  --color-success-400: #2AF752;
+  --color-success-500: #00F72A;
+  --color-success-600: #00C023;
+  --color-success-700: #009C1D;
+  --color-success-800: #00761A;
+  --color-success-900: #00511A;
+
+  // Error color (red)
+  --color-error-100: #FFB1B1;
+  --color-error-200: #FF8C8C;
+  --color-error-300: #FF6B6B;
+  --color-error-400: #FF4A4A;
+  --color-error-500: #FF3333;
+  --color-error-600: #E60000;
+  --color-error-700: #B20000;
+  --color-error-800: #7F0000;
+  --color-error-900: #4C0000;
+
+  // WIP color (orange)
+  --color-wip-100: #FFE5B4;
+  --color-wip-200: #FFCC7A;
+  --color-wip-300: #FFB84D;
+  --color-wip-400: #FFA133;
+  --color-wip-500: #FF8F19;
+  --color-wip-600: #E67315;
+  --color-wip-700: #CC5612;
+  --color-wip-800: #B03A10;
+  --color-wip-900: #993010;
+
+}

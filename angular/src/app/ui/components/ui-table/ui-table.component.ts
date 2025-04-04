@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, input, output, Signal } from '@angular/core';
+import { Component, computed, ElementRef, input, output, Signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -39,7 +39,9 @@ export class UiTableComponent {
   protected nzColumns: Signal<NzUiColumnConfig[]> = this.buildNzColumns();
   protected editId: string | null = null;
 
-  constructor() {}
+  constructor(elRef: ElementRef) {
+    elRef.nativeElement.classList.add('ui-table-header');
+  }
 
   startEdit(columnIndex: number, rowIndex: number) {
     this.editId = (columnIndex + this.columns()[rowIndex].key);

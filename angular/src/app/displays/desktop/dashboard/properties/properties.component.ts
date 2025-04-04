@@ -7,7 +7,7 @@ import { RentsDataService } from 'src/app/features/rents/data/service/rents.data
 @Component({
   standalone: false,
   templateUrl: './properties.component.html',
-  styleUrl: './properties.component.scss'
+  styleUrl: './properties.component.scss',
 })
 export class DesktopEstatesHandlerComponent implements OnInit{
 

@@ -4,7 +4,7 @@ import { DashboardDesktopComponent } from './dashboard.component';
 
 const routes: Routes = [
   {
-    path: '', component: DashboardDesktopComponent, children: [
+    path: 'draft', component: DashboardDesktopComponent, children: [
       {
         path: 'properties',
         loadChildren: () => import('./properties/properties.module').then(m => m.DesktopPropertiesModule),

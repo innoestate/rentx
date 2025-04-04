@@ -1,0 +1,13 @@
+:host{
+  ::ng-deep {
+    .ant-table-thead {
+      background-color: var(--color-papper-background);
+    }
+    .ant-table-cell {
+      background-color: transparent;
+    }
+    .ant-table-cell:hover {
+      background-color: rgba(255,255,255,0.5);
+    }
+  }
+}

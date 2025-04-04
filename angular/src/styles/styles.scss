@@ -1,0 +1,189 @@
+@use "variables.scss" as var;
+@use "themes/default/theme" as default;
+@use "themes/pink/theme" as pink;
+@use "_bases.scss";
+@import "node_modules/ng-zorro-antd/ng-zorro-antd.min.css";
+@import "node_modules/ng-zorro-antd/ng-zorro-antd.variable.css";
+
+
+body{
+  background-color: var(--color-tertiary-100) !important;
+}
+
+// * {
+//   color: black;
+// }
+
+// a {
+//   color: var(--color-primary);
+// }
+
+// a:hover {
+//   color: red !important;
+// }
+
+
+
+// .editable-cell-number {
+//   width: 100px;
+
+//   input {
+//     width: 70px !important;
+//     // max-width: 15px !important;
+//   }
+// }
+
+// .form-group-popup {
+//   display: flex;
+//   flex-flow: column nowrap;
+//   justify-content: flex-start;
+//   align-items: flex-start;
+// }
+
+// .select {
+//   min-width: 166px;
+// }
+
+// .footer {
+//   margin: 20px;
+// }
+
+// .delete {
+//   color: var(--ant-error-color) !important;
+// }
+
+// .center-field {
+//   width: 100%;
+//   height: 100%;
+//   display: flex;
+//   flex-flow: column nowrap;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+// .empty-field {
+//   background-color: var(--ant-primary-2);
+//   border-radius: 15px;
+//   border: 1px solid var(--ant-primary-3);
+//   width: 100%;
+//   height: 100%;
+//   padding: 8px 12px;
+//   color: var(--ant-primary-7)
+// }
+
+// .italic {
+//   font-style: italic;
+// }
+
+// .signature-container {
+//   width: 100%;
+//   height: 100%;
+//   border: 1px solid gray;
+// }
+
+
+// //TABLE STYLES
+// .table-component {
+
+//   .field-medium{
+//     div{
+//       min-width: 200px !important;
+//       max-width: 200px !important;
+//       text-overflow: ellipsis;
+//       white-space: nowrap;
+//       overflow: hidden;
+//     }
+//     input{
+//       min-width: 200px !important;
+//       max-width: 200px !important;
+//       text-overflow: ellipsis;
+//       white-space: nowrap;
+//       overflow: hidden;
+//     }
+//   }
+
+
+//   .container{
+//     height: 100%;
+//   }
+
+//   .table-container{
+//     width: 100%;
+//     height: 100%;
+//   }
+
+//   @media (max-width: 600px) {
+//     .container {
+//       width: 100%;
+//     }
+//   }
+
+//   @media (min-width: 601px) and (max-width: 1024px) {
+//     .container {
+//       width: 800px;
+//     }
+//   }
+
+//   @media (min-width: 1025px) {
+//     .container {
+//       width: 1000px;
+//     }
+//   }
+
+//   .container {
+//     min-height: 80vh;
+//   }
+
+//   .header {
+//     display: flex;
+//     flex-flow: row nowrap;
+//     align-items: center;
+//     justify-content: space-between;
+//     width: 100%;
+//     margin-bottom: 20px;
+//   }
+
+//   .dropdown-line-content {
+//     display: flex;
+//     flex-flow: row nowrap;
+//     justify-content: space-between;
+//     align-items: center;
+//     width: 200px;
+//   }
+
+//   .action {
+//     width: 100%;
+//     height: 100%;
+//     display: flex;
+//     flex-flow: row nowrap;
+//     justify-content: center;
+//     align-items: center;
+//     cursor: pointer;
+//   }
+
+//   .tool {
+//     min-width: 20px;
+//     min-height: 20px;
+//     background-color: lightblue;
+//     border-radius: 50%;
+//   }
+
+//   .clickable {
+//     cursor: pointer;
+//   }
+
+
+// }
+
+// //UI STYLES (to recatoyze later)
+// .clickable {
+//   cursor: pointer;
+//   width: 100%;
+//   height: 100%;
+//   min-height: 1rem;
+// }
+
+// .loading-value {
+//   color: var(--ui-loading-color);
+//   opacity: 0.75;
+// }

@@ -1,11 +1,15 @@
-import { AfterViewInit, Component, effect, ElementRef, input, output, signal, ViewChild } from '@angular/core';
-import { NzDropdownMenuComponent, NzDropDownModule } from 'ng-zorro-antd/dropdown';
-import { UiDropdownItem } from '../ui-dropdown/model/ui-dropdown-item.model';
-import { UiItem } from '../../models/ui-item.model';
 import { CommonModule } from '@angular/common';
+import { AfterViewInit, Component, computed, effect, ElementRef, HostListener, input, output, signal, ViewChild } from '@angular/core';
+import { NzDropdownMenuComponent, NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { ToolFill } from '@ant-design/icons-angular/icons';
+import { UiDropdownItem } from '../ui-dropdown/model/ui-dropdown-item.model';
+import { isEqual } from 'lodash';
 
+/**
+ * This component is used to create a nested dropdown.
+ * If the value input is one of the items list, it will me updated.
+ * If the value is not in the item list it will be fixed value that will not change event if the list changes.
+ */
 @Component({
   selector: 'ui-nested-dropdown',
   imports: [NzDropDownModule, CommonModule, NzIconModule],
@@ -17,20 +21,27 @@ export class UiNestedDropdownComponent implements AfterViewInit {
 
   @ViewChild('nzTrigger', { static: false }) nzTrigger!: ElementRef;
   @ViewChild('menu', { static: false }) menu!: NzDropdownMenuComponent;
-  triggerType = input<'click' | 'hover'>('click');
-  value = input<UiDropdownItem<any> | any>();
-  list = input.required<UiDropdownItem<any>[]>();
-  insideValue = signal<UiDropdownItem<any> | null>(null);
-  onSelect = output<UiDropdownItem<any>>();
-  openAtInit = input<boolean>(false);
 
+  list = input.required<UiDropdownItem<any>[]>();
+  value = input<UiDropdownItem<any> | any>();
+  openAtInit = input<boolean>(false);
+  triggerType = input<'click' | 'hover'>('click');
+
+  onSelect = output<UiDropdownItem<any>>();
+
+  protected insideValue = signal<UiDropdownItem<any> | null>(null);
   protected displayedValue!: UiDropdownItem<any>;
+  protected mainTriggerIsFixed = this.isMainTriggerFixed();
 
   constructor() {
     this.fitInsideValueFromValue();
     this.fitDisplayedLabelFromInsideValue();
   }
 
+  @HostListener('click')
+  onClick() {
+    this.nzTrigger.nativeElement.click();
+  }
 
   ngAfterViewInit(): void {
     if (this.openAtInit()) {
@@ -45,9 +56,31 @@ export class UiNestedDropdownComponent implements AfterViewInit {
   clickOnItem(item: UiDropdownItem<any>) {
     if (item.command !== undefined) {
       item.command();
-    } else {
+    } else if( !this.mainTriggerIsFixed() ){
       this.selectItem(item);
     }
+  }
+
+  private isMainTriggerFixed() {
+    return computed(() => {
+      const list = this.list();
+      const value = this.value();
+      return !this.containValue(list, value);
+    })
+  }
+
+  private containValue(items: any[], value: any) {
+    let contain = false;
+    items.forEach(item => {
+      if (Array.isArray(item.value as any)) {
+        contain = this.containValue(item.value, value) ?? contain;
+      } else {
+        if (isEqual(item, value)) {
+          contain = true;
+        }
+      }
+    })
+    return contain;
   }
 
   private fitInsideValueFromValue() {

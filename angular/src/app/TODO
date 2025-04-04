@@ -1,11 +1,36 @@
-Ok i have a nice structure respecting separation of concerns for the features.
+Let's talk about UX and Styles now!
 
-Now i'd like to go deeper in the global structure.
+l'obectif va être d'implémenter les styles dans les règles de l'art.
+On veut pouvoir gérer plusieurs thèmes avec des modes jour / nuit.
+Il faut qu'il y ait une vrai cohérence dans le design et qu'on puisse facilement
+modifier les éléments globaux.
 
-So we have a core forlder to handler global logic for all like auth, guards etc...
-A shared module to handle stuffs used in different features
-We also have UI that provide all ui components used for displaying stuffs.
+Une des problématiques est l'overrider (ou pas) les styles de la lib utilisée (ng-zorro).
 
-And we have a views folder that display pages and components.
-In this folder we have desktop, and mobile.
-Also common...but this name is not very good.
+Pour ça on peut partir sur une stratégie simple:
+on crée des class par défaut dans les uis et export eventuellement des variantes.
+
+Alors ça avance.
+
+Déjà il faut utiliser @use et non @import car ça va être déprécié.
+
+L'idée c'est de créer des thèmes qui vont être utilisés via un service.
+Pour ça on pourra créer des fichiers css comme ceci:
+[data-theme="dark"]
+
+et ensuite le charger via le service comme ceci:
+document.documentElement.setAttribute('data-theme', theme);
+
+
+On va pouvoir créer 2 thèmes pour commencer.
+un thème par défaut (blue) et un thème pink par exemple.
+
+Pour ça on pourra utiliser le même procédé que plus haut ce qui donne:
+[data-theme="blue"][data-mode="dark"]
+
+
+Une autre problématique va être de gérer les couleurs de la librairie ng-zorro....
+exemple, je voudrais que la couleur primary de ng-zorro soit la couleur primary du thème.
+
+A ce niveau il semblerait que la seule solution soit d'overrider les styles à la main en utilisent
+les thèmes développés.

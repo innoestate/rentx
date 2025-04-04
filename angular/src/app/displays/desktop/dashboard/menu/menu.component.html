@@ -1,20 +1,18 @@
-<ul nz-menu nzTheme="dark" nzMode="horizontal" class="header-menu">
+<div class="dashboard-menu">
 
-  <li class="logo">rentx</li>
-  <div class="navigation">
-    <li nz-menu-item [routerLink]="['estates']">Mes biens</li>
-    <li test-selector="prospections-menu-routerLink" nz-menu-item [routerLink]="['prospections']">prospection</li>
+  <div class="left">
+    <div>rentx</div>
+    <div [routerLink]="['estates']">Mes biens</div>
+    <div [routerLink]="['prospections']">Prospection</div>
   </div>
-  <li class="right-menu" id="authenticated_user_avatar_container">
-    <div nz-dropdown [nzDropdownMenu]="userDropdown" class="user-avatar">
+
+  <div class="right">
+    <div class="user-avatar">
       <img [src]="user()?.picture">
     </div>
-  </li>
+    <div class="user-menu">
+      <ui-nested-dropdown [list]="dropDown" [value]="dropDownTrigger"></ui-nested-dropdown>
+    </div>
+  </div>
 
-  <nz-dropdown-menu #userDropdown="nzDropdownMenu">
-    <ul nz-menu>
-      <li nz-menu-item (click)="logout()">se déconnecter</li>
-    </ul>
-  </nz-dropdown-menu>
-
-</ul>
+</div>
