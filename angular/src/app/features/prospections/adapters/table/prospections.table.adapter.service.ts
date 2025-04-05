@@ -31,6 +31,9 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
       data['seller_id'] = data['seller'].value
       delete data.seller;
     }
+    if(data['status']){
+      data['status'] = data['status'].value
+    }
     return data;
   }
 
@@ -76,7 +79,8 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
     return PROSPECTION_STATUS.map(status => ({
       label: status.shortLabel,
       value: status.key,
-      icon: status.icon
+      icon: status.icon,
+      color: status.color
     }))
   }
 
@@ -122,13 +126,15 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
     if (!statusKey) return {
       label: '',
       icon: '',
-      value: ''
+      value: '',
+      color: ''
     };
     const status = PROSPECTION_STATUS.find(status => status.key === statusKey);
     return {
       label: status?.shortLabel ?? '',
       icon: status?.icon ?? '',
-      value: status?.key ?? ''
+      value: status?.key ?? '',
+      color: status?.color ?? ''
     }
   }
 

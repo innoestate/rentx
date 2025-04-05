@@ -1,5 +1,4 @@
 :host {
-  display: inline-block;
   width: 100%;
   height: 100%;
   display: flex;
@@ -8,6 +7,23 @@
   align-items: flex-end;
   min-height: 1rem;
   position: relative;
+
+  &.colored {
+    display: inline-block !important;
+    width: auto;
+    border-radius: 30px;
+    padding: 0 10px;
+    color: var(--color-basic-100) !important;
+
+    .icon {
+      color: var(--color-basic-100) !important;
+    }
+
+  }
+}
+
+.icon {
+  margin-right: 4px;
 }
 
 .clickable {

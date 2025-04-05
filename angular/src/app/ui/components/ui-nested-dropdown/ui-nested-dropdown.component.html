@@ -1,4 +1,4 @@
-<a test-selector="ui-nested-dropdown-trigger" #nzTrigger nz-dropdown [nzDropdownMenu]="menu" [nzTrigger]="triggerType()" (nzVisibleChange)="onVisibleChange($event)">
+<a test-selector="ui-nested-dropdown-trigger" #nzTrigger nz-dropdown [nzDropdownMenu]="menu" [nzTrigger]="triggerType()" >
   @if(displayedValue.icon){
     <div class="icon" nz-icon [nzType]="displayedValue.icon" nzTheme="fill"></div>
   }
@@ -10,9 +10,12 @@
       @if(isDropdown(item)){
         <li test-selector="ui-nested-dropdown-item" nz-menu-item ><ui-nested-dropdown [value]="item" triggerType="hover" (onSelect)="clickOnItem($event)" [list]="item.value"></ui-nested-dropdown></li>
       }@else{
-        <li test-selector="ui-nested-dropdown-item" nz-menu-item (click)="clickOnItem(item)">
+        <li [ngStyle]="{ 'color': item.color + ' !important' }" test-selector="ui-nested-dropdown-item" nz-menu-item (click)="clickOnItem(item)">
+          @if(item.color){
+            <div class="item-color" [ngStyle]="{ 'background-color': item.color + ' !important' }"></div>
+          }
           @if(item.icon){
-            <div class="icon" nz-icon [nzType]="item.icon" nzTheme="fill"></div>
+            <div [ngStyle]="{ 'color': item.color + ' !important' }" class="icon icon-list" nz-icon [nzType]="item.icon" nzTheme="fill"></div>
           }
           {{ item.label }}
         </li>

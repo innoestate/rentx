@@ -1,4 +1,4 @@
-import { Component, computed, ElementRef, input } from '@angular/core';
+import { AfterViewInit, Component, computed, ElementRef, input } from '@angular/core';
 import { CellType } from '../types/ui-table.cell.type';
 import { UiItem } from 'src/app/ui/models/ui-item.model';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -10,13 +10,17 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
   templateUrl: './nz-ui-cell-item.component.html',
   styleUrl: './nz-ui-cell-item.component.scss'
 })
-export class NzUxCellItemComponent {
+export class NzUxCellItemComponent implements AfterViewInit {
 
   item = input.required<CellType>();
   insideItem = computed(() => this.item() as UiItem);
 
   constructor(private elRef: ElementRef) {
     this.activeCommandOnClick();
+  }
+
+  ngAfterViewInit(): void {
+    this.elRef.nativeElement.style.color = this.insideItem()?.color;
   }
 
   private activeCommandOnClick(){

@@ -45,6 +45,9 @@ export class UiNestedDropdownComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.centerValueIfGotOnlyIcon();
+    if(this.insideValue()?.color){
+      this.elRef.nativeElement.classList.add('colored');
+    }
     if (this.openAtInit()) {
       this.nzTrigger.nativeElement.click();
     }

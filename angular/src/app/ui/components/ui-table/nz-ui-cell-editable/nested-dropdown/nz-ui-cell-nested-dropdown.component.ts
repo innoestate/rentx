@@ -1,4 +1,4 @@
-import { Component, computed, input, signal } from '@angular/core';
+import { AfterViewInit, Component, computed, ElementRef, input, signal } from '@angular/core';
 import { UiDropdownItem } from '../../../ui-dropdown/model/ui-dropdown-item.model';
 import { UiNestedDropdownComponent } from '../../../ui-nested-dropdown/ui-nested-dropdown.component';
 import { NzUxCellEditableComponent } from '../nz-ui-cell-editable.directive';
@@ -14,7 +14,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
   templateUrl: './nz-ui-cell-nested-dropdown.component.html',
   styleUrl: './nz-ui-cell-nested-dropdown.component.scss'
 })
-export class NzUiCellNestedDropdownComponent extends NzUxCellEditableComponent {
+export class NzUiCellNestedDropdownComponent extends NzUxCellEditableComponent implements AfterViewInit {
 
   protected override insideValue = signal<any>(undefined!);
   column = input.required<UiTableColumnItem>();
@@ -22,6 +22,10 @@ export class NzUiCellNestedDropdownComponent extends NzUxCellEditableComponent {
   dropDownCellsUniqueItem = computed(() => this.column().dropDownCellsUniqueItem);
   nzTableList = computed(() => this.addRowArgumentInCommands(this.list()));
   isEmpty = this.checkIfValueIsEmpty();
+
+  constructor(private elRef: ElementRef) {
+    super();
+  }
 
   editNestedDropdown(value: UiDropdownItem<any>) {
     this.edit.emit(value);
@@ -33,10 +37,17 @@ export class NzUiCellNestedDropdownComponent extends NzUxCellEditableComponent {
     this.isOnEditMode.set(false);
   }
 
-  private checkIfValueIsEmpty(){
+  ngAfterViewInit(): void {
+    if (this.insideValue()?.color) {
+      this.elRef.nativeElement.classList.add('colored');
+      this.elRef.nativeElement.style.setProperty('background-color', this.insideValue()?.color, 'important');
+    }
+  }
+
+  private checkIfValueIsEmpty() {
     return computed(() => {
       return (!this.insideValue()?.value || this.insideValue()?.value === '')
-              && !this.column().dropDownCellsUniqueItem;
+        && !this.column().dropDownCellsUniqueItem;
     })
   }
 
