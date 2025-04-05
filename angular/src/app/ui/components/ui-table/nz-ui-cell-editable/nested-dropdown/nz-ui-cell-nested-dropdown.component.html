@@ -1,19 +1,29 @@
 @if(isOnEditMode()){
   @if(dropDownCellsUniqueItem(); as item) {
-    <ui-nested-dropdown (onSelect)="editNestedDropdown($event)" [list]="nzTableList()" [value]="item" [openAtInit]="isOnEditMode()"></ui-nested-dropdown>
+    <ui-nested-dropdown (onSelect)="editNestedDropdown($event)"
+                        (blur)="closeDropdown()"
+                        [list]="nzTableList()"
+                        [value]="item"
+                        [openAtInit]="isOnEditMode()"></ui-nested-dropdown>
   }@else {
-    <ui-nested-dropdown (onSelect)="editNestedDropdown($event)" [list]="nzTableList()" [value]="insideValue()" [openAtInit]="isOnEditMode()"></ui-nested-dropdown>
+    <ui-nested-dropdown (onSelect)="editNestedDropdown($event)"
+                        (blur)="closeDropdown()"
+                        [list]="nzTableList()"
+                        [value]="insideValue()"
+                        [openAtInit]="isOnEditMode()"></ui-nested-dropdown>
   }
 }@else {
   @if(dropDownCellsUniqueItem(); as item) {
     <nz-ui-cell-item test-selector="ui-table-editable-value" [item]="item" (click)="startToEdit()"></nz-ui-cell-item>
   }@else {
     <div test-selector="ui-table-editable-value" class="clickable" [class.loading-value]="loadingValue()" (click)="startToEdit()">
-      @if(insideValue()?.icon){
-        <div class="icon" nz-icon [nzType]="insideValue().icon" nzTheme="fill"></div>
-      }
-      {{ insideValue()?.label }}
+        @if(insideValue()?.icon){
+          <div class="icon" nz-icon [nzType]="insideValue().icon" nzTheme="fill"></div>
+        }
+        {{ insideValue()?.label }}
     </div>
   }
 }
-
+@if(isEmpty()){
+  <div class="empty-cell"></div>
+}

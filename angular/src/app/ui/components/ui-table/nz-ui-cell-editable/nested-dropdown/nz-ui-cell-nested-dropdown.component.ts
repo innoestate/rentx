@@ -21,6 +21,7 @@ export class NzUiCellNestedDropdownComponent extends NzUxCellEditableComponent {
   list = computed(() => this.column().dropDownItems ?? []);
   dropDownCellsUniqueItem = computed(() => this.column().dropDownCellsUniqueItem);
   nzTableList = computed(() => this.addRowArgumentInCommands(this.list()));
+  isEmpty = this.checkIfValueIsEmpty();
 
   editNestedDropdown(value: UiDropdownItem<any>) {
     this.edit.emit(value);
@@ -28,18 +29,31 @@ export class NzUiCellNestedDropdownComponent extends NzUxCellEditableComponent {
     this.isOnEditMode.set(false);
   }
 
+  closeDropdown() {
+    this.isOnEditMode.set(false);
+  }
+
+  private checkIfValueIsEmpty(){
+    return computed(() => {
+      return (!this.insideValue()?.value || this.insideValue()?.value === '')
+              && !this.column().dropDownCellsUniqueItem;
+    })
+  }
+
   private addRowArgumentInCommands(items: UiDropdownItem<any>[]): UiDropdownItem<any>[] {
     return items.map(item_ => {
       const item = item_ as any;
       if (item.value instanceof Array) {
         return { label: item.label, value: this.addRowArgumentInCommands(item.value) };
-      } else if( item.command !== undefined ){
-        return { ...item, command: () => {
-          item.command(this.row());
-          return true;
-        }};
-      }else{
-        return {...item};
+      } else if (item.command !== undefined) {
+        return {
+          ...item, command: () => {
+            item.command(this.row());
+            return true;
+          }
+        };
+      } else {
+        return { ...item };
       }
     })
   }

@@ -14,6 +14,7 @@ import { prospectionDtoMock1 } from "../../../mocks/prospections.dto.mock";
 import { ProspectionsTableComponentMock } from "./mocks/prospections.table.mock.component";
 import { ProspectionsHttpSuccessMockService } from "../../../mocks/prospections.http.success.mock.service";
 import { SellersHttpSuccessMockService } from "src/app/features/sellers/mocks/sellers.http.success.mock.service";
+import { ProspectionsCommandsService } from "../../../commands/prospections.commands.service";
 
 
 describe('ProspectionsTableDirective successful update testing', () => {
@@ -48,6 +49,7 @@ describe('ProspectionsTableDirective successful update testing', () => {
         ProspectionsDataService,
         SellersDataService,
         ProspectionsTableAdapterService,
+        ProspectionsCommandsService
       ]
     });
 

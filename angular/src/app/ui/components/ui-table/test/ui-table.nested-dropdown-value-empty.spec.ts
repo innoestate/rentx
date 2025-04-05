@@ -11,9 +11,10 @@ import { UiTableComponent } from '../ui-table.component';
 import { columnsWithCityAsDropDownMock } from './mock/columns.dropdown.mock';
 import { RowMock, rowsMockItems } from './mock/rows.mock';
 
-describe('UiTableComponent test a dropdown in a cell', () => {
+describe('UiTableComponent test a dropdown in a cell with empty value', () => {
 
   let rows: RowMock[] = cloneDeep(rowsMockItems);
+  rows[0].cells.language = { value: '', label: ''};
   let columns: UiTableColumnItem[] = [...columnsWithCityAsDropDownMock];
   let component: UiTableComponent;
   let fixture: ComponentFixture<UiTableComponent>;
@@ -41,9 +42,9 @@ describe('UiTableComponent test a dropdown in a cell', () => {
     expect(component.startEdit).toHaveBeenCalled();
   })
 
-  it('should have the first item selected', () => {
+  it('should have no item selected', () => {
     let cellToEdit = fixture.debugElement.queryAll(By.css('nz-ui-cell-nested-dropdown > .clickable'))[0].nativeElement;
-    expect(cellToEdit.textContent).toContain(columns[LANGUAGES_COLUMN_INDEX]?.dropDownItems?.[0]?.label);
+    expect(cellToEdit.textContent.trim()).toBe('');
   })
 
   it('should select an item from the dropdown', async () => {
@@ -53,6 +54,10 @@ describe('UiTableComponent test a dropdown in a cell', () => {
   })
 
   it('should select an item from the dropdown', async () => {
+    clickOnDropdown();
+    const cellToEdit2 = fixture.debugElement.queryAll(By.css('nz-ui-cell-nested-dropdown > .clickable'))[1].nativeElement;
+    cellToEdit2.click();
+
     clickOnDropdown();
     await clickOnDropdownItem(1);
     expectItemToBeSelected(1);
@@ -71,6 +76,7 @@ describe('UiTableComponent test a dropdown in a cell', () => {
 
   const clickOnDropdownItem = async (index = 0) => {
     const dropdownItem = await dropdownItemIsOpen(index);
+    // expect(dropdownItem).toBeTruthy();
     dropdownItem.click();
     fixture.detectChanges();
   }
@@ -89,5 +95,6 @@ describe('UiTableComponent test a dropdown in a cell', () => {
       });
     });
   }
+
 
 });

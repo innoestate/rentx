@@ -1,3 +1,3 @@
 <div test-selector="ui-table-editable-value" class="clickable" [class.loading-value]="loadingValue()" [hidden]="isOnEditMode()" (click)="startToEdit()">{{ insideValue() }}</div>
-<input test-selector="ui-table-editable-input" [value]="insideValue()" [hidden]="isOnViewMode()" type="number" nz-input
+<input #input test-selector="ui-table-editable-input" [value]="insideValue()" [hidden]="isOnViewMode()" type="number" nz-input
   (change)="makeEdit($event)" (blur)="endEdit()" />

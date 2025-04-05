@@ -26,4 +26,4 @@ import { UiNestedDropdownComponent } from "../../../ui/components/ui-nested-drop
     UiNestedDropdownComponent
 ]
 })
-export class DashboardModule { }
+export class DashboardDraftModule { }

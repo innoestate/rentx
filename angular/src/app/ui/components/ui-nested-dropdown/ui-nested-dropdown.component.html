@@ -1,4 +1,4 @@
-<a test-selector="ui-nested-dropdown-trigger" #nzTrigger nz-dropdown [nzDropdownMenu]="menu" [nzTrigger]="triggerType()">
+<a test-selector="ui-nested-dropdown-trigger" #nzTrigger nz-dropdown [nzDropdownMenu]="menu" [nzTrigger]="triggerType()" (nzVisibleChange)="onVisibleChange($event)">
   @if(displayedValue.icon){
     <div class="icon" nz-icon [nzType]="displayedValue.icon" nzTheme="fill"></div>
   }

@@ -8,6 +8,7 @@ import { ProspectionsTableAdapterService } from "../../adapters/table/prospectio
 import { UiTableProspections, UiTableRowProspection } from "../../adapters/table/prospections.table.adapter.type";
 import { ProspectionsDataService } from "../../data/services/prospections.data.service";
 import { Prospection } from "../../models/prospection.model";
+import { ProspectionsCommandsService } from "../../commands/prospections.commands.service";
 
 @Directive()
 export class ProspectionsTableDirective extends UiTableDirective {
@@ -16,7 +17,10 @@ export class ProspectionsTableDirective extends UiTableDirective {
   sellers: Signal<Seller_Dto[]> = this.SellersData.getSellers();
   table: Signal<UiTableProspections> = this.buildTable();
 
-  constructor(protected prospectionsData: ProspectionsDataService, protected SellersData: SellersDataService, protected tableAdapter: ProspectionsTableAdapterService) {
+  constructor(protected prospectionsData: ProspectionsDataService,
+    protected SellersData: SellersDataService,
+    protected tableAdapter: ProspectionsTableAdapterService,
+    protected prospectionCommands: ProspectionsCommandsService) {
     console.log('prospectionsTableDirective constructor.');
     super();
   }
@@ -31,6 +35,7 @@ export class ProspectionsTableDirective extends UiTableDirective {
 
   protected override bindCommands(table: UiTableProspections): UiTableProspections {
     table.columns.find(column => column.key === 'actions')!.dropDownItems[0].command = this.deleteRow.bind(this);
+    table.columns.find(column => column.key === 'actions')!.command = this.createProspection.bind(this);
     return table;
   }
 
@@ -41,6 +46,10 @@ export class ProspectionsTableDirective extends UiTableDirective {
       take(1),
       catchError(() => this.reloadProspectionAsBeforeUpdate(rowWidthUpdate.data['id']))
     ).subscribe();
+  }
+
+  protected createProspection() {
+    this.prospectionCommands.createNew(this.sellers());
   }
 
   deleteRow(row: UiTableRow) {

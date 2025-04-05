@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { NzUxCellEditableComponent } from '../nz-ui-cell-editable.directive';
 
 @Component({
@@ -8,4 +8,28 @@ import { NzUxCellEditableComponent } from '../nz-ui-cell-editable.directive';
   templateUrl: './nz-ui-cell-editable-string.component.html',
   styleUrl: './nz-ui-cell-editable-string.component.scss'
 })
-export class NzUxCellEditableStringComponent extends NzUxCellEditableComponent {}
+export class NzUxCellEditableStringComponent extends NzUxCellEditableComponent {
+
+  @ViewChild('input') inputValue!: ElementRef<HTMLInputElement>;
+  isEmpty = this.checkIfValueIsEmpty();
+
+  @HostListener('click')
+  onClick() {
+    this.startToEdit();
+  }
+
+  override startToEdit(){
+    console.log('startToEdit');
+    super.startToEdit();
+    setTimeout(() => {
+      this.inputValue.nativeElement.focus();
+    }, 0);
+  }
+
+  private checkIfValueIsEmpty(){
+    return computed(() => {
+      return (!this.insideValue() || this.insideValue() === '');
+    })
+  }
+
+}

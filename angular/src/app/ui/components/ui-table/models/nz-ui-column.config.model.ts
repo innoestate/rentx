@@ -9,6 +9,8 @@ export interface NzUiColumnConfig {
   dropDownItems?: UiDropdownItem<any>[];
   dropDownCellsUniqueItem?: CellType;
   type?: string;
+  icon?: string;
+  command?: () => void;
   sort?: {
     fn: NzTableSortFn;
     priority: number;

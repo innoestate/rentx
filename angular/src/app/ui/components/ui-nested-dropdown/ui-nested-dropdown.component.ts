@@ -28,12 +28,12 @@ export class UiNestedDropdownComponent implements AfterViewInit {
   triggerType = input<'click' | 'hover'>('click');
 
   onSelect = output<UiDropdownItem<any>>();
+  blur = output<void>();
 
   protected insideValue = signal<UiDropdownItem<any> | null>(null);
   protected displayedValue!: UiDropdownItem<any>;
-  protected mainTriggerIsFixed = this.isMainTriggerFixed();
 
-  constructor() {
+  constructor(private elRef: ElementRef) {
     this.fitInsideValueFromValue();
     this.fitDisplayedLabelFromInsideValue();
   }
@@ -44,6 +44,7 @@ export class UiNestedDropdownComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.centerValueIfGotOnlyIcon();
     if (this.openAtInit()) {
       this.nzTrigger.nativeElement.click();
     }
@@ -56,17 +57,22 @@ export class UiNestedDropdownComponent implements AfterViewInit {
   clickOnItem(item: UiDropdownItem<any>) {
     if (item.command !== undefined) {
       item.command();
-    } else if( !this.mainTriggerIsFixed() ){
+    } else {
       this.selectItem(item);
     }
   }
 
-  private isMainTriggerFixed() {
-    return computed(() => {
-      const list = this.list();
-      const value = this.value();
-      return !this.containValue(list, value);
-    })
+  onVisibleChange(visible: boolean) {
+    if (!visible) {
+      console.log('blur');
+      this.blur.emit();
+    }
+  }
+
+  private centerValueIfGotOnlyIcon() {
+    if (this.insideValue()?.icon && (!this.insideValue()?.label || this.insideValue()?.label === '')) {
+      this.elRef.nativeElement.classList.add('center');
+    }
   }
 
   private containValue(items: any[], value: any) {

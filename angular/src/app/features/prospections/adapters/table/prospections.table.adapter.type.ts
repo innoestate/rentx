@@ -7,11 +7,13 @@ import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
 interface UiTableColumnCity extends UiTableColumnItem {
   key: 'city';
   label: string;
+  sort: 1;
 }
 
 interface UiTableColumnZip extends UiTableColumnItem {
   key: 'zip';
   label: string;
+  sort: 1;
 }
 
 interface UiTableColumnAddress extends UiTableColumnItem {
@@ -46,10 +48,20 @@ interface UiTableColumnStatus extends UiTableColumnItem {
 interface UiTableColumnActions extends UiTableColumnItem {
   key: 'actions';
   label: string;
+  icon: string;
   dropDownItems: UiDropdownItem<any>[];
+  dropDownCellsUniqueItem: UiDropdownItem<any>;
+  command: (row: UiTableRowProspection) => void;
 }
 
-export type UiTableColumnsProspections = [UiTableColumnCity, UiTableColumnZip, UiTableColumnAddress, UiTableColumnLink, UiTableColumnSeller, UiTableColumnPrice, UiTableColumnStatus, UiTableColumnActions];
+export type UiTableColumnsProspections = [UiTableColumnCity,
+  UiTableColumnZip,
+  UiTableColumnAddress,
+  UiTableColumnLink,
+  UiTableColumnSeller,
+  UiTableColumnPrice,
+  UiTableColumnStatus,
+  UiTableColumnActions];
 
 export interface UiTableRowProspection extends UiTableRow {
   data: {
@@ -64,19 +76,20 @@ export interface UiTableProspections extends UiTable {
 
 
 export const prospectionsColumnModel: UiTableColumnsProspections = [
-  { key: 'city', label: 'Ville', editable: true, type: 'text' },
-  { key: 'zip', label: 'Code postal', editable: true, type: 'text' },
+  { key: 'city', label: 'Ville', editable: true, type: 'text', sort: 1 },
+  { key: 'zip', label: 'Code postal', editable: true, type: 'text', sort: 1 },
   { key: 'address', label: 'Rue', editable: true, type: 'text' },
   { key: 'link', label: 'lien', editable: true, type: 'text' },
   { key: 'seller', label: 'Vendeur', editable: true, dropDownItems: [], type: 'dropdown' },
   { key: 'price', label: 'Prix', editable: true, type: 'number' },
   { key: 'status', label: 'Status', dropDownItems: [], type: 'dropdown' },
   {
-    key: 'actions', label: 'Actions', type: 'dropdown', dropDownItems: [], dropDownCellsUniqueItem: {
+    key: 'actions', label: 'Actions', icon: 'tool', type: 'dropdown', dropDownItems: [], dropDownCellsUniqueItem: {
       label: '',
       icon: 'tool',
       value: 'action'
-    }
+    },
+    command: () => {}
   }
 ]
 

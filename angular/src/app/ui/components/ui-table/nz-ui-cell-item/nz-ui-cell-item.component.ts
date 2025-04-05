@@ -28,7 +28,6 @@ export class NzUxCellItemComponent {
     })
   }
 
-
   clickOnItem() {
     this.insideItem()?.command?.();
   }
