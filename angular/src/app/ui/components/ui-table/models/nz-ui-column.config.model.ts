@@ -5,6 +5,7 @@ import { CellType } from "../types/ui-table.cell.type";
 export interface NzUiColumnConfig {
   key: string;
   label: string;
+  width: string;
   editable?: boolean;
   dropDownItems?: UiDropdownItem<any>[];
   dropDownCellsUniqueItem?: CellType;

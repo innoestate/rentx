@@ -7,6 +7,7 @@ import { CellType } from "../types/ui-table.cell.type";
 
 export const formatNzColumnConfig = <T>(column: UiTableColumnItem, columnIndex: number): NzUiColumnConfig => {
   const columnConfig = { ...column } as NzUiColumnConfig;
+  columnConfig.width = column.type === 'number' ? '70px' : '100px';
   if (column.sort !== undefined) {
     columnConfig.sort = {
       priority: column.sort,

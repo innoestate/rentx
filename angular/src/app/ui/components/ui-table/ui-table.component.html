@@ -6,6 +6,7 @@
         @if(column.sort){
           @if(column.filter){
             <th [nzSortFn]="column.sort.fn"
+                [nzWidth]="column.width"
                 [nzSortPriority]="column.sort.priority"
                 [nzColumnKey]="column.key"
                 [nzFilterFn]="column.filterFn || true"
@@ -14,6 +15,7 @@
             </th>
           }@else {
             <th [nzSortFn]="column.sort.fn"
+                [nzWidth]="column.width"
                 [nzSortPriority]="column.sort.priority"
                 [nzColumnKey]="column.key">
               <ng-container *ngTemplateOutlet="columnRow"></ng-container>
@@ -21,11 +23,14 @@
           }
         }@else {
           @if(column.filter){
-            <th [nzColumnKey]="column.key" [nzFilterFn]="!!column.filter" [nzFilters]="column.filter">
+            <th [nzColumnKey]="column.key"
+                [nzWidth]="column.width"
+                [nzFilterFn]="!!column.filter"
+                [nzFilters]="column.filter">
               <ng-container *ngTemplateOutlet="columnRow"></ng-container>
             </th>
           }@else {
-            <th>
+            <th [nzWidth]="column.width">
               <ng-container *ngTemplateOutlet="columnRow"></ng-container>
             </th>
           }
