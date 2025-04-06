@@ -49,7 +49,7 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
       {
         key: 'actions', label: '', icon: 'setting', type: 'dropdown', dropDownItems: this.buildActionsDropdownColumn(), dropDownCellsUniqueItem: {
           label: '',
-          icon: 'setting',
+          icon: 'down-circle',
           value: 'action',
         },
         command: () => {}

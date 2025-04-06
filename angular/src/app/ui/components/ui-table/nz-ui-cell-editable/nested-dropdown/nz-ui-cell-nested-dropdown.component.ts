@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, computed, ElementRef, input, signal } from '@angular/core';
+import { AfterViewInit, Component, computed, ElementRef, HostListener, input, signal } from '@angular/core';
 import { UiDropdownItem } from '../../../ui-dropdown/model/ui-dropdown-item.model';
 import { UiNestedDropdownComponent } from '../../../ui-nested-dropdown/ui-nested-dropdown.component';
 import { NzUxCellEditableComponent } from '../nz-ui-cell-editable.directive';
@@ -25,6 +25,13 @@ export class NzUiCellNestedDropdownComponent extends NzUxCellEditableComponent i
 
   constructor(private elRef: ElementRef) {
     super();
+  }
+
+  @HostListener('click')
+  onClick() {
+    if(!this.isOnEditMode()){
+      this.startToEdit();
+    }
   }
 
   editNestedDropdown(value: UiDropdownItem<any>) {

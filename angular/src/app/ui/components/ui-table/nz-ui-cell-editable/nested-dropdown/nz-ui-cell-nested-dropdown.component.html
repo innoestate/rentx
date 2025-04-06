@@ -16,7 +16,7 @@
   @if(dropDownCellsUniqueItem(); as item) {
     <nz-ui-cell-item test-selector="ui-table-editable-value" [item]="item" (click)="startToEdit()"></nz-ui-cell-item>
   }@else {
-    <div test-selector="ui-table-editable-value" class="clickable" [class.loading-value]="loadingValue()" (click)="startToEdit()">
+    <div test-selector="ui-table-editable-value" class="clickable" [class.loading-value]="loadingValue()">
         @if(insideValue()?.icon){
           <div class="icon" nz-icon [nzType]="insideValue().icon" nzTheme="fill"></div>
         }

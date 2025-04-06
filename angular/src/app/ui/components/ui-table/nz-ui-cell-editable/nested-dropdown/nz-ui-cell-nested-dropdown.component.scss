@@ -5,8 +5,9 @@
   flex-flow: row nowrap;
   justify-content: flex-end;
   align-items: flex-end;
-  min-height: 1rem;
   position: relative;
+  min-height: 1rem;
+  cursor: pointer;
 
   &.colored {
     display: inline-block !important;
@@ -29,7 +30,6 @@
 .clickable {
   min-width: 10px;
   width: 100%;
-  min-height: 1rem;
   height: 100%;
   cursor: pointer;
 }
@@ -37,6 +37,7 @@
 .empty-cell {
   position: absolute;
   left: 0px;
+  top: 0px;
   width: 80px;
   max-width: 100%;
   min-height: 1rem;

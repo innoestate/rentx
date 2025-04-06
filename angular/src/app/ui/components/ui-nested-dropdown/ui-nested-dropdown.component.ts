@@ -67,9 +67,12 @@ export class UiNestedDropdownComponent implements AfterViewInit {
 
   onVisibleChange(visible: boolean) {
     if (!visible) {
-      console.log('blur');
       this.blur.emit();
     }
+  }
+
+  iconWithText(item: UiDropdownItem<any>): boolean {
+    return !!(item.icon && item.label?.length > 0);
   }
 
   private centerValueIfGotOnlyIcon() {
