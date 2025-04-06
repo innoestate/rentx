@@ -11,6 +11,7 @@ export interface UiTableColumnItem {
   type: 'text' | 'number' | 'dropdown',
   editable?: boolean,
   sort?: Priority,
+  icon?: string,
   filter?: {text: string, value: string}[],
   filterFn?: NzTableFilterFn<UiTableRow>,
   dropDownItems?: UiDropdownItem<any>[],
