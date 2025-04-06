@@ -5,9 +5,10 @@ import { UiTableAdapter } from "src/app/ui/components/ui-table/adapter/ui-table.
 import { CellType } from "src/app/ui/components/ui-table/types/ui-table.cell.type";
 import { Prospection_Dto } from "../../models/prospection.dto.model";
 import { PROSPECTION_STATUS } from "../../models/prospection.status.model";
-import { UiTableColumnSeller, UiTableColumnsProspections, UiTableProspections, UiTableRowProspection } from "./prospections.table.adapter.type";
+import { UiTableColumnSeller, UiTableColumnsProspections, UiTableColumnStatus, UiTableProspections, UiTableRowProspection } from "./prospections.table.adapter.type";
 import { LocalizationsService } from "src/app/core/localizations/localizations.service";
 import { Localizations } from "src/app/core/localizations/localizations";
+import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 
 @Injectable({
   providedIn: 'root'
@@ -26,12 +27,12 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
   }
 
   getDtoFromRow(row: UiTableRowProspection): Partial<Prospection_Dto> {
-    const data: any = {...row.cells }
-    if(data['seller']){
+    const data: any = { ...row.cells }
+    if (data['seller']) {
       data['seller_id'] = data['seller'].value
       delete data.seller;
     }
-    if(data['status']){
+    if (data['status']) {
       data['status'] = data['status'].value
     }
     return data;
@@ -39,26 +40,46 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
 
   protected createColumns(sellers: Seller_Dto[]): UiTableColumnsProspections {
     return [
-      { key: 'city', label: 'Ville', editable: true, type: 'text', sort: 1  },
+      { key: 'city', label: 'Ville', editable: true, type: 'text', sort: 1 },
       { key: 'zip', label: 'Code postal', editable: true, type: 'text', sort: 1 },
       { key: 'address', label: 'Rue', editable: true, type: 'text' },
       { key: 'link', label: 'lien', editable: true, type: 'text' },
       this.buildSellersColumn(sellers),
-      { key: 'price', label: 'Prix', editable: true, type: 'text' },
-      { key: 'status', label: 'Status', type: 'dropdown', dropDownItems: this.buildStatusDropdownItems() },
+      { key: 'price', label: 'Prix', editable: true, type: 'number', sort: 1 },
+      this.buildStatusColumn(),
       {
         key: 'actions', label: '', icon: 'setting', type: 'dropdown', dropDownItems: this.buildActionsDropdownColumn(), dropDownCellsUniqueItem: {
           label: '',
           icon: 'down-circle',
           value: 'action',
         },
-        command: () => {}
+        command: () => { }
       }
     ]
   }
 
   protected createRows(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTableRowProspection[] {
     return prospections.map(prospection => this.extractRow(prospection, sellers))
+  }
+
+  private buildStatusColumn(): UiTableColumnStatus {
+    const cellIndex = 6;
+    return {
+      key: 'status',
+      label: 'Status',
+      type: 'dropdown',
+      dropDownItems: this.buildStatusDropdownItems(),
+      sort: 1,
+      filter: this.buildStatusFilter(),
+      filterFn: (values: string[], row: UiTableRow) => values.includes((row.cells[cellIndex] as UiDropdownItem<any>)?.value)
+    };
+  }
+
+  private buildStatusFilter(): any {
+    return PROSPECTION_STATUS.map(status => ({
+      text: status.shortLabel,
+      value: status.key
+    }))
   }
 
   private buildActionsDropdownColumn(): UiDropdownItem<any>[] {

@@ -1,7 +1,8 @@
+import { NzTableFilterFn } from "ng-zorro-antd/table";
 import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
 import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
+import { Priority, UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
 
 interface UiTableColumnCity extends UiTableColumnItem {
@@ -39,10 +40,13 @@ interface UiTableColumnPrice extends UiTableColumnItem {
   editable: true;
 }
 
-interface UiTableColumnStatus extends UiTableColumnItem {
+export interface UiTableColumnStatus extends UiTableColumnItem {
   key: 'status';
   label: string;
   dropDownItems: UiDropdownItem<any>[];
+  sort: Priority;
+  filter: any;
+  filterFn: NzTableFilterFn<UiTableRow>;
 }
 
 interface UiTableColumnActions extends UiTableColumnItem {
@@ -82,7 +86,7 @@ export const prospectionsColumnModel: UiTableColumnsProspections = [
   { key: 'link', label: 'lien', editable: true, type: 'text' },
   { key: 'seller', label: 'Vendeur', editable: true, dropDownItems: [], type: 'dropdown' },
   { key: 'price', label: 'Prix', editable: true, type: 'number' },
-  { key: 'status', label: 'Status', dropDownItems: [], type: 'dropdown' },
+  { key: 'status', label: 'Status', dropDownItems: [], type: 'dropdown', sort: 1, filter: [], filterFn: (() => {}) as any },
   {
     key: 'actions', label: 'Actions', icon: 'down-circle', type: 'dropdown', dropDownItems: [], dropDownCellsUniqueItem: {
       label: '',
