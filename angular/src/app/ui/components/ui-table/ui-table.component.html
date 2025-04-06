@@ -1,5 +1,5 @@
 @let columns = nzColumns();
-<nz-table #table [nzData]="nzRows()">
+<nz-table #table [nzData]="nzRows()" [nzPageSize]="rowsPerPages()">
   <thead>
     <tr>
       @for(column of columns; track column.key; let columnI = $index) {

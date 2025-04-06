@@ -1,4 +1,7 @@
 :host{
   width: 900px;
   height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
 }

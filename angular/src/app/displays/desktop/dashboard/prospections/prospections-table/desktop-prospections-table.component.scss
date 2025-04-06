@@ -1,0 +1,15 @@
+:host {
+  height: calc(100% - 100px);
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: stretch;
+  align-items: stretch;
+}
+
+.prospection-table {
+  height: calc(100%);
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: stretch;
+  align-items: stretch;
+}

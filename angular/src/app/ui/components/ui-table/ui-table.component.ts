@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, ElementRef, input, output, Signal } from '@angular/core';
+import { AfterViewInit, Component, computed, ElementRef, input, output, signal, Signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -12,6 +12,7 @@ import { NzUxCellEditableNumberComponent } from './nz-ui-cell-editable/number/nz
 import { NzUxCellEditableStringComponent } from './nz-ui-cell-editable/string/nz-ui-cell-editable-string.component';
 import { NzUxCellItemComponent } from './nz-ui-cell-item/nz-ui-cell-item.component';
 import { formatNzColumnConfig, formatNzRows } from './utils/utils';
+import { from, lastValueFrom, take, tap } from 'rxjs';
 
 
 @Component({
@@ -29,7 +30,9 @@ import { formatNzColumnConfig, formatNzRows } from './utils/utils';
   templateUrl: './ui-table.component.html',
   styleUrl: './ui-table.component.scss'
 })
-export class UiTableComponent {
+export class UiTableComponent implements AfterViewInit {
+
+  ROW_HEIGHT = 44;
 
   rows = input.required<UiTableRow[]>();
   columns = input.required<UiTableColumnItem[]>();
@@ -38,9 +41,53 @@ export class UiTableComponent {
   protected nzRows: Signal<NzUiTableRow[]> = this.buildNzRows();
   protected nzColumns: Signal<NzUiColumnConfig[]> = this.buildNzColumns();
   protected editId: string | null = null;
+  protected rowsPerPages = signal(1);
 
-  constructor(elRef: ElementRef) {
+  constructor(private elRef: ElementRef) {
     elRef.nativeElement.classList.add('ui-table-header');
+  }
+
+  ngAfterViewInit(): void {
+    this.calculateRowsPerPages();
+  }
+
+  private calculateRowsPerPages() {
+    from(this.htmlRowsAreLoaded()).pipe(
+      take(1),
+      tap(() => {
+        const table = this.elRef.nativeElement.querySelector('.ant-table') as HTMLDivElement;
+        const tableThead = this.elRef.nativeElement.querySelector('.ant-table-thead') as HTMLDivElement;
+        const tableRow = this.elRef.nativeElement.querySelectorAll('.ant-table-row')[1] as HTMLDivElement;
+        const paginationHeight = 47;
+        const bodyHeight = table.getBoundingClientRect().height
+                          - tableThead.getBoundingClientRect().height
+                          - paginationHeight - 10;
+        const rowsPerPages = Math.floor(bodyHeight / tableRow.getBoundingClientRect().height);
+        this.rowsPerPages.set(rowsPerPages);
+    })).subscribe();
+  }
+
+  private htmlRowsAreLoaded(): Promise<any> {
+    return new Promise(resolve => {
+      const observer = new MutationObserver(() => {
+        if (this.hasRowsAfterHeader()) {
+          resolve(true)
+          observer.disconnect();
+        }
+      });
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+    });
+  }
+
+  private hasRowsAfterHeader() {
+    let rows = document.querySelectorAll('.ant-table-row');
+    if (rows.length > 1) {
+      return true;
+    }
+    return false;
   }
 
   startEdit(columnIndex: number, rowIndex: number) {
