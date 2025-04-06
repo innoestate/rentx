@@ -5,10 +5,12 @@ import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.m
 import { Priority, UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
 
-interface UiTableColumnCity extends UiTableColumnItem {
+export interface UiTableColumnCity extends UiTableColumnItem {
   key: 'city';
   label: string;
   sort: 1;
+  filter: {text: string, value: string}[];
+  filterFn: NzTableFilterFn<UiTableRow>
 }
 
 interface UiTableColumnZip extends UiTableColumnItem {
@@ -45,7 +47,7 @@ export interface UiTableColumnStatus extends UiTableColumnItem {
   label: string;
   dropDownItems: UiDropdownItem<any>[];
   sort: Priority;
-  filter: any;
+  filter: {text: string, value: string}[];
   filterFn: NzTableFilterFn<UiTableRow>;
 }
 
@@ -80,7 +82,7 @@ export interface UiTableProspections extends UiTable {
 
 
 export const prospectionsColumnModel: UiTableColumnsProspections = [
-  { key: 'city', label: 'Ville', editable: true, type: 'text', sort: 1 },
+  { key: 'city', label: 'Ville', editable: true, type: 'text', sort: 1, filter: [], filterFn: (() => {}) as any },
   { key: 'zip', label: 'Code postal', editable: true, type: 'text', sort: 1 },
   { key: 'address', label: 'Rue', editable: true, type: 'text' },
   { key: 'link', label: 'lien', editable: true, type: 'text' },

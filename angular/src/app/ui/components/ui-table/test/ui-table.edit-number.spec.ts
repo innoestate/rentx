@@ -53,9 +53,6 @@ describe('UiTableComponent test the edition of a number cell', () => {
   })
 
   const expectTheCellToBeNotYetEditableBeforeClick = (editableCellColumnIndex: number) => {
-
-    console.log('expectTheCellToBeNotYetEditableBeforeClick', fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-number > .clickable')).length);
-
     let cellToEdit = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-number > .clickable'))[editableCellColumnIndex].nativeElement;
     let inputElement = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-number > input'))[editableCellColumnIndex].nativeElement;
     expect(cellToEdit.hidden).toBeFalse();

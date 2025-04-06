@@ -5,7 +5,7 @@ import { UiTableAdapter } from "src/app/ui/components/ui-table/adapter/ui-table.
 import { CellType } from "src/app/ui/components/ui-table/types/ui-table.cell.type";
 import { Prospection_Dto } from "../../models/prospection.dto.model";
 import { PROSPECTION_STATUS } from "../../models/prospection.status.model";
-import { UiTableColumnSeller, UiTableColumnsProspections, UiTableColumnStatus, UiTableProspections, UiTableRowProspection } from "./prospections.table.adapter.type";
+import { UiTableColumnCity, UiTableColumnSeller, UiTableColumnsProspections, UiTableColumnStatus, UiTableProspections, UiTableRowProspection } from "./prospections.table.adapter.type";
 import { LocalizationsService } from "src/app/core/localizations/localizations.service";
 import { Localizations } from "src/app/core/localizations/localizations";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
@@ -21,7 +21,7 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
 
   buildTable(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTableProspections {
     return {
-      columns: this.createColumns(sellers),
+      columns: this.createColumns(prospections, sellers),
       rows: this.createRows(prospections, sellers)
     }
   }
@@ -38,9 +38,9 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
     return data;
   }
 
-  protected createColumns(sellers: Seller_Dto[]): UiTableColumnsProspections {
+  protected createColumns(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTableColumnsProspections {
     return [
-      { key: 'city', label: 'Ville', editable: true, type: 'text', sort: 1 },
+      this.buildCityColumn(prospections),
       { key: 'zip', label: 'Code postal', editable: true, type: 'text', sort: 1 },
       { key: 'address', label: 'Rue', editable: true, type: 'text' },
       { key: 'link', label: 'lien', editable: true, type: 'text' },
@@ -60,6 +60,27 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
 
   protected createRows(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTableRowProspection[] {
     return prospections.map(prospection => this.extractRow(prospection, sellers))
+  }
+
+  private buildCityColumn(prospections: Prospection_Dto[]): UiTableColumnCity {
+    return {
+      key: 'city',
+      label: 'Ville',
+      editable: true,
+      type: 'text',
+      sort: 1,
+      filter: this.buildCityFilters(prospections),
+      filterFn: (values: string[], row: UiTableRow) => values.includes((row.cells[0] as string))
+    };
+  }
+
+  private buildCityFilters(prospections: Prospection_Dto[]): {text: string, value: string}[] {
+    return prospections
+              .filter(p => p.city && p.city !== '')
+              .map(p => ({text: p.city as string, value: p.city as string}))
+              .reduce((unique, item) => {
+                return unique.find(i => i.value === item.value) ? unique : [...unique, item];
+              }, [] as {text: string, value: string}[])
   }
 
   private buildStatusColumn(): UiTableColumnStatus {

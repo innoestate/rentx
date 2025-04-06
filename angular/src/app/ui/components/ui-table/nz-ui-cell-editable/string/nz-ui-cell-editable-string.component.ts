@@ -19,7 +19,6 @@ export class NzUxCellEditableStringComponent extends NzUxCellEditableComponent {
   }
 
   override startToEdit(){
-    console.log('startToEdit');
     super.startToEdit();
     setTimeout(() => {
       this.inputValue.nativeElement.focus();
