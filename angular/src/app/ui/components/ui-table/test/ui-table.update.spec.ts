@@ -31,15 +31,15 @@ describe('UiTableComponent test the update of a value in a cell', () => {
 
   it('should have a value in a specific cell', () => {
     const cellToUpdate = fixture.debugElement.queryAll(By.css("body td:nth-child(2)"));
-    expect(cellToUpdate[1].nativeElement.textContent).toContain(rows[1].cells['name']);
+    expect(cellToUpdate[0].nativeElement.textContent).toContain(rows[0].cells['name']);
   });
 
   it('should have a modified value in a specific cell', () => {
-    rows[1].cells['name'] = 'Modified name';
+    rows[0].cells['name'] = 'Modified name';
     fixture.componentRef.setInput('rows', [...rows]);
     fixture.detectChanges();
     const cellToUpdate = fixture.debugElement.queryAll(By.css("body td:nth-child(2)"));
-    expect(cellToUpdate[1].nativeElement.textContent).toContain('Modified name');
+    expect(cellToUpdate[0].nativeElement.textContent).toContain('Modified name');
   })
 
 });

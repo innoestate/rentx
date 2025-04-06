@@ -42,6 +42,7 @@ describe('UiTableComponent test sorting on a dropdown column', () => {
   it('should sort the table and get the first element by descending alphabetic order', async() => {
     helper.expectFirstRowCellContentToBe(LANGUAGES_COLUMN_INDEX, (rows[0].cells['language'] as UiDropdownItem<any>).label);
     await helper.clickOnSortUp();
+    fixture.detectChanges();
     await helper.clickOnSortUp();
     helper.expectFirstRowCellContentToBe(LANGUAGES_COLUMN_INDEX, (rows[0].cells['language'] as UiDropdownItem<any>).label);
   })

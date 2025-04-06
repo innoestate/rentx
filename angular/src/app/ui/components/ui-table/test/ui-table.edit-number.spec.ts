@@ -31,28 +31,31 @@ describe('UiTableComponent test the edition of a number cell', () => {
   });
 
   it('should trigger the displaying of input for editing cell after clicking', () => {
-    expectTheCellToBeNotYetEditableBeforeClick(1);
-    expectTheCellToBeEditableAfterClick(1);
+    expectTheCellToBeNotYetEditableBeforeClick(0);
+    expectTheCellToBeEditableAfterClick(0);
   })
 
   it('should modify the number value and emit editRow event', () => {
-    expectTheCellToBeEditableAfterClick(1);
-    editCell(1, 5000);
-    expectValueOfCellToBe(1, 5000);
+    expectTheCellToBeEditableAfterClick(0);
+    editCell(0, 5000);
+    expectValueOfCellToBe(0, 5000);
   });
 
   it('should modify the number value and emit editRow event', () => {
-    expectTheCellToBeEditableAfterClick(1);
-    editCell(1, 44);
-    expectValueOfCellToBe(1, 44);
+    expectTheCellToBeEditableAfterClick(0);
+    editCell(0, 44);
+    expectValueOfCellToBe(0, 44);
   });
 
   it('should has only one value edited and emitted in cells', () => {
-    editCell(1, 30);
+    editCell(0, 30);
     expectOnlyOneCellToBeEdited();
   })
 
   const expectTheCellToBeNotYetEditableBeforeClick = (editableCellColumnIndex: number) => {
+
+    console.log('expectTheCellToBeNotYetEditableBeforeClick', fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-number > .clickable')).length);
+
     let cellToEdit = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-number > .clickable'))[editableCellColumnIndex].nativeElement;
     let inputElement = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-number > input'))[editableCellColumnIndex].nativeElement;
     expect(cellToEdit.hidden).toBeFalse();

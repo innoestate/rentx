@@ -42,6 +42,7 @@ describe('UiTableComponent test sorting on a number column', () => {
   it('should sort the table and get the first number element by ascending order after 1 click', async () => {
     helper.expectFirstRowCellContentToBe(ZIP_COLUMN_INDEX, rows[0]?.cells['zip'] as string);
     await helper.clickOnSortUp();
+    fixture.detectChanges();
     await helper.clickOnSortUp();
     helper.expectFirstRowCellContentToBe(ZIP_COLUMN_INDEX, rows[0]?.cells['zip'] as string);
   });

@@ -42,6 +42,7 @@ describe('UiTableComponent test sorting on a string column', () => {
   it('should sort the table and get the first element by descending alphabetic order ', async () => {
     expectFirstRowToBeAsInit();
     await helper.clickOnSortUp();
+    fixture.detectChanges();
     await helper.clickOnSortUp();
     expectFirstRowToBeAsInit();
   });

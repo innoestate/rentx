@@ -30,8 +30,8 @@ describe('UiTableComponent test the edition of a string cell', () => {
   });
 
   it('should hide the field and show input after clicking', () => {
-    let cellToEdit = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-string > .clickable'))[1].nativeElement;
-    let inputElement = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-string > input'))[1].nativeElement;
+    let cellToEdit = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-string > .clickable'))[0].nativeElement;
+    let inputElement = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-string > input'))[0].nativeElement;
     expect(cellToEdit.hidden).toBeFalse();
     expect(inputElement.hidden).toBeTrue();
 
@@ -43,16 +43,16 @@ describe('UiTableComponent test the edition of a string cell', () => {
   })
 
   it('should modify the value and emit editRow event', () => {
-    let cellToEdit = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-string > .clickable'))[1].nativeElement;
+    let cellToEdit = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-string > .clickable'))[0].nativeElement;
     cellToEdit.click();
     fixture.detectChanges();
 
-    let inputElement = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-string > input'))[1].nativeElement;
+    let inputElement = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-string > input'))[0].nativeElement;
     inputElement.value = 'Modified name';
     inputElement.dispatchEvent(new Event('change'));
     fixture.detectChanges();
 
-    cellToEdit = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-string > .clickable'))[1].nativeElement;
+    cellToEdit = fixture.debugElement.queryAll(By.css('nz-ui-cell-editable-string > .clickable'))[0].nativeElement;
     expect(cellToEdit.textContent).toBe('Modified name');
     expect(component.editRow.emit).toHaveBeenCalled();
   });

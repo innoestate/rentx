@@ -25,6 +25,6 @@ export const columnsWithEditableZipMock: UiTableColumnItem[] = [
     key: 'zip',
     label: 'Zip',
     editable: true,
-    type: 'text',
+    type: 'number',
   }
 ]
