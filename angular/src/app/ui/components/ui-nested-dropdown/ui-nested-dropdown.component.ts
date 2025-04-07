@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, computed, effect, ElementRef, HostListener, input, output, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, effect, ElementRef, HostListener, input, output, signal, ViewChild } from '@angular/core';
+import { isEqual } from 'lodash';
 import { NzDropdownMenuComponent, NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { UiDropdownItem } from '../ui-dropdown/model/ui-dropdown-item.model';
-import { isEqual } from 'lodash';
 import { UiLabelComponent } from '../ui-label/ui-label.component';
 
 /**
@@ -53,7 +53,6 @@ export class UiNestedDropdownComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.centerValueIfGotOnlyIcon(this.fixedHeadValue() ?? this.insideValue());
     if (this.insideValue()?.color) {
       this.elRef.nativeElement.classList.add('colored');
     }
@@ -82,12 +81,6 @@ export class UiNestedDropdownComponent implements AfterViewInit {
 
   iconWithText(item: UiDropdownItem<any>): boolean {
     return !!(item.icon && item.label?.length > 0);
-  }
-
-  private centerValueIfGotOnlyIcon(value: { label: string, icon: string } | any) {
-    if (value?.icon && (!value.label || value.label === '')) {
-      this.elRef.nativeElement.classList.add('center');
-    }
   }
 
   private containValue(items: any[], value: any) {

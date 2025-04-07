@@ -7,6 +7,7 @@ import { UiTableColumnItem } from '../models/ui-table.column.model';
 import { UiTableComponent } from '../ui-table.component';
 import { columnsMock } from './mock/columns.mock';
 import { rowsMockItems } from './mock/rows.mock';
+import { UiTableHelper } from './helper/ui-table.helper';
 
 describe('UiTableComponent test the update of a value in a cell', () => {
 
@@ -14,6 +15,7 @@ describe('UiTableComponent test the update of a value in a cell', () => {
   let columns: UiTableColumnItem[] = [...columnsMock];
   let component: UiTableComponent;
   let fixture: ComponentFixture<UiTableComponent>;
+  let helper: UiTableHelper;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -27,19 +29,18 @@ describe('UiTableComponent test the update of a value in a cell', () => {
     fixture.componentRef.setInput('columns', columns);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    helper = new UiTableHelper(fixture);
   });
 
   it('should have a value in a specific cell', () => {
-    const cellToUpdate = fixture.debugElement.queryAll(By.css("body td:nth-child(2)"));
-    expect(cellToUpdate[0].nativeElement.textContent).toContain(rows[0].cells['name']);
+    helper.expectFirstRowCellContentToBe(2, rows[0].cells['name'] as string);
   });
 
   it('should have a modified value in a specific cell', () => {
     rows[0].cells['name'] = 'Modified name';
     fixture.componentRef.setInput('rows', [...rows]);
     fixture.detectChanges();
-    const cellToUpdate = fixture.debugElement.queryAll(By.css("body td:nth-child(2)"));
-    expect(cellToUpdate[0].nativeElement.textContent).toContain('Modified name');
+    helper.expectFirstRowCellContentToBe(2, 'Modified name');
   })
 
 });

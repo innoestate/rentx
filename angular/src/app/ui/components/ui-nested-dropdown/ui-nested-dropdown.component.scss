@@ -5,11 +5,13 @@
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+  max-width: 100%;
 
-  &.center {
-    justify-content: center;
-  }
   &.colored {
     .icon {
       color: var(--color-basic-100) !important;

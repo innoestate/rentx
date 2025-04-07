@@ -24,7 +24,7 @@ export class UiTableHelper {
   }
 
   expectFirstRowCellContentToBe = (columnIndex: number, content: string) => {
-    const targetedCell = this.fixture.debugElement.queryAll(By.css(`body td:nth-child(${columnIndex})`));
+    const targetedCell = this.fixture.debugElement.queryAll(By.css(`.ant-table-row > td:nth-child(${columnIndex})`));
     expect(targetedCell[0].nativeElement.textContent).toContain(content);
   }
 

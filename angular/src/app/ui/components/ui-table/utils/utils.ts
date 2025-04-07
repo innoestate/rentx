@@ -14,7 +14,7 @@ export const formatNzColumnConfig = <T>(column: UiTableColumnItem, columnIndex: 
   if(column.dropdown){
     columnConfig.dropdown = {
       ...column.dropdown,
-      list: column.dropdown.list.map(item => ({ color: 'var(--color-tertiary-500)', ...item }))
+      list: column.dropdown.list.map(item => ({ color: 'var(--color-secondary-500)', ...item }))
     };
   }
 
@@ -47,10 +47,10 @@ const setColumnWidth = (columnConfig: NzUiColumnConfig) => {
   }else if (columnConfig.type === 'text' ){
     columnConfig.width = '100px';
   }else if (columnConfig.type === 'dropdown') {
-    columnConfig.width = '100px';
+    columnConfig.width = '120px';
   }
   if((!columnConfig.label || columnConfig.label === '') && columnConfig.icon){
-    columnConfig.width = '50px';
+    columnConfig.width = '40px';
   }
   return columnConfig;
 }
