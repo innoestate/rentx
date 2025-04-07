@@ -26,6 +26,14 @@ export class UiNestedDropdownComponent implements AfterViewInit {
   value = input<UiDropdownItem<any> | any>();
   openAtInit = input<boolean>(false);
   triggerType = input<'click' | 'hover'>('click');
+  fixedHeadValue = input<{
+    label: string;
+    icon: string;
+    value: any;
+    dropdown?: UiDropdownItem<any>[];
+    command?: () => void;
+    color?: string;
+  }>();
 
   onSelect = output<UiDropdownItem<any>>();
   blur = output<void>();

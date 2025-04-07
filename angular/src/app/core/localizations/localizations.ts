@@ -5,6 +5,8 @@ export const Localizations: Record<string, Record<string, string>> = {
     delete: "Supprimer"
   },
   prospections : {
+    create: 'créer une prospection',
+    tableTitle: 'prospections',
     failLoading: 'Echec de chargement des prospections!',
     addProspectionSuccess: 'Prospection ajoutée avec succès!',
     addProspectionFailure: 'Echec de l\'ajout de la prospection!',

@@ -1,3 +1,7 @@
 <div class="prospection-table">
-  <ui-table (editRow)="updateRow($event)" [columns]="table().columns" [rows]="table().rows"></ui-table>
+  <ui-table (editRow)="updateRow($event)"
+            [columns]="table().columns"
+            [rows]="table().rows"
+            [title]="table().title"
+            [commands]="table().commands"></ui-table>
 </div>

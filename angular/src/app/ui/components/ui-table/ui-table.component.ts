@@ -13,7 +13,7 @@ import { NzUxCellEditableNumberComponent } from './nz-ui-cell-editable/number/nz
 import { NzUxCellEditableStringComponent } from './nz-ui-cell-editable/string/nz-ui-cell-editable-string.component';
 import { NzUxCellItemComponent } from './nz-ui-cell-item/nz-ui-cell-item.component';
 import { formatNzColumnConfig, formatNzRows } from './utils/utils';
-
+import { UiNestedDropdownComponent } from "../ui-nested-dropdown/ui-nested-dropdown.component";
 
 @Component({
   selector: 'ui-table',
@@ -25,8 +25,7 @@ import { formatNzColumnConfig, formatNzRows } from './utils/utils';
     NzUxCellEditableStringComponent,
     NzUxCellEditableNumberComponent,
     NzUiCellNestedDropdownComponent,
-    NzUxCellItemComponent,
-  ],
+    NzUxCellItemComponent, UiNestedDropdownComponent],
   templateUrl: './ui-table.component.html',
   styleUrl: './ui-table.component.scss'
 })
@@ -36,6 +35,8 @@ export class UiTableComponent implements AfterViewInit {
 
   rows = input.required<UiTableRow[]>();
   columns = input.required<UiTableColumnItem[]>();
+  title = input<string>();
+  commands = input<{label: string, icon: string, command: () => void}[]>();
   editRow = output<UiTableRow>();
 
   protected nzRows: Signal<NzUiTableRow[]> = this.buildNzRows();

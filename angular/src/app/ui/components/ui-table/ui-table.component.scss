@@ -91,3 +91,20 @@
     color: var(--color-secondary-500);
   }
 }
+
+.ui-table-footer {
+  position: absolute;
+  left: 16px;
+  bottom: 10px;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 10px;
+  .ui-table-title {
+    font-family: 'primary-bold', sans-serif;
+    color: var(--color-secondary-500);
+  }
+  .command {
+    cursor: pointer;
+    font-size: 20px;
+  }
+}

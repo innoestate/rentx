@@ -1,9 +1,16 @@
 <div (nzVisibleChange)="onVisibleChange($event)" test-selector="ui-nested-dropdown-trigger" #nzTrigger nz-dropdown
   [nzDropdownMenu]="menu" [nzTrigger]="triggerType()">
-  @if(displayedValue.icon){
-  <div class="icon" [class.icon-with-text]="iconWithText(displayedValue)" nz-icon [nzType]="displayedValue.icon" nzTheme="fill"></div>
+  @if(fixedHeadValue()){
+    @if(fixedHeadValue()?.icon){
+      <div class="icon" nz-icon [nzType]="fixedHeadValue()?.icon!" nzTheme="fill"></div>
+    }
+    {{ fixedHeadValue()?.label??'' }}
+  }@else {
+    @if(displayedValue.icon){
+      <div class="icon" [class.icon-with-text]="iconWithText(displayedValue)" nz-icon [nzType]="displayedValue.icon" nzTheme="fill"></div>
+    }
+    {{ displayedValue.label }}
   }
-  {{ displayedValue.label }}
 </div>
 <nz-dropdown-menu #menu="nzDropdownMenu">
   <ul nz-menu nzSelectable>

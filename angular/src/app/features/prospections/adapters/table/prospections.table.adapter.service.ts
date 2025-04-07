@@ -1,14 +1,14 @@
 import { Injectable } from "@angular/core";
+import { LocalizationsService } from "src/app/core/localizations/localizations.service";
 import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
 import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
 import { UiTableAdapter } from "src/app/ui/components/ui-table/adapter/ui-table.adapter";
+import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { CellType } from "src/app/ui/components/ui-table/types/ui-table.cell.type";
 import { Prospection_Dto } from "../../models/prospection.dto.model";
 import { PROSPECTION_STATUS } from "../../models/prospection.status.model";
 import { UiTableColumnCity, UiTableColumnSeller, UiTableColumnsProspections, UiTableColumnStatus, UiTableProspections, UiTableRowProspection } from "./prospections.table.adapter.type";
-import { LocalizationsService } from "src/app/core/localizations/localizations.service";
-import { Localizations } from "src/app/core/localizations/localizations";
-import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
+import { UiNestedDropdown } from "src/app/ui/components/ui-nested-dropdown/model/ui-nested-dropdown.model";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,13 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
   buildTable(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTableProspections {
     return {
       columns: this.createColumns(prospections, sellers),
-      rows: this.createRows(prospections, sellers)
+      rows: this.createRows(prospections, sellers),
+      title: this.localization.getLocalization('prospections', 'tableTitle'),
+      commands: [{
+        icon: 'plus-circle',
+        label: this.localization.getLocalization('prospections', 'addProspection'),
+        command: () => { }
+      }]
     }
   }
 
@@ -48,7 +54,13 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
       { key: 'price', label: 'Prix', editable: true, type: 'number', sort: 1 },
       this.buildStatusColumn(),
       {
-        key: 'actions', label: '', icon: 'setting', type: 'dropdown', dropDownItems: this.buildActionsDropdownColumn(), dropDownCellsUniqueItem: {
+        key: 'actions',
+        label: '',
+        icon: 'setting',
+        type: 'dropdown',
+        dropDownItems: this.buildActionsDropdownColumn(),
+        headDropdown: this.buildActionsHeadDropdown(),
+        dropDownCellsUniqueItem: {
           label: '',
           icon: 'down-circle',
           value: 'action',
@@ -115,6 +127,28 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
         }
       }
     ]
+  }
+
+  private buildActionsHeadDropdown(): UiNestedDropdown {
+    return {
+      fixedHead: {
+        label: '',
+        icon: 'setting',
+        value: 'action',
+        command: () => { }
+      },
+      list: [
+        {
+          label: this.localization.getLocalization('prospections', 'create'),
+          icon: 'plus-circle',
+          value: "create",
+          command: () => {
+            console.log('implement command here');
+            return true;
+          }
+        }
+      ]
+    }
   }
 
   private buildStatusDropdownItems(): UiDropdownItem<any>[] {
