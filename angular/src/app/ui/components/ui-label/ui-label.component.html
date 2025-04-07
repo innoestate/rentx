@@ -1,0 +1,9 @@
+@if(value()?.icon){
+  <div class="icon"
+      [class.icon-with-text]="iconWithText()"
+      [ngStyle]="{ 'color': color() }"
+      nz-icon
+      [nzType]="value()?.icon!"
+      nzTheme="fill"></div>
+}
+{{ value()?.label??'' }}

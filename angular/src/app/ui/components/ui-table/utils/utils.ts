@@ -8,6 +8,13 @@ import { CellType } from "../types/ui-table.cell.type";
 export const formatNzColumnConfig = <T>(column: UiTableColumnItem, columnIndex: number): NzUiColumnConfig => {
   const columnConfig = { ...column } as NzUiColumnConfig;
   setColumnWidth(columnConfig);
+  if(column.headDropdown?.list){
+    columnConfig.headDropdown!.list = column.headDropdown.list.map(item => ({ color: 'var(--color-secondary-500)', ...item }));
+  }
+  if(column.dropDownItems){
+    columnConfig.dropDownItems = column.dropDownItems.map(item => ({ color: 'var(--color-tertiary-500)', ...item }));
+  }
+
   if (column.sort !== undefined) {
     columnConfig.sort = {
       priority: column.sort,

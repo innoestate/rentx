@@ -1,36 +1,38 @@
-<div (nzVisibleChange)="onVisibleChange($event)" test-selector="ui-nested-dropdown-trigger" #nzTrigger nz-dropdown
-  [nzDropdownMenu]="menu" [nzTrigger]="triggerType()">
-  @if(fixedHeadValue()){
-    @if(fixedHeadValue()?.icon){
-      <div class="icon" nz-icon [nzType]="fixedHeadValue()?.icon!" nzTheme="fill"></div>
-    }
-    {{ fixedHeadValue()?.label??'' }}
-  }@else {
-    @if(displayedValue.icon){
-      <div class="icon" [class.icon-with-text]="iconWithText(displayedValue)" nz-icon [nzType]="displayedValue.icon" nzTheme="fill"></div>
-    }
-    {{ displayedValue.label }}
-  }
+<div #nzTrigger nz-dropdown
+    [nzTrigger]="triggerType()"
+    (nzVisibleChange)="onVisibleChange($event)"
+    test-selector="ui-nested-dropdown-trigger"
+    [nzDropdownMenu]="menu">
+    <ui-label [value]="fixedHeadValue()?? displayedValue"></ui-label>
 </div>
 <nz-dropdown-menu #menu="nzDropdownMenu">
   <ul nz-menu nzSelectable>
     @for(item of list(); track item){
-    @if(isDropdown(item)){
-    <li test-selector="ui-nested-dropdown-item" nz-menu-item><ui-nested-dropdown [value]="item" triggerType="hover"
-        (onSelect)="clickOnItem($event)" [list]="item.value"></ui-nested-dropdown></li>
-    }@else{
-    <li [ngStyle]="{ 'color': item.color + ' !important' }" test-selector="ui-nested-dropdown-item" nz-menu-item
-      (click)="clickOnItem(item)">
-      @if(item.color){
-      <div class="item-color" [ngStyle]="{ 'background-color': item.color + ' !important' }"></div>
+      @if(isDropdown(item)){
+        <li test-selector="ui-nested-dropdown-item"
+            nz-menu-item><ui-nested-dropdown
+            [value]="item"
+            triggerType="hover"
+            (onSelect)="clickOnItem($event)"
+            [list]="item.value">
+            </ui-nested-dropdown>
+        </li>
+      }@else{
+        <li [ngStyle]="{ 'color': item.color + ' !important' }"
+            test-selector="ui-nested-dropdown-item"
+            nz-menu-item
+            (click)="clickOnItem(item)">
+              @if(item.icon){
+                <div nz-icon
+                    [nzType]="item.icon"
+                    [ngStyle]="{ 'color': item.color + ' !important' }"
+                    class="icon icon-list"
+                    [class.icon-with-text]="iconWithText(item)"
+                    nzTheme="fill"></div>
+              }
+            {{ item.label }}
+        </li>
       }
-      @if(item.icon){
-      <div [ngStyle]="{ 'color': item.color + ' !important' }" class="icon icon-list" [class.icon-with-text]="iconWithText(item)" nz-icon [nzType]="item.icon"
-        nzTheme="fill"></div>
-      }
-      {{ item.label }}
-    </li>
-    }
     }
   </ul>
 </nz-dropdown-menu>

@@ -121,6 +121,7 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
         label: this.localization.getLocalization('commons', 'delete'),
         icon: 'delete',
         value: "delete",
+        color: 'var(--color-tertiary-500)',
         command: () => {
           console.log('implement command here');
           return true;

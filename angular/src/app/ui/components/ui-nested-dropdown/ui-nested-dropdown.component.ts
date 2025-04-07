@@ -4,6 +4,7 @@ import { NzDropdownMenuComponent, NzDropDownModule } from 'ng-zorro-antd/dropdow
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { UiDropdownItem } from '../ui-dropdown/model/ui-dropdown-item.model';
 import { isEqual } from 'lodash';
+import { UiLabelComponent } from '../ui-label/ui-label.component';
 
 /**
  * This component is used to create a nested dropdown.
@@ -12,7 +13,7 @@ import { isEqual } from 'lodash';
  */
 @Component({
   selector: 'ui-nested-dropdown',
-  imports: [NzDropDownModule, CommonModule, NzIconModule],
+  imports: [NzDropDownModule, CommonModule, NzIconModule, UiLabelComponent],
   standalone: true,
   templateUrl: './ui-nested-dropdown.component.html',
   styleUrl: './ui-nested-dropdown.component.scss',
@@ -52,8 +53,8 @@ export class UiNestedDropdownComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.centerValueIfGotOnlyIcon();
-    if(this.insideValue()?.color){
+    this.centerValueIfGotOnlyIcon(this.fixedHeadValue() ?? this.insideValue());
+    if (this.insideValue()?.color) {
       this.elRef.nativeElement.classList.add('colored');
     }
     if (this.openAtInit()) {
@@ -83,8 +84,8 @@ export class UiNestedDropdownComponent implements AfterViewInit {
     return !!(item.icon && item.label?.length > 0);
   }
 
-  private centerValueIfGotOnlyIcon() {
-    if (this.insideValue()?.icon && (!this.insideValue()?.label || this.insideValue()?.label === '')) {
+  private centerValueIfGotOnlyIcon(value: any) {
+    if (value?.icon && (!value.label || value.label === '')) {
       this.elRef.nativeElement.classList.add('center');
     }
   }

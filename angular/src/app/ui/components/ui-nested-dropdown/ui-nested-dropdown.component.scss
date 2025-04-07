@@ -6,6 +6,7 @@
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
+
   &.center {
     justify-content: center;
   }
@@ -22,21 +23,6 @@
 .icon-with-text {
   margin-right: 4px;
 }
-
-.item-color {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 5px;
-  height: 100%;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
-
-.icon {
-  cursor: pointer;
-}
-
 
 ::ng-deep {
   .ant-dropdown-menu-item {

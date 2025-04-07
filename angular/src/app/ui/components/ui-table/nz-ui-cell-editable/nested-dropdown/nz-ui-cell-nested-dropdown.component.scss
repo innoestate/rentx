@@ -16,8 +16,10 @@
     padding: 0 10px;
     color: var(--color-basic-100) !important;
 
-    .icon {
-      color: var(--color-basic-100) !important;
+    ::ng-deep {
+      .anticon {
+        color:  var(--color-basic-100);
+      }
     }
 
   }
