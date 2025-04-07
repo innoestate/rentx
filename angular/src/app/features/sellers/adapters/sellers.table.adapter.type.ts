@@ -1,4 +1,5 @@
 import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
+import { UiNestedDropdown } from "src/app/ui/components/ui-nested-dropdown/model/ui-nested-dropdown.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
@@ -48,7 +49,7 @@ interface UiTableColumnAgency extends UiTableColumnItem {
 interface UiTableColumnActions extends UiTableColumnItem {
   key: 'actions';
   label: string;
-  dropDownItems: UiDropdownItem<any>[];
+  dropdown: UiNestedDropdown;
 }
 
 export type UiTableColumnsSellers = [UiTableColumnName, UiTableColumnAddress, UiTableColumnCity, UiTableColumnZip, UiTableColumnPhone, UiTableColumnEmail, UiTableColumnAgency, UiTableColumnActions]

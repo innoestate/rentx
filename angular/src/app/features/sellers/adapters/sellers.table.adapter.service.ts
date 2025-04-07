@@ -4,6 +4,7 @@ import { UiTableAdapter } from "src/app/ui/components/ui-table/adapter/ui-table.
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { Seller_Dto } from "../models/seller.dto.model";
 import { UiTableColumnsSellers, UiTableSellers } from "./sellers.table.adapter.type";
+import { UiNestedDropdown } from "src/app/ui/components/ui-nested-dropdown/model/ui-nested-dropdown.model";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class SellersTableAdapterService extends UiTableAdapter {
 
   constructor() {
     super();
-   }
+  }
 
   buildTable(sellers: Seller_Dto[]): UiTableSellers {
     return {
@@ -36,7 +37,7 @@ export class SellersTableAdapterService extends UiTableAdapter {
       { key: 'phone', label: 'téléphone', editable: true, type: 'text' },
       { key: 'email', label: 'email', editable: true, type: 'text' },
       { key: 'agency', label: 'Agence', editable: true, type: 'text' },
-      { key: 'actions', label: 'Actions', type: 'dropdown', dropDownItems: this.buildActionsDropdownColumn()}
+      { key: 'actions', label: 'Actions', type: 'dropdown', dropdown: this.buildActionsDropdownColumn() }
     ]
   }
 
@@ -44,18 +45,20 @@ export class SellersTableAdapterService extends UiTableAdapter {
     return sellers.map(seller => this.extractRow(seller));
   }
 
-  private buildActionsDropdownColumn(): UiDropdownItem<any>[] {
-    return [
-      {
-        label: 'Supprimer',
-        icon: 'delete',
-        value: "delete",
-        command: (row: UiTableRow) => {
-          // this.sellersCommands.delete(row.data.id);
-          return true;
+  private buildActionsDropdownColumn(): UiNestedDropdown {
+    return {
+      list: [
+        {
+          label: 'Supprimer',
+          icon: 'delete',
+          value: "delete",
+          command: (row: UiTableRow) => {
+            // this.sellersCommands.delete(row.data.id);
+            return true;
+          }
         }
-      }
-    ]
+      ]
+    }
   }
 
   private extractRow(seller: Seller_Dto): UiTableRow {
@@ -63,12 +66,12 @@ export class SellersTableAdapterService extends UiTableAdapter {
       data: { id: seller.id },
       cells: {
         name: seller.name,
-        address: seller.address??'',
-        city: seller.city??'',
-        zip: seller.zip??'',
-        phone: seller.phone??'',
-        email: seller.email??'',
-        agency: seller.agency??'',
+        address: seller.address ?? '',
+        city: seller.city ?? '',
+        zip: seller.zip ?? '',
+        phone: seller.phone ?? '',
+        email: seller.email ?? '',
+        agency: seller.agency ?? '',
         actions: {
           value: '',
           label: "action",

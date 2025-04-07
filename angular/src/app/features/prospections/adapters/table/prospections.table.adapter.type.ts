@@ -1,6 +1,7 @@
 import { NzTableFilterFn } from "ng-zorro-antd/table";
 import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
 import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
+import { UiNestedDropdown } from "src/app/ui/components/ui-nested-dropdown/model/ui-nested-dropdown.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { Priority, UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
@@ -33,7 +34,7 @@ export interface UiTableColumnSeller extends UiTableColumnItem {
   key: 'seller';
   label: string;
   editable: true;
-  dropDownItems: UiDropdownItem<Seller_Dto>[];
+  dropdown: UiNestedDropdown;
 }
 
 interface UiTableColumnPrice extends UiTableColumnItem {
@@ -45,7 +46,7 @@ interface UiTableColumnPrice extends UiTableColumnItem {
 export interface UiTableColumnStatus extends UiTableColumnItem {
   key: 'status';
   label: string;
-  dropDownItems: UiDropdownItem<any>[];
+  dropdown: UiNestedDropdown;
   sort: Priority;
   filter: {text: string, value: string}[];
   filterFn: NzTableFilterFn<UiTableRow>;
@@ -55,7 +56,7 @@ interface UiTableColumnActions extends UiTableColumnItem {
   key: 'actions';
   label: string;
   icon: string;
-  dropDownItems: UiDropdownItem<any>[];
+  dropdown: UiNestedDropdown;
   dropDownCellsUniqueItem: UiDropdownItem<any>;
   command: (row: UiTableRowProspection) => void;
 }
@@ -86,11 +87,11 @@ export const prospectionsColumnModel: UiTableColumnsProspections = [
   { key: 'zip', label: 'Code postal', editable: true, type: 'text', sort: 1 },
   { key: 'address', label: 'Rue', editable: true, type: 'text' },
   { key: 'link', label: 'lien', editable: true, type: 'text' },
-  { key: 'seller', label: 'Vendeur', editable: true, dropDownItems: [], type: 'dropdown' },
+  { key: 'seller', label: 'Vendeur', editable: true, dropdown: {list: []}, type: 'dropdown' },
   { key: 'price', label: 'Prix', editable: true, type: 'number' },
-  { key: 'status', label: 'Status', dropDownItems: [], type: 'dropdown', sort: 1, filter: [], filterFn: (() => {}) as any },
+  { key: 'status', label: 'Status', dropdown: {list: []}, type: 'dropdown', sort: 1, filter: [], filterFn: (() => {}) as any },
   {
-    key: 'actions', label: 'Actions', icon: 'down-circle', type: 'dropdown', dropDownItems: [], dropDownCellsUniqueItem: {
+    key: 'actions', label: 'Actions', icon: 'down-circle', type: 'dropdown', dropdown: {list: []}, dropDownCellsUniqueItem: {
       label: '',
       icon: 'down-circle',
       value: 'action'

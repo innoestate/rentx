@@ -17,8 +17,17 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 export class NzUiCellNestedDropdownComponent extends NzUxCellEditableComponent implements AfterViewInit {
 
   protected override insideValue = signal<any>(undefined!);
+  protected displayedValue = computed(() => {
+
+    const value = this.insideValue()!;
+    if(value?.color){
+      return {...value, color: 'var(--color-basic-100)'}
+    }
+    return value;
+
+  });
   column = input.required<UiTableColumnItem>();
-  list = computed(() => this.column().dropDownItems ?? []);
+  list = computed(() => this.column().dropdown?.list ?? []);
   dropDownCellsUniqueItem = computed(() => this.column().dropDownCellsUniqueItem);
   nzTableList = computed(() => this.addRowArgumentInCommands(this.list()));
   isEmpty = this.checkIfValueIsEmpty();
@@ -45,6 +54,10 @@ export class NzUiCellNestedDropdownComponent extends NzUxCellEditableComponent i
   }
 
   ngAfterViewInit(): void {
+    this.applyColor();
+  }
+
+  private applyColor(){
     if (this.insideValue()?.color) {
       this.elRef.nativeElement.classList.add('colored');
       this.elRef.nativeElement.style.setProperty('background-color', this.insideValue()?.color, 'important');

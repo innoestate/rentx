@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Owner } from "src/app/features/owners/models/owner.model";
+import { getUpdatedFields as getUpdatedFieldsUtils } from "src/app/shared/utils/objects.utils";
+import { UiNestedDropdown } from "src/app/ui/components/ui-nested-dropdown/model/ui-nested-dropdown.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { OwnersCommandsService } from "../../commands/owners.command.service";
-import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
-import { getUpdatedFields as getUpdatedFieldsUtils} from "src/app/shared/utils/objects.utils";
 
 
 @Injectable({
@@ -66,7 +66,7 @@ export class OwnersTableAdapterService {
         label: "actions",
         key: "actions",
         type: 'text',
-        dropDownItems: this.buildActionsDropDownItems(owners)
+        dropdown: this.buildActionsDropDownItems(owners)
       }
     ];
   }
@@ -75,29 +75,31 @@ export class OwnersTableAdapterService {
     return owners.map(owner => this.formatUiTableRow(owner));
   }
 
-  private buildActionsDropDownItems(owners: Owner[]): UiDropdownItem<any>[] {
-    return [
-      {
-        label: "Editer",
-        icon: "edit",
-        value: "edit",
-        command: (row: UiTableRow) => {
-          const owner = owners.find(o => o.id === row.data.id);
-          if (!owner) throw new Error('Owner not found');
-          this.ownersCommands.editOwner(owner);
-          return true;
+  private buildActionsDropDownItems(owners: Owner[]): UiNestedDropdown {
+    return {
+      list: [
+        {
+          label: "Editer",
+          icon: "edit",
+          value: "edit",
+          command: (row: UiTableRow) => {
+            const owner = owners.find(o => o.id === row.data.id);
+            if (!owner) throw new Error('Owner not found');
+            this.ownersCommands.editOwner(owner);
+            return true;
+          }
+        },
+        {
+          label: "Supprimer",
+          icon: "delete",
+          value: "delete",
+          command: (row: UiTableRow) => {
+            this.ownersCommands.deleteOwner(row.data.id);
+            return true;
+          }
         }
-      },
-      {
-        label: "Supprimer",
-        icon: "delete",
-        value: "delete",
-        command: (row: UiTableRow) => {
-          this.ownersCommands.deleteOwner(row.data.id);
-          return true;
-        }
-      }
-    ]
+      ]
+    }
   }
 
   formatUiTableRow(owner: Owner): UiTableRow {

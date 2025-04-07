@@ -9,9 +9,9 @@ describe('NzUiCellNestedDropdownComponent unit test loading/updating a value', (
 
   let fixture: ComponentFixture<NzUiCellNestedDropdownComponent>;
   let component: NzUiCellNestedDropdownComponent;
-  let list = columnsWithCityAsDropDownMock[LANGUAGES_COLUMN_INDEX -1].dropDownItems;
+  let dropdown = columnsWithCityAsDropDownMock[LANGUAGES_COLUMN_INDEX -1].dropdown;
   let column = {
-    isUiDropdownItem: list
+    isUiDropdownItem: dropdown
   }
   let helper: NzUiCellNestedDropdownHelper;
 
@@ -24,13 +24,13 @@ describe('NzUiCellNestedDropdownComponent unit test loading/updating a value', (
     fixture = TestBed.createComponent(NzUiCellNestedDropdownComponent);
     helper = new NzUiCellNestedDropdownHelper(fixture);
     fixture.componentRef.setInput('column', column);
-    fixture.componentRef.setInput('value', list![0]);
+    fixture.componentRef.setInput('value', dropdown!.list[0]);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should have the correct default value in nested dropdown', () => {
-    expect(isEqual(component.value(), list![0])).toBeTrue();
+    expect(isEqual(component.value(), dropdown!.list[0])).toBeTrue();
   })
 
 
@@ -38,10 +38,10 @@ describe('NzUiCellNestedDropdownComponent unit test loading/updating a value', (
 
     helper.expectLoadingValueStyleToBe(false);
 
-    helper.updateValueFromInside(list![1]);
+    helper.updateValueFromInside(dropdown!.list[1]);
     helper.expectLoadingValueStyleToBe(true);
 
-    helper.updateValueFromOutside(list![1]);
+    helper.updateValueFromOutside(dropdown!.list[1]);
     helper.expectLoadingValueStyleToBe(false);
 
   })

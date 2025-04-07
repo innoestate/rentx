@@ -43,7 +43,7 @@ describe('UiTableComponent test a dropdown in a cell', () => {
 
   it('should have the first item selected', () => {
     let cellToEdit = fixture.debugElement.queryAll(By.css('nz-ui-cell-nested-dropdown > .clickable'))[0].nativeElement;
-    expect(cellToEdit.textContent).toContain(columns[LANGUAGES_COLUMN_INDEX]?.dropDownItems?.[0]?.label);
+    expect(cellToEdit.textContent).toContain(columns[LANGUAGES_COLUMN_INDEX]?.dropdown?.list?.[0]?.label);
   })
 
   it('should select an item from the dropdown', async () => {
@@ -60,7 +60,7 @@ describe('UiTableComponent test a dropdown in a cell', () => {
 
   const expectItemToBeSelected = (index = 0) => {
     const cellToEdit = fixture.debugElement.query(By.css('nz-ui-cell-nested-dropdown > .clickable')).nativeElement;
-    expect(cellToEdit.textContent).toContain(columns[LANGUAGES_COLUMN_INDEX]?.dropDownItems?.[index]?.label);
+    expect(cellToEdit.textContent).toContain(columns[LANGUAGES_COLUMN_INDEX]?.dropdown?.list?.[index]?.label);
     expect(component.edit).toHaveBeenCalled();
   }
 

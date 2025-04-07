@@ -84,7 +84,7 @@ export class UiNestedDropdownComponent implements AfterViewInit {
     return !!(item.icon && item.label?.length > 0);
   }
 
-  private centerValueIfGotOnlyIcon(value: any) {
+  private centerValueIfGotOnlyIcon(value: { label: string, icon: string } | any) {
     if (value?.icon && (!value.label || value.label === '')) {
       this.elRef.nativeElement.classList.add('center');
     }

@@ -9,7 +9,7 @@
     <ui-nested-dropdown (onSelect)="editNestedDropdown($event)"
                         (blur)="closeDropdown()"
                         [list]="nzTableList()"
-                        [value]="insideValue()"
+                        [value]="displayedValue()"
                         [openAtInit]="isOnEditMode()"></ui-nested-dropdown>
   }
 }@else {
@@ -17,10 +17,10 @@
     <nz-ui-cell-item test-selector="ui-table-editable-value" [item]="item" (click)="startToEdit()"></nz-ui-cell-item>
   }@else {
     <div test-selector="ui-table-editable-value" class="clickable" [class.loading-value]="loadingValue()">
-        @if(insideValue()?.icon){
-          <div class="icon" nz-icon [nzType]="insideValue().icon" nzTheme="fill"></div>
+        @if(displayedValue()?.icon){
+          <div class="icon" nz-icon [nzType]="displayedValue().icon" nzTheme="fill"></div>
         }
-        {{ insideValue()?.label }}
+        {{ displayedValue()?.label }}
     </div>
   }
 }

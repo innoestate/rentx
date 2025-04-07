@@ -16,6 +16,7 @@ describe('UiLabelComponent', () => {
 
     fixture = TestBed.createComponent(UiLabelComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('value', { label: 'test', value: 'test' });
     fixture.detectChanges();
   });
 

@@ -30,12 +30,12 @@ export class UiTableAdapterTestHelper {
   private testDropdownMatching() {
     const table = this.uiTableAdapter.buildTable(...this.buildArguments);
     table.columns.forEach((column) => {
-      if (column.dropDownItems) {
+      if (column.dropdown) {
         table.rows.forEach(row => {
           const cell = row.cells![column.key] as UiDropdownItem<any>;
           if (cell?.value && cell?.value !== '') {
-            const existingItemInDrodDown = column.dropDownItems!.find(item => isEqual(item.value, cell.value));
-            expect(existingItemInDrodDown).toBeTruthy();
+            const existingItemInDropdown = column.dropdown!.list.find(item => isEqual(item.value, cell.value));
+            expect(existingItemInDropdown).toBeTruthy();
           } else if (cell?.value === '') {
             expect(cell.value).toEqual('');
           }else{

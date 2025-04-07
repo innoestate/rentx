@@ -29,7 +29,7 @@ export class SellersTableDirective extends UiTableDirective {
   }
 
   override bindCommands(table: UiTableSellers): UiTableSellers {
-    table.columns.find(column => column.key === 'actions')!.dropDownItems[0].command = this.deleteRow.bind(this);
+    table.columns.find(column => column.key === 'actions')!.dropdown.list[0].command = this.deleteRow.bind(this);
     return table;
   }
 

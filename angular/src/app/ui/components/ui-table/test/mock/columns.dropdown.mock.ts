@@ -32,69 +32,73 @@ export const columnsWithCityAsDropDownMock: UiTableColumnItem[] = [
     label: 'Langue',
     type: 'text',
     sort: 1,
-    dropDownItems: [
-      {
-        label: 'Français',
-        value: 'fr'
-      },
-      {
-        label: 'English',
-        value: 'en'
-      },
-      {
-        label: 'Espagnol',
-        value: 'es'
-      }
-    ],
+    dropdown: {
+      list: [
+        {
+          label: 'Français',
+          value: 'fr'
+        },
+        {
+          label: 'English',
+          value: 'en'
+        },
+        {
+          label: 'Espagnol',
+          value: 'es'
+        }
+      ]
+    },
   },
   {
     key: 'skills',
     label: 'Compétences',
     type: 'dropdown',
-    dropDownItems: [
-      {
-        label: 'Developer',
-        value: 'dev'
-      },
-      {
-        label: 'ui designer',
-        value: 'ui'
-      },
-      {
-        label: 'Product owner',
-        value: 'po'
-      },
-      {
-        label: 'R&D',
-        value: [
-          {
-            label: 'Product owner',
-            value: 'po'
-          },
-          {
-            label: 'Developer',
-            value: 'dev'
-          },
-          {
-            label: 'ui designer',
-            value: 'ui'
-          },
-        ]
-      },
-      {
-        label: 'Sales',
-        value: [
-          {
-            label: 'Dirrecteur de vente',
-            value: 'sales director'
-          },
-          {
-            label: 'Setter',
-            value: 'setter'
-          }
-        ]
-      }
-    ],
+    dropdown: {
+      list: [
+        {
+          label: 'Developer',
+          value: 'dev'
+        },
+        {
+          label: 'ui designer',
+          value: 'ui'
+        },
+        {
+          label: 'Product owner',
+          value: 'po'
+        },
+        {
+          label: 'R&D',
+          value: [
+            {
+              label: 'Product owner',
+              value: 'po'
+            },
+            {
+              label: 'Developer',
+              value: 'dev'
+            },
+            {
+              label: 'ui designer',
+              value: 'ui'
+            },
+          ]
+        },
+        {
+          label: 'Sales',
+          value: [
+            {
+              label: 'Dirrecteur de vente',
+              value: 'sales director'
+            },
+            {
+              label: 'Setter',
+              value: 'setter'
+            }
+          ]
+        }
+      ]
+    },
   }
 ]
 

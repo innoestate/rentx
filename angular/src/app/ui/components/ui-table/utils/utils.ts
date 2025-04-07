@@ -11,8 +11,11 @@ export const formatNzColumnConfig = <T>(column: UiTableColumnItem, columnIndex: 
   if(column.headDropdown?.list){
     columnConfig.headDropdown!.list = column.headDropdown.list.map(item => ({ color: 'var(--color-secondary-500)', ...item }));
   }
-  if(column.dropDownItems){
-    columnConfig.dropDownItems = column.dropDownItems.map(item => ({ color: 'var(--color-tertiary-500)', ...item }));
+  if(column.dropdown){
+    columnConfig.dropdown = {
+      ...column.dropdown,
+      list: column.dropdown.list.map(item => ({ color: 'var(--color-tertiary-500)', ...item }))
+    };
   }
 
   if (column.sort !== undefined) {

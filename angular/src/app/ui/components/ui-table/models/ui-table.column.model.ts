@@ -15,7 +15,7 @@ export interface UiTableColumnItem {
   icon?: string,
   filter?: {text: string, value: string}[],
   filterFn?: NzTableFilterFn<UiTableRow>,
-  dropDownItems?: UiDropdownItem<any>[],
+  dropdown?: UiNestedDropdown,
   dropDownCellsUniqueItem?: CellType,
   headDropdown?: UiNestedDropdown
 }

@@ -13,6 +13,7 @@ import { LodgersCommandsService } from "src/app/features/lodgers/commands/lodger
 import { uniq } from "lodash";
 import { NzTableFilterFn, NzTableFilterList, NzTableFilterValue } from "ng-zorro-antd/table";
 import { UiItem } from "src/app/ui/models/ui-item.model";
+import { UiNestedDropdown } from "src/app/ui/components/ui-nested-dropdown/model/ui-nested-dropdown.model";
 
 @Injectable({
   providedIn: 'root'
@@ -78,10 +79,10 @@ export class EstatesUiTableAdapter {
       const ownersFilterFn: NzTableFilterFn<UiTableRow> = (values: string[], filter: UiTableRow) => {
         return values.includes((filter.cells[4] as UiDropdownItem<string>)?.value as string);
       };
-      return { key: 'owner_dropdown', label: 'propriétaire', type: 'dropdown', dropDownItems: ownersDropdownItems, sort: 1, filter: ownersList, filterFn: ownersFilterFn };
+      return { key: 'owner_dropdown', label: 'propriétaire', type: 'dropdown', dropdown: ownersDropdownItems, sort: 1, filter: ownersList, filterFn: ownersFilterFn };
     }
 
-    return { key: 'owner_dropdown', label: 'propriétaire', type: 'dropdown', dropDownItems: ownersDropdownItems, sort: 1 };
+    return { key: 'owner_dropdown', label: 'propriétaire', type: 'dropdown', dropdown: ownersDropdownItems, sort: 1 };
   }
 
   private buildLodgersColumnField(estates: Estate[], lodgers: Lodger[]): UiTableColumnItem {
@@ -98,17 +99,17 @@ export class EstatesUiTableAdapter {
       const lodgersFilterFn: NzTableFilterFn<UiTableRow> = (values: string[], filter: UiTableRow) => {
         return values.includes((filter.cells[5] as UiDropdownItem<string>)?.value as string);
       };
-      return { key: 'lodger_dropdown', label: 'locataire', type: 'dropdown', dropDownItems: lodgersDropdownItems, sort: 1, filter: lodgersList, filterFn: lodgersFilterFn };
+      return { key: 'lodger_dropdown', label: 'locataire', type: 'dropdown', dropdown: lodgersDropdownItems, sort: 1, filter: lodgersList, filterFn: lodgersFilterFn };
     }
 
-    return { key: 'lodger_dropdown', label: 'locataire', type: 'dropdown', dropDownItems: lodgersDropdownItems, sort: 1 };
+    return { key: 'lodger_dropdown', label: 'locataire', type: 'dropdown', dropdown: lodgersDropdownItems, sort: 1 };
   }
 
   private createRows(estates: Estate[]): UiTableRow[] {
     return estates.map(estate => this.formatUiTableRow(estate));
   }
 
-  private createOwnerDropdownItems(owners: Owner[]): UiDropdownItem<any>[] {
+  private createOwnerDropdownItems(owners: Owner[]): UiNestedDropdown {
     const ownersDropdownItems: UiDropdownItem<any>[] = owners.map(owner => ({ value: owner.id, label: owner.name }));
     ownersDropdownItems.push({
       value: 'new', label: 'créer un nouveau', command: () => {
@@ -116,14 +117,14 @@ export class EstatesUiTableAdapter {
         return true;
       }
     })
-    return ownersDropdownItems;
+    return {list: ownersDropdownItems};
   }
 
-  private createLodgerDropdownItems(estates: Estate[], lodgers: Lodger[]): UiDropdownItem<any>[] {
+  private createLodgerDropdownItems(estates: Estate[], lodgers: Lodger[]): UiNestedDropdown {
     let lodgersActionsDropdownItems: UiDropdownItem<any>[] = [];
     lodgersActionsDropdownItems.push(createLodgersDropdown(this.lodgersCommands, lodgers, estates))
     lodgersActionsDropdownItems.push(createRentReceiptDropdown(this.rentsCommands, estates))
-    return lodgersActionsDropdownItems;
+    return {list: lodgersActionsDropdownItems};
   }
 
   private formatUiTableRow(estate: Estate): UiTableRow {

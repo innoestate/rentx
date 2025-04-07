@@ -65,7 +65,7 @@ describe('UiTableComponent test a dropdown in a cell with empty value', () => {
 
   const expectItemToBeSelected = (index = 0) => {
     const cellToEdit = fixture.debugElement.query(By.css('nz-ui-cell-nested-dropdown > .clickable')).nativeElement;
-    expect(cellToEdit.textContent).toContain(columns[LANGUAGES_COLUMN_INDEX]?.dropDownItems?.[index]?.label);
+    expect(cellToEdit.textContent).toContain(columns[LANGUAGES_COLUMN_INDEX]?.dropdown?.list?.[index]?.label);
     expect(component.edit).toHaveBeenCalled();
   }
 

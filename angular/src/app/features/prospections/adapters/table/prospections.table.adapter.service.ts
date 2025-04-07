@@ -58,7 +58,7 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
         label: '',
         icon: 'setting',
         type: 'dropdown',
-        dropDownItems: this.buildActionsDropdownColumn(),
+        dropdown: this.buildActionsDropdownColumn(),
         headDropdown: this.buildActionsHeadDropdown(),
         dropDownCellsUniqueItem: {
           label: '',
@@ -86,13 +86,13 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
     };
   }
 
-  private buildCityFilters(prospections: Prospection_Dto[]): {text: string, value: string}[] {
+  private buildCityFilters(prospections: Prospection_Dto[]): { text: string, value: string }[] {
     return prospections
-              .filter(p => p.city && p.city !== '')
-              .map(p => ({text: p.city as string, value: p.city as string}))
-              .reduce((unique, item) => {
-                return unique.find(i => i.value === item.value) ? unique : [...unique, item];
-              }, [] as {text: string, value: string}[])
+      .filter(p => p.city && p.city !== '')
+      .map(p => ({ text: p.city as string, value: p.city as string }))
+      .reduce((unique, item) => {
+        return unique.find(i => i.value === item.value) ? unique : [...unique, item];
+      }, [] as { text: string, value: string }[])
   }
 
   private buildStatusColumn(): UiTableColumnStatus {
@@ -101,7 +101,7 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
       key: 'status',
       label: 'Status',
       type: 'dropdown',
-      dropDownItems: this.buildStatusDropdownItems(),
+      dropdown: this.buildStatusDropdownItems(),
       sort: 1,
       filter: this.buildStatusFilter(),
       filterFn: (values: string[], row: UiTableRow) => values.includes((row.cells[cellIndex] as UiDropdownItem<any>)?.value)
@@ -115,19 +115,21 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
     }))
   }
 
-  private buildActionsDropdownColumn(): UiDropdownItem<any>[] {
-    return [
-      {
-        label: this.localization.getLocalization('commons', 'delete'),
-        icon: 'delete',
-        value: "delete",
-        color: 'var(--color-tertiary-500)',
-        command: () => {
-          console.log('implement command here');
-          return true;
+  private buildActionsDropdownColumn(): UiNestedDropdown {
+    return {
+      list: [
+        {
+          label: this.localization.getLocalization('commons', 'delete'),
+          icon: 'delete',
+          value: "delete",
+          color: 'var(--color-tertiary-500)',
+          command: () => {
+            console.log('implement command here');
+            return true;
+          }
         }
-      }
-    ]
+      ]
+    }
   }
 
   private buildActionsHeadDropdown(): UiNestedDropdown {
@@ -152,13 +154,15 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
     }
   }
 
-  private buildStatusDropdownItems(): UiDropdownItem<any>[] {
-    return PROSPECTION_STATUS.map(status => ({
-      label: status.shortLabel,
-      value: status.key,
-      icon: status.icon,
-      color: status.color
-    }))
+  private buildStatusDropdownItems(): UiNestedDropdown {
+    return {
+      list: PROSPECTION_STATUS.map(status => ({
+        label: status.shortLabel,
+        value: status.key,
+        icon: status.icon,
+        color: status.color
+      }))
+    }
   }
 
   private buildSellersColumn(sellers: Seller_Dto[]): UiTableColumnSeller {
@@ -166,16 +170,18 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
       key: 'seller',
       label: 'Vendeur',
       editable: true,
-      dropDownItems: this.buildSellersDropdownColumn(sellers),
+      dropdown: this.buildSellersDropdownColumn(sellers),
       type: 'dropdown'
     }
   }
 
-  private buildSellersDropdownColumn(sellers: Seller_Dto[]): UiDropdownItem<any>[] {
-    return sellers.map(seller => ({
-      label: seller.name,
-      value: seller.id
-    }))
+  private buildSellersDropdownColumn(sellers: Seller_Dto[]): UiNestedDropdown {
+    return {
+      list: sellers.map(seller => ({
+        label: seller.name,
+        value: seller.id
+      }))
+    }
   }
 
   private extractRow(prospection: Prospection_Dto, sellers: Seller_Dto[]): UiTableRowProspection {

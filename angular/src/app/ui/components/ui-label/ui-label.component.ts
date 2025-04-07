@@ -14,4 +14,5 @@ export class UiLabelComponent {
   iconWithText = computed(() => !!(this.value()?.icon && (this.value()?.label?.length ?? 0) > 0));
   iconIsLonely = computed(() => !!(this.value()?.icon && !(this.value()?.label?.length ?? 0)));
   color = computed(() => this.value()?.color ?? 'var(--color-secondary-500)');
+
 }

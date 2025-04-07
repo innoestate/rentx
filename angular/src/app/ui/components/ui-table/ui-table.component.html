@@ -59,7 +59,7 @@
 
             @if(cell === undefined || cell === null){
 
-            }@else if(columns[colI].dropDownItems){
+            }@else if(columns[colI].dropdown){
               <ng-container *ngTemplateOutlet="dropdown"></ng-container>
             }@else if(columns[colI].editable){
               @if(typeof cell === 'string'){

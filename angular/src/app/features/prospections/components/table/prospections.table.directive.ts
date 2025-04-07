@@ -34,7 +34,7 @@ export class ProspectionsTableDirective extends UiTableDirective {
   }
 
   protected override bindCommands(table: UiTableProspections): UiTableProspections {
-    table.columns.find(column => column.key === 'actions')!.dropDownItems[0].command = this.deleteRow.bind(this);
+    table.columns.find(column => column.key === 'actions')!.dropdown!.list[0].command = this.deleteRow.bind(this);
     table.columns.find(column => column.key === 'actions')!.headDropdown!.list[0].command = this.createProspection.bind(this);
     table.commands![0].command = this.createProspection.bind(this);
     return table;
