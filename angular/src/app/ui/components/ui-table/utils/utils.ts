@@ -24,6 +24,10 @@ export const formatNzColumnConfig = <T>(column: UiTableColumnItem, columnIndex: 
       fn: (a: any, b: any) => sortRows(a, b, columnIndex)
     }
   }
+  columnConfig.fixedColumn = {
+    left: 0,
+    right: 10000
+  };
   return columnConfig;
 }
 
@@ -38,9 +42,15 @@ export const formatNzRows = (rows: UiTableRow[], columns: UiTableColumnItem[]): 
 }
 
 const setColumnWidth = (columnConfig: NzUiColumnConfig) => {
-  columnConfig.width = columnConfig.type === 'number' ? '70px' : '100px';
+  if(columnConfig.type === 'number' ){
+    columnConfig.width = '70px';
+  }else if (columnConfig.type === 'text' ){
+    columnConfig.width = '100px';
+  }else if (columnConfig.type === 'dropdown') {
+    columnConfig.width = '100px';
+  }
   if((!columnConfig.label || columnConfig.label === '') && columnConfig.icon){
-    columnConfig.width = '10px';
+    columnConfig.width = '50px';
   }
   return columnConfig;
 }

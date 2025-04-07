@@ -1,11 +1,13 @@
 @let columns = nzColumns();
-<nz-table #table [nzData]="nzRows()" [nzPageSize]="rowsPerPages()">
+<nz-table #table [nzData]="nzRows()" [nzPageSize]="rowsPerPages()" [nzScroll]="{ x: '1100px' }">
   <thead>
     <tr>
       @for(column of columns; track column.key; let columnI = $index) {
         @if(column.sort){
           @if(column.filter){
             <th [nzSortFn]="column.sort.fn"
+                [nzLeft]="columnI < fixedColumns()?.left"
+                [nzRight]="columnI > fixedColumns()?.right"
                 [nzWidth]="column.width"
                 [nzSortPriority]="column.sort.priority"
                 [nzColumnKey]="column.key"
@@ -15,6 +17,8 @@
             </th>
           }@else {
             <th [nzSortFn]="column.sort.fn"
+                [nzLeft]="columnI < fixedColumns()?.left"
+                [nzRight]="columnI > fixedColumns()?.right"
                 [nzWidth]="column.width"
                 [nzSortPriority]="column.sort.priority"
                 [nzColumnKey]="column.key">
@@ -24,13 +28,17 @@
         }@else {
           @if(column.filter){
             <th [nzColumnKey]="column.key"
+                [nzLeft]="columnI < fixedColumns()?.left"
+                [nzRight]="columnI > fixedColumns()?.right"
                 [nzWidth]="column.width"
                 [nzFilterFn]="!!column.filter"
                 [nzFilters]="column.filter">
               <ng-container *ngTemplateOutlet="columnRow"></ng-container>
             </th>
           }@else {
-            <th [nzWidth]="column.width">
+            <th [nzWidth]="column.width"
+                [nzLeft]="columnI < fixedColumns()?.left"
+                [nzRight]="columnI > fixedColumns()?.right">
               <ng-container *ngTemplateOutlet="columnRow"></ng-container>
             </th>
           }
@@ -55,7 +63,10 @@
     <ng-container *ngFor="let nzRow of table.data; let rowI = index">
       <tr [attr.test-selector]="'ui-table-row-' + rowI">
         <ng-container *ngFor="let cell of nzRow.cells; let colI = index">
-          <td [attr.test-selector]="'ui-table-cell-c' + colI + '-r' + rowI">
+          <td
+              [nzLeft]="colI < fixedColumns()?.left"
+              [nzRight]="colI > fixedColumns()?.right"
+              [attr.test-selector]="'ui-table-cell-c' + colI + '-r' + rowI">
 
             @if(cell === undefined || cell === null){
 
@@ -98,10 +109,10 @@
       </tr>
     </ng-container>
   </tbody>
-  <div class="ui-table-footer">
-    <div class="ui-table-title">{{title()}}</div>
-    @for(command of commands(); track command.label){
-      <div nz-icon [nzType]="command.icon" nzTheme="fill" class="command" (click)="command.command()"></div>
-    }
-  </div>
 </nz-table>
+<div class="ui-table-footer">
+  <div class="ui-table-title">{{title()}}</div>
+  @for(command of commands(); track command.label){
+    <div nz-icon [nzType]="command.icon" nzTheme="fill" class="command" (click)="command.command()"></div>
+  }
+</div>

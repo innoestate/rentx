@@ -5,7 +5,7 @@ import { CellType } from "../types/ui-table.cell.type";
 export interface NzUiColumnConfig {
   key: string;
   label: string;
-  width: string;
+  width?: string;
   editable?: boolean;
   dropdown?: UiNestedDropdown;
   dropDownCellsUniqueItem?: CellType;
@@ -19,4 +19,8 @@ export interface NzUiColumnConfig {
   }
   filter?: NzTableFilterList;
   filterFn?: NzTableFilterFn;
+  fixedColumn?: {
+    left: number,
+    right: number
+  }
 }

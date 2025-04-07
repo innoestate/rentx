@@ -5,7 +5,8 @@ export interface UiTable {
   columns: UiTableColumnItem[];
   rows: UiTableRow[];
   title?: string;
-  commands?: UiTableCommandItem[]
+  commands?: UiTableCommandItem[];
+  fixedColumns?: { left: number, right: number };
 }
 
 export interface UiTableCommandItem {

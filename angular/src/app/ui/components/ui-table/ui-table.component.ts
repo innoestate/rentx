@@ -38,6 +38,10 @@ export class UiTableComponent implements AfterViewInit {
   title = input<string>();
   commands = input<{label: string, icon: string, command: () => void}[]>();
   editRow = output<UiTableRow>();
+  fixedColumns = input<{left: number, right: number}>({
+    left: 0,
+    right: 1000
+  });
 
   protected nzRows: Signal<NzUiTableRow[]> = this.buildNzRows();
   protected nzColumns: Signal<NzUiColumnConfig[]> = this.buildNzColumns();
