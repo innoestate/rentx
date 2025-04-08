@@ -18,9 +18,11 @@
   }@else {
     <div test-selector="ui-table-editable-value" class="clickable" [class.loading-value]="loadingValue()">
         @if(displayedValue()?.icon){
-          <div class="icon" nz-icon [nzType]="displayedValue().icon" nzTheme="fill"></div>
+          <ui-icon [icon]="displayedValue()?.icon" [size]="14" color="var(--color-basic-100)"></ui-icon>
         }
-        {{ displayedValue()?.label }}
+        <div class="text">
+          {{ displayedValue()?.label }}
+        </div>
     </div>
   }
 }

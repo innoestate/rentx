@@ -1,5 +1,5 @@
-@for(action of actions(); track action.label){
+@for(action of actions(); track action.icon){
   <div class="action" (click)="action.command()">
-    <div nz-icon [nzType]="action.icon" nzTheme="fill" class="icon"></div>
+    <ui-icon [icon]="action.icon" size="24"></ui-icon>
   </div>
 }

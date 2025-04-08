@@ -114,6 +114,12 @@
     // width: 20px !important;
   }
 
+  ::ng-deep {
+    ui-icon{
+      cursor: pointer;
+    }
+  }
+
   .icon {
     cursor: pointer;
     color: var(--color-secondary-500);
@@ -136,6 +142,9 @@
     flex-flow: row nowrap;
     align-items: center;
     gap: 10px;
+    ui-icon {
+      cursor: pointer;
+    }
   }
 
   .right {

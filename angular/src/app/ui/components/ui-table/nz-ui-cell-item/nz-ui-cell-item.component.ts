@@ -2,10 +2,11 @@ import { AfterViewInit, Component, computed, ElementRef, input } from '@angular/
 import { CellType } from '../types/ui-table.cell.type';
 import { UiItem } from 'src/app/ui/models/ui-item.model';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { UiIconComponent } from '../../ui-icon/ui-icon.component';
 
 @Component({
   selector: 'nz-ui-cell-item',
-  imports: [NzIconModule],
+  imports: [NzIconModule, UiIconComponent],
   standalone: true,
   templateUrl: './nz-ui-cell-item.component.html',
   styleUrl: './nz-ui-cell-item.component.scss'

@@ -62,7 +62,7 @@
               <ui-nested-dropdown [list]="column.headDropdown.list"
                                   [fixedHeadValue]="column.headDropdown.fixedHead"></ui-nested-dropdown>
             }@else {
-              <div *ngIf="column.icon" class="icon" nz-icon [nzType]="column.icon!" nzTheme="fill"></div>
+              <ui-icon *ngIf="column.icon" [icon]="column.icon" size="24"></ui-icon>
               {{ column.label }}
             }
           </div>
@@ -126,7 +126,7 @@
   <div class="left">
     <div class="ui-table-title">{{title()}}</div>
     @for(command of commands(); track command.label){
-      <div nz-icon [nzType]="command.icon" nzTheme="fill" class="command" (click)="command.command()"></div>
+      <ui-icon [icon]="command.icon" size="24" (click)="command.command()"></ui-icon>
     }
   </div>
   <div class="right">

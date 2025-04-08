@@ -27,17 +27,17 @@ export interface ProspectionStatus {
 }
 
 const PropertyStatusIcons = {
-  Unresponsive: "question-circle", // Icône pour signaler une incertitude
-  Contacted: "message",           // Icône pour indiquer un contact
+  Unresponsive: "question", // Icône pour signaler une incertitude
+  Contacted: "contact",           // Icône pour indiquer un contact
   Scheduled: "calendar",          // Icône pour représenter une planification
   Visited: "eye",                 // Icône pour signifier une visite effectuée
-  Abandoned: "stop",              // Icône pour indiquer un abandon
-  Pending: "hourglass",           // Icône pour signaler une attente
-  Declined: "close-circle",       // Icône pour un refus
-  Countered: "swap-left",         // Icône pour une contre-proposition
-  Accepted: "check-circle",       // Icône pour une offre acceptée
-  CompromiseDate: "date",             // Icône pour une validation
-  Signed: "file-done",            // Icône pour signaler une signature
+  Abandoned: "ban",              // Icône pour indiquer un abandon
+  Pending: "wait",           // Icône pour signaler une attente
+  Declined: "close",       // Icône pour un refus
+  Countered: "back",         // Icône pour une contre-proposition
+  Accepted: "check",       // Icône pour une offre acceptée
+  CompromiseDate: "calendar-check",             // Icône pour une validation
+  Signed: "pen",            // Icône pour signaler une signature
   Completed: "trophy",            // Icône pour une acquisition finalisée
   UnderContract: "form",          // Icône pour un bien sous contrat
   Sold: "lock",                 // Icône pour un bien vendu

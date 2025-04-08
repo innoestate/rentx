@@ -29,6 +29,11 @@
 }
 
 .clickable {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
   min-width: 10px;
   width: 100%;
   height: 100%;
@@ -36,6 +41,11 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  .text {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 }
 
 .empty-cell {

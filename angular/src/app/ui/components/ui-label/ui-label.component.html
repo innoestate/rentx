@@ -1,9 +1,6 @@
 @if(value()?.icon){
-  <div class="icon"
-      [class.icon-with-text]="iconWithText()"
-      [ngStyle]="{ 'color': color() }"
-      nz-icon
-      [nzType]="value()?.icon!"
-      nzTheme="fill"></div>
+  <ui-icon [icon]="value()?.icon" [size]="size()" [color]="color()"></ui-icon>
 }
-{{ value()?.label??'' }}
+<div class="text">
+  {{ value()?.label! }}
+</div>

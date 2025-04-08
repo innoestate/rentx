@@ -91,9 +91,9 @@ export const prospectionsColumnModel: UiTableColumnsProspections = [
   { key: 'price', label: 'Prix', editable: true, type: 'number' },
   { key: 'status', label: 'Status', dropdown: {list: []}, type: 'dropdown', sort: 1, filter: [], filterFn: (() => {}) as any },
   {
-    key: 'actions', label: 'Actions', icon: 'down-circle', type: 'dropdown', dropdown: {list: []}, dropDownCellsUniqueItem: {
+    key: 'actions', label: 'Actions', icon: 'down', type: 'dropdown', dropdown: {list: []}, dropDownCellsUniqueItem: {
       label: '',
-      icon: 'down-circle',
+      icon: 'down',
       value: 'action'
     },
     command: () => {}

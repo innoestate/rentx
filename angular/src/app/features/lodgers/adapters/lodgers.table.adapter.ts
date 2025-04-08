@@ -51,7 +51,7 @@ export class LodgersTableAdapterService {
         name: lodger.name,
         email: lodger.email??'',
         actions: {
-          icon: 'delete',
+          icon: 'trash',
           label: 'delete',
           value: lodger.id,
           command: () => {

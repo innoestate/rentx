@@ -25,7 +25,7 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
       rows: this.createRows(prospections, sellers),
       title: this.localization.getLocalization('prospections', 'tableTitle'),
       commands: [{
-        icon: 'plus-circle',
+        icon: 'add',
         label: this.localization.getLocalization('prospections', 'addProspection'),
         command: () => { }
       }]
@@ -56,13 +56,13 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
       {
         key: 'actions',
         label: '',
-        icon: 'setting',
+        icon: 'gear',
         type: 'dropdown',
         dropdown: this.buildActionsDropdownColumn(),
         headDropdown: this.buildActionsHeadDropdown(),
         dropDownCellsUniqueItem: {
           label: '',
-          icon: 'down-circle',
+          icon: 'down',
           value: 'action',
         },
         command: () => { }
@@ -120,7 +120,7 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
       list: [
         {
           label: this.localization.getLocalization('commons', 'delete'),
-          icon: 'delete',
+          icon: 'trash',
           value: "delete",
           color: 'var(--color-tertiary-500)',
           command: () => {
@@ -136,14 +136,14 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
     return {
       fixedHead: {
         label: '',
-        icon: 'setting',
+        icon: 'gear',
         value: 'action',
         command: () => { }
       },
       list: [
         {
           label: this.localization.getLocalization('prospections', 'create'),
-          icon: 'plus-circle',
+          icon: 'add',
           value: "create",
           command: () => {
             console.log('implement command here');

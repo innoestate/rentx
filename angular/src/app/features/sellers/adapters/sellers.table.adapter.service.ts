@@ -50,7 +50,7 @@ export class SellersTableAdapterService extends UiTableAdapter {
       list: [
         {
           label: 'Supprimer',
-          icon: 'delete',
+          icon: 'trash',
           value: "delete",
           command: (row: UiTableRow) => {
             // this.sellersCommands.delete(row.data.id);

@@ -138,7 +138,7 @@ export class EstatesUiTableAdapter {
         owner_dropdown: ({ label: estate.owner?.name, value: estate.owner?.id } as any),
         lodger_dropdown: ({ label: estate.lodger?.name ?? '', value: estate.lodger?.id } as any),
         actions: ({
-          icon: 'delete', label: '', command: () => {
+          icon: 'trash', label: '', command: () => {
             this.estatesCommands.removeEstate(estate)
           }
         } as any)

@@ -25,11 +25,11 @@ export class DesktopProspectionsActionsComponent {
     return computed(() => {
       return [
         {
-          icon: 'plus-circle',
+          icon: 'add-estate',
           command: () => this.prospectionsCommands.createNew(sellers())
         },
         {
-          icon: 'plus-circle',
+          icon: 'seller',
           command: () => this.sellersCommands.createNew()
         }
       ];

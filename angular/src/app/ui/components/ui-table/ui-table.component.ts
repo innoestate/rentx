@@ -17,6 +17,7 @@ import { NzUxCellItemComponent } from './nz-ui-cell-item/nz-ui-cell-item.compone
 import { formatNzColumnConfig, formatNzRows } from './utils/utils';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { UiTable } from './models/ui-table.model';
+import { UiIconComponent } from '../ui-icon/ui-icon.component';
 
 @Component({
   selector: 'ui-table',
@@ -30,6 +31,7 @@ import { UiTable } from './models/ui-table.model';
     NzUiCellNestedDropdownComponent,
     NzUxCellItemComponent,
     UiNestedDropdownComponent,
+    UiIconComponent,
     UiPaginationComponent],
   templateUrl: './ui-table.component.html',
   styleUrl: './ui-table.component.scss'
