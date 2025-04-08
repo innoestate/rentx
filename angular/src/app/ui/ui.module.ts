@@ -11,6 +11,7 @@ import { UiMessageService } from './services/message/message.service';
 import { UiSpinnerComponent } from './components/ui-spinner/ui-spinner.component';
 import { UiNavigatorComponent } from './components/ui-navigator/ui-navigator.component';
 import { UiNavigationComponent } from './components/ui-navigation/ui-navigation.component';
+import { UiActionsComponent } from './components/ui-actions/ui-actions.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { UiNavigationComponent } from './components/ui-navigation/ui-navigation.
     FormsModule,
     UiSpinnerComponent,
     UiNavigatorComponent,
-    UiNavigationComponent
+    UiNavigationComponent,
+    UiActionsComponent
   ],
   exports: [
     NzModalModule,
@@ -30,7 +32,8 @@ import { UiNavigationComponent } from './components/ui-navigation/ui-navigation.
     UiTableComponent,
     UiSpinnerComponent,
     UiNavigatorComponent,
-    UiNavigationComponent
+    UiNavigationComponent,
+    UiActionsComponent
   ],
   providers: [
     UiPopupService,

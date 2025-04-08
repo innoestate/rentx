@@ -1,0 +1,25 @@
+:host {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-basic-100);
+  padding: 16px;
+  border-radius: var(--card-corner-radius);
+  box-shadow: var(--shadow);
+
+  .action {
+    cursor: pointer;
+  }
+  .action:hover {
+    .icon {
+      color: var(--color-secondary-700);
+    }
+  }
+
+  .icon {
+    color: var(--color-secondary-500);
+    font-size: 30px;
+  }
+}
