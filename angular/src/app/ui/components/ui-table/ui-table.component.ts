@@ -65,8 +65,10 @@ export class UiTableComponent implements AfterViewInit {
   }
 
   handleCurrentPageDataChange(changes: any): void {
-    const total = this.table.nzTotal;
-    this.displayedTotal$.next(total);
+    if(this.table?.nzTotal !== undefined){
+      const total = this.table.nzTotal;
+      this.displayedTotal$.next(total);
+    }
   }
 
   handleFilterChange() {

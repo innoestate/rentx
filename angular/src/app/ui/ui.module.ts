@@ -9,6 +9,8 @@ import { UiTableComponent } from './components/ui-table/ui-table.component';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { UiMessageService } from './services/message/message.service';
 import { UiSpinnerComponent } from './components/ui-spinner/ui-spinner.component';
+import { UiNavigatorComponent } from './components/ui-navigator/ui-navigator.component';
+import { UiNavigationComponent } from './components/ui-navigation/ui-navigation.component';
 
 @NgModule({
   imports: [
@@ -18,13 +20,17 @@ import { UiSpinnerComponent } from './components/ui-spinner/ui-spinner.component
     UiButtonComponent,
     UiTableComponent,
     FormsModule,
-    UiSpinnerComponent
+    UiSpinnerComponent,
+    UiNavigatorComponent,
+    UiNavigationComponent
   ],
   exports: [
     NzModalModule,
     UiButtonComponent,
     UiTableComponent,
-    UiSpinnerComponent
+    UiSpinnerComponent,
+    UiNavigatorComponent,
+    UiNavigationComponent
   ],
   providers: [
     UiPopupService,

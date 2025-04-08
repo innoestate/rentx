@@ -1,0 +1,10 @@
+.ui-navigator {
+  cursor: pointer;
+}
+
+.active {
+  color: var(--color-primary-100);
+  background-color: var(--color-primary-500);
+  border-radius: var(--card-corner-radius);
+  padding: 8px 16px;
+}

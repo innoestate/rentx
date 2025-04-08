@@ -10,6 +10,7 @@ import { DesktopProspectionsHandlerMenuComponent } from './menu/desktop-prospect
 import { DesktopProspectionsComponent } from './prospections.component';
 import { ProspectionsDesktopRoutingModule } from './prospections.routing';
 import { DesktopSellersCommandsService } from './commands/desktop.sellers.commands.service';
+import { DesktopProspectionsNavigationComponent } from './navigation/desktop-prospections-navigation.component';
 
 
 
@@ -17,13 +18,14 @@ import { DesktopSellersCommandsService } from './commands/desktop.sellers.comman
   declarations: [
     DesktopProspectionsComponent,
     DesktopProspectionsHandlerMenuComponent,
+    DesktopProspectionsNavigationComponent,
   ],
   imports: [
     CommonModule,
     ProspectionsDesktopRoutingModule,
     UiModule.forChild(),
     ProspectionsDataModule,
-    SellersDataModule
+    SellersDataModule,
   ],
   providers: [
     DesktopProspectionsCommandsService,
