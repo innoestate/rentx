@@ -23,10 +23,6 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
     return {
       columns: this.createColumns(prospections, sellers),
       rows: this.createRows(prospections, sellers),
-      // fixedColumns: {
-      //   left: 1,
-      //   right: 8
-      // },
       title: this.localization.getLocalization('prospections', 'tableTitle'),
       commands: [{
         icon: 'plus-circle',

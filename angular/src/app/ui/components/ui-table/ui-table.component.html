@@ -1,5 +1,12 @@
 @let columns = nzColumns();
-<nz-table #table [nzData]="nzRows()" [nzPageSize]="rowsPerPages()" [nzScroll]="{ x: '900px' }">
+<nz-table #table
+          [nzData]="nzRows()"
+          [nzPageSize]="rowsPerPages()"
+          [nzPageIndex]="pageIndex()"
+          [nzShowPagination]="true"
+          (nzCurrentPageDataChange)="handleCurrentPageDataChange($event)"
+          (nzPageIndexChange)="handleFilterChange($event)"
+          [nzScroll]="{ x: '900px' }">
   <thead>
     <tr>
       @for(column of columns; track column.key; let columnI = $index) {
@@ -111,8 +118,13 @@
   </tbody>
 </nz-table>
 <div class="ui-table-footer">
-  <div class="ui-table-title">{{title()}}</div>
-  @for(command of commands(); track command.label){
-    <div nz-icon [nzType]="command.icon" nzTheme="fill" class="command" (click)="command.command()"></div>
-  }
+  <div class="left">
+    <div class="ui-table-title">{{title()}}</div>
+    @for(command of commands(); track command.label){
+      <div nz-icon [nzType]="command.icon" nzTheme="fill" class="command" (click)="command.command()"></div>
+    }
+  </div>
+  <div class="right">
+    <ui-pagination [(pageIndex)]="pageIndex" [total]="pages()"></ui-pagination>
+  </div>
 </div>

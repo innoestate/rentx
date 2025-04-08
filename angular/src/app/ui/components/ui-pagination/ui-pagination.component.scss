@@ -1,0 +1,25 @@
+.nav-button{
+  cursor: pointer;
+  color: var(--color-primary-500);
+  width: 20px;
+  height: 20px;
+}
+
+.center {
+  font-family: 'primary-bold', sans-serif;
+}
+
+.ui-pagination-container {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  ::ng-deep {
+    .anticon {
+      font-size: 20px;
+    }
+  }
+
+}

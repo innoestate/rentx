@@ -46,10 +46,6 @@
       border-radius: 24px !important;
     }
 
-    colgroup {
-      // background-color: var(--color-basic-100) !important;
-    }
-
     .ant-table-cell {
       padding: 0px 16px !important;
       max-width: 100px;
@@ -57,9 +53,6 @@
       border-left: none !important;
       border-color: transparent !important;
       background-color: var(--color-basic-100) !important;
-      // text-overflow: ellipsis !important;
-      // overflow: hidden !important;
-      // white-space: nowrap !important;
       border-bottom: 1px solid var(--color-basic-200) !important;
     }
 
@@ -71,6 +64,10 @@
       position: absolute;
       bottom: 0px;
       right: 20px;
+    }
+
+    nz-pagination {
+      display: none;
     }
 
   }
@@ -102,11 +99,28 @@
 
 .ui-table-footer {
   position: absolute;
-  left: 16px;
   bottom: 10px;
   display: flex;
   flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
   gap: 10px;
+  width: 100%;
+  padding: 16px;
+
+  .left {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .right {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: 10px;
+  }
 
   .ui-table-title {
     font-family: 'primary-bold', sans-serif;

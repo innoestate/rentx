@@ -1,0 +1,7 @@
+@if(total() > 1){
+  <div class="ui-pagination-container">
+    <div nz-icon nzType="left-circle" nzTheme="fill" class="nav-button" (click)="prev()"></div>
+    <div class="center">{{pageIndex()}}/{{total()}}</div>
+    <div nz-icon nzType="right-circle" nzTheme="fill" class="nav-button" (click)="next()"></div>
+  </div>
+}
