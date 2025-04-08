@@ -6,6 +6,7 @@
   overflow: hidden !important;
   position: relative;
   background-color: var(--color-basic-100) !important;
+  box-shadow: -0.5px 1px 2px 1px var(--color-tertiary-200) !important;
 
   ::ng-deep {
 
