@@ -7,6 +7,7 @@ export interface UiTable {
   title?: string;
   commands?: UiTableCommandItem[];
   fixedColumns?: { left: number, right: number };
+  backgroundImagePath?: string;
 }
 
 export interface UiTableCommandItem {

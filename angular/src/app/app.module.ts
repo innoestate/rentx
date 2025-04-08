@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { CalendarFill, CheckCircleFill, CheckOutline, CloseCircleFill, DatabaseFill, DeleteFill, DownCircleFill, EyeFill, FileDoneOutline, FormOutline, HourglassFill, LockFill, MailOutline, MessageFill, PlusCircleFill, QuestionCircleFill, SettingFill, SettingOutline, StopFill, SwapLeftOutline, SwapOutline, ToolFill, TrophyFill } from '@ant-design/icons-angular/icons';
+import { CalendarFill, CheckCircleFill, CheckOutline, CloseCircleFill, DatabaseFill, DeleteFill, DownCircleFill, EyeFill, FileDoneOutline, FormOutline, HourglassFill, LeftCircleFill, LockFill, MailOutline, MessageFill, PlusCircleFill, QuestionCircleFill, RightCircleFill, SettingFill, SettingOutline, StopFill, SwapLeftOutline, SwapOutline, ToolFill, TrophyFill } from '@ant-design/icons-angular/icons';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -67,7 +67,9 @@ registerLocaleData(en);
       SettingOutline,
       SettingFill,
       DownCircleFill,
-      PlusCircleFill
+      PlusCircleFill,
+      LeftCircleFill,
+      RightCircleFill
     ]),
     NzLayoutModule,
     NzDropDownModule,

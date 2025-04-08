@@ -37,15 +37,17 @@ import { UiTable } from './models/ui-table.model';
 export class UiTableComponent implements AfterViewInit {
 
   @ViewChild('table') table!: NzTableComponent<UiTable>;
+  @ViewChild('background') background!: ElementRef;
   ROW_HEIGHT = 44;
   rows = input.required<UiTableRow[]>();
   columns = input.required<UiTableColumnItem[]>();
   title = input<string>();
-  commands = input<{label: string, icon: string, command: () => void}[]>();
+  commands = input<{ label: string, icon: string, command: () => void }[]>();
   editRow = output<UiTableRow>();
-  fixedColumns = input<{left: number, right: number}>({left: 0, right: 1000});
+  fixedColumns = input<{ left: number, right: number }>({ left: 0, right: 1000 });
   displayedTotal$ = new BehaviorSubject<number>(0);
   displayedTotal = toSignal(this.displayedTotal$);
+  backgroundImagePath = input<string>();
 
   protected nzRows: Signal<NzUiTableRow[]> = this.buildNzRows();
   protected nzColumns: Signal<NzUiColumnConfig[]> = this.buildNzColumns();
@@ -53,7 +55,7 @@ export class UiTableComponent implements AfterViewInit {
   protected rowsPerPages = signal(1);
   protected pages = computed(() => {
     const rowsPerPage = this.rowsPerPages();
-    if(!this.displayedTotal()) return Math.ceil(this.nzRows().length / rowsPerPage);
+    if (!this.displayedTotal()) return Math.ceil(this.nzRows().length / rowsPerPage);
     return Math.ceil(this.displayedTotal()! / rowsPerPage);
   })
   protected pageIndex = model<number>(1);
@@ -67,28 +69,46 @@ export class UiTableComponent implements AfterViewInit {
     this.displayedTotal$.next(total);
   }
 
-  handleFilterChange(){
+  handleFilterChange() {
     this.pageIndex.set(1);
   }
 
   ngAfterViewInit(): void {
-    this.calculateRowsPerPages();
+    this.iniSizing();
   }
 
-  private calculateRowsPerPages() {
+  private iniSizing(){
     from(this.htmlRowsAreLoaded()).pipe(
       take(1),
       tap(() => {
-        const table = this.elRef.nativeElement.querySelector('.ant-table') as HTMLDivElement;
-        const tableThead = this.elRef.nativeElement.querySelector('.ant-table-thead') as HTMLDivElement;
-        const tableRow = this.elRef.nativeElement.querySelectorAll('.ant-table-row')[1] as HTMLDivElement;
-        const paginationHeight = 47;
-        const bodyHeight = table.getBoundingClientRect().height
-                          - tableThead.getBoundingClientRect().height
-                          - paginationHeight - 10;
-        const rowsPerPages = Math.floor(bodyHeight / tableRow.getBoundingClientRect().height);
-        this.rowsPerPages.set(rowsPerPages);
-    })).subscribe();
+        const heights = this.getHeights();
+        this.calculateRowsPerPages(heights);
+        this.drawBackground(heights);
+      })).subscribe();
+  }
+
+  private getHeights(){
+
+    const rows = this.elRef.nativeElement.querySelectorAll('.ant-table-row');
+
+    const table = this.elRef.nativeElement.querySelector('.ant-table')?.getBoundingClientRect().height || 0;
+    const head = this.elRef.nativeElement.querySelector('.ant-table-thead')?.getBoundingClientRect().height || 0;
+    const row = rows?.length ? rows[1]?.getBoundingClientRect().height : 40;
+    const footer = this.elRef.nativeElement.querySelector('.ui-table-footer')?.getBoundingClientRect().height || 0;
+
+    return { table, head, row, footer };
+  }
+
+  private calculateRowsPerPages(heights: { table: number, head: number, row: number, footer: number }) {
+    const bodyHeight = heights.table - heights.head - heights.footer;
+    const rowsPerPages = Math.floor(bodyHeight / heights.row);
+    this.rowsPerPages.set(rowsPerPages);
+  }
+
+  private drawBackground(heights: { table: number, head: number, row: number, footer: number }) {
+    const background = this.background.nativeElement;
+    background.style.top = `${heights.head}px`;
+    background.style.height = `${heights.table - heights.head - heights.footer}px`;
   }
 
   private htmlRowsAreLoaded(): Promise<any> {

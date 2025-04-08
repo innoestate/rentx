@@ -1,4 +1,9 @@
 @let columns = nzColumns();
+<div #background class="ui-table-background-image">
+  @if(backgroundImagePath()){
+    <img [src]="backgroundImagePath()">
+  }
+</div>
 <nz-table #table
           [nzData]="nzRows()"
           [nzPageSize]="rowsPerPages()"
