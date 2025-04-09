@@ -14,12 +14,16 @@
     padding: 0 10px;
     color: var(--color-basic-100) !important;
 
-    ::ng-deep {
-      .anticon {
-        color:  var(--color-basic-100);
-      }
+    .hover-smooth:hover {
+      color: var(--color-basic-100);
+      transform: none;
     }
 
+  }
+
+  &.colored:hover {
+    transform: scale(1.03);
+    transition: all 0.3s ease-in-out;
   }
 
 }

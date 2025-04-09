@@ -13,7 +13,7 @@
       }@else{
         <li [ngStyle]="{ 'color': item.color + ' !important' }" test-selector="ui-nested-dropdown-item" nz-menu-item
           (click)="clickOnItem(item)">
-          <div class="clickable">
+          <div class="clickable hover-smooth">
             @if(item.icon){
               <ui-icon [icon]="item.icon" [size]="(item.iconSize) ?? 14" [color]="item.color"></ui-icon>
             }

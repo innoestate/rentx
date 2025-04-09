@@ -60,7 +60,8 @@
           <div class="column-header" [class.icon-column]="column.icon">
             @if(column.headDropdown){
               <ui-nested-dropdown [list]="column.headDropdown.list"
-                                  [fixedHeadValue]="column.headDropdown.fixedHead"></ui-nested-dropdown>
+                                  [fixedHeadValue]="column.headDropdown.fixedHead"
+                                  class="hover-smooth"></ui-nested-dropdown>
             }@else {
               <ui-icon *ngIf="column.icon" [icon]="column.icon"></ui-icon>
               {{ column.label }}
@@ -126,7 +127,7 @@
   <div class="left">
     <div class="ui-table-title">{{title()}}</div>
     @for(command of commands(); track command.label){
-      <ui-icon [icon]="command.icon" size="24" (click)="command.command()"></ui-icon>
+      <ui-icon class="hover-smooth" [icon]="command.icon" size="24" (click)="command.command()"></ui-icon>
     }
   </div>
   <div class="right">
