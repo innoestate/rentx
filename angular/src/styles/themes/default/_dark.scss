@@ -1,6 +1,97 @@
 :root[data-theme="default"][data-mode="dark"] {
-  --background-color: #1a1a1a;
-  --text-color: #ffffff;
-  --color-primary: #66b3ff;
 
+    // Basic color - Inverted for dark theme
+    --color-basic-100: #081e2c;
+    --color-basic-200: #173649;
+    --color-basic-300: #2c4d62;
+    --color-basic-400: #577080;
+    --color-basic-500: #9B9B9F;
+    --color-basic-600: #B1B1B8;
+    --color-basic-700: #CFCFD4;
+    --color-basic-800: #E5E5EA;
+    --color-basic-900: #ffffff;
+
+    // Primary color - Darker and more saturated
+    --color-primary-100: #0F0114;
+    --color-primary-200: #180322;
+    --color-primary-300: #200731;
+    --color-primary-400: #280C38;
+    --color-primary-500: #180423;
+    --color-primary-600: #4d2a61;
+    --color-primary-700: #ae65ae;
+    --color-primary-800: #e5bee6;
+    --color-primary-900: #f0f0f9;
+
+    --color-primary-text-100: #d0d0f4;
+    --color-primary-text-500: #bb97cf;
+
+    // Secondary color - Darker and more saturated
+    --color-secondary-100: #021638;
+    --color-secondary-200: #112745;
+    --color-secondary-300: #203852;
+    --color-secondary-400: #2F455D;
+    --color-secondary-500: #3E536D;
+    --color-secondary-600: #667d9e;
+    --color-secondary-700: #8797c4;
+    --color-secondary-800: #a7b4d1;
+    --color-secondary-900: #e7e4f6;
+
+    // Tertiary color - Darker and more saturated
+    --color-tertiary-100: #1d3a4c;
+    --color-tertiary-200: #34556a;
+    --color-tertiary-300: #496d83;
+    --color-tertiary-400: #5F89A4;
+    --color-tertiary-500: #78A4C6;
+    --color-tertiary-600: #8DB9D8;
+    --color-tertiary-700: #A7C7E7;
+    --color-tertiary-800: #B0D4EB;
+    --color-tertiary-900: #D0E3F3;
+
+    // Tertiary color - Darker and more saturated
+    --color-tertiary-shadow-100: #1d3a4c;
+    --color-tertiary-shadow-200: #061722;
+    --color-tertiary-shadow-300: #496d83;
+    --color-tertiary-shadow-400: #5F89A4;
+    --color-tertiary-shadow-500: #78A4C6;
+    --color-tertiary-shadow-600: #8DB9D8;
+    --color-tertiary-shadow-700: #A7C7E7;
+    --color-tertiary-shadow-800: #B0D4EB;
+    --color-tertiary-shadow-900: #D0E3F3;
+
+    // Accent colors - Brighter for dark theme visibility
+    --color-accent-1: #b85fd0; // Brighter purple for dark theme
+    --color-accent-2: #ffb74d; // Brighter orange for dark theme
+
+    // Success color - More muted and darker green
+    --color-success-100: #00511A;
+    --color-success-200: #00761A;
+    --color-success-300: #009C1D;
+    --color-success-400: #00C023;
+    --color-success-500: #1ed146;
+    --color-success-600: #4ce970;
+    --color-success-700: #7ef79a;
+    --color-success-800: #b1ffbf;
+    --color-success-900: #d4ffe0;
+
+    // Error color - More muted and darker red
+    --color-error-100: #4C0000;
+    --color-error-200: #7F0000;
+    --color-error-300: #B20000;
+    --color-error-400: #E60000;
+    --color-error-500: #ff4d4d;
+    --color-error-600: #ff7373;
+    --color-error-700: #ff9999;
+    --color-error-800: #ffbfbf;
+    --color-error-900: #ffe5e5;
+
+    // WIP color - More muted and darker orange
+    --color-wip-100: #993010;
+    --color-wip-200: #B03A10;
+    --color-wip-300: #CC5612;
+    --color-wip-400: #E67315;
+    --color-wip-500: #ff9933;
+    --color-wip-600: #ffad5c;
+    --color-wip-700: #ffc285;
+    --color-wip-800: #ffd6ad;
+    --color-wip-900: #ffebD6;
 }

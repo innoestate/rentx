@@ -8,13 +8,20 @@
 
 
 body {
-  background-color: var(--color-tertiary-100) !important;
+
+
+  background-image: radial-gradient(ellipse at center top, var(--color-tertiary-100) 30%, var(--color-tertiary-200) 100%);
+
+  // background-color: var(--color-tertiary-100) !important;
   // font-family: 'Roboto', sans-serif;
 }
 
 *{
   font-family: 'primary', sans-serif;
+  color: var(--color-basic-900);
 }
+
+
 // * {
 //   color: black;
 // }

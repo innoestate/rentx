@@ -12,7 +12,9 @@
   display: inline-block;
   max-width: 100%;
 
+
   &.colored {
+
     .icon {
       color: var(--color-basic-100) !important;
     }
@@ -24,6 +26,15 @@
 
 }
 
+::ng-deep {
+  &.colored {
+    .text {
+      color: var(--color-basic-100) !important;
+    }
+  }
+}
+
+
 .icon-with-text {
   margin-right: 4px;
 }
@@ -33,6 +44,8 @@
   .ant-dropdown-menu {
     border-radius: 18px !important;
     padding: 16px 10px !important;
+    background-color: var(--color-basic-100);
+    box-shadow: var(--shadow);
   }
 
   .ant-dropdown-menu-item {
@@ -40,6 +53,7 @@
     background-color: transparent !important;
     min-width: 200px !important;
   }
+
 }
 
 .clickable {
@@ -60,5 +74,6 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    color: var(--color-basic-900);
   }
 }
