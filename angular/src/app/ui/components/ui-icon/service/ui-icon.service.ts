@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, forkJoin } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { IconDefinition } from '../registery/ui-icon.registery';
+
+export interface IconDefinition {
+  name: string;
+  svg: string;
+}
 
 @Injectable()
 export class UiIconService {

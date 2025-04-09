@@ -6,6 +6,8 @@ import { columnsWithEditableNameMock } from './mock/columns.editable-name.mock';
 import { RowMock, rowsMockItems } from './mock/rows.mock';
 import { cloneDeep } from 'lodash';
 import { provideExperimentalZonelessChangeDetection } from '@angular/core';
+import { UiIconService } from '../../ui-icon/service/ui-icon.service';
+import { UiIconMockService } from '../../ui-icon/mocks/ui-icon.mock.service';
 
 describe('UiTableComponent test the edition of a string cell', () => {
 
@@ -17,7 +19,12 @@ describe('UiTableComponent test the edition of a string cell', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [UiTableComponent],
-      providers: [provideExperimentalZonelessChangeDetection()]
+      providers: [provideExperimentalZonelessChangeDetection(),
+        {
+          provide: UiIconService,
+          useClass: UiIconMockService
+        }
+      ]
     })
     .compileComponents();
 

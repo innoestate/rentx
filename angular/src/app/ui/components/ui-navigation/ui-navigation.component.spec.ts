@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UiNavigationComponent } from './ui-navigation.component';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
 describe('UiNavigationComponent', () => {
   let component: UiNavigationComponent;
@@ -8,12 +9,14 @@ describe('UiNavigationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UiNavigationComponent]
+      imports: [UiNavigationComponent],
+      providers: [provideExperimentalZonelessChangeDetection()]
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(UiNavigationComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('navigators', []);
     fixture.detectChanges();
   });
 

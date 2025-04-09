@@ -8,6 +8,8 @@ import { cloneDeep } from 'lodash';
 import { UiTableRow } from '../models/ui-table-row.model';
 import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { UiTableHelper } from './helper/ui-table.helper';
+import { UiIconService } from '../../ui-icon/service/ui-icon.service';
+import { UiIconMockService } from '../../ui-icon/mocks/ui-icon.mock.service';
 
 describe('UiTableComponent test sorting on a string column', () => {
 
@@ -20,7 +22,12 @@ describe('UiTableComponent test sorting on a string column', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [UiTableComponent],
-      providers: [provideExperimentalZonelessChangeDetection()]
+      providers: [provideExperimentalZonelessChangeDetection(),
+        {
+          provide: UiIconService,
+          useClass: UiIconMockService
+        }
+      ]
     })
       .compileComponents();
 

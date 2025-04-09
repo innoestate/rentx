@@ -8,6 +8,8 @@ import { UiTableComponent } from '../ui-table.component';
 import { columnsMock } from './mock/columns.mock';
 import { rowsMockItems } from './mock/rows.mock';
 import { UiTableHelper } from './helper/ui-table.helper';
+import { UiIconService } from '../../ui-icon/service/ui-icon.service';
+import { UiIconMockService } from '../../ui-icon/mocks/ui-icon.mock.service';
 
 describe('UiTableComponent test the update of a value in a cell', () => {
 
@@ -20,7 +22,12 @@ describe('UiTableComponent test the update of a value in a cell', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [UiTableComponent],
-      providers: [provideExperimentalZonelessChangeDetection()]
+      providers: [provideExperimentalZonelessChangeDetection(),
+        {
+          provide: UiIconService,
+          useClass: UiIconMockService
+        }
+      ]
     })
       .compileComponents();
 

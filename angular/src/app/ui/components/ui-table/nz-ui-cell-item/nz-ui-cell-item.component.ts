@@ -1,13 +1,12 @@
 import { AfterViewInit, Component, computed, ElementRef, input } from '@angular/core';
-import { CellType } from '../types/ui-table.cell.type';
 import { UiItem } from 'src/app/ui/models/ui-item.model';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { UiIconComponent } from '../../ui-icon/ui-icon.component';
 import { UiLabelComponent } from '../../ui-label/ui-label.component';
+import { CellType } from '../types/ui-table.cell.type';
 
 @Component({
   selector: 'nz-ui-cell-item',
-  imports: [NzIconModule, UiLabelComponent, UiIconComponent],
+  imports: [UiLabelComponent, UiIconComponent],
   standalone: true,
   templateUrl: './nz-ui-cell-item.component.html',
   styleUrl: './nz-ui-cell-item.component.scss'

@@ -1,17 +1,16 @@
 import { AfterViewInit, Component, computed, ElementRef, HostListener, input, signal } from '@angular/core';
-import { UiDropdownItem } from '../../../ui-dropdown/model/ui-dropdown-item.model';
-import { UiNestedDropdownComponent } from '../../../ui-nested-dropdown/ui-nested-dropdown.component';
-import { NzUxCellEditableComponent } from '../nz-ui-cell-editable.directive';
 import { isEqual } from 'lodash';
-import { NzUxCellItemComponent } from '../../nz-ui-cell-item/nz-ui-cell-item.component';
-import { UiTableColumnItem } from '../../models/ui-table.column.model';
-import { NzIconModule } from 'ng-zorro-antd/icon';
+import { UiDropdownItem } from '../../../ui-dropdown/model/ui-dropdown-item.model';
 import { UiIconComponent } from '../../../ui-icon/ui-icon.component';
 import { UiLabelComponent } from '../../../ui-label/ui-label.component';
+import { UiNestedDropdownComponent } from '../../../ui-nested-dropdown/ui-nested-dropdown.component';
+import { UiTableColumnItem } from '../../models/ui-table.column.model';
+import { NzUxCellItemComponent } from '../../nz-ui-cell-item/nz-ui-cell-item.component';
+import { NzUxCellEditableComponent } from '../nz-ui-cell-editable.directive';
 
 @Component({
   selector: 'nz-ui-cell-nested-dropdown',
-  imports: [UiNestedDropdownComponent, NzUxCellItemComponent, UiLabelComponent, UiIconComponent, NzIconModule],
+  imports: [UiNestedDropdownComponent, NzUxCellItemComponent, UiLabelComponent, UiIconComponent],
   standalone: true,
   templateUrl: './nz-ui-cell-nested-dropdown.component.html',
   styleUrl: './nz-ui-cell-nested-dropdown.component.scss'

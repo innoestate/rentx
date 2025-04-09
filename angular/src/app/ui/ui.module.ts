@@ -6,7 +6,6 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { UiActionsComponent } from './components/ui-actions/ui-actions.component';
 import { UiButtonComponent } from './components/ui-button/ui-button.component';
-import { ICON_REGISTRY } from './components/ui-icon/registery/ui-icon.registery';
 import { UiIconService } from './components/ui-icon/service/ui-icon.service';
 import { UiIconComponent } from './components/ui-icon/ui-icon.component';
 import { UiNavigationComponent } from './components/ui-navigation/ui-navigation.component';
@@ -44,16 +43,11 @@ import { UiPopupService } from './services/popup/popup.service';
     UiPopupService,
     UiMessageService,
     NzModalService,
-    NzMessageService,
-    {
-      provide: ICON_REGISTRY,
-      useFactory: (iconService: UiIconService) => iconService.getIcons(),
-      deps: [UiIconService]
-    }
+    NzMessageService
   ]
 })
 export class UiModule {
-  constructor(private iconService: UiIconService) {}
+  constructor() {}
 
   static forRoot(): ModuleWithProviders<UiModule> {
     return {

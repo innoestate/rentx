@@ -6,6 +6,8 @@ import { UiTableColumnItem } from '../models/ui-table.column.model';
 import { UiTableComponent } from '../ui-table.component';
 import { columnsWithEditableZipMock } from './mock/columns.editable-zip.mock';
 import { rowsMockItems } from './mock/rows.mock';
+import { UiIconService } from '../../ui-icon/service/ui-icon.service';
+import { UiIconMockService } from '../../ui-icon/mocks/ui-icon.mock.service';
 
 
 describe('UiTableComponent test the edition of a number cell', () => {
@@ -18,7 +20,12 @@ describe('UiTableComponent test the edition of a number cell', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [UiTableComponent],
-      providers: [provideExperimentalZonelessChangeDetection()]
+      providers: [provideExperimentalZonelessChangeDetection(),
+        {
+          provide: UiIconService,
+          useClass: UiIconMockService
+        }
+      ]
     })
     .compileComponents();
 

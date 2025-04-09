@@ -1,7 +1,8 @@
 // icon.component.ts
-import { Component, ElementRef, Inject, input, OnInit } from '@angular/core';
+import { Component, ElementRef, input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ICON_REGISTRY, IconDefinition } from './registery/ui-icon.registery';
+import { Observable, take, tap } from 'rxjs';
+import { UiIconService } from './service/ui-icon.service';
 
 @Component({
   selector: 'ui-icon',
@@ -26,7 +27,7 @@ export class UiIconComponent implements OnInit {
   constructor(
     private sanitizer: DomSanitizer,
     private elRef: ElementRef,
-    @Inject(ICON_REGISTRY) private iconRegistry: IconDefinition[]
+    private iconService: UiIconService,
   ) {}
 
   ngOnInit() {
@@ -34,20 +35,20 @@ export class UiIconComponent implements OnInit {
   }
 
   private renderIcon() {
-    let svg = this.getSvg();
-    svg = this.setColor(svg);
-    svg = this.setSize(svg);
-    this.svgContent = this.sanitizer.bypassSecurityTrustHtml(svg);
-    this.elRef.nativeElement.innerHTML = svg;
+    this.getSvg().pipe(
+      take(1),
+      tap(svg => {
+        svg = this.setColor(svg);
+        svg = this.setSize(svg);
+        this.svgContent = this.sanitizer.bypassSecurityTrustHtml(svg);
+        this.elRef.nativeElement.innerHTML = svg;
+      })
+    ).subscribe();
+
   }
 
-  private getSvg(): string{
-    const iconDef = this.iconRegistry.find(i => i.name === this.icon());
-    if (!iconDef) {
-      console.warn(`Icon '${this.icon()}' not found in registry`);
-      return '';
-    }
-    return iconDef.svg;
+  private getSvg(): Observable<string> {
+    return this.iconService.getIcon(this.icon());
   }
 
   private setColor(svg: string){

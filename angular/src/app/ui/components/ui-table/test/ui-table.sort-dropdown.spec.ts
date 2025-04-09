@@ -2,6 +2,8 @@ import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { cloneDeep } from 'lodash';
 import { UiDropdownItem } from '../../ui-dropdown/model/ui-dropdown-item.model';
+import { UiIconMockService } from '../../ui-icon/mocks/ui-icon.mock.service';
+import { UiIconService } from '../../ui-icon/service/ui-icon.service';
 import { UiTableRow } from '../models/ui-table-row.model';
 import { UiTableColumnItem } from '../models/ui-table.column.model';
 import { UiTableComponent } from '../ui-table.component';
@@ -21,7 +23,12 @@ describe('UiTableComponent test sorting on a dropdown column', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [UiTableComponent],
-      providers: [provideExperimentalZonelessChangeDetection()]
+      providers: [provideExperimentalZonelessChangeDetection(),
+        {
+          provide: UiIconService,
+          useClass: UiIconMockService
+        }
+      ]
     })
     .compileComponents();
     fixture = TestBed.createComponent(UiTableComponent);

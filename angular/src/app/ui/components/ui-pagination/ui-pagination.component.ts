@@ -1,10 +1,9 @@
 import { Component, input, model } from '@angular/core';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { UiIconComponent } from '../ui-icon/ui-icon.component';
 
 @Component({
   selector: 'ui-pagination',
-  imports: [UiIconComponent, NzIconModule],
+  imports: [UiIconComponent],
   templateUrl: './ui-pagination.component.html',
   styleUrl: './ui-pagination.component.scss'
 })

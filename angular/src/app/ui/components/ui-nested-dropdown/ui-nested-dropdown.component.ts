@@ -2,10 +2,9 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, computed, effect, ElementRef, HostListener, input, output, signal, ViewChild } from '@angular/core';
 import { isEqual } from 'lodash';
 import { NzDropdownMenuComponent, NzDropDownModule } from 'ng-zorro-antd/dropdown';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { UiDropdownItem } from '../ui-dropdown/model/ui-dropdown-item.model';
-import { UiLabelComponent } from '../ui-label/ui-label.component';
 import { UiIconComponent } from '../ui-icon/ui-icon.component';
+import { UiLabelComponent } from '../ui-label/ui-label.component';
 
 /**
  * This component is used to create a nested dropdown.
@@ -14,7 +13,7 @@ import { UiIconComponent } from '../ui-icon/ui-icon.component';
  */
 @Component({
   selector: 'ui-nested-dropdown',
-  imports: [NzDropDownModule, CommonModule, UiIconComponent, NzIconModule, UiLabelComponent],
+  imports: [NzDropDownModule, CommonModule, UiIconComponent, UiLabelComponent],
   standalone: true,
   templateUrl: './ui-nested-dropdown.component.html',
   styleUrl: './ui-nested-dropdown.component.scss',

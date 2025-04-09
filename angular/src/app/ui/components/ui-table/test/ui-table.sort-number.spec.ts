@@ -7,6 +7,8 @@ import { UiTableComponent } from '../ui-table.component';
 import { UiTableHelper } from './helper/ui-table.helper';
 import { columnsWithSortNumberOnNameMock, ZIP_COLUMN_INDEX } from './mock/columns.sort-number.mock';
 import { rowsMockItems } from './mock/rows.mock';
+import { UiIconService } from '../../ui-icon/service/ui-icon.service';
+import { UiIconMockService } from '../../ui-icon/mocks/ui-icon.mock.service';
 
 describe('UiTableComponent test sorting on a number column', () => {
 
@@ -19,7 +21,12 @@ describe('UiTableComponent test sorting on a number column', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [UiTableComponent],
-      providers: [provideExperimentalZonelessChangeDetection()]
+      providers: [provideExperimentalZonelessChangeDetection(),
+        {
+          provide: UiIconService,
+          useClass: UiIconMockService
+        }
+      ]
     })
     .compileComponents();
 

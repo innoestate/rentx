@@ -10,6 +10,8 @@ import { UiTableColumnItem } from '../models/ui-table.column.model';
 import { UiTableComponent } from '../ui-table.component';
 import { columnsWithCityAsDropDownMock } from './mock/columns.dropdown.mock';
 import { RowMock, rowsMockItems } from './mock/rows.mock';
+import { UiIconService } from '../../ui-icon/service/ui-icon.service';
+import { UiIconMockService } from '../../ui-icon/mocks/ui-icon.mock.service';
 
 describe('UiTableComponent test a dropdown in a cell', () => {
 
@@ -22,7 +24,12 @@ describe('UiTableComponent test a dropdown in a cell', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [UiTableComponent, UiDropdownComponent, FormsModule, NzSelectModule, BrowserAnimationsModule],
-      providers: [provideExperimentalZonelessChangeDetection()]
+      providers: [provideExperimentalZonelessChangeDetection(),
+        {
+          provide: UiIconService,
+          useClass: UiIconMockService
+        }
+      ]
     })
     .compileComponents();
 

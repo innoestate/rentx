@@ -1,23 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, computed, ElementRef, input, model, output, signal, Signal, ViewChild } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTableComponent, NzTableModule } from 'ng-zorro-antd/table';
-import { BehaviorSubject, from, Subject, take, tap } from 'rxjs';
+import { BehaviorSubject, from, take, tap } from 'rxjs';
+import { UiIconComponent } from '../ui-icon/ui-icon.component';
 import { UiNestedDropdownComponent } from "../ui-nested-dropdown/ui-nested-dropdown.component";
 import { UiPaginationComponent } from '../ui-pagination/ui-pagination.component';
 import { NzUiColumnConfig } from './models/nz-ui-column.config.model';
 import { NzUiTableRow } from './models/nz-ui-table-row.model';
 import { UiTableRow } from './models/ui-table-row.model';
 import { UiTableColumnItem } from './models/ui-table.column.model';
+import { UiTable } from './models/ui-table.model';
 import { NzUiCellNestedDropdownComponent } from './nz-ui-cell-editable/nested-dropdown/nz-ui-cell-nested-dropdown.component';
 import { NzUxCellEditableNumberComponent } from './nz-ui-cell-editable/number/nz-ui-cell-editable-number.component';
 import { NzUxCellEditableStringComponent } from './nz-ui-cell-editable/string/nz-ui-cell-editable-string.component';
 import { NzUxCellItemComponent } from './nz-ui-cell-item/nz-ui-cell-item.component';
 import { formatNzColumnConfig, formatNzRows } from './utils/utils';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { UiTable } from './models/ui-table.model';
-import { UiIconComponent } from '../ui-icon/ui-icon.component';
 
 @Component({
   selector: 'ui-table',
@@ -25,7 +24,6 @@ import { UiIconComponent } from '../ui-icon/ui-icon.component';
     FormsModule,
     ReactiveFormsModule,
     NzTableModule,
-    NzIconModule,
     NzUxCellEditableStringComponent,
     NzUxCellEditableNumberComponent,
     NzUiCellNestedDropdownComponent,
