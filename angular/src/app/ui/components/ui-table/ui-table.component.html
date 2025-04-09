@@ -62,7 +62,7 @@
               <ui-nested-dropdown [list]="column.headDropdown.list"
                                   [fixedHeadValue]="column.headDropdown.fixedHead"></ui-nested-dropdown>
             }@else {
-              <ui-icon *ngIf="column.icon" [icon]="column.icon" size="24"></ui-icon>
+              <ui-icon *ngIf="column.icon" [icon]="column.icon"></ui-icon>
               {{ column.label }}
             }
           </div>

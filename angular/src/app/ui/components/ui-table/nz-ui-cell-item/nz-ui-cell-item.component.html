@@ -1,2 +1,1 @@
-{{insideItem().label}}
-<ui-icon (click)="clickOnItem()" [icon]="insideItem()?.icon"></ui-icon>
+<ui-label [value]="insideItem()" [iconSize]="(insideItem()?.size) ?? 14"></ui-label>

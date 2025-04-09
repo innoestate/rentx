@@ -1,6 +1,6 @@
 <div #nzTrigger nz-dropdown [nzTrigger]="triggerType()" (nzVisibleChange)="onVisibleChange($event)"
   test-selector="ui-nested-dropdown-trigger" [nzDropdownMenu]="menu">
-  <ui-label [value]="fixedHeadValue()?? displayedValue" [size]="14"></ui-label>
+  <ui-label [value]="triggerValue()" [iconSize]="iconSize()"></ui-label>
 </div>
 <nz-dropdown-menu #menu="nzDropdownMenu">
   <ul nz-menu nzSelectable>
@@ -15,7 +15,7 @@
       (click)="clickOnItem(item)">
       <div class="clickable">
         @if(item.icon){
-          <ui-icon [icon]="item.icon" size="14" [color]="item.color"></ui-icon>
+          <ui-icon [icon]="item.icon" [size]="iconSize()" [color]="item.color"></ui-icon>
         }
         <div class="text">
           {{ item.label }}

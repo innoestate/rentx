@@ -4,6 +4,7 @@ export interface UiNestedDropdown {
   fixedHead?: {
     label: string;
     icon: string;
+    iconSize?: number;
     value: any;
     dropdown?: UiDropdownItem<any>[];
     command?: () => void;

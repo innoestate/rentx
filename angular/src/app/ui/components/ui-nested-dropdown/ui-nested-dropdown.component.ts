@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, effect, ElementRef, HostListener, input, output, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, effect, ElementRef, HostListener, input, output, signal, ViewChild } from '@angular/core';
 import { isEqual } from 'lodash';
 import { NzDropdownMenuComponent, NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -31,6 +31,7 @@ export class UiNestedDropdownComponent implements AfterViewInit {
   fixedHeadValue = input<{
     label: string;
     icon: string;
+    iconSize?: number;
     value: any;
     dropdown?: UiDropdownItem<any>[];
     command?: () => void;
@@ -41,11 +42,12 @@ export class UiNestedDropdownComponent implements AfterViewInit {
   blur = output<void>();
 
   protected insideValue = signal<UiDropdownItem<any> | null>(null);
-  protected displayedValue!: UiDropdownItem<any>;
+  protected displayedValue = computed(() => this.insideValue());
+  protected triggerValue = computed(() => this.insideValue() ?? this.fixedHeadValue());
+  protected iconSize = computed(() => this.triggerValue()?.iconSize ?? 14);
 
   constructor(private elRef: ElementRef) {
     this.fitInsideValueFromValue();
-    this.fitDisplayedLabelFromInsideValue();
   }
 
   @HostListener('click')
@@ -101,12 +103,6 @@ export class UiNestedDropdownComponent implements AfterViewInit {
   private fitInsideValueFromValue() {
     effect(() => {
       this.insideValue.set(this.value() ?? null);
-    })
-  }
-
-  private fitDisplayedLabelFromInsideValue() {
-    effect(() => {
-      this.displayedValue = this.insideValue()!;
     })
   }
 

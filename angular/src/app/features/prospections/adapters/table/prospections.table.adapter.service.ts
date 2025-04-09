@@ -63,6 +63,8 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
         dropDownCellsUniqueItem: {
           label: '',
           icon: 'down',
+          iconSize: 16,
+          color: 'var(--color-tertiary-500)',
           value: 'action',
         },
         command: () => { }
@@ -137,6 +139,7 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
       fixedHead: {
         label: '',
         icon: 'gear',
+        iconSize: 24,
         value: 'action',
         command: () => { }
       },
