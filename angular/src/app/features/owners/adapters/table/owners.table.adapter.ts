@@ -91,7 +91,7 @@ export class OwnersTableAdapterService {
         },
         {
           label: "Supprimer",
-          icon: "delete",
+          icon: "trash",
           value: "delete",
           command: (row: UiTableRow) => {
             this.ownersCommands.deleteOwner(row.data.id);
@@ -115,7 +115,7 @@ export class OwnersTableAdapterService {
         actions: {
           value: "",
           label: "action",
-          icon: "delete",
+          icon: "trash",
         }
       }
     }

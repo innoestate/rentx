@@ -1,26 +1,27 @@
-import { Component, input, Input } from '@angular/core';
-import { UiNavigatorComponent } from '../ui-navigator/ui-navigator.component';
+import { AfterViewChecked, Component, ElementRef, input } from '@angular/core';
 import { UiNavigator } from '../ui-navigator/model/ui-navigator.model';
-import { animate, style, transition, trigger } from '@angular/animations';
+import { UiNavigatorComponent } from '../ui-navigator/ui-navigator.component';
 
 @Component({
   selector: 'ui-navigation',
   imports: [UiNavigatorComponent],
   templateUrl: './ui-navigation.component.html',
-  styleUrls: ['./ui-navigation.component.scss'],
-  animations: [
-    trigger('sizeChange', [
-      transition('* <=> *', [
-        animate('300ms cubic-bezier(0.4, 0, 0.2, 1)', style('*'))
-      ])
-    ])
-  ],
-  host: {
-    '[@sizeChange]': ''
-  }
+  styleUrls: ['./ui-navigation.component.scss']
 })
-export class UiNavigationComponent {
+export class UiNavigationComponent implements AfterViewChecked {
 
   navigators = input.required<UiNavigator[]>();
+
+  constructor(private elRef: ElementRef){}
+
+  ngAfterViewChecked(): void {
+    if(this.elRef?.nativeElement){
+      const navigators = (this.elRef.nativeElement as HTMLDivElement).querySelectorAll('.ui-navigator') as NodeListOf<HTMLElement>;
+      const maxSize = Array.from(navigators).reduce((max, navigator) => {
+        return Math.max(max, navigator.offsetWidth);
+      }, 0);
+      this.elRef.nativeElement.style.width = `${maxSize + 32}px`;
+    }
+  }
 
 }

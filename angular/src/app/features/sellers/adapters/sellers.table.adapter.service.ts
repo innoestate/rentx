@@ -75,7 +75,7 @@ export class SellersTableAdapterService extends UiTableAdapter {
         actions: {
           value: '',
           label: "action",
-          icon: "delete"
+          icon: "trash"
         }
       }
     }
