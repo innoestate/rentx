@@ -124,7 +124,7 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
           label: this.localization.getLocalization('commons', 'delete'),
           icon: 'trash',
           value: "delete",
-          color: 'var(--color-tertiary-500)',
+          color: 'var(--color-basic-900)',
           command: () => {
             console.log('implement command here');
             return true;
@@ -147,6 +147,7 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
         {
           label: this.localization.getLocalization('prospections', 'create'),
           icon: 'add',
+          iconSize: 22,
           value: "create",
           command: () => {
             console.log('implement command here');
@@ -163,7 +164,8 @@ export class ProspectionsTableAdapterService extends UiTableAdapter {
         label: status.shortLabel,
         value: status.key,
         icon: status.icon,
-        color: status.color
+        color: status.color,
+        iconSize: 22
       }))
     }
   }

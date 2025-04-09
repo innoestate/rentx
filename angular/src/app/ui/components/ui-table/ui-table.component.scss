@@ -23,6 +23,14 @@
       display: none;
     }
 
+    th:first-child {
+      padding-left: 20px !important;
+    }
+
+    td:first-child {
+      padding-left: 20px !important;
+    }
+
     .ant-spin-nested-loading {
       height: 100% !important;
     }

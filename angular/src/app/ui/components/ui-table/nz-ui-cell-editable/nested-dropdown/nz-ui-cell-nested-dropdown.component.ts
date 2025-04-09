@@ -7,10 +7,11 @@ import { NzUxCellItemComponent } from '../../nz-ui-cell-item/nz-ui-cell-item.com
 import { UiTableColumnItem } from '../../models/ui-table.column.model';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { UiIconComponent } from '../../../ui-icon/ui-icon.component';
+import { UiLabelComponent } from '../../../ui-label/ui-label.component';
 
 @Component({
   selector: 'nz-ui-cell-nested-dropdown',
-  imports: [UiNestedDropdownComponent, NzUxCellItemComponent, UiIconComponent, NzIconModule],
+  imports: [UiNestedDropdownComponent, NzUxCellItemComponent, UiLabelComponent, UiIconComponent, NzIconModule],
   standalone: true,
   templateUrl: './nz-ui-cell-nested-dropdown.component.html',
   styleUrl: './nz-ui-cell-nested-dropdown.component.scss'
@@ -18,15 +19,7 @@ import { UiIconComponent } from '../../../ui-icon/ui-icon.component';
 export class NzUiCellNestedDropdownComponent extends NzUxCellEditableComponent implements AfterViewInit {
 
   protected override insideValue = signal<any>(undefined!);
-  protected displayedValue = computed(() => {
-
-    const value = this.insideValue()!;
-    if(value?.color){
-      return {...value, color: 'var(--color-basic-100)'}
-    }
-    return value;
-
-  });
+  protected displayedValue = this.getDisplayedValue();
   column = input.required<UiTableColumnItem>();
   list = computed(() => this.column().dropdown?.list ?? []);
   dropDownCellsUniqueItem = computed(() => this.column().dropDownCellsUniqueItem);
@@ -56,6 +49,22 @@ export class NzUiCellNestedDropdownComponent extends NzUxCellEditableComponent i
 
   ngAfterViewInit(): void {
     this.applyColor();
+  }
+
+  private getDisplayedValue(){
+    return computed(() => {
+      let value = {...this.insideValue()!};
+      value = this.adaptTextColorifCellIsColored(value);
+      value.iconSize = 14;
+      return value;
+    })
+  }
+
+  private adaptTextColorifCellIsColored(value: any){
+    if(value?.color){
+      value.color = 'var(--color-basic-100)';
+    }
+    return value;
   }
 
   private applyColor(){

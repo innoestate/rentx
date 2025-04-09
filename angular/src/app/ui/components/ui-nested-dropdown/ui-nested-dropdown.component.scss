@@ -21,6 +21,7 @@
       color: var(--color-basic-100) !important;
     }
   }
+
 }
 
 .icon-with-text {
@@ -28,6 +29,12 @@
 }
 
 ::ng-deep {
+
+  .ant-dropdown-menu {
+    border-radius: 18px !important;
+    padding: 16px 10px !important;
+  }
+
   .ant-dropdown-menu-item {
     position: relative;
     background-color: transparent !important;
@@ -48,6 +55,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+
   .text {
     text-overflow: ellipsis;
     overflow: hidden;

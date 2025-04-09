@@ -17,12 +17,7 @@
     <nz-ui-cell-item test-selector="ui-table-editable-value" [item]="item" (click)="startToEdit()"></nz-ui-cell-item>
   }@else {
     <div test-selector="ui-table-editable-value" class="clickable" [class.loading-value]="loadingValue()">
-        @if(displayedValue()?.icon){
-          <ui-icon [icon]="displayedValue()?.icon" [size]="displayedValue()?.iconSize??14" color="var(--color-basic-100)"></ui-icon>
-        }
-        <div class="text">
-          {{ displayedValue()?.label }}
-        </div>
+      <ui-label [value]="displayedValue()"></ui-label>
     </div>
   }
 }
