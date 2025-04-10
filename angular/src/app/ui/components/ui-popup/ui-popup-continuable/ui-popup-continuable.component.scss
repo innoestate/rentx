@@ -1,9 +1,23 @@
 :host{
   position: relative;
 }
+
 .ui-popup-content{
+  width: 100%;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 10px 32px;
+}
+
+.ui-popup-footer {
+  width: 100%;
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-evenly;
   align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-primary-200);
+  padding: 10px 16px;
 }

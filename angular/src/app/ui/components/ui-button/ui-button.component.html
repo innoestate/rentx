@@ -1,5 +1,4 @@
-@if(this.nzDanger()){
-  <button test-selector="button" nz-button nzDanger [nzType]="nzType()" [disabled]="disabled()" (onClick)="onClick()">{{text()}}</button>
-}@else{
-  <button test-selector="button" nz-button  [nzType]="nzType()" [disabled]="disabled()" (onClick)="onClick()">{{text()}}</button>
-}
+<button [class]="this.type()"
+        [disabled]="disabled()"
+        test-selector="button"
+        (onClick)="onClick()">{{text()}}</button>

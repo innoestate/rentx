@@ -1,12 +1,13 @@
 @if(loading()) {
   <ui-spinner></ui-spinner>
 }
-<div test-selector="ui-popup-content">
+<div class="ui-popup-content" test-selector="ui-popup-content">
   <ui-form (valid)="setValidStatus($event)" [(values)]="values" [fields]="fields()!"></ui-form>
-  <div>
-    <ui-button test-selector="ui-popup-validation-button" (click)="validate()" [text]="validationButtonLabel()" [disabled]="!valid()"></ui-button>
-    @if(continue()){
-      <ui-button test-selector="ui-popup-close-button" [text]="'fermer'" [type]="'danger'" (click)="onClose.emit()"></ui-button>
-    }
-  </div>
 </div>
+<div class="ui-popup-footer">
+  <ui-button test-selector="ui-popup-validation-button" (click)="validate()" [type]="'success'" [text]="validationButtonLabel()" [disabled]="!valid()"></ui-button>
+  @if(continue()){
+    <ui-button test-selector="ui-popup-close-button" [text]="'fermer'" [type]="'danger'" (click)="onClose.emit()"></ui-button>
+  }
+</div>
+

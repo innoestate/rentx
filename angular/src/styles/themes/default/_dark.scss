@@ -11,6 +11,16 @@
     --color-basic-800: #E5E5EA;
     --color-basic-900: #ffffff;
 
+    --color-basic-text-100: #ffffff;
+    --color-basic-text-200: #E5E5EA;
+    --color-basic-text-300: #CFCFD4;
+    --color-basic-text-400: #B1B1B8;
+    --color-basic-text-500: #9B9B9F;
+    --color-basic-text-600: #808080;
+    --color-basic-text-700: #595959;
+    --color-basic-text-800: #373737;
+    --color-basic-text-900: #000000;
+
     // Primary color - Darker and more saturated
     --color-primary-100: #0F0114;
     --color-primary-200: #180322;
@@ -23,7 +33,15 @@
     --color-primary-900: #f0f0f9;
 
     --color-primary-text-100: #d0d0f4;
+    --color-primary-text-200: #c0c0ef;
+    --color-primary-text-300: rgb(196, 196, 240);
+    --color-primary-text-400: #c6a1da;
     --color-primary-text-500: #bb97cf;
+    --color-primary-text-600: #bb97cf;
+    --color-primary-text-700: #bb97cf;
+    --color-primary-text-800: #bb97cf;
+    --color-primary-text-900: #bb97cf;
+
 
     // Secondary color - Darker and more saturated
     --color-secondary-100: #021638;
@@ -63,15 +81,15 @@
     --color-accent-2: #ffb74d; // Brighter orange for dark theme
 
     // Success color - More muted and darker green
-    --color-success-100: #00511A;
-    --color-success-200: #00761A;
-    --color-success-300: #009C1D;
-    --color-success-400: #00C023;
-    --color-success-500: #1ed146;
-    --color-success-600: #4ce970;
-    --color-success-700: #7ef79a;
-    --color-success-800: #b1ffbf;
-    --color-success-900: #d4ffe0;
+    --color-success-100: #002b0e;
+    --color-success-200: #004115;
+    --color-success-300: #00571c;
+    --color-success-400: #006d23;
+    --color-success-500: #00832a;
+    --color-success-600: #239a41;
+    --color-success-700: #47b158;
+    --color-success-800: #6bc87c;
+    --color-success-900: #90dfa0;
 
     // Error color - More muted and darker red
     --color-error-100: #4C0000;

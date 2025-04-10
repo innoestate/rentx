@@ -19,7 +19,8 @@ export class UiPopupService {
       nzTitle: title,
       nzContent: component,
       nzFooter: null,
-      nzData: data
+      nzData: data,
+      nzBodyStyle: { /* custom styles if needed */ },
     });
     return modal.afterClose.pipe(take(1));
   }

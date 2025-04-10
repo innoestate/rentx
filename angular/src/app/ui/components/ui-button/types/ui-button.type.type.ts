@@ -1,1 +1,1 @@
-export type UxButtonType = 'primary' | 'danger' | 'default';
+export type UxButtonType = 'primary' | 'success' | 'danger' | 'default';

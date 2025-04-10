@@ -1,9 +1,20 @@
 :host{
   position: relative;
 }
+
 .ui-popup-content{
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
+  padding-bottom: 16px;
+}
+
+.ui-popup-footer {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-primary-200);
 }

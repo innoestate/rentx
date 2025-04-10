@@ -3,7 +3,7 @@
 }
 <div test-selector="ui-popup-content">
   <ui-form (valid)="setValidStatus($event)" [(values)]="values" [fields]="fields()!"></ui-form>
-  <div>
-    <ui-button test-selector="ui-popup-validation-button" (click)="validate()" [text]="validationButtonLabel()" [disabled]="!valid()"></ui-button>
-  </div>
+</div>
+<div class="ui-popup-footer">
+  <ui-button test-selector="ui-popup-validation-button" (click)="validate()" [text]="validationButtonLabel()" [disabled]="!valid()"></ui-button>
 </div>

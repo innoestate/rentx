@@ -1,7 +1,43 @@
 ::ng-deep {
+
+  .cdk-global-scrollblock {
+    overflow-y: hidden !important;
+  }
+
   .ant-message-notice-content {
     background-color: var(--color-basic-100);
     border-radius: var(--radius-medium);
     border: 1px solid var(--color-basic-500);
+  }
+
+  .ant-modal-content {
+    border-radius: var(--radius-medium);
+    background-color: var(--color-basic-100);
+  }
+
+  .ant-modal-header {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid var(--color-primary-200);
+  }
+
+  .ant-modal-body {
+    padding: 0px;
+  }
+
+  .ant-select-selector {
+    background-color: var(--color-basic-100) !important;
+  }
+
+  .ant-select-dropdown {
+    background-color: var(--color-basic-100) !important;
+  }
+
+  .ant-select-item-option-selected {
+    background-color: var(--color-basic-200) !important;
+  }
+
+  .ant-select-item-option-active {
+    background-color: var(--color-basic-200) !important;
   }
 }
