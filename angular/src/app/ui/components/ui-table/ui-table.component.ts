@@ -59,8 +59,8 @@ export class UiTableComponent implements AfterViewInit {
     return Math.ceil(this.displayedTotal()! / rowsPerPage);
   })
   protected pageIndex = model<number>(1);
-  protected cellHover$ = new BehaviorSubject<{ nzRow: NzUiTableRow, columnIndex: number} | null>(null);
-  protected rowHover$ = new Subject<UiTableRow>();
+  protected cellHover = signal<{ nzRow: NzUiTableRow, columnIndex: number} | null>(null);
+  protected rowHover = signal<NzUiTableRow | null>(null);
 
   constructor(private elRef: ElementRef) {
     elRef.nativeElement.classList.add('ui-table-header');
@@ -138,6 +138,10 @@ export class UiTableComponent implements AfterViewInit {
     return false;
   }
 
+  clickOnRow() {
+
+  }
+
   startEdit(columnIndex: number, rowIndex: number) {
     this.editId = (columnIndex + this.columns()[rowIndex].key);
   }
@@ -159,11 +163,25 @@ export class UiTableComponent implements AfterViewInit {
   }
 
   cellMouseEnter(nzRow: NzUiTableRow, columnIndex: number) {
-    this.cellHover$.next({ nzRow, columnIndex });
+    this.cellHover.set({ nzRow, columnIndex });
+    this.rowMouseEnter(nzRow);
   }
 
-  cellMouseLeave() {
-    this.cellHover$.next(null);
+  cellMouseLeave(nzRow: NzUiTableRow) {
+    this.cellHover.set(null);
+    this.rowMouseEnter(nzRow);
+  }
+
+  rowMouseEnter(nzRow: NzUiTableRow) {
+    if(this.cellHover() === null){
+      this.rowHover.set(nzRow);
+    }else{
+      this.rowHover.set(null);
+    }
+  }
+
+  rowMouseLeave() {
+    this.rowHover.set(null);
   }
 
   private getUiRow(nzRow: NzUiTableRow): UiTableRow{

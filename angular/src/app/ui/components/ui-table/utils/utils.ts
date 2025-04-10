@@ -50,7 +50,7 @@ const setColumnWidth = (columnConfig: NzUiColumnConfig) => {
     columnConfig.width = '120px';
   }
   if((!columnConfig.label || columnConfig.label === '') && columnConfig.icon){
-    columnConfig.width = '40px';
+    columnConfig.width = '50px';
   }
   return columnConfig;
 }

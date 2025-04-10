@@ -73,18 +73,22 @@
     </tr>
   </thead>
   <tbody>
-    <ng-container *ngFor="let nzRow of table.data; let rowI = index">
-      <tr [attr.test-selector]="'ui-table-row-' + rowI">
-        @let hover = nzRow === (cellHover$ | async)?.nzRow ;
+    @for(nzRow of table.data; let rowI = $index; track nzRow.inputRowIndex){
+      <tr [attr.test-selector]="'ui-table-row-' + rowI"
+          (click)="clickOnRow()"
+          (mouseenter)="rowMouseEnter(nzRow)"
+          (mouseleave)="rowMouseLeave()">
+        @let hover = nzRow === cellHover()?.nzRow ;
         <ng-container *ngFor="let cell of nzRow.cells; let colI = index">
           <td
               [class.hover]="hover"
+              [class.hover-strong]="nzRow === rowHover()"
               [nzLeft]="colI < fixedColumns()?.left"
               [nzRight]="colI > fixedColumns()?.right"
               [attr.test-selector]="'ui-table-cell-c' + colI + '-r' + rowI">
 
             <span (mouseenter)="cellMouseEnter(nzRow,colI)"
-                  (mouseleave)="cellMouseLeave()">
+                  (mouseleave)="cellMouseLeave(nzRow)">
 
               @if(cell === undefined || cell === null){
 
@@ -127,7 +131,7 @@
           </td>
         </ng-container>
       </tr>
-    </ng-container>
+    }
   </tbody>
 </nz-table>
 <div class="ui-table-footer">
