@@ -25,4 +25,8 @@ export class DesktopProspectionsTableComponent extends ProspectionsTableDirectiv
     return true;
   }
 
+  selectRow(row: UiTableRow) {
+    console.log('select row', row);
+  }
+
 }

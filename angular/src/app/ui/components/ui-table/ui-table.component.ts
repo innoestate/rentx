@@ -48,6 +48,7 @@ export class UiTableComponent implements AfterViewInit {
   displayedTotal$ = new BehaviorSubject<number>(0);
   displayedTotal = toSignal(this.displayedTotal$);
   backgroundImagePath = input<string>();
+  onSelectRow = output<UiTableRow | null>();
 
   protected nzRows: Signal<NzUiTableRow[]> = this.buildNzRows();
   protected nzColumns: Signal<NzUiColumnConfig[]> = this.buildNzColumns();
@@ -60,7 +61,9 @@ export class UiTableComponent implements AfterViewInit {
   })
   protected pageIndex = model<number>(1);
   protected cellHover = signal<{ nzRow: NzUiTableRow, columnIndex: number} | null>(null);
-  protected rowHover = signal<NzUiTableRow | null>(null);
+  protected nzRowHover = signal<NzUiTableRow | null>(null);
+  protected selectedNzRow = signal<NzUiTableRow | null>(null);
+
 
   constructor(private elRef: ElementRef) {
     elRef.nativeElement.classList.add('ui-table-header');
@@ -138,8 +141,9 @@ export class UiTableComponent implements AfterViewInit {
     return false;
   }
 
-  clickOnRow() {
-
+  clickOnRow(nzRow: NzUiTableRow) {
+    this.selectedNzRow.set(nzRow);
+    this.onSelectRow.emit(this.getUiRow(nzRow));
   }
 
   startEdit(columnIndex: number, rowIndex: number) {
@@ -174,14 +178,14 @@ export class UiTableComponent implements AfterViewInit {
 
   rowMouseEnter(nzRow: NzUiTableRow) {
     if(this.cellHover() === null){
-      this.rowHover.set(nzRow);
+      this.nzRowHover.set(nzRow);
     }else{
-      this.rowHover.set(null);
+      this.nzRowHover.set(null);
     }
   }
 
   rowMouseLeave() {
-    this.rowHover.set(null);
+    this.nzRowHover.set(null);
   }
 
   private getUiRow(nzRow: NzUiTableRow): UiTableRow{

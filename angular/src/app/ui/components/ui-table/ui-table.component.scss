@@ -1,5 +1,6 @@
 $row-hover-background-color: var(--color-basic-150);
 $row-hover-strong-border: 1px solid var(--color-primary-200);
+$row-selected-background-color: var(--color-basic-150);
 :host {
 
   width: 100%;
@@ -36,6 +37,9 @@ $row-hover-strong-border: 1px solid var(--color-primary-200);
         cursor: pointer;
         border-left: $row-hover-strong-border !important;
       }
+      &.selected {
+        background-color: $row-selected-background-color !important;
+      }
     }
 
     td:last-child {
@@ -43,6 +47,9 @@ $row-hover-strong-border: 1px solid var(--color-primary-200);
         background-color: $row-hover-background-color !important;
         cursor: pointer;
         border-right: $row-hover-strong-border !important;
+      }
+      &.selected {
+        background-color: $row-selected-background-color !important;
       }
     }
 
@@ -55,6 +62,9 @@ $row-hover-strong-border: 1px solid var(--color-primary-200);
         cursor: pointer;
         border-top: $row-hover-strong-border !important;
         border-bottom: $row-hover-strong-border !important;
+      }
+      &.selected {
+        background-color: $row-selected-background-color !important;
       }
     }
 

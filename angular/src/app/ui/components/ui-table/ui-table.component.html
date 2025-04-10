@@ -75,14 +75,15 @@
   <tbody>
     @for(nzRow of table.data; let rowI = $index; track nzRow.inputRowIndex){
       <tr [attr.test-selector]="'ui-table-row-' + rowI"
-          (click)="clickOnRow()"
+          (click)="clickOnRow(nzRow)"
           (mouseenter)="rowMouseEnter(nzRow)"
           (mouseleave)="rowMouseLeave()">
         @let hover = nzRow === cellHover()?.nzRow ;
         <ng-container *ngFor="let cell of nzRow.cells; let colI = index">
           <td
               [class.hover]="hover"
-              [class.hover-strong]="nzRow === rowHover()"
+              [class.hover-strong]="nzRow === nzRowHover()"
+              [class.selected]="nzRow === selectedNzRow()"
               [nzLeft]="colI < fixedColumns()?.left"
               [nzRight]="colI > fixedColumns()?.right"
               [attr.test-selector]="'ui-table-cell-c' + colI + '-r' + rowI">

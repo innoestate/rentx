@@ -1,5 +1,6 @@
 <div class="prospection-table">
   <ui-table (editRow)="updateRow($event)"
+            (onSelectRow)="selectRow($event)"
             [columns]="table().columns"
             [rows]="table().rows"
             [title]="table().title"
