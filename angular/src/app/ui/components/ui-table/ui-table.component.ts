@@ -3,7 +3,7 @@ import { AfterViewInit, Component, computed, ElementRef, input, model, output, s
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzTableComponent, NzTableModule } from 'ng-zorro-antd/table';
-import { BehaviorSubject, from, take, tap } from 'rxjs';
+import { BehaviorSubject, from, Subject, take, tap } from 'rxjs';
 import { UiIconComponent } from '../ui-icon/ui-icon.component';
 import { UiNestedDropdownComponent } from "../ui-nested-dropdown/ui-nested-dropdown.component";
 import { UiPaginationComponent } from '../ui-pagination/ui-pagination.component';
@@ -59,13 +59,15 @@ export class UiTableComponent implements AfterViewInit {
     return Math.ceil(this.displayedTotal()! / rowsPerPage);
   })
   protected pageIndex = model<number>(1);
+  protected cellHover$ = new BehaviorSubject<{ nzRow: NzUiTableRow, columnIndex: number} | null>(null);
+  protected rowHover$ = new Subject<UiTableRow>();
 
   constructor(private elRef: ElementRef) {
     elRef.nativeElement.classList.add('ui-table-header');
   }
 
   handleCurrentPageDataChange(changes: any): void {
-    if(this.table?.nzTotal !== undefined){
+    if (this.table?.nzTotal !== undefined) {
       const total = this.table.nzTotal;
       this.displayedTotal$.next(total);
     }
@@ -79,7 +81,7 @@ export class UiTableComponent implements AfterViewInit {
     this.iniSizing();
   }
 
-  private iniSizing(){
+  private iniSizing() {
     from(this.htmlRowsAreLoaded()).pipe(
       take(1),
       tap(() => {
@@ -89,7 +91,7 @@ export class UiTableComponent implements AfterViewInit {
       })).subscribe();
   }
 
-  private getHeights(){
+  private getHeights() {
 
     const rows = this.elRef.nativeElement.querySelectorAll('.ant-table-row');
 
@@ -141,8 +143,8 @@ export class UiTableComponent implements AfterViewInit {
   }
 
   edit(value: any, nzRow: NzUiTableRow, columnIndex: number) {
-    const row = this.rows()[nzRow.inputRowIndex];
-    const key = this.columns()[columnIndex].key;
+    const row = this.getUiRow(nzRow);
+    const key = this.getColumnKey(columnIndex);
     const newRow = { ...row, cells: { [key]: value } } as UiTableRow;
     this.editRow.emit(newRow);
     this.editId = null;
@@ -154,6 +156,22 @@ export class UiTableComponent implements AfterViewInit {
 
   isUiItem(cell: any | any): boolean {
     return cell instanceof Object;
+  }
+
+  cellMouseEnter(nzRow: NzUiTableRow, columnIndex: number) {
+    this.cellHover$.next({ nzRow, columnIndex });
+  }
+
+  cellMouseLeave() {
+    this.cellHover$.next(null);
+  }
+
+  private getUiRow(nzRow: NzUiTableRow): UiTableRow{
+    return this.rows()[nzRow.inputRowIndex];
+  }
+
+  private getColumnKey(columnIndex: number) {
+    return this.columns()[columnIndex].key;
   }
 
   private buildNzColumns(): Signal<NzUiColumnConfig[]> {

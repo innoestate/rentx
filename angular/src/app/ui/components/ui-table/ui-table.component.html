@@ -75,29 +75,35 @@
   <tbody>
     <ng-container *ngFor="let nzRow of table.data; let rowI = index">
       <tr [attr.test-selector]="'ui-table-row-' + rowI">
+        @let hover = nzRow === (cellHover$ | async)?.nzRow ;
         <ng-container *ngFor="let cell of nzRow.cells; let colI = index">
           <td
+              [class.hover]="hover"
               [nzLeft]="colI < fixedColumns()?.left"
               [nzRight]="colI > fixedColumns()?.right"
               [attr.test-selector]="'ui-table-cell-c' + colI + '-r' + rowI">
 
-            @if(cell === undefined || cell === null){
+            <span (mouseenter)="cellMouseEnter(nzRow,colI)"
+                  (mouseleave)="cellMouseLeave()">
 
-            }@else if(columns[colI].dropdown){
-              <ng-container *ngTemplateOutlet="dropdown"></ng-container>
-            }@else if(columns[colI].editable){
-              @if(typeof cell === 'string'){
-                <ng-container *ngTemplateOutlet="editableString"></ng-container>
-              }@else if(typeof cell === 'number'){
-                <ng-container *ngTemplateOutlet="editableNumber"></ng-container>
+              @if(cell === undefined || cell === null){
+
+              }@else if(columns[colI].dropdown){
+                <ng-container *ngTemplateOutlet="dropdown"></ng-container>
+              }@else if(columns[colI].editable){
+                @if(typeof cell === 'string'){
+                  <ng-container *ngTemplateOutlet="editableString"></ng-container>
+                }@else if(typeof cell === 'number'){
+                  <ng-container *ngTemplateOutlet="editableNumber"></ng-container>
+                }@else {
+                  {{cell}}
+                }
+              }@else if(isUiItem(cell)){
+                <nz-ui-cell-item [item]="cell"></nz-ui-cell-item>
               }@else {
                 {{cell}}
               }
-            }@else if(isUiItem(cell)){
-              <nz-ui-cell-item [item]="cell"></nz-ui-cell-item>
-            }@else {
-              {{cell}}
-            }
+            </span>
 
             <ng-template #dropdown>
               <nz-ui-cell-nested-dropdown [row]="nzRow"
@@ -106,7 +112,8 @@
             </ng-template>
 
             <ng-template #editableString>
-              <nz-ui-cell-editable-string [row]="nzRow" [value]="cell"
+              <nz-ui-cell-editable-string
+                [row]="nzRow" [value]="cell"
                 (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, nzRow, colI )" (stopEdit)="stopEdit()">
               </nz-ui-cell-editable-string>
             </ng-template>

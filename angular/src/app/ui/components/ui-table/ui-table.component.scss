@@ -31,6 +31,15 @@
       padding-left: 20px !important;
     }
 
+    td {
+      &.hover {
+        background-color: var(--color-basic-200) !important;
+      }
+      &.hover-strong {
+        background-color: var(--color-basic-300) !important;
+      }
+    }
+
     .ant-spin-nested-loading {
       height: 100% !important;
     }
