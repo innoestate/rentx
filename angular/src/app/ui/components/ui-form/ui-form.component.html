@@ -8,6 +8,9 @@
         }@else if(field.type === 'signature') {
           <label for="name" [class.mandatory]="field.required">{{field.label}}</label>
           <signature-pad [formControlName]="field.key"></signature-pad>
+        }@else if(field.type === 'text-area'){
+          <label for="name" [class.mandatory]="field.required">{{field.label}}</label>
+          <textarea [attr.test-selector]="'ui-form-input-' + field.key" class="form-control" [class.required]="field.required" [formControlName]="field.key"></textarea>
         }@else {
           <label for="name" [class.mandatory]="field.required">{{field.label}}</label>
           <input [attr.test-selector]="'ui-form-input-' + field.key" [type]="field.type" class="form-control" [class.required]="field.required" [formControlName]="field.key">

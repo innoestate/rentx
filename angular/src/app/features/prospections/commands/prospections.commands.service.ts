@@ -32,20 +32,31 @@ export abstract class ProspectionsCommandsService {
         type: 'text',
         required: true
       },
-    ]
+      {
+        key: 'price',
+        label: 'price',
+        type: 'number',
+        required: false
+      }
+    ];
 
     if (sellers?.length > 0) {
-
       const dropDown = sellers.map((seller) => ({ value: seller.id, label: seller.name }));
-      dropDown.push({ value: '', label: 'Aucun' })
+      dropDown.push({ value: '', label: 'Aucun' });
 
-      fields.push({
+      fields.splice(fields.length, 0, {
         key: 'seller_id',
         label: 'Vendeur',
         type: 'dropdown',
         dropdownItems: dropDown
       });
     }
+
+    fields.push({
+      key: 'resume',
+      label: 'description',
+      type: 'text-area',
+    });
 
     return fields;
   }
