@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { Observable, take, tap } from "rxjs";
+import { Observable } from "rxjs";
 import { InvestScopeDisplayedElement } from "../../../models/invest-scope.display-map.model";
 import { addDisplayedComponent, clearDisplayedComponents, navigate, removeDisplayedComponent } from "../ngrx/invest-scope.actions";
 import { onInvestScopeDisplayedComponents, onInvestScopeNavigation } from "../ngrx/invest-scope.selectors";
@@ -8,37 +8,29 @@ import { onInvestScopeDisplayedComponents, onInvestScopeNavigation } from "../ng
 @Injectable()
 export class InvestScopeDisplayStoreFacade {
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {}
 
-  init(navigation: 'prospections' | 'sellers' ){
+  clearComponents() {
     this.store.dispatch(clearDisplayedComponents());
-    this.store.dispatch(addDisplayedComponent({ component: 'navigation'}));
-    this.store.dispatch(addDisplayedComponent({ component: navigation }));
-    this.store.dispatch(addDisplayedComponent({ component: 'actions'}));
   }
 
-  navigate(navigation: 'prospections' | 'sellers'){
-
-    this.store.select(onInvestScopeNavigation).pipe(
-      take(1),
-      tap(actualNavigation => {
-        this.store.dispatch(removeDisplayedComponent({ component: actualNavigation }));
-        this.store.dispatch(addDisplayedComponent({ component: navigation }));
-        this.store.dispatch(navigate({ navigation }));
-      })
-    ).subscribe();
-
+  addComponent(component: InvestScopeDisplayedElement) {
+    this.store.dispatch(addDisplayedComponent({ component }));
   }
 
-  showDescription(id: string){}
+  removeComponent(component: string) {
+    this.store.dispatch(removeDisplayedComponent({ component }));
+  }
 
-  hideDescription(){}
+  setNavigation(navigation: 'prospections' | 'sellers') {
+    this.store.dispatch(navigate({ navigation }));
+  }
 
-  onNavigation(){
+  onNavigation() {
     return this.store.select(onInvestScopeNavigation);
   }
 
-  onUpdateDisplay(): Observable<InvestScopeDisplayedElement[]> {
+  onDisplayComponents(): Observable<InvestScopeDisplayedElement[]> {
     return this.store.select(onInvestScopeDisplayedComponents);
   }
 

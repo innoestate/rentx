@@ -1,4 +1,8 @@
 import { Injectable } from "@angular/core";
+/**
+ * Adapter that maps the component list (string[]) to the dynamic components (string[][])
+ * It typically reorganize components positions between themself.
+ */
 
 @Injectable()
 export class InvestScopeDisplayerAdapter {

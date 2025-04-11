@@ -2,15 +2,15 @@ import { Directive, effect } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { InvestScopeDisplayerAdapter } from "../adapter/invest-scope.displayer.adapter";
 import { InvestScopeDisplayedElement } from "../models/invest-scope.display-map.model";
-import { InvestScopeDisplayStoreFacade } from "../states/display/facades/invest-scope.display-store.facade";
+import { InvestScopeDisplayManager } from "../displayer/invest-scope.displayer.manager";
 
 @Directive()
 export class InvestScopeDisplayerDirective {
 
-  private componentsList = toSignal(this.displayStoreFacade.onUpdateDisplay());
+  private componentsList = toSignal(this.displayManager.onDisplayComponents());
   protected dynamicComponents: InvestScopeDisplayedElement[][] = [];
 
-  constructor(protected displayStoreFacade: InvestScopeDisplayStoreFacade,
+  constructor(protected displayManager: InvestScopeDisplayManager,
     protected adapter: InvestScopeDisplayerAdapter) {
     this.mapDynamicComponents();
   }
@@ -22,7 +22,7 @@ export class InvestScopeDisplayerDirective {
   }
 
   ngOnInit() {
-    this.displayStoreFacade.init('prospections');
+    this.displayManager.init('prospections');
   }
 
 }

@@ -13,8 +13,8 @@ import { SellersDataService } from 'src/app/features/sellers/data/services/selle
 import { SellersHttpSuccessMockService } from 'src/app/features/sellers/mocks/sellers.http.success.mock.service';
 import { UiTableHelper } from 'src/app/ui/components/ui-table/test/helper/ui-table.helper';
 import { UiModule } from 'src/app/ui/ui.module';
-import { DesktopProspectionsCommandsService } from '../../invest-scope/commands/desktop.prospections.commands.service';
 import { DesktopProspectionsTableComponent } from './desktop-prospections-table.component';
+import { DesktopProspectionsCommandsService } from '../../commands/desktop.prospections.commands.service';
 
 describe('DesktopProspectionsTableComponent', () => {
   let component: DesktopProspectionsTableComponent;

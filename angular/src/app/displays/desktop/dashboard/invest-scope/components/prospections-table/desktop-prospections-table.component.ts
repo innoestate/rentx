@@ -18,7 +18,6 @@ export class DesktopProspectionsTableComponent extends ProspectionsTableDirectiv
               protected override tableAdapter: ProspectionsTableAdapterService,
               private commandsService: DesktopProspectionsCommandsService ) {
     super(prospectionsData, SellersData, tableAdapter, commandsService);
-
     console.log('prospections table constructor')
   }
 

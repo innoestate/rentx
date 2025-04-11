@@ -1,18 +1,19 @@
-import { AfterViewChecked, Component, ElementRef, input, signal } from '@angular/core';
-import { UiNavigator } from '../ui-navigator/model/ui-navigator.model';
-import { UiNavigatorComponent } from '../ui-navigator/ui-navigator.component';
+import { AfterViewChecked, Component, ElementRef } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { DisplayerManager } from '../../displayers/displayer.manager';
 
 @Component({
   selector: 'ui-navigation',
-  imports: [UiNavigatorComponent],
+  imports: [],
   templateUrl: './ui-navigation.component.html',
   styleUrls: ['./ui-navigation.component.scss']
 })
 export class UiNavigationComponent implements AfterViewChecked {
 
-  protected navigators = signal<UiNavigator[]>([]);
+  protected navigators = toSignal(this.displayStateManager.getNavigation());
+  protected activeNavigator = toSignal(this.displayStateManager.onNavigation());
 
-  constructor(protected elRef: ElementRef){}
+  constructor(protected elRef: ElementRef, protected displayStateManager: DisplayerManager){}
 
   ngAfterViewChecked(): void {
     if(this.elRef?.nativeElement){
@@ -24,6 +25,8 @@ export class UiNavigationComponent implements AfterViewChecked {
     }
   }
 
-  navigate(navigate: string) {}
+  protected navigate(navigation: string) {
+    this.displayStateManager.navigate(navigation);
+  }
 
 }
