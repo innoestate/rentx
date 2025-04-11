@@ -10,8 +10,8 @@ const routes: Routes = [
         loadChildren: () => import('./properties/properties.module').then(m => m.DesktopPropertiesModule),
       },
       {
-        path: 'prospections',
-        loadChildren: () => import('./prospections/prospections.module').then(m => m.ProspectionsModule),
+        path: 'invest-scope',
+        loadChildren: () => import('./invest-scope/invest-scope.module').then(m => m.InvestScopeModule),
       },
       {
         path: '',

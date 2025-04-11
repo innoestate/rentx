@@ -1,0 +1,5 @@
+@for(components of dynamicComponents; track components){
+  @for(component of components; track component){
+    <ui-dynamic-component [component]="component"></ui-dynamic-component>
+  }
+}

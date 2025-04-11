@@ -18,6 +18,7 @@ export class SellersTableDirective extends UiTableDirective {
     private sellersAdater: SellersTableAdapterService,
     protected commandsService: SellersCommandsService) {
     super();
+    console.log('sellersTableDirective constructor');
   }
 
   override buildTable(): Signal<UiTableSellers> {
