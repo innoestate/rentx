@@ -21,6 +21,12 @@ export class InvestScopeDisplayerAdapter {
       dynamicComponents[1].push('sellers');
     }
 
+    if(componentsList.includes('prospection-description')){
+      dynamicComponents[2].push('prospection-description');
+    }else if (dynamicComponents[2].includes('prospection-description')){
+      dynamicComponents[2].pop();
+    }
+
   }
 
 }

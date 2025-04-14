@@ -7,7 +7,6 @@ import { investScopeReducer } from 'src/app/features/invest-scope/states/display
 import { DisplayerManager } from 'src/app/ui/displayers/displayer.manager';
 import { DynamicComponentFactoryService } from 'src/app/ui/services/factory/dynamic-component-factory.service';
 import { UiModule } from 'src/app/ui/ui.module';
-import { DesktopProspectionsActionsComponent } from './components/actions/desktop-prospections-actions.component';
 import { InvestScopeFactory } from './factories/invest-scope.factory';
 import { InvestScopeComponent } from './invest-scope.component';
 import { InvestScopeDesktopRoutingModule } from './invest-scope.routing';
@@ -18,8 +17,7 @@ import { DesktopSellersModule } from './modules/sellers/desktop-sellers.module';
 
 @NgModule({
   declarations: [
-    InvestScopeComponent,
-    DesktopProspectionsActionsComponent
+    InvestScopeComponent
   ],
   imports: [
     StoreModule.forFeature('investScope', investScopeReducer),

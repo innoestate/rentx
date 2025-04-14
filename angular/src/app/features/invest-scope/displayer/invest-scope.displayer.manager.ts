@@ -4,11 +4,20 @@ import { LocalizationsService } from "src/app/core/localizations/localizations.s
 import { DisplayerManager } from "src/app/ui/displayers/displayer.manager";
 import { InvestScopeDisplayStoreFacade } from "../states/display/facades/invest-scope.display-store.facade";
 import { InvestScopeDisplayedElement } from "../models/invest-scope.display-map.model";
+import { DesktopSellersCommandsService } from "src/app/displays/desktop/dashboard/invest-scope/commands/desktop.sellers.commands.service";
+import { DesktopProspectionsCommandsService } from "src/app/displays/desktop/dashboard/invest-scope/commands/desktop.prospections.commands.service";
+import { SellersDataService } from "../../sellers/data/services/sellers.data.service";
 
 @Injectable()
 export class InvestScopeDisplayManager extends DisplayerManager {
 
-  constructor(private facade: InvestScopeDisplayStoreFacade, private localizations: LocalizationsService) {
+  private sellers = this.sellersData.getSellers();
+
+  constructor(private facade: InvestScopeDisplayStoreFacade,
+    private sellersData: SellersDataService,
+    private sellersCommands: DesktopSellersCommandsService,
+    private prospectionsCommands: DesktopProspectionsCommandsService,
+    private localizations: LocalizationsService) {
     super();
   }
 
@@ -21,6 +30,21 @@ export class InvestScopeDisplayManager extends DisplayerManager {
       {
         label: this.localizations.getLocalization('sellers', 'label'),
         navigate: 'sellers'
+      }
+    ]);
+  }
+
+  override getActions(): Observable<{ label: string, icon: string, command: () => void }[]> {
+    return of([
+      {
+        label: this.localizations.getLocalization('prospections', 'addProspection'),
+        icon: 'add-estate',
+        command: () => this.prospectionsCommands.createNew(this.sellers())
+      },
+      {
+        label: this.localizations.getLocalization('sellers', 'addSeller'),
+        icon: 'seller',
+        command: () => this.sellersCommands.createNew()
       }
     ]);
   }

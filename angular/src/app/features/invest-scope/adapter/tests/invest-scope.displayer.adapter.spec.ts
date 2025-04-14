@@ -35,4 +35,26 @@ describe('InvestScopeDisplayerAdapter', () => {
 
   })
 
+  it('should show a description of a selected prospection', () => {
+
+    const componentsList = ['navigation','actions', 'prospections', 'prospection-description'];
+    const dynamicComponents: string[][] = [['navigation'], ['prospections'], ['actions']];
+
+    adapter.mapDynamicComponents(componentsList, dynamicComponents);
+    expect(dynamicComponents).toEqual([['navigation'], ['prospections'], ['actions','prospection-description']]);
+
+  })
+
+  it('should remove a description of a selected prospection', () => {
+
+    const componentsList = ['navigation','actions', 'prospections'];
+    const dynamicComponents: string[][] = [['navigation'], ['prospections'], ['actions','prospection-description']];
+
+    adapter.mapDynamicComponents(componentsList, dynamicComponents);
+    expect(dynamicComponents).toEqual([['navigation'], ['prospections'], ['actions']]);
+
+  })
+
+
+
 });

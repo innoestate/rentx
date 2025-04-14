@@ -9,6 +9,7 @@ import { Observable } from "rxjs";
 export abstract class DisplayerManager {
 
   abstract getNavigation(): Observable<{ label: string, navigate: string }[]>;
+  abstract getActions(): Observable<{ label: string, icon: string, command: () => void }[]>;
 
   abstract init(navigation: string ): void;
   abstract navigate(navigation: string): void;
