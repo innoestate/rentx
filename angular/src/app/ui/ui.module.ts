@@ -14,6 +14,7 @@ import { UiTableComponent } from './components/ui-table/ui-table.component';
 import { UiMessageService } from './services/message/message.service';
 import { UiPopupService } from './services/popup/popup.service';
 import { UiDynamicComponentComponent } from './components/ui-dynamic-component/ui-dynamic-component.component';
+import { UiEditableTextComponent } from './components/ui-editable-text/ui-editable-text.component';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import { UiDynamicComponentComponent } from './components/ui-dynamic-component/u
     UiNavigationComponent,
     UiActionsComponent,
     UiIconComponent,
-    UiDynamicComponentComponent
+    UiDynamicComponentComponent,
+    UiEditableTextComponent
   ],
   exports: [
     NzModalModule,
@@ -37,7 +39,8 @@ import { UiDynamicComponentComponent } from './components/ui-dynamic-component/u
     UiNavigationComponent,
     UiActionsComponent,
     UiIconComponent,
-    UiDynamicComponentComponent
+    UiDynamicComponentComponent,
+    UiEditableTextComponent
   ],
   providers: [
     UiPopupService,

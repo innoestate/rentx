@@ -9,22 +9,40 @@ export class InvestScopeDisplayerAdapter {
 
   constructor() { }
 
-  mapDynamicComponents(componentsList: string[], dynamicComponents: string[][]){
+  //Should update without lost array instances
+  mapDynamicComponents(componentsList: string[], dynamicComponents: string[][]): void {
 
-    if(componentsList[2] === 'prospections'){
-      dynamicComponents[1].pop();
-      dynamicComponents[1].push('prospections');
-    }else if(componentsList.includes('prospections')){
+    if (dynamicComponents.length <= 0) {
       dynamicComponents.push(['navigation'], ['prospections'], ['actions']);
-    }else{
-      dynamicComponents[1].pop();
-      dynamicComponents[1].push('sellers');
-    }
+    } else {
+      let left = dynamicComponents[0];
+      let center = dynamicComponents[1];
+      let right = dynamicComponents[2];
 
-    if(componentsList.includes('prospection-description')){
-      dynamicComponents[2].push('prospection-description');
-    }else if (dynamicComponents[2].includes('prospection-description')){
-      dynamicComponents[2].pop();
+      if (!left.includes('navigation')) {
+        left.push('navigation')
+      }
+
+      if (!right.includes('actions')) {
+        right.push('actions')
+      }
+
+      if (!center.includes('prospections') && !center.includes('sellers')) {
+        center.push('prospections')
+      } else if (componentsList.includes('sellers')) {
+        center.pop();
+        center.push('sellers');
+      } else if (componentsList.includes('prospections')) {
+        center.pop();
+        center.push('prospections');
+      }
+
+      if(componentsList.includes('prospectionDescription') && !right.includes('prospectionDescription')){
+        right.push('prospectionDescription');
+      }else if(!componentsList.includes('prospectionDescription') && right.includes('prospectionDescription')){
+        right.splice(1, 1);
+      }
+
     }
 
   }

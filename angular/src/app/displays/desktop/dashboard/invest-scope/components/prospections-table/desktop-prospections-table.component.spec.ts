@@ -15,6 +15,8 @@ import { UiTableHelper } from 'src/app/ui/components/ui-table/test/helper/ui-tab
 import { UiModule } from 'src/app/ui/ui.module';
 import { DesktopProspectionsTableComponent } from './desktop-prospections-table.component';
 import { DesktopProspectionsCommandsService } from '../../commands/desktop.prospections.commands.service';
+import { InvestScopeDisplayManager } from 'src/app/features/invest-scope/displayer/invest-scope.displayer.manager';
+import { InvestScopeDisplayStoreFacade } from 'src/app/features/invest-scope/states/display/facades/invest-scope.display-store.facade';
 
 describe('DesktopProspectionsTableComponent', () => {
   let component: DesktopProspectionsTableComponent;
@@ -44,6 +46,8 @@ describe('DesktopProspectionsTableComponent', () => {
         ProspectionsDataService,
         SellersDataService,
         DesktopProspectionsCommandsService,
+        InvestScopeDisplayManager,
+        InvestScopeDisplayStoreFacade
       ]
     })
     .compileComponents();

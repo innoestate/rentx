@@ -3,3 +3,23 @@
   transition: 0.3s ease;
   transform: scale(1.05);
 }
+
+
+.card {
+  transition: width 0.3s ease;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-basic-100);
+  padding: 16px;
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow);
+
+  .title {
+    color: var(--color-secondary-500);
+    font-size: 22px;
+    font-family: 'primary-bold';
+  }
+}

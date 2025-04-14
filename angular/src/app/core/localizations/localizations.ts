@@ -2,7 +2,8 @@ export const Localizations: Record<string, Record<string, string>> = {
 
   commons: {
     validationButton: "OK",
-    delete: "Supprimer"
+    delete: "Supprimer",
+    description: "Description"
   },
   prospections : {
     label: 'prospections',

@@ -5,19 +5,24 @@ import { ProspectionsDataModule } from 'src/app/features/prospections/data/modul
 import { UiModule } from 'src/app/ui/ui.module';
 import { DesktopProspectionsCommandsService } from '../../commands/desktop.prospections.commands.service';
 import { DesktopProspectionsTableComponent } from '../../components/prospections-table/desktop-prospections-table.component';
+import { DesktopProspectionDescriptionComponent } from '../../components/description/desktop-prospection-description.component';
+import { CommonModule } from '@angular/common';
 
 
 
 @NgModule({
   declarations: [
-    DesktopProspectionsTableComponent
+    DesktopProspectionsTableComponent,
+    DesktopProspectionDescriptionComponent
   ],
   imports: [
+    CommonModule,
     ProspectionsDataModule,
     UiModule.forChild(),
   ],
   exports: [
     DesktopProspectionsTableComponent,
+    DesktopProspectionDescriptionComponent
   ],
   providers: [
     DesktopProspectionsCommandsService,

@@ -5,6 +5,7 @@ import { ProspectionsDataService } from 'src/app/features/prospections/data/serv
 import { SellersDataService } from 'src/app/features/sellers/data/services/sellers.data.service';
 import { UiTableRow } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
 import { DesktopProspectionsCommandsService } from '../../commands/desktop.prospections.commands.service';
+import { InvestScopeDisplayManager } from 'src/app/features/invest-scope/displayer/invest-scope.displayer.manager';
 
 @Component({
   standalone: false,
@@ -16,7 +17,8 @@ export class DesktopProspectionsTableComponent extends ProspectionsTableDirectiv
   constructor(protected override prospectionsData: ProspectionsDataService,
               protected override SellersData: SellersDataService,
               protected override tableAdapter: ProspectionsTableAdapterService,
-              private commandsService: DesktopProspectionsCommandsService ) {
+              private commandsService: DesktopProspectionsCommandsService,
+              private displayManager: InvestScopeDisplayManager ) {
     super(prospectionsData, SellersData, tableAdapter, commandsService);
     console.log('prospections table constructor')
   }
@@ -27,7 +29,9 @@ export class DesktopProspectionsTableComponent extends ProspectionsTableDirectiv
   }
 
   selectRow(row: UiTableRow) {
-    console.log('select row', row);
+    const prospection = this.prospections().find(prospection => prospection.id === row.data['id']);
+    if(!prospection) throw new Error('Prospection not found');
+    this.displayManager.selectItem(prospection);
   }
 
 }

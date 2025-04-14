@@ -12,3 +12,8 @@ export const onInvestScopeNavigation = createSelector(
   selectInvestScopeState,
   (state: InvestScopeState) => state.navigation
 )
+
+export const onInvestScopeSelectedItem = createSelector(
+  selectInvestScopeState,
+  (state: InvestScopeState) => state.selectedItem
+)

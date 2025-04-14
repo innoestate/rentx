@@ -4,6 +4,7 @@ import { UiNavigationComponent } from "src/app/ui/components/ui-navigation/ui-na
 import { DynamicComponentFactoryService } from "src/app/ui/services/factory/dynamic-component-factory.service";
 import { DesktopProspectionsTableComponent } from "../components/prospections-table/desktop-prospections-table.component";
 import { DesktopSellersTableComponent } from "../components/sellers-table/desktop-sellers-table.component";
+import { DesktopProspectionDescriptionComponent } from "../components/description/desktop-prospection-description.component";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class InvestScopeFactory extends DynamicComponentFactoryService {
   protected override componentMap: { [key: string]: Type<any> } = {
     'navigation': UiNavigationComponent,
     'prospections': DesktopProspectionsTableComponent,
+    'prospectionDescription': DesktopProspectionDescriptionComponent,
     'sellers': DesktopSellersTableComponent,
     'actions': UiActionsComponent
   };

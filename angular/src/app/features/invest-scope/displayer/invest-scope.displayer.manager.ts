@@ -7,6 +7,7 @@ import { InvestScopeDisplayedElement } from "../models/invest-scope.display-map.
 import { DesktopSellersCommandsService } from "src/app/displays/desktop/dashboard/invest-scope/commands/desktop.sellers.commands.service";
 import { DesktopProspectionsCommandsService } from "src/app/displays/desktop/dashboard/invest-scope/commands/desktop.prospections.commands.service";
 import { SellersDataService } from "../../sellers/data/services/sellers.data.service";
+import { Prospection } from "../../prospections/models/prospection.model";
 
 @Injectable()
 export class InvestScopeDisplayManager extends DisplayerManager {
@@ -63,8 +64,23 @@ export class InvestScopeDisplayManager extends DisplayerManager {
         this.facade.removeComponent(actualNavigation);
         this.facade.addComponent(navigation);
         this.facade.setNavigation(navigation);
+        this.facade.deselectItem();
+        this.facade.removeComponent('prospectionDescription');
       })
     ).subscribe();
+  }
+
+  selectItem(prospection: Prospection) {
+    this.facade.onSelectedItem().pipe(
+      take(1),
+      tap(item => {
+        if(!item){
+          this.facade.addComponent('prospectionDescription');
+        }
+      })
+    ).subscribe();
+    this.facade.selectItem(prospection);
+
   }
 
   override onNavigation() {

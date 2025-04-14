@@ -1,6 +1,6 @@
 :host {
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: row nowrap;
   gap: 10px;
   justify-content: center;
   align-items: center;
@@ -8,6 +8,7 @@
   padding: 16px;
   border-radius: var(--radius-large);
   box-shadow: var(--shadow);
+  align-self: baseline;
 
   .action {
     cursor: pointer;

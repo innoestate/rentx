@@ -8,3 +8,12 @@
   gap: 8px;
   margin-bottom: 16px;
 }
+
+.column {
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: stretch;
+  align-items: stretch;
+  gap: 4px;
+}

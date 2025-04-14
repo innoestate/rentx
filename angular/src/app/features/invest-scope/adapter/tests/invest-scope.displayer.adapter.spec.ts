@@ -17,17 +17,17 @@ describe('InvestScopeDisplayerAdapter', () => {
 
   it('should update dynamic components with a different table', () => {
 
-    const componentsList = ['navigation','actions', 'sellers'];
+    const componentsList = ['navigation', 'actions', 'prospections'];
     const dynamicComponents: string[][] = [['navigation'], ['prospections'], ['actions']];
 
     adapter.mapDynamicComponents(componentsList, dynamicComponents);
-    expect(dynamicComponents).toEqual([['navigation'], ['sellers'], ['actions']]);
+    expect(dynamicComponents).toEqual([['navigation'], ['prospections'], ['actions']]);
 
   })
 
   it('should update dynamic components with a different table', () => {
 
-    const componentsList = ['navigation','actions', 'prospections'];
+    const componentsList = ['navigation', 'actions', 'prospections'];
     const dynamicComponents: string[][] = [['navigation'], ['sellers'], ['actions']];
 
     adapter.mapDynamicComponents(componentsList, dynamicComponents);
@@ -37,18 +37,18 @@ describe('InvestScopeDisplayerAdapter', () => {
 
   it('should show a description of a selected prospection', () => {
 
-    const componentsList = ['navigation','actions', 'prospections', 'prospection-description'];
+    const componentsList = ['navigation', 'actions', 'prospectionDescription', 'prospections'];
     const dynamicComponents: string[][] = [['navigation'], ['prospections'], ['actions']];
 
     adapter.mapDynamicComponents(componentsList, dynamicComponents);
-    expect(dynamicComponents).toEqual([['navigation'], ['prospections'], ['actions','prospection-description']]);
+    expect(dynamicComponents).toEqual([['navigation'], ['prospections'], ['actions', 'prospectionDescription']]);
 
   })
 
   it('should remove a description of a selected prospection', () => {
 
-    const componentsList = ['navigation','actions', 'prospections'];
-    const dynamicComponents: string[][] = [['navigation'], ['prospections'], ['actions','prospection-description']];
+    const componentsList = ['navigation', 'actions', 'prospections'];
+    const dynamicComponents: string[][] = [['navigation'], ['prospections'], ['actions', 'prospectionDescription']];
 
     adapter.mapDynamicComponents(componentsList, dynamicComponents);
     expect(dynamicComponents).toEqual([['navigation'], ['prospections'], ['actions']]);
