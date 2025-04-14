@@ -1,7 +1,6 @@
-import { ComponentFixture } from '@angular/core/testing';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UiButtonComponent } from '../ui-button.component';
-import { configureFixture } from './utils/ui-button.default.utils';
-import { configureModule } from './utils/ui-button.utils';
 
 describe('UiButtonComponent default', () => {
   let component: UiButtonComponent;
@@ -9,8 +8,13 @@ describe('UiButtonComponent default', () => {
 
   beforeEach(async () => {
 
-    await configureModule();
-    fixture = await configureFixture();
+    TestBed.configureTestingModule({
+      imports: [UiButtonComponent],
+      providers: [provideExperimentalZonelessChangeDetection()]
+    }).compileComponents();
+    fixture = TestBed.createComponent(UiButtonComponent);
+    fixture.componentRef.setInput('text', 'Test Default Button');
+    fixture.detectChanges();
     component = fixture.componentInstance;
     spyOn(component.click, 'emit');
 
@@ -28,7 +32,7 @@ describe('UiButtonComponent default', () => {
 
   it('should have a button with a default style', () => {
     const button = fixture.nativeElement.querySelector('button');
-    expect(button.classList.contains('ant-btn-default')).toBeTrue();
+    expect(button.classList.contains('default')).toBeTrue();
   })
 
   it('should trigger the click event', () => {

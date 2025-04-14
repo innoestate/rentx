@@ -1,7 +1,6 @@
-import { ComponentFixture } from '@angular/core/testing';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UiButtonComponent } from '../ui-button.component';
-import { configureFixture } from './utils/ui-button.primary.utils';
-import { configureModule } from './utils/ui-button.utils';
 
 describe('UiButtonComponent primary', () => {
   let component: UiButtonComponent;
@@ -9,8 +8,14 @@ describe('UiButtonComponent primary', () => {
 
   beforeEach(async () => {
 
-    await configureModule();
-    fixture = await configureFixture();
+    TestBed.configureTestingModule({
+      imports: [UiButtonComponent],
+      providers: [provideExperimentalZonelessChangeDetection()]
+    }).compileComponents();
+    fixture = TestBed.createComponent(UiButtonComponent);
+    fixture.componentRef.setInput('text', 'Test Primary Button');
+    fixture.componentRef.setInput('type', 'primary');
+    fixture.detectChanges();
     component = fixture.componentInstance;
     spyOn(component.click, 'emit');
 
@@ -28,7 +33,7 @@ describe('UiButtonComponent primary', () => {
 
   it('should have a button with a default style', () => {
     const button = fixture.nativeElement.querySelector('button');
-    expect(button.classList.contains('ant-btn-primary')).toBeTrue();
+    expect(button.classList.contains('primary')).toBeTrue();
   })
 
   it('should trigger the click event', () => {

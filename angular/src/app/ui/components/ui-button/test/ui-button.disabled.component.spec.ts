@@ -1,7 +1,6 @@
-import { ComponentFixture } from '@angular/core/testing';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UiButtonComponent } from '../ui-button.component';
-import { configureFixture } from './utils/ui-button.disabled.utils';
-import { configureModule } from './utils/ui-button.utils';
 
 describe('UiButtonComponent disabled', () => {
   let component: UiButtonComponent;
@@ -9,10 +8,17 @@ describe('UiButtonComponent disabled', () => {
 
   beforeEach(async () => {
 
-    await configureModule();
-    fixture = await configureFixture();
+    TestBed.configureTestingModule({
+      imports: [UiButtonComponent],
+      providers: [provideExperimentalZonelessChangeDetection()]
+    }).compileComponents();
+    fixture = TestBed.createComponent(UiButtonComponent);
+    fixture.componentRef.setInput('text', 'Test Disabled Button');
+    fixture.componentRef.setInput('disabled', true);
+    fixture.detectChanges();
     component = fixture.componentInstance;
     spyOn(component.click, 'emit');
+    fixture.detectChanges();
 
   });
 
@@ -21,14 +27,10 @@ describe('UiButtonComponent disabled', () => {
     expect(component.text()).toBe('Test Disabled Button');
   });
 
-  it('should have a button with the innerHtml text', () => {
-    const button = fixture.nativeElement.querySelector('button');
-    expect(button).toBeTruthy();
-  });
-
   it('should have a button with a default style', () => {
     const button = fixture.nativeElement.querySelector('button');
-    expect(button.getAttribute('ng-reflect-disabled')).toBe('true');
+    console.log('button', button);
+    expect(button.hasAttribute('disabled')).toBeTrue();
   })
 
   it('should not trigger the click event', () => {
