@@ -8,7 +8,7 @@ export class MenuComponent {
 
   user = this.store.selectSignal(selectUser);
 
-  constructor(private store: Store, protected themeService: ThemeService) {}
+  constructor(protected store: Store, protected themeService: ThemeService) {}
 
   logout() {
     this.store.dispatch({ type: '[User] Log Out' });
