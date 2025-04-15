@@ -11,7 +11,7 @@ import { UiIconComponent } from '../ui-icon/ui-icon.component';
 })
 export class UiActionsComponent {
 
-  protected actions = toSignal(this.displayStateManager.getActions());
+  protected actions: { label: string, icon: string, command: () => void }[] = [] ;// toSignal(this.displayStateManager.getActions());
 
   constructor(protected displayStateManager: DisplayerManager) { }
 

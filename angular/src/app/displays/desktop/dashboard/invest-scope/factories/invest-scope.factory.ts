@@ -6,6 +6,9 @@ import { DesktopProspectionDescriptionComponent } from "../components/descriptio
 import { DesktopProspectionsTableComponent } from "../components/prospections-table/desktop-prospections-table.component";
 import { DesktopSellersTableComponent } from "../components/sellers-table/desktop-sellers-table.component";
 import { LocalizationsService } from "src/app/core/localizations/localizations.service";
+import { DesktopProspectionsCommandsService } from "../commands/desktop.prospections.commands.service";
+import { DesktopSellersCommandsService } from "../commands/desktop.sellers.commands.service";
+import { SellersDataService } from "src/app/features/sellers/data/services/sellers.data.service";
 
 @Injectable({
   providedIn: 'root'
@@ -17,18 +20,42 @@ export class InvestScopeFactory extends DynamicComponentFactoryService {
     'prospections': { component: DesktopProspectionsTableComponent },
     'prospectionDescription': { component: DesktopProspectionDescriptionComponent },
     'sellers': { component: DesktopSellersTableComponent },
-    'actions': { component: UiActionsComponent }
+    'actions': { component: UiActionsComponent, values: this.getActionsValues() }
   };
+  private sellers = this.sellersData.getSellers();
 
-  constructor(private localizations: LocalizationsService) {
+
+  constructor(private localizations: LocalizationsService,
+    private sellersData: SellersDataService,
+    private prospectionsCommands: DesktopProspectionsCommandsService,
+    private sellersCommands: DesktopSellersCommandsService) {
     super();
   }
 
-  private getNavigationValues(){
-    return { navigators: [
-      { label: this.localizations.getLocalization('prospections', 'label'), navigate: 'prospections' },
-      { label: this.localizations.getLocalization('sellers', 'label'), navigate: 'sellers' }
-    ]}
+  private getNavigationValues() {
+    return {
+      navigators: [
+        { label: this.localizations.getLocalization('prospections', 'label'), navigate: 'prospections' },
+        { label: this.localizations.getLocalization('sellers', 'label'), navigate: 'sellers' }
+      ]
+    }
+  }
+
+  private getActionsValues() {
+    return {
+      actions: [
+        {
+          label: this.localizations.getLocalization('prospections', 'addProspection'),
+          icon: 'add-estate',
+          command: () => this.prospectionsCommands.createNew(this.sellers())
+        },
+        {
+          label: this.localizations.getLocalization('sellers', 'addSeller'),
+          icon: 'seller',
+          command: () => this.sellersCommands.createNew()
+        }
+      ]
+    }
   }
 
 }

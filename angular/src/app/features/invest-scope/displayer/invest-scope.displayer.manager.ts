@@ -22,21 +22,6 @@ export class InvestScopeDisplayManager extends DisplayerManager {
     super();
   }
 
-  override getActions(): Observable<{ label: string, icon: string, command: () => void }[]> {
-    return of([
-      {
-        label: this.localizations.getLocalization('prospections', 'addProspection'),
-        icon: 'add-estate',
-        command: () => this.prospectionsCommands.createNew(this.sellers())
-      },
-      {
-        label: this.localizations.getLocalization('sellers', 'addSeller'),
-        icon: 'seller',
-        command: () => this.sellersCommands.createNew()
-      }
-    ]);
-  }
-
   override init(navigation: 'prospections' | 'sellers') {
     this.facade.clearComponents();
     this.facade.addComponent('navigation');
