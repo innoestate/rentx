@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { EventEmitter, Injectable, Signal, signal } from "@angular/core";
 /**
  * Adapter that maps the component list (string[]) to the dynamic components (string[][])
  * It typically reorganize components positions between themself.
@@ -9,38 +9,28 @@ export class InvestScopeDisplayerAdapter {
 
   constructor() { }
 
-  //Should update without lost array instances
-  mapDynamicComponents(componentsList: string[], dynamicComponents: string[][]): void {
+  mapDynamicComponents(componentsList: string[], dynamicComponents: {name: string, replace: EventEmitter<string>}[][]): void {
 
     if (dynamicComponents.length <= 0) {
-      dynamicComponents.push(['navigation'], ['prospections'], ['actions']);
+      dynamicComponents.push([{name: 'navigation', replace: new EventEmitter()}], [{name: 'prospections', replace: new EventEmitter()}], [{name: 'actions', replace: new EventEmitter()}]);
     } else {
       let left = dynamicComponents[0];
       let center = dynamicComponents[1];
       let right = dynamicComponents[2];
 
-      if (!left.includes('navigation')) {
-        left.push('navigation')
-      }
-
-      if (!right.includes('actions')) {
-        right.push('actions')
-      }
-
-      if (!center.includes('prospections') && !center.includes('sellers')) {
-        center.push('prospections')
+      if (!center.find( item => item.name === 'prospections') && !center.find( item => item.name === 'sellers')) {
+        center.push({ name: 'prospections', replace: new EventEmitter()})
       } else if (componentsList.includes('sellers')) {
-        center.pop();
-        center.push('sellers');
+        center[0].replace.emit('sellers');
       } else if (componentsList.includes('prospections')) {
-        center.pop();
-        center.push('prospections');
+        center[0].replace.emit('prospections');
       }
-
-      if(componentsList.includes('prospectionDescription') && !right.includes('prospectionDescription')){
-        right.push('prospectionDescription');
-      }else if(!componentsList.includes('prospectionDescription') && right.includes('prospectionDescription')){
-        right.splice(1, 1);
+      if(componentsList.includes('prospectionDescription') && right.length > 1 && right[1].name !== 'prospectionDescription'){
+        right[1].replace.emit('prospectionDescription');
+      }else if(componentsList.includes('prospectionDescription') && !right.find( item => item.name === 'prospectionDescription')){
+        right.push({name: 'prospectionDescription', replace: new EventEmitter()});
+      }else if(!componentsList.includes('prospectionDescription') && right.find( item => item.name === 'prospectionDescription')){
+        right[1].replace.emit('');
       }
 
     }

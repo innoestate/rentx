@@ -26,4 +26,5 @@ export class InvestScopeComponent extends InvestScopeDisplayerDirective implemen
     super.ngOnInit();
   }
 
+
 }
