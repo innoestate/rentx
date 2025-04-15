@@ -55,18 +55,22 @@ export class UiDynamicComponentComponent {
   }
 
   private canReplace(name: string){
-    return (!!this.component().name || this.component().name === '') && (!!name || name === '') && (name !== this.component().name);
+    return (!!this.component().name || this.component().name === '') && (!!name || name === '') && (name !== this.component().name || name === '' || this.component().name === '');
   }
 
   private replace(name: string){
     this.viewContainerRef.clear();
-    if(name === ''){
+    this.component().name = name;
+    if(this.isAnEmptyComponent(name)){
       this.ref = null;
     }else{
-      this.component().name = name;
       this.buildComponent();
       this.initInAnimation();
     }
+  }
+
+  private isAnEmptyComponent(name: string){
+    return name === '';
   }
 
   private initInAnimation(){
