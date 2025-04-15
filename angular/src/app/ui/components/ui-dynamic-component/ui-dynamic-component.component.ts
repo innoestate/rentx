@@ -18,8 +18,8 @@ export class UiDynamicComponentComponent {
   constructor(private factory: DynamicComponentFactoryService, private viewContainerRef: ViewContainerRef) {}
 
   ngOnInit(): void {
-    this.ref = this.viewContainerRef.createComponent(this.factory.getComponent(this.component().name), { index: 0});
 
+    this.buildComponent();
     this.initInAnimation();
     setTimeout(() => {
       this.startInAnimation();
@@ -43,17 +43,28 @@ export class UiDynamicComponentComponent {
     ).subscribe();
   }
 
+  private buildComponent(){
+    const factoryComponentData = this.factory.getComponent(this.component().name);
+    this.ref = this.viewContainerRef.createComponent(factoryComponentData.component, { index: 0});
+    if(factoryComponentData.values){
+      Object.keys(factoryComponentData.values).forEach(key => {
+        (this.ref as ComponentRef<any>).instance[key] = (factoryComponentData.values as any)[key];
+      });
+    }
+
+  }
+
   private canReplace(name: string){
     return (!!this.component().name || this.component().name === '') && (!!name || name === '') && (name !== this.component().name);
   }
 
   private replace(name: string){
     this.viewContainerRef.clear();
-    this.component().name = name;
     if(name === ''){
       this.ref = null;
     }else{
-      this.ref = this.viewContainerRef.createComponent(this.factory.getComponent(name), { index: 0});
+      this.component().name = name;
+      this.buildComponent();
       this.initInAnimation();
     }
   }

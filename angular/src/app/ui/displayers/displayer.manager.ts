@@ -8,7 +8,6 @@ import { Observable } from "rxjs";
 @Injectable()
 export abstract class DisplayerManager {
 
-  abstract getNavigation(): Observable<{ label: string, navigate: string }[]>;
   abstract getActions(): Observable<{ label: string, icon: string, command: () => void }[]>;
 
   abstract init(navigation: string ): void;
