@@ -23,3 +23,13 @@
     font-family: 'primary-bold';
   }
 }
+
+.card-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}

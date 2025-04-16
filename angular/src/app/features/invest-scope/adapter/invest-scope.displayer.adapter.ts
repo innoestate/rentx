@@ -28,8 +28,10 @@ export class InvestScopeDisplayerAdapter {
         center[0].replace.emit('prospections');
       }
 
-      if(componentsList.includes('sellers') && right.length > 1 && right[1].name === 'prospectionDescription'){
-        right[1].replace.emit('');
+      if( right.length > 1 && right[1].name === 'navigation'){
+        right[1].replace.emit('prospectionDescription');
+      }else if(componentsList.includes('sellers') && right.length > 1 && right[1].name === 'prospectionDescription'){
+        right[1].replace.emit('navigation');
       }else if(!componentsList.includes('prospectionDescription') && right.length > 1 && right[1].name === ''){
         right[1].replace.emit('prospectionDescription');
       }else if(componentsList.includes('prospectionDescription') && right.length > 1 && right[1].name === ''){
