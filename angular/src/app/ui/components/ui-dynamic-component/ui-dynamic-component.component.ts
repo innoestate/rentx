@@ -142,10 +142,17 @@ export class UiDynamicComponentComponent {
     return of(nameOfNewComponent).pipe(
       tap(() => {
         this.previousSize = this.getSize(this.previousRef!);
-        this.initAnimation(this.previousRef!, this.previousSize);
+        this.initAnimation(this.previousRef!, this.previousSize!, 1,1);
       }),
       delay(10),
-      tap(() => this.runAnimation(this.previousRef!, this.nextSize!)),
+      tap(() => {
+        if((this.previousSize?.width || 0) < (this.nextSize?.width || 0)){
+          this.runAnimation(this.previousRef!, this.previousSize!, this.nextSize!, 0);
+        }else{
+          this.runAnimation(this.previousRef!, this.previousSize!, this.nextSize!, 0);
+        }
+
+      }),
       delay(this.ANIMATION_DELAY),
       tap(() => {
         this.viewContainerRef.clear();
@@ -189,11 +196,11 @@ export class UiDynamicComponentComponent {
       tap(() => {
         this.nextRef = this.buildComponent(nameOfNewComponent, 0);
         this.component().name = nameOfNewComponent;
-        this.initAnimation(this.nextRef!, this.previousSize!);
+        this.initAnimation(this.nextRef!, this.previousSize!, 0, 1);
       }),
       delay(10),
       tap(() => {
-        this.runAnimation(this.nextRef!, this.nextSize!)
+        this.runAnimation(this.nextRef!, this.previousSize!, this.nextSize!, 1);
         this.previousRef = this.nextRef;
         this.nextRef = null;
       }),
@@ -243,13 +250,9 @@ export class UiDynamicComponentComponent {
   private setNextComponentWithoutAnimation(nameOfNewComponent: string) {
     return of(nameOfNewComponent).pipe(
       tap(() => {
-
-        console.log('setNExtComponentWithoutAnimation', this.component().name, nameOfNewComponent )
-
         this.viewContainerRef.clear();
         this.nextRef = this.buildComponent(nameOfNewComponent, 0);
         this.component().name = nameOfNewComponent;
-        // this.initAnimation(this.nextRef!, this.previousSize!);
         this.previousRef = this.nextRef;
         this.nextRef = null;
       }),
@@ -260,20 +263,47 @@ export class UiDynamicComponentComponent {
     return { width: component.location.nativeElement.offsetWidth, height: component.location.nativeElement.offsetHeight };
   }
 
-  private initAnimation(componentRef: ComponentRef<any>, size: { width: number, height: number }) {
+  private initAnimation(componentRef: ComponentRef<any>, size: { width: number, height: number }, opacity: number, scale: number) {
     componentRef.location.nativeElement.style.transition = `none`;
     componentRef.location.nativeElement.style.width = `${size.width}px`;
     componentRef.location.nativeElement.style.height = `${size.height}px`;
+
     this.elRef.nativeElement.style.transition = `none`;
     this.elRef.nativeElement.style.width = `${size.width}px`;
+
+    const content = componentRef.location.nativeElement.querySelector('.card-content');
+    console.log('card-content', content);
+    if(content){
+      (content as HTMLElement).style.transition = `none`;
+      (content as HTMLElement).style.transform = `scale(${scale})`;
+      (content as HTMLElement).style.opacity = opacity.toString();
+    }
+
   }
 
-  private runAnimation(componentRef: ComponentRef<any>, size: { width: number, height: number }) {
+  private runAnimation(componentRef: ComponentRef<any>, previousSize: { width: number, height: number }, size: { width: number, height: number }, opacity: number) {
     componentRef.location.nativeElement.style.transition = `all ${this.ANIMATION_DELAY}ms`;
     componentRef.location.nativeElement.style.width = `${size.width}px`;
     componentRef.location.nativeElement.style.height = `${size.height}px`;
+
     this.elRef.nativeElement.style.transition = `all ${this.ANIMATION_DELAY}ms`;
     this.elRef.nativeElement.style.width = `${size.width}px`;
+
+    const content = componentRef.location.nativeElement.querySelector('.card-content');
+    if(content){
+
+      const styles = window.getComputedStyle(componentRef.location.nativeElement);
+
+      const paddingX = parseFloat(styles.paddingLeft);
+      const paddingY = parseFloat(styles.paddingTop);
+
+      const scaleX = ((size.width - paddingX) / (previousSize.width));
+      const scaleY = ((size.height - paddingY) / (previousSize.height));
+
+      (content as HTMLElement).style.transition = `transform ${this.ANIMATION_DELAY}ms, opacity ${this.ANIMATION_DELAY/4}ms`;
+      (content as HTMLElement).style.transform = `scale(${scaleX}, ${scaleY})`;
+      (content as HTMLElement).style.opacity = opacity.toString();
+    }
   }
 
   private buildComponent(name: string, index: number) {
