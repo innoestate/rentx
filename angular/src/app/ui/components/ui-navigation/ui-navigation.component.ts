@@ -16,13 +16,21 @@ export class UiNavigationComponent implements AfterViewChecked {
   constructor(protected elRef: ElementRef, protected displayStateManager: DisplayerManager){}
 
   ngAfterViewChecked(): void {
-    if(this.elRef?.nativeElement){
-      const navigators = (this.elRef.nativeElement as HTMLDivElement).querySelectorAll('.navigator') as NodeListOf<HTMLElement>;
+    const cardContent = this.elRef.nativeElement.querySelector('.card-content');
+    if(cardContent){
+      const navigators = cardContent.querySelectorAll('.navigator') as NodeListOf<HTMLElement>;
       const maxSize = Array.from(navigators).reduce((max, navigator) => {
         return Math.max(max, navigator.offsetWidth);
       }, 0);
-      this.elRef.nativeElement.style.width = `${maxSize + 32}px`;
+      cardContent.style.width = `${maxSize}px`;
     }
+    // if(this.elRef?.nativeElement){
+    //   const navigators = (this.elRef.nativeElement as HTMLDivElement).querySelectorAll('.navigator') as NodeListOf<HTMLElement>;
+    //   const maxSize = Array.from(navigators).reduce((max, navigator) => {
+    //     return Math.max(max, navigator.offsetWidth);
+    //   }, 0);
+    //   this.elRef.nativeElement.style.width = `${maxSize + 32}px`;
+    // }
   }
 
   protected getNavigation(): {label: string, navigate: string}[] {

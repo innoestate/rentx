@@ -20,7 +20,6 @@ export class DesktopProspectionDescriptionComponent {
   }
 
   updateDescription(description: string) {
-    console.log('update description', description);
     this.prospectionsData.updateProspection(this.prospection()?.id!, { resume: description });
   }
 

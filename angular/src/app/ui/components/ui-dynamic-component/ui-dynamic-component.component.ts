@@ -46,30 +46,6 @@ export class UiDynamicComponentComponent {
     ).subscribe();
   }
 
-  private getNextComponentSize(nextComponentName: string) {
-    return of(nextComponentName).pipe(
-      tap(nextComponentName => {
-        if (nextComponentName !== '') {
-          let index = this.component().name === '' ? 0 : 1;
-          this.nextRef = this.buildComponent(nextComponentName, index);
-          this.nextRef!.location.nativeElement.style.opacity = '0';
-          this.nextRef!.location.nativeElement.style.position = 'absolute';
-          this.nextRef!.location.nativeElement.style.transition = 'none';
-        }
-      }),
-      delay(0),
-      tap(() => {
-        if (this.nextRef) {
-          this.nextSize = this.getSize(this.nextRef);
-          let index = this.component().name === '' ? 0 : 1;
-          this.viewContainerRef.remove(index);
-        } else {
-          this.nextSize = { width: 0, height: 0 };
-        }
-      })
-    )
-  }
-
   private getNextComponentSize2(nextComponentName: string) {
     let ref!: ComponentRef<any>;
     return of(nextComponentName).pipe(
@@ -127,9 +103,13 @@ export class UiDynamicComponentComponent {
     return of(nameOfNewComponent).pipe(
       switchMap(nameOfNewComponent => {
         if (this.hasPreviousComponent() && this.hasNextComponent(nameOfNewComponent)) {
-          return this.setNextComponentWithoutAnimation(nameOfNewComponent);
+          if(this.previousSize?.width === this.nextSize?.width){
+            return this.setNextAnimationOfSameSize(nameOfNewComponent);
+          }else{
+            return this.setNextComponentWithoutAnimation(nameOfNewComponent);
+          }
         } else if (this.hasNextComponent(nameOfNewComponent)) {
-          return this.setNextComponent(nameOfNewComponent);
+          return this.setNextAnimationWithScale(nameOfNewComponent);
         } else {
           return this.setEmptyNextComponent();
         }
@@ -148,9 +128,7 @@ export class UiDynamicComponentComponent {
   private animateFromPreviousToNext(nameOfNewComponent: string) {
     return of(nameOfNewComponent).pipe(
       switchMap(nameOfNewComponent => {
-
         this.previousSize = this.getSize(this.previousRef!);
-        console.log(this.component().name, nameOfNewComponent, this.previousSize, this.nextSize)
         if ((this.previousSize?.width === this.nextSize?.width)) {
           return this.setAnimationSameSizeFromPreviousToNext(nameOfNewComponent);
         } else {
@@ -195,9 +173,6 @@ export class UiDynamicComponentComponent {
 
       }),
       delay(this.ANIMATION_DELAY/2),
-      tap(() => {
-        this.viewContainerRef.clear();
-      })
     );
   }
 
@@ -209,7 +184,7 @@ export class UiDynamicComponentComponent {
     )
   }
 
-  private setNextComponent(nameOfNewComponent: string) {
+  private setNextAnimationWithScale(nameOfNewComponent: string) {
     return of(nameOfNewComponent).pipe(
       tap(() => {
         this.nextRef = this.buildComponent(nameOfNewComponent, 0);
@@ -221,6 +196,37 @@ export class UiDynamicComponentComponent {
         this.runAnimation(this.nextRef!, this.nextSize!)
         this.previousRef = this.nextRef;
         this.nextRef = null;
+      }),
+      delay(this.ANIMATION_DELAY),
+      tap(() => {
+        this.previousRef!.location.nativeElement.style.height = `auto`;
+      })
+    )
+  }
+
+  private setNextAnimationOfSameSize(nameOfNewComponent: string) {
+    console.log('ANIMATION OF SAME SIZE', this.component().name, nameOfNewComponent)
+    return of(nameOfNewComponent).pipe(
+      tap(() => {
+        this.viewContainerRef.clear();
+
+        this.nextRef = this.buildComponent(nameOfNewComponent, 0);
+        this.component().name = nameOfNewComponent;
+
+        this.previousRef = this.nextRef;
+        this.nextRef = null;
+
+        this.previousRef!.location.nativeElement.style.transition = `none`;
+        this.previousRef!.location.nativeElement.style.opacity = `0`;
+
+      }),
+      delay(10),
+      tap(() => {
+
+        this.previousRef!.location.nativeElement.style.transition = `all ${this.ANIMATION_DELAY/2}ms`;
+        this.previousRef!.location.nativeElement.style.opacity = `1`;
+
+
       })
     )
   }
@@ -237,12 +243,16 @@ export class UiDynamicComponentComponent {
   private setNextComponentWithoutAnimation(nameOfNewComponent: string) {
     return of(nameOfNewComponent).pipe(
       tap(() => {
+
+        console.log('setNExtComponentWithoutAnimation', this.component().name, nameOfNewComponent )
+
+        this.viewContainerRef.clear();
         this.nextRef = this.buildComponent(nameOfNewComponent, 0);
         this.component().name = nameOfNewComponent;
         // this.initAnimation(this.nextRef!, this.previousSize!);
         this.previousRef = this.nextRef;
         this.nextRef = null;
-      })
+      }),
     )
   }
 
@@ -254,24 +264,27 @@ export class UiDynamicComponentComponent {
     componentRef.location.nativeElement.style.transition = `none`;
     componentRef.location.nativeElement.style.width = `${size.width}px`;
     componentRef.location.nativeElement.style.height = `${size.height}px`;
+    this.elRef.nativeElement.style.transition = `none`;
+    this.elRef.nativeElement.style.width = `${size.width}px`;
   }
 
   private runAnimation(componentRef: ComponentRef<any>, size: { width: number, height: number }) {
     componentRef.location.nativeElement.style.transition = `all ${this.ANIMATION_DELAY}ms`;
     componentRef.location.nativeElement.style.width = `${size.width}px`;
     componentRef.location.nativeElement.style.height = `${size.height}px`;
+    this.elRef.nativeElement.style.transition = `all ${this.ANIMATION_DELAY}ms`;
+    this.elRef.nativeElement.style.width = `${size.width}px`;
   }
 
   private buildComponent(name: string, index: number) {
     const factoryComponentData = this.factory.getComponent(name);
-    const ref = this.viewContainerRef.createComponent(factoryComponentData.component, { index });
+    const ref = this.viewContainerRef.createComponent(factoryComponentData.component, { injector: this.injector });
     if (factoryComponentData.values) {
       Object.keys(factoryComponentData.values).forEach(key => {
         (ref as ComponentRef<any>).instance[key] = (factoryComponentData.values as any)[key];
       });
     }
-    ref.location.nativeElement.style.transition = `width ${this.ANIMATION_DELAY}ms,
-                                                  height ${this.ANIMATION_DELAY}ms,`;
+    console.log(this.component().name, '->', name, 'ref', ref);
     return ref;
   }
 

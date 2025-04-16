@@ -11,6 +11,10 @@
   box-shadow: var(--shadow);
 }
 
+.card-content {
+  transition: width 0.3s ease;
+}
+
 
 .navigator {
   cursor: pointer;
