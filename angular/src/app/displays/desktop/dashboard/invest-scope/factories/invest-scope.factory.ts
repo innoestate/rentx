@@ -36,7 +36,21 @@ export class InvestScopeFactory extends DynamicComponentFactoryService {
     return {
       navigators: [
         { label: this.localizations.getLocalization('prospections', 'label'), navigate: 'prospections' },
-        { label: this.localizations.getLocalization('sellers', 'label'), navigate: 'sellers' }
+        { label: this.localizations.getLocalization('sellers', 'label'), navigate: 'sellers' },
+        // { label: this.localizations.getLocalization('test', 'test1'), navigate: 'test' },
+        // { label: this.localizations.getLocalization('test2', 'test2'), navigate: 'test2' },
+        // { label: this.localizations.getLocalization('test2', 'test2'), navigate: 'test2' },
+        // { label: this.localizations.getLocalization('test2', 'test2'), navigate: 'test2' },
+        // { label: this.localizations.getLocalization('test2', 'test2'), navigate: 'test2' },
+        // { label: this.localizations.getLocalization('test2', 'test2'), navigate: 'test2' },
+        // { label: this.localizations.getLocalization('test2', 'test2'), navigate: 'test2' },
+        // { label: this.localizations.getLocalization('test2', 'test2'), navigate: 'test2' },
+        // { label: this.localizations.getLocalization('test2', 'test2'), navigate: 'test2' },
+        // { label: this.localizations.getLocalization('test2', 'test2'), navigate: 'test2' },
+        // { label: this.localizations.getLocalization('test2', 'test2'), navigate: 'test2' },
+        // { label: this.localizations.getLocalization('test2', 'test2'), navigate: 'test2' },
+
+
       ]
     }
   }

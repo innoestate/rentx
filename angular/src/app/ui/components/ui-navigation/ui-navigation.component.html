@@ -1,3 +1,5 @@
-@for(navigator of navigators; track navigator.navigate){
-  <div class="navigator" [class.active]="activeNavigator() === navigator.navigate" (click)="navigate(navigator.navigate)">{{navigator.label}}</div>
-}
+<div class="card-content">
+  @for(navigator of navigators; track navigator.navigate){
+    <div class="navigator" [class.active]="activeNavigator() === navigator.navigate" (click)="navigate(navigator.navigate)">{{navigator.label}}</div>
+  }
+</div>

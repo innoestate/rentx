@@ -38,6 +38,7 @@ export class InvestScopeDisplayerAdapter {
         right[1].replace.emit('prospectionDescription');
       }else if(componentsList.includes('prospectionDescription') && !right.find( item => item.name === 'prospectionDescription')){
         right.push({name: 'prospectionDescription', replace: new EventEmitter()});
+        right.push({name: 'actions', replace: new EventEmitter()});
       }else if(!componentsList.includes('prospectionDescription') && right.find( item => item.name === 'prospectionDescription')){
         right[1].replace.emit('');
       }
