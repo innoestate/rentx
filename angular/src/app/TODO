@@ -1,36 +1,78 @@
-Let's talk about UX and Styles now!
+FAIRE UNE OFFRE.
 
-l'obectif va être d'implémenter les styles dans les règles de l'art.
-On veut pouvoir gérer plusieurs thèmes avec des modes jour / nuit.
-Il faut qu'il y ait une vrai cohérence dans le design et qu'on puisse facilement
-modifier les éléments globaux.
-
-Une des problématiques est l'overrider (ou pas) les styles de la lib utilisée (ng-zorro).
-
-Pour ça on peut partir sur une stratégie simple:
-on crée des class par défaut dans les uis et export eventuellement des variantes.
-
-Alors ça avance.
-
-Déjà il faut utiliser @use et non @import car ça va être déprécié.
-
-L'idée c'est de créer des thèmes qui vont être utilisés via un service.
-Pour ça on pourra créer des fichiers css comme ceci:
-[data-theme="dark"]
-
-et ensuite le charger via le service comme ceci:
-document.documentElement.setAttribute('data-theme', theme);
+Quand on clique sur le bouton faire une offre,
+Un nouveau composant apparaît à la place du grand tableau avec une page qui contient l'offre.
+Le tableau des biens est affiché dans un petit composant à gauche avec seulement
+l'adresse, le nom du vendeur et le status.
+Le bouton de navigation est transformé en bouton "back" pour revenir sur les tableaux
+la fenêtre de description est affichée en dessous du tableau et on ne voit plus le bouton "faire une offre"
 
 
-On va pouvoir créer 2 thèmes pour commencer.
-un thème par défaut (blue) et un thème pink par exemple.
+réalisation:
 
-Pour ça on pourra utiliser le même procédé que plus haut ce qui donne:
-[data-theme="blue"][data-mode="dark"]
+navigation:
+on peut ajouter un type "offer" aux types de navigation ("prospections", "sellers").
+En cliquant sur faire une offre on bascule navigation sur "offer".
+On ajoute la condition "offer" dans le displayer navigate qui va transformer la liste comme suit:
+['backToInvest', 'prospectionsSmall', 'descriptions', 'offer']
 
 
-Une autre problématique va être de gérer les couleurs de la librairie ng-zorro....
-exemple, je voudrais que la couleur primary de ng-zorro soit la couleur primary du thème.
+=> on en conclu qu'il y a certainement un problème d'archi.
+En voulant centraliser la navigation basée sur un useClass Displayer custom,
+on part du principe qu'il y a forcément une navigation.
+  -> il faudrait revenir en arrière et faire un bouton de navigation custom
+      il pourrait être la navigation des tableau, on un back.
 
-A ce niveau il semblerait que la seule solution soit d'overrider les styles à la main en utilisent
-les thèmes développés.
+  -> de plus, le fait de faire une liste simple de string peu importe l'ordre peut paraître bizare.
+    Mais au fond c'est pas mal: ce qui compte vraiment ce sont les composants qu'on affiche...
+    Et en fonction des cas (par exemple desktop, grand écran, petit écran, mobile etc...) on les affiche différemment.
+    Ceci dit, on est censé afficher parfois différents éléments.
+    Par exemple en version mobile, dans offer on affichera peut être pas le petit tableau.
+    Or actuellement, le InvestScopeDisplayerManager est dans features...
+    mais bon ça on pourra aisément le bouger et customiser donc c'est pas vraiment un problème.
+
+OK revenons à nos moutons.
+
+Pour l'instant on va pas refactoriser mais simplement ajouter le bouton back en plus.
+-> c'est un bouton de navigation -> il vaut mieux refactoriser non ?
+-> il y a un problème: on avait fait tout ça car le bouton doit avoir des données en input.
+Or avec l'archi de factory on peut pas vraiment le faire, il faut utiliser le store.
+  => aucun problème avec l'héritage!
+    on fait un composant InvestStorageTablesNavigation qui a les tables et un qui a le bouton back.
+    -> mais on conserve l'utilisation de DisplayManager comme ça on gère la navigation en dehors du navigator
+      dont la seule responsabilité est d'indiquer où naviguer et d'afficher un ou plusieurs boutons!
+
+Donc reprenons:
+
+1- refactoriser la navigation en re-créant InvestScopeTablesNavigation (ou InvestScopeMainNavigation)
+2- on créer un nouveau navigation OfferNavigation avec le bouton back -> bonus on ajoute et utilise l'icone back
+3- on créer un nouveau composant prospections-table-small avec uniquement les champs adresse, vendeur et status
+4- on créer un nouveau composant prospection-offer qui permet de créer et éditer une offre
+    -> il va falloir certainement revoir le back car actuellement l'offre est un objet à part.
+      Car actuellement, c'est un "file" qui est stocké en base.
+      Ou alors il faudra créer un file côté front comme le fait le back.
+
+    -> côté UX, l'objectif étant de toujours simplifier à l'extrême:
+      on est pas censé avoir besoin d'éditer l'offre en dehors du SAAS (ou en tout cas pas en MVP)
+      -> on peut donc créer le pdf côté front et ne stocker que le PDF.
+      -> l'important est de pouvoir lire et éditer le PDF
+
+      => en fait le plus simple (et optimisé) serait d'utiliser du markdown
+        (donc stocker du markdown plutôt qu'un pdf)
+        et rendre le pdf côté back à l'aide du markdown
+        (ou éventuellement aussi côté front)
+
+        Pour ça on pourrait utiliser:
+        ngx-markdown-editor et markdown-pdf
+
+        à tester!
+
+  5- ajouter le bouton "générer une offre" dans descriptionProspection
+
+  6- on gère displayAdapter et de sorte à ce qu'il affiche les bons composants quand on clique
+    sur "générer une offre"
+
+
+Faire ça en 2 étapes:
+d'abord gérer l'affichage de l'ensemble
+ensuite approfondir en gérant l'éditeur d'offre.

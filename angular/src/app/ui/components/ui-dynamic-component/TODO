@@ -1,0 +1,126 @@
+OK on a besoin de clarifier et fluidifier l'animation.
+
+
+Maintenant l'objectif est de fiter parfaitement l'animation.
+
+Si on a un petit composant qui va devenir plus grand.
+Ou inversement.
+Ou si il disparaît purement et simplement.
+
+On pourrait créer l'instance dés le départ de l'animation mais la mettre en opacité 0.
+problème: on a besoin de la taille réelle.
+-> on pourrait tricher avec une position absolute et remettre en relative après?
+
+
+...ça reste du bidouillage.
+
+Ceci dit ce serait pas mal de créer le composant dès le début de l'animation.
+
+Bon ça peut se faire.
+
+Le truc maintenant c'est de bien calculer le changement de taille et le scale en même temps
+pour que l'animation soit fluide.
+
+Pour ça il faut prendre en compte la width et height d'avant et après.
+
+Il faut que le scale * l'ancien width soit égale au nouveau width et de même pour le height.
+
+exemple si l'ancien = 200 et le nouveau = 100, alors scale = 100 / 200 = 0.5
+si inversement l'ancien = 100 et le nouveau = 200, alors scale = 200 / 100 = 2
+
+On a donc:
+
+scale * previousWidth = width;
+-> scale = width / previousWidth
+
+Bon, en fait c'est pas ouf.
+Il faudrait plutôt que par défaut, la taille soit réduite légèrement quelque soit la taille du
+prochain et ensuite qu'elle reprenne de là où elle est pour devenir le prochain.
+Ca ce serait pas mal.
+Par contre il ne faut pas que la taille en width change lors de la 1er partie de l'animation.
+
+Pour ça on pourrait:
+faire l'animation scale classique sans toucher à la taille pour le out.
+Lors du replace, on prend la taille du précédent et on fait la transformation animée.
+
+
+En fait si on veut une animation vraiment cool il faudrait ceci:
+
+Si on quitte vers un composant plus petit, alors on embrasse dirrectement l'emplacement et la taille du suivant.
+Si on quitte vers un composant de même taille, alors on retréci légèrement et reviens.
+Si on quitte vers un composant plus grand, alors on embrasse dirrectement l'emplacement et la taille du suivant.
+
+C'était pas mal au fond mais on avait oublié le cas midle.
+
+
+OK...
+
+BON on va récapituler.
+
+On recoit l'instruction replace.
+
+1- on crée le nouveau composant en mode caché (opacity: 0, position: absolute)
+2- timeout 0 puis on prends ses mesures.
+3- on gère l'aniation de supression de l'ancien composant (s'il existe)
+
+4- on fait le remplacement du composant avec celui caché
+5- on fait apparaître le composant caché avec les mesures de l'ancien composant (ou 0 si null)
+6- on l'anime pour qu'il prenne les mesure du nouveau composant crée à la base
+
+
+Maintenant il y a le problème de la gestion des index de viewContainerRef.
+c'est embrouillé.
+Il faut que chaque containerRef soit supprimé s'il n'est plus utilisé.
+Mais dans certains cas il n'y a rien a supprimer.
+
+Exemple:
+Je commence avec un build componentX.
+Ensuite j'ai un componentX => null
+-> le previousRef devient null, il faut supprimer le containerRef, du coup on se retrouve avec un seul containerRef.
+
+Alors que si j'avais componentX => componentY
+-> il faut aussi supprimer le containerRef ceci dit.
+
+reprenons...
+
+J'ai componentX => null.
+
+1- je ne crée pas de nouvel nextRef.
+2- je supprimer le previousRef.
+
+ensuite null => componentY
+
+1- je crée un nouvel nextRef => l'index doit être 0!
+2 - je ne supprimer pas
+
+
+J'avance très très laborieusement...
+...mais j'avance.
+
+J'ai utilisé resolver, ApplicationRef et Injector pour construire dans un LayoutFactory le composant avant de l'animer,
+ce afin d'avoir la taille (au lieu d'utiliser ViewComponentRef)
+Ca évite le bug de tremblement (car le composant se crée en une fraction de seconde et change la taille)
+
+Maintenant je remarque que, lorsque je décide d'animaer l'opacité des composants qui ne changent pas de taille,
+l'animation d'un autre composant qui change de taille en parrallèle bug:
+
+la width reste bloqué jusqu'au replace a la taille du composant de départ pour celui qui est censé changer de taille.
+
+En fait ça vient de l'utilisation de ViewComponentRef.
+Lorsque je crée le nouveau composant sur un autre plan (la table prospections/sellers dans l'exemple),
+l'animation de width d'un autre composant en cours se cut (mais pas le height).
+
+Pourtant la width de l'elRef elle est bien animée et continue d'être animée.
+
+L'utilisation de ViewComponentRef est peut être mauvaise.
+Si on utilisait le résolver à la place ?
+
+OK J'ai trouvé!
+En fait ça venait de l'animation du navigations.
+Je sais pas vraiment pourquoi, quand on déclenchait quelque chose sur la table,
+le fait qu'il y ait l'animation...Ahh ça vient peut être du fait que le constructor
+de la table a une influence sur le navigations!
+
+et du coup ce navigation, enfin les host width et height étaient remis à leur taille initiale.
+
+Pour résoudre le problème il suffira certainement de mettre l'animation dans le .card-content. et non host

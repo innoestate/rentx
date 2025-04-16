@@ -1,0 +1,10 @@
+GESTION DES ANIMATIONS DISPLAY DANS LES REGLES DE L'ART.
+
+Maintenant on fait face à un autre probème:
+
+Le component displayer affiche les colonnes qui ont des tailles variables.
+Par exemple si j'ouvre la page prospection avec l'affichage de la description, la taille est large.
+Si je navigue vers sellers, alors la taille est réduite.
+Mais le composant navigation et tableau fait la même taille.
+
+Il faudrait pouvoir animer le déplacement des components de façon smooth.
