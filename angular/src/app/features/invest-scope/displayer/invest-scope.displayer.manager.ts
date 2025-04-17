@@ -1,28 +1,18 @@
 import { Injectable } from "@angular/core";
-import { Observable, of, take, tap } from "rxjs";
-import { LocalizationsService } from "src/app/core/localizations/localizations.service";
+import { Observable, take, tap } from "rxjs";
 import { DisplayerManager } from "src/app/ui/displayers/displayer.manager";
-import { InvestScopeDisplayStoreFacade } from "../states/display/facades/invest-scope.display-store.facade";
-import { InvestScopeDisplayedElement } from "../models/invest-scope.display-map.model";
-import { DesktopSellersCommandsService } from "src/app/displays/desktop/dashboard/invest-scope/commands/desktop.sellers.commands.service";
-import { DesktopProspectionsCommandsService } from "src/app/displays/desktop/dashboard/invest-scope/commands/desktop.prospections.commands.service";
-import { SellersDataService } from "../../sellers/data/services/sellers.data.service";
 import { Prospection } from "../../prospections/models/prospection.model";
+import { InvestScopeDisplayedElement } from "../models/invest-scope.display-map.model";
+import { InvestScopeDisplayStoreFacade } from "../states/display/facades/invest-scope.display-store.facade";
 
 @Injectable()
 export class InvestScopeDisplayManager extends DisplayerManager {
 
-  private sellers = this.sellersData.getSellers();
-
-  constructor(private facade: InvestScopeDisplayStoreFacade,
-    private sellersData: SellersDataService,
-    private sellersCommands: DesktopSellersCommandsService,
-    private prospectionsCommands: DesktopProspectionsCommandsService,
-    private localizations: LocalizationsService) {
+  constructor(private facade: InvestScopeDisplayStoreFacade) {
     super();
   }
 
-  override init(navigation: 'prospections' | 'sellers') {
+  override init() {
     this.facade.clearComponents();
     this.facade.addComponent('navigation');
     this.facade.addComponent('actions');
@@ -58,7 +48,6 @@ export class InvestScopeDisplayManager extends DisplayerManager {
       })
     ).subscribe();
     this.facade.selectItem(prospection);
-
   }
 
   override onNavigation() {

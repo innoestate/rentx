@@ -1,14 +1,14 @@
-import { Directive, effect, EventEmitter, Signal, signal } from "@angular/core";
+import { Directive, effect } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
+import { UiDynamicComponent } from "src/app/ui/components/ui-dynamic-component/models/ui-dynamic-component.model";
 import { InvestScopeDisplayerAdapter } from "../adapter/invest-scope.displayer.adapter";
-import { InvestScopeDisplayedElement } from "../models/invest-scope.display-map.model";
 import { InvestScopeDisplayManager } from "../displayer/invest-scope.displayer.manager";
 
 @Directive()
 export class InvestScopeDisplayerDirective {
 
   private componentsList = toSignal(this.displayManager.onDisplayComponents());
-  protected displays: { name: string, replace: EventEmitter<{name: string, appearsDelay?: true}>}[][] = [];
+  protected displays: UiDynamicComponent[][] = [];
 
   constructor(protected displayManager: InvestScopeDisplayManager,
     protected adapter: InvestScopeDisplayerAdapter) {
@@ -22,7 +22,7 @@ export class InvestScopeDisplayerDirective {
   }
 
   ngOnInit() {
-    this.displayManager.init('prospections');
+    this.displayManager.init();
   }
 
 }
