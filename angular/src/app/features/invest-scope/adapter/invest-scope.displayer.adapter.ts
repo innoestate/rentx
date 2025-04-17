@@ -10,10 +10,20 @@ export class InvestScopeDisplayerAdapter {
 
   constructor() { }
 
+  static fillDynamicComponents(dynamicComponents: UiDynamicComponent[][]){
+    for (let i = 0; i < 3; i++) {
+      const array: UiDynamicComponent[] = [];
+      for (let i = 0; i < 3; i++) {
+        array.push({ name: '', replace: new EventEmitter<string>() });
+      }
+      dynamicComponents.push(array);
+    }
+  }
+
   mapDynamicComponents(componentsList: string[], dynamicComponents: UiDynamicComponent[][]): void {
 
     if (dynamicComponents.length <= 0) {
-      this.initDynamicComponents(dynamicComponents);
+      InvestScopeDisplayerAdapter.fillDynamicComponents(dynamicComponents);
       this.instanciateDynamicComponents(componentsList, dynamicComponents)
     }else{
       this.buildMapping(dynamicComponents, componentsList);
@@ -52,16 +62,6 @@ export class InvestScopeDisplayerAdapter {
       this.emitReplacement(dynamicComponents[2][1], 'prospectionDescription');
     } else {
       this.emitReplacement(dynamicComponents[2][1], '');
-    }
-  }
-
-  private initDynamicComponents(dynamicComponents: UiDynamicComponent[][]) {
-    for (let i = 0; i < 3; i++) {
-      const array: UiDynamicComponent[] = [];
-      for (let i = 0; i < 3; i++) {
-        array.push({ name: '', replace: new EventEmitter<string>() });
-      }
-      dynamicComponents.push(array);
     }
   }
 

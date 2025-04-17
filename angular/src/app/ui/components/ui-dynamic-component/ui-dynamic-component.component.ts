@@ -22,6 +22,7 @@ export class UiDynamicComponentComponent implements AfterViewInit {
     private elRef: ElementRef,
     private injector: Injector) { }
 
+
   ngAfterViewInit(): void {
     this.component().replace.pipe(
       switchMap(name => this.displayComponent(name))

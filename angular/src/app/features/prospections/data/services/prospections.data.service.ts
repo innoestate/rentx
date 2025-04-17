@@ -1,11 +1,10 @@
 import { Injectable, Signal } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { delay, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { DataNgrxService } from "src/app/shared/data/ngrx/data.ngrx.service";
 import { Prospection_Dto } from "../../models/prospection.dto.model";
 import { createProspection, createProspectionFailure, createProspectionSuccess, deleteProspection, deleteProspectionFailure, deleteProspectionSuccess, loadProspectionsFailure, loadProspections as loadProspectionsOnNgrx, loadProspectionsSuccess, reloadProspection, updateProspection, updateProspectionFailure, updateProspectionSuccess } from "../ngrx/prospections.actions";
 import { selectProspections } from "../ngrx/prospections.selectors";
-import { toSignal } from "@angular/core/rxjs-interop";
 
 @Injectable({
   providedIn: 'root'
@@ -30,9 +29,8 @@ export class ProspectionsDataService {
     return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(deleteProspection, deleteProspectionSuccess, deleteProspectionFailure, { id });
   }
 
-  getProspections(): Signal<Prospection_Dto[] | undefined> {
-    return toSignal(this.store.select(selectProspections).pipe(
-    ));
+  getProspections(): Signal<Prospection_Dto[]> {
+    return this.store.selectSignal(selectProspections);
   }
 
   reloadProspection(prospectionId: string) {

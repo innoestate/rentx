@@ -13,7 +13,7 @@ import { Prospection } from "../../models/prospection.model";
 @Directive()
 export class ProspectionsTableDirective extends UiTableDirective {
 
-  prospections: Signal<Prospection[] | undefined> = this.prospectionsData.getProspections();
+  prospections: Signal<Prospection[]> = this.prospectionsData.getProspections();
   sellers: Signal<Seller_Dto[]> = this.SellersData.getSellers();
   table: Signal<UiTableProspections> = this.buildTable();
 

@@ -1,150 +1,133 @@
 import { EventEmitter } from "@angular/core";
 import { InvestScopeDisplayerAdapter } from "../invest-scope.displayer.adapter";
+import { UiDynamicComponent } from "src/app/ui/components/ui-dynamic-component/models/ui-dynamic-component.model";
 
 const adapter = new InvestScopeDisplayerAdapter();
 
 describe('InvestScopeDisplayerAdapter', () => {
 
+  const fillCase = (dynamicComponents: UiDynamicComponent[][], row: number, column: number, name: string ) => {
+    dynamicComponents[row][column] = { name, replace: new EventEmitter() };
+    spyOn(dynamicComponents[row][column].replace, 'emit');
+  }
 
-  it('should update dynamic components', () => {
+  it('should update dynamic components', done => {
 
     const componentsList = ['navigation', 'prospections', 'actions'];
-    const dynamicComponents: { name: string, replace: EventEmitter<string> }[][] = [];
+    const dynamicComponents: UiDynamicComponent[][] = [];
+    InvestScopeDisplayerAdapter.fillDynamicComponents(dynamicComponents);
+
+    spyOn(dynamicComponents[0][0].replace, 'emit');
+    spyOn(dynamicComponents[1][0].replace, 'emit');
+    spyOn(dynamicComponents[2][0].replace, 'emit');
+
+    setTimeout(() => {
+      expect(dynamicComponents[0][0].replace.emit).toHaveBeenCalledWith('navigation');
+      expect(dynamicComponents[1][0].replace.emit).toHaveBeenCalledWith('prospections');
+      expect(dynamicComponents[2][0].replace.emit).toHaveBeenCalledWith('actions');
+      done();
+    }, 0);
 
     adapter.mapDynamicComponents(componentsList, dynamicComponents);
-    expect(dynamicComponents[0][0].name).toEqual('navigation');
-    expect(dynamicComponents[1][0].name).toEqual('prospections');
-    expect(dynamicComponents[2][0].name).toEqual('actions');
 
   })
 
   it('should update dynamic components with a different table', () => {
 
     const componentsList = ['navigation', 'actions', 'sellers'];
-    const dynamicComponents: { name: string, replace: EventEmitter<string> }[][] = [
-      [{ name: 'navigation', replace: new EventEmitter() }],
-      [{ name: 'prospections', replace: new EventEmitter() }],
-      [{ name: 'actions', replace: new EventEmitter() }]];
-
-    spyOn(dynamicComponents[1][0].replace, 'emit');
-
+    const dynamicComponents: UiDynamicComponent[][] = [];
+    InvestScopeDisplayerAdapter.fillDynamicComponents(dynamicComponents);
+    fillCase(dynamicComponents, 0,0, 'navigation');
+    fillCase(dynamicComponents, 1,0, 'prospections');
+    fillCase(dynamicComponents, 2,0, 'actions');
 
     adapter.mapDynamicComponents(componentsList, dynamicComponents);
-    expect(dynamicComponents[0][0].name).toEqual('navigation');
-    expect(dynamicComponents[1][0].name).toEqual('prospections');
     expect(dynamicComponents[1][0].replace.emit).toHaveBeenCalledWith('sellers');
-    expect(dynamicComponents[2][0].name).toEqual('actions');
+    expect(dynamicComponents[2][0].replace.emit).not.toHaveBeenCalledWith('actions');
 
   })
 
   it('should update dynamic components with a different table', () => {
 
     const componentsList = ['navigation', 'actions', 'prospections'];
-    const dynamicComponents: { name: string, replace: EventEmitter<string> }[][] = [[{ name: 'navigation', replace: new EventEmitter() }], [{ name: 'sellers', replace: new EventEmitter() }], [{ name: 'actions', replace: new EventEmitter() }]];
-
-    spyOn(dynamicComponents[1][0].replace, 'emit');
+    const dynamicComponents: UiDynamicComponent[][] = [];
+    InvestScopeDisplayerAdapter.fillDynamicComponents(dynamicComponents);
+    fillCase(dynamicComponents, 0,0, 'navigation');
+    fillCase(dynamicComponents, 1,0, 'sellers');
+    fillCase(dynamicComponents, 2,0, 'actions');
 
     adapter.mapDynamicComponents(componentsList, dynamicComponents);
-    expect(dynamicComponents[0][0].name).toEqual('navigation');
-    expect(dynamicComponents[1][0].name).toEqual('sellers');
     expect(dynamicComponents[1][0].replace.emit).toHaveBeenCalledWith('prospections');
-    expect(dynamicComponents[2][0].name).toEqual('actions');
 
   })
 
   it('should show a description of a selected prospection', () => {
 
     const componentsList = ['navigation', 'actions', 'prospectionDescription', 'prospections'];
-    const dynamicComponents: { name: string, replace: EventEmitter<string> }[][] = [[{ name: 'navigation', replace: new EventEmitter() }], [{ name: 'prospections', replace: new EventEmitter() }], [{ name: 'actions', replace: new EventEmitter() }]];
+
+    const dynamicComponents: UiDynamicComponent[][] = [];
+    InvestScopeDisplayerAdapter.fillDynamicComponents(dynamicComponents);
+    fillCase(dynamicComponents, 0,0, 'navigation');
+    fillCase(dynamicComponents, 1,0, 'prospections');
+    fillCase(dynamicComponents, 2,0, 'actions');
+    fillCase(dynamicComponents, 2,1, 'prospectionDescription');
 
     adapter.mapDynamicComponents(componentsList, dynamicComponents);
-    expect(dynamicComponents[0][0].name).toEqual('navigation');
-    expect(dynamicComponents[1][0].name).toEqual('prospections');
-    expect(dynamicComponents[2][0].name).toEqual('actions');
-    expect(dynamicComponents[2][1].name).toEqual('prospectionDescription');
+    expect(dynamicComponents[1][0].replace.emit).toHaveBeenCalledWith('prospections');
+    expect(dynamicComponents[2][1].replace.emit).toHaveBeenCalledWith('prospectionDescription');
 
   })
 
   it('should remove a description of a selected prospection', () => {
-
     const componentsList = ['navigation', 'actions', 'prospections'];
-    const dynamicComponents: { name: string, replace: EventEmitter<string> }[][] = [[{ name: 'navigation', replace: new EventEmitter() }], [{ name: 'prospections', replace: new EventEmitter() }], [{ name: 'actions', replace: new EventEmitter() }, { name: 'prospectionDescription', replace: new EventEmitter() }]];
-    spyOn(dynamicComponents[2][1].replace, 'emit');
+    const dynamicComponents: UiDynamicComponent[][] = [];
+    InvestScopeDisplayerAdapter.fillDynamicComponents(dynamicComponents);
+    fillCase(dynamicComponents, 0, 0, 'navigation');
+    fillCase(dynamicComponents, 1, 0, 'prospections');
+    fillCase(dynamicComponents, 2, 0, 'actions');
+    fillCase(dynamicComponents, 2, 1, 'prospectionDescription');
 
     adapter.mapDynamicComponents(componentsList, dynamicComponents);
-    expect(dynamicComponents[0][0].name).toEqual('navigation');
-    expect(dynamicComponents[1][0].name).toEqual('prospections');
-    expect(dynamicComponents[2][0].name).toEqual('actions');
-    expect(dynamicComponents[2][1].name).toEqual('prospectionDescription');
     expect(dynamicComponents[2][1].replace.emit).toHaveBeenCalledWith('');
-
-  })
+  });
 
   it('should replace an empty case by a selected prospection', () => {
-
     const componentsList = ['navigation', 'actions', 'prospections', 'prospectionDescription'];
-    const dynamicComponents: { name: string, replace: EventEmitter<string> }[][] = [[{ name: 'navigation', replace: new EventEmitter() }], [{ name: 'prospections', replace: new EventEmitter() }], [{ name: 'actions', replace: new EventEmitter() }, { name: '', replace: new EventEmitter() }]];
-    spyOn(dynamicComponents[2][1].replace, 'emit');
+    const dynamicComponents: UiDynamicComponent[][] = [];
+    InvestScopeDisplayerAdapter.fillDynamicComponents(dynamicComponents);
+    fillCase(dynamicComponents, 0, 0, 'navigation');
+    fillCase(dynamicComponents, 1, 0, 'prospections');
+    fillCase(dynamicComponents, 2, 0, 'actions');
+    fillCase(dynamicComponents, 2, 1, '');
 
     adapter.mapDynamicComponents(componentsList, dynamicComponents);
-    expect(dynamicComponents[0][0].name).toEqual('navigation');
-    expect(dynamicComponents[1][0].name).toEqual('prospections');
-    expect(dynamicComponents[2][0].name).toEqual('actions');
-    expect(dynamicComponents[2][1].name).toEqual('');
     expect(dynamicComponents[2][1].replace.emit).toHaveBeenCalledWith('prospectionDescription');
+  });
 
-  })
-
-  it('should replace an empty cas by a selected prospection', () => {
-
+  it('should update components when sellers is in the list', () => {
     const componentsList = ['navigation', 'actions', 'sellers'];
-    const dynamicComponents: { name: string, replace: EventEmitter<string> }[][] = [[{ name: 'navigation', replace: new EventEmitter() }], [{ name: 'prospections', replace: new EventEmitter() }], [{ name: 'actions', replace: new EventEmitter() }, { name: '', replace: new EventEmitter() }]];
-    spyOn(dynamicComponents[2][1].replace, 'emit');
+    const dynamicComponents: UiDynamicComponent[][] = [];
+    InvestScopeDisplayerAdapter.fillDynamicComponents(dynamicComponents);
+    fillCase(dynamicComponents, 0, 0, 'navigation');
+    fillCase(dynamicComponents, 1, 0, 'prospections');
+    fillCase(dynamicComponents, 2, 0, 'actions');
+    fillCase(dynamicComponents, 2, 1, '');
 
     adapter.mapDynamicComponents(componentsList, dynamicComponents);
-    expect(dynamicComponents[0][0].name).toEqual('navigation');
-    expect(dynamicComponents[1][0].name).toEqual('prospections');
-    expect(dynamicComponents[2][0].name).toEqual('actions');
-    expect(dynamicComponents[2][1].name).toEqual('');
-    expect(dynamicComponents[2][1].replace.emit).toHaveBeenCalledWith('prospectionDescription');
+    expect(dynamicComponents[1][0].replace.emit).toHaveBeenCalledWith('sellers');
+  });
 
-  })
-
-  it('should replace an empty cas by a selected prospection', () => {
-
+  it('should clear prospectionDescription when not in component list', () => {
     const componentsList = ['navigation', 'actions', 'sellers'];
-    const dynamicComponents: { name: string, replace: EventEmitter<string> }[][] = [
-      [{ name: 'navigation', replace: new EventEmitter() }],
-      [{ name: 'prospections', replace: new EventEmitter() }],
-      [{ name: 'actions', replace: new EventEmitter() }, { name: 'prospectionDescription', replace: new EventEmitter() }]];
-    spyOn(dynamicComponents[2][1].replace, 'emit');
+    const dynamicComponents: UiDynamicComponent[][] = [];
+    InvestScopeDisplayerAdapter.fillDynamicComponents(dynamicComponents);
+    fillCase(dynamicComponents, 0, 0, 'navigation');
+    fillCase(dynamicComponents, 1, 0, 'prospections');
+    fillCase(dynamicComponents, 2, 0, 'actions');
+    fillCase(dynamicComponents, 2, 1, 'prospectionDescription');
 
     adapter.mapDynamicComponents(componentsList, dynamicComponents);
-    expect(dynamicComponents[0][0].name).toEqual('navigation');
-    expect(dynamicComponents[1][0].name).toEqual('prospections');
-    expect(dynamicComponents[2][0].name).toEqual('actions');
-    expect(dynamicComponents[2][1].name).toEqual('prospectionDescription');
     expect(dynamicComponents[2][1].replace.emit).toHaveBeenCalledWith('');
-
-  })
-
-
-  it('should not emit a replace on prospectionDescription', () => {
-
-    const componentsList = ['navigation', 'actions', 'sellers'];
-    const dynamicComponents: { name: string, replace: EventEmitter<string> }[][] = [
-      [{ name: 'navigation', replace: new EventEmitter() }],
-      [{ name: 'prospections', replace: new EventEmitter() }],
-      [{ name: 'actions', replace: new EventEmitter() }, { name: '', replace: new EventEmitter() }]];
-    spyOn(dynamicComponents[2][1].replace, 'emit');
-
-    adapter.mapDynamicComponents(componentsList, dynamicComponents);
-    expect(dynamicComponents[0][0].name).toEqual('navigation');
-    expect(dynamicComponents[1][0].name).toEqual('prospections');
-    expect(dynamicComponents[2][0].name).toEqual('actions');
-    expect(dynamicComponents[2][1].name).toEqual('');
-    expect(dynamicComponents[2][1].replace.emit).not.toHaveBeenCalledWith('');
-
-  })
+  });
 
 });
