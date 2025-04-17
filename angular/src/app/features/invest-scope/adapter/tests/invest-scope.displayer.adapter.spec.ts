@@ -124,7 +124,6 @@ describe('InvestScopeDisplayerAdapter', () => {
     expect(dynamicComponents[1][0].name).toEqual('prospections');
     expect(dynamicComponents[2][0].name).toEqual('actions');
     expect(dynamicComponents[2][1].name).toEqual('prospectionDescription');
-    console.log('dynamicComponents test', dynamicComponents[2][1]);
     expect(dynamicComponents[2][1].replace.emit).toHaveBeenCalledWith('');
 
   })

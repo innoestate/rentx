@@ -23,7 +23,7 @@ import { EstatesTableComponent } from './estates-table.component';
 export class EstatesTableModule {
 
   constructor() {
-    console.log('estate table module constructor');
+    // console.log('estate table module constructor');
   }
 
 }

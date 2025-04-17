@@ -4,7 +4,8 @@
     <img [src]="backgroundImagePath()">
   }
 </div>
-<nz-table #table
+@if(nzRows() && nzRows().length > 0){
+  <nz-table #table
           [nzData]="nzRows()"
           [nzPageSize]="rowsPerPages()"
           [nzPageIndex]="pageIndex()"
@@ -134,15 +135,16 @@
       </tr>
     }
   </tbody>
-</nz-table>
-<div class="ui-table-footer">
-  <div class="left">
-    <div class="ui-table-title">{{title()}}</div>
-    @for(command of commands(); track command.label){
-      <ui-icon class="hover-smooth" [icon]="command.icon" size="24" (click)="command.command()"></ui-icon>
-    }
+  </nz-table>
+  <div class="ui-table-footer">
+    <div class="left">
+      <div class="ui-table-title">{{title()}}</div>
+      @for(command of commands(); track command.label){
+        <ui-icon class="hover-smooth" [icon]="command.icon" size="24" (click)="command.command()"></ui-icon>
+      }
+    </div>
+    <div class="right">
+      <ui-pagination [(pageIndex)]="pageIndex" [total]="pages()"></ui-pagination>
+    </div>
   </div>
-  <div class="right">
-    <ui-pagination [(pageIndex)]="pageIndex" [total]="pages()"></ui-pagination>
-  </div>
-</div>
+}

@@ -11,7 +11,7 @@ import { UiFormPopupComponent } from '../../components/ui-popup/ui-popup.compone
 export class UiPopupService {
 
   constructor(protected modalService: NzModalService) {
-    console.log('UiPopupService constructor');
+    // console.log('UiPopupService constructor');
   }
 
   openPopup(component: Type<any>, title: string, data?: any): Observable<any> {

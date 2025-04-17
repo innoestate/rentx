@@ -15,7 +15,7 @@
   height: 100%;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: stretch;
-  align-items: stretch;
+  justify-content: flex-start;
+  align-items: flex-start;
   gap: 4px;
 }

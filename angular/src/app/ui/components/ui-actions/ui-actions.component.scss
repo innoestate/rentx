@@ -5,13 +5,15 @@
   justify-content: center;
   align-items: center;
   background-color: var(--color-basic-100);
-  padding: 16px;
   border-radius: var(--radius-large);
   box-shadow: var(--shadow);
-  align-self: baseline;
-
+  padding: 16px;
+  opacity: 0;
+  
   .action {
     cursor: pointer;
+    width: 24px;
+    height: 24px;
   }
   .action:hover {
     .icon {
@@ -23,4 +25,10 @@
     color: var(--color-secondary-500);
     font-size: 30px;
   }
+}
+
+.card-content {
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
 }

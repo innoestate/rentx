@@ -5,14 +5,14 @@ import { Prospection } from '../../../../prospections/models/prospection.model'
 
 export interface InvestScopeState {
   displayedComponents: InvestScopeDisplayedElement[];
-  navigation: 'prospections' | 'sellers';
+  navigation: '' | 'prospections' | 'sellers';
   selectedItem: Prospection | null;
 }
 
 export const investScopeReducer = createReducer<InvestScopeState>(
   {
     displayedComponents: [],
-    navigation: 'prospections',
+    navigation: '',
     selectedItem: null
   },
   on(clearDisplayedComponents, (state) => ({

@@ -37,7 +37,7 @@ import { RentsCommandsService } from 'src/app/features/rents/commands/rents.comm
 export class DesktopPropertiesModule {
 
   constructor(){
-    console.log('DesktopPropertiesModule constructor');
+    // console.log('DesktopPropertiesModule constructor');
   }
 
  }

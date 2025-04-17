@@ -8,7 +8,7 @@ import { InvestScopeDisplayManager } from "../displayer/invest-scope.displayer.m
 export class InvestScopeDisplayerDirective {
 
   private componentsList = toSignal(this.displayManager.onDisplayComponents());
-  protected displays: { name: string, replace: EventEmitter<string>}[][] = [];
+  protected displays: { name: string, replace: EventEmitter<{name: string, appearsDelay?: true}>}[][] = [];
 
   constructor(protected displayManager: InvestScopeDisplayManager,
     protected adapter: InvestScopeDisplayerAdapter) {

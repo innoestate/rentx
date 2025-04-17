@@ -25,8 +25,8 @@ export class InvestScopeDisplayManager extends DisplayerManager {
   override init(navigation: 'prospections' | 'sellers') {
     this.facade.clearComponents();
     this.facade.addComponent('navigation');
-    this.facade.addComponent(navigation);
     this.facade.addComponent('actions');
+    this.navigate('prospections');
   }
 
   override navigate(navigation: 'prospections' | 'sellers') {
@@ -37,7 +37,13 @@ export class InvestScopeDisplayManager extends DisplayerManager {
         this.facade.addComponent(navigation);
         this.facade.setNavigation(navigation);
         this.facade.deselectItem();
-        this.facade.removeComponent('prospectionDescription');
+
+        if(actualNavigation === 'prospections' && navigation === 'prospections'){
+          this.facade.addComponent('prospectionDescription');
+        }else{
+          this.facade.removeComponent('prospectionDescription');
+        }
+
       })
     ).subscribe();
   }

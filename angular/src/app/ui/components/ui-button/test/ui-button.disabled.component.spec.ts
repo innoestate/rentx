@@ -29,7 +29,6 @@ describe('UiButtonComponent disabled', () => {
 
   it('should have a button with a default style', () => {
     const button = fixture.nativeElement.querySelector('button');
-    console.log('button', button);
     expect(button.hasAttribute('disabled')).toBeTrue();
   })
 

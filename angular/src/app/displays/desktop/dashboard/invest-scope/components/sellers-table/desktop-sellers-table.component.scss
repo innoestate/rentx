@@ -6,8 +6,10 @@
   flex-flow: column nowrap;
   justify-content: stretch;
   align-items: stretch;
+  opacity: 0;
+  background-color: var(--color-basic-100);
+  border-radius: var(--radius-large);
 }
-
 .seller-table {
   height: calc(100%);
   display: flex;

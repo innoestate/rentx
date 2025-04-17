@@ -30,7 +30,7 @@ export class UiFormComponent2<T extends Object> implements OnInit, OnDestroy {
   values = model<any>();
 
   constructor(protected formBuilder: FormBuilder) {
-    console.log('UiFormComponent3 constructor')
+    // console.log('UiFormComponent3 constructor')
   }
 
   ngOnInit(): void {

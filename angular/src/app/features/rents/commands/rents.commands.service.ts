@@ -23,7 +23,7 @@ export class RentsCommandsService {
     private lodgersDataService: LodgersDataService,
     private popupService: UiPopupService,
     private rentsHttpService: RentsHttpService) {
-    console.log('rents commands service constructor');
+    // console.log('rents commands service constructor');
   }
 
   downloadRentReceipt(estate: Estate, startDate?: string, endDate?: string) {

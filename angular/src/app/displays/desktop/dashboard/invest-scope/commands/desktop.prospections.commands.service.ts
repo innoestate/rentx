@@ -13,7 +13,7 @@ export class DesktopProspectionsCommandsService extends ProspectionsCommandsServ
 
   constructor(private prospectionsDataService: ProspectionsDataService, private popupService: UiPopupService) {
     super();
-    console.log('desktop prospections commands service constructor');
+    // console.log('desktop prospections commands service constructor');
   }
 
   override delete(id: string) {

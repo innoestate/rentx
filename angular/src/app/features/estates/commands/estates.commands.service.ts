@@ -62,7 +62,7 @@ export class EstatesCommandsService {
   owners = this.ownersData.getOwners();
 
   constructor(private estatesData: EstatesDataService, private ownersData: OwnersDataService, private popupService: UiPopupService) {
-    console.log('EstatesCommandsService constructor');
+    // console.log('EstatesCommandsService constructor');
   }
 
   createEstate() {

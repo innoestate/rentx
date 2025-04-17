@@ -1,11 +1,26 @@
-import { Signal } from "@angular/core";
+import { Directive, ElementRef, Signal } from "@angular/core";
+// import { UiDisplayerComponent } from "../../ui-displayer/ui-displayer.component";
+import { UiDisplayerComponent } from "../../ui-displayer/ui-displayer.component";
 import { UiTableRow } from "../models/ui-table-row.model";
 import { UiTable } from "../models/ui-table.model";
 
-export abstract class UiTableDirective {
-  protected abstract buildTable(): Signal<UiTable>;
-  protected abstract bindCommands(table: UiTable): UiTable;
-  protected abstract updateRow(row: UiTableRow): void;
+@Directive()
+export class UiTableDirective extends UiDisplayerComponent {
+
+  constructor(protected override elRef: ElementRef) {
+    super(elRef);
+  }
+
+  protected buildTable(): Signal<UiTable> {
+    return null as any;
+  };
+
+  protected bindCommands(table: UiTable): UiTable {
+    return null as any;
+  }
+
+  protected updateRow(row: UiTableRow): void {}
+  
   protected verifyRowId(row: UiTableRow): void {
     if (!row.data['id']) throw new Error('Need an id in row data.');
   };

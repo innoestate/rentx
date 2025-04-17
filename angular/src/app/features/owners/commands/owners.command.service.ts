@@ -46,7 +46,7 @@ const createPopupFields: UiFormFieldData[] = [
 export class OwnersCommandsService {
 
   constructor(private ownersDataService: OwnersDataService, private popupService: UiPopupService) {
-    console.log('owners commands service constructor');
+    // console.log('owners commands service constructor');
   }
 
   deleteOwner(ownerId: string) {

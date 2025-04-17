@@ -13,7 +13,7 @@ import { selectEstates } from "../ngrx/estates.selectors";
 export class EstatesDataService {
 
   constructor(private dataNgrxService: DataNgrxService, private store: Store, private estatesMessagesService: EstatesDataMessagesService) {
-    console.log('EstatesDataService constructor');
+    // console.log('EstatesDataService constructor');
   }
 
   createEstate(estate: Partial<Estate>){

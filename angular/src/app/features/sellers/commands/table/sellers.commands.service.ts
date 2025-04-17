@@ -12,7 +12,7 @@ export class SellersCommandsService {
     protected localizationsService: LocalizationsService) { }
 
   createNew() {
-    console.log('implement adapted method in displays.')
+    // console.log('implement adapted method in displays.')
   }
 
   delete(id: string) {

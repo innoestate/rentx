@@ -24,7 +24,7 @@ const createPopupFields: UiFormFieldData[] = [
 export class LodgersCommandsService {
 
     constructor(private lodgersDataService: LodgersDataService, private popupService: UiPopupService) {
-      console.log('lodgers commands service constructor');
+      // console.log('lodgers commands service constructor');
     }
 
     createLodger() {

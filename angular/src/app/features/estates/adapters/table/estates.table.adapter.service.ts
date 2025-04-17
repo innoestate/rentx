@@ -26,7 +26,7 @@ export class EstatesUiTableAdapter {
               private ownersCommands: OwnersCommandsService,
               private lodgersCommands: LodgersCommandsService,
               private rentsCommands: RentsCommandsService) {
-    console.log('esate ui table adapter constructor');
+    // console.log('esate ui table adapter constructor');
   }
 
   buildTableList(estates: Estate[], owners: Owner[], lodgers: Lodger[]): { columns: UiTableColumnItem[], rows: UiTableRow[] } {

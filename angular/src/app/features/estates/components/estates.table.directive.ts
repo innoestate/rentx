@@ -35,7 +35,7 @@ export class EstatesTableDirective {
               protected ownersData: OwnersDataService,
               protected lodgersData: LodgersDataService,
               protected monthlyRentsData: RentsDataService) {
-                console.log('EstatesTableDirective constructor');
+                // console.log('EstatesTableDirective constructor');
               }
 
   updateRow(row: UiTableRow) {

@@ -1,4 +1,4 @@
-import { computed, Directive, Signal } from "@angular/core";
+import { Component, computed, Directive, ElementRef, Signal } from "@angular/core";
 import { catchError, of, take } from "rxjs";
 import { UiTableDirective } from "src/app/ui/components/ui-table/directive/ui-table.directive";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
@@ -16,9 +16,10 @@ export class SellersTableDirective extends UiTableDirective {
 
   constructor(private sellersDataService: SellersDataService,
     private sellersAdater: SellersTableAdapterService,
-    protected commandsService: SellersCommandsService) {
-    super();
-    console.log('sellersTableDirective constructor');
+    protected commandsService: SellersCommandsService,
+    protected override elRef: ElementRef) {
+    super(elRef);
+    // console.log('sellersTableDirective constructor');
   }
 
   override buildTable(): Signal<UiTableSellers> {
@@ -44,7 +45,7 @@ export class SellersTableDirective extends UiTableDirective {
   }
 
   deleteRow(row: UiTableRowSellers) {
-    console.log('implement delete in display component.');
+    // console.log('implement delete in display component.');
     return true;
   }
 

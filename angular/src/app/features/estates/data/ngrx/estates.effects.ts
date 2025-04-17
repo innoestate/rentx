@@ -11,7 +11,7 @@ import { createEstate, createEstateFailure, createEstateSuccess, deleteEstate, d
 export class EstatesEffects {
 
   constructor(private actions$: Actions, private estatesService: EstatesHttpService) {
-    console.log('estates effect constructor')
+    // console.log('estates effect constructor')
   }
 
   loadEstates$ = createEffect(() => this.actions$.pipe(

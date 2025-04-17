@@ -1,5 +1,7 @@
-@for(action of actions; track action.icon){
-  <div class="action hover-smooth" (click)="action.command()">
-    <ui-icon [icon]="action.icon" size="24"></ui-icon>
-  </div>
-}
+<div class="card-content">
+  @for(action of actions; track action.icon){
+    <div class="action hover-smooth" (click)="action.command()">
+      <ui-icon [icon]="action.icon" size="24"></ui-icon>
+    </div>
+  }
+</div>
