@@ -147,7 +147,7 @@ export class UiTableComponent implements AfterViewInit {
   }
 
   startEdit(columnIndex: number, rowIndex: number) {
-    this.editId = (columnIndex + this.columns()[rowIndex].key);
+    this.editId = (columnIndex + '_' + rowIndex);
   }
 
   edit(value: any, nzRow: NzUiTableRow, columnIndex: number) {
