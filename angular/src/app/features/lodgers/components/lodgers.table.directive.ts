@@ -1,16 +1,37 @@
-import { computed, Directive } from "@angular/core";
-import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { LodgersDataService } from "../data/lodgers.data.service";
-import { LodgersTableAdapterService } from "../adapters/lodgers.table.adapter";
+import { computed, Directive, ElementRef, Signal } from "@angular/core";
 import { catchError, of, take } from "rxjs";
+import { UiTableInterface } from "src/app/ui/components/ui-table/interfaces/ui-table.interface";
+import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
+import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
+import { LodgersTableAdapterService } from "../adapters/lodgers.table.adapter";
+import { LodgersCommandsService } from "../commands/lodgers.commands.service";
+import { LodgersDataService } from "../data/lodgers.data.service";
 
 @Directive()
-export class LodgersTableDirective {
+export class LodgersTableDirective implements UiTableInterface {
 
   lodgers = this.lodgersData.getLodgers();
-  lodgersTable = computed(() => this.lodgersUiAdapter.buildTable(this.lodgers()))
+  lodgersTable = this.buildTable();
 
-  constructor(protected lodgersData: LodgersDataService, protected lodgersUiAdapter: LodgersTableAdapterService) { }
+  constructor(protected lodgersData: LodgersDataService,
+    protected lodgersUiAdapter: LodgersTableAdapterService,
+    protected lodgersCommands: LodgersCommandsService,
+    protected elRef: ElementRef
+  ) { }
+
+  buildTable(): Signal<UiTable> {
+    return computed(() => {
+      const table = this.lodgersUiAdapter.buildTable(this.lodgers()!);
+      this.bindCommands(table);
+      return table;
+    })
+  }
+
+  bindCommands(table: UiTable) {
+    table.columns.find(c => c.key === 'actions')!.headDropdown!.list[0].command = (row: UiTableRow) => this.lodgersCommands.createLodger()
+    table.columns.find(c => c.key === 'actions')!.dropdown!.list[0].command = (row: UiTableRow) => this.lodgersCommands.deleteLodger(row.data.id!)
+    return table;
+  }
 
   updateRow(row: UiTableRow) {
     const updates = this.lodgersUiAdapter.buildUpdateFields(row, this.lodgers());
@@ -22,7 +43,7 @@ export class LodgersTableDirective {
 
   reloadLodgerForResetCellPreviusValue(lodgerId: string) {
     const oldLodger = this.lodgers().find(l => l.id === lodgerId);
-    this.lodgersData.updateLodger(lodgerId, {...oldLodger!});
+    this.lodgersData.updateLodger(lodgerId, { ...oldLodger! });
     return of(null);
   }
 }

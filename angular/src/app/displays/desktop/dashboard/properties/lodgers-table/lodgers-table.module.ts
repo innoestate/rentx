@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { LodgersTableAdapterService } from 'src/app/features/lodgers/adapters/lodgers.table.adapter';
 import { UiModule } from 'src/app/ui/ui.module';
 import { DesktopLodgersTableComponent } from './lodgers-table.component';
+import { DesktopLodgersCommandsService } from '../commands/deskop.lodgers.command';
 
 
 
@@ -18,6 +19,7 @@ import { DesktopLodgersTableComponent } from './lodgers-table.component';
   ],
   providers: [
     LodgersTableAdapterService,
+    DesktopLodgersCommandsService
   ]
 })
 export class DesktopLodgersTableModule { }

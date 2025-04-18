@@ -1,16 +1,16 @@
 import { Injectable } from "@angular/core";
 import { Lodger } from "src/app/features/lodgers/models/lodger.model";
+import { UiNestedDropdown } from "src/app/ui/components/ui-nested-dropdown/model/ui-nested-dropdown.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
-import { LodgersCommandsService } from "../commands/lodgers.commands.service";
-import { getUpdatedFields as getUpdatedFieldsUtils} from '../../../shared/utils/objects.utils';
+import { getUpdatedFields as getUpdatedFieldsUtils } from '../../../shared/utils/objects.utils';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LodgersTableAdapterService {
 
-  constructor(private lodgersCommands: LodgersCommandsService) { }
+  constructor() { }
 
   buildTable(lodgers: Lodger[]): { columns: UiTableColumnItem[], rows: UiTableRow[] } {
     return {
@@ -34,11 +34,62 @@ export class LodgersTableAdapterService {
       },
       {
         key: 'actions',
-        label: 'actions',
-        type: "text",
+        label: '',
+        icon: 'gear',
+        type: 'dropdown',
+        dropdown: this.buildActionsDropdownColumn(),
+        headDropdown: this.buildActionsHeadDropdown(),
+        dropDownCellsUniqueItem: {
+          label: '',
+          icon: 'down',
+          iconSize: 16,
+          color: 'var(--color-tertiary-500)',
+          value: 'action',
+        },
       }
     ];
   }
+
+    private buildActionsDropdownColumn(): UiNestedDropdown {
+      return {
+        list: [
+          {
+            label: 'delete',
+            icon: 'trash',
+            value: "delete",
+            color: 'var(--color-basic-900)',
+            command: () => {
+              console.log('implement command here');
+              return true;
+            }
+          }
+        ]
+      }
+    }
+
+    private buildActionsHeadDropdown(): UiNestedDropdown {
+      return {
+        fixedHead: {
+          label: '',
+          icon: 'gear',
+          iconSize: 24,
+          value: 'action',
+          command: () => { }
+        },
+        list: [
+          {
+            label: 'create',
+            icon: 'add',
+            iconSize: 22,
+            value: "create",
+            command: () => {
+              console.log('implement command here');
+              return true;
+            }
+          }
+        ]
+      }
+    }
 
   private createRows(Lodgers: Lodger[]): UiTableRow[] {
     return Lodgers.map(Lodger => this.formatUiTableRow(Lodger));
@@ -55,7 +106,6 @@ export class LodgersTableAdapterService {
           label: 'delete',
           value: lodger.id,
           command: () => {
-            this.lodgersCommands.deleteLodger(lodger.id);
             return true;
           }
         }
