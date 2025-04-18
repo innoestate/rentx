@@ -4,9 +4,8 @@ import { ProspectionsDataMessagesService } from 'src/app/features/prospections/d
 import { ProspectionsDataModule } from 'src/app/features/prospections/data/modules/prospections.data.module';
 import { UiModule } from 'src/app/ui/ui.module';
 import { DesktopProspectionsCommandsService } from '../../commands/desktop.prospections.commands.service';
-import { DesktopProspectionsTableComponent } from '../../components/prospections-table/desktop-prospections-table.component';
 import { DesktopProspectionDescriptionComponent } from '../../components/description/desktop-prospection-description.component';
-import { CommonModule } from '@angular/common';
+import { DesktopProspectionsTableComponent } from '../../components/prospections-table/desktop-prospections-table.component';
 
 
 
@@ -16,13 +15,8 @@ import { CommonModule } from '@angular/common';
     DesktopProspectionDescriptionComponent
   ],
   imports: [
-    CommonModule,
     ProspectionsDataModule,
     UiModule.forChild(),
-  ],
-  exports: [
-    DesktopProspectionsTableComponent,
-    DesktopProspectionDescriptionComponent
   ],
   providers: [
     DesktopProspectionsCommandsService,

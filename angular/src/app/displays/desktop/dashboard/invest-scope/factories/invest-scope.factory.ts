@@ -16,11 +16,11 @@ import { SellersDataService } from "src/app/features/sellers/data/services/selle
 export class InvestScopeFactory extends DynamicComponentFactoryService {
 
   protected override componentMap: { [key: string]: { component: Type<any>, values?: any } } = {
-    'navigation': { component: UiNavigationComponent, values: this.getNavigationValues() },
-    'prospections': { component: DesktopProspectionsTableComponent },
-    'prospectionDescription': { component: DesktopProspectionDescriptionComponent },
-    'sellers': { component: DesktopSellersTableComponent },
-    'actions': { component: UiActionsComponent, values: this.getActionsValues() }
+    'navigation': this.getNavigationComponent() ,
+    'prospections': this.getProspectionComponent(),
+    'prospectionDescription': this.getProspectionDescription(),
+    'sellers': this.getSellersComponent(),
+    'actions': this.getActionsComponent()
   };
   private sellers = this.sellersData.getSellers();
 
@@ -32,17 +32,30 @@ export class InvestScopeFactory extends DynamicComponentFactoryService {
     super();
   }
 
-  private getNavigationValues() {
-    return {
+  private getNavigationComponent() {
+    const values = {
       navigators: [
         { label: this.localizations.getLocalization('prospections', 'label'), navigate: 'prospections' },
         { label: this.localizations.getLocalization('sellers', 'label'), navigate: 'sellers' },
       ]
-    }
+    };
+    return { component: UiNavigationComponent, values };
   }
 
-  private getActionsValues() {
-    return {
+  private getProspectionComponent() {
+    return { component: DesktopProspectionsTableComponent }
+  }
+
+  private getProspectionDescription() {
+    return { component: DesktopProspectionDescriptionComponent };
+  }
+
+  private getSellersComponent() {
+    return { component: DesktopSellersTableComponent };
+  }
+
+  private getActionsComponent() {
+    const values = {
       actions: [
         {
           label: this.localizations.getLocalization('prospections', 'addProspection'),
@@ -55,7 +68,8 @@ export class InvestScopeFactory extends DynamicComponentFactoryService {
           command: () => this.sellersCommands.createNew()
         }
       ]
-    }
+    };
+    return { component: UiActionsComponent, values };
   }
 
 }

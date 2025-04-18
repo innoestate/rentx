@@ -16,9 +16,6 @@ import { DesktopSellersCommandsService } from '../../commands/desktop.sellers.co
     UiModule.forChild(),
     SellersDataModule,
   ],
-  exports: [
-    DesktopSellersTableComponent,
-  ],
   providers: [
     DesktopSellersCommandsService,
     SellersTableAdapterService

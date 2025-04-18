@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { InvestScopeDisplayerAdapter } from 'src/app/features/invest-scope/adapter/invest-scope.displayer.adapter';
 import { InvestScopeDisplayerDirective } from 'src/app/features/invest-scope/directives/invest-scope.displayer.directive';
 import { InvestScopeDisplayManager } from 'src/app/features/invest-scope/displayer/invest-scope.displayer.manager';
@@ -16,8 +16,7 @@ export class InvestScopeComponent extends InvestScopeDisplayerDirective implemen
   constructor(protected override displayManager: InvestScopeDisplayManager,
       protected override adapter: InvestScopeDisplayerAdapter,
       private prospectionsData: ProspectionsDataService,
-      private sellersData: SellersDataService,
-      private elRef: ElementRef<HTMLElement>) {
+      private sellersData: SellersDataService) {
     super(displayManager, adapter);
   }
 
@@ -25,10 +24,6 @@ export class InvestScopeComponent extends InvestScopeDisplayerDirective implemen
     this.prospectionsData.loadProspections();
     this.sellersData.loadSellers();
     super.ngOnInit();
-  }
-
-  ngAfterViewChecked(): void {
-
   }
 
 }

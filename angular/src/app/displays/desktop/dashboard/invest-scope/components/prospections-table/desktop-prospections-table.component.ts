@@ -21,7 +21,6 @@ export class DesktopProspectionsTableComponent extends ProspectionsTableDirectiv
               private displayManager: InvestScopeDisplayManager,
               protected override elRef: ElementRef) {
     super(prospectionsData, SellersData, tableAdapter, commandsService, elRef);
-    // console.log('prospections table constructor')
   }
 
   override deleteRow(row: UiTableRow) {
