@@ -80,7 +80,7 @@
           (mouseenter)="rowMouseEnter(nzRow)"
           (mouseleave)="rowMouseLeave()">
         @let hover = nzRow === cellHover()?.nzRow ;
-        <ng-container *ngFor="let cell of nzRow.cells; let colI = index">
+        @for(cell of nzRow.cells; let colI = $index; track colI) {
           <td
               [class.hover]="hover"
               [class.hover-strong]="nzRow === nzRowHover()"
@@ -118,7 +118,7 @@
             </ng-template>
 
             <ng-template #editableString>
-              <nz-ui-cell-editable-string
+                <nz-ui-cell-editable-string
                 [row]="nzRow" [value]="cell"
                 (startEdit)="startEdit(colI, rowI)" (edit)="edit($event, nzRow, colI )" (stopEdit)="stopEdit()">
               </nz-ui-cell-editable-string>
@@ -131,7 +131,7 @@
             </ng-template>
 
           </td>
-        </ng-container>
+        }
       </tr>
     }
   </tbody>

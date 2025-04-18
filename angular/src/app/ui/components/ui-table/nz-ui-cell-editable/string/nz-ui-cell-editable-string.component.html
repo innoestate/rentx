@@ -1,7 +1,16 @@
-<div test-selector="ui-table-editable-value" class="clickable hover-smooth" [class.loading-value]="loadingValue()"
-  [hidden]="isOnEditMode()" (click)="startToEdit()">{{ insideValue() }}</div>
-<input #input test-selector="ui-table-editable-input" [value]="insideValue()" [hidden]="isOnViewMode()" type="text"
-  nz-input (change)="makeEdit($event)" (blur)="endEdit()" />
+<div test-selector="ui-table-editable-value"
+     class="clickable hover-smooth"
+     [class.loading-value]="loadingValue()"
+     [hidden]="isOnEditMode()"
+     (click)="startToEdit()">{{ insideValue() }}</div>
+
+<input #input
+      test-selector="ui-table-editable-input"
+      [value]="insideValue()"
+      [hidden]="isOnViewMode()"
+      type="text"
+      nz-input (change)="makeEdit($event)"
+      (blur)="endEdit()" />
 
 @if(isEmpty() && !isOnEditMode()){
 <div class="empty-cell"></div>
