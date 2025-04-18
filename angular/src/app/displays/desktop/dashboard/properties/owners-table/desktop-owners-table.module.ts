@@ -5,6 +5,7 @@ import { OwnersTableAdapterService } from 'src/app/features/owners/adapters/tabl
 import { UiModule } from 'src/app/ui/ui.module';
 import { DesktopOwnersTableComponent } from './desktop-owners-table.component';
 import { OwnersDataService } from 'src/app/features/owners/data/owners.data.service';
+import { DesktopOwnersCommandsService } from '../commands/desktop.owners.command';
 
 @NgModule({
   declarations: [DesktopOwnersTableComponent],
@@ -15,6 +16,7 @@ import { OwnersDataService } from 'src/app/features/owners/data/owners.data.serv
   ],
   providers: [
     OwnersTableAdapterService,
+    DesktopOwnersCommandsService
   ]
 })
 export class DesktopOwnersTableModule {

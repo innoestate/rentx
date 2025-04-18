@@ -45,24 +45,46 @@ const createPopupFields: UiFormFieldData[] = [
 })
 export class OwnersCommandsService {
 
-  constructor(private ownersDataService: OwnersDataService, private popupService: UiPopupService) {
-    // console.log('owners commands service constructor');
-  }
+  createPopupFields: UiFormFieldData[] = [
+    {
+      key: 'name',
+      label: 'Nom',
+      type: 'text',
+      required: true
+    },
+    {
+      key: 'street',
+      label: 'Rue',
+      type: 'text',
+      required: true
+    },
+    {
+      key: 'city',
+      label: 'Ville',
+      type: 'text',
+      required: true
+    },
+    {
+      key: 'zip',
+      label: 'Code postal',
+      type: 'text',
+      required: true
+    },
+    {
+      key: 'signature',
+      label: 'Signature',
+      type: 'signature',
+      required: false
+    }
+  ]
 
-  deleteOwner(ownerId: string) {
-    this.ownersDataService.deleteOwner(ownerId);
-  }
 
-  createOwner() {
-    const title = 'Ajouter un propriétaire:';
-    const action = (value: any) => lastValueFrom(this.ownersDataService.createOwner(value));
-    this.popupService.openContinuableFormPopup(action, title, createPopupFields);
-  }
+  constructor() { }
 
-  editOwner(fullOwner: Owner) {
+  deleteOwner(ownerId: string) {}
 
-    const updateAction = (values: any) => lastValueFrom(this.ownersDataService.updateOwner(fullOwner.id, values));
-    this.popupService.openFormPopup<Owner>(updateAction, 'éditer un propriétaire', createPopupFields, fullOwner);
-  }
+  createOwner() {}
+
+  editOwner(fullOwner: Owner) {}
 
 }

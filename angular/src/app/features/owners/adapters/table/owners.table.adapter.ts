@@ -1,31 +1,37 @@
 import { Injectable } from "@angular/core";
+import { LocalizationsService } from "src/app/core/localizations/localizations.service";
 import { Owner } from "src/app/features/owners/models/owner.model";
 import { getUpdatedFields as getUpdatedFieldsUtils } from "src/app/shared/utils/objects.utils";
 import { UiNestedDropdown } from "src/app/ui/components/ui-nested-dropdown/model/ui-nested-dropdown.model";
+import { UiTableAdapter } from "src/app/ui/components/ui-table/adapter/ui-table.adapter";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
-import { OwnersCommandsService } from "../../commands/owners.command.service";
+import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class OwnersTableAdapterService {
+export class OwnersTableAdapterService extends UiTableAdapter {
 
-  constructor(private ownersCommands: OwnersCommandsService) { }
+  constructor(private localization: LocalizationsService) {
+    super();
+  }
 
-  buildTable(owners: Owner[]): { columns: UiTableColumnItem[], rows: UiTableRow[] }  {
-
-    const columns = this.createColumns(owners);
-    const rows = this.createRows(owners);
-
+  buildTable(owners: Owner[]): UiTable {
     return {
-      columns,
-      rows
+      columns: this.createColumns(owners),
+      rows: this.createRows(owners),
+      title: this.localization.getLocalization('owners', 'tableTitle'),
+      commands: [{
+        icon: 'add',
+        label: this.localization.getLocalization('owners', 'create'),
+        command: () => { }
+      }]
     }
   }
 
-  private createColumns(owners: Owner[]): UiTableColumnItem[] {
+  createColumns(owners: Owner[]): UiTableColumnItem[] {
     return [
       {
         label: "Nom Prénom / raison sociale",
@@ -63,16 +69,53 @@ export class OwnersTableAdapterService {
         type: 'text',
       },
       {
-        label: "actions",
-        key: "actions",
-        type: 'text',
-        dropdown: this.buildActionsDropDownItems(owners)
+        key: 'actions',
+        label: '',
+        icon: 'gear',
+        type: 'dropdown',
+        dropdown: this.buildActionsDropDownItems(owners),
+        headDropdown: this.buildActionsHeadDropdown(),
+        dropDownCellsUniqueItem: {
+          label: '',
+          icon: 'down',
+          iconSize: 16,
+          color: 'var(--color-tertiary-500)',
+          value: 'action',
+        },
       }
     ];
   }
 
-  private createRows(owners: Owner[]): UiTableRow[] {
+  createRows(owners: Owner[]): UiTableRow[] {
     return owners.map(owner => this.formatUiTableRow(owner));
+  }
+
+  private buildActionsHeadDropdown(): UiNestedDropdown {
+    return {
+      fixedHead: {
+        label: '',
+        icon: 'gear',
+        iconSize: 24,
+        value: 'action',
+        command: () => { }
+      },
+      list: [
+        {
+          label: 'create',
+          icon: 'add',
+          iconSize: 22,
+          value: "create",
+          command: () => {
+            console.log('implement command here');
+            return true;
+          }
+        }
+      ]
+    }
+  }
+
+  getDtoFromRow(row: UiTableRow): any {
+    return null;
   }
 
   private buildActionsDropDownItems(owners: Owner[]): UiNestedDropdown {
@@ -85,16 +128,15 @@ export class OwnersTableAdapterService {
           command: (row: UiTableRow) => {
             const owner = owners.find(o => o.id === row.data.id);
             if (!owner) throw new Error('Owner not found');
-            this.ownersCommands.editOwner(owner);
             return true;
           }
         },
         {
-          label: "Supprimer",
-          icon: "trash",
+          label: 'delete',
+          icon: 'trash',
           value: "delete",
+          color: 'var(--color-basic-900)',
           command: (row: UiTableRow) => {
-            this.ownersCommands.deleteOwner(row.data.id);
             return true;
           }
         }

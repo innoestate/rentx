@@ -1,1 +1,7 @@
-<ui-table (editRow)="updateRow($event)" [rows]="ownersTable().rows" [columns]="ownersTable().columns"></ui-table>
+<ui-table (editRow)="updateRow($event)"
+          [rows]="ownersTable().rows"
+          [columns]="ownersTable().columns"
+          [title]="ownersTable().title"
+          [commands]="ownersTable().commands"
+          [fixedColumns]="ownersTable().fixedColumns!"
+          backgroundImagePath="assets/images/owners-background.png"></ui-table>

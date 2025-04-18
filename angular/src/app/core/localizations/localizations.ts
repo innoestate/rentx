@@ -5,6 +5,19 @@ export const Localizations: Record<string, Record<string, string>> = {
     delete: "Supprimer",
     description: "Description"
   },
+  owners: {
+    label: 'propriétaires',
+    create: 'créer un propriétaire',
+    tableTitle: 'propriétaires',
+    failLoading: 'Echec de chargement des propriétaires!',
+    addOwnerSuccess: 'Propriétaire ajouté avec succès!',
+    addOwnerFailure: 'Echec de l\'ajout du propriétaire!',
+    updateOwnerSuccess: 'Propriétaire modifié avec succès!',
+    updateOwnerFailure: 'Echec de la modification du propriétaire!',
+    deleteOwnerSuccess: 'Propriétaire supprimé avec succès!',
+    deleteOwnerFailure: 'Echec de la suppression du propriétaire!',
+    createOwnerFromTitle: 'créer un propriétaire'
+  },
   prospections : {
     label: 'prospections',
     create: 'créer une prospection',

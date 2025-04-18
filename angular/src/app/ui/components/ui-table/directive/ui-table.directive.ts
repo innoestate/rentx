@@ -20,8 +20,9 @@ export class UiTableDirective extends UiDisplayerComponent {
   }
 
   protected updateRow(row: UiTableRow): void {}
-  
+
   protected verifyRowId(row: UiTableRow): void {
     if (!row.data['id']) throw new Error('Need an id in row data.');
   };
+
 }
