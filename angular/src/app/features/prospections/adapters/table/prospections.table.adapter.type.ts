@@ -1,5 +1,4 @@
 import { NzTableFilterFn } from "ng-zorro-antd/table";
-import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
 import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
 import { UiNestedDropdown } from "src/app/ui/components/ui-nested-dropdown/model/ui-nested-dropdown.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
