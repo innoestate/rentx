@@ -19,6 +19,8 @@ export const Localizations: Record<string, Record<string, string>> = {
   },
   sellers: {
     label: 'vendeurs',
+    tableTitle: 'vendeurs',
+    create: 'créer un vendeur',
     failLoading: 'Echec de chargement des vendeurs!',
     addSellerSuccess: 'Vendeur ajouté avec succès!',
     addSellerFailure: 'Echec de l\'ajout du vendeur!',

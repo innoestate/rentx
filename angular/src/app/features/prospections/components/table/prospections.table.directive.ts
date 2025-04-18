@@ -22,7 +22,6 @@ export class ProspectionsTableDirective extends UiTableDirective {
     protected tableAdapter: ProspectionsTableAdapterService,
     protected prospectionCommands: ProspectionsCommandsService,
     protected override elRef: ElementRef) {
-    // console.log('prospectionsTableDirective constructor.');
     super(elRef);
   }
 

@@ -1,4 +1,4 @@
-import { Component, computed, Directive, ElementRef, Signal } from "@angular/core";
+import { computed, Directive, ElementRef, Signal } from "@angular/core";
 import { catchError, of, take } from "rxjs";
 import { UiTableDirective } from "src/app/ui/components/ui-table/directive/ui-table.directive";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
@@ -14,12 +14,11 @@ export class SellersTableDirective extends UiTableDirective {
   sellers = this.sellersDataService.getSellers();
   table: Signal<UiTable> = this.buildTable();
 
-  constructor(private sellersDataService: SellersDataService,
-    private sellersAdater: SellersTableAdapterService,
+  constructor(protected sellersDataService: SellersDataService,
+    protected sellersAdater: SellersTableAdapterService,
     protected commandsService: SellersCommandsService,
     protected override elRef: ElementRef) {
     super(elRef);
-    // console.log('sellersTableDirective constructor');
   }
 
   override buildTable(): Signal<UiTableSellers> {
@@ -32,6 +31,8 @@ export class SellersTableDirective extends UiTableDirective {
 
   override bindCommands(table: UiTableSellers): UiTableSellers {
     table.columns.find(column => column.key === 'actions')!.dropdown.list[0].command = this.deleteRow.bind(this);
+    table.columns.find(column => column.key === 'actions')!.headDropdown.list[0].command = this.createSeller.bind(this);
+    table.commands![0].command = this.createSeller.bind(this);
     return table;
   }
 
@@ -47,6 +48,10 @@ export class SellersTableDirective extends UiTableDirective {
   deleteRow(row: UiTableRowSellers) {
     // console.log('implement delete in display component.');
     return true;
+  }
+
+  private createSeller(){
+    this.commandsService.createNew();
   }
 
   private getSellerBeforeUpdate(id: string) {

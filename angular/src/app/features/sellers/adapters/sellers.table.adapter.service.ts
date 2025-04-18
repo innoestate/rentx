@@ -1,24 +1,30 @@
 import { Injectable } from "@angular/core";
-import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
+import { LocalizationsService } from "src/app/core/localizations/localizations.service";
+import { UiNestedDropdown } from "src/app/ui/components/ui-nested-dropdown/model/ui-nested-dropdown.model";
 import { UiTableAdapter } from "src/app/ui/components/ui-table/adapter/ui-table.adapter";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { Seller_Dto } from "../models/seller.dto.model";
 import { UiTableColumnsSellers, UiTableSellers } from "./sellers.table.adapter.type";
-import { UiNestedDropdown } from "src/app/ui/components/ui-nested-dropdown/model/ui-nested-dropdown.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SellersTableAdapterService extends UiTableAdapter {
 
-  constructor() {
+  constructor(private localization: LocalizationsService) {
     super();
   }
 
   buildTable(sellers: Seller_Dto[]): UiTableSellers {
     return {
       columns: this.createColumns(),
-      rows: this.createRows(sellers)
+      rows: this.createRows(sellers),
+      title: this.localization.getLocalization('sellers', 'tableTitle'),
+      commands: [{
+        icon: 'add',
+        label: this.localization.getLocalization('sellers', 'create'),
+        command: () => { }
+      }]
     }
   }
 
@@ -37,12 +43,51 @@ export class SellersTableAdapterService extends UiTableAdapter {
       { key: 'phone', label: 'téléphone', editable: true, type: 'text' },
       { key: 'email', label: 'email', editable: true, type: 'text' },
       { key: 'agency', label: 'Agence', editable: true, type: 'text' },
-      { key: 'actions', label: 'Actions', type: 'dropdown', dropdown: this.buildActionsDropdownColumn() }
+      {
+        key: 'actions',
+        label: '',
+        icon: 'gear',
+        type: 'dropdown',
+        dropdown: this.buildActionsDropdownColumn(),
+        headDropdown: this.buildActionsHeadDropdown(),
+        dropDownCellsUniqueItem: {
+          label: '',
+          icon: 'down',
+          iconSize: 16,
+          color: 'var(--color-tertiary-500)',
+          value: 'action',
+        },
+        command: () => { }
+      }
     ]
   }
 
   protected createRows(sellers: Seller_Dto[]): UiTableRow[] {
     return sellers.map(seller => this.extractRow(seller));
+  }
+
+  private buildActionsHeadDropdown(): UiNestedDropdown {
+    return {
+      fixedHead: {
+        label: '',
+        icon: 'gear',
+        iconSize: 24,
+        value: 'action',
+        command: () => { }
+      },
+      list: [
+        {
+          label: this.localization.getLocalization('sellers', 'create'),
+          icon: 'add',
+          iconSize: 22,
+          value: "create",
+          command: () => {
+            console.log('implement command here');
+            return true;
+          }
+        }
+      ]
+    }
   }
 
   private buildActionsDropdownColumn(): UiNestedDropdown {

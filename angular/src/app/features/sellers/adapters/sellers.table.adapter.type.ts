@@ -50,6 +50,8 @@ interface UiTableColumnActions extends UiTableColumnItem {
   key: 'actions';
   label: string;
   dropdown: UiNestedDropdown;
+  headDropdown: UiNestedDropdown;
+  command: () => void
 }
 
 export type UiTableColumnsSellers = [UiTableColumnName, UiTableColumnAddress, UiTableColumnCity, UiTableColumnZip, UiTableColumnPhone, UiTableColumnEmail, UiTableColumnAgency, UiTableColumnActions]
