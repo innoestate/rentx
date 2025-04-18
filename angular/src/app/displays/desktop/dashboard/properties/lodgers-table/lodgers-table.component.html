@@ -1,1 +1,7 @@
-<ui-table (editRow)="updateRow($event)" [rows]="lodgersTable().rows" [columns]="lodgersTable().columns"></ui-table>
+<ui-table (editRow)="updateRow($event)"
+          [rows]="lodgersTable().rows"
+          [columns]="lodgersTable().columns"
+          [title]="lodgersTable().title"
+          [commands]="lodgersTable().commands"
+          [fixedColumns]="lodgersTable().fixedColumns!"
+          backgroundImagePath="assets/images/lodgers-background.png"></ui-table>
