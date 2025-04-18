@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { EstatesUiTableAdapter } from 'src/app/features/estates/adapters/table/estates.table.adapter.service';
 import { UiModule } from 'src/app/ui/ui.module';
 import { EstatesTableComponent } from './estates-table.component';
+import { DesktopEstatesCommandsService } from '../commands/desktop.estates.command';
 
 
 
@@ -17,7 +18,8 @@ import { EstatesTableComponent } from './estates-table.component';
 
   ],
   providers: [
-    EstatesUiTableAdapter
+    EstatesUiTableAdapter,
+    DesktopEstatesCommandsService
   ]
 })
 export class EstatesTableModule {

@@ -5,6 +5,19 @@ export const Localizations: Record<string, Record<string, string>> = {
     delete: "Supprimer",
     description: "Description"
   },
+  estates: {
+    label: 'biens',
+    create: 'créer un bien',
+    tableTitle: 'biens',
+    failLoading: 'Echec de chargement des biens!',
+    addEstateSuccess: 'Bien ajouté avec succès!',
+    addEstateFailure: 'Echec de l\'ajout du bien!',
+    updateEstateSuccess: 'Bien modifié avec succès!',
+    updateEstateFailure: 'Echec de la modification du bien!',
+    deleteEstateSuccess: 'Bien supprimé avec succès!',
+    deleteEstateFailure: 'Echec de la suppression du bien!',
+    createEstateFromTitle: 'créer un bien'
+  },
   owners: {
     label: 'propriétaires',
     create: 'créer un propriétaire',
