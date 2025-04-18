@@ -26,6 +26,7 @@ export class UiIconService {
       'close',
       'contact',
       'down',
+      'form',
       'eye',
       'key',
       'left',

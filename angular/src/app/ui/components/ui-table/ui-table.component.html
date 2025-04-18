@@ -4,7 +4,7 @@
     <img [src]="backgroundImagePath()">
   }
 </div>
-@if(nzRows() && nzRows().length > 0){
+@if(nzRows()){
   <nz-table #table
           [nzData]="nzRows()"
           [nzPageSize]="rowsPerPages()"
