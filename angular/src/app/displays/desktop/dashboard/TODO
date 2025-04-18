@@ -1,0 +1,22 @@
+Migration de properties vers le nouveau system d'affichage.
+
+Il faut utiliser la pattern de displayer comme dans invest-scope.
+
+D'abord il faut reprendre les features estates, lodgers et owners sur le même modèle que prospections et sellers.
+
+- migrer les commandes depuis l'adapter au component table.
+- créer un desktopService pour les commandes et l'impléme
+- faire la mise en page des tables en utilisant les icones pour ajouter des biens etc...
+
+
+Ensuite implémenter le displayer à la place du routing:
+
+- étendre les tables en tant que UiDisplayer
+- créer le factory qui fournit navigation, estates, lodgers, owners et actions
+- créer la feature properties (comme invest-scope):
+- ajouter le store et sa façade properties avec la navigation et la liste des composants à afficher
+- ajouter le displayer adapter qui va ordoner la liste de sorte qu'elle soit un tableau de tableau dans l'ordre d'affichage
+- créer le composant displayer qui va lire la liste des composants et les créer concrêtement
+
+
+
