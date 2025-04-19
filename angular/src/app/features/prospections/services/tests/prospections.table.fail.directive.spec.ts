@@ -6,15 +6,15 @@ import { SellersHttpService } from "src/app/features/sellers/data/http/sellers.h
 import { SellersDataModule } from "src/app/features/sellers/data/modules/sellers.data.module";
 import { SellersDataService } from "src/app/features/sellers/data/services/sellers.data.service";
 import { UiModule } from "src/app/ui/ui.module";
-import { ProspectionsTableAdapterService } from "../../../adapters/table/prospections.table.adapter.service";
-import { ProspectionsHttpService } from "../../../data/http/prospections.http.service";
-import { ProspectionsDataModule } from "../../../data/modules/prospections.data.module";
-import { ProspectionsDataService } from "../../../data/services/prospections.data.service";
-import { prospectionDtoMock1 } from "../../../mocks/prospections.dto.mock";
-import { ProspectionHttpFailUpdateMockService } from "../../../mocks/prospections.http.fail.update.mock.service";
 import { ProspectionsTableComponentMock } from "./mocks/prospections.table.mock.component";
+import { ProspectionsDataModule } from "../../data/modules/prospections.data.module";
+import { ProspectionsHttpService } from "../../data/http/prospections.http.service";
+import { ProspectionHttpFailUpdateMockService } from "../../mocks/prospections.http.fail.update.mock.service";
 import { SellersHttpSuccessMockService } from "src/app/features/sellers/mocks/sellers.http.success.mock.service";
-import { ProspectionsCommandsService } from "../../../commands/prospections.commands.service";
+import { ProspectionsDataService } from "../../data/services/prospections.data.service";
+import { ProspectionsTableAdapterService } from "../../adapters/table/prospections.table.adapter.service";
+import { ProspectionsCommandsService } from "../../commands/prospections.commands.service";
+import { prospectionDtoMock1 } from "../../mocks/prospections.dto.mock";
 
 
 describe('ProspectionsTableDirective test with fail update', () => {
