@@ -1,0 +1,1 @@
+export type PropertiesDisplay = 'navigation' | 'actions' | 'estates' | 'owners' | 'lodgers';
