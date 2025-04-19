@@ -1,26 +1,23 @@
 import { Component, ElementRef } from '@angular/core';
-import { SellersTableAdapterService } from 'src/app/features/sellers/adapters/sellers.table.adapter.service';
 import { UiTableRowSellers } from 'src/app/features/sellers/adapters/sellers.table.adapter.type';
-import { SellersTableDirective } from 'src/app/features/sellers/components/sellers.table.directive';
-import { SellersDataService } from 'src/app/features/sellers/data/services/sellers.data.service';
-import { DesktopSellersCommandsService } from '../../commands/desktop.sellers.commands.service';
+import { SellersTableService } from 'src/app/features/sellers/services/sellers.table.service';
+import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
 
 @Component({
   standalone: false,
   templateUrl: './desktop-sellers-table.component.html',
   styleUrl: './desktop-sellers-table.component.scss'
 })
-export class DesktopSellersTableComponent extends SellersTableDirective {
+export class DesktopSellersTableComponent extends UiDisplayerComponent {
 
-  constructor(protected override sellersDataService: SellersDataService,
-      protected override sellersAdater: SellersTableAdapterService,
-      protected override commandsService: DesktopSellersCommandsService) {
-      super(sellersDataService, sellersAdater, commandsService);
+  table = this.tableService.buildTable();
+
+  constructor(private tableService: SellersTableService, protected override elRef: ElementRef) {
+      super(elRef);
   }
 
-  override deleteRow(row: UiTableRowSellers) {
-    this.commandsService.delete(row.data['id']);
-    return true;
+  updateRow(row: UiTableRowSellers){
+    this.tableService.updateRow(row);
   }
 
 }

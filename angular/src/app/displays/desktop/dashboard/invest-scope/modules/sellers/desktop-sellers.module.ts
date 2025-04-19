@@ -5,6 +5,8 @@ import { SellersDataModule } from 'src/app/features/sellers/data/modules/sellers
 import { UiModule } from 'src/app/ui/ui.module';
 import { DesktopSellersTableComponent } from '../../components/sellers-table/desktop-sellers-table.component';
 import { DesktopSellersCommandsService } from '../../commands/desktop.sellers.commands.service';
+import { SellersTableService } from 'src/app/features/sellers/services/sellers.table.service';
+import { SellersCommandsService } from 'src/app/features/sellers/commands/table/sellers.commands.service';
 
 
 
@@ -17,8 +19,12 @@ import { DesktopSellersCommandsService } from '../../commands/desktop.sellers.co
     SellersDataModule,
   ],
   providers: [
-    DesktopSellersCommandsService,
-    SellersTableAdapterService
+    {
+      provide: SellersCommandsService,
+      useClass: DesktopSellersCommandsService
+    },
+    SellersTableAdapterService,
+    SellersTableService
   ]
 })
 export class DesktopSellersModule {

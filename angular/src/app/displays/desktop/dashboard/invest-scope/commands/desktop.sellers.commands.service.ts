@@ -26,6 +26,7 @@ export class DesktopSellersCommandsService extends SellersCommandsService {
   }
 
   override delete(id: string) {
+    alert('delete');
     this.sellersData.deleteSeller(id);
   }
 

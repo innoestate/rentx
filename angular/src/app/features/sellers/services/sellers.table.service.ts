@@ -1,6 +1,5 @@
-import { computed, Directive, ElementRef, Signal } from "@angular/core";
+import { computed, Directive, Injectable, Signal } from "@angular/core";
 import { catchError, of, take } from "rxjs";
-import { UiTableDirective } from "src/app/ui/components/ui-table/directive/ui-table.directive";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
 import { SellersTableAdapterService } from "../adapters/sellers.table.adapter.service";
@@ -8,8 +7,8 @@ import { UiTableRowSellers, UiTableSellers } from "../adapters/sellers.table.ada
 import { SellersCommandsService } from "../commands/table/sellers.commands.service";
 import { SellersDataService } from "../data/services/sellers.data.service";
 
-@Directive()
-export class SellersTableDirective extends UiTableDirective {
+@Injectable()
+export class SellersTableService {
 
   sellers = this.sellersDataService.getSellers();
   table: Signal<UiTable> = this.buildTable();
@@ -17,10 +16,9 @@ export class SellersTableDirective extends UiTableDirective {
   constructor(protected sellersDataService: SellersDataService,
     protected sellersAdater: SellersTableAdapterService,
     protected commandsService: SellersCommandsService) {
-    super();
   }
 
-  override buildTable(): Signal<UiTableSellers> {
+  buildTable(): Signal<UiTableSellers> {
     return computed(() => {
       const table = this.sellersAdater.buildTable(this.sellers());
       this.bindCommands(table);
@@ -28,14 +26,14 @@ export class SellersTableDirective extends UiTableDirective {
     });
   }
 
-  override bindCommands(table: UiTableSellers): UiTableSellers {
+  bindCommands(table: UiTableSellers): UiTableSellers {
     table.columns.find(column => column.key === 'actions')!.dropdown.list[0].command = this.deleteRow.bind(this);
     table.columns.find(column => column.key === 'actions')!.headDropdown.list[0].command = this.createSeller.bind(this);
     table.commands![0].command = this.createSeller.bind(this);
     return table;
   }
 
-  override updateRow(rowWidthUpdate: UiTableRow) {
+  updateRow(rowWidthUpdate: UiTableRow) {
     this.verifyRowId(rowWidthUpdate);
     const update = this.sellersAdater.getDtoFromRow(rowWidthUpdate);
     this.sellersDataService.updateSeller(rowWidthUpdate.data.id, update).pipe(
@@ -45,9 +43,13 @@ export class SellersTableDirective extends UiTableDirective {
   }
 
   deleteRow(row: UiTableRowSellers) {
-    // console.log('implement delete in display component.');
+    this.commandsService.delete(row.data['id']);
     return true;
   }
+
+  protected verifyRowId(row: UiTableRow): void {
+    if (!row.data['id']) throw new Error('Need an id in row data.');
+  };
 
   private createSeller(){
     this.commandsService.createNew();

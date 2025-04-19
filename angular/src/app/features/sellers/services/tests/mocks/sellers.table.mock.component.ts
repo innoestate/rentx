@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { SellersTableDirective } from "../../sellers.table.directive";
+import { SellersTableDirective } from "../../sellers.table.service";
 
 @Component({
   selector: 'sellers-table-mock',

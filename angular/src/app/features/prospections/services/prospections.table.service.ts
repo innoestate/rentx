@@ -52,7 +52,7 @@ export class ProspectionsTableService {
   }
 
   deleteRow(row: UiTableRow) {
-    console.log('implement delete in displays component.')
+    this.prospectionCommands.delete(row.data['id']);
     return true;
   }
 
