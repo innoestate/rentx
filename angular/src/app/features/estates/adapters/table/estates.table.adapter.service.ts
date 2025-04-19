@@ -36,7 +36,7 @@ export class EstatesUiTableAdapter {
       commands: [
         {
           label: 'create',
-          icon: 'add',
+          icon: 'add-estate',
           command: () => {
             return true;
           }
@@ -152,21 +152,24 @@ export class EstatesUiTableAdapter {
   private buildLodgersColumnField(estates: Estate[], lodgers: Lodger[]): UiTableColumnItem {
 
     const lodgersDropdownItems = this.createLodgerDropdownItems(estates, lodgers);
+    const filter = this.createLodgersFilters(lodgers);
+    const filterFn = this.createLodgersFilterFn(lodgers);
 
-    const usedLodgers = estates.filter(estate => estate.lodger_id !== null);
-    const uniqUsedLodgersIds = uniq(usedLodgers.map(estate => estate.lodger_id));
-    if (uniqUsedLodgersIds.length < usedLodgers.length) {
-      const lodgersList: NzTableFilterList = uniqUsedLodgersIds.map(lodgerId => ({
-        text: lodgers.find(lodger => lodger.id === lodgerId)?.name as string,
-        value: lodgerId
-      }));
-      const lodgersFilterFn: NzTableFilterFn<UiTableRow> = (values: string[], filter: UiTableRow) => {
-        return values.includes((filter.cells[5] as UiDropdownItem<string>)?.value as string);
-      };
-      return { key: 'lodger_dropdown', label: 'locataire', type: 'dropdown', dropdown: lodgersDropdownItems, sort: 1, filter: lodgersList, filterFn: lodgersFilterFn };
-    }
+    return { key: 'lodger_dropdown', label: 'locataire', type: 'dropdown', dropdown: lodgersDropdownItems, sort: 1, filter, filterFn };
+  }
 
-    return { key: 'lodger_dropdown', label: 'locataire', type: 'dropdown', dropdown: lodgersDropdownItems, sort: 1 };
+  private createLodgersFilters(lodgers: Lodger[]) : {text: string, value: string}[] {
+    const lodgersList: NzTableFilterList = lodgers.map(lodger => ({
+      text: lodger.name as string,
+      value: lodger.id
+    }));
+    return lodgersList;
+  }
+
+  private createLodgersFilterFn(lodgers: Lodger[]): NzTableFilterFn<UiTableRow> {
+    return (values: string[], filter: UiTableRow) => {
+      return values.includes((filter.cells[5] as UiDropdownItem<string>)?.value as string);
+    };
   }
 
   private createRows(estates: Estate[]): UiTableRow[] {

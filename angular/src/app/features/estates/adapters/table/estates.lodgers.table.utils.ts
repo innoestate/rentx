@@ -11,7 +11,8 @@ export const createLodgersDropdown = (lodgersCommands: LodgersCommandsService, l
   lodgerDropdownItems = addChoosingLodger(lodgersCommands, estates, lodgers);
   const lodgersDropDown = {
     value: lodgerDropdownItems,
-    label: "locataires"
+    label: "locataires",
+    icon: 'lodger'
   }
   return lodgersDropDown;
 }
@@ -28,7 +29,7 @@ export const createRentReceiptDropdown = (rentsCommands: RentsCommandsService, e
 }
 
 const addChoosingLodger = (lodgersCommands: LodgersCommandsService, estates: Estate[], lodgers: Lodger[]): UiDropdownItem<any>[] => {
-  let lodgersDropDownItems: UiDropdownItem<any>[] = lodgers.map(lodger => ({ value: lodger.id, label: lodger.name }));
+  let lodgersDropDownItems: UiDropdownItem<any>[] = lodgers.map(lodger => ({ value: lodger.id, label: lodger.name, icon: 'lodger' }));
   lodgersDropDownItems.push({
     value: '',
     label: "vacant"
