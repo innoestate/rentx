@@ -1,35 +1,30 @@
 import { Component, ElementRef } from '@angular/core';
 import { InvestScopeDisplayManager } from 'src/app/features/invest-scope/displayer/invest-scope.displayer.manager';
-import { ProspectionsTableAdapterService } from 'src/app/features/prospections/adapters/table/prospections.table.adapter.service';
-import { ProspectionsTableDirective } from 'src/app/features/prospections/components/table/prospections.table.directive';
-import { ProspectionsDataService } from 'src/app/features/prospections/data/services/prospections.data.service';
-import { SellersDataService } from 'src/app/features/sellers/data/services/sellers.data.service';
+import { ProspectionsTableService } from 'src/app/features/prospections/services/prospections.table.service';
+import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
 import { UiTableRow } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
-import { DesktopProspectionsCommandsService } from '../../commands/desktop.prospections.commands.service';
 
 @Component({
   standalone: false,
   templateUrl: './desktop-prospections-table.component.html',
   styleUrl: './desktop-prospections-table.component.scss'
 })
-export class DesktopProspectionsTableComponent extends ProspectionsTableDirective {
+export class DesktopProspectionsTableComponent extends UiDisplayerComponent {
 
-  constructor(protected override prospectionsData: ProspectionsDataService,
-              protected override SellersData: SellersDataService,
-              protected override tableAdapter: ProspectionsTableAdapterService,
-              private commandsService: DesktopProspectionsCommandsService,
+  table = this.tableService.buildTable();
+
+  constructor(protected tableService: ProspectionsTableService,
               private displayManager: InvestScopeDisplayManager,
               protected override elRef: ElementRef) {
-    super(prospectionsData, SellersData, tableAdapter, commandsService, elRef);
+    super(elRef);
   }
 
-  override deleteRow(row: UiTableRow) {
-    this.commandsService.delete(row.data['id']);
-    return true;
+  updateRow(row: UiTableRow) {
+    this.tableService.updateRow(row);
   }
 
   selectRow(row: UiTableRow) {
-    const prospection = this.prospections()!.find(prospection => prospection.id === row.data['id']);
+    const prospection = this.tableService.prospections()!.find(prospection => prospection.id === row.data['id']);
     if (!prospection) throw new Error('Prospection not found');
     this.displayManager.selectItem(prospection);
   }

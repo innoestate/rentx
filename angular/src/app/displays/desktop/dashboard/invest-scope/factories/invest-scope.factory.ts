@@ -9,6 +9,7 @@ import { LocalizationsService } from "src/app/core/localizations/localizations.s
 import { DesktopProspectionsCommandsService } from "../commands/desktop.prospections.commands.service";
 import { DesktopSellersCommandsService } from "../commands/desktop.sellers.commands.service";
 import { SellersDataService } from "src/app/features/sellers/data/services/sellers.data.service";
+import { ProspectionsCommandsService } from "src/app/features/prospections/commands/prospections.commands.service";
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class InvestScopeFactory extends DynamicComponentFactoryService {
 
   constructor(private localizations: LocalizationsService,
     private sellersData: SellersDataService,
-    private prospectionsCommands: DesktopProspectionsCommandsService,
+    private prospectionsCommands: ProspectionsCommandsService,
     private sellersCommands: DesktopSellersCommandsService) {
     super();
   }

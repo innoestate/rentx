@@ -1,15 +1,10 @@
-import { Directive, ElementRef, Signal } from "@angular/core";
+import { Directive, Signal } from "@angular/core";
 // import { UiDisplayerComponent } from "../../ui-displayer/ui-displayer.component";
-import { UiDisplayerComponent } from "../../ui-displayer/ui-displayer.component";
 import { UiTableRow } from "../models/ui-table-row.model";
 import { UiTable } from "../models/ui-table.model";
 
 @Directive()
-export class UiTableDirective extends UiDisplayerComponent {
-
-  constructor(protected override elRef: ElementRef) {
-    super(elRef);
-  }
+export class UiTableDirective {
 
   protected buildTable(): Signal<UiTable> {
     return null as any;

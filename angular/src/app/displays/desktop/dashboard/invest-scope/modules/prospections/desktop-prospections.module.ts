@@ -6,6 +6,9 @@ import { UiModule } from 'src/app/ui/ui.module';
 import { DesktopProspectionsCommandsService } from '../../commands/desktop.prospections.commands.service';
 import { DesktopProspectionDescriptionComponent } from '../../components/description/desktop-prospection-description.component';
 import { DesktopProspectionsTableComponent } from '../../components/prospections-table/desktop-prospections-table.component';
+import { ProspectionsCommandsService } from 'src/app/features/prospections/commands/prospections.commands.service';
+import { ProspectionsTableService } from 'src/app/features/prospections/services/prospections.table.service';
+import { InvestScopeDisplayManager } from 'src/app/features/invest-scope/displayer/invest-scope.displayer.manager';
 
 
 
@@ -19,8 +22,13 @@ import { DesktopProspectionsTableComponent } from '../../components/prospections
     UiModule.forChild(),
   ],
   providers: [
-    DesktopProspectionsCommandsService,
-    ProspectionsTableAdapterService
+    {
+      provide: ProspectionsCommandsService,
+      useClass: DesktopProspectionsCommandsService
+    },
+    ProspectionsTableAdapterService,
+    ProspectionsTableService,
+    InvestScopeDisplayManager
   ]
 })
 export class DesktopProspectionsModule {

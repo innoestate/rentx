@@ -1,16 +1,17 @@
-import { computed, Directive, ElementRef, Signal } from "@angular/core";
+import { computed, ElementRef, Injectable, Signal } from "@angular/core";
 import { catchError, of, take } from "rxjs";
 import { SellersDataService } from "src/app/features/sellers/data/services/sellers.data.service";
 import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
+import { UiTableDirective } from "src/app/ui/components/ui-table/directive/ui-table.directive";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { ProspectionsTableAdapterService } from "../../adapters/table/prospections.table.adapter.service";
-import { UiTableProspections, UiTableRowProspection } from "../../adapters/table/prospections.table.adapter.type";
-import { ProspectionsCommandsService } from "../../commands/prospections.commands.service";
-import { ProspectionsDataService } from "../../data/services/prospections.data.service";
-import { Prospection } from "../../models/prospection.model";
+import { ProspectionsTableAdapterService } from "../adapters/table/prospections.table.adapter.service";
+import { UiTableProspections, UiTableRowProspection } from "../adapters/table/prospections.table.adapter.type";
+import { ProspectionsCommandsService } from "../commands/prospections.commands.service";
+import { ProspectionsDataService } from "../data/services/prospections.data.service";
+import { Prospection } from "../models/prospection.model";
 
-@Directive()
-export class ProspectionsTableDirective {
+@Injectable()
+export class ProspectionsTableService {
 
   prospections: Signal<Prospection[]> = this.prospectionsData.getProspections();
   sellers: Signal<Seller_Dto[]> = this.SellersData.getSellers();
@@ -46,10 +47,6 @@ export class ProspectionsTableDirective {
     ).subscribe();
   }
 
-  protected verifyRowId(row: UiTableRow): void {
-    if (!row.data['id']) throw new Error('Need an id in row data.');
-  };
-
   protected createProspection() {
     this.prospectionCommands.createNew(this.sellers());
   }
@@ -58,6 +55,10 @@ export class ProspectionsTableDirective {
     console.log('implement delete in displays component.')
     return true;
   }
+
+  protected verifyRowId(row: UiTableRow): void {
+    if (!row.data['id']) throw new Error('Need an id in row data.');
+  };
 
   private getProspectionBeforeUpdate(id: string) {
     const prospectionBeforeUpdate = this.prospections()!.find(prospection => prospection.id === id);

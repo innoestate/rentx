@@ -14,9 +14,8 @@ export class DesktopSellersTableComponent extends SellersTableDirective {
 
   constructor(protected override sellersDataService: SellersDataService,
       protected override sellersAdater: SellersTableAdapterService,
-      protected override commandsService: DesktopSellersCommandsService,
-      protected override elRef: ElementRef) {
-      super(sellersDataService, sellersAdater, commandsService, elRef);
+      protected override commandsService: DesktopSellersCommandsService) {
+      super(sellersDataService, sellersAdater, commandsService);
   }
 
   override deleteRow(row: UiTableRowSellers) {

@@ -17,10 +17,6 @@ export class DesktopEstatesTableComponent extends UiDisplayerComponent {
     super(elRef);
   }
 
-  ngOnInit(): void {
-    this.tableService.buildTable();
-  }
-
   updateRow(row: UiTableRow) {
     this.tableService.updateRow(row);
   }

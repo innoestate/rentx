@@ -16,9 +16,8 @@ export class SellersTableDirective extends UiTableDirective {
 
   constructor(protected sellersDataService: SellersDataService,
     protected sellersAdater: SellersTableAdapterService,
-    protected commandsService: SellersCommandsService,
-    protected override elRef: ElementRef) {
-    super(elRef);
+    protected commandsService: SellersCommandsService) {
+    super();
   }
 
   override buildTable(): Signal<UiTableSellers> {
