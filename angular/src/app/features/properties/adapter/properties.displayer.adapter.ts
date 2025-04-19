@@ -8,7 +8,7 @@ import { UiDynamicComponent } from 'src/app/ui/components/ui-dynamic-component/m
 @Injectable({
   providedIn: 'root',
 })
-export class PropertiesDisplayerAdapter {
+export class PropertiesDisplayAdapter {
   constructor() {}
 
   static fillDynamicComponents(dynamicComponents: UiDynamicComponent[][]): void {
@@ -23,7 +23,7 @@ export class PropertiesDisplayerAdapter {
 
   mapDynamicComponents(componentsList: string[], dynamicComponents: UiDynamicComponent[][]): void {
     if (dynamicComponents.length <= 0) {
-      PropertiesDisplayerAdapter.fillDynamicComponents(dynamicComponents);
+      PropertiesDisplayAdapter.fillDynamicComponents(dynamicComponents);
       this.instanciateDynamicComponents(componentsList, dynamicComponents);
     } else {
       this.buildMapping(dynamicComponents, componentsList);

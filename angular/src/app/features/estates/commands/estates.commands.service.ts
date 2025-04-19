@@ -59,7 +59,7 @@ export class EstatesCommandsService {
 
   constructor(protected ownersData: OwnersDataService) { }
 
-  createEstate() { }
+  createEstate() {}
 
   deleteEstate(id: string) { }
 

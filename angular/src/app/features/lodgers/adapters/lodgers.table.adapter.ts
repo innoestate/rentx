@@ -4,18 +4,28 @@ import { UiNestedDropdown } from "src/app/ui/components/ui-nested-dropdown/model
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { getUpdatedFields as getUpdatedFieldsUtils } from '../../../shared/utils/objects.utils';
+import { LocalizationsService } from "src/app/core/localizations/localizations.service";
+import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LodgersTableAdapterService {
 
-  constructor() { }
+  constructor(private localization: LocalizationsService) { }
 
-  buildTable(lodgers: Lodger[]): { columns: UiTableColumnItem[], rows: UiTableRow[] } {
+  buildTable(lodgers: Lodger[]): UiTable {
     return {
       columns: this.createColumns(),
-      rows: this.createRows(lodgers)
+      rows: this.createRows(lodgers),
+      title: this.localization.getLocalization('lodgers', 'tableTitle'),
+      commands: [{
+        label: 'create',
+        icon: 'add',
+        command: () => {
+          return true;
+        }
+      }]
     }
   }
 

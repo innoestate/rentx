@@ -1,0 +1,9 @@
+<div class="card-content table">
+  <ui-table (editRow)="updateRow($event)"
+            [columns]="table().columns"
+            [rows]="table().rows"
+            [title]="table().title"
+            [commands]="table().commands"
+            [fixedColumns]="table().fixedColumns!"
+            backgroundImagePath="assets/images/estates-background.png"></ui-table>
+</div>

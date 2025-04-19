@@ -18,15 +18,12 @@ export class DesktopEstatesCommandsService extends EstatesCommandsService {
     }
 
   override createEstate() {
-
     this.createEstateFieldsDataPopup[6] = {
       ...this.createEstateFieldsDataPopup[6],
       dropdownItems: this.owners().map(owner => ({ label: owner.name, value: owner.id }))
     }
-
     const action = (values: Partial<Estate>) => lastValueFrom(this.estatesData.createEstate(values));
     this.popupService.openContinuableFormPopup<Estate>(action, 'Ajouter un propriétaire', this.createEstateFieldsDataPopup);
-
   }
 
   override deleteEstate(id: string) {

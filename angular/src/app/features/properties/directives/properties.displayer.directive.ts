@@ -1,7 +1,7 @@
 import { Directive, effect, OnInit } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { UiDynamicComponent } from 'src/app/ui/components/ui-dynamic-component/models/ui-dynamic-component.model';
-import { PropertiesDisplayerAdapter } from '../adapter/properties.displayer.adapter';
+import { PropertiesDisplayAdapter } from '../adapter/properties.displayer.adapter';
 import { PropertiesDisplayerManager } from '../displayer/properties.displayer.manager';
 
 @Directive({
@@ -13,17 +13,21 @@ export class PropertiesDisplayerDirective implements OnInit {
 
   constructor(
     protected displayManager: PropertiesDisplayerManager,
-    protected adapter: PropertiesDisplayerAdapter
-  ) {}
+    protected adapter: PropertiesDisplayAdapter
+  ) {
+    this.displayManager.init();
+    this.mapDynamicComponents();
+  }
 
   private mapDynamicComponents(): void {
     effect(() => {
+      console.log('mapDynamicComponents', this.componentsList(), this.displays);
       this.adapter.mapDynamicComponents(this.componentsList() || [], this.displays);
+      console.log(this.displays);
     });
   }
 
   ngOnInit(): void {
-    this.displayManager.init();
-    this.mapDynamicComponents();
+
   }
 }

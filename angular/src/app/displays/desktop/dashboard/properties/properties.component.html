@@ -1,1 +1,9 @@
-<router-outlet></router-outlet>
+@for(components of displays; track components){
+  <div class="column">
+    @for(component of components; track component){
+      <ui-dynamic-component [component]="component"></ui-dynamic-component>
+    }
+  </div>
+}
+
+

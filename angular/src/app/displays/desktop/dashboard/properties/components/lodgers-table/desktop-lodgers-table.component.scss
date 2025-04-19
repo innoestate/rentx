@@ -1,0 +1,23 @@
+:host {
+  height: 100%;
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: stretch;
+  align-items: stretch;
+  opacity: 0;
+  background-color: var(--color-basic-100);
+  border-radius: var(--radius-large);
+}
+
+.table {
+  width: 900px;
+  max-width: 900px;
+
+  height: calc(100%);
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: stretch;
+  align-items: stretch;
+}

@@ -31,6 +31,19 @@ export const Localizations: Record<string, Record<string, string>> = {
     deleteOwnerFailure: 'Echec de la suppression du propriétaire!',
     createOwnerFromTitle: 'créer un propriétaire'
   },
+  lodgers: {
+    label: 'locataires',
+    create: 'créer un locataire',
+    tableTitle: 'locataires',
+    failLoading: 'Echec de chargement des locataires!',
+    addLodgerSuccess: 'Locataire ajouté avec succès!',
+    addLodgerFailure: 'Echec de l\'ajout du locataire!',
+    updateLodgerSuccess: 'Locataire modifié avec succès!',
+    updateLodgerFailure: 'Echec de la modification du locataire!',
+    deleteLodgerSuccess: 'Locataire supprimé avec succès!',
+    deleteLodgerFailure: 'Echec de la suppression du locataire!',
+    createLodgerFromTitle: 'créer un locataire'
+  },
   prospections : {
     label: 'prospections',
     create: 'créer une prospection',
