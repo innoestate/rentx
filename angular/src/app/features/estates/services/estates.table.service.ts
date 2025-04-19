@@ -1,17 +1,17 @@
-import { computed, Directive, effect, Injectable } from "@angular/core";
-import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { EstatesUiTableAdapter } from "../adapters/table/estates.table.adapter.service";
-import { EstatesDataService } from "../data/service/esates.data.service";
-import { OwnersDataService } from "src/app/features/owners/data/owners.data.service";
-import { LodgersDataService } from "src/app/features/lodgers/data/lodgers.data.service";
-import { extractUpdatedFieldsFromRow } from "../adapters/table/estates.lodgers.table.utils";
+import { computed, Injectable } from "@angular/core";
 import { catchError, of, take } from "rxjs";
-import { Estate } from "../models/estate.model";
-import { fillEstates } from "../adapters/estate.adapter.utils";
+import { LodgersDataService } from "src/app/features/lodgers/data/lodgers.data.service";
+import { OwnersDataService } from "src/app/features/owners/data/owners.data.service";
 import { RentsDataService } from "src/app/features/rents/data/service/rents.data.service";
 import { UiTableInterface } from "src/app/ui/components/ui-table/interfaces/ui-table.interface";
+import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
+import { fillEstates } from "../adapters/estate.adapter.utils";
+import { extractUpdatedFieldsFromRow } from "../adapters/table/estates.lodgers.table.utils";
+import { EstatesUiTableAdapter } from "../adapters/table/estates.table.adapter.service";
 import { EstatesCommandsService } from "../commands/estates.commands.service";
+import { EstatesDataService } from "../data/service/esates.data.service";
+import { Estate } from "../models/estate.model";
 
 @Injectable()
 export class EstatesTableService implements UiTableInterface {

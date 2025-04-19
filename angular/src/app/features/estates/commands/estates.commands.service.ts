@@ -54,7 +54,6 @@ export class EstatesCommandsService {
     }
     // owner_id: new FormControl(this.data.owners.length ? this.data.owners[0].id : null),
   ]
-
   owners = this.ownersData.getOwners();
 
   constructor(protected ownersData: OwnersDataService) { }

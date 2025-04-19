@@ -1,11 +1,10 @@
-import { isEqual } from "lodash";
-import { Lodger } from "src/app/features/lodgers/models/lodger.model";
 import { LodgersCommandsService } from "src/app/features/lodgers/commands/lodgers.commands.service";
+import { Lodger } from "src/app/features/lodgers/models/lodger.model";
 import { RentsCommandsService } from "src/app/features/rents/commands/rents.commands.service";
 import { UiDropdownItem } from "src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { Estate } from "../../models/estate.model";
 import { getUpdatedFields as getUpdatedFieldsUtils } from "../../../../shared/utils/objects.utils";
+import { Estate } from "../../models/estate.model";
 
 export const createLodgersDropdown = (lodgersCommands: LodgersCommandsService, lodgers: Lodger[], estates: Estate[]) => {
   let lodgerDropdownItems: UiDropdownItem<any>[] = [];

@@ -1,4 +1,4 @@
-import { computed, Directive, ElementRef, Injectable, Signal } from "@angular/core";
+import { computed, Injectable, Signal } from "@angular/core";
 import { catchError, of, take } from "rxjs";
 import { UiTableInterface } from "src/app/ui/components/ui-table/interfaces/ui-table.interface";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";

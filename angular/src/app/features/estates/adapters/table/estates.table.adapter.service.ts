@@ -12,7 +12,6 @@ import { UiNestedDropdown } from "src/app/ui/components/ui-nested-dropdown/model
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumnItem } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
-import { EstatesCommandsService } from "../../commands/estates.commands.service";
 import { Estate } from "../../models/estate.model";
 import { createLodgersDropdown, createRentReceiptDropdown } from "./estates.lodgers.table.utils";
 
@@ -27,7 +26,6 @@ export class EstatesUiTableAdapter {
               private lodgersCommands: LodgersCommandsService,
               private rentsCommands: RentsCommandsService,
               private localization: LocalizationsService) {
-    // console.log('esate ui table adapter constructor');
   }
 
   buildTableList(estates: Estate[], owners: Owner[], lodgers: Lodger[]): UiTable {

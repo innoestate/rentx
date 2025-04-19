@@ -60,46 +60,46 @@ export class LodgersTableAdapterService {
     ];
   }
 
-    private buildActionsDropdownColumn(): UiNestedDropdown {
-      return {
-        list: [
-          {
-            label: 'delete',
-            icon: 'trash',
-            value: "delete",
-            color: 'var(--color-basic-900)',
-            command: () => {
-              console.log('implement command here');
-              return true;
-            }
+  private buildActionsDropdownColumn(): UiNestedDropdown {
+    return {
+      list: [
+        {
+          label: 'delete',
+          icon: 'trash',
+          value: "delete",
+          color: 'var(--color-basic-900)',
+          command: () => {
+            console.log('implement command here');
+            return true;
           }
-        ]
-      }
+        }
+      ]
     }
+  }
 
-    private buildActionsHeadDropdown(): UiNestedDropdown {
-      return {
-        fixedHead: {
-          label: '',
-          icon: 'gear',
-          iconSize: 24,
-          value: 'action',
-          command: () => { }
-        },
-        list: [
-          {
-            label: 'create',
-            icon: 'add',
-            iconSize: 22,
-            value: "create",
-            command: () => {
-              console.log('implement command here');
-              return true;
-            }
+  private buildActionsHeadDropdown(): UiNestedDropdown {
+    return {
+      fixedHead: {
+        label: '',
+        icon: 'gear',
+        iconSize: 24,
+        value: 'action',
+        command: () => { }
+      },
+      list: [
+        {
+          label: 'create',
+          icon: 'add',
+          iconSize: 22,
+          value: "create",
+          command: () => {
+            console.log('implement command here');
+            return true;
           }
-        ]
-      }
+        }
+      ]
     }
+  }
 
   private createRows(Lodgers: Lodger[]): UiTableRow[] {
     return Lodgers.map(Lodger => this.formatUiTableRow(Lodger));
@@ -110,7 +110,7 @@ export class LodgersTableAdapterService {
       data: { id: lodger.id },
       cells: {
         name: lodger.name,
-        email: lodger.email??'',
+        email: lodger.email ?? '',
         actions: {
           icon: 'trash',
           label: 'delete',
