@@ -1,0 +1,28 @@
+@let columns = nzColumns();
+@let rows = nzRows();
+@if(rows){
+  <nz-table #tableRef [nzData]="rows">
+  <thead>
+    <tr>
+      @for(column of columns; track column.key; let columnI = $index) {
+        <th [nzWidth]="column.width">
+          <div class="column-header" [class.icon-column]="column.icon">
+            {{ column.label?.title}}
+          </div>
+        </th>
+      }
+    </tr>
+  </thead>
+  <tbody>
+    @for(nzRow of tableRef.data; let rowI = $index; track nzRow){
+      <tr>
+        @for(label of nzRow.cells; let colI = $index; track colI) {
+          <td>
+            {{label.title}}
+          </td>
+        }
+      </tr>
+    }
+  </tbody>
+  </nz-table>
+}

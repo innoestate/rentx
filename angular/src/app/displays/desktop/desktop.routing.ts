@@ -7,6 +7,10 @@ import { LoginComponent } from '../pages/login/login.component';
 const routes: Routes = [
   { path: 'login', canActivate: [LoginDesktopGuard], component: LoginComponent },
   {
+    path: 'sandbox',
+    loadChildren: () => import('./sandbox/sandbox.module').then(m => m.SandboxModule)
+  },
+  {
     path: 'me',
     canActivate: [AuthDesktopGuard],
     children: [
