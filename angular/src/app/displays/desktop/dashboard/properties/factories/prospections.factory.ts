@@ -66,12 +66,12 @@ export class PropertiesFactory extends DynamicComponentFactoryService {
         },
         {
           label: this.localizations.getLocalization('owners', 'create'),
-          icon: 'seller',
+          icon: 'add-owner',
           command: () => this.ownersCommands.createOwner()
         },
         {
           label: this.localizations.getLocalization('lodgers', 'create'),
-          icon: 'seller',
+          icon: 'add-lodger',
           command: () => this.lodgersCommands.createLodger()
         }
       ]

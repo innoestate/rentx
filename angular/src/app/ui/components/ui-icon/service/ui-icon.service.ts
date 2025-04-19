@@ -16,7 +16,8 @@ export class UiIconService {
   constructor(private http: HttpClient) {
     this.registerIcons(['gear',
       'add-estate',
-      'add-estate',
+      'add-owner',
+      'add-lodger',
       'add',
       'back',
       'ban',
@@ -39,7 +40,10 @@ export class UiIconService {
       'trophy',
       'wait',
       'trash',
-      'seller']).subscribe();
+      'seller',
+      'lodger',
+      'owner',
+      'estate']).subscribe();
   }
 
   registerIcons(iconNames: string[]) {

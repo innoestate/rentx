@@ -24,7 +24,7 @@ export class OwnersTableAdapterService extends UiTableAdapter {
       rows: this.createRows(owners),
       title: this.localization.getLocalization('owners', 'tableTitle'),
       commands: [{
-        icon: 'add',
+        icon: 'add-owner',
         label: this.localization.getLocalization('owners', 'create'),
         command: () => { }
       }]

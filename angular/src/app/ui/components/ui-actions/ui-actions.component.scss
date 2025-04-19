@@ -9,7 +9,7 @@
   box-shadow: var(--shadow);
   padding: 16px;
   opacity: 0;
-  
+
   .action {
     cursor: pointer;
     width: 24px;
@@ -28,7 +28,9 @@
 }
 
 .card-content {
-  flex-flow: row nowrap;
-  justify-content: center;
+  flex-flow: row wrap;
+  max-width: 70px;
+  justify-content: flex-start;
   align-items: center;
+  gap: 14px;
 }

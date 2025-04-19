@@ -21,7 +21,7 @@ export class LodgersTableAdapterService {
       title: this.localization.getLocalization('lodgers', 'tableTitle'),
       commands: [{
         label: 'create',
-        icon: 'add',
+        icon: 'add-lodger',
         command: () => {
           return true;
         }
