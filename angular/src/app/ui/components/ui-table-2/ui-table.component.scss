@@ -27,11 +27,11 @@ $row-selected-background-color: var(--color-basic-150);
     }
 
     th:first-child {
-      padding-left: 20px !important;
+      padding-left: 10px !important;
     }
 
     td:first-child {
-      padding-left: 20px !important;
+      padding-left: 10px !important;
       &.hover-strong {
         background-color: $row-hover-background-color !important;
         cursor: pointer;
@@ -53,53 +53,53 @@ $row-selected-background-color: var(--color-basic-150);
       }
     }
 
-    td {
-      &.hover {
-        background-color: $row-hover-background-color !important;
-      }
-      &.hover-strong {
-        background-color: $row-hover-background-color !important;
-        cursor: pointer;
-        border-top: $row-hover-strong-border !important;
-        border-bottom: $row-hover-strong-border !important;
-      }
-      &.selected {
-        background-color: $row-selected-background-color !important;
-      }
-    }
+    // td {
+    //   &.hover {
+    //     background-color: $row-hover-background-color !important;
+    //   }
+    //   &.hover-strong {
+    //     background-color: $row-hover-background-color !important;
+    //     cursor: pointer;
+    //     border-top: $row-hover-strong-border !important;
+    //     border-bottom: $row-hover-strong-border !important;
+    //   }
+    //   &.selected {
+    //     background-color: $row-selected-background-color !important;
+    //   }
+    // }
 
-    .ant-spin-nested-loading {
-      height: 100% !important;
-    }
+    // .ant-spin-nested-loading {
+    //   height: 100% !important;
+    // }
 
-    .ant-spin-container {
-      height: 100% !important;
-    }
+    // .ant-spin-container {
+    //   height: 100% !important;
+    // }
 
-    .ant-table-row {
-      height: 40px;
-    }
+    // .ant-table-row {
+    //   height: 40px;
+    // }
 
-    .ant-table {
-      height: 100% !important;
-    }
+    // .ant-table {
+    //   height: 100% !important;
+    // }
 
-    .ant-table-cell::before {
-      display: none !important;
-    }
+    // .ant-table-cell::before {
+    //   display: none !important;
+    // }
 
-    .ant-table-column-sorters {
-      border-radius: var(--radius-large) !important;
-    }
+    // .ant-table-column-sorters {
+    //   border-radius: var(--radius-large) !important;
+    // }
 
-    .ant-table-row {
-      border: 1px solid black !important;
-      background-color: var(--color-basic-100) !important;
-      margin:2px;
-    }
+    // .ant-table-row {
+    //   border: 1px solid black !important;
+    //   background-color: var(--color-basic-100) !important;
+    //   margin:2px;
+    // }
 
     .ant-table-cell {
-      padding: 0px 10px !important;
+      padding: 0px 0px !important;
       max-width: 100px;
       border-right: none !important;
       border-left: none !important;

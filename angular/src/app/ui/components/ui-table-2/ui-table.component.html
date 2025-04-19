@@ -7,7 +7,7 @@
       @for(column of columns; track column.key; let columnI = $index) {
         <th [nzWidth]="column.width">
           <div class="column-header" [class.icon-column]="column.icon">
-            {{ column.label?.title}}
+            <ui-label [label]="column.label"></ui-label>
           </div>
         </th>
       }
@@ -18,7 +18,7 @@
       <tr>
         @for(label of nzRow.cells; let colI = $index; track colI) {
           <td>
-            {{label.title}}
+            <ui-label [label]="label"></ui-label>
           </td>
         }
       </tr>
