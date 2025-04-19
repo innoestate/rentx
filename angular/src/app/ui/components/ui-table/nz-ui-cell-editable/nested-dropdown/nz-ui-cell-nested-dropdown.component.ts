@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, computed, ElementRef, HostListener, input, signal } from '@angular/core';
+import { AfterViewInit, Component, computed, effect, ElementRef, HostListener, input, signal } from '@angular/core';
 import { isEqual } from 'lodash';
 import { UiDropdownItem } from '../../../ui-dropdown/model/ui-dropdown-item.model';
 import { UiIconComponent } from '../../../ui-icon/ui-icon.component';
@@ -27,6 +27,11 @@ export class NzUiCellNestedDropdownComponent extends NzUxCellEditableComponent i
 
   constructor(private elRef: ElementRef) {
     super();
+
+    effect(() => {
+      // console.log('value:', this.list());
+    })
+
   }
 
   @HostListener('click')
@@ -84,7 +89,7 @@ export class NzUiCellNestedDropdownComponent extends NzUxCellEditableComponent i
     return items.map(item_ => {
       const item = item_ as any;
       if (item.value instanceof Array) {
-        return { label: item.label, value: this.addRowArgumentInCommands(item.value) };
+        return { icon: item.icon, iconSize: item.iconSize, label: item.label, value: this.addRowArgumentInCommands(item.value) };
       } else if (item.command !== undefined) {
         return {
           ...item, command: () => {

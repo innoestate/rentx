@@ -12,7 +12,8 @@ export const createLodgersDropdown = (lodgersCommands: LodgersCommandsService, l
   const lodgersDropDown = {
     value: lodgerDropdownItems,
     label: "locataires",
-    icon: 'lodger'
+    icon: 'lodger',
+    iconSize: 20
   }
   return lodgersDropDown;
 }
@@ -24,15 +25,20 @@ export const createRentReceiptDropdown = (rentsCommands: RentsCommandsService, e
   rentReceiptDropdownItems = addCustomizeRentReceipt(rentReceiptDropdownItems, rentsCommands, estates);
   return {
     value: rentReceiptDropdownItems,
-    label: "quittances de loyers"
+    label: "quittances de loyers",
+    icon: 'rent-receipt',
+    iconSize: 20
   };
 }
 
 const addChoosingLodger = (lodgersCommands: LodgersCommandsService, estates: Estate[], lodgers: Lodger[]): UiDropdownItem<any>[] => {
-  let lodgersDropDownItems: UiDropdownItem<any>[] = lodgers.map(lodger => ({ value: lodger.id, label: lodger.name, icon: 'lodger' }));
+  let lodgersDropDownItems: UiDropdownItem<any>[] = lodgers.map(lodger => ({ value: lodger.id, label: lodger.name, iconSize: 20, icon: 'circle-user', color: 'var(--color-tertiary-500)' }));
   lodgersDropDownItems.push({
     value: '',
-    label: "vacant"
+    label: "vacant",
+    icon: 'empty-house',
+    iconSize: 20,
+    color: 'var(--color-error-500)'
   })
   lodgersDropDownItems = addCreatingLodger(lodgersDropDownItems, lodgersCommands, estates);
   return lodgersDropDownItems;
@@ -45,7 +51,10 @@ const addCreatingLodger = (dropDownActionsItems: UiDropdownItem<any>[], lodgersC
       lodgersCommands.createLodger()
       return true;
     },
-    label: "créer un locataire"
+    label: "créer un locataire",
+    icon: 'add-lodger',
+    iconSize: 24,
+    color: 'var(--color-secondary-500)'
   })
   return dropDownActionsItems;
 }
@@ -54,6 +63,9 @@ const addDownloadRentReceipt = (dropDownActionsItems: UiDropdownItem<any>[], ren
   dropDownActionsItems.push({
     value: 'downloadRentReceipt',
     label: 'téléharger une quittance',
+    color:'var(--color-tertiary-500)',
+    icon: 'download-file',
+    iconSize: 20,
     command: (estateRow: any) => {
       const estate = extractEstateFromRow(estates, estateRow);
       rentsCommands.downloadRentReceipt(estate);
@@ -67,6 +79,9 @@ const sendRentReceiptByEmail = (dropDownActionsItems: UiDropdownItem<any>[], ren
   dropDownActionsItems.push({
     value: 'sendRentReceipt',
     label: 'envoyer une quittance par email',
+    color:'var(--color-tertiary-500)',
+    icon: 'send',
+    iconSize: 22,
     command: (estateRow: any) => {
       const estate = extractEstateFromRow(estates, estateRow);
       rentsCommands.senRentReceiptByEmail(estate);
@@ -80,6 +95,9 @@ const addCustomizeRentReceipt = (dropDownActionsItems: UiDropdownItem<any>[], re
   dropDownActionsItems.push({
     value: 'customizeRentReceipt',
     label: 'quittance personnalisée',
+    icon: 'edit-file',
+    color:'var(--color-tertiary-500)',
+    iconSize: 22,
     command: (estateRow: any) => {
       const estate = extractEstateFromRow(estates, estateRow);
       rentsCommands.customizeRentReceipt(estate);

@@ -43,7 +43,13 @@ export class UiIconService {
       'seller',
       'lodger',
       'owner',
-      'estate']).subscribe();
+      'estate',
+      'rent-receipt',
+      'download-file',
+      'circle-user',
+      'empty-house',
+      'edit-file',
+      'send']).subscribe();
   }
 
   registerIcons(iconNames: string[]) {
