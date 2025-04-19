@@ -1,11 +1,11 @@
-import { computed, Directive, Injectable, Injector, Signal } from "@angular/core";
+import { computed, Injectable, Signal } from "@angular/core";
 import { take, tap } from "rxjs";
-import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { OwnersTableAdapterService } from "../adapters/table/owners.table.adapter";
-import { OwnersDataService } from "../data/owners.data.service";
-import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
-import { OwnersCommandsService } from "../commands/owners.command.service";
 import { UiTableInterface } from "src/app/ui/components/ui-table/interfaces/ui-table.interface";
+import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
+import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
+import { OwnersTableAdapterService } from "../adapters/table/owners.table.adapter";
+import { OwnersCommandsService } from "../commands/owners.command.service";
+import { OwnersDataService } from "../data/owners.data.service";
 
 @Injectable()
 export class OwnersTableService implements UiTableInterface {

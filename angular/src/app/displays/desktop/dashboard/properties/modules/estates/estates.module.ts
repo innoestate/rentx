@@ -5,7 +5,7 @@ import { UiModule } from 'src/app/ui/ui.module';
 import { EstatesTableService } from 'src/app/features/estates/services/estates.table.service';
 import { EstatesUiTableAdapter } from 'src/app/features/estates/adapters/table/estates.table.adapter.service';
 import { EstatesCommandsService } from 'src/app/features/estates/commands/estates.commands.service';
-import { DesktopEstatesCommandsService } from '../../../properties-draft/commands/desktop.estates.command';
+import { DesktopEstatesCommandsService } from '../../commands/desktop.estates.command';
 
 
 

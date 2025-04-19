@@ -23,9 +23,9 @@ import { DynamicComponentFactoryService } from 'src/app/ui/services/factory/dyna
 import { PropertiesFactory } from './factories/prospections.factory';
 import { DisplayerManager } from 'src/app/ui/displayers/displayer.manager';
 import { UiModule } from 'src/app/ui/ui.module';
-import { DesktopEstatesCommandsService } from '../properties-draft/commands/desktop.estates.command';
-import { DesktopLodgersCommandsService } from '../properties-draft/commands/deskop.lodgers.command';
-import { DesktopOwnersCommandsService } from '../properties-draft/commands/desktop.owners.command';
+import { DesktopEstatesCommandsService } from './commands/desktop.estates.command';
+import { DesktopLodgersCommandsService } from './commands/deskop.lodgers.command';
+import { DesktopOwnersCommandsService } from './commands/desktop.owners.command';
 
 
 
