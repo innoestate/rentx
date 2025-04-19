@@ -67,7 +67,8 @@ export class LodgersTableAdapterService {
           label: 'delete',
           icon: 'trash',
           value: "delete",
-          color: 'var(--color-basic-900)',
+          iconSize: 16,
+          color: 'var(--color-error-500)',
           command: () => {
             console.log('implement command here');
             return true;

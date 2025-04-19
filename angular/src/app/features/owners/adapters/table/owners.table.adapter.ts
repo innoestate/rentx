@@ -123,7 +123,9 @@ export class OwnersTableAdapterService extends UiTableAdapter {
       list: [
         {
           label: "Editer",
-          icon: "edit",
+          icon: "edit-file",
+          iconSize: 22,
+          color: 'var(--color-secondary-500)',
           value: "edit",
           command: (row: UiTableRow) => {
             const owner = owners.find(o => o.id === row.data.id);
@@ -135,7 +137,8 @@ export class OwnersTableAdapterService extends UiTableAdapter {
           label: 'delete',
           icon: 'trash',
           value: "delete",
-          color: 'var(--color-basic-900)',
+          iconSize: 16,
+          color: 'var(--color-error-600)',
           command: (row: UiTableRow) => {
             return true;
           }

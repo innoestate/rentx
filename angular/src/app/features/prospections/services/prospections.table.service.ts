@@ -1,8 +1,7 @@
-import { computed, ElementRef, Injectable, Signal } from "@angular/core";
+import { computed, Injectable, Signal } from "@angular/core";
 import { catchError, of, take } from "rxjs";
 import { SellersDataService } from "src/app/features/sellers/data/services/sellers.data.service";
 import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
-import { UiTableDirective } from "src/app/ui/components/ui-table/directive/ui-table.directive";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { ProspectionsTableAdapterService } from "../adapters/table/prospections.table.adapter.service";
 import { UiTableProspections, UiTableRowProspection } from "../adapters/table/prospections.table.adapter.type";
