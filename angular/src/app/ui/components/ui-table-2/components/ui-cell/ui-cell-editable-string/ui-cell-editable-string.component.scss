@@ -1,0 +1,27 @@
+:host {
+  width: 100%;
+  height: 100%;
+}
+
+.ui-label-container {
+  width: 100%;
+  height: 100%;
+  padding: 4px;
+}
+
+.ui-label-content {
+  width: 100%;
+  height: 100%;
+  min-height: 28px;
+  padding: 0px 12px;
+  border-radius: 50px !important;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+
+input {
+  width: 100% !important;
+}

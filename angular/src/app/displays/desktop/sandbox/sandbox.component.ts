@@ -34,10 +34,12 @@ export class SandboxComponent {
             name: 'add',
             color: 'var(--color-basic-100)'
           },
-          color: 'var(--color-tertiary-500)'
+          color: 'var(--color-tertiary-500)',
+          editable: true
         },
         lastName: {
-          title: { label: 'Doe' }
+          title: { label: 'Doe' },
+          editable: true
         },
         email: {
           title: { label: 'johnDoe@gmail.com' }

@@ -18,7 +18,8 @@
       <tr>
         @for(cell of nzRow.cells; let colI = $index; track colI) {
           <td>
-            <ui-cell (onEdit)="edit($event, nzRow, colI)" [cell]="cell"></ui-cell>
+            <ui-dynamic-cell (onEdit)="edit($event, nzRow, colI)"  [cell]="cell"></ui-dynamic-cell>
+            <!-- <ui-cell (onEdit)="edit($event, nzRow, colI)" [cell]="cell"></ui-cell> -->
           </td>
         }
       </tr>

@@ -12,6 +12,7 @@ import { NzUiTable2Row } from './models/nz-ui-table-row.model';
 import { UiCell } from './models/ui-cell.model';
 import { UiCellComponent } from './components/ui-cell/ui-cell.component';
 import { NzUiCell } from './models/nz-ui-cell.model';
+import { UiDynamicCellComponent } from "./components/ui-dynamic-cell/ui-dynamic-cell.component";
 
 @Component({
   selector: 'ui-table-2',
@@ -21,7 +22,7 @@ import { NzUiCell } from './models/nz-ui-cell.model';
     NzTableModule,
     UiIconComponent,
     UiCellComponent,
-    UiPaginationComponent],
+    UiPaginationComponent, UiDynamicCellComponent],
   templateUrl: './ui-table.component.html',
   styleUrl: './ui-table.component.scss'
 })

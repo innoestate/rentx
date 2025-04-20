@@ -1,16 +1,5 @@
 <div class="ui-label-container">
-  <div (click)="onclick()" class="ui-label-content" [style.backgroundColor]="color()">
-    @if(editing()){
-      <ng-container *ngTemplateOutlet="edit"></ng-container>
-    } @else {
-      <ui-label [loading]="loading()" [title]="cell()?.title" [icon]="cell()?.icon"></ui-label>
-    }
+  <div class="ui-label-content" [style.backgroundColor]="color()">
+    <ui-label [title]="cell()?.title" [icon]="cell()?.icon"></ui-label>
   </div>
 </div>
-
-<ng-template #edit>
-  @if(cell()?.icon){
-    <ui-icon [icon]="cell()?.icon.name" [color]="getIconColor()"></ui-icon>
-  }
-  <input (blur)="endEdit()" (keyup.enter)="endEdit()" type="text" [value]="cell()?.title?.label">
-</ng-template>
