@@ -8,7 +8,7 @@ import { isEqual } from 'lodash';
 
 @Component({
   selector: 'ui-cell',
-  imports: [CommonModule, UiLabelComponent, UiIconComponent],
+  imports: [CommonModule, UiLabelComponent],
   templateUrl: './ui-cell.component.html',
   styleUrl: './ui-cell.component.scss'
 })
@@ -19,10 +19,6 @@ export class UiCellComponent {
 
   protected color = computed(() => {
     return (this.cell()?.color || 'transparent') + ' !important';
-  });
-
-  protected iconColor = computed(() => {
-    return (this.cell()?.icon?.color || 'var(--color-basic-100)') + ' !important';
   });
 
 }

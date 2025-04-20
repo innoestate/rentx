@@ -30,6 +30,10 @@ $row-selected-background-color: var(--color-basic-150);
       padding-left: 10px !important;
     }
 
+    th:last-child {
+      padding-right: 10px !important;
+    }
+
     td:first-child {
       padding-left: 10px !important;
       &.hover-strong {

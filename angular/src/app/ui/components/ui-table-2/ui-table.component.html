@@ -8,7 +8,8 @@
       @for(column of columns; track column; let columnI = $index) {
         <th [nzWidth]="column.width">
           <div class="column-header" [class.icon-column]="column.icon">
-            <ui-cell [cell]="column.cell"></ui-cell>
+            <ui-dynamic-cell [cell]="column.cell"></ui-dynamic-cell>
+            <!-- <ui-cell [cell]="column.cell"></ui-cell> -->
           </div>
         </th>
       }

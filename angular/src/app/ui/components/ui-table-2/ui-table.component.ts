@@ -70,9 +70,18 @@ export const formatColumn = (column: UiTable2Column, columnIndex: number): NzUiT
     width = '20px';
   }
 
+  let icon = column.cell?.icon;
+  if(icon){
+    icon = {
+      size: 22,
+      ...icon,
+    };
+  }
+
   return {
     cell: {
       ...column.cell,
+      icon,
       title: column.cell?.title ? { ...column.cell!.title, weight: 'bold' } : undefined
     },
     width: width

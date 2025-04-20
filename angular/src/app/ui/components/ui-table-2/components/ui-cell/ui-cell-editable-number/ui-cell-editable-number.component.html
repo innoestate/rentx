@@ -10,7 +10,7 @@
 
 <ng-template #edit>
   @if(cell()?.icon){
-    <ui-icon [icon]="cell()?.icon.name" [color]="iconColor()" [command]="cell()?.icon.command"></ui-icon>
+    <ui-icon-2 [icon]="cell()?.icon"></ui-icon-2>
   }
   <div [style.width]="inputWidth()+ 'px'" [style.margin]="'0 -12px'">
     <input style="width:100%;" (blur)="endEdit()" (keyup.enter)="endEdit()" type="number" [value]="cell()?.title?.label">
