@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, effect, ElementRef, signal } from '@angular/core';
-import { isEqual } from 'lodash';
+import { cloneDeep, isEqual } from 'lodash';
 import { NzUiCell } from '../../../models/nz-ui-cell.model';
 import { UiCellComponent } from '../ui-cell.component';
 
@@ -21,12 +21,20 @@ export class UiCellEditableComponent extends UiCellComponent {
 
   protected handleLoading() {
     if (this.loading() && !this.cell()?.internal) {
-      if (isEqual(this.loading(), this.cell())) {
+      if (this.valueMatchFromExternal()) {
         this.loading.set(null);
       } else {
-        this.cell.set({ ...this.loading()!, internal: true });
+        this.cell.set({ ...this.cell()!, internal: true });
       }
     }
+  }
+
+  protected valueMatchFromExternal() {
+    const cellWithoutInternal = { ...this.cell()! };
+    delete cellWithoutInternal.internal;
+    const loadingWithoutInternal = { ...this.loading()! };
+    delete loadingWithoutInternal.internal;
+    return isEqual(loadingWithoutInternal, cellWithoutInternal);
   }
 
   protected onclick() {
@@ -42,7 +50,7 @@ export class UiCellEditableComponent extends UiCellComponent {
   }
 
   protected endEdit() {
-    const editedCell = { ...this.cell(), title: { ...this.cell()?.title, label: this.getInput()?.value } };
+    const editedCell = cloneDeep({ ...this.cell()!, title: { ...this.cell()?.title, label: this.getInput()?.value } });
     if (!isEqual(editedCell, this.cell())) {
       this.cell.set({ ...editedCell, internal: true });
       this.onEdit.emit(editedCell);
