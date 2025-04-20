@@ -15,8 +15,9 @@ import { UiTable2 } from 'src/app/ui/components/ui-table-2/models/ui-table.model
 export class SandboxComponent {
 
   columns$ = new BehaviorSubject<UiTable2Column[]>([
-    { key: 'firstName', cell: { type: 'string', title: { label: 'Nom' } }, },
-    { key: 'lastName', cell: { type: 'string', title: { label: 'Prénom' } }, },
+    { key: 'address', cell: { type: 'fullSizeString', title: { label: 'Adresse' } } },
+    { key: 'firstName', cell: { type: 'mediumString', title: { label: 'Nom' } }, },
+    { key: 'lastName', cell: { type: 'smallString', title: { label: 'Prénom' } }, },
     { key: 'email', cell: { type: 'string', title: { label: 'Email' } }, },
     { key: 'actions', cell: { type: 'icon', icon:  { name: 'add' } }, }
   ])
@@ -25,6 +26,11 @@ export class SandboxComponent {
     {
       data: { id: '1234' },
       cells: {
+        address: {
+          type: 'string',
+          title: { label: '123 rue de la rue' },
+          editable: true
+        },
         firstName: {
           type: 'string',
           title: {

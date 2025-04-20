@@ -1,5 +1,6 @@
-import { UiCell } from "./ui-cell.model";
+import { UiColumnCell } from "./ui-column-cell.model";
 
 export interface NzUiTable2Column {
-  cell: UiCell;
+  cell: UiColumnCell;
+  width?: string;
 }

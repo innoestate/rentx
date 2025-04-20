@@ -52,11 +52,26 @@ export class UiTable2Component {
 }
 
 export const formatColumn = (column: UiTable2Column, columnIndex: number): NzUiTable2Column => {
+
+  let width = undefined;
+  if(column.cell.type === 'mediumString'){
+    width = '250px';
+  }else if(column.cell.type === 'smallString'){
+    width = '100px';
+  }else if(column.cell?.type === 'longString'){
+    width = '300px';
+  }else if(column.cell?.type === 'fullSizeString'){
+    width = '100%';
+  }else if(column.cell?.type === 'icon'){
+    width = '20px';
+  }
+
   return {
     cell: {
-      ...column.label,
-      title: column.label?.title ? { ...column.label!.title, weight: 'bold' } : undefined
-    }
+      ...column.cell,
+      title: column.cell?.title ? { ...column.cell!.title, weight: 'bold' } : undefined
+    },
+    width: width
   };
 }
 
