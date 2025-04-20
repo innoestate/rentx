@@ -15,14 +15,14 @@ import { UiTable2 } from 'src/app/ui/components/ui-table-2/models/ui-table.model
 export class SandboxComponent {
 
   columns$ = new BehaviorSubject<UiTable2Column[]>([
-    { key: 'address', cell: { type: 'fullSizeString', title: { label: 'Adresse' } } },
-    { key: 'commands', cell: { type: 'string', title: { label: 'Actions' } } },
-    { key: 'zip', cell: { type: 'number', title: { label: 'zip' } }, },
-    { key: 'firstName', cell: { type: 'mediumString', title: { label: 'Nom' } }, },
-    { key: 'lastName', cell: { type: 'string', title: { label: 'Prénom' } }, },
-    { key: 'email', cell: { type: 'mediumString', title: { label: 'Email' } }, },
-    { key: 'phone', cell: { type: 'longNumber', title: { label: 'Téléphone' } }, },
-    { key: 'action', cell: { type: 'icon', icon: { name: 'add', command: () => alert('test') } }, }
+    { key: 'address', cell: { type: 'fullSizeString', label: { title: { label: 'Adresse' } } } },
+    { key: 'commands', cell: { type: 'string', label: { title: { label: 'Actions' } } } },
+    { key: 'zip', cell: { type: 'number', label: { title: { label: 'zip' } } }, },
+    { key: 'firstName', cell: { type: 'mediumString', label: { title: { label: 'Nom' } } }, },
+    { key: 'lastName', cell: { type: 'string', label: { title: { label: 'Prénom' } } }, },
+    { key: 'email', cell: { type: 'mediumString', label: { title: { label: 'Email' } } }, },
+    { key: 'phone', cell: { type: 'longNumber', label: { title: { label: 'Téléphone' } } }, },
+    { key: 'action', cell: { type: 'icon', label: { icon: { name: 'add', command: () => alert('test') } } }, }
   ])
 
   rows$ = new BehaviorSubject<UiTable2Row[]>([
@@ -31,64 +31,69 @@ export class SandboxComponent {
       cells: {
         address: {
           type: 'string',
-          title: { label: '123 rue de la rue' },
+          label: {
+            title: { label: '123 rue de la rue' }
+          },
           editable: true
         },
         commands: {
           type: 'dropdown-actions',
-          title: { label: 'Actions' },
-          dropdown: { label: {title: { label: 'Actions' }}, list: [
-            {
-              label: {
-                color: 'red',
-                title: { label: 'Alerte' },
-                icon: { name: 'add' },
-                command: () => alert('123')
+          label: { title: { label: 'Actions' } },
+          dropdown: {
+            label: { title: { label: 'Actions' } },
+            list: [
+              {
+                label: {
+                  color: 'red',
+                  title: { label: 'Alerte' },
+                  icon: { name: 'add' },
+                  command: () => alert('123')
+                }
+              },
+              {
+                label: {
+                  title: { label: 'Hello' },
+                  command: () => alert('Hello')
+                }
               }
-            },
-            {
-              label: {
-                title: { label: 'Hello' },
-                command: () => alert('Hello')
-              }
-            }
-          ] },
+            ]
+          },
         },
         firstName: {
           type: 'string',
-          title: {
-            label: 'John',
-            color: 'var(--color-tertiary-100)'
-          },
-          icon: {
-            name: 'add',
-            color: 'var(--color-basic-100)'
+          label: {
+            title: { label: 'John' },
+            color: 'var(--color-tertiary-100)',
+            icon: {
+              name: 'add',
+              color: 'var(--color-basic-100)'
+            }
           },
           color: 'var(--color-tertiary-500)',
           editable: true
         },
         lastName: {
           type: 'string',
-          title: { label: 'Doe' },
+          label: { title: { label: 'Doe' } },
           editable: true
         },
         email: {
           type: 'string',
-          title: { label: 'johnDoe@gmail.com' }
+          label: { title: { label: 'johnDoe@gmail.com' } }
         },
         phone: {
           type: 'number',
-          title: { label: 123456789 },
+          label: { title: { label: 123456789 } },
           editable: true
         },
         zip: {
           type: 'number',
-          title: { label: 12345 },
+          label: { title: { label: 12345 } },
           editable: true
         },
         action: {
           type: 'icon',
-          icon: { name: 'down' },
+          label: { icon: { name: 'down' } }
         }
       }
     },
@@ -96,34 +101,39 @@ export class SandboxComponent {
       data: { id: '2345' }, cells: {
         address: {
           type: 'string',
+          label: {
+            title: { label: '' }
+          },
           editable: true
         },
         zip: {
           type: 'number',
+          label: { title: { label: '' } },
           editable: true
         },
         phone: {
           type: 'number',
+          label: { title: { label: '' } },
           editable: true
         },
         firstName: {
           type: 'string',
-          icon: {
-            name: 'lodger'
-          },
-          title: {
-            label: 'Rose de la précigout en élevage sur terre et en aquaculture'
+          label: {
+            title: { label: 'Rose de la précigout en élevage sur terre et en aquaculture' },
+            icon: {
+              name: 'lodger'
+            }
           }
         },
         lastName: {
           type: 'string',
-          title: {
-            label: 'Marie'
+          label: {
+            title: { label: 'Marie' }
           }
         },
         action: {
           type: 'icon',
-          icon: { name: 'down' },
+          label: { icon: { name: 'down' } }
         }
       }
     },
@@ -146,9 +156,12 @@ export class SandboxComponent {
               ...row.cells,
               [event.key]: {
                 ...row.cells[event.key],
-                title: {
-                  ...row.cells[event.key].title,
-                  label: event.cell!.title!.label
+                label: {
+                  ...row.cells[event.key].label,
+                  title: {
+                    ...row.cells[event.key].label.title,
+                    label: event.cell!.label!.title!.label
+                  }
                 }
               }
             }
