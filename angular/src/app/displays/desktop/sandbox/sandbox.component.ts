@@ -21,7 +21,7 @@ export class SandboxComponent {
     { key: 'lastName', cell: { type: 'mediumString', title: { label: 'Prénom' } }, },
     { key: 'email', cell: { type: 'mediumString', title: { label: 'Email' } }, },
     { key: 'phone', cell: { type: 'longNumber', title: { label: 'Téléphone' } }, },
-    { key: 'action', cell: { type: 'icon', icon:  { name: 'add', command : () => alert('test') } }, }
+    { key: 'action', cell: { type: 'icon', icon:  { name: 'add',  command : () => alert('test') } }, }
   ])
 
   rows$ = new BehaviorSubject<UiTable2Row[]>([
@@ -67,7 +67,7 @@ export class SandboxComponent {
         },
         action: {
           type: 'icon',
-          icon: { name: 'add' },
+          icon: { name: 'down' },
         }
       }
     },
@@ -102,7 +102,7 @@ export class SandboxComponent {
         },
         action: {
           type: 'icon',
-          icon: { name: 'add' },
+          icon: { name: 'down' },
         }
       }
     },
@@ -118,7 +118,8 @@ export class SandboxComponent {
     setTimeout(() => {
       this.rows$.next(this.rows$.getValue().map(row => {
         if (row.data.id === event.id) {
-          return {
+
+          const r = {
             ...row,
             cells: {
               ...row.cells,
@@ -130,7 +131,8 @@ export class SandboxComponent {
                 }
               }
             }
-          }
+          };
+          return r;
         }
         return row;
       }));

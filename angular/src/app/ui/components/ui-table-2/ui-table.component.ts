@@ -67,13 +67,14 @@ export const formatColumn = (column: UiTable2Column, columnIndex: number): NzUiT
   }else if(column.cell?.type === 'longNumber'){
     width = '110px';
   }else if(column.cell?.type === 'icon'){
-    width = '20px';
+    width = '60px';
   }
 
   let icon = column.cell?.icon;
   if(icon){
     icon = {
-      size: 22,
+      size: 24,
+      color: 'var(--color-secondary-500)',
       ...icon,
     };
   }
@@ -93,7 +94,18 @@ export const formatNzRows = (rows: UiTable2Row[], columns: UiTable2Column[]): Nz
   return rows.map((row, index) => {
     const orderedRows: NzUiCell[] = [];
     columns.forEach((column) => {
-      orderedRows.push({ ...row.cells[column.key], key: column.key });
+
+      const cell = { ...row.cells[column.key], key: column.key }
+
+      if(cell.icon){
+        cell.icon = {
+          size: 18,
+          color: 'var(--color-tertiary-500)',
+          ...cell.icon,
+        };
+      }
+
+      orderedRows.push(cell);
     });
     return { inputRowIndex: index, id: row.data.id, cells: orderedRows };
   });

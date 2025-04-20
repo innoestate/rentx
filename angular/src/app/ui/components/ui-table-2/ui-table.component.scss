@@ -26,6 +26,12 @@ $row-selected-background-color: var(--color-basic-150);
       display: none;
     }
 
+    thead {
+      tr:first-child{
+        height: 56px;
+      }
+    }
+
     th:first-child {
       padding-left: 10px !important;
     }
@@ -47,6 +53,7 @@ $row-selected-background-color: var(--color-basic-150);
     }
 
     td:last-child {
+      padding-right: 10px !important;
       &.hover-strong {
         background-color: $row-hover-background-color !important;
         cursor: pointer;
@@ -163,7 +170,6 @@ $row-selected-background-color: var(--color-basic-150);
 
 .column-header {
   display: flex;
-  gap: 10px;
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
