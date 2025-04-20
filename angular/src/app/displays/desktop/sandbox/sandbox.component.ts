@@ -15,10 +15,10 @@ import { UiTable2 } from 'src/app/ui/components/ui-table-2/models/ui-table.model
 export class SandboxComponent {
 
   columns$ = new BehaviorSubject<UiTable2Column[]>([
-    { key: 'firstName', label: { title: { label: 'Nom' } }, type: 'text' },
-    { key: 'lastName', label: { title: { label: 'Prénom' } }, type: 'text' },
-    { key: 'email', label: { title: { label: 'Email' } }, type: 'text' },
-    { key: 'actions', label: { icon:  { name: 'add' } }, type: 'text' }
+    { key: 'firstName', cell: { type: 'string', title: { label: 'Nom' } }, },
+    { key: 'lastName', cell: { type: 'string', title: { label: 'Prénom' } }, },
+    { key: 'email', cell: { type: 'string', title: { label: 'Email' } }, },
+    { key: 'actions', cell: { type: 'icon', icon:  { name: 'add' } }, }
   ])
 
   rows$ = new BehaviorSubject<UiTable2Row[]>([
@@ -26,6 +26,7 @@ export class SandboxComponent {
       data: { id: '1234' },
       cells: {
         firstName: {
+          type: 'string',
           title: {
             label: 'John',
             color: 'var(--color-tertiary-100)'
@@ -38,10 +39,12 @@ export class SandboxComponent {
           editable: true
         },
         lastName: {
+          type: 'string',
           title: { label: 'Doe' },
           editable: true
         },
         email: {
+          type: 'string',
           title: { label: 'johnDoe@gmail.com' }
         }
       }
@@ -49,6 +52,7 @@ export class SandboxComponent {
     {
       data: { id: '2345' }, cells: {
         firstName: {
+          type: 'string',
           icon: {
             name: 'lodger'
           },
@@ -57,6 +61,7 @@ export class SandboxComponent {
           }
         },
         lastName: {
+          type: 'string',
           title: {
             label: 'Marie'
           }

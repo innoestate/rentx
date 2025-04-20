@@ -1,8 +1,7 @@
-import { Component, ComponentRef, effect, input, OnDestroy, OnInit, output, ViewContainerRef } from '@angular/core';
-import { NzUiTableRow } from '../../../ui-table/models/nz-ui-table-row.model';
-import { UiCellComponent } from '../ui-cell/ui-cell.component';
+import { Component, ComponentRef, effect, input, OnInit, output, ViewContainerRef } from '@angular/core';
 import { NzUiCell } from '../../models/nz-ui-cell.model';
 import { UiCellEditableStringComponent } from '../ui-cell/ui-cell-editable-string/ui-cell-editable-string.component';
+import { UiCellComponent } from '../ui-cell/ui-cell.component';
 
 @Component({
   selector: 'ui-dynamic-cell',

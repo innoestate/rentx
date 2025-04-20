@@ -1,7 +1,8 @@
 @let columns = nzColumns();
 @let rows = nzRows();
 @if(rows){
-  <nz-table #tableRef [nzData]="rows">
+  <nz-table #tableRef
+            [nzData]="rows">
   <thead>
     <tr>
       @for(column of columns; track column; let columnI = $index) {
@@ -19,7 +20,6 @@
         @for(cell of nzRow.cells; let colI = $index; track colI) {
           <td>
             <ui-dynamic-cell (onEdit)="edit($event, nzRow, colI)"  [cell]="cell"></ui-dynamic-cell>
-            <!-- <ui-cell (onEdit)="edit($event, nzRow, colI)" [cell]="cell"></ui-cell> -->
           </td>
         }
       </tr>
