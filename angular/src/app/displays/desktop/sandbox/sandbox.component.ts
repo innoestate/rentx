@@ -16,9 +16,11 @@ export class SandboxComponent {
 
   columns$ = new BehaviorSubject<UiTable2Column[]>([
     { key: 'address', cell: { type: 'fullSizeString', title: { label: 'Adresse' } } },
+    { key: 'zip', cell: { type: 'number', title: { label: 'zip' } }, },
     { key: 'firstName', cell: { type: 'mediumString', title: { label: 'Nom' } }, },
-    { key: 'lastName', cell: { type: 'smallString', title: { label: 'Prénom' } }, },
-    { key: 'email', cell: { type: 'string', title: { label: 'Email' } }, },
+    { key: 'lastName', cell: { type: 'mediumString', title: { label: 'Prénom' } }, },
+    { key: 'email', cell: { type: 'mediumString', title: { label: 'Email' } }, },
+    { key: 'phone', cell: { type: 'longNumber', title: { label: 'Téléphone' } }, },
     { key: 'actions', cell: { type: 'icon', icon:  { name: 'add' } }, }
   ])
 
@@ -52,6 +54,16 @@ export class SandboxComponent {
         email: {
           type: 'string',
           title: { label: 'johnDoe@gmail.com' }
+        },
+        phone: {
+          type: 'number',
+          title: { label: 123456789 },
+          editable: true
+        },
+        zip: {
+          type: 'number',
+          title: { label: 12345 },
+          editable: true
         }
       }
     },

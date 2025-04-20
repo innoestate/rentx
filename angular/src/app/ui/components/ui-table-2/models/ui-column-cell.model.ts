@@ -2,8 +2,16 @@ import { UiIcon } from "./ui-icon.model";
 import { UiTitle } from "./ui-title.model";
 
 
-export interface UiColumnCell  {
-  type: 'icon' | 'string' | 'fullSizeString' | 'longString' | 'mediumString' | 'smallString' ;
+export type ColumnCellType = 'icon' |
+  'string' | 'fullSizeString' |
+  'longString' |
+  'mediumString' |
+  'smallString' |
+  'number' |
+  'longNumber';
+
+export interface UiColumnCell {
+  type: ColumnCellType;
   title?: UiTitle;
   icon?: UiIcon;
   color?: string;

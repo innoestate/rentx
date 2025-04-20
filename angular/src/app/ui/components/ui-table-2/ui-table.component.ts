@@ -55,13 +55,17 @@ export const formatColumn = (column: UiTable2Column, columnIndex: number): NzUiT
 
   let width = undefined;
   if(column.cell.type === 'mediumString'){
-    width = '250px';
+    width = '150px';
   }else if(column.cell.type === 'smallString'){
     width = '100px';
   }else if(column.cell?.type === 'longString'){
-    width = '300px';
+    width = '200px';
   }else if(column.cell?.type === 'fullSizeString'){
     width = '100%';
+  }else if(column.cell?.type === 'number'){
+    width = '60px';
+  }else if(column.cell?.type === 'longNumber'){
+    width = '110px';
   }else if(column.cell?.type === 'icon'){
     width = '20px';
   }

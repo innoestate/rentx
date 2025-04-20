@@ -2,6 +2,7 @@ import { Component, ComponentRef, effect, input, OnInit, output, ViewContainerRe
 import { NzUiCell } from '../../models/nz-ui-cell.model';
 import { UiCellEditableStringComponent } from '../ui-cell/ui-cell-editable-string/ui-cell-editable-string.component';
 import { UiCellComponent } from '../ui-cell/ui-cell.component';
+import { UiCellEditableNumberComponent } from '../ui-cell/ui-cell-editable-number/ui-cell-editable-number.component';
 
 @Component({
   selector: 'ui-dynamic-cell',
@@ -26,7 +27,11 @@ export class UiDynamicCellComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.cell()?.editable){
-      this.componentRef = this.viewContainerRef.createComponent<UiCellComponent>(UiCellEditableStringComponent);
+      if(this.cell()?.type === 'number'){
+        this.componentRef = this.viewContainerRef.createComponent<UiCellComponent>(UiCellEditableNumberComponent);
+      }else{
+        this.componentRef = this.viewContainerRef.createComponent<UiCellComponent>(UiCellEditableStringComponent);
+      }
       this.componentRef.instance.onEdit.subscribe((event) => {
         this.onEdit.emit(event);
       });
