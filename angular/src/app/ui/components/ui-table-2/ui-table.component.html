@@ -4,21 +4,21 @@
   <nz-table #tableRef [nzData]="rows">
   <thead>
     <tr>
-      @for(column of columns; track column.key; let columnI = $index) {
+      @for(column of columns; track column; let columnI = $index) {
         <th [nzWidth]="column.width">
           <div class="column-header" [class.icon-column]="column.icon">
-            <ui-label [label]="column.label"></ui-label>
+            <ui-cell [cell]="column.cell"></ui-cell>
           </div>
         </th>
       }
     </tr>
   </thead>
   <tbody>
-    @for(nzRow of tableRef.data; let rowI = $index; track nzRow){
+    @for(nzRow of tableRef.data; let rowI = $index; track nzRow.id){
       <tr>
-        @for(label of nzRow.cells; let colI = $index; track colI) {
+        @for(cell of nzRow.cells; let colI = $index; track colI) {
           <td>
-            <ui-label [label]="label"></ui-label>
+            <ui-cell (onEdit)="edit($event, nzRow, colI)" [cell]="cell"></ui-cell>
           </td>
         }
       </tr>

@@ -1,6 +1,6 @@
-import { UiLabel } from "./ui-label.model";
+import { UiCell } from "./ui-cell.model";
 
 export interface UiTable2Row {
   data: any,
-  cells: { [key: string]: UiLabel }
+  cells: { [key: string]: UiCell }
 }

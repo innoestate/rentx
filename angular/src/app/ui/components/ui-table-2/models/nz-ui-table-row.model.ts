@@ -1,7 +1,8 @@
-import { UiLabel } from "./ui-label.model";
+import { NzUiCell } from "./nz-ui-cell.model";
+import { UiCell } from "./ui-cell.model";
 
 export interface NzUiTable2Row {
   inputRowIndex: number;
-  data: any;
-  cells: UiLabel[];
+  id: string;
+  cells: NzUiCell[];
 }

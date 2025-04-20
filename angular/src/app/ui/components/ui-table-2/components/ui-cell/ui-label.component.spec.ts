@@ -1,22 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UiLabelComponent } from './ui-label.component';
+import { UiCellComponent } from './ui-cell.component';
 import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
 describe('UiLabelComponent', () => {
-  let component: UiLabelComponent;
-  let fixture: ComponentFixture<UiLabelComponent>;
+  let component: UiCellComponent;
+  let fixture: ComponentFixture<UiCellComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UiLabelComponent],
+      imports: [UiCellComponent],
       providers: [
         provideExperimentalZonelessChangeDetection()
       ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(UiLabelComponent);
+    fixture = TestBed.createComponent(UiCellComponent);
     component = fixture.componentInstance;
 
   });

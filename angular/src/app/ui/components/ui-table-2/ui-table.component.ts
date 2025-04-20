@@ -9,8 +9,9 @@ import { UiTable2 } from './models/ui-table.model';
 import { UiTable2Column } from './models/ui-table.column.model';
 import { NzUiTable2Column } from './models/nz-ui-table-column.model';
 import { NzUiTable2Row } from './models/nz-ui-table-row.model';
-import { UiLabel } from './models/ui-label.model';
-import { UiLabelComponent } from './components/ui-label/ui-label.component';
+import { UiCell } from './models/ui-cell.model';
+import { UiCellComponent } from './components/ui-cell/ui-cell.component';
+import { NzUiCell } from './models/nz-ui-cell.model';
 
 @Component({
   selector: 'ui-table-2',
@@ -19,7 +20,7 @@ import { UiLabelComponent } from './components/ui-label/ui-label.component';
     ReactiveFormsModule,
     NzTableModule,
     UiIconComponent,
-    UiLabelComponent,
+    UiCellComponent,
     UiPaginationComponent],
   templateUrl: './ui-table.component.html',
   styleUrl: './ui-table.component.scss'
@@ -29,10 +30,15 @@ export class UiTable2Component {
   @ViewChild('tableRef') tableRef!: NzTableComponent<UiTable2>;
 
   table = input.required<UiTable2>();
-  editRow = output<UiTable2Row>();
+  editCell = output<{ id: string, key: string, cell: UiCell }>();
 
   protected nzRows: Signal<any[]> = this.buildNzRows();
   protected nzColumns: Signal<any[]> = this.buildNzColumns();
+
+
+  edit(cell: NzUiCell, nzRow: NzUiTable2Row, columnIndex: number) {
+    this.editCell.emit({ id: nzRow.id, key: nzRow.cells[columnIndex].key, cell })
+  }
 
   private buildNzColumns(): Signal<NzUiTable2Column[]> {
     return computed(() => this.table().columns().map((column, index) => formatColumn(column, index)));
@@ -46,7 +52,7 @@ export class UiTable2Component {
 
 export const formatColumn = (column: UiTable2Column, columnIndex: number): NzUiTable2Column => {
   return {
-    label: {
+    cell: {
       ...column.label,
       title: column.label?.title ? { ...column.label!.title, weight: 'bold' } : undefined
     }
@@ -56,10 +62,10 @@ export const formatColumn = (column: UiTable2Column, columnIndex: number): NzUiT
 
 export const formatNzRows = (rows: UiTable2Row[], columns: UiTable2Column[]): NzUiTable2Row[] => {
   return rows.map((row, index) => {
-    const orderedRows: UiLabel[] = [];
+    const orderedRows: NzUiCell[] = [];
     columns.forEach((column) => {
-      orderedRows.push(row.cells[column.key] as UiLabel);
+      orderedRows.push({ ...row.cells[column.key], key: column.key });
     });
-    return { inputRowIndex: index, data: row.data, cells: orderedRows };
+    return { inputRowIndex: index, id: row.data.id, cells: orderedRows };
   });
 }

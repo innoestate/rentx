@@ -1,5 +1,5 @@
-import { UiLabel } from "./ui-label.model";
+import { UiCell } from "./ui-cell.model";
 
 export interface NzUiTable2Column {
-  label: UiLabel;
+  cell: UiCell;
 }

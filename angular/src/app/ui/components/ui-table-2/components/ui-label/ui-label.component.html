@@ -1,5 +1,8 @@
-<div class="ui-label-container">
-  <div class="ui-label-content" [style.fontFamily]="getFontFamily()">
-    {{label()?.title?.label}}
-  </div>
+@if(icon()){
+  <ui-icon [icon]="iconName()" [color]="iconColor()"></ui-icon>
+}
+<div class="ui-label-title"
+      [style.fontFamily]="fontFamily()"
+      [style.color]="titleColor()">
+  {{titleLabel()}}
 </div>
