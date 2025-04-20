@@ -1,5 +1,5 @@
 // icon.component.ts
-import { Component, ElementRef, input, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Observable, take, tap } from 'rxjs';
 import { UiIconService } from './service/ui-icon.service';
@@ -21,6 +21,7 @@ export class UiIconComponent implements OnInit {
   icon = input.required<string>();
   color = input<string>('var(--color-secondary-500)');
   size = input<number>(16);
+  command = input<() => void>();
 
   svgContent: SafeHtml = '';
 
@@ -32,6 +33,13 @@ export class UiIconComponent implements OnInit {
 
   ngOnInit() {
     this.renderIcon();
+  }
+
+  @HostListener('click')
+  onClick() {
+    if(this.command()){
+      this.command()!();
+    }
   }
 
   private renderIcon() {

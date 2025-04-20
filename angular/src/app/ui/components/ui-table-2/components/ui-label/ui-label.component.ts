@@ -37,4 +37,8 @@ export class UiLabelComponent {
   iconColor = computed(() => {
     return this.icon()?.color || 'var(--color-primary-500)';
   });
+
+  iconCommand = computed(() => {
+    return this.icon()?.command;
+  });
 }

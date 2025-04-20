@@ -21,7 +21,7 @@ export class SandboxComponent {
     { key: 'lastName', cell: { type: 'mediumString', title: { label: 'Prénom' } }, },
     { key: 'email', cell: { type: 'mediumString', title: { label: 'Email' } }, },
     { key: 'phone', cell: { type: 'longNumber', title: { label: 'Téléphone' } }, },
-    { key: 'actions', cell: { type: 'icon', icon:  { name: 'add' } }, }
+    { key: 'action', cell: { type: 'icon', icon:  { name: 'add', command : () => alert('test') } }, }
   ])
 
   rows$ = new BehaviorSubject<UiTable2Row[]>([
@@ -64,6 +64,10 @@ export class SandboxComponent {
           type: 'number',
           title: { label: 12345 },
           editable: true
+        },
+        action: {
+          type: 'icon',
+          icon: { name: 'add' },
         }
       }
     },
@@ -95,6 +99,10 @@ export class SandboxComponent {
           title: {
             label: 'Marie'
           }
+        },
+        action: {
+          type: 'icon',
+          icon: { name: 'add' },
         }
       }
     },
