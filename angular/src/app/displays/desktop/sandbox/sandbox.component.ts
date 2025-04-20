@@ -69,6 +69,18 @@ export class SandboxComponent {
     },
     {
       data: { id: '2345' }, cells: {
+        address: {
+          type: 'string',
+          editable: true
+        },
+        zip: {
+          type: 'number',
+          editable: true
+        },
+        phone: {
+          type: 'number',
+          editable: true
+        },
         firstName: {
           type: 'string',
           icon: {
