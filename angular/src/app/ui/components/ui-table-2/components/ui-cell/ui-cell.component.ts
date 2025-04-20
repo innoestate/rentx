@@ -1,14 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, ElementRef, model, output, signal } from '@angular/core';
-import { Subject } from 'rxjs';
-import { UiIconComponent } from '../../../ui-icon/ui-icon.component';
+import { Component, computed, model, output } from '@angular/core';
 import { NzUiCell } from '../../models/nz-ui-cell.model';
-import { UiLabelComponent } from '../ui-label/ui-label.component';
-import { isEqual } from 'lodash';
+import { UiLabel2Component } from '../ui-label/ui-label.component';
 
 @Component({
   selector: 'ui-cell',
-  imports: [CommonModule, UiLabelComponent],
+  imports: [CommonModule, UiLabel2Component],
   templateUrl: './ui-cell.component.html',
   styleUrl: './ui-cell.component.scss'
 })

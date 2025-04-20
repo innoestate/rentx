@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, HostListener, input, output } from '@angular/core';
 import { UiTitle } from '../../models/ui-title.model';
 import { UiIcon } from '../../models/ui-icon.model';
 import { UiIcon2Component } from '../../../ui-icon/ui-icon2.component';
@@ -9,11 +9,19 @@ import { UiIcon2Component } from '../../../ui-icon/ui-icon2.component';
   templateUrl: './ui-label.component.html',
   styleUrl: './ui-label.component.scss'
 })
-export class UiLabelComponent {
+export class UiLabel2Component {
 
   title = input<UiTitle>();
   icon = input<UiIcon>();
+  command = input<() => void>();
+  color = input<string>();
   loading = input<boolean>(false);
+
+  onClick = output<void>();
+
+  protected backgroundColor = computed(() => {
+    return (this.color() || 'transparent') + ' !important';
+  });
 
   titleLabel = computed(() => {
     return this.title()?.label || '';
@@ -29,4 +37,13 @@ export class UiLabelComponent {
     }
     return this.title()?.color || 'var(--color-primary-900)';
   });
+
+  @HostListener('click')
+  click() {
+    if (this.command()) {
+      this.command()!();
+    }else{
+      this.onClick.emit();
+    }
+  }
 }

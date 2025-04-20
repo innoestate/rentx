@@ -16,12 +16,13 @@ export class SandboxComponent {
 
   columns$ = new BehaviorSubject<UiTable2Column[]>([
     { key: 'address', cell: { type: 'fullSizeString', title: { label: 'Adresse' } } },
+    { key: 'commands', cell: { type: 'string', title: { label: 'Actions' } } },
     { key: 'zip', cell: { type: 'number', title: { label: 'zip' } }, },
     { key: 'firstName', cell: { type: 'mediumString', title: { label: 'Nom' } }, },
-    { key: 'lastName', cell: { type: 'mediumString', title: { label: 'Prénom' } }, },
+    { key: 'lastName', cell: { type: 'string', title: { label: 'Prénom' } }, },
     { key: 'email', cell: { type: 'mediumString', title: { label: 'Email' } }, },
     { key: 'phone', cell: { type: 'longNumber', title: { label: 'Téléphone' } }, },
-    { key: 'action', cell: { type: 'icon', icon:  { name: 'add',  command : () => alert('test') } }, }
+    { key: 'action', cell: { type: 'icon', icon: { name: 'add', command: () => alert('test') } }, }
   ])
 
   rows$ = new BehaviorSubject<UiTable2Row[]>([
@@ -32,6 +33,26 @@ export class SandboxComponent {
           type: 'string',
           title: { label: '123 rue de la rue' },
           editable: true
+        },
+        commands: {
+          type: 'dropdown-actions',
+          title: { label: 'Actions' },
+          dropdown: { label: {title: { label: 'Actions' }}, list: [
+            {
+              label: {
+                color: 'red',
+                title: { label: 'Alerte' },
+                icon: { name: 'add' },
+                command: () => alert('123')
+              }
+            },
+            {
+              label: {
+                title: { label: 'Hello' },
+                command: () => alert('Hello')
+              }
+            }
+          ] },
         },
         firstName: {
           type: 'string',

@@ -1,8 +1,10 @@
-@if(icon()){
-  <ui-icon-2 [icon]="icon()"></ui-icon-2>
-}
-<div class="ui-label-title"
-      [style.fontFamily]="fontFamily()"
-      [style.color]="titleColor()">
-  {{titleLabel()}}
+<div class="ui-label-content" [style.backgroundColor]="backgroundColor()">
+  @if(icon()){
+    <ui-icon-2 [icon]="icon()"></ui-icon-2>
+  }
+  <div class="ui-label-title"
+        [style.fontFamily]="fontFamily()"
+        [style.color]="titleColor()">
+    {{titleLabel()}}
+  </div>
 </div>

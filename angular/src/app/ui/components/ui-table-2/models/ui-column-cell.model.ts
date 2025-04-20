@@ -8,7 +8,8 @@ export type ColumnCellType = 'icon' |
   'mediumString' |
   'smallString' |
   'number' |
-  'longNumber';
+  'longNumber' |
+  'dropdown';
 
 export interface UiColumnCell {
   type: ColumnCellType;

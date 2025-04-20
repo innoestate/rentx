@@ -1,5 +1,3 @@
-<div class="ui-label-container">
-  <div class="ui-label-content" [style.backgroundColor]="color()">
-    <ui-label [title]="cell()?.title" [icon]="cell()?.icon"></ui-label>
-  </div>
+<div class="ui-cell-content">
+  <ui-label [color]="cell()?.color" [title]="cell()?.title" [icon]="cell()?.icon" [command]="cell()?.command"></ui-label>
 </div>

@@ -1,9 +1,10 @@
 import { Component, ComponentRef, effect, input, OnInit, output, ViewContainerRef } from '@angular/core';
 import { NzUiCell } from '../../models/nz-ui-cell.model';
-import { UiCellEditableStringComponent } from '../ui-cell/ui-cell-editable-string/ui-cell-editable-string.component';
 import { UiCellComponent } from '../ui-cell/ui-cell.component';
-import { UiCellEditableNumberComponent } from '../ui-cell/ui-cell-editable-number/ui-cell-editable-number.component';
 import { UiCellIconComponent } from '../ui-cell/ui-cell-icon/ui-cell-icon.component';
+import { UiCellEditableNumberComponent } from '../ui-cell/ui-cell-editable/ui-cell-editable-number/ui-cell-editable-number.component';
+import { UiCellEditableStringComponent } from '../ui-cell/ui-cell-editable/ui-cell-editable-string/ui-cell-editable-string.component';
+import { UiCellDropdownComponent } from '../ui-cell/ui-cell-dropdown/ui-cell-dropdown.component';
 
 @Component({
   selector: 'ui-dynamic-cell',
@@ -36,6 +37,8 @@ export class UiDynamicCellComponent implements OnInit {
       this.componentRef.instance.onEdit.subscribe((event) => {
         this.onEdit.emit(event);
       });
+    } else if(this.cell()?.type === 'dropdown-actions') {
+      this.componentRef = this.viewContainerRef.createComponent<UiCellComponent>(UiCellDropdownComponent);
     } else if (this.cell()?.type === 'icon') {
       this.componentRef = this.viewContainerRef.createComponent<UiCellComponent>(UiCellIconComponent);
     } else {
