@@ -2,7 +2,7 @@
 <nz-dropdown-menu #dropdownMenu="nzDropdownMenu">
   <ul nz-menu>
     @for(item of dropdown()!.list; track item){
-      <li nz-menu-item><ui-label [title]="item.label.title" [icon]="item.label.icon" [command]="item.label.command"></ui-label></li>
+      <li nz-menu-item><ui-label-2 [label]="item.label"></ui-label-2></li>
     }
   </ul>
 </nz-dropdown-menu>

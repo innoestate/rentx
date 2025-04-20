@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, model, output } from '@angular/core';
 import { NzUiCell } from '../../models/nz-ui-cell.model';
 import { UiLabel2Component } from '../ui-label/ui-label.component';
+import { UiLabel2 } from '../ui-label/models/ui-label.model';
 
 @Component({
   selector: 'ui-cell',
@@ -13,6 +14,14 @@ export class UiCellComponent {
 
   cell = model.required<NzUiCell>();
   onEdit = output<NzUiCell>();
+
+  label = computed<UiLabel2>(() => {
+    return {
+      title: this.cell()?.title,
+      icon: this.cell()?.icon,
+      command: this.cell()?.command
+    };
+  })
 
   protected color = computed(() => {
     return (this.cell()?.color || 'transparent') + ' !important';

@@ -9,4 +9,5 @@ export interface UiCell {
   icon?: UiIcon;
   editable?: boolean;
   dropdown?: UiNestedDropdownActions;
+  command?: (value?: any) => void;
 }

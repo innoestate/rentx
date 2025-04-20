@@ -2,19 +2,23 @@ import { Component, computed, HostListener, input, output } from '@angular/core'
 import { UiTitle } from '../../models/ui-title.model';
 import { UiIcon } from '../../models/ui-icon.model';
 import { UiIcon2Component } from '../../../ui-icon/ui-icon2.component';
+import { UiLabel2 } from './models/ui-label.model';
 
 @Component({
-  selector: 'ui-label',
+  selector: 'ui-label-2',
   imports: [UiIcon2Component],
   templateUrl: './ui-label.component.html',
   styleUrl: './ui-label.component.scss'
 })
 export class UiLabel2Component {
 
-  title = input<UiTitle>();
-  icon = input<UiIcon>();
-  command = input<() => void>();
-  color = input<string>();
+  label = input.required<UiLabel2>();
+
+  title = computed(() => this.label()?.title);
+  icon = computed(() => this.label()?.icon);
+  command = computed(() => this.label()?.command);
+  color = computed(() => this.label()?.color || 'transparent' + ' !important');
+
   loading = input<boolean>(false);
 
   onClick = output<void>();
