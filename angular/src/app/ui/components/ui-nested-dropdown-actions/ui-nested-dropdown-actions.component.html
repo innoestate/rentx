@@ -1,4 +1,8 @@
-<div nz-dropdown [nzDropdownMenu]="dropdownMenu">dropdown</div>
+<div nz-dropdown
+    [nzDropdownMenu]="dropdownMenu"
+    [nzTrigger]="'click'">
+  <ui-label-2 [label]="dropdown()!.label"></ui-label-2>
+</div>
 <nz-dropdown-menu #dropdownMenu="nzDropdownMenu">
   <ul nz-menu>
     @for(item of dropdown()!.list; track item){

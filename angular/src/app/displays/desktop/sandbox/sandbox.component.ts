@@ -41,18 +41,19 @@ export class SandboxComponent {
           label: {
             title: { label: 'Actions' },
           },
-          dropdown: { label: {title: { label: 'Actions' }}, list: [
+          dropdown: { label: { color: 'var(--color-tertiary-500)', title: { label: 'Actions' }, icon: { name: 'down' }}, list: [
             {
               label: {
-                color: 'red',
+                color: 'var(--color-success-500)',
                 title: { label: 'Alerte' },
-                icon: { name: 'add' },
+                icon: { name: 'add', size: 24, color: 'var(--color-basic-100)' },
                 command: () => alert('123')
               }
             },
             {
               label: {
                 title: { label: 'Hello' },
+                icon: { name: 'lodger', size: 24, color: 'var(--color-tertiary-500)' },
                 command: () => alert('Hello')
               }
             }

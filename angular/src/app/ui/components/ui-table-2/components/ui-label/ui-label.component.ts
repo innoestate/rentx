@@ -1,6 +1,4 @@
 import { Component, computed, HostListener, input, output } from '@angular/core';
-import { UiTitle } from '../../models/ui-title.model';
-import { UiIcon } from '../../models/ui-icon.model';
 import { UiIcon2Component } from '../../../ui-icon/ui-icon2.component';
 import { UiLabel2 } from './models/ui-label.model';
 
