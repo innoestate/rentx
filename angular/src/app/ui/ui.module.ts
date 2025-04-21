@@ -20,6 +20,7 @@ import { UiIcon2Component } from './components/ui-icon/ui-icon2.component';
 import { UiNestedDropdownActionsComponent } from './components/ui-nested-dropdown-actions/ui-nested-dropdown-actions.component';
 import { UiInputComponent } from './components/ui-input/ui-input.component';
 import { UiNestedDropdownSelectComponent } from './components/ui-nested-dropdown-select/ui-nested-dropdown-select.component';
+import { UiNestedDropdown2Component } from './components/ui-nested-dropdown2/ui-nested-dropdown2.component';
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import { UiNestedDropdownSelectComponent } from './components/ui-nested-dropdown
     UiIcon2Component,
     UiNestedDropdownActionsComponent,
     UiInputComponent,
-    UiNestedDropdownSelectComponent
+    UiNestedDropdownSelectComponent,
+    UiNestedDropdown2Component
   ],
   exports: [
     NzModalModule,
@@ -55,7 +57,8 @@ import { UiNestedDropdownSelectComponent } from './components/ui-nested-dropdown
     UiIcon2Component,
     UiNestedDropdownActionsComponent,
     UiInputComponent,
-    UiNestedDropdownSelectComponent
+    UiNestedDropdownSelectComponent,
+    UiNestedDropdown2Component
   ],
   providers: [
     UiPopupService,
