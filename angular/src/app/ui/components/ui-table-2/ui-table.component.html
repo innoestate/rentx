@@ -5,9 +5,20 @@
   <thead>
     <tr>
       @for(column of columns; track column; let columnI = $index) {
-      <th [nzWidth]="column.width">
+
+        @if(column.cell.sort){
+          <th [nzWidth]="column.width" [nzSortFn]="column.cell.sort.function" [nzSortPriority]="column.cell.sort.priority">
+            <ui-dynamic-cell [cell]="column.cell"></ui-dynamic-cell>
+          </th>
+        }@else {
+          <th [nzWidth]="column.width">
+            <ui-dynamic-cell [cell]="column.cell"></ui-dynamic-cell>
+          </th>
+        }
+
+      <!-- <th [nzWidth]="column.width">
         <ui-dynamic-cell [cell]="column.cell"></ui-dynamic-cell>
-      </th>
+      </th> -->
       }
     </tr>
   </thead>

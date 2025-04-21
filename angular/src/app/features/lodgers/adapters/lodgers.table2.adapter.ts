@@ -1,12 +1,9 @@
-import { Injectable, signal } from "@angular/core";
-import { toSignal } from "@angular/core/rxjs-interop";
-import { BehaviorSubject } from "rxjs";
+import { Injectable } from "@angular/core";
 import { LocalizationsService } from "src/app/core/localizations/localizations.service";
 import { Lodger } from "src/app/features/lodgers/models/lodger.model";
 import { UiNestedDropdown2 } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
 import { UiTable2Row } from "src/app/ui/components/ui-table-2/models/ui-table-row.model";
 import { UiTable2Column } from "src/app/ui/components/ui-table-2/models/ui-table.column.model";
-import { UiTable2 } from "src/app/ui/components/ui-table-2/models/ui-table.model";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { getUpdatedFields as getUpdatedFieldsUtils } from '../../../shared/utils/objects.utils';
 
@@ -21,11 +18,11 @@ export class LodgersTable2AdapterService {
     return [
       {
         key: 'name',
-        cell: { type: 'string', label: { title: { label: 'Nom Prénom' } } },
+        cell: { type: 'mediumString', sort: { priority: 1 }, label: { title: { label: 'Nom Prénom' } } },
       },
       {
         key: 'email',
-        cell: { type: 'string', label: { title: { label: 'Email' } } },
+        cell: { type: 'string', sort: { priority: 2 }, label: { title: { label: 'Email' } } },
       },
       {
         key: 'actions',
@@ -35,7 +32,6 @@ export class LodgersTable2AdapterService {
   }
 
   createRows(Lodgers: Lodger[]): UiTable2Row[] {
-    console.log('creation rows');
     return Lodgers.map(Lodger => this.formatUiTableRow(Lodger));
   }
 
@@ -84,7 +80,7 @@ export class LodgersTable2AdapterService {
     return {
       data: { id: lodger.id },
       cells: {
-        name: { type: 'string', label: { title: { label: lodger.name }} },
+        name: { type: 'string', editable: true,label: { title: { label: lodger.name }} },
         email: { type: 'string', editable: true, label: { title: { label: lodger.email??'' }} },
         actions: { type: 'dropdown-actions', dropdown: this.buildRowActions() },
       },

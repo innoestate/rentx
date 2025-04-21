@@ -18,5 +18,9 @@ export interface UiColumnCell {
   label?: UiLabel2;
   editable?: boolean;
   dropdown?: UiNestedDropdown2;
+  sort?: {
+    priority: number;
+    function?: (a: any, b: any) => number;
+  }
 
 }
