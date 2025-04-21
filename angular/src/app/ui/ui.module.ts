@@ -18,6 +18,7 @@ import { UiEditableTextComponent } from './components/ui-editable-text/ui-editab
 import { UiTable2Component } from './components/ui-table-2/ui-table.component';
 import { UiIcon2Component } from './components/ui-icon/ui-icon2.component';
 import { UiNestedDropdownActionsComponent } from './components/ui-nested-dropdown-actions/ui-nested-dropdown-actions.component';
+import { UiInputComponent } from './components/ui-input/ui-input.component';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import { UiNestedDropdownActionsComponent } from './components/ui-nested-dropdow
     UiEditableTextComponent,
     UiTable2Component,
     UiIcon2Component,
-    UiNestedDropdownActionsComponent
+    UiNestedDropdownActionsComponent,
+    UiInputComponent
   ],
   exports: [
     NzModalModule,
@@ -49,7 +51,8 @@ import { UiNestedDropdownActionsComponent } from './components/ui-nested-dropdow
     UiEditableTextComponent,
     UiTable2Component,
     UiIcon2Component,
-    UiNestedDropdownActionsComponent
+    UiNestedDropdownActionsComponent,
+    UiInputComponent
   ],
   providers: [
     UiPopupService,

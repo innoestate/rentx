@@ -1,0 +1,12 @@
+<div class="ui-label-content" [style.backgroundColor]="backgroundColor()">
+  @if(icon()){
+    <ui-icon-2 [icon]="icon()"></ui-icon-2>
+  }
+  <input #inputRef class="ui-label-title"
+        (keyup.enter)="edit()"
+        (blur)="edit()"
+        [value]="titleLabel()"
+        [type]="type()"
+        [style.fontFamily]="fontFamily()"
+        [style.color]="titleColor()" />
+</div>
