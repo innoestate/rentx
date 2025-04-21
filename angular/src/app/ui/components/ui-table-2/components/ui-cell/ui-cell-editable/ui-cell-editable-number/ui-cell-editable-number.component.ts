@@ -3,10 +3,11 @@ import { AfterViewInit, Component, signal } from '@angular/core';
 import { UiIconComponent } from 'src/app/ui/components/ui-icon/ui-icon.component';
 import { UiLabel2Component } from '../../../ui-label/ui-label.component';
 import { UiCellEditableComponent } from '../ui-cell-editable.component';
+import { UiIcon2Component } from 'src/app/ui/components/ui-icon/ui-icon2.component';
 
 @Component({
   selector: 'app-ui-cell-editable-number',
-  imports: [CommonModule, UiLabel2Component, UiIconComponent],
+  imports: [CommonModule, UiLabel2Component, UiIcon2Component],
   templateUrl: './ui-cell-editable-number.component.html',
   styleUrl: './ui-cell-editable-number.component.scss'
 })

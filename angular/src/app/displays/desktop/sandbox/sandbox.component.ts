@@ -32,68 +32,79 @@ export class SandboxComponent {
         address: {
           type: 'string',
           label: {
-            title: { label: '123 rue de la rue' }
+            title: { label: '123 rue de la rue' },
           },
           editable: true
         },
         commands: {
           type: 'dropdown-actions',
-          label: { title: { label: 'Actions' } },
-          dropdown: {
-            label: { title: { label: 'Actions' } },
-            list: [
-              {
-                label: {
-                  color: 'red',
-                  title: { label: 'Alerte' },
-                  icon: { name: 'add' },
-                  command: () => alert('123')
-                }
-              },
-              {
-                label: {
-                  title: { label: 'Hello' },
-                  command: () => alert('Hello')
-                }
-              }
-            ]
+          label: {
+            title: { label: 'Actions' },
           },
+          dropdown: { label: {title: { label: 'Actions' }}, list: [
+            {
+              label: {
+                color: 'red',
+                title: { label: 'Alerte' },
+                icon: { name: 'add' },
+                command: () => alert('123')
+              }
+            },
+            {
+              label: {
+                title: { label: 'Hello' },
+                command: () => alert('Hello')
+              }
+            }
+          ] },
         },
         firstName: {
           type: 'string',
           label: {
-            title: { label: 'John' },
-            color: 'var(--color-tertiary-100)',
+            title: {
+              label: 'John',
+              color: 'var(--color-tertiary-100)'
+            },
             icon: {
               name: 'add',
               color: 'var(--color-basic-100)'
-            }
+            },
+            color: 'var(--color-tertiary-500)',
           },
-          color: 'var(--color-tertiary-500)',
           editable: true
         },
         lastName: {
           type: 'string',
-          label: { title: { label: 'Doe' } },
+          label: {
+            title: { label: 'Doe' },
+          },
           editable: true
         },
         email: {
           type: 'string',
-          label: { title: { label: 'johnDoe@gmail.com' } }
+          label: {
+            title: { label: 'johnDoe@gmail.com' }
+          }
         },
         phone: {
           type: 'number',
-          label: { title: { label: 123456789 } },
+          label: {
+            title: { label: 123456789 },
+          },
           editable: true
         },
         zip: {
           type: 'number',
-          label: { title: { label: 12345 } },
+          label: {
+            title: { label: 12345 },
+          },
           editable: true
         },
         action: {
           type: 'icon',
-          label: { icon: { name: 'down' } }
+          label: {
+            icon: { name: 'down' },
+          }
         }
       }
     },
@@ -101,39 +112,40 @@ export class SandboxComponent {
       data: { id: '2345' }, cells: {
         address: {
           type: 'string',
-          label: {
-            title: { label: '' }
-          },
           editable: true
         },
         zip: {
           type: 'number',
-          label: { title: { label: '' } },
           editable: true
         },
         phone: {
           type: 'number',
-          label: { title: { label: '' } },
           editable: true
         },
         firstName: {
           type: 'string',
           label: {
-            title: { label: 'Rose de la précigout en élevage sur terre et en aquaculture' },
             icon: {
               name: 'lodger'
+            },
+            title: {
+              label: 'Rose de la précigout en élevage sur terre et en aquaculture'
             }
           }
         },
         lastName: {
           type: 'string',
           label: {
-            title: { label: 'Marie' }
+            title: {
+              label: 'Marie'
+            }
           }
         },
         action: {
           type: 'icon',
-          label: { icon: { name: 'down' } }
+          label: {
+            icon: { name: 'down' },
+          }
         }
       }
     },
@@ -158,10 +170,7 @@ export class SandboxComponent {
                 ...row.cells[event.key],
                 label: {
                   ...row.cells[event.key].label,
-                  title: {
-                    ...row.cells[event.key].label.title,
-                    label: event.cell!.label!.title!.label
-                  }
+                  title: { ...row.cells[event.key].label?.title, label: event.cell!.label!.title!.label }
                 }
               }
             }

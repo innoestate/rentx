@@ -13,15 +13,13 @@ import { UiLabel2 } from './models/ui-label.model';
 export class UiLabel2Component {
 
   label = input.required<UiLabel2>();
-
-  title = computed(() => this.label()?.title);
-  icon = computed(() => this.label()?.icon);
-  command = computed(() => this.label()?.command);
-  color = computed(() => this.label()?.color || 'transparent' + ' !important');
-
   loading = input<boolean>(false);
-
   onClick = output<void>();
+
+  protected title = computed(() => this.label()?.title);
+  protected icon = computed(() => this.label()?.icon?.name ? this.label().icon: undefined);
+  protected command = computed(() => this.label()?.command);
+  protected color = computed(() => this.label()?.color || 'transparent' + ' !important');
 
   protected backgroundColor = computed(() => {
     return (this.color() || 'transparent') + ' !important';

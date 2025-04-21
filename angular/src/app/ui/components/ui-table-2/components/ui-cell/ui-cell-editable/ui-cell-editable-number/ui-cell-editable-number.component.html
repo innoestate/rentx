@@ -2,15 +2,15 @@
   @if(editing()){
     <ng-container *ngTemplateOutlet="edit"></ng-container>
   } @else {
-    <ui-label-2 (onClick)="onclick()" [label]="label()"></ui-label-2>
+    <ui-label-2 (onClick)="onclick()" [label]="label()" [loading]="!!loading()"></ui-label-2>
   }
 </div>
 
 <ng-template #edit>
-  @if(cell()?.icon){
-    <ui-icon-2 [icon]="cell()?.icon"></ui-icon-2>
+  @if(cell().label?.icon?.name){
+    <ui-icon-2 [icon]="cell().label?.icon!"></ui-icon-2>
   }
   <div [style.width]="inputWidth()+ 'px'" [style.margin]="'0 -12px'">
-    <input style="width:100%;" (blur)="endEdit()" (keyup.enter)="endEdit()" type="number" [value]="cell()?.title?.label">
+    <input style="width:100%;" (blur)="endEdit()" (keyup.enter)="endEdit()" type="number" [value]="cell().label?.title?.label">
   </div>
 </ng-template>

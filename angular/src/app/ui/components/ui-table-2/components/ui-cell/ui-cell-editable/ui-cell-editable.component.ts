@@ -50,7 +50,16 @@ export class UiCellEditableComponent extends UiCellComponent {
   }
 
   protected endEdit() {
-    const editedCell = cloneDeep({ ...this.cell()!, title: { ...this.cell()?.title, label: this.getInput()?.value } });
+    const editedCell = cloneDeep({
+      ...this.cell()!,
+      label: {
+        ...this.cell()?.label,
+        title: {
+          ...this.cell()?.label?.title,
+          label: this.getInput()?.value
+        }
+      }
+    });
     if (!isEqual(editedCell, this.cell())) {
       this.cell.set({ ...editedCell, internal: true });
       this.onEdit.emit(editedCell);

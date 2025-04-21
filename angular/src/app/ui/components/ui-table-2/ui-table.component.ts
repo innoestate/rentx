@@ -70,7 +70,7 @@ export const formatColumn = (column: UiTable2Column, columnIndex: number): NzUiT
     width = '60px';
   }
 
-  let icon = column.cell?.icon;
+  let icon = column.cell?.label?.icon;
   if(icon){
     icon = {
       size: 24,
@@ -82,8 +82,11 @@ export const formatColumn = (column: UiTable2Column, columnIndex: number): NzUiT
   return {
     cell: {
       ...column.cell,
-      icon,
-      title: column.cell?.title ? { ...column.cell!.title, weight: 'bold' } : undefined
+      label: {
+        ...column.cell.label,
+        icon,
+        title: column.cell?.label?.title ? { ...column.cell.label!.title, weight: 'bold' } : undefined
+      }
     },
     width: width
   };
@@ -97,11 +100,11 @@ export const formatNzRows = (rows: UiTable2Row[], columns: UiTable2Column[]): Nz
 
       const cell = { ...row.cells[column.key], key: column.key }
 
-      if(cell.icon){
-        cell.icon = {
+      if(cell.label?.icon){
+        cell.label.icon = {
           size: 18,
           color: 'var(--color-tertiary-500)',
-          ...cell.icon,
+          ...cell.label.icon,
         };
       }
 
