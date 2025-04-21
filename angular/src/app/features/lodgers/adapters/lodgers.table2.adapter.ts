@@ -29,7 +29,7 @@ export class LodgersTable2AdapterService {
       },
       {
         key: 'actions',
-        cell: { type: 'dropdown-actions', dropdown: this.buildColumnActions() },
+        cell: { type: 'dropdown-actions-icon', dropdown: this.buildColumnActions() },
       }
     ];
   }

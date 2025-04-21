@@ -3,6 +3,7 @@ import { UiLabel2 } from "../components/ui-label/models/ui-label.model";
 
 
 export type ColumnCellType = 'icon' |
+  'dropdown-actions-icon' |
   'string' | 'fullSizeString' |
   'longString' |
   'mediumString' |

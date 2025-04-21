@@ -37,7 +37,7 @@ export class UiDynamicCellComponent implements OnInit {
       } else {
         this.componentRef = this.viewContainerRef.createComponent<UiCellComponent>(UiCellEditableStringComponent);
       }
-    } else if(this.cell()?.type === 'dropdown-actions') {
+    } else if(this.cell()?.type === 'dropdown-actions' || this.cell()?.type === 'dropdown-actions-icon') {
       this.componentRef = this.viewContainerRef.createComponent<UiCellComponent>(UiCellDropdownActionsComponent);
     } else if (this.cell()?.type === 'icon') {
       this.componentRef = this.viewContainerRef.createComponent<UiCellComponent>(UiCellIconComponent);

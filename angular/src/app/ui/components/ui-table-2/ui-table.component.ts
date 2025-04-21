@@ -68,6 +68,8 @@ export const formatColumn = (column: UiTable2Column, columnIndex: number): NzUiT
     width = '110px';
   }else if(column.cell?.type === 'icon'){
     width = '60px';
+  }else if(column.cell?.type === 'dropdown-actions-icon'){
+    width = '60px';
   }
 
   let icon = column.cell?.label?.icon;
