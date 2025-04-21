@@ -5,12 +5,6 @@ export interface UiCell {
   type: 'icon' | 'string' | 'number' | 'dropdown-actions' | 'dropdown-select';
 
   label?: UiLabel2;
-
-  // color?: string;
-  // title?: UiTitle;
-  // icon?: UiIcon;
-  // command?: (value?: any) => void;
-
   editable?: boolean;
   dropdown?: UiNestedDropdownActions;
 }

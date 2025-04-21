@@ -17,13 +17,25 @@ export class SandboxComponent {
 
   columns$ = new BehaviorSubject<UiTable2Column[]>([
     { key: 'address', cell: { type: 'fullSizeString', label: { title: { label: 'Adresse' } } } },
+    {key: 'icon', cell: { type: 'icon', label: { icon: { name: 'add', command: () => alert('test') } } }},
     { key: 'commands', cell: { type: 'string', label: { title: { label: 'Actions' } } } },
     { key: 'zip', cell: { type: 'number', label: { title: { label: 'zip' } } }, },
     { key: 'firstName', cell: { type: 'mediumString', label: { title: { label: 'Nom' } } }, },
     { key: 'lastName', cell: { type: 'string', label: { title: { label: 'Prénom' } } }, },
     { key: 'email', cell: { type: 'mediumString', label: { title: { label: 'Email' } } }, },
     { key: 'phone', cell: { type: 'longNumber', label: { title: { label: 'Téléphone' } } }, },
-    { key: 'action', cell: { type: 'icon', label: { icon: { name: 'add', command: () => alert('test') } } }, }
+    { key: 'action', cell: { type: 'dropdown-actions', dropdown: {
+      label: { icon: { name: 'add', size: 24, color: 'var(--color-secondary-500)'} },
+      list: [
+        {
+          label: {
+            title: { label: 'Alerte' },
+            icon: { name: 'add', size: 24, color: 'var(--color-tertiary-500)' },
+            command: () => alert('test')
+          }
+        }
+      ]
+    } }, }
   ])
 
   rows$ = new BehaviorSubject<UiTable2Row[]>([
@@ -36,6 +48,21 @@ export class SandboxComponent {
             title: { label: '123 rue de la rue' },
           },
           editable: true
+        },
+        icon: {
+          type: 'dropdown-actions',
+          dropdown: {
+            label: { icon: { name: 'add', size: 18, color: 'var(--color-tertiary-500)' } },
+            list: [
+              {
+                label: {
+                  title: { label: 'Alerte' },
+                  icon: { name: 'add', size: 24, color: 'var(--color-tertiary-500)' },
+                  command: () => alert('test')
+                }
+              }
+            ]
+          }
         },
         commands: {
           type: 'dropdown-actions',
@@ -184,9 +211,18 @@ export class SandboxComponent {
           }
         },
         action: {
-          type: 'icon',
-          label: {
-            icon: { name: 'down' },
+          type: 'dropdown-actions',
+          dropdown: {
+            label: { icon: { name: 'down', size: 18, color: 'var(--color-tertiary-500)' } },
+            list: [
+              {
+                label: {
+                  title: { label: 'Alerte' },
+                  icon: { name: 'add', size: 24, color: 'var(--color-tertiary-500)' },
+                  command: () => alert('test')
+                }
+              }
+            ]
           }
         }
       }
