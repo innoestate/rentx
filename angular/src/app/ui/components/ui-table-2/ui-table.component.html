@@ -23,4 +23,15 @@
     }
   </tbody>
 </nz-table>
+<div class="ui-table-footer">
+  <div class="left">
+    <div class="ui-table-title">{{table().title}}</div>
+    @for(command of table().commands; track command.name){
+      <ui-icon-2 [icon]="command"></ui-icon-2>
+    }
+  </div>
+  <div class="right">
+    <!-- <ui-pagination [(pageIndex)]="pageIndex" [total]="pages()"></ui-pagination> -->
+  </div>
+</div>
 }

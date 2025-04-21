@@ -8,6 +8,7 @@ import { UiTable2Column } from 'src/app/ui/components/ui-table-2/models/ui-table
 import { UiTable2 } from 'src/app/ui/components/ui-table-2/models/ui-table.model';
 import { DesktopLodgersCommandsService } from '../../commands/deskop.lodgers.command';
 import { UiTable2Row } from 'src/app/ui/components/ui-table-2/models/ui-table-row.model';
+import { LocalizationsService } from 'src/app/core/localizations/localizations.service';
 
 @Component({
   selector: 'app-desktop-lodgers-table',
@@ -20,12 +21,22 @@ export class DesktopLodgersTableComponent extends UiDisplayerComponent {
   lodgers = this.lodgerData.getLodgers();
   table2: UiTable2 = {
     columns: signal<UiTable2Column[]>(this.adapter.createColumns()),
-    rows: this.getRows()
+    rows: this.getRows(),
+    title: this.localization.getLocalization('lodgers', 'tableTitle'),
+    commands: [
+      {
+        name: 'add-lodger',
+        size: 26,
+        color: 'var(--color-secondary-500)',
+        command: () => this.lodgersCommands.createLodger()
+      },
+    ]
   }
 
   constructor(private lodgerData: LodgersDataService,
     private adapter: LodgersTable2AdapterService,
     protected override elRef: ElementRef,
+    private localization: LocalizationsService,
     private lodgersCommands: DesktopLodgersCommandsService) {
     super(elRef);
   }

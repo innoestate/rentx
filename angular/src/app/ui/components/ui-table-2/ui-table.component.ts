@@ -1,18 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, input, output, Signal, ViewChild } from '@angular/core';
+import { Component, computed, input, output, Signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NzTableComponent, NzTableModule } from 'ng-zorro-antd/table';
-import { UiIconComponent } from '../ui-icon/ui-icon.component';
-import { UiPaginationComponent } from '../ui-pagination/ui-pagination.component';
-import { UiTable2Row } from './models/ui-table-row.model';
-import { UiTable2 } from './models/ui-table.model';
-import { UiTable2Column } from './models/ui-table.column.model';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { UiIcon2Component } from "../ui-icon/ui-icon2.component";
+import { UiDynamicCellComponent } from "./components/ui-dynamic-cell/ui-dynamic-cell.component";
+import { NzUiCell } from './models/nz-ui-cell.model';
 import { NzUiTable2Column } from './models/nz-ui-table-column.model';
 import { NzUiTable2Row } from './models/nz-ui-table-row.model';
-import { UiCell } from './models/ui-cell.model';
-import { UiCellComponent } from './components/ui-cell/ui-cell.component';
-import { NzUiCell } from './models/nz-ui-cell.model';
-import { UiDynamicCellComponent } from "./components/ui-dynamic-cell/ui-dynamic-cell.component";
+import { UiTable2Row } from './models/ui-table-row.model';
+import { UiTable2Column } from './models/ui-table.column.model';
+import { UiTable2 } from './models/ui-table.model';
 
 @Component({
   selector: 'ui-table-2',
@@ -20,20 +17,14 @@ import { UiDynamicCellComponent } from "./components/ui-dynamic-cell/ui-dynamic-
     FormsModule,
     ReactiveFormsModule,
     NzTableModule,
-    UiIconComponent,
-    UiCellComponent,
-    UiPaginationComponent, UiDynamicCellComponent],
+    UiDynamicCellComponent, UiIcon2Component],
   templateUrl: './ui-table.component.html',
   styleUrl: './ui-table.component.scss'
 })
 export class UiTable2Component<T> {
 
-  @ViewChild('tableRef') tableRef!: NzTableComponent<UiTable2>;
-
   table = input.required<UiTable2>();
-  editCell = output<{ id: string, key: string, cell: UiCell }>();
-  editCell2 = output<{ id: string, updates: Partial<T> }>();
-
+  editCell = output<{ id: string, updates: Partial<T> }>();
 
   protected nzRows: Signal<any[]> = this.buildNzRows();
   protected nzColumns: Signal<any[]> = this.buildNzColumns();
@@ -47,7 +38,7 @@ export class UiTable2Component<T> {
     }else{
       updates[key] = cell.label?.title?.label!;
     }
-    this.editCell2.emit({ id: nzRow.id, updates })
+    this.editCell.emit({ id: nzRow.id, updates })
   }
 
   private buildNzColumns(): Signal<NzUiTable2Column[]> {
