@@ -54,8 +54,29 @@ export class SandboxComponent {
               label: {
                 title: { label: 'Hello' },
                 icon: { name: 'lodger', size: 24, color: 'var(--color-tertiary-500)' },
-                command: () => alert('Hello')
-              }
+              },
+              list : [
+                {
+                  label: {
+                    title: { label: 'hi!' },
+                    icon: { name: 'circle-user', size: 24, color: 'var(--color-tertiary-500)' },
+                  },
+                  list : [
+                    {
+                      label: {
+                        title: { label: 'daaaa'}
+                      }
+                    }
+                  ]
+                },
+                {
+                  label: {
+                    title: { label: 'Hola!' },
+                    icon: { name: 'circle-user', size: 24, color: 'var(--color-tertiary-500)' },
+                    command: () => alert('Hola!')
+                  }
+                }
+              ]
             }
           ] },
         },

@@ -1,0 +1,16 @@
+::ng-deep {
+
+  .ant-dropdown-menu {
+    border-radius: 18px !important;
+    padding: 16px 10px !important;
+    background-color: var(--color-basic-100);
+    box-shadow: var(--shadow);
+  }
+
+  .ant-dropdown-menu-item {
+    position: relative;
+    background-color: transparent !important;
+    min-width: 200px !important;
+  }
+
+}

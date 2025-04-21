@@ -1,12 +1,18 @@
-<div nz-dropdown
+<div #dropdownRef nz-dropdown
     [nzDropdownMenu]="dropdownMenu"
-    [nzTrigger]="'click'">
+    [nzTrigger]="triggerType()">
   <ui-label-2 [label]="dropdown()!.label"></ui-label-2>
 </div>
 <nz-dropdown-menu #dropdownMenu="nzDropdownMenu">
   <ul nz-menu>
     @for(item of dropdown()!.list; track item){
-      <li nz-menu-item><ui-label-2 [label]="item.label"></ui-label-2></li>
+      <li nz-menu-item>
+        @if(item.list){
+          <ui-nested-dropdown-actions [dropdown]="item" [triggerType]="'hover'"></ui-nested-dropdown-actions>
+        }@else {
+          <ui-label-2 [label]="item.label"></ui-label-2>
+        }
+      </li>
     }
   </ul>
 </nz-dropdown-menu>
