@@ -203,15 +203,33 @@ export class SandboxComponent {
     setTimeout(() => {
       this.rows$.next(this.rows$.getValue().map(row => {
         if (row.data.id === event.id) {
-          const r = {
-            ...row,
-            cells: {
-              ...row.cells,
-              [event.key]: cloneDeep(event.cell)
-            }
-          };
-          console.log('edit in sandbox', event.cell, r);
-          return r;
+          if(row.cells[event.key].dropdown) {
+            const r = {
+              ...row,
+              cells: {
+                ...row.cells,
+                [event.key]: cloneDeep(event.cell)
+              }
+            };
+            console.log('edit in sandbox', event.cell, r);
+            return r;
+          }else{
+
+            const r = {
+              ...row,
+              cells: {
+                ...row.cells,
+                [event.key]: {
+                  ...row.cells[event.key],
+                  label: {
+                    ...row.cells[event.key].label,
+                    title: { ...row.cells[event.key].label?.title, label: event.cell!.label!.title!.label }
+                  }
+                }
+              }
+            };
+            return r;
+          }
         }
         return row;
       }));

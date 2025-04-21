@@ -30,7 +30,6 @@ export class UiNestedDropdownActionsComponent {
   }
 
   hide() {
-    console.log('hide!', this.triggerType());
     this.onHide.emit();
     if(this.triggerType() === 'click'){
       this.visible.set(false);
