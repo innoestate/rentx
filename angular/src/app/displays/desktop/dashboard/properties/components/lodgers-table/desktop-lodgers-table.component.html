@@ -1,9 +1,3 @@
 <div class="card-content table">
-  <ui-table (editRow)="updateRow($event)"
-            [columns]="table().columns"
-            [rows]="table().rows"
-            [title]="table().title"
-            [commands]="table().commands"
-            [fixedColumns]="table().fixedColumns!"
-            backgroundImagePath="assets/images/lodgers-background.png"></ui-table>
+  <ui-table-2 (editCell2)="updateCell($event)" [table]="table2"></ui-table-2>
 </div>

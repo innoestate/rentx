@@ -6,6 +6,7 @@ import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
 import { OwnersTableAdapterService } from "../adapters/table/owners.table.adapter";
 import { OwnersCommandsService } from "../commands/owners.command.service";
 import { OwnersDataService } from "../data/owners.data.service";
+import { UiTable2 } from "src/app/ui/components/ui-table-2/models/ui-table.model";
 
 @Injectable()
 export class OwnersTableService implements UiTableInterface {

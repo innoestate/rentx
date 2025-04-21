@@ -21,9 +21,7 @@ export class PropertiesDisplayerDirective implements OnInit {
 
   private mapDynamicComponents(): void {
     effect(() => {
-      console.log('mapDynamicComponents', this.componentsList(), this.displays);
       this.adapter.mapDynamicComponents(this.componentsList() || [], this.displays);
-      console.log(this.displays);
     });
   }
 
