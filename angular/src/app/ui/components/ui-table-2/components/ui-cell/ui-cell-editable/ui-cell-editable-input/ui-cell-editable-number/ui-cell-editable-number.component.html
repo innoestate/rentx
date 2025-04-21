@@ -2,7 +2,7 @@
   @if(editing()){
     <ng-container *ngTemplateOutlet="edit"></ng-container>
   } @else {
-    <ui-label-2 (onClick)="onclick()" [label]="label()" [loading]="!!loading()"></ui-label-2>
+    <ui-label-2 (onClick)="onclick()" [active]="true" [label]="label()" [loading]="!!loading()"></ui-label-2>
   }
 </div>
 

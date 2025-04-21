@@ -12,6 +12,7 @@ export class UiLabel2Component {
 
   label = input.required<UiLabel2>();
   loading = input<boolean>(false);
+  active = input<boolean>(false);
   onClick = output<void>();
 
   protected title = computed(() => this.label()?.title);

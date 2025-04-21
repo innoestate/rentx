@@ -15,7 +15,15 @@
   justify-content: center;
   align-items: center;
   gap: 8px;
+  &.active {
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+  }
+  &.active:hover {
+    transform: scale(1.05);
+  }
 }
+
 
 .ui-label-title {
   text-overflow: ellipsis;

@@ -15,7 +15,10 @@ export class UiCellComponent {
   cell = model.required<NzUiCell>();
   onEdit = output<NzUiCell>();
 
-  label = computed<UiLabel2>(() => this.cell().label!)
+  label = computed<UiLabel2>(() => this.cell().label!);
+  active = computed(() => {
+    return this.cell().dropdown || this.cell().editable || !!(this.label()?.command || this.label()?.icon?.command);
+  });
 
   protected color = computed(() => {
     return (this.label()?.color || 'transparent') + ' !important';

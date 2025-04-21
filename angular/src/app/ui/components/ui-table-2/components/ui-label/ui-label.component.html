@@ -1,4 +1,7 @@
-<div class="ui-label-content" [style.backgroundColor]="backgroundColor()" [style.opacity]="contentOpacity()">
+<div class="ui-label-content"
+      [style.backgroundColor]="backgroundColor()"
+      [style.opacity]="contentOpacity()"
+      [class.active]="active()">
   @if(icon()){
     <ui-icon-2 [icon]="icon()"></ui-icon-2>
   }
