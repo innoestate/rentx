@@ -20,8 +20,10 @@ export class UiDisplayerComponent {
       }),
       delay(0),
       tap(() => {
-        this.runContainerAnimation(1);
-        this.runContentAnimation(1);
+        requestAnimationFrame(() => {
+          this.runContainerAnimation(1);
+          this.runContentAnimation(1);
+        });
       }),
       delay(UiDisplayerComponent.ANIMATION_DELAY)
     );
