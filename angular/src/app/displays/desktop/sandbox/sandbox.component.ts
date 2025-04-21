@@ -65,7 +65,14 @@ export class SandboxComponent {
                     {
                       label: {
                         title: { label: 'daaaa'}
-                      }
+                      },
+                      list: [
+                        {
+                          label: {
+                            title: { label: 'bonnn' }
+                          }
+                        }
+                      ]
                     }
                   ]
                 },
