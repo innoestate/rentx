@@ -1,0 +1,21 @@
+<div #dropdownRef nz-dropdown
+    [nzDropdownMenu]="dropdownMenu"
+    (nzVisibleChange)="visibleChangeHandler($event)"
+    [nzPlacement]="'bottomLeft'"
+    [nzVisible]="visible()"
+    [nzTrigger]="triggerType()">
+  <ui-label-2 [loading]="loading()" [label]="dropdown()!.label"></ui-label-2>
+</div>
+<nz-dropdown-menu #dropdownMenu="nzDropdownMenu">
+  <ul nz-menu>
+    @for(item of dropdown()!.list; track item.label){
+      <li nz-menu-item>
+        @if(item.list){
+          <ui-nested-dropdown-select (onSelect)="select($event)" (onHide)="hide()" [dropdown]="item" [triggerType]="'hover'"></ui-nested-dropdown-select>
+        }@else {
+          <ui-label-2 (onClick)="select(item)" [label]="item.label"></ui-label-2>
+        }
+      </li>
+    }
+  </ul>
+</nz-dropdown-menu>

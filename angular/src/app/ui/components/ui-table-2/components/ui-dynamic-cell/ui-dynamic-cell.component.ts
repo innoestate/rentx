@@ -5,6 +5,7 @@ import { UiCellIconComponent } from '../ui-cell/ui-cell-icon/ui-cell-icon.compon
 import { UiCellEditableNumberComponent } from '../ui-cell/ui-cell-editable/ui-cell-editable-number/ui-cell-editable-number.component';
 import { UiCellEditableStringComponent } from '../ui-cell/ui-cell-editable/ui-cell-editable-string/ui-cell-editable-string.component';
 import { UiCellDropdownComponent } from '../ui-cell/ui-cell-dropdown/ui-cell-dropdown.component';
+import { UiCellDropdownSelectComponent } from '../ui-cell/ui-cell-dropdown-select/ui-cell-dropdown-select.component';
 
 @Component({
   selector: 'ui-dynamic-cell',
@@ -34,17 +35,19 @@ export class UiDynamicCellComponent implements OnInit {
       } else {
         this.componentRef = this.viewContainerRef.createComponent<UiCellComponent>(UiCellEditableStringComponent);
       }
-      this.componentRef.instance.onEdit.subscribe((event) => {
-        this.onEdit.emit(event);
-      });
     } else if(this.cell()?.type === 'dropdown-actions') {
       this.componentRef = this.viewContainerRef.createComponent<UiCellComponent>(UiCellDropdownComponent);
-    } else if (this.cell()?.type === 'icon') {
+    } else if(this.cell()?.type === 'dropdown-select') {
+      this.componentRef = this.viewContainerRef.createComponent<UiCellComponent>(UiCellDropdownSelectComponent);
+    }  else if (this.cell()?.type === 'icon') {
       this.componentRef = this.viewContainerRef.createComponent<UiCellComponent>(UiCellIconComponent);
     } else {
       this.componentRef = this.viewContainerRef.createComponent<UiCellComponent>(UiCellComponent);
     }
     this.componentRef.setInput('cell', this.cell());
+    this.componentRef.instance.onEdit.subscribe((event) => {
+      this.onEdit.emit(event);
+    });
   }
 
 

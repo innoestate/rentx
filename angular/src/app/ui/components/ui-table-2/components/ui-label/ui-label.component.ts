@@ -32,10 +32,11 @@ export class UiLabel2Component {
   });
 
   titleColor = computed(() => {
-    if (this.loading()) {
-      return 'var(--color-basic-500)';
-    }
     return this.title()?.color || 'var(--color-primary-900)';
+  });
+
+  contentOpacity = computed(() => {
+    return this.loading() ? 0.5 : 1;
   });
 
   @HostListener('click')

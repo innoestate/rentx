@@ -8,8 +8,4 @@
 
 <ng-template #edit>
   <ui-input (onEdit)="endEdit()" [label]="cell().label!"></ui-input>
-  <!-- @if(cell().label?.icon?.name){
-    <ui-icon-2 [icon]="cell().label?.icon!"></ui-icon-2>
-  }
-  <input (blur)="endEdit()" (keyup.enter)="endEdit()" type="text" [value]="cell().label?.title?.label"> -->
 </ng-template>

@@ -1,26 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { Component, input, output, signal, ViewChild } from '@angular/core';
 import { NzDropdownMenuComponent, NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { UiNestedDropdownActions } from '../ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model';
 import { UiLabel2Component } from '../ui-table-2/components/ui-label/ui-label.component';
-import { UiNestedDropdownActions } from './model/ui-nested-dropdown-actions.model';
 
 @Component({
-  selector: 'ui-nested-dropdown-actions',
+  selector: 'ui-nested-dropdown-select',
   imports: [NzDropDownModule, CommonModule, UiLabel2Component],
-  templateUrl: './ui-nested-dropdown-actions.component.html',
-  styleUrl: './ui-nested-dropdown-actions.component.scss'
+  templateUrl: './ui-nested-dropdown-select.component.html',
+  styleUrl: './ui-nested-dropdown-select.component.scss'
 })
-export class UiNestedDropdownActionsComponent {
+export class UiNestedDropdownSelectComponent {
 
   @ViewChild('dropdownMenu') dropdownRef!: NzDropdownMenuComponent;
-  dropdown = input<UiNestedDropdownActions>();
+  dropdown = input<UiNestedDropdownSelectComponent>();
   triggerType = input<'click' | 'hover'>('click');
+  loading = input<boolean>(false);
   onHide = output<void>();
+  onSelect = output<UiNestedDropdownActions>();
   visible = signal(false);
 
-  constructor() {
-
-  }
+  constructor() {}
 
   visibleChangeHandler(visible_: boolean) {
     this.visible.set(visible_);
@@ -30,13 +30,17 @@ export class UiNestedDropdownActionsComponent {
   }
 
   hide() {
-    console.log('hide!', this.triggerType());
     this.onHide.emit();
     if(this.triggerType() === 'click'){
       this.visible.set(false);
     }else{
       this.dropdownRef.setMouseState(false);
     }
+  }
+
+  select(item: UiNestedDropdownActions){
+    this.hide();
+    this.onSelect.emit(item);
   }
 
 }

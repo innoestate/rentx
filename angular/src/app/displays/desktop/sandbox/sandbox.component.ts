@@ -1,5 +1,6 @@
 import { Component, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { cloneDeep } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 import { UiCell } from 'src/app/ui/components/ui-table-2/models/ui-cell.model';
 import { UiTable2Row } from 'src/app/ui/components/ui-table-2/models/ui-table-row.model';
@@ -103,11 +104,23 @@ export class SandboxComponent {
           editable: true
         },
         lastName: {
-          type: 'string',
-          label: {
-            title: { label: 'Doe' },
-          },
-          editable: true
+          type: 'dropdown-select',
+          // editable: true,
+          dropdown: {
+            label: { title : { label: 'Dao'}},
+            list: [
+              {
+                label: { title: { label: '& cie'}}
+              },
+              {
+                label: { title: { label: '& co'}},
+                list: [
+                  { label: { title: { label: 'Jean'}}},
+                  { label: { title: { label: 'Marie'}}}
+                ]
+              }
+            ]
+          }
         },
         email: {
           type: 'string',
@@ -190,20 +203,14 @@ export class SandboxComponent {
     setTimeout(() => {
       this.rows$.next(this.rows$.getValue().map(row => {
         if (row.data.id === event.id) {
-
           const r = {
             ...row,
             cells: {
               ...row.cells,
-              [event.key]: {
-                ...row.cells[event.key],
-                label: {
-                  ...row.cells[event.key].label,
-                  title: { ...row.cells[event.key].label?.title, label: event.cell!.label!.title!.label }
-                }
-              }
+              [event.key]: cloneDeep(event.cell)
             }
           };
+          console.log('edit in sandbox', event.cell, r);
           return r;
         }
         return row;
