@@ -1,11 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DesktopOwnersTableComponent } from '../../components/owners-table/desktop-owners-table.component';
-import { OwnersTableService } from 'src/app/features/owners/services/owners.table.service';
-import { OwnersCommandsService } from 'src/app/features/owners/commands/owners.command.service';
-import { DesktopOwnersCommandsService } from '../../commands/desktop.owners.command';
+import { NgModule } from '@angular/core';
 import { OwnersTableAdapterService } from 'src/app/features/owners/adapters/table/owners.table.adapter';
+import { OwnersTableService } from 'src/app/features/owners/services/owners.table.service';
 import { UiModule } from 'src/app/ui/ui.module';
+import { DesktopOwnersCommandsService } from '../../commands/desktop.owners.command';
+import { DesktopOwnersTableComponent } from '../../components/owners-table/desktop-owners-table.component';
 
 
 
@@ -20,10 +19,7 @@ import { UiModule } from 'src/app/ui/ui.module';
   providers: [
     OwnersTableService,
     OwnersTableAdapterService,
-    {
-      provide: OwnersCommandsService,
-      useClass: DesktopOwnersCommandsService
-    }
+    DesktopOwnersCommandsService
   ]
 })
 export class OwnersModule { }

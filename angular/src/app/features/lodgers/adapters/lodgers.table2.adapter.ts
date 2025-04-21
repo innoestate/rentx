@@ -97,13 +97,4 @@ export class LodgersTable2AdapterService {
     return updates;
   }
 
-  buildUpdateFields2(row: UiTable2Row, lodgers: Lodger[]): Partial<Lodger> {
-    const lodger = lodgers.find(o => o.id === row.data.id);
-    if (!lodger) throw new Error('Lodger not found');
-    const potentialUpdates = row.cells as any;
-    const updates = getUpdatedFieldsUtils(lodger, potentialUpdates);
-    updates['id'] = lodger.id;
-    return updates;
-  }
-
 }
