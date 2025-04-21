@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, effect, ElementRef, signal } from '@angular/core';
-import { cloneDeep, isEqual } from 'lodash';
+import { isEqual } from 'lodash';
 import { NzUiCell } from '../../../models/nz-ui-cell.model';
 import { UiCellComponent } from '../ui-cell.component';
 
@@ -37,40 +37,6 @@ export class UiCellEditableComponent extends UiCellComponent {
     return isEqual(loadingWithoutInternal, cellWithoutInternal);
   }
 
-  protected onclick() {
-    if (this.editing()) {
-      return;
-    }
-    this.editing.set(!this.editing());
-    if (this.editing()) {
-      setTimeout(() => {
-        this.getInput()?.focus();
-      }, 0);
-    }
-  }
-
-  protected endEdit() {
-    const editedCell = cloneDeep({
-      ...this.cell()!,
-      label: {
-        ...this.cell()?.label,
-        title: {
-          ...this.cell()?.label?.title,
-          label: this.getInput()?.value
-        }
-      }
-    });
-    if (!isEqual(editedCell, this.cell())) {
-      this.cell.set({ ...editedCell, internal: true });
-      this.onEdit.emit(editedCell);
-      this.loading.set(editedCell);
-    }
-    this.editing.set(false);
-  }
-
-  private getInput() {
-    return this.el.nativeElement.querySelector('input');
-  }
-
+  protected endEdit() {}
 }
 

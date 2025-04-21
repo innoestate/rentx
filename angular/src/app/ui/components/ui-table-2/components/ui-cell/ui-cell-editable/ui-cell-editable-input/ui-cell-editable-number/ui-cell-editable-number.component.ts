@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, signal } from '@angular/core';
 import { UiInputComponent } from 'src/app/ui/components/ui-input/ui-input.component';
-import { UiLabel2Component } from '../../../ui-label/ui-label.component';
-import { UiCellEditableComponent } from '../ui-cell-editable.component';
+import { UiLabel2Component } from '../../../../ui-label/ui-label.component';
+import { UiCellEditableInputComponent } from '../ui-cell-editable-input.component';
 
 @Component({
   selector: 'app-ui-cell-editable-number',
@@ -10,7 +10,7 @@ import { UiCellEditableComponent } from '../ui-cell-editable.component';
   templateUrl: './ui-cell-editable-number.component.html',
   styleUrl: './ui-cell-editable-number.component.scss'
 })
-export class UiCellEditableNumberComponent extends UiCellEditableComponent implements AfterViewInit {
+export class UiCellEditableNumberComponent extends UiCellEditableInputComponent implements AfterViewInit {
 
   protected inputWidth = signal(60);
 

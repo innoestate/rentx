@@ -7,7 +7,6 @@
       @for(column of columns; track column; let columnI = $index) {
       <th [nzWidth]="column.width">
         <ui-dynamic-cell [cell]="column.cell"></ui-dynamic-cell>
-        <!-- <comment>need to refacto ui-dynamic-cell here to specific column cell</comment> -->
       </th>
       }
     </tr>
