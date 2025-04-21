@@ -26,19 +26,28 @@ import { UiDynamicCellComponent } from "./components/ui-dynamic-cell/ui-dynamic-
   templateUrl: './ui-table.component.html',
   styleUrl: './ui-table.component.scss'
 })
-export class UiTable2Component {
+export class UiTable2Component<T> {
 
   @ViewChild('tableRef') tableRef!: NzTableComponent<UiTable2>;
 
   table = input.required<UiTable2>();
   editCell = output<{ id: string, key: string, cell: UiCell }>();
+  editCell2 = output<{ id: string, updates: Partial<T> }>();
+
 
   protected nzRows: Signal<any[]> = this.buildNzRows();
   protected nzColumns: Signal<any[]> = this.buildNzColumns();
 
 
   edit(cell: NzUiCell, nzRow: NzUiTable2Row, columnIndex: number) {
-    this.editCell.emit({ id: nzRow.id, key: nzRow.cells[columnIndex].key, cell })
+    const key = nzRow.cells[columnIndex].key as string;
+    if(!key) throw new Error('Key not found');
+    let updates = {} as any;
+    if(cell.dropdown){
+    }else{
+      updates[key] = cell.label?.title?.label!;
+    }
+    this.editCell2.emit({ id: nzRow.id, updates })
   }
 
   private buildNzColumns(): Signal<NzUiTable2Column[]> {

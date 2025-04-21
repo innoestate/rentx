@@ -22,11 +22,9 @@ export class UiActionsComponent extends UiDisplayerComponent implements OnInit, 
 
 
   ngOnInit() {
-    console.log('actions ngOnInit')
   }
 
   ngAfterViewInit(): void {
-    console.log('ngAfterviewInit actions');
   }
 
   getContentWidth() {

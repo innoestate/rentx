@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed } from '@angular/core';
 import { cloneDeep, isEqual } from 'lodash';
-import { UiNestedDropdownActions } from 'src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model';
+import { UiNestedDropdown2 } from 'src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model';
 import { UiNestedDropdownSelectComponent } from 'src/app/ui/components/ui-nested-dropdown-select/ui-nested-dropdown-select.component';
 import { UiCellEditableComponent } from '../ui-cell-editable.component';
 
@@ -17,7 +17,7 @@ export class UiCellDropdownSelectComponent extends UiCellEditableComponent {
     return this.cell()?.dropdown;
   });
 
-  onSelect(item: UiNestedDropdownActions){
+  onSelect(item: UiNestedDropdown2){
     const editedCell = cloneDeep({
       ...this.cell()!,
       dropdown: {

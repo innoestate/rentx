@@ -1,6 +1,6 @@
 import { Component, input, output, signal, ViewChild } from '@angular/core';
 import { NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
-import { UiNestedDropdownActions } from '../ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model';
+import { UiNestedDropdown2 } from '../ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model';
 
 @Component({
   imports: [],
@@ -10,7 +10,7 @@ import { UiNestedDropdownActions } from '../ui-nested-dropdown-actions/model/ui-
 export class UiNestedDropdown2Component {
 
   @ViewChild('dropdownMenu') dropdownRef!: NzDropdownMenuComponent;
-  dropdown = input<UiNestedDropdownActions>();
+  dropdown = input<UiNestedDropdown2>();
   triggerType = input<'click' | 'hover'>('click');
   onHide = output<void>();
   visible = signal(false);
