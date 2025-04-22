@@ -33,14 +33,14 @@ const getLodgerDropdownList = (lodgers: Lodger[], lodgerName: string | undefined
 const rentReceipt = (localization: LocalizationsService): UiNestedDropdown2 => {
   return {
     label: {
-      title: { label: localization.getLocalization('estates', 'rentReceipt') },
+      title: { label: localization.getLocalization('rentReceipts', 'label') },
       icon: { name: 'file-invoice', size: 24, color: 'var(--color-secondary-500)' },
     },
     list: [
       {
         label: {
           icon: { name: 'download-file', size: 22, color: 'var(--color-tertiary-500)' },
-          title: { label: localization.getLocalization('estates', 'download') },
+          title: { label: localization.getLocalization('rentReceipts', 'download') },
           command: () => {
             console.log('implement download method in component');
             return true;
@@ -50,7 +50,7 @@ const rentReceipt = (localization: LocalizationsService): UiNestedDropdown2 => {
       {
         label: {
           icon: { name: 'send', size: 22, color: 'var(--color-tertiary-500)' },
-          title: { label: localization.getLocalization('estates', 'send') },
+          title: { label: localization.getLocalization('rentReceipts', 'send') },
           command: () => {
             console.log('implement send method in component');
             return true;
@@ -75,7 +75,7 @@ const exitLodger = (localization: LocalizationsService): UiNestedDropdown2 => {
   return {
     label: {
       icon: { name: 'empty-house', size: 24, color: 'var(--color-secondary-500)' },
-      title: { label: localization.getLocalization('rent-receipts', 'empty') },
+      title: { label: localization.getLocalization('estates', 'freeLodger') },
       command: () => {
         return true;
       }
@@ -87,7 +87,7 @@ const createNewLodger = (localization: LocalizationsService): UiNestedDropdown2 
   return {
     label: {
       icon: { name: 'add-lodger', size: 24, color: 'var(--color-secondary-500)' },
-      title: { label: localization.getLocalization('lodgers', 'createNew') },
+      title: { label: localization.getLocalization('lodgers', 'create') },
       command: () => {
         return true;
       }

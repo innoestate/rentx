@@ -34,7 +34,7 @@ export class RentsCommandsService {
     ).subscribe();
   }
 
-  senRentReceiptByEmail(estate: Estate, startDate?: string, endDate?: string) {
+  sendRentReceiptByEmail(estate: Estate, startDate?: string, endDate?: string) {
     const mandatoryFields = getMandatoryFieldsForEmail(estate);
     this.getCompletedEstate(estate, mandatoryFields).pipe(
       take(1),
@@ -48,7 +48,7 @@ export class RentsCommandsService {
         if(type === 'download') {
           this.downloadRentReceipt(estateWithoutModification, startDate, endDate);
         } else {
-          this.senRentReceiptByEmail(estateWithoutModification, startDate, endDate);
+          this.sendRentReceiptByEmail(estateWithoutModification, startDate, endDate);
         }
       })
     ).subscribe();

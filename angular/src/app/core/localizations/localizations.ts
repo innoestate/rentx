@@ -20,10 +20,14 @@ export const Localizations: Record<string, Record<string, string>> = {
     rentReceipt: 'Quittance de loyer',
     download: 'Télécharger',
     send: 'Envoyer',
-    personalize: 'Personnaliser'
+    personalize: 'Personnaliser',
+    freeLodger: 'Vacant'
   },
-  'rent-receipts': {
-    empty: 'Libérer le logement'
+  rentReceipts: {
+    label: 'Quittance de loyer',
+    download: 'Télécharger',
+    send: 'Envoyer',
+    personalize: 'Personnaliser'
   },
   owners: {
     label: 'propriétaires',
@@ -52,7 +56,7 @@ export const Localizations: Record<string, Record<string, string>> = {
     createLodgerFromTitle: 'créer un locataire',
     createNew: 'Créer un nouveau locataire',
     change: 'Changer de locataire',
-    set: 'Mettre un locataire'
+    set: 'Mettre un locataire',
   },
   prospections : {
     label: 'prospections',

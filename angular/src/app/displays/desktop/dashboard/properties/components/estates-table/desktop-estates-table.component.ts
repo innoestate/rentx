@@ -1,19 +1,21 @@
-import { Component, computed, effect, ElementRef, Signal, signal } from '@angular/core';
+import { Component, computed, ElementRef, Signal, signal } from '@angular/core';
 import { catchError, of, take } from 'rxjs';
 import { LocalizationsService } from 'src/app/core/localizations/localizations.service';
 import { fillEstates } from 'src/app/features/estates/adapters/estate.adapter.utils';
 import { EstatesTable2AdapterService } from 'src/app/features/estates/adapters/estates.table2.adapter';
+import { EstatesDataService } from 'src/app/features/estates/data/service/esates.data.service';
 import { Estate } from 'src/app/features/estates/models/estate.model';
 import { LodgersDataService } from 'src/app/features/lodgers/data/lodgers.data.service';
 import { OwnersDataService } from 'src/app/features/owners/data/owners.data.service';
+import { RentsCommandsService } from 'src/app/features/rents/commands/rents.commands.service';
 import { RentsDataService } from 'src/app/features/rents/data/service/rents.data.service';
 import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
+import { UiCell } from 'src/app/ui/components/ui-table-2/models/ui-cell.model';
 import { UiTable2Row } from 'src/app/ui/components/ui-table-2/models/ui-table-row.model';
 import { UiTable2Column } from 'src/app/ui/components/ui-table-2/models/ui-table.column.model';
 import { UiTable2 } from 'src/app/ui/components/ui-table-2/models/ui-table.model';
+import { DesktopLodgersCommandsService } from '../../commands/deskop.lodgers.command';
 import { DesktopEstatesCommandsService } from '../../commands/desktop.estates.command';
-import { EstatesDataService } from 'src/app/features/estates/data/service/esates.data.service';
-import { UiCell } from 'src/app/ui/components/ui-table-2/models/ui-cell.model';
 
 @Component({
   selector: 'app-desktop-estates-table',
@@ -54,6 +56,8 @@ export class DesktopEstatesTableComponent extends UiDisplayerComponent {
     private adapter: EstatesTable2AdapterService,
     private localization: LocalizationsService,
     private estatesCommands: DesktopEstatesCommandsService,
+    private lodgersCommands: DesktopLodgersCommandsService,
+    private rentsCommands: RentsCommandsService,
     protected override elRef: ElementRef,
   ) {
     super(elRef);
@@ -74,8 +78,31 @@ export class DesktopEstatesTableComponent extends UiDisplayerComponent {
 
   bindRowsCommands(rows: UiTable2Row[]) {
     rows.forEach(row => {
+
+      const estate = this.estates().find(e => e.id === row.data.id)!;
+
       const id = row.data.id;
       row.cells['actions']!.dropdown!.list![0].label!.command = () => this.estatesCommands.deleteEstate(id);
+
+      const create = row.cells['lodger']!.dropdown?.list?.find(dropdown => dropdown.label?.title?.label === this.localization.getLocalization('lodgers', 'create'));
+      if(create){
+        create.label!.command = () => this.lodgersCommands.createLodger();
+      }
+      const exitLodger = row.cells['lodger']!.dropdown?.list?.find(dropdown => dropdown.label?.title?.label === this.localization.getLocalization('estates', 'freeLodger'));
+      if(exitLodger){
+        exitLodger.label!.command = () => this.estatesData.updateEstate(id, { lodger_id: undefined });
+      }
+
+      const rentReceipt = row.cells['lodger']!.dropdown?.list?.find(dropdown => dropdown.label?.title?.label === this.localization.getLocalization('rentReceipts', 'label'));
+      if(rentReceipt){
+        const download = rentReceipt.list?.find(dropdown => dropdown.label?.title?.label === this.localization.getLocalization('rentReceipts', 'download'))!;
+        download.label!.command = () => this.rentsCommands.downloadRentReceipt(estate);
+        const send = rentReceipt.list?.find(dropdown => dropdown.label?.title?.label === this.localization.getLocalization('rentReceipts', 'send'))!;
+        send.label!.command = () => this.rentsCommands.sendRentReceiptByEmail(estate);
+        const customize = rentReceipt.list?.find(dropdown => dropdown.label?.title?.label === this.localization.getLocalization('rentReceipts', 'personalize'))!;
+        customize.label!.command = () => this.rentsCommands.customizeRentReceipt(estate);
+      }
+
     });
   }
 
