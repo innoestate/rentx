@@ -49,7 +49,10 @@ export class UiIconService {
       'circle-user',
       'empty-house',
       'edit-file',
-      'send']).subscribe();
+      'send',
+      'people-replace',
+      'person-in',
+      'file-invoice']).subscribe();
   }
 
   registerIcons(iconNames: string[]) {

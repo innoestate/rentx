@@ -61,7 +61,7 @@ export class DesktopEstatesTableComponent extends UiDisplayerComponent {
 
   getRows(): Signal<UiTable2Row[]> {
     return computed(() => {
-      const rows = this.adapter.createRows(this.estates(), this.ownersDto());
+      const rows = this.adapter.createRows(this.estates(), this.ownersDto(), this.lodgersDto());
       this.bindColumnsCommands(this.table.columns());
       this.bindRowsCommands(rows);
       return rows;

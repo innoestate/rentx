@@ -8,7 +8,7 @@
 </div>
 <nz-dropdown-menu #dropdownMenu="nzDropdownMenu">
   <ul nz-menu>
-    @for(item of dropdown()!.list; track item){
+    @for(item of dropdown()!.list; let i = $index; track i){
       <li nz-menu-item>
         @if(item.list){
           <ui-nested-dropdown-actions (onHide)="hide()" [dropdown]="item" [triggerType]="'hover'"></ui-nested-dropdown-actions>
