@@ -9,6 +9,7 @@ import { UiTable2Row } from "src/app/ui/components/ui-table-2/models/ui-table-ro
 import { UiTable2Column } from "src/app/ui/components/ui-table-2/models/ui-table.column.model";
 import { Lodger } from "../../lodgers/models/lodger.model";
 import { Estate } from "../models/estate.model";
+import { createLodgerDropdown } from "./estates.lodgers.adapter.helper";
 
 interface EstateTableRow extends UiTable2Row {
   cells: {
@@ -146,7 +147,7 @@ export class EstatesTable2AdapterService {
             label: selectedOwnerLabel
           }
         },
-        lodger: { type: 'dropdown-select', dropdown: this.createLodgerDropdown(estate,lodgers) },
+        lodger: { type: 'dropdown-select', dropdown: createLodgerDropdown(estate, lodgers) },
         actions: { type: 'dropdown-actions', dropdown: this.buildRowActions() },
       },
     }
@@ -177,113 +178,4 @@ export class EstatesTable2AdapterService {
     };
   }
 
-  private createLodgerDropdown(estate: Estate, lodgers: Lodger[]): UiNestedDropdown2 {
-
-    const hasPay = (estate.lodger?.name && estate.actualMonthPaid) ?? false;
-
-    return {
-      label: { title: { label: estate.lodger?.name ?? '' }, color: hasPay ? 'var(--color-success-500)' : undefined },
-      list: this.getLodgerDropdownList(lodgers, estate.lodger?.name)
-    };
-  }
-
-  private getLodgerDropdownList(lodgers: Lodger[], lodgerName: string | undefined): UiNestedDropdown2[] {
-    const list: UiNestedDropdown2[] = [];
-    if(lodgers.length > 0){
-      list.push(this.assignLodgers(lodgers, lodgerName));
-    }
-    if(lodgerName){
-      list.push(this.rentReceipt());
-    }
-    list.push(this.createNewLodger());
-    if(lodgerName){
-      list.push(this.exitLodger());
-    }
-    return list;
-  }
-
-  private rentReceipt(){
-    return {
-      label: {
-        title: { label: 'Quittances' },
-        icon: { name: 'file-invoice', size: 24, color: 'var(--color-secondary-500)' },
-      },
-      list: [
-        {
-          label: {
-            icon: { name: 'download-file', size: 22, color: 'var(--color-tertiary-500)' },
-            title: { label: 'Télécharger' },
-            command: () => {
-              console.log('implement download method in component');
-              return true;
-            }
-          },
-        },
-        {
-          label: {
-            icon: { name: 'send', size: 22, color: 'var(--color-tertiary-500)' },
-            title: { label: 'Envoyer par mail' },
-            command: () => {
-              console.log('implement send method in component');
-              return true;
-            }
-          },
-        },
-        {
-          label: {
-            icon: { name: 'gear', size: 22, color: 'var(--color-secondary-500)' },
-            title: { label: 'Personnaliser' },
-            command: () => {
-              console.log('implement personalization method in component');
-              return true;
-            }
-          },
-        }
-      ]
-    }
-  }
-
-  private exitLodger() {
-    return {
-      label: {
-        icon: { name: 'empty-house', size: 24, color: 'var(--color-secondary-500)' },
-        title: { label: 'vacant' },
-        command: () => {
-          return true;
-        }
-      }
-    }
-  }
-
-  private createNewLodger() {
-    return {
-      label: {
-        icon: { name: 'add-lodger', size: 24, color: 'var(--color-secondary-500)' },
-        title: { label: 'créer un nouveau' },
-        command: () => {
-          return true;
-        }
-      }
-    }
-  }
-
-  private assignLodgers(lodgers: Lodger[], lodgerName: string | undefined): UiNestedDropdown2 {
-
-    let iconName = lodgerName ? 'people-replace' : 'person-in';
-
-    const lodgerItems = lodgers.filter(lodger => lodger.name !== lodgerName).map(lodger => ({
-      label: {
-        title: { label: lodger.name }
-      }
-    }));
-
-
-    return {
-      label: {
-        icon: { name: iconName, size: 24, color: 'var(--color-secondary-500)' },
-        title: { label: 'locataires' },
-      },
-      list: lodgerItems
-    };
-  }
 }
