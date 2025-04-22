@@ -7,8 +7,9 @@ import { DesktopProspectionsCommandsService } from '../../commands/desktop.prosp
 import { DesktopProspectionDescriptionComponent } from '../../components/description/desktop-prospection-description.component';
 import { DesktopProspectionsTableComponent } from '../../components/prospections-table/desktop-prospections-table.component';
 import { ProspectionsCommandsService } from 'src/app/features/prospections/commands/prospections.commands.service';
-import { ProspectionsTableService } from 'src/app/features/prospections/services/prospections.table.service';
+import { ProspectionsTableService } from 'src/app/features/prospections/services/prospections.table.adapter';
 import { InvestScopeDisplayManager } from 'src/app/features/invest-scope/displayer/invest-scope.displayer.manager';
+import { ProspectionsTable2AdapterService } from 'src/app/features/prospections/adapters/table/prospections.table2.adapter';
 
 
 
@@ -28,7 +29,8 @@ import { InvestScopeDisplayManager } from 'src/app/features/invest-scope/display
     },
     ProspectionsTableAdapterService,
     ProspectionsTableService,
-    InvestScopeDisplayManager
+    InvestScopeDisplayManager,
+    ProspectionsTable2AdapterService
   ]
 })
 export class DesktopProspectionsModule {

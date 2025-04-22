@@ -1,0 +1,232 @@
+import { Injectable } from "@angular/core";
+import { LocalizationsService } from "src/app/core/localizations/localizations.service";
+import { UiTable2Column } from "src/app/ui/components/ui-table-2/models/ui-table.column.model";
+import { Prospection_Dto } from "../../models/prospection.dto.model";
+import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
+import { PropertyStatusTypes, PROSPECTION_STATUS, ProspectionStatus } from "../../models/prospection.status.model";
+import { UiCellBasic, UiCellDropdown } from "src/app/ui/components/ui-table-2/models/ui-cell.model";
+import { UiTable2Row } from "src/app/ui/components/ui-table-2/models/ui-table-row.model";
+import { UiNestedDropdown2 } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
+
+interface ProspectionTableRow extends UiTable2Row {
+  data: {id: string};
+  cells: {
+    city: UiCellBasic,
+    zip: UiCellBasic,
+    address: UiCellBasic,
+    link: UiCellBasic,
+    seller: UiCellDropdown,
+    price: UiCellBasic,
+    status: UiCellDropdown,
+    actions: UiCellBasic
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ProspectionsTable2AdapterService {
+
+  constructor(private localization: LocalizationsService) {}
+
+  createColumns(): UiTable2Column[] {
+    return [
+      {
+        key: 'city',
+        cell: {
+          type: 'string',
+          sort: { priority: 1 },
+          label: { title: { label: 'Ville' } }
+        }
+      },
+      {
+        key: 'zip',
+        cell: {
+          type: 'string',
+          sort: { priority: 2 },
+          label: { title: { label: 'Code postal' } }
+        }
+      },
+      {
+        key: 'address',
+        cell: {
+          type: 'string',
+          label: { title: { label: 'Rue' } }
+        }
+      },
+      {
+        key: 'link',
+        cell: {
+          type: 'string',
+          label: { title: { label: 'Lien' } }
+        }
+      },
+      {
+        key: 'seller',
+        cell: {
+          type: 'string',
+          label: { title: { label: 'Vendeur' } }
+        }
+      },
+      {
+        key: 'price',
+        cell: {
+          type: 'number',
+          sort: { priority: 3 },
+          label: { title: { label: 'Prix' } }
+        }
+      },
+      {
+        key: 'status',
+        cell: {
+          type: 'string',
+          label: { title: { label: 'Statut' } }
+        }
+      },
+      {
+        key: 'actions',
+        cell: {
+          type: 'dropdown-actions-icon',
+          dropdown: this.buildColumnActions()
+        }
+      }
+    ];
+  }
+
+  createRows(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTable2Row[] {
+    return prospections.map(prospection => this.formatUiTableRow(prospection, sellers));
+  }
+
+  getUpdatableValue(sellers: Seller_Dto[], key: string, cell: UiCellBasic | UiCellDropdown): Partial<Prospection_Dto> {
+      if( key === 'seller'){
+        const seller = sellers.find(seller => seller.name === (cell as UiCellDropdown)!.dropdown!.label!.title!.label);
+        if (!seller) throw new Error('Seller not found');
+        return { seller_id: seller.id };
+      }else if (key === 'status'){
+        const status = PROSPECTION_STATUS.find(status => status.shortLabel === (cell as UiCellDropdown)!.dropdown!.label!.title!.label);
+        if (!status) throw new Error('Status not found');
+        return { status: status.key };
+      }else{
+        return { [key] : (cell as UiCellBasic)!.label!.title!.label };
+      }
+  }
+
+  private formatUiTableRow(prospection: Prospection_Dto, sellers: Seller_Dto[]): ProspectionTableRow {
+    return {
+      data: {id: prospection.id || ''},
+      cells: {
+        city: {
+          editable: true,
+          type: 'string',
+          label: { title: { label: prospection.city || '' } }
+        },
+        zip: {
+          editable: true,
+          type: 'string',
+          label: { title: { label: prospection.zip || '' } }
+        },
+        address: {
+          editable: true,
+          type: 'string',
+          label: { title: { label: prospection.address || '' } }
+        },
+        link: {
+          editable: true,
+          type: 'string',
+          label: { title: { label: prospection.link || '' } }
+        },
+        seller: {
+          editable: true,
+          type: 'dropdown-select',
+          dropdown: this.buildSellerDropdown(sellers, prospection)
+        },
+        price: {
+          editable: true,
+          type: 'number',
+          label: { title: { label: prospection.price?.toString() || '' } }
+        },
+        status: {
+          editable: true,
+          type: 'dropdown-select',
+          dropdown: this.buildStatusDropdown(prospection)
+        },
+        actions: {
+          type: 'dropdown-actions-icon',
+          dropdown: this.buildRowActions()
+        }
+      }
+    };
+  }
+
+  private buildSellerDropdown(sellers: Seller_Dto[], prospection: Prospection_Dto){
+    return {
+      label: {
+        title: { label: sellers?.find(s => s.id === prospection.seller_id)?.name || '' }
+      },
+      list: sellers.map(seller => ({
+        label: {
+          title: { label: seller.name }
+        }
+      }))
+    }
+  }
+
+  private buildStatusDropdown(prospection: Prospection_Dto): UiNestedDropdown2 {
+
+    const targetStatus = PROSPECTION_STATUS.find(status => status.key === prospection.status);
+
+    return {
+      label: {
+        title: { label: targetStatus?.shortLabel || '', color: 'var(--color-basic-100)' },
+        icon: { name: targetStatus?.icon || 'add', size: 16, color: 'var(--color-basic-100)' },
+        color: targetStatus?.color || ''
+      },
+      list: PROSPECTION_STATUS.map(status => ({
+        label: {
+          title: { label: status.shortLabel },
+          icon: { name: status.icon, size: 24, color: status.color },
+        }
+      }))
+    }
+  }
+
+  private buildRowActions(): UiNestedDropdown2 {
+    return {
+      label: {
+        icon: { name: 'down', size: 18, color: 'var(--color-tertiary-500)' },
+      },
+      list: [
+        {
+          label: {
+            icon: { name: 'trash', size: 18, color: 'var(--color-error-300)'},
+            title: { label: 'supprimer' },
+            command: () => {
+              console.log('implement delete command here');
+              return true;
+            }
+          },
+        }
+      ]
+    }
+  }
+
+  private buildColumnActions(): UiNestedDropdown2 {
+    return {
+      label: {
+        icon: { name: 'gear', size: 24, color: 'var(--color-secondary-500)' },
+      },
+      list: [
+        {
+          label: {
+            icon: { name: 'add', size: 22, color: 'var(--color-secondary-500)'},
+            title: { label: this.localization.getLocalization('prospections', 'create') },
+            command: () => {
+              console.log('implement add command here');
+              return true;
+            }
+          },
+        }
+      ]
+    }
+  }
+}

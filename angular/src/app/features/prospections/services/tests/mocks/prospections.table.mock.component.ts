@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { ProspectionsTableService } from "../../prospections.table.service";
+import { ProspectionsTableService } from "../../prospections.table.adapter";
 
 @Component({
   selector: 'prospection-table-mock',
