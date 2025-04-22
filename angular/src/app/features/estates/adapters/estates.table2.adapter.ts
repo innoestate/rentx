@@ -147,7 +147,7 @@ export class EstatesTable2AdapterService {
             label: selectedOwnerLabel
           }
         },
-        lodger: { type: 'dropdown-select', dropdown: createLodgerDropdown(estate, lodgers) },
+        lodger: { type: 'dropdown-select', dropdown: createLodgerDropdown(estate, lodgers, this.localization) },
         actions: { type: 'dropdown-actions', dropdown: this.buildRowActions() },
       },
     }

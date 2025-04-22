@@ -1,45 +1,46 @@
+import { LocalizationsService } from "src/app/core/localizations/localizations.service";
 import { UiNestedDropdown2 } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
 import { Lodger } from "../../lodgers/models/lodger.model";
 import { Estate } from "../models/estate.model";
 
 
 
-export const createLodgerDropdown = (estate: Estate, lodgers: Lodger[]): UiNestedDropdown2 => {
+export const createLodgerDropdown = (estate: Estate, lodgers: Lodger[], localization: LocalizationsService): UiNestedDropdown2 => {
 
   const hasPay = (estate.lodger?.name && estate.actualMonthPaid) ?? false;
 
   return {
     label: { title: { label: estate.lodger?.name ?? '' }, color: hasPay ? 'var(--color-success-500)' : undefined },
-    list: getLodgerDropdownList(lodgers, estate.lodger?.name)
+    list: getLodgerDropdownList(lodgers, estate.lodger?.name, localization)
   };
 }
 
-const getLodgerDropdownList = (lodgers: Lodger[], lodgerName: string | undefined): UiNestedDropdown2[] => {
+const getLodgerDropdownList = (lodgers: Lodger[], lodgerName: string | undefined, localization: LocalizationsService): UiNestedDropdown2[] => {
   const list: UiNestedDropdown2[] = [];
   if (lodgers.length > 0) {
-    list.push(assignLodgers(lodgers, lodgerName));
+    list.push(assignLodgers(lodgers, lodgerName, localization));
   }
   if (lodgerName) {
-    list.push(rentReceipt());
+    list.push(rentReceipt(localization));
   }
-  list.push(createNewLodger());
+  list.push(createNewLodger(localization));
   if (lodgerName) {
-    list.push(exitLodger());
+    list.push(exitLodger(localization));
   }
   return list;
 }
 
-const rentReceipt = (): UiNestedDropdown2 => {
+const rentReceipt = (localization: LocalizationsService): UiNestedDropdown2 => {
   return {
     label: {
-      title: { label: 'Quittances' },
+      title: { label: localization.getLocalization('estates', 'rentReceipt') },
       icon: { name: 'file-invoice', size: 24, color: 'var(--color-secondary-500)' },
     },
     list: [
       {
         label: {
           icon: { name: 'download-file', size: 22, color: 'var(--color-tertiary-500)' },
-          title: { label: 'Télécharger' },
+          title: { label: localization.getLocalization('estates', 'download') },
           command: () => {
             console.log('implement download method in component');
             return true;
@@ -49,7 +50,7 @@ const rentReceipt = (): UiNestedDropdown2 => {
       {
         label: {
           icon: { name: 'send', size: 22, color: 'var(--color-tertiary-500)' },
-          title: { label: 'Envoyer par mail' },
+          title: { label: localization.getLocalization('estates', 'send') },
           command: () => {
             console.log('implement send method in component');
             return true;
@@ -59,7 +60,7 @@ const rentReceipt = (): UiNestedDropdown2 => {
       {
         label: {
           icon: { name: 'gear', size: 22, color: 'var(--color-secondary-500)' },
-          title: { label: 'Personnaliser' },
+          title: { label: localization.getLocalization('estates', 'personalize') },
           command: () => {
             console.log('implement personalization method in component');
             return true;
@@ -70,11 +71,11 @@ const rentReceipt = (): UiNestedDropdown2 => {
   }
 }
 
-const exitLodger = (): UiNestedDropdown2 => {
+const exitLodger = (localization: LocalizationsService): UiNestedDropdown2 => {
   return {
     label: {
       icon: { name: 'empty-house', size: 24, color: 'var(--color-secondary-500)' },
-      title: { label: 'vacant' },
+      title: { label: localization.getLocalization('rent-receipts', 'empty') },
       command: () => {
         return true;
       }
@@ -82,11 +83,11 @@ const exitLodger = (): UiNestedDropdown2 => {
   }
 }
 
-const createNewLodger = (): UiNestedDropdown2 => {
+const createNewLodger = (localization: LocalizationsService): UiNestedDropdown2 => {
   return {
     label: {
       icon: { name: 'add-lodger', size: 24, color: 'var(--color-secondary-500)' },
-      title: { label: 'créer un nouveau' },
+      title: { label: localization.getLocalization('lodgers', 'createNew') },
       command: () => {
         return true;
       }
@@ -94,9 +95,10 @@ const createNewLodger = (): UiNestedDropdown2 => {
   }
 }
 
-const assignLodgers = (lodgers: Lodger[], lodgerName: string | undefined): UiNestedDropdown2 => {
+const assignLodgers = (lodgers: Lodger[], lodgerName: string | undefined, localization: LocalizationsService): UiNestedDropdown2 => {
 
-  let iconName = lodgerName ? 'people-replace' : 'person-in';
+  const iconName = lodgerName ? 'people-replace' : 'person-in';
+  const title = lodgerName ? localization.getLocalization('lodgers', 'change') : localization.getLocalization('lodgers', 'set');
 
   const lodgerItems = lodgers.filter(lodger => lodger.name !== lodgerName).map(lodger => ({
     label: {
@@ -108,7 +110,7 @@ const assignLodgers = (lodgers: Lodger[], lodgerName: string | undefined): UiNes
   return {
     label: {
       icon: { name: iconName, size: 24, color: 'var(--color-secondary-500)' },
-      title: { label: 'locataires' },
+      title: { label: title },
     },
     list: lodgerItems
   };

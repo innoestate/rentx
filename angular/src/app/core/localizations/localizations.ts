@@ -16,7 +16,14 @@ export const Localizations: Record<string, Record<string, string>> = {
     updateEstateFailure: 'Echec de la modification du bien!',
     deleteEstateSuccess: 'Bien supprimé avec succès!',
     deleteEstateFailure: 'Echec de la suppression du bien!',
-    createEstateFromTitle: 'créer un bien'
+    createEstateFromTitle: 'créer un bien',
+    rentReceipt: 'Quittance de loyer',
+    download: 'Télécharger',
+    send: 'Envoyer',
+    personalize: 'Personnaliser'
+  },
+  'rent-receipts': {
+    empty: 'Libérer le logement'
   },
   owners: {
     label: 'propriétaires',
@@ -42,7 +49,10 @@ export const Localizations: Record<string, Record<string, string>> = {
     updateLodgerFailure: 'Echec de la modification du locataire!',
     deleteLodgerSuccess: 'Locataire supprimé avec succès!',
     deleteLodgerFailure: 'Echec de la suppression du locataire!',
-    createLodgerFromTitle: 'créer un locataire'
+    createLodgerFromTitle: 'créer un locataire',
+    createNew: 'Créer un nouveau locataire',
+    change: 'Changer de locataire',
+    set: 'Mettre un locataire'
   },
   prospections : {
     label: 'prospections',
