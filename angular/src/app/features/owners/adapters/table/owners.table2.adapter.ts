@@ -2,9 +2,21 @@ import { Injectable } from "@angular/core";
 import { LocalizationsService } from "src/app/core/localizations/localizations.service";
 import { Owner } from "src/app/features/owners/models/owner.model";
 import { UiNestedDropdown2 } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
-import { UiCell } from "src/app/ui/components/ui-table-2/models/ui-cell.model";
+import { UiCellBasic } from "src/app/ui/components/ui-table-2/models/ui-cell.model";
 import { UiTable2Row } from "src/app/ui/components/ui-table-2/models/ui-table-row.model";
 import { UiTable2Column } from "src/app/ui/components/ui-table-2/models/ui-table.column.model";
+
+interface OwnerTable extends UiTable2Row {
+  cells: {
+    name: UiCellBasic,
+    street: UiCellBasic,
+    zip: UiCellBasic,
+    city: UiCellBasic,
+    email: UiCellBasic,
+    phone: UiCellBasic,
+    actions: UiCellBasic,
+  }
+}
 
 @Injectable({
   providedIn: 'root'
@@ -50,7 +62,7 @@ export class OwnersTable2AdapterService {
     return owners.map(owner => this.formatUiTableRow(owner));
   }
 
-  getEditableValue(key: string, cell: UiCell): Partial<Owner> {
+  getEditableValue(key: string, cell: UiCellBasic): Partial<Owner> {
     const updates: any = {};
     updates[key] = cell.label?.title?.label;
     return updates;
@@ -96,7 +108,7 @@ export class OwnersTable2AdapterService {
     }
   }
 
-  formatUiTableRow(owner: Owner): UiTable2Row {
+  formatUiTableRow(owner: Owner): OwnerTable {
     return {
       data: { id: owner.id },
       cells: {

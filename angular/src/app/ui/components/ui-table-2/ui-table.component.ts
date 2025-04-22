@@ -10,7 +10,7 @@ import { NzUiTable2Row } from './models/nz-ui-table-row.model';
 import { UiTable2Row } from './models/ui-table-row.model';
 import { UiTable2Column } from './models/ui-table.column.model';
 import { UiTable2 } from './models/ui-table.model';
-import { UiCell } from './models/ui-cell.model';
+import { UiCell, UiCellBasic } from './models/ui-cell.model';
 import { UiNestedDropdown2 } from '../ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model';
 import { formatColumn } from './utils/ui-table.column.utils';
 
@@ -54,7 +54,7 @@ export const formatNzRows = (rows: UiTable2Row[], columns: UiTable2Column[]): Nz
     const orderedRows: NzUiCell[] = [];
     columns.forEach((column) => {
 
-      const cell = { ...row.cells[column.key], key: column.key }
+      const cell: NzUiCell = { ...row.cells[column.key], key: column.key }
 
       if(cell.label?.icon){
         cell.label.icon = {

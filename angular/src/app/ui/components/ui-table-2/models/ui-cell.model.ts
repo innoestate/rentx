@@ -8,7 +8,17 @@ import { UiLabel2 } from "../components/ui-label/models/ui-label.model";
 
 export interface UiCell {
   type: 'icon' | 'string' | 'number' | 'dropdown-actions' | 'dropdown-select' | 'dropdown-actions-icon';
+  // label?: UiLabel2;//do not use if `dropdown` is used
+  editable?: boolean;
+  dropdown?: UiNestedDropdown2;
+}
+
+export interface UiCellBasic extends UiCell {
   label?: UiLabel2;//do not use if `dropdown` is used
+  editable?: boolean;
+}
+
+export interface UiCellDropdown extends UiCell {
   editable?: boolean;
   dropdown?: UiNestedDropdown2;
 }

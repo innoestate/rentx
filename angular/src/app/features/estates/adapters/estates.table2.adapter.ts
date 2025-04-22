@@ -1,14 +1,26 @@
 import { Injectable } from "@angular/core";
 import { LocalizationsService } from "src/app/core/localizations/localizations.service";
-import { UiNestedDropdown2 } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
-import { UiTable2Row } from "src/app/ui/components/ui-table-2/models/ui-table-row.model";
-import { UiTable2Column } from "src/app/ui/components/ui-table-2/models/ui-table.column.model";
-import { Estate } from "../models/estate.model";
 import { OwnersCommandsService } from "src/app/features/owners/commands/owners.command.service";
 import { Owner } from "src/app/features/owners/models/owner.model";
+import { UiNestedDropdown2 } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
 import { UiLabel2 } from "src/app/ui/components/ui-table-2/components/ui-label/models/ui-label.model";
-import { UiCell } from "src/app/ui/components/ui-table-2/models/ui-cell.model";
+import { UiCellBasic, UiCellDropdown } from "src/app/ui/components/ui-table-2/models/ui-cell.model";
+import { UiTable2Row } from "src/app/ui/components/ui-table-2/models/ui-table-row.model";
+import { UiTable2Column } from "src/app/ui/components/ui-table-2/models/ui-table.column.model";
 import { Lodger } from "../../lodgers/models/lodger.model";
+import { Estate } from "../models/estate.model";
+
+interface EstateTableRow extends UiTable2Row {
+  cells: {
+    address: UiCellBasic;
+    plot: UiCellBasic;
+    rent: UiCellBasic;
+    charges: UiCellBasic;
+    owner: UiCellDropdown;
+    lodger: UiCellBasic;
+    actions: UiCellBasic;
+  }
+}
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +35,7 @@ export class EstatesTable2AdapterService {
     return [
       {
         key: 'address',
-        cell: { type: 'mediumString', sort: { priority: 1 }, label: { title: { label: 'Adresse' } } },
+        cell: { type: 'longString', sort: { priority: 1 }, label: { title: { label: 'Adresse' } } },
       },
       {
         key: 'plot',
@@ -60,13 +72,13 @@ export class EstatesTable2AdapterService {
     return estates.map(estate => this.formatUiTableRow(estate, owners));
   }
 
-  getEditableValue(owners: Owner[], lodgers: Lodger[], key: string, cell: UiCell): Partial<Estate> {
+  getEditableValue(owners: Owner[], lodgers: Lodger[], key: string, cell: UiCellBasic | UiCellDropdown): Partial<Estate> {
     const updates: any = {};
     if(key === 'owner'){
       const ownerId = owners.find(owner => owner.name === cell.dropdown?.label?.title?.label)?.id;
       updates['owner_id'] = ownerId;
     }else{
-      updates[key] = cell.label?.title?.label;
+      updates[key] = (cell as UiCellBasic).label?.title?.label;
     }
     return updates;
   }
@@ -111,7 +123,7 @@ export class EstatesTable2AdapterService {
     }
   }
 
-  formatUiTableRow(estate: Estate, owners: Owner[]): UiTable2Row {
+  formatUiTableRow(estate: Estate, owners: Owner[]): EstateTableRow {
     const ownerDropdown = this.createOwnerDropdownItems(owners);
     const selectedOwnerLabel: UiLabel2 = {
       title: { label: estate.owner?.name ?? 'Propriétaire' }
@@ -120,13 +132,12 @@ export class EstatesTable2AdapterService {
     return {
       data: { id: estate.id },
       cells: {
-        address: { type: 'string', label: { title: { label: estate.plot_address } } },
+        address: { type: 'string', label: { title: { label: estate.address } } },
         plot: { type: 'string', editable: true, label: { title: { label: estate.plot ?? '' } } },
         rent: { type: 'string', editable: true, label: { title: { label: estate.rent?.toString() ?? '' } } },
         charges: { type: 'string', editable: true, label: { title: { label: estate.charges?.toString() ?? '' } } },
         owner: {
           type: 'dropdown-select',
-          label: {},
           dropdown: {
             ...ownerDropdown,
             label: selectedOwnerLabel

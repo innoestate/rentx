@@ -38,7 +38,7 @@ const getWidth = (column: UiTable2Column) => {
   } else if (column.cell.type === 'smallString') {
     width = '100px';
   } else if (column.cell?.type === 'longString') {
-    width = '200px';
+    width = '300px';
   } else if (column.cell?.type === 'fullSizeString') {
     width = '100%';
   } else if (column.cell?.type === 'number') {

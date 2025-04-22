@@ -38,7 +38,7 @@ export class SandboxComponent {
     } }, }
   ])
 
-  rows$ = new BehaviorSubject<UiTable2Row[]>([
+  rows$ = new BehaviorSubject<any[]>([
     {
       data: { id: '1234' },
       cells: {
@@ -259,7 +259,7 @@ export class SandboxComponent {
                   ...row.cells[event.key],
                   label: {
                     ...row.cells[event.key].label,
-                    title: { ...row.cells[event.key].label?.title, label: event.cell!.label!.title!.label }
+                    title: { ...row.cells[event.key].label?.title, label: (event.cell as any).label!.title!.label }
                   }
                 }
               }
