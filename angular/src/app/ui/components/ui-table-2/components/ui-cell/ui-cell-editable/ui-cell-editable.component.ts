@@ -34,8 +34,11 @@ export class UiCellEditableComponent extends UiCellComponent {
     delete cellWithoutInternal.internal;
     const loadingWithoutInternal = { ...this.loading()! };
     delete loadingWithoutInternal.internal;
-    return isEqual(loadingWithoutInternal, cellWithoutInternal);
+    const parsedLoading = JSON.parse(JSON.stringify(loadingWithoutInternal));
+    const parsedCell = JSON.parse(JSON.stringify(cellWithoutInternal));
+    return isEqual(parsedLoading, parsedCell);
   }
+
 
   protected endEdit() {}
 }

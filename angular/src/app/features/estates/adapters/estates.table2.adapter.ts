@@ -8,6 +8,7 @@ import { OwnersCommandsService } from "src/app/features/owners/commands/owners.c
 import { Owner } from "src/app/features/owners/models/owner.model";
 import { UiLabel2 } from "src/app/ui/components/ui-table-2/components/ui-label/models/ui-label.model";
 import { UiCell } from "src/app/ui/components/ui-table-2/models/ui-cell.model";
+import { Lodger } from "../../lodgers/models/lodger.model";
 
 @Injectable({
   providedIn: 'root'
@@ -59,9 +60,14 @@ export class EstatesTable2AdapterService {
     return estates.map(estate => this.formatUiTableRow(estate, owners));
   }
 
-  getEditableValue(key: string, cell: UiCell): Partial<Estate> {
+  getEditableValue(owners: Owner[], lodgers: Lodger[], key: string, cell: UiCell): Partial<Estate> {
     const updates: any = {};
-    updates[key] = cell.label?.title?.label;
+    if(key === 'owner'){
+      const ownerId = owners.find(owner => owner.name === cell.dropdown?.label?.title?.label)?.id;
+      updates['owner_id'] = ownerId;
+    }else{
+      updates[key] = cell.label?.title?.label;
+    }
     return updates;
   }
 
@@ -120,7 +126,7 @@ export class EstatesTable2AdapterService {
         charges: { type: 'string', editable: true, label: { title: { label: estate.charges?.toString() ?? '' } } },
         owner: {
           type: 'dropdown-select',
-          label: { title: { label: estate.owner?.name ?? '' } },
+          label: {},
           dropdown: {
             ...ownerDropdown,
             label: selectedOwnerLabel

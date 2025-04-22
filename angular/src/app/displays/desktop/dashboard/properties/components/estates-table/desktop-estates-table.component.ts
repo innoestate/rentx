@@ -61,7 +61,6 @@ export class DesktopEstatesTableComponent extends UiDisplayerComponent {
 
   getRows(): Signal<UiTable2Row[]> {
     return computed(() => {
-      this.estatesDto();
       const rows = this.adapter.createRows(this.estates(), this.ownersDto());
       this.bindColumnsCommands(this.table.columns());
       this.bindRowsCommands(rows);
@@ -81,7 +80,7 @@ export class DesktopEstatesTableComponent extends UiDisplayerComponent {
   }
 
   updateCell(event: { id: string, key: string, cell: UiCell }) {
-    const value = this.adapter.getEditableValue(event.key, event.cell);
+    const value = this.adapter.getEditableValue(this.ownersDto(), this.lodgersDto(), event.key, event.cell);
     this.estatesData.updateEstate(event.id!, value).pipe(
       take(1),
       catchError(() => this.reloadEstateForResetCellPreviusValue(event.id))
