@@ -4,13 +4,18 @@ import { UiNestedDropdown2 } from "src/app/ui/components/ui-nested-dropdown-acti
 import { UiTable2Row } from "src/app/ui/components/ui-table-2/models/ui-table-row.model";
 import { UiTable2Column } from "src/app/ui/components/ui-table-2/models/ui-table.column.model";
 import { Estate } from "../models/estate.model";
+import { OwnersCommandsService } from "src/app/features/owners/commands/owners.command.service";
+import { Owner } from "src/app/features/owners/models/owner.model";
+import { UiLabel2 } from "src/app/ui/components/ui-table-2/components/ui-label/models/ui-label.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class EstatesTable2AdapterService {
-
-  constructor(private localization: LocalizationsService) { }
+  constructor(
+    private localization: LocalizationsService,
+    private ownersCommands: OwnersCommandsService
+  ) { }
 
   createColumns(): UiTable2Column[] {
     return [
@@ -32,7 +37,11 @@ export class EstatesTable2AdapterService {
       },
       {
         key: 'owner',
-        cell: { type: 'string', sort: { priority: 5 }, label: { title: { label: 'Propriétaire' } } },
+        cell: {
+          type: 'string',
+          sort: { priority: 5 },
+          label: { title: { label: 'Propriétaire' } }
+        },
       },
       {
         key: 'lodger',
@@ -45,8 +54,8 @@ export class EstatesTable2AdapterService {
     ];
   }
 
-  createRows(estates: Estate[]): UiTable2Row[] {
-    return estates.map(estate => this.formatUiTableRow(estate));
+  createRows(estates: Estate[], owners: Owner[]): UiTable2Row[] {
+    return estates.map(estate => this.formatUiTableRow(estate, owners));
   }
 
   private buildRowActions(): UiNestedDropdown2 {
@@ -89,8 +98,12 @@ export class EstatesTable2AdapterService {
     }
   }
 
-  formatUiTableRow(estate: Estate): UiTable2Row {
-    console.log('estate', estate);
+  formatUiTableRow(estate: Estate, owners: Owner[]): UiTable2Row {
+    const ownerDropdown = this.createOwnerDropdownItems(owners);
+    const selectedOwnerLabel: UiLabel2 = {
+      title: { label: estate.owner?.name ?? 'Propriétaire' }
+    };
+
     return {
       data: { id: estate.id },
       cells: {
@@ -98,11 +111,42 @@ export class EstatesTable2AdapterService {
         plot: { type: 'string', editable: true, label: { title: { label: estate.plot ?? '' }} },
         rent: { type: 'string', editable: true, label: { title: { label: estate.rent?.toString() ?? '' }} },
         charges: { type: 'string', editable: true, label: { title: { label: estate.charges?.toString() ?? '' }} },
-        owner: { type: 'string', label: { title: { label: estate.owner?.name ?? '' }} },
+        owner: {
+          type: 'dropdown-select',
+          label: { title: { label: estate.owner?.name ?? '' }},
+          dropdown: {
+            ...ownerDropdown,
+            label: selectedOwnerLabel
+          }
+        },
         lodger: { type: 'string', label: { title: { label: estate.lodger?.name ?? '' }} },
         actions: { type: 'dropdown-actions', dropdown: this.buildRowActions() },
       },
     }
   }
-}
 
+  private createOwnerDropdownItems(owners: Owner[]): UiNestedDropdown2 {
+    const ownerItems = owners.map(owner => ({
+      label: {
+        title: { label: owner.name }
+      }
+    }));
+
+    return {
+      label: { title: { label: 'Propriétaire' }},
+      list: [
+        ...ownerItems,
+        {
+          label: {
+            icon: { name: 'add-owner', size: 24, color: 'var(--color-secondary-500)' },
+            title: { label: 'créer un nouveau' },
+            command: () => {
+              this.ownersCommands.createOwner();
+              return true;
+            }
+          }
+        }
+      ]
+    };
+  }
+}
