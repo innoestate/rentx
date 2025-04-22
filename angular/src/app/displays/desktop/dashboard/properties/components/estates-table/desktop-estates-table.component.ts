@@ -13,6 +13,7 @@ import { UiTable2Column } from 'src/app/ui/components/ui-table-2/models/ui-table
 import { UiTable2 } from 'src/app/ui/components/ui-table-2/models/ui-table.model';
 import { DesktopEstatesCommandsService } from '../../commands/desktop.estates.command';
 import { EstatesDataService } from 'src/app/features/estates/data/service/esates.data.service';
+import { UiCell } from 'src/app/ui/components/ui-table-2/models/ui-cell.model';
 
 @Component({
   selector: 'app-desktop-estates-table',
@@ -79,8 +80,9 @@ export class DesktopEstatesTableComponent extends UiDisplayerComponent {
     });
   }
 
-  updateCell(event: { id: string, updates: Partial<Estate> }) {
-    this.estatesData.updateEstate(event.id!, event.updates).pipe(
+  updateCell(event: { id: string, key: string, cell: UiCell }) {
+    const value = this.adapter.getEditableValue(event.key, event.cell);
+    this.estatesData.updateEstate(event.id!, value).pipe(
       take(1),
       catchError(() => this.reloadEstateForResetCellPreviusValue(event.id))
     ).subscribe();

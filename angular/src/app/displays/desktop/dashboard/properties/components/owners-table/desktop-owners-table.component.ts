@@ -3,8 +3,8 @@ import { catchError, of, take } from 'rxjs';
 import { LocalizationsService } from 'src/app/core/localizations/localizations.service';
 import { OwnersTable2AdapterService } from 'src/app/features/owners/adapters/table/owners.table2.adapter';
 import { OwnersDataService } from 'src/app/features/owners/data/owners.data.service';
-import { Owner } from 'src/app/features/owners/models/owner.model';
 import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
+import { UiCell } from 'src/app/ui/components/ui-table-2/models/ui-cell.model';
 import { UiTable2Row } from 'src/app/ui/components/ui-table-2/models/ui-table-row.model';
 import { UiTable2Column } from 'src/app/ui/components/ui-table-2/models/ui-table.column.model';
 import { UiTable2 } from 'src/app/ui/components/ui-table-2/models/ui-table.model';
@@ -67,8 +67,9 @@ export class DesktopOwnersTableComponent extends UiDisplayerComponent {
     });
   }
 
-  updateCell(event: { id: string, updates: Partial<Owner> }) {
-    this.ownersData.updateOwner(event.id!, event.updates).pipe(
+  updateCell(event: { id: string, key: string, cell: UiCell }) {
+    const value = this.adapter.getEditableValue(event.key, event.cell);
+    this.ownersData.updateOwner(event.id!, value).pipe(
       take(1),
       catchError(() => this.reloadOwnerForResetCellPreviusValue(event.id))
     ).subscribe();

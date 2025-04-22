@@ -7,6 +7,7 @@ import { Estate } from "../models/estate.model";
 import { OwnersCommandsService } from "src/app/features/owners/commands/owners.command.service";
 import { Owner } from "src/app/features/owners/models/owner.model";
 import { UiLabel2 } from "src/app/ui/components/ui-table-2/components/ui-label/models/ui-label.model";
+import { UiCell } from "src/app/ui/components/ui-table-2/models/ui-cell.model";
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +59,12 @@ export class EstatesTable2AdapterService {
     return estates.map(estate => this.formatUiTableRow(estate, owners));
   }
 
+  getEditableValue(key: string, cell: UiCell): Partial<Estate> {
+    const updates: any = {};
+    updates[key] = cell.label?.title?.label;
+    return updates;
+  }
+
   private buildRowActions(): UiNestedDropdown2 {
     return {
       label: {
@@ -66,7 +73,7 @@ export class EstatesTable2AdapterService {
       list: [
         {
           label: {
-            icon: { name: 'trash', size: 18, color: 'var(--color-error-300)'},
+            icon: { name: 'trash', size: 18, color: 'var(--color-error-300)' },
             title: { label: 'supprimer' },
             command: () => {
               console.log('implement command here');
@@ -86,7 +93,7 @@ export class EstatesTable2AdapterService {
       list: [
         {
           label: {
-            icon: { name: 'add-estate', size: 22, color: 'var(--color-secondary-500)'},
+            icon: { name: 'add-estate', size: 22, color: 'var(--color-secondary-500)' },
             title: { label: this.localization.getLocalization('estates', 'create') },
             command: () => {
               console.log('implement command here');
@@ -107,19 +114,19 @@ export class EstatesTable2AdapterService {
     return {
       data: { id: estate.id },
       cells: {
-        address: { type: 'string', label: { title: { label: estate.plot_address }} },
-        plot: { type: 'string', editable: true, label: { title: { label: estate.plot ?? '' }} },
-        rent: { type: 'string', editable: true, label: { title: { label: estate.rent?.toString() ?? '' }} },
-        charges: { type: 'string', editable: true, label: { title: { label: estate.charges?.toString() ?? '' }} },
+        address: { type: 'string', label: { title: { label: estate.plot_address } } },
+        plot: { type: 'string', editable: true, label: { title: { label: estate.plot ?? '' } } },
+        rent: { type: 'string', editable: true, label: { title: { label: estate.rent?.toString() ?? '' } } },
+        charges: { type: 'string', editable: true, label: { title: { label: estate.charges?.toString() ?? '' } } },
         owner: {
           type: 'dropdown-select',
-          label: { title: { label: estate.owner?.name ?? '' }},
+          label: { title: { label: estate.owner?.name ?? '' } },
           dropdown: {
             ...ownerDropdown,
             label: selectedOwnerLabel
           }
         },
-        lodger: { type: 'string', label: { title: { label: estate.lodger?.name ?? '' }} },
+        lodger: { type: 'string', label: { title: { label: estate.lodger?.name ?? '' } } },
         actions: { type: 'dropdown-actions', dropdown: this.buildRowActions() },
       },
     }
@@ -133,7 +140,7 @@ export class EstatesTable2AdapterService {
     }));
 
     return {
-      label: { title: { label: 'Propriétaire' }},
+      label: { title: { label: 'Propriétaire' } },
       list: [
         ...ownerItems,
         {

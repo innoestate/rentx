@@ -9,6 +9,7 @@ import { UiTable2 } from 'src/app/ui/components/ui-table-2/models/ui-table.model
 import { DesktopLodgersCommandsService } from '../../commands/deskop.lodgers.command';
 import { UiTable2Row } from 'src/app/ui/components/ui-table-2/models/ui-table-row.model';
 import { LocalizationsService } from 'src/app/core/localizations/localizations.service';
+import { UiCell } from 'src/app/ui/components/ui-table-2/models/ui-cell.model';
 
 @Component({
   selector: 'app-desktop-lodgers-table',
@@ -61,8 +62,9 @@ export class DesktopLodgersTableComponent extends UiDisplayerComponent {
     });
   }
 
-  updateCell(event: { id: string, updates: Partial<Lodger> }) {
-    this.lodgerData.updateLodger(event.id!, event.updates).pipe(
+  updateCell(event: { id: string, key: string, cell: UiCell }) {
+    const value = this.adapter.getEditableValue(event.key, event.cell);
+    this.lodgerData.updateLodger(event.id!, value).pipe(
       take(1),
       catchError(() => this.reloadLodgerForResetCellPreviusValue(event.id))
     ).subscribe();

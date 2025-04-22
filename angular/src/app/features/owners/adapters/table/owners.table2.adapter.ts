@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { LocalizationsService } from "src/app/core/localizations/localizations.service";
 import { Owner } from "src/app/features/owners/models/owner.model";
 import { UiNestedDropdown2 } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
+import { UiCell } from "src/app/ui/components/ui-table-2/models/ui-cell.model";
 import { UiTable2Row } from "src/app/ui/components/ui-table-2/models/ui-table-row.model";
 import { UiTable2Column } from "src/app/ui/components/ui-table-2/models/ui-table.column.model";
 
@@ -47,6 +48,12 @@ export class OwnersTable2AdapterService {
 
   createRows(owners: Owner[]): UiTable2Row[] {
     return owners.map(owner => this.formatUiTableRow(owner));
+  }
+
+  getEditableValue(key: string, cell: UiCell): Partial<Owner> {
+    const updates: any = {};
+    updates[key] = cell.label?.title?.label;
+    return updates;
   }
 
   private buildRowActions(): UiNestedDropdown2 {

@@ -27,7 +27,7 @@ import { formatColumn } from './utils/ui-table.column.utils';
 export class UiTable2Component<T> {
 
   table = input.required<UiTable2>();
-  editCell = output<{ id: string, updates: Partial<T> }>();
+  editCell = output<{ id: string, key: string, cell: UiCell}>();
 
   protected nzRows: Signal<any[]> = this.buildNzRows();
   protected nzColumns: Signal<any[]> = this.buildNzColumns();
@@ -36,12 +36,7 @@ export class UiTable2Component<T> {
   edit(cell: NzUiCell, nzRow: NzUiTable2Row, columnIndex: number) {
     const key = nzRow.cells[columnIndex].key as string;
     if(!key) throw new Error('Key not found');
-    let updates = {} as any;
-    if(cell.dropdown){
-    }else{
-      updates[key] = cell.label?.title?.label!;
-    }
-    this.editCell.emit({ id: nzRow.id, updates })
+    this.editCell.emit({ id: nzRow.id, key, cell })
   }
 
   private buildNzColumns(): Signal<NzUiTable2Column[]> {
