@@ -8,7 +8,7 @@ import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.m
 import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
 import { fillEstates } from "../adapters/estate.adapter.utils";
 import { extractUpdatedFieldsFromRow } from "../adapters/table/estates.lodgers.table.utils";
-import { EstatesUiTableAdapter } from "../adapters/table/estates.table.adapter.service";
+import { EstatesUiTableAdapter } from "../adapters/table/estates.table.adapter";
 import { EstatesCommandsService } from "../commands/estates.commands.service";
 import { EstatesDataService } from "../data/service/esates.data.service";
 import { Estate } from "../models/estate.model";

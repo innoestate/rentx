@@ -1,70 +1,113 @@
-OK je dois éclaircir ce problème de popup...
+AJOUT DE HEADCOLORS dans la nestedDropdown
 
-J'essaye de l'utiliser et je gallère -> problème de design.
-
--> j'ai un composant ui-form
-    ce composant ui-form a pour objectif de gérer dynamiquement les formulaires
-    l'intérêt est que dans un formulaire il peut y avoir des champs complexes
-    comme des dropdowns, signatures ou autre.
-
-    Du coup je peux simplement mettre une valeur et un type et le form s'occupera
-    d'afficher le formulaire en gérant la template.
-
--> Le cas de la popup:
-  a la base de design de popup permettait de ne pas avoir a créer pour chaque popop
-  un composant avec sa template. On rentre simplement les fields et la popup s'occupe
-  de tout.
-
-  Par contre c'est pas la responsabilité de la popup.
-  La responsabilité de la popup sera d'afficher un titre, le ui-form et un footer avec des actions.
+-> et d'ailleurs ce serait bien que ce soit dans tous les champs
+  -> dans ui-label par exemple.
 
 
-Le fait de mettre les actions dans le ui-form est une erreur de design.
-En effet, sa responsabilité est uniquement d'afficher et gérer les champs, peut importe pourquoi.
+Bon je crois qu'une bonne grosse refactorisation de nz-ui-table-dropdown s'impose.
 
--> la popup aura la responsabilité de performer les actions et non le ui-form.
+Pour résumer:
 
-Pour faire les choses proprement, on pourrait donc avoir une popup de type simple avec un bouton "OK".
-Ce bouton OK performe une action puis ferme la fenêtre
+j'ai besoin d'une dropdown nested qui puisse:
 
-Et une popup plus complexe de type Continuable.
-Cette popup a un bouton "OK" mais aussi un bouton "CONTINUER" et "FERMER" qui s'affichent si on performe
-l'action au lieu de fermer la popup.
+- avoir un un label fixe sur le champ du trigger:
+  -> celui ci ne change ps quelque soit l'objet selectionné
 
-
-Du coup.
-Pas besoin de onSubmit dans le formulaire.
-
-En revanche, pour disable/enable les boutons du footer il faut des outputs.
-Par exemple ui-form pourrait emettre chaque fois que le formulaire passe de invalid à valid et inversement.
-Car au fond c'est tout ce dont la popup à besoin de savoir (en dehors du fait d'avoir accès aux données).
+- avoir au contraire le label qui change en fonction de l'objet selectionné.
 
 
-On aurait donc une popup avec en paramètres le titre, les champs, la valeur par défaut et l'action à performer.
+=> on pourrait mettre une option selectMode: true
 
-=> il faut donc créer un composeant UiPopup (qui n'existe pas) et non une simple class.
-Ce composant contiendra le ui-form et un footer avec les boutons.
+j'ai besoin:
+- de pouvoir mettre un fond de couleur uniquement sur le trigger.
+- de pouvoir mettre un fond de couleur qui s'adapte a la couleur de l'objet sélectionné.
 
-C'est tout!
-Et là ce sera clair.
+Actuellement on a:
+
+- List qui est la liste des objets à dérouler
+- fixedHeadValue: une value qui fixe
 
 
+On pourrait plutôt mettre:
+
+Déjà on pourrait avoir un objet UiLabel qui serait comme suit:
+
+UiLabel{
+  icon?: UiIcon;
+  title?: string;
+  color?: string;
+  command?: () => void;
+}
+
+UiIcon {
+  name: string;
+  size: number;
+  color: string;
+}
+
+En fait il y a 2 cas dans le nested dropdown.
+Prenons le cas où on a une dropdown sans label, mais qui a un object dropdown.
+Cet objet dropdown a forcément un label.
+Mais en même temps les itmes ne sont pas forcément des UiDropdownItem, loin de là.
+
+-> ce qui veut dire qu'on peut se passer du label
+
+UiDropdownItem{
+  items?: (UiDropdownItem | UiLabel)[];
+  fixTrigger?: UiLabel | undefined; // si undefined, le trigger est le label de l'item sélectionné
+}
+
+cas 1:
+les locataires:
+
+j'ai une nestedDropdown comme ceci:
 
 
-Bon j'ai étudié un peu nzModal.
-L'idéal serait à prioris d'utiliser leur footer.
+{
+  items: [
+    {
+      label: {
+        title: 'Locataire'
+      },
+      items: [
+        {
+          title: 'Jean Dupont'
+        },
+        {
+          title: 'Marie Durand'
+        }
+      ]
+    },
+    {
+      label: {
+        title: 'Quittances'
+      },
+      items: [
+        {
+          label:  {
+            title: 'personnaliser'
+          },
+          items: [
+            {
+              label: {
+                title: 'grand',
+                command: () => {}
+              }
+            },
+            {
+              label: {
+                title: 'petit',
+                command: () => {}
+              }
+              }
+            }
+          ]
+        },
+      ]
+    }
+  ]
+}
 
-Mais.
-L'utilisation de TemplateRef est inadaptée puisque l'objectif est justement d'appler
-la popup sans avoir à travailler sur la template.
 
-On pourrait donc utiliser nzFooter.
-Sauf que cela implique d'utiliser les boutons nz.
+OK dans l'idée je signe mais ça va être une énorme refacto.
 
-Or on a développé ui-module pour garder la main sur l'ensemble des designs ui.
-Donc si on décide de changer les boutons mais qu'on utiliser nzFooter,
-les boutons de la popup seront différents des autres.
-
--> on va devoir implémenter le footer à la mano comme on le fait actuellement.
-
-No problemo!

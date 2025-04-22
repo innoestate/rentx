@@ -23,14 +23,7 @@ export class DesktopOwnersTableComponent extends UiDisplayerComponent {
     columns: signal<UiTable2Column[]>(this.adapter.createColumns()),
     rows: this.getRows(),
     title: this.localization.getLocalization('owners', 'tableTitle'),
-    commands: [
-      {
-        name: 'add-owner',
-        size: 26,
-        color: 'var(--color-secondary-500)',
-        command: () => this.ownersCommands.createOwner()
-      },
-    ]
+    commands: this.getCommands()
   };
 
   constructor(
@@ -50,6 +43,17 @@ export class DesktopOwnersTableComponent extends UiDisplayerComponent {
       this.bindRowsCommands(rows);
       return rows;
     })
+  }
+
+  getCommands() {
+    return [
+      {
+        name: 'add-owner',
+        size: 26,
+        color: 'var(--color-secondary-500)',
+        command: () => this.ownersCommands.createOwner()
+      },
+    ]
   }
 
   bindColumnsCommands(columns: UiTable2Column[]) {

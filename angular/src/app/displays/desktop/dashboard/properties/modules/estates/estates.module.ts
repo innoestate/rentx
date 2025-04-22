@@ -1,11 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DesktopEstatesTableComponent } from '../../components/estates-table/desktop-estates-table.component';
+import { NgModule } from '@angular/core';
+import { EstatesTable2AdapterService } from 'src/app/features/estates/adapters/estates.table2.adapter';
+import { EstatesUiTableAdapter } from 'src/app/features/estates/adapters/table/estates.table.adapter';
 import { UiModule } from 'src/app/ui/ui.module';
-import { EstatesTableService } from 'src/app/features/estates/services/estates.table.service';
-import { EstatesUiTableAdapter } from 'src/app/features/estates/adapters/table/estates.table.adapter.service';
-import { EstatesCommandsService } from 'src/app/features/estates/commands/estates.commands.service';
 import { DesktopEstatesCommandsService } from '../../commands/desktop.estates.command';
+import { DesktopEstatesTableComponent } from '../../components/estates-table/desktop-estates-table.component';
 
 
 
@@ -18,12 +17,9 @@ import { DesktopEstatesCommandsService } from '../../commands/desktop.estates.co
     UiModule.forChild()
   ],
   providers: [
-    EstatesTableService,
     EstatesUiTableAdapter,
-    {
-      provide: EstatesCommandsService,
-      useClass: DesktopEstatesCommandsService
-    }
+    EstatesTable2AdapterService,
+    DesktopEstatesCommandsService,
   ]
 })
 export class EstatesModule { }

@@ -4,8 +4,6 @@ import { Lodger } from "src/app/features/lodgers/models/lodger.model";
 import { UiNestedDropdown2 } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
 import { UiTable2Row } from "src/app/ui/components/ui-table-2/models/ui-table-row.model";
 import { UiTable2Column } from "src/app/ui/components/ui-table-2/models/ui-table.column.model";
-import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { getUpdatedFields as getUpdatedFieldsUtils } from '../../../shared/utils/objects.utils';
 
 @Injectable({
   providedIn: 'root'
@@ -86,15 +84,6 @@ export class LodgersTable2AdapterService {
       },
 
     }
-  }
-
-  buildUpdateFields(row: UiTableRow, lodgers: Lodger[]): Partial<Lodger> {
-    const lodger = lodgers.find(o => o.id === row.data.id);
-    if (!lodger) throw new Error('Lodger not found');
-    const potentialUpdates = row.cells as any;
-    const updates = getUpdatedFieldsUtils(lodger, potentialUpdates);
-    updates['id'] = lodger.id;
-    return updates;
   }
 
 }
