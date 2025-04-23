@@ -3,7 +3,7 @@ import { TestBed } from "@angular/core/testing";
 import { UiTableAdapterTestHelper } from "src/app/ui/components/ui-table/adapter/test/helper/ui-table.adapter.test.helper";
 import { sellerDtoMock1 } from "../mocks/sellers.dto.mock";
 import { uiTableRowSellersUpdateMock1 } from "./mocks/sellers.table.row.mock";
-import { SellersTableAdapterService } from "./sellers.table.adapter.service";
+import { SellersTableAdapterService } from "./sellers.table.adapter";
 
 
 describe('SellersTableAdapterService', () => {

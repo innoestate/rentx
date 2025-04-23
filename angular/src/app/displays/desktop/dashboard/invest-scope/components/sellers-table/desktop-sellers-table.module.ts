@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { DesktopSellersTableComponent } from './desktop-sellers-table.component';
 import { RouterModule } from '@angular/router';
 import { UiModule } from 'src/app/ui/ui.module';
-import { SellersTableAdapterService } from 'src/app/features/sellers/adapters/sellers.table.adapter.service';
+import { SellersTableAdapterService } from 'src/app/features/sellers/adapters/sellers.table.adapter';
+import { SellersTable2AdapterService } from 'src/app/features/sellers/adapters/sellers.table2.adapter';
 
 
 
@@ -17,7 +18,8 @@ import { SellersTableAdapterService } from 'src/app/features/sellers/adapters/se
     UiModule.forChild()
   ],
   providers: [
-    SellersTableAdapterService
+    SellersTableAdapterService,
+    SellersTable2AdapterService
   ]
 })
 export class DesktopSellersTableModule { }

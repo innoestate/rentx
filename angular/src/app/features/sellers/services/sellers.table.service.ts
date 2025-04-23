@@ -2,7 +2,7 @@ import { computed, Directive, Injectable, Signal } from "@angular/core";
 import { catchError, of, take } from "rxjs";
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTable } from "src/app/ui/components/ui-table/models/ui-table.model";
-import { SellersTableAdapterService } from "../adapters/sellers.table.adapter.service";
+import { SellersTableAdapterService } from "../adapters/sellers.table.adapter";
 import { UiTableRowSellers, UiTableSellers } from "../adapters/sellers.table.adapter.type";
 import { SellersCommandsService } from "../commands/table/sellers.commands.service";
 import { SellersDataService } from "../data/services/sellers.data.service";
