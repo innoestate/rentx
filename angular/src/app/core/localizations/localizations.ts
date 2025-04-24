@@ -27,7 +27,8 @@ export const Localizations: Record<string, Record<string, string>> = {
     label: 'Quittance de loyer',
     download: 'Télécharger',
     send: 'Envoyer',
-    personalize: 'Personnaliser'
+    personalize: 'Personnaliser',
+    createCustomizedRentReceipt: 'Créer une quittance personnalisée'
   },
   owners: {
     label: 'propriétaires',

@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { catchError, combineLatest, delay, map, Observable, of, switchMap, take, tap } from "rxjs";
+import { LocalizationsService } from "src/app/core/localizations/localizations.service";
 import { EstatesDataService } from "src/app/features/estates/data/service/esates.data.service";
 import { Estate } from "src/app/features/estates/models/estate.model";
 import { LodgersDataService } from "src/app/features/lodgers/data/lodgers.data.service";
@@ -9,11 +10,10 @@ import { Owner } from "src/app/features/owners/models/owner.model";
 import { CompleteRentReceiptPopupComponent } from "src/app/features/rents/popups/complete-rent-receipt-popup/complete-rent-receipt-popup.component";
 import { downloadFileOnBrowser } from "src/app/shared/utils/files.utils";
 import { UiButton } from "src/app/ui/components/ui-button/models/ui-buttons.model";
-import { UiFormFieldData } from "src/app/ui/components/ui-form/models/ui-form.field-data.model";
 import { UiPopupCustomizedComponent } from "src/app/ui/components/ui-popup/ui-popup-customized/ui-popup-customized.component";
 import { UiPopupService } from "src/app/ui/services/popup/popup.service";
 import { RentsHttpService } from "../data/http/rents.http.service";
-import { getMandatoryFieldsForDownload, getMandatoryFieldsForEmail } from "./rents.commands.utils";
+import { customizedFields, getMandatoryFieldsForDownload, getMandatoryFieldsForEmail } from "./rents.commands.utils";
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +24,7 @@ export class RentsCommandsService {
     private ownersDataService: OwnersDataService,
     private lodgersDataService: LodgersDataService,
     private popupService: UiPopupService,
+    private localizations: LocalizationsService,
     private rentsHttpService: RentsHttpService) {
     // console.log('rents commands service constructor');
   }
@@ -45,24 +46,7 @@ export class RentsCommandsService {
   }
 
   customizeRentReceipt(estateWithoutModification: Estate) {
-
     let popup: UiPopupCustomizedComponent<{ startDate: string, endDate: string }>;
-
-    const fields: UiFormFieldData[] = [
-      {
-        key: 'startDate',
-        type: 'date',
-        label: 'Date de début',
-        required: true
-      },
-      {
-        key: 'endDate',
-        type: 'date',
-        label: 'Date de fin',
-        required: true
-      }
-    ];
-
     const buttons: UiButton<{ startDate: string, endDate: string }>[] = [
       {
         text: 'Télécharger',
@@ -91,19 +75,7 @@ export class RentsCommandsService {
         }
       }
     ]
-
-    popup = this.popupService.openCustomizedPopup('Créer une quittance personnalisée', fields, buttons);
-
-
-    // this.popupService.openPopup(CreateCustomizedRentReceiptPopupComponent, 'Créer une quittance personnalisée', { estate: estateWithoutModification }).pipe(
-    //   tap(({ type, startDate, endDate }) => {
-    //     if(type === 'download') {
-    //       this.downloadRentReceipt(estateWithoutModification, startDate, endDate);
-    //     } else {
-    //       this.sendRentReceiptByEmail(estateWithoutModification, startDate, endDate);
-    //     }
-    //   })
-    // ).subscribe();
+    popup = this.popupService.openCustomizedPopup(this.localizations.getLocalization('rentReceipts', 'createCustomizedRentReceipt'), customizedFields, buttons);
   }
 
   protected getCompletedEstate(estateWithoutModification: Estate, fields: string[]): Observable<string> {
