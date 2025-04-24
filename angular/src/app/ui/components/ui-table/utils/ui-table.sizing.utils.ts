@@ -1,7 +1,7 @@
 import { ElementRef } from "@angular/core";
-import { from, map, merge, Observable, of, take, tap } from "rxjs";
+import { from, map, merge, Observable, of, take } from "rxjs";
 
-export const getSizing = (elRef: ElementRef): Observable<number> => {
+export const getSizing = (elRef: ElementRef): Observable<number | undefined> => {
   return merge(of(10), calculate$(elRef));
 }
 

@@ -1,9 +1,9 @@
 import { NzUiCell } from "../models/nz-ui-cell.model";
 import { NzUiTable2Row } from "../models/nz-ui-table-row.model";
 import { UiTable2Row } from "../models/ui-table-row.model";
-import { UiTable2Column } from "../models/ui-table.column.model";
+import { UiTableColumn } from "../models/ui-table.column.model";
 
-export const formatNzRows = (rows: UiTable2Row[], columns: UiTable2Column[]): NzUiTable2Row[] => {
+export const formatNzRows = (rows: UiTable2Row[], columns: UiTableColumn[]): NzUiTable2Row[] => {
   return rows.map((row, index) => {
     const orderedRows: NzUiCell[] = [];
     columns.forEach((column) => {

@@ -1,13 +1,15 @@
+import { NzTableFilterFn, NzTableFilterList } from "ng-zorro-antd/table";
 import { UiColumnCell } from "./ui-column-cell.model";
+import { UiTableRow } from "../../ui-table-draft/models/ui-table-row.model";
+import { UiTable2Row } from "./ui-table-row.model";
 
 export type Priority = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
-export interface UiTable2Column {
+export interface UiTableColumn {
   key: string,
-  cell: UiColumnCell,//We gone see the dropdown
-
-  // editable?: boolean,
-  // sort?: Priority,
-  // filter?: {text: string, value: string}[],
-  // filterFn?: NzTableFilterFn<UiTableRow>,
+  cell: UiColumnCell,
+  filter?: {
+    list: NzTableFilterList,
+    function: NzTableFilterFn<UiTable2Row>
+  },
 }

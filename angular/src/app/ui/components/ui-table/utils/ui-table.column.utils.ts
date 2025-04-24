@@ -1,9 +1,9 @@
 import { NzUiTable2Column } from "../models/nz-ui-table-column.model";
-import { UiTable2Column } from "../models/ui-table.column.model";
+import { UiTableColumn } from "../models/ui-table.column.model";
 import { getSort } from "./ui-table.sort.column.utils";
 
 
-export const formatColumn = (column: UiTable2Column, columnIndex: number): NzUiTable2Column => {
+export const formatColumn = (column: UiTableColumn, columnIndex: number): NzUiTable2Column => {
   return {
     cell: {
       ...column.cell,
@@ -18,7 +18,7 @@ export const formatColumn = (column: UiTable2Column, columnIndex: number): NzUiT
   };
 }
 
-const getIcon = (column: UiTable2Column) => {
+const getIcon = (column: UiTableColumn) => {
   let icon = column.cell?.label?.icon;
   if (icon) {
     icon = {
@@ -30,7 +30,7 @@ const getIcon = (column: UiTable2Column) => {
   return icon;
 }
 
-const getWidth = (column: UiTable2Column) => {
+const getWidth = (column: UiTableColumn) => {
 
   let width = undefined;
   if (column.cell.type === 'mediumString') {

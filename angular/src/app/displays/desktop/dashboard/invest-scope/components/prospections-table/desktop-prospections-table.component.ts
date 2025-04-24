@@ -17,7 +17,7 @@ import { UiTable2 } from 'src/app/ui/components/ui-table/models/ui-table.model';
 export class DesktopProspectionsTableComponent extends UiDisplayerComponent {
 
   table: UiTable2 = {
-    columns: computed(() => (this.adapter.createColumns())),
+    columns: computed(() => (this.adapter.createColumns(this.prospectionsDto()))),
     rows: this.getRows(),
     title: this.localization.getLocalization('prospections', 'tableTitle'),
     commands: this.getCommands()

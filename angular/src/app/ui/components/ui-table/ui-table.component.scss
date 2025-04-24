@@ -26,6 +26,10 @@ $row-selected-background-color: var(--color-basic-150);
       display: none;
     }
 
+    nz-filter-trigger {
+      margin-right: 10px;
+    }
+
     thead {
       tr:first-child{
         height: 56px;

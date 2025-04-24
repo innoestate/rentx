@@ -4,7 +4,7 @@ import { LodgersTableAdapterService } from 'src/app/features/lodgers/adapters/lo
 import { LodgersDataService } from 'src/app/features/lodgers/data/lodgers.data.service';
 import { Lodger } from 'src/app/features/lodgers/models/lodger.model';
 import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
-import { UiTable2Column } from 'src/app/ui/components/ui-table/models/ui-table.column.model';
+import { UiTableColumn } from 'src/app/ui/components/ui-table/models/ui-table.column.model';
 import { UiTable2 } from 'src/app/ui/components/ui-table/models/ui-table.model';
 import { DesktopLodgersCommandsService } from '../../commands/deskop.lodgers.command';
 import { UiTable2Row } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
@@ -21,7 +21,7 @@ export class DesktopLodgersTableComponent extends UiDisplayerComponent {
 
   lodgers = this.lodgerData.getLodgers();
   table2: UiTable2 = {
-    columns: signal<UiTable2Column[]>(this.adapter.createColumns()),
+    columns: signal<UiTableColumn[]>(this.adapter.createColumns()),
     rows: this.getRows(),
     title: this.localization.getLocalization('lodgers', 'tableTitle'),
     commands: [
@@ -51,7 +51,7 @@ export class DesktopLodgersTableComponent extends UiDisplayerComponent {
     })
   }
 
-  bindColumnsCommands(columns: UiTable2Column[]) {
+  bindColumnsCommands(columns: UiTableColumn[]) {
     columns.find(c => c.key === 'actions')!.cell.dropdown!.list![0].label!.command = () => this.lodgersCommands.createLodger();
   }
 

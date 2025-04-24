@@ -4,7 +4,7 @@ import { Lodger } from "src/app/features/lodgers/models/lodger.model";
 import { UiNestedDropdown2 } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
 import { UiCell, UiCellBasic } from "src/app/ui/components/ui-table/models/ui-cell.model";
 import { UiTable2Row } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { UiTable2Column } from "src/app/ui/components/ui-table/models/ui-table.column.model";
+import { UiTableColumn } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 
 interface LodgersTableRow extends UiTable2Row {
   cells: {
@@ -21,7 +21,7 @@ export class LodgersTableAdapterService {
 
   constructor(private localization: LocalizationsService) { }
 
-  createColumns(): UiTable2Column[] {
+  createColumns(): UiTableColumn[] {
     return [
       {
         key: 'name',

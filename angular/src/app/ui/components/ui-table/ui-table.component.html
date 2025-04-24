@@ -2,7 +2,7 @@
 @let rows = nzRows();
 @if(rows){
 <nz-table #tableRef
-          (nzCurrentPageDataChange)="handleCurrentPageDataChange($event)"
+          (nzCurrentPageDataChange)="handleCurrentPageDataChange()"
           [nzData]="rows"
           [nzPageSize]="rowsPerPages()"
           [nzPageIndex]="pageIndex()">
@@ -10,14 +10,32 @@
     <tr>
       @for(column of columns; track column; let columnI = $index) {
 
-        @if(column.cell.sort){
-          <th [nzWidth]="column.width" [nzSortFn]="column.cell.sort.function" [nzSortPriority]="column.cell.sort.priority">
-            <ui-dynamic-cell [cell]="column.cell"></ui-dynamic-cell>
-          </th>
+        @if(column.cell.filter){
+          @if(column.cell.sort){
+            <th [nzWidth]="column.width"
+                [nzSortFn]="column.cell.sort.function"
+                [nzSortPriority]="column.cell.sort.priority"
+                [nzFilters]="column.cell.filter.list"
+                [nzFilterFn]="column.cell.filter.function">
+              <ui-dynamic-cell [cell]="column.cell"></ui-dynamic-cell>
+            </th>
+          }@else {
+            <th [nzWidth]="column.width"
+                [nzFilters]="column.cell.filter.list"
+                [nzFilterFn]="column.cell.filter.function">
+              <ui-dynamic-cell [cell]="column.cell"></ui-dynamic-cell>
+            </th>
+          }
         }@else {
-          <th [nzWidth]="column.width">
-            <ui-dynamic-cell [cell]="column.cell"></ui-dynamic-cell>
-          </th>
+          @if(column.cell.sort){
+            <th [nzWidth]="column.width" [nzSortFn]="column.cell.sort.function" [nzSortPriority]="column.cell.sort.priority">
+              <ui-dynamic-cell [cell]="column.cell"></ui-dynamic-cell>
+            </th>
+          }@else {
+            <th [nzWidth]="column.width">
+              <ui-dynamic-cell [cell]="column.cell"></ui-dynamic-cell>
+            </th>
+          }
         }
 
       }

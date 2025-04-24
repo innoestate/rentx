@@ -1,15 +1,19 @@
 import { Injectable } from "@angular/core";
 import { LocalizationsService } from "src/app/core/localizations/localizations.service";
-import { UiTable2Column } from "src/app/ui/components/ui-table/models/ui-table.column.model";
+import { UiTableColumn } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { Prospection_Dto } from "../../models/prospection.dto.model";
 import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
 import { PropertyStatusTypes, PROSPECTION_STATUS, ProspectionStatus } from "../../models/prospection.status.model";
 import { UiCellBasic, UiCellDropdown } from "src/app/ui/components/ui-table/models/ui-cell.model";
 import { UiTable2Row } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiNestedDropdown2 } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
+import { UiTableRow } from "src/app/ui/components/ui-table-draft/models/ui-table-row.model";
+import { NzTableFilterValue } from "ng-zorro-antd/table";
+import { NzUiCell } from "src/app/ui/components/ui-table/models/nz-ui-cell.model";
+import { NzUiTable2Row } from "src/app/ui/components/ui-table/models/nz-ui-table-row.model";
 
 interface ProspectionTableRow extends UiTable2Row {
-  data: {id: string};
+  data: { id: string };
   cells: {
     city: UiCellBasic,
     zip: UiCellBasic,
@@ -27,16 +31,26 @@ interface ProspectionTableRow extends UiTable2Row {
 })
 export class ProspectionsTable2AdapterService {
 
-  constructor(private localization: LocalizationsService) {}
+  constructor(private localization: LocalizationsService) { }
 
-  createColumns(): UiTable2Column[] {
+  createColumns(prospections: Prospection_Dto[]): UiTableColumn[] {
     return [
       {
         key: 'city',
         cell: {
           type: 'string',
           sort: { priority: 1 },
-          label: { title: { label: 'Ville' } }
+          label: { title: { label: 'Ville' } },
+          filter: {
+            list: this.buildCityFilters(prospections),
+            function: (values: NzTableFilterValue, row: NzUiTable2Row) => {
+              if (row.cells[0]) {
+                return (values as string[]).includes((row.cells[0] as NzUiCell)!.label!.title!.label! as string);
+              } else {
+                return false;
+              }
+            }
+          }
         }
       },
       {
@@ -80,8 +94,10 @@ export class ProspectionsTable2AdapterService {
         key: 'status',
         cell: {
           type: 'string',
-          label: { title: { label: 'Statut' } }
-        }
+          label: { title: { label: 'Statut' } },
+          sort: this.buildStatusSorting(),
+          filter: this.buildStatusFilter()
+        },
       },
       {
         key: 'actions',
@@ -98,22 +114,22 @@ export class ProspectionsTable2AdapterService {
   }
 
   getUpdatableValue(sellers: Seller_Dto[], key: string, cell: UiCellBasic | UiCellDropdown): Partial<Prospection_Dto> {
-      if( key === 'seller'){
-        const seller = sellers.find(seller => seller.name === (cell as UiCellDropdown)!.dropdown!.label!.title!.label);
-        if (!seller) throw new Error('Seller not found');
-        return { seller_id: seller.id };
-      }else if (key === 'status'){
-        const status = PROSPECTION_STATUS.find(status => status.shortLabel === (cell as UiCellDropdown)!.dropdown!.label!.title!.label);
-        if (!status) throw new Error('Status not found');
-        return { status: status.key };
-      }else{
-        return { [key] : (cell as UiCellBasic)!.label!.title!.label };
-      }
+    if (key === 'seller') {
+      const seller = sellers.find(seller => seller.name === (cell as UiCellDropdown)!.dropdown!.label!.title!.label);
+      if (!seller) throw new Error('Seller not found');
+      return { seller_id: seller.id };
+    } else if (key === 'status') {
+      const status = PROSPECTION_STATUS.find(status => status.shortLabel === (cell as UiCellDropdown)!.dropdown!.label!.title!.label);
+      if (!status) throw new Error('Status not found');
+      return { status: status.key };
+    } else {
+      return { [key]: (cell as UiCellBasic)!.label!.title!.label };
+    }
   }
 
   private formatUiTableRow(prospection: Prospection_Dto, sellers: Seller_Dto[]): ProspectionTableRow {
     return {
-      data: {id: prospection.id || ''},
+      data: { id: prospection.id || '' },
       cells: {
         city: {
           editable: true,
@@ -158,7 +174,7 @@ export class ProspectionsTable2AdapterService {
     };
   }
 
-  private buildSellerDropdown(sellers: Seller_Dto[], prospection: Prospection_Dto){
+  private buildSellerDropdown(sellers: Seller_Dto[], prospection: Prospection_Dto) {
     return {
       label: {
         title: { label: sellers?.find(s => s.id === prospection.seller_id)?.name || '' }
@@ -198,7 +214,7 @@ export class ProspectionsTable2AdapterService {
       list: [
         {
           label: {
-            icon: { name: 'trash', size: 18, color: 'var(--color-error-300)'},
+            icon: { name: 'trash', size: 18, color: 'var(--color-error-300)' },
             title: { label: 'supprimer' },
             command: () => {
               console.log('implement delete command here');
@@ -218,7 +234,7 @@ export class ProspectionsTable2AdapterService {
       list: [
         {
           label: {
-            icon: { name: 'add', size: 22, color: 'var(--color-secondary-500)'},
+            icon: { name: 'add', size: 22, color: 'var(--color-secondary-500)' },
             title: { label: this.localization.getLocalization('prospections', 'create') },
             command: () => {
               console.log('implement add command here');
@@ -229,4 +245,47 @@ export class ProspectionsTable2AdapterService {
       ]
     }
   }
+
+  private buildCityFilters(prospections: Prospection_Dto[]): { text: string, value: string }[] {
+    return prospections
+      .filter(p => p.city && p.city !== '')
+      .map(p => ({ text: p.city as string, value: p.city as string }))
+      .reduce((unique, item) => {
+        return unique.find(i => i.value === item.value) ? unique : [...unique, item];
+      }, [] as { text: string, value: string }[])
+  }
+
+  private buildStatusFilter(){
+    return {
+      list: this.buildStatusFilters(),
+      function: (values: NzTableFilterValue, row: NzUiTable2Row) => {
+        if (row.cells[6]) {
+          const shortLabel = (row.cells[6] as UiCellDropdown).dropdown?.label?.title?.label as string || '';
+          const key = PROSPECTION_STATUS.find(status => status.shortLabel === shortLabel)?.key;
+          return (values as string[]).includes(key!);
+        } else {
+          return false;
+        }
+      }
+    }
+  }
+
+  private buildStatusSorting(){
+    return {
+      function: (a: NzUiTable2Row, b: NzUiTable2Row) => {
+        const shortLabelA = a.cells[6].dropdown?.label?.title?.label as string || '';
+        const shortLabelB = b.cells[6].dropdown?.label?.title?.label as string || '';
+        return shortLabelA.localeCompare(shortLabelB);
+      },
+      priority: 1
+    }
+  }
+
+  private buildStatusFilters(): { text: string, value: string }[] {
+
+    const statusList = PROSPECTION_STATUS.map(status => ({ text: status.shortLabel, value: status.key }));
+
+    return statusList;
+  }
+
 }

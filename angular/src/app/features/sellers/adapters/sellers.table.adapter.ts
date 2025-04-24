@@ -4,7 +4,7 @@ import { Seller } from "src/app/features/sellers/models/seller.model";
 import { UiNestedDropdown2 } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
 import { UiCellBasic } from "src/app/ui/components/ui-table/models/ui-cell.model";
 import { UiTable2Row } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { UiTable2Column } from "src/app/ui/components/ui-table/models/ui-table.column.model";
+import { UiTableColumn } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 
 interface SellerTable extends UiTable2Row {
   cells: {
@@ -26,7 +26,7 @@ export class SellersTableAdapterService {
 
   constructor(private localization: LocalizationsService) { }
 
-  createColumns(): UiTable2Column[] {
+  createColumns(): UiTableColumn[] {
     return [
       {
         key: 'name',

@@ -12,7 +12,7 @@ import { RentsDataService } from 'src/app/features/rents/data/service/rents.data
 import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
 import { UiCell } from 'src/app/ui/components/ui-table/models/ui-cell.model';
 import { UiTable2Row } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
-import { UiTable2Column } from 'src/app/ui/components/ui-table/models/ui-table.column.model';
+import { UiTableColumn } from 'src/app/ui/components/ui-table/models/ui-table.column.model';
 import { UiTable2 } from 'src/app/ui/components/ui-table/models/ui-table.model';
 import { DesktopLodgersCommandsService } from '../../commands/deskop.lodgers.command';
 import { DesktopEstatesCommandsService } from '../../commands/desktop.estates.command';
@@ -27,7 +27,7 @@ export class DesktopEstatesTableComponent extends UiDisplayerComponent {
 
 
   table: UiTable2 = {
-    columns: signal<UiTable2Column[]>(this.adapter.createColumns()),
+    columns: signal<UiTableColumn[]>(this.adapter.createColumns()),
     rows: this.getRows(),
     title: this.localization.getLocalization('estates', 'tableTitle'),
     commands: [
@@ -72,7 +72,7 @@ export class DesktopEstatesTableComponent extends UiDisplayerComponent {
     })
   }
 
-  bindColumnsCommands(columns: UiTable2Column[]) {
+  bindColumnsCommands(columns: UiTableColumn[]) {
     columns.find(c => c.key === 'actions')!.cell.dropdown!.list![0].label!.command = () => this.estatesCommands.createEstate();
   }
 

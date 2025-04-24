@@ -1,9 +1,10 @@
 import { NzUiTable2Row } from "../models/nz-ui-table-row.model";
 import { UiCell, UiCellBasic, UiCellDropdown } from "../models/ui-cell.model";
-import { UiTable2Column } from "../models/ui-table.column.model";
+import { UiTableColumn } from "../models/ui-table.column.model";
 
-export const getSort = (column: UiTable2Column, columnIndex: number) => {
+export const getSort = (column: UiTableColumn, columnIndex: number) => {
   if (column.cell.sort !== undefined) {
+    if(column.cell.sort.function) return column.cell.sort;
     return {
       priority: column.cell.sort.priority,
       function: (a: any, b: any) => sortRows(a, b, columnIndex)

@@ -6,7 +6,7 @@ import { UiNestedDropdown2 } from "src/app/ui/components/ui-nested-dropdown-acti
 import { UiLabel2 } from "src/app/ui/components/ui-label/models/ui-label.model";
 import { UiCellBasic, UiCellDropdown } from "src/app/ui/components/ui-table/models/ui-cell.model";
 import { UiTable2Row } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { UiTable2Column } from "src/app/ui/components/ui-table/models/ui-table.column.model";
+import { UiTableColumn } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { Lodger } from "../../lodgers/models/lodger.model";
 import { Estate } from "../models/estate.model";
 import { createLodgerDropdown } from "./estates.lodgers.adapter.helper";
@@ -32,7 +32,7 @@ export class EstatesTableAdapterService {
     private ownersCommands: OwnersCommandsService
   ) { }
 
-  createColumns(): UiTable2Column[] {
+  createColumns(): UiTableColumn[] {
     return [
       {
         key: 'address',
