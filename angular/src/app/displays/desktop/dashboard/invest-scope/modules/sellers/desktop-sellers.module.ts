@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
-import { SellersTableAdapterService } from 'src/app/features/sellers/adapters/sellers.table.adapter';
 import { SellersDataMessagesService } from 'src/app/features/sellers/data/messages/sellers.data.messages.service';
 import { SellersDataModule } from 'src/app/features/sellers/data/modules/sellers.data.module';
 import { UiModule } from 'src/app/ui/ui.module';
 import { DesktopSellersTableComponent } from '../../components/sellers-table/desktop-sellers-table.component';
 import { DesktopSellersCommandsService } from '../../commands/desktop.sellers.commands.service';
-import { SellersTableService } from 'src/app/features/sellers/services/sellers.table.service';
 import { SellersCommandsService } from 'src/app/features/sellers/commands/table/sellers.commands.service';
 
 
@@ -23,8 +21,6 @@ import { SellersCommandsService } from 'src/app/features/sellers/commands/table/
       provide: SellersCommandsService,
       useClass: DesktopSellersCommandsService
     },
-    SellersTableAdapterService,
-    SellersTableService
   ]
 })
 export class DesktopSellersModule {

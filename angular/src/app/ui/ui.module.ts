@@ -10,7 +10,6 @@ import { UiIconService } from './components/ui-icon/service/ui-icon.service';
 import { UiIconComponent } from './components/ui-icon/ui-icon.component';
 import { UiNavigationComponent } from './components/ui-navigation/ui-navigation.component';
 import { UiSpinnerComponent } from './components/ui-spinner/ui-spinner.component';
-import { UiTableComponent } from './components/ui-table/ui-table.component';
 import { UiMessageService } from './services/message/message.service';
 import { UiPopupService } from './services/popup/popup.service';
 import { UiDynamicComponentComponent } from './components/ui-dynamic-component/ui-dynamic-component.component';
@@ -28,7 +27,6 @@ import { UiNestedDropdown2Component } from './components/ui-nested-dropdown2/ui-
     NzModalModule,
     NzButtonModule,
     UiButtonComponent,
-    UiTableComponent,
     FormsModule,
     UiSpinnerComponent,
     UiNavigationComponent,
@@ -46,7 +44,6 @@ import { UiNestedDropdown2Component } from './components/ui-nested-dropdown2/ui-
   exports: [
     NzModalModule,
     UiButtonComponent,
-    UiTableComponent,
     UiSpinnerComponent,
     UiNavigationComponent,
     UiActionsComponent,

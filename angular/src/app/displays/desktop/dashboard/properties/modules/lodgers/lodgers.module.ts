@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { LodgersTableAdapterService } from 'src/app/features/lodgers/adapters/lodgers.table.adapter';
 import { UiModule } from 'src/app/ui/ui.module';
 import { DesktopLodgersCommandsService } from '../../commands/deskop.lodgers.command';
 import { DesktopLodgersTableComponent } from '../../components/lodgers-table/desktop-lodgers-table.component';
@@ -16,7 +15,6 @@ import { DesktopLodgersTableComponent } from '../../components/lodgers-table/des
     UiModule.forChild()
   ],
   providers: [
-    LodgersTableAdapterService,
     DesktopLodgersCommandsService
   ]
 })

@@ -18,7 +18,6 @@ import { SellersTable2AdapterService } from 'src/app/features/sellers/adapters/s
     UiModule.forChild()
   ],
   providers: [
-    SellersTableAdapterService,
     SellersTable2AdapterService
   ]
 })

@@ -1,16 +1,14 @@
 import { Injectable, Type } from "@angular/core";
+import { LocalizationsService } from "src/app/core/localizations/localizations.service";
+import { ProspectionsCommandsService } from "src/app/features/prospections/commands/prospections.commands.service";
+import { SellersCommandsService } from "src/app/features/sellers/commands/table/sellers.commands.service";
+import { SellersDataService } from "src/app/features/sellers/data/services/sellers.data.service";
 import { UiActionsComponent } from "src/app/ui/components/ui-actions/ui-actions.component";
 import { UiNavigationComponent } from "src/app/ui/components/ui-navigation/ui-navigation.component";
 import { DynamicComponentFactoryService } from "src/app/ui/services/factory/dynamic-component-factory.service";
 import { DesktopProspectionDescriptionComponent } from "../components/description/desktop-prospection-description.component";
 import { DesktopProspectionsTableComponent } from "../components/prospections-table/desktop-prospections-table.component";
 import { DesktopSellersTableComponent } from "../components/sellers-table/desktop-sellers-table.component";
-import { LocalizationsService } from "src/app/core/localizations/localizations.service";
-import { DesktopProspectionsCommandsService } from "../commands/desktop.prospections.commands.service";
-import { DesktopSellersCommandsService } from "../commands/desktop.sellers.commands.service";
-import { SellersDataService } from "src/app/features/sellers/data/services/sellers.data.service";
-import { ProspectionsCommandsService } from "src/app/features/prospections/commands/prospections.commands.service";
-import { SellersCommandsService } from "src/app/features/sellers/commands/table/sellers.commands.service";
 
 @Injectable({
   providedIn: 'root'
