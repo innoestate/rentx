@@ -1,5 +1,6 @@
 import { UiNestedDropdown2 } from "../../ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
 import { UiLabel2 } from "../../ui-label/models/ui-label.model";
+import { NzTableFilterFn, NzTableFilterList } from "ng-zorro-antd/table";
 
 
 export type ColumnCellType = 'icon' |
@@ -21,6 +22,10 @@ export interface UiColumnCell {
   sort?: {
     priority: number;
     function?: (a: any, b: any) => number;
+  },
+  filter?: {
+    list: NzTableFilterList;
+    function?: NzTableFilterFn
   }
 
 }
