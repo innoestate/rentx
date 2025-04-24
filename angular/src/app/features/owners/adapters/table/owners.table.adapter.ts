@@ -21,7 +21,7 @@ interface OwnerTable extends UiTable2Row {
 @Injectable({
   providedIn: 'root'
 })
-export class OwnersTable2AdapterService {
+export class OwnersTableAdapterService {
 
   constructor(private localization: LocalizationsService) { }
 
@@ -29,7 +29,7 @@ export class OwnersTable2AdapterService {
     return [
       {
         key: 'name',
-        cell: { type: 'mediumString', sort: { priority: 1 }, label: { title: { label: 'Nom Prénom / raison sociale' } } },
+        cell: { type: 'mediumString', sort: { priority: 1 }, label: { title: { label: 'Nom' } } },
       },
       {
         key: 'street',

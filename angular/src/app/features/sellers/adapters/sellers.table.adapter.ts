@@ -22,7 +22,7 @@ interface SellerTable extends UiTable2Row {
 @Injectable({
   providedIn: 'root'
 })
-export class SellersTable2AdapterService {
+export class SellersTableAdapterService {
 
   constructor(private localization: LocalizationsService) { }
 

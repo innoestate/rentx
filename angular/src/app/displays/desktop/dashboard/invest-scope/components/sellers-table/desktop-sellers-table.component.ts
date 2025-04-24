@@ -1,5 +1,5 @@
 import { Component, ElementRef, computed, signal } from '@angular/core';
-import { SellersTable2AdapterService } from 'src/app/features/sellers/adapters/sellers.table2.adapter';
+import { SellersTableAdapterService } from 'src/app/features/sellers/adapters/sellers.table.adapter';
 import { SellersDataService } from 'src/app/features/sellers/data/services/sellers.data.service';
 import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
 import { UiTable2 } from 'src/app/ui/components/ui-table/models/ui-table.model';
@@ -26,7 +26,7 @@ export class DesktopSellersTableComponent extends UiDisplayerComponent {
 
   constructor(
     private sellersData: SellersDataService,
-    private adapter: SellersTable2AdapterService,
+    private adapter: SellersTableAdapterService,
     private sellersCommands: SellersCommandsService,
     protected override elRef: ElementRef,
   ) {

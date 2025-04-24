@@ -1,7 +1,7 @@
 import { Component, computed, ElementRef, Signal, signal } from '@angular/core';
 import { catchError, of, take } from 'rxjs';
 import { LocalizationsService } from 'src/app/core/localizations/localizations.service';
-import { OwnersTable2AdapterService } from 'src/app/features/owners/adapters/table/owners.table2.adapter';
+import { OwnersTableAdapterService } from 'src/app/features/owners/adapters/table/owners.table.adapter';
 import { OwnersDataService } from 'src/app/features/owners/data/owners.data.service';
 import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
 import { UiCell } from 'src/app/ui/components/ui-table/models/ui-cell.model';
@@ -28,7 +28,7 @@ export class DesktopOwnersTableComponent extends UiDisplayerComponent {
 
   constructor(
     private ownersData: OwnersDataService,
-    private adapter: OwnersTable2AdapterService,
+    private adapter: OwnersTableAdapterService,
     private localization: LocalizationsService,
     private ownersCommands: DesktopOwnersCommandsService,
     protected override elRef: ElementRef,

@@ -26,7 +26,7 @@ interface EstateTableRow extends UiTable2Row {
 @Injectable({
   providedIn: 'root'
 })
-export class EstatesTable2AdapterService {
+export class EstatesTableAdapterService {
   constructor(
     private localization: LocalizationsService,
     private ownersCommands: OwnersCommandsService

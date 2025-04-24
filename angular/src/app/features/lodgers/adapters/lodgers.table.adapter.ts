@@ -17,7 +17,7 @@ interface LodgersTableRow extends UiTable2Row {
 @Injectable({
   providedIn: 'root'
 })
-export class LodgersTable2AdapterService {
+export class LodgersTableAdapterService {
 
   constructor(private localization: LocalizationsService) { }
 

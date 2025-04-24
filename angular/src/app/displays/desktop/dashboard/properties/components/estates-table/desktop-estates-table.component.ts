@@ -2,7 +2,7 @@ import { Component, computed, ElementRef, Signal, signal } from '@angular/core';
 import { catchError, of, take } from 'rxjs';
 import { LocalizationsService } from 'src/app/core/localizations/localizations.service';
 import { fillEstates } from 'src/app/features/estates/adapters/estate.adapter.utils';
-import { EstatesTable2AdapterService } from 'src/app/features/estates/adapters/estates.table2.adapter';
+import { EstatesTableAdapterService } from 'src/app/features/estates/adapters/estates.table.adapter';
 import { EstatesDataService } from 'src/app/features/estates/data/service/esates.data.service';
 import { Estate } from 'src/app/features/estates/models/estate.model';
 import { LodgersDataService } from 'src/app/features/lodgers/data/lodgers.data.service';
@@ -53,7 +53,7 @@ export class DesktopEstatesTableComponent extends UiDisplayerComponent {
     private ownersData: OwnersDataService,
     private lodgersData: LodgersDataService,
     private monthlyRentsData: RentsDataService,
-    private adapter: EstatesTable2AdapterService,
+    private adapter: EstatesTableAdapterService,
     private localization: LocalizationsService,
     private estatesCommands: DesktopEstatesCommandsService,
     private lodgersCommands: DesktopLodgersCommandsService,

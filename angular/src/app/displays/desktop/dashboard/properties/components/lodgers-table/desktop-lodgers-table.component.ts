@@ -1,6 +1,6 @@
 import { Component, computed, ElementRef, Signal, signal } from '@angular/core';
 import { catchError, of, take } from 'rxjs';
-import { LodgersTable2AdapterService } from 'src/app/features/lodgers/adapters/lodgers.table2.adapter';
+import { LodgersTableAdapterService } from 'src/app/features/lodgers/adapters/lodgers.table.adapter';
 import { LodgersDataService } from 'src/app/features/lodgers/data/lodgers.data.service';
 import { Lodger } from 'src/app/features/lodgers/models/lodger.model';
 import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
@@ -35,7 +35,7 @@ export class DesktopLodgersTableComponent extends UiDisplayerComponent {
   }
 
   constructor(private lodgerData: LodgersDataService,
-    private adapter: LodgersTable2AdapterService,
+    private adapter: LodgersTableAdapterService,
     protected override elRef: ElementRef,
     private localization: LocalizationsService,
     private lodgersCommands: DesktopLodgersCommandsService) {
