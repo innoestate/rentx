@@ -3,7 +3,7 @@ import { AfterViewInit, Component, computed, ElementRef, HostListener, input, On
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Observable, take, tap } from 'rxjs';
 import { UiIconService } from './service/ui-icon.service';
-import { UiIcon } from '../ui-table-2/models/ui-icon.model';
+import { UiIcon } from '../ui-table/models/ui-icon.model';
 
 @Component({
   selector: 'ui-icon-2',

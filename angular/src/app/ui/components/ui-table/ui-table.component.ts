@@ -15,7 +15,7 @@ import { UiNestedDropdown2 } from '../ui-nested-dropdown-actions/model/ui-nested
 import { formatColumn } from './utils/ui-table.column.utils';
 
 @Component({
-  selector: 'ui-table-2',
+  selector: 'ui-table',
   imports: [CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -24,7 +24,7 @@ import { formatColumn } from './utils/ui-table.column.utils';
   templateUrl: './ui-table.component.html',
   styleUrl: './ui-table.component.scss'
 })
-export class UiTable2Component<T> {
+export class UiTableComponent<T> {
 
   table = input.required<UiTable2>();
   editCell = output<{ id: string, key: string, cell: UiCell}>();

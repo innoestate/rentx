@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
 import { LocalizationsService } from "src/app/core/localizations/localizations.service";
-import { UiTable2Column } from "src/app/ui/components/ui-table-2/models/ui-table.column.model";
+import { UiTable2Column } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { Prospection_Dto } from "../../models/prospection.dto.model";
 import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
 import { PropertyStatusTypes, PROSPECTION_STATUS, ProspectionStatus } from "../../models/prospection.status.model";
-import { UiCellBasic, UiCellDropdown } from "src/app/ui/components/ui-table-2/models/ui-cell.model";
-import { UiTable2Row } from "src/app/ui/components/ui-table-2/models/ui-table-row.model";
+import { UiCellBasic, UiCellDropdown } from "src/app/ui/components/ui-table/models/ui-cell.model";
+import { UiTable2Row } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiNestedDropdown2 } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
 
 interface ProspectionTableRow extends UiTable2Row {

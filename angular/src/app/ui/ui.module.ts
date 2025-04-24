@@ -14,7 +14,7 @@ import { UiMessageService } from './services/message/message.service';
 import { UiPopupService } from './services/popup/popup.service';
 import { UiDynamicComponentComponent } from './components/ui-dynamic-component/ui-dynamic-component.component';
 import { UiEditableTextComponent } from './components/ui-editable-text/ui-editable-text.component';
-import { UiTable2Component } from './components/ui-table-2/ui-table.component';
+import { UiTableComponent } from './components/ui-table/ui-table.component';
 import { UiIcon2Component } from './components/ui-icon/ui-icon2.component';
 import { UiNestedDropdownActionsComponent } from './components/ui-nested-dropdown-actions/ui-nested-dropdown-actions.component';
 import { UiInputComponent } from './components/ui-input/ui-input.component';
@@ -34,7 +34,7 @@ import { UiNestedDropdown2Component } from './components/ui-nested-dropdown2/ui-
     UiIconComponent,
     UiDynamicComponentComponent,
     UiEditableTextComponent,
-    UiTable2Component,
+    UiTableComponent,
     UiIcon2Component,
     UiNestedDropdownActionsComponent,
     UiInputComponent,
@@ -50,7 +50,7 @@ import { UiNestedDropdown2Component } from './components/ui-nested-dropdown2/ui-
     UiIconComponent,
     UiDynamicComponentComponent,
     UiEditableTextComponent,
-    UiTable2Component,
+    UiTableComponent,
     UiIcon2Component,
     UiNestedDropdownActionsComponent,
     UiInputComponent,

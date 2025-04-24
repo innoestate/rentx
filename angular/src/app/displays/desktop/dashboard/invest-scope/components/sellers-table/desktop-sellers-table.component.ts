@@ -2,10 +2,10 @@ import { Component, ElementRef, computed, signal } from '@angular/core';
 import { SellersTable2AdapterService } from 'src/app/features/sellers/adapters/sellers.table2.adapter';
 import { SellersDataService } from 'src/app/features/sellers/data/services/sellers.data.service';
 import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
-import { UiTable2 } from 'src/app/ui/components/ui-table-2/models/ui-table.model';
+import { UiTable2 } from 'src/app/ui/components/ui-table/models/ui-table.model';
 import { SellersCommandsService } from 'src/app/features/sellers/commands/table/sellers.commands.service';
-import { UiTable2Row } from 'src/app/ui/components/ui-table-2/models/ui-table-row.model';
-import { UiCell } from 'src/app/ui/components/ui-table-2/models/ui-cell.model';
+import { UiTable2Row } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
+import { UiCell } from 'src/app/ui/components/ui-table/models/ui-cell.model';
 import { catchError, of, take } from 'rxjs';
 
 @Component({
