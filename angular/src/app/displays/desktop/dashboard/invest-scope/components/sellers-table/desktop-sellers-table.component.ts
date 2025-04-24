@@ -45,7 +45,7 @@ export class DesktopSellersTableComponent extends UiDisplayerComponent {
   getCommands() {
     return [
       {
-        name: 'add-seller',
+        name: 'add',
         size: 26,
         color: 'var(--color-secondary-500)',
         command: () => this.sellersCommands.createNew()
