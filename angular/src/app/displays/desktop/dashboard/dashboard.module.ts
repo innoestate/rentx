@@ -8,7 +8,6 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { DashboardDesktopComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard.routing';
 import { MenuDesktopComponent } from './menu/menu.component';
-import { UiNestedDropdownComponent } from "../../../ui/components/ui-nested-dropdown/ui-nested-dropdown.component";
 
 @NgModule({
   declarations: [
@@ -22,8 +21,7 @@ import { UiNestedDropdownComponent } from "../../../ui/components/ui-nested-drop
     NzMenuModule,
     NzButtonModule,
     NzDropDownModule,
-    NzNotificationModule,
-    UiNestedDropdownComponent
+    NzNotificationModule
 ]
 })
 export class DashboardModule { }

@@ -2,10 +2,10 @@ import { Component, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { cloneDeep } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
-import { UiCell } from 'src/app/ui/components/ui-table/models/ui-cell.model';
-import { UiTable2Row } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
-import { UiTable2Column } from 'src/app/ui/components/ui-table/models/ui-table.column.model';
-import { UiTable2 } from 'src/app/ui/components/ui-table/models/ui-table.model';
+import { UiCell } from 'src/app/ui/components/ui-table-2/models/ui-cell.model';
+import { UiTable2Row } from 'src/app/ui/components/ui-table-2/models/ui-table-row.model';
+import { UiTable2Column } from 'src/app/ui/components/ui-table-2/models/ui-table.column.model';
+import { UiTable2 } from 'src/app/ui/components/ui-table-2/models/ui-table.model';
 
 @Component({
   selector: 'app-sandbox',

@@ -3,10 +3,10 @@ import { LocalizationsService } from "src/app/core/localizations/localizations.s
 import { OwnersCommandsService } from "src/app/features/owners/commands/owners.command.service";
 import { Owner } from "src/app/features/owners/models/owner.model";
 import { UiNestedDropdown2 } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
-import { UiLabel2 } from "src/app/ui/components/ui-table/components/ui-label/models/ui-label.model";
-import { UiCellBasic, UiCellDropdown } from "src/app/ui/components/ui-table/models/ui-cell.model";
-import { UiTable2Row } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { UiTable2Column } from "src/app/ui/components/ui-table/models/ui-table.column.model";
+import { UiLabel2 } from "src/app/ui/components/ui-table-2/components/ui-label/models/ui-label.model";
+import { UiCellBasic, UiCellDropdown } from "src/app/ui/components/ui-table-2/models/ui-cell.model";
+import { UiTable2Row } from "src/app/ui/components/ui-table-2/models/ui-table-row.model";
+import { UiTable2Column } from "src/app/ui/components/ui-table-2/models/ui-table.column.model";
 import { Lodger } from "../../lodgers/models/lodger.model";
 import { Estate } from "../models/estate.model";
 import { createLodgerDropdown } from "./estates.lodgers.adapter.helper";

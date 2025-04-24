@@ -1,10 +1,10 @@
 import { Component, computed, ElementRef, input, output, ViewChild } from '@angular/core';
-import { UiLabel2 } from '../ui-table/components/ui-label/models/ui-label.model';
-import { UiIcon2Component } from '../ui-icon/ui-icon2.component';
+import { UiLabel2 } from '../ui-table-2/components/ui-label/models/ui-label.model';
+import { UiIconComponent } from '../ui-icon/ui-icon.component';
 
 @Component({
   selector: 'ui-input',
-  imports: [UiIcon2Component],
+  imports: [UiIconComponent],
   templateUrl: './ui-input.component.html',
   styleUrl: './ui-input.component.scss'
 })

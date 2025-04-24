@@ -1,4 +1,4 @@
-import { UiIcon } from "../../../models/ui-icon.model";
+import { UiIcon } from "../../../../ui-icon/models/ui-icon.model";
 import { UiTitle } from "../../../models/ui-title.model";
 
 export interface UiLabel2 {

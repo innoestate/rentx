@@ -2,9 +2,9 @@ import { Injectable } from "@angular/core";
 import { LocalizationsService } from "src/app/core/localizations/localizations.service";
 import { Seller } from "src/app/features/sellers/models/seller.model";
 import { UiNestedDropdown2 } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
-import { UiCellBasic } from "src/app/ui/components/ui-table/models/ui-cell.model";
-import { UiTable2Row } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { UiTable2Column } from "src/app/ui/components/ui-table/models/ui-table.column.model";
+import { UiCellBasic } from "src/app/ui/components/ui-table-2/models/ui-cell.model";
+import { UiTable2Row } from "src/app/ui/components/ui-table-2/models/ui-table-row.model";
+import { UiTable2Column } from "src/app/ui/components/ui-table-2/models/ui-table.column.model";
 
 interface SellerTable extends UiTable2Row {
   cells: {

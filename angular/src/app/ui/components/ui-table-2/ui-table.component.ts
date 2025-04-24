@@ -2,16 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, input, output, Signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzTableModule } from 'ng-zorro-antd/table';
-import { UiIcon2Component } from "../ui-icon/ui-icon2.component";
 import { UiDynamicCellComponent } from "./components/ui-dynamic-cell/ui-dynamic-cell.component";
 import { NzUiCell } from './models/nz-ui-cell.model';
 import { NzUiTable2Column } from './models/nz-ui-table-column.model';
 import { NzUiTable2Row } from './models/nz-ui-table-row.model';
+import { UiCell } from './models/ui-cell.model';
 import { UiTable2Row } from './models/ui-table-row.model';
 import { UiTable2Column } from './models/ui-table.column.model';
 import { UiTable2 } from './models/ui-table.model';
-import { UiCell, UiCellBasic } from './models/ui-cell.model';
-import { UiNestedDropdown2 } from '../ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model';
 import { formatColumn } from './utils/ui-table.column.utils';
 
 @Component({
@@ -20,7 +18,7 @@ import { formatColumn } from './utils/ui-table.column.utils';
     FormsModule,
     ReactiveFormsModule,
     NzTableModule,
-    UiDynamicCellComponent, UiIcon2Component],
+    UiDynamicCellComponent],
   templateUrl: './ui-table.component.html',
   styleUrl: './ui-table.component.scss'
 })

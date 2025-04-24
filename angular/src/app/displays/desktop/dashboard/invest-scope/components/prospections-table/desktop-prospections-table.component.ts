@@ -4,7 +4,7 @@ import { ProspectionsTable2AdapterService } from 'src/app/features/prospections/
 import { ProspectionsDataService } from 'src/app/features/prospections/data/services/prospections.data.service';
 import { SellersDataService } from 'src/app/features/sellers/data/services/sellers.data.service';
 import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
-import { UiCell } from 'src/app/ui/components/ui-table/models/ui-cell.model';
+import { UiCell } from 'src/app/ui/components/ui-table-2/models/ui-cell.model';
 
 @Component({
   standalone: false,

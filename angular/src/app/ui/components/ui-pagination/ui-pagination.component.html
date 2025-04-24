@@ -1,7 +1,7 @@
 @if(total() > 1){
   <div class="ui-pagination-container">
-    <ui-icon class="hover-smooth" icon="left" color="var(--color-primary-500)" (click)="prev()"></ui-icon>
+    <ui-icon [icon]="iconLeft()" (click)="prev()"></ui-icon>
     <div class="center">{{pageIndex()}}/{{total()}}</div>
-    <ui-icon class="hover-smooth" icon="right" color="var(--color-primary-500)" (click)="next()"></ui-icon>
+    <ui-icon [icon]="iconRight()" (click)="next()"></ui-icon>
   </div>
 }

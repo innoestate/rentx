@@ -59,12 +59,12 @@ export class InvestScopeFactory extends DynamicComponentFactoryService {
       actions: [
         {
           label: this.localizations.getLocalization('prospections', 'addProspection'),
-          icon: 'add-estate',
+          icon: { name: 'add-estate', size: 24 },
           command: () => this.prospectionsCommands.createNew(this.sellers())
         },
         {
           label: this.localizations.getLocalization('sellers', 'addSeller'),
-          icon: 'seller',
+          icon: { name: 'seller', size: 24 },
           command: () => this.sellersCommands.createNew()
         }
       ]

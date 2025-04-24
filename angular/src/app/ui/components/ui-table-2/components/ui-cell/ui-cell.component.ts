@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, model, output } from '@angular/core';
 import { NzUiCell } from '../../models/nz-ui-cell.model';
-import { UiLabel2Component } from '../ui-label/ui-label.component';
+import { UiLabelComponent } from '../ui-label/ui-label.component';
 import { UiLabel2 } from '../ui-label/models/ui-label.model';
 
 @Component({
   selector: 'ui-cell',
-  imports: [CommonModule, UiLabel2Component],
+  imports: [CommonModule, UiLabelComponent],
   templateUrl: './ui-cell.component.html',
   styleUrl: './ui-cell.component.scss'
 })

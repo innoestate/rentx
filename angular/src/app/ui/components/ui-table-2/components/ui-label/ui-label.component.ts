@@ -1,14 +1,14 @@
 import { Component, computed, HostListener, input, output } from '@angular/core';
-import { UiIcon2Component } from '../../../ui-icon/ui-icon2.component';
 import { UiLabel2 } from './models/ui-label.model';
+import { UiIconComponent } from '../../../ui-icon/ui-icon.component';
 
 @Component({
   selector: 'ui-label-2',
-  imports: [UiIcon2Component],
+  imports: [UiIconComponent],
   templateUrl: './ui-label.component.html',
   styleUrl: './ui-label.component.scss'
 })
-export class UiLabel2Component {
+export class UiLabelComponent {
 
   label = input.required<UiLabel2>();
   loading = input<boolean>(false);

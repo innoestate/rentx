@@ -1,8 +1,9 @@
 // icon.component.ts
-import { Component, ElementRef, HostListener, input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, computed, ElementRef, HostListener, input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Observable, take, tap } from 'rxjs';
 import { UiIconService } from './service/ui-icon.service';
+import { UiIcon } from './models/ui-icon.model';
 
 @Component({
   selector: 'ui-icon',
@@ -17,13 +18,14 @@ import { UiIconService } from './service/ui-icon.service';
     }
   `]
 })
-export class UiIconComponent implements OnInit {
-  icon = input.required<string>();
-  color = input<string>('var(--color-secondary-500)');
-  size = input<number>(16);
-  command = input<() => void>();
+export class UiIconComponent implements OnInit, AfterViewInit {
+  icon = input.required<UiIcon>();
 
-  svgContent: SafeHtml = '';
+  protected color = computed(() => this.icon().color);
+  protected size = computed(() => this.icon().size);
+  protected command = computed(() => this.icon().command);
+
+  protected svgContent: SafeHtml = '';
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -33,6 +35,12 @@ export class UiIconComponent implements OnInit {
 
   ngOnInit() {
     this.renderIcon();
+  }
+
+  ngAfterViewInit() {
+    if(this.command()){
+      this.elRef.nativeElement.style.cursor = 'pointer';
+    }
   }
 
   @HostListener('click')
@@ -56,7 +64,7 @@ export class UiIconComponent implements OnInit {
   }
 
   private getSvg(): Observable<string> {
-    return this.iconService.getIcon(this.icon());
+    return this.iconService.getIcon(this.icon().name);
   }
 
   private setColor(svg: string){

@@ -7,15 +7,14 @@ import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { UiActionsComponent } from './components/ui-actions/ui-actions.component';
 import { UiButtonComponent } from './components/ui-button/ui-button.component';
 import { UiIconService } from './components/ui-icon/service/ui-icon.service';
-import { UiIconComponent } from './components/ui-icon/ui-icon.component';
 import { UiNavigationComponent } from './components/ui-navigation/ui-navigation.component';
 import { UiSpinnerComponent } from './components/ui-spinner/ui-spinner.component';
 import { UiMessageService } from './services/message/message.service';
 import { UiPopupService } from './services/popup/popup.service';
 import { UiDynamicComponentComponent } from './components/ui-dynamic-component/ui-dynamic-component.component';
 import { UiEditableTextComponent } from './components/ui-editable-text/ui-editable-text.component';
-import { UiTableComponent } from './components/ui-table/ui-table.component';
-import { UiIcon2Component } from './components/ui-icon/ui-icon2.component';
+import { UiTableComponent } from './components/ui-table-2/ui-table.component';
+import { UiIconComponent } from './components/ui-icon/ui-icon.component';
 import { UiNestedDropdownActionsComponent } from './components/ui-nested-dropdown-actions/ui-nested-dropdown-actions.component';
 import { UiInputComponent } from './components/ui-input/ui-input.component';
 import { UiNestedDropdownSelectComponent } from './components/ui-nested-dropdown-select/ui-nested-dropdown-select.component';
@@ -31,11 +30,10 @@ import { UiNestedDropdown2Component } from './components/ui-nested-dropdown2/ui-
     UiSpinnerComponent,
     UiNavigationComponent,
     UiActionsComponent,
-    UiIconComponent,
     UiDynamicComponentComponent,
     UiEditableTextComponent,
     UiTableComponent,
-    UiIcon2Component,
+    UiIconComponent,
     UiNestedDropdownActionsComponent,
     UiInputComponent,
     UiNestedDropdownSelectComponent,
@@ -47,11 +45,10 @@ import { UiNestedDropdown2Component } from './components/ui-nested-dropdown2/ui-
     UiSpinnerComponent,
     UiNavigationComponent,
     UiActionsComponent,
-    UiIconComponent,
     UiDynamicComponentComponent,
     UiEditableTextComponent,
     UiTableComponent,
-    UiIcon2Component,
+    UiIconComponent,
     UiNestedDropdownActionsComponent,
     UiInputComponent,
     UiNestedDropdownSelectComponent,

@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { DisplayerManager } from '../../displayers/displayer.manager';
-import { UiIconComponent } from '../ui-icon/ui-icon.component';
 import { UiDisplayerComponent } from '../ui-displayer/ui-displayer.component';
+import { UiIcon } from '../ui-icon/models/ui-icon.model';
+import { UiIconComponent } from '../ui-icon/ui-icon.component';
 
 @Component({
   selector: 'ui-actions',
@@ -12,9 +12,7 @@ import { UiDisplayerComponent } from '../ui-displayer/ui-displayer.component';
 })
 export class UiActionsComponent extends UiDisplayerComponent implements OnInit, AfterViewInit {
 
-  actions: { label: string, icon: string, command: () => void }[] = [];// toSignal(this.displayStateManager.getActions());
-
-  test = [{ label: 'test', icon: 'test', command: () => { } }, { label: 'test2', icon: 'test2', command: () => { } }]
+  actions: { label: string, icon: UiIcon, command: () => void }[] = [];// toSignal(this.displayStateManager.getActions());
 
   constructor(protected displayStateManager: DisplayerManager, protected override elRef: ElementRef) {
     super(elRef);
