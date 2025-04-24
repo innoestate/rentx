@@ -18,19 +18,19 @@ export class OwnersCommandsService {
       key: 'street',
       label: 'Rue',
       type: 'text',
-      required: true
+      required: false
     },
     {
       key: 'city',
       label: 'Ville',
       type: 'text',
-      required: true
+      required: false
     },
     {
       key: 'zip',
       label: 'Code postal',
       type: 'text',
-      required: true
+      required: false
     },
     {
       key: 'signature',

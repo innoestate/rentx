@@ -1,31 +1,24 @@
 import { Injectable } from "@angular/core";
-import { catchError, combineLatest, delay, map, Observable, of, switchMap, take, tap } from "rxjs";
+import { catchError, map, Observable, of, take, tap } from "rxjs";
 import { LocalizationsService } from "src/app/core/localizations/localizations.service";
-import { EstatesDataService } from "src/app/features/estates/data/service/esates.data.service";
 import { Estate } from "src/app/features/estates/models/estate.model";
-import { LodgersDataService } from "src/app/features/lodgers/data/lodgers.data.service";
-import { Lodger } from "src/app/features/lodgers/models/lodger.model";
-import { OwnersDataService } from "src/app/features/owners/data/owners.data.service";
-import { Owner } from "src/app/features/owners/models/owner.model";
-import { CompleteRentReceiptPopupComponent } from "src/app/features/rents/popups/complete-rent-receipt-popup/complete-rent-receipt-popup.component";
 import { downloadFileOnBrowser } from "src/app/shared/utils/files.utils";
 import { UiButton } from "src/app/ui/components/ui-button/models/ui-buttons.model";
 import { UiPopupCustomizedComponent } from "src/app/ui/components/ui-popup/ui-popup-customized/ui-popup-customized.component";
 import { UiPopupService } from "src/app/ui/services/popup/popup.service";
 import { RentsHttpService } from "../data/http/rents.http.service";
 import { customizedFields, getMandatoryFieldsForDownload, getMandatoryFieldsForEmail } from "./rents.commands.utils";
+import { CompleteInformationsCommandService } from "./rents.complete.commands.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RentsCommandsService {
 
-  constructor(private estatesDataService: EstatesDataService,
-    private ownersDataService: OwnersDataService,
-    private lodgersDataService: LodgersDataService,
-    private popupService: UiPopupService,
+  constructor(private popupService: UiPopupService,
     private localizations: LocalizationsService,
-    private rentsHttpService: RentsHttpService) {
+    private rentsHttpService: RentsHttpService,
+    private completeInformationsCommand: CompleteInformationsCommandService) {
     // console.log('rents commands service constructor');
   }
 
@@ -85,35 +78,12 @@ export class RentsCommandsService {
     const lodgerId = estateWithoutModification.lodger?.id;
 
     if (fields.length > 0) {
-
-      return this.popupService.openPopup(CompleteRentReceiptPopupComponent, 'Compléter les informations pour la quittance', { fields }).pipe(
-        take(1),
-        switchMap(({ owner, lodger, estate }) => this.updateCompletedObjects({ ...owner, id: ownerId }, { ...estate, id: estateId }, { ...lodger, id: lodgerId })),
-        map(_ => (estateId!))
+      return this.completeInformationsCommand.completeInformations(fields, ownerId, estateId, lodgerId).pipe(
+        map(() => estateId!)
       );
-
     } else {
       return of(estateId!);
     }
-  }
-
-  protected updateCompletedObjects(owner: Partial<Owner>, estate: Partial<Estate>, lodger?: Partial<Lodger>): Observable<boolean> {
-    let asyncUpdates: Observable<any>[] = [];
-    if (Object.keys(owner).length > 1) {
-      asyncUpdates.push(this.ownersDataService.updateOwner(owner?.id!, { ...owner }));
-    }
-    if (Object.keys(estate).length > 1) {
-      asyncUpdates.push(this.estatesDataService.updateEstate(estate?.id!, { ...estate }));
-    }
-    if (lodger && Object.keys(lodger).length > 1) {
-      asyncUpdates.push(this.lodgersDataService.updateLodger(lodger?.id!, { ...lodger }));
-    }
-    return combineLatest(asyncUpdates).pipe(
-      take(1),
-      delay(0),
-      catchError(err => of(false)),
-      map(_ => true)
-    );
   }
 
   protected downloadRentReceiptOnBrowser(estateId: string, startDate?: string, endDate?: string) {
