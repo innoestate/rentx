@@ -3,7 +3,6 @@ import { Component, computed, ElementRef, input, model, output, Signal, ViewChil
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzTableComponent, NzTableModule } from 'ng-zorro-antd/table';
-import { BehaviorSubject } from 'rxjs';
 import { UiIconComponent } from '../ui-icon/ui-icon.component';
 import { UiPaginationComponent } from '../ui-pagination/ui-pagination.component';
 import { UiDynamicCellComponent } from "./components/ui-dynamic-cell/ui-dynamic-cell.component";
@@ -12,11 +11,11 @@ import { NzUiTable2Column } from './models/nz-ui-table-column.model';
 import { NzUiTable2Row } from './models/nz-ui-table-row.model';
 import { UiCell } from './models/ui-cell.model';
 import { UiTable2Row } from './models/ui-table-row.model';
-import { UiTable2Column } from './models/ui-table.column.model';
 import { UiTable2 } from './models/ui-table.model';
+import { Pagination } from './services/ui-table.pagination.utils';
 import { formatColumn } from './utils/ui-table.column.utils';
-import { getSizing } from './utils/ui-table.sizing.utils';
 import { formatNzRows } from './utils/ui-table.rows.utils';
+import { getSizing } from './utils/ui-table.sizing.utils';
 
 @Component({
   selector: 'ui-table',
@@ -27,6 +26,7 @@ import { formatNzRows } from './utils/ui-table.rows.utils';
     UiDynamicCellComponent,
     UiIconComponent,
     UiPaginationComponent],
+  providers: [Pagination],
   templateUrl: './ui-table.component.html',
   styleUrl: './ui-table.component.scss'
 })
@@ -35,21 +35,14 @@ export class UiTableComponent<T> {
   @ViewChild('tableRef') tableRef!: NzTableComponent<UiTable2Row>;
   table = input.required<UiTable2>();
   editCell = output<{ id: string, key: string, cell: UiCell }>();
-  rowsPerPages = toSignal(getSizing(this.elRef));// signal(10);
+  rowsPerPages = toSignal(getSizing(this.elRef));
 
   protected nzRows: Signal<any[]> = this.buildNzRows();
   protected nzColumns: Signal<any[]> = this.buildNzColumns();
-  protected displayedTotal$ = new BehaviorSubject<number>(0);
-  protected displayedTotal = toSignal(this.displayedTotal$);
   protected pageIndex = model<number>(1);
+  protected pagesNumber = computed(() => this.pagination.getPageNumber(this.nzRows().length, this.rowsPerPages() ?? 1))
 
-  protected pages = computed(() => {
-    const rowsPerPage = this.rowsPerPages()!;
-    if (!this.displayedTotal()) return Math.ceil(this.nzRows().length / rowsPerPage as any);
-    return Math.ceil(this.displayedTotal()! / rowsPerPage);
-  })
-
-  constructor(private elRef: ElementRef) { }
+  constructor(private elRef: ElementRef, protected pagination: Pagination) {}
 
   edit(cell: NzUiCell, nzRow: NzUiTable2Row, columnIndex: number) {
     const key = nzRow.cells[columnIndex].key as string;
@@ -66,10 +59,7 @@ export class UiTableComponent<T> {
   }
 
   handleCurrentPageDataChange(): void {
-    if (this.tableRef?.nzTotal !== undefined) {
-      const total = this.tableRef.nzTotal;
-      this.displayedTotal$.next(total);
-    }
+    this.pagination.setTotal();
   }
 
 }
