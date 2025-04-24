@@ -4,12 +4,12 @@ import { LodgersTable2AdapterService } from 'src/app/features/lodgers/adapters/l
 import { LodgersDataService } from 'src/app/features/lodgers/data/lodgers.data.service';
 import { Lodger } from 'src/app/features/lodgers/models/lodger.model';
 import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
-import { UiTable2Column } from 'src/app/ui/components/ui-table-2/models/ui-table.column.model';
-import { UiTable2 } from 'src/app/ui/components/ui-table-2/models/ui-table.model';
+import { UiTable2Column } from 'src/app/ui/components/ui-table/models/ui-table.column.model';
+import { UiTable2 } from 'src/app/ui/components/ui-table/models/ui-table.model';
 import { DesktopLodgersCommandsService } from '../../commands/deskop.lodgers.command';
-import { UiTable2Row } from 'src/app/ui/components/ui-table-2/models/ui-table-row.model';
+import { UiTable2Row } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
 import { LocalizationsService } from 'src/app/core/localizations/localizations.service';
-import { UiCell } from 'src/app/ui/components/ui-table-2/models/ui-cell.model';
+import { UiCell } from 'src/app/ui/components/ui-table/models/ui-cell.model';
 
 @Component({
   selector: 'app-desktop-lodgers-table',

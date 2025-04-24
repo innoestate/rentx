@@ -1,5 +1,5 @@
 import { Component, computed, ElementRef, input, output, ViewChild } from '@angular/core';
-import { UiLabel2 } from '../ui-table-2/components/ui-label/models/ui-label.model';
+import { UiLabel2 } from '../ui-label/models/ui-label.model';
 import { UiIconComponent } from '../ui-icon/ui-icon.component';
 
 @Component({

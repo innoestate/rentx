@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, signal } from '@angular/core';
 import { UiInputComponent } from 'src/app/ui/components/ui-input/ui-input.component';
-import { UiLabelComponent } from '../../../../ui-label/ui-label.component';
+import { UiLabelComponent } from '../../../../../../ui-label/ui-label.component';
 import { UiCellEditableInputComponent } from '../ui-cell-editable-input.component';
 
 @Component({

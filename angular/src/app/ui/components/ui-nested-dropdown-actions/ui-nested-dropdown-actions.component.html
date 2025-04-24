@@ -4,7 +4,7 @@
     [nzPlacement]="'bottomLeft'"
     [nzVisible]="visible()"
     [nzTrigger]="triggerType()">
-  <ui-label-2 [label]="dropdown()!.label" [active]="true"></ui-label-2>
+  <ui-label [label]="dropdown()!.label" [active]="true"></ui-label>
 </div>
 <nz-dropdown-menu #dropdownMenu="nzDropdownMenu">
   <ul nz-menu>
@@ -13,7 +13,7 @@
         @if(item.list){
           <ui-nested-dropdown-actions (onHide)="hide()" [dropdown]="item" [triggerType]="'hover'"></ui-nested-dropdown-actions>
         }@else {
-          <ui-label-2 [label]="item.label"></ui-label-2>
+          <ui-label [label]="item.label"></ui-label>
         }
       </li>
     }

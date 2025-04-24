@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, input, output, signal, ViewChild } from '@angular/core';
 import { NzDropdownMenuComponent, NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { UiNestedDropdown2 } from '../ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model';
-import { UiLabelComponent } from '../ui-table-2/components/ui-label/ui-label.component';
-import { UiNestedDropdown2Component } from '../ui-nested-dropdown2/ui-nested-dropdown2.component';
+import { UiLabelComponent } from '../ui-label/ui-label.component';
+import { UiNestedDropdownComponent } from '../ui-nested-dropdown/ui-nested-dropdown.component';
 
 @Component({
   selector: 'ui-nested-dropdown-select',
@@ -11,7 +11,7 @@ import { UiNestedDropdown2Component } from '../ui-nested-dropdown2/ui-nested-dro
   templateUrl: './ui-nested-dropdown-select.component.html',
   styleUrl: './ui-nested-dropdown-select.component.scss'
 })
-export class UiNestedDropdownSelectComponent extends UiNestedDropdown2Component {
+export class UiNestedDropdownSelectComponent extends UiNestedDropdownComponent {
 
   loading = input<boolean>(false);
   onSelect = output<UiNestedDropdown2>();

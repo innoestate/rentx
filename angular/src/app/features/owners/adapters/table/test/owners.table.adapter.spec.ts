@@ -1,5 +1,5 @@
 import { Owner } from 'src/app/features/owners/models/owner.model';
-import { UiTableRow } from 'src/app/ui/components/ui-table-2/models/ui-table-row.model';
+import { UiTableRow } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
 import { OwnersTableAdapterService } from '../owners.table.adapter';
 import { ownerMock1 } from './mocks/owners.mock';
 

@@ -4,10 +4,10 @@ import { UiNestedDropdown2 } from '../ui-nested-dropdown-actions/model/ui-nested
 
 @Component({
   imports: [],
-  templateUrl: './ui-nested-dropdown2.component.html',
-  styleUrl: './ui-nested-dropdown2.component.scss'
+  templateUrl: './ui-nested-dropdown.component.html',
+  styleUrl: './ui-nested-dropdown.component.scss'
 })
-export class UiNestedDropdown2Component {
+export class UiNestedDropdownComponent {
 
   @ViewChild('dropdownMenu') dropdownRef!: NzDropdownMenuComponent;
   dropdown = input<UiNestedDropdown2>();

@@ -1,5 +1,5 @@
 import { UiNestedDropdown2 } from "../../ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
-import { UiLabel2 } from "../components/ui-label/models/ui-label.model";
+import { UiLabel2 } from "../../ui-label/models/ui-label.model";
 
 
 export type ColumnCellType = 'icon' |

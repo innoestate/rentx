@@ -1,9 +1,9 @@
 import { Component, computed, HostListener, input, output } from '@angular/core';
 import { UiLabel2 } from './models/ui-label.model';
-import { UiIconComponent } from '../../../ui-icon/ui-icon.component';
+import { UiIconComponent } from '../ui-icon/ui-icon.component';
 
 @Component({
-  selector: 'ui-label-2',
+  selector: 'ui-label',
   imports: [UiIconComponent],
   templateUrl: './ui-label.component.html',
   styleUrl: './ui-label.component.scss'
