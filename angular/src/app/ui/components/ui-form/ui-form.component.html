@@ -11,6 +11,10 @@
         }@else if(field.type === 'text-area'){
           <label for="name" [class.mandatory]="field.required">{{field.label}}</label>
           <textarea [attr.test-selector]="'ui-form-input-' + field.key" class="form-control" [class.required]="field.required" [formControlName]="field.key"></textarea>
+        }@else if(field.type === 'date'){
+          <label for="name" [class.mandatory]="field.required">{{field.label}}</label>
+          <nz-date-picker [attr.test-selector]="'ui-form-input-' + field.key" [class.required]="field.required" [formControlName]="field.key"></nz-date-picker>
+          <!-- <input [attr.test-selector]="'ui-form-input-' + field.key" [type]="field.type" class="form-control" [class.required]="field.required" [formControlName]="field.key"> -->
         }@else {
           <label for="name" [class.mandatory]="field.required">{{field.label}}</label>
           <input [attr.test-selector]="'ui-form-input-' + field.key" [type]="field.type" class="form-control" [class.required]="field.required" [formControlName]="field.key">

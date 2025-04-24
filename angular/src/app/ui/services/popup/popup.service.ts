@@ -4,6 +4,8 @@ import { Observable, take } from 'rxjs';
 import { UiFormFieldData } from '../../components/ui-form/models/ui-form.field-data.model';
 import { UiPopupContinuableComponent2 } from '../../components/ui-popup/ui-popup-continuable/ui-popup-continuable.component';
 import { UiFormPopupComponent } from '../../components/ui-popup/ui-popup.component';
+import { UiPopupCustomizedComponent } from '../../components/ui-popup/ui-popup-customized/ui-popup-customized.component';
+import { UiButton } from '../../components/ui-button/models/ui-buttons.model';
 
 @Injectable({
   providedIn: 'root'
@@ -65,6 +67,21 @@ export class UiPopupService {
       modal.close();
     });
 
+
+    return popup;
+  }
+
+  openCustomizedPopup<T>(title: string, fields: UiFormFieldData[], buttons: UiButton<any>[], value?: T): UiPopupCustomizedComponent<T> {
+    const modal = this.createModal(title, UiPopupCustomizedComponent<T>);
+    const popup = modal.componentInstance as UiPopupCustomizedComponent<T>;
+
+    popup.fields.set(fields);
+    popup.values.set(value);
+    popup.buttons = buttons;
+
+    popup.onClose.subscribe(() => {
+      modal.close();
+    });
 
     return popup;
   }

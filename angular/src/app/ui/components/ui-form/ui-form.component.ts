@@ -6,6 +6,7 @@ import { SignatureComponent } from 'src/app/displays/common/components/signature
 import { UiDropdownComponent } from '../ui-dropdown/ui-dropdown.component';
 import { UiFormFieldData } from './models/ui-form.field-data.model';
 import { UiFormObject } from './models/ui-form.model';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 @Component({
   selector: 'ui-form',
@@ -15,6 +16,7 @@ import { UiFormObject } from './models/ui-form.model';
     ReactiveFormsModule,
     UiDropdownComponent,
     SignatureComponent,
+    NzDatePickerModule
   ],
   styleUrls: ['./ui-form.component.scss'],
   standalone: true

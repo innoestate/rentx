@@ -1,0 +1,11 @@
+@if(loading()) {
+  <ui-spinner></ui-spinner>
+}
+<div test-selector="ui-popup-content" class="ui-popup-content">
+  <ui-form (valid)="setValidStatus($event)" [fields]="fields()!" [(values)]="values"></ui-form>
+</div>
+<div class="ui-popup-footer">
+  @for(button of buttons; track button.text){
+    <ui-button [text]="button.text" [type]="button.type" (click)="click(button)" [disabled]="!valid()"></ui-button>
+  }
+</div>

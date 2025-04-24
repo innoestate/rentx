@@ -96,9 +96,9 @@ export class DesktopEstatesTableComponent extends UiDisplayerComponent {
       const rentReceipt = row.cells['lodger']!.dropdown?.list?.find(dropdown => dropdown.label?.title?.label === this.localization.getLocalization('rentReceipts', 'label'));
       if(rentReceipt){
         const download = rentReceipt.list?.find(dropdown => dropdown.label?.title?.label === this.localization.getLocalization('rentReceipts', 'download'))!;
-        download.label!.command = () => this.rentsCommands.downloadRentReceipt(estate);
+        download.label!.command = () => this.rentsCommands.downloadRentReceipt(estate).subscribe();
         const send = rentReceipt.list?.find(dropdown => dropdown.label?.title?.label === this.localization.getLocalization('rentReceipts', 'send'))!;
-        send.label!.command = () => this.rentsCommands.sendRentReceiptByEmail(estate);
+        send.label!.command = () => this.rentsCommands.sendRentReceiptByEmail(estate).subscribe();
         const customize = rentReceipt.list?.find(dropdown => dropdown.label?.title?.label === this.localization.getLocalization('rentReceipts', 'personalize'))!;
         customize.label!.command = () => this.rentsCommands.customizeRentReceipt(estate);
       }

@@ -84,7 +84,7 @@ const sendRentReceiptByEmail = (dropDownActionsItems: UiDropdownItem<any>[], ren
     iconSize: 22,
     command: (estateRow: any) => {
       const estate = extractEstateFromRow(estates, estateRow);
-      rentsCommands.sendRentReceiptByEmail(estate);
+      rentsCommands.sendRentReceiptByEmail(estate).subscribe();
       return true;
     }
   })
