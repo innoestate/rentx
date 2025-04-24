@@ -1,30 +1,21 @@
 @let columns = nzColumns();
 @let rows = nzRows();
 @if(rows){
-<nz-table #tableRef
-          (nzCurrentPageDataChange)="handleCurrentPageDataChange()"
-          [nzData]="rows"
-          [nzPageSize]="rowsPerPages()"
-          [nzPageIndex]="pageIndex()">
+<nz-table #tableRef (nzCurrentPageDataChange)="handleCurrentPageDataChange()" [nzData]="rows"
+  [nzPageSize]="rowsPerPages()" [nzPageIndex]="pageIndex()">
   <thead>
     <tr>
-      @for(column of columns; track column; let columnI = $index) {
-
+      @for(column of columns; let colI = $index; track column.cell) {
         @if(column.cell.filter){
           @if(column.cell.sort){
-            <th [nzWidth]="column.width"
-                [nzSortFn]="column.cell.sort.function"
-                [nzSortPriority]="column.cell.sort.priority"
-                [nzFilters]="column.cell.filter.list"
-                [nzFilterFn]="column.cell.filter.function">
-              <ui-dynamic-cell [cell]="column.cell"></ui-dynamic-cell>
-            </th>
+          <th [nzWidth]="column.width" [nzSortFn]="column.cell.sort.function" [nzSortPriority]="column.cell.sort.priority"
+            [nzFilters]="column.cell.filter.list" [nzFilterFn]="column.cell.filter.function">
+            <ui-dynamic-cell [cell]="column.cell"></ui-dynamic-cell>
+          </th>
           }@else {
-            <th [nzWidth]="column.width"
-                [nzFilters]="column.cell.filter.list"
-                [nzFilterFn]="column.cell.filter.function">
-              <ui-dynamic-cell [cell]="column.cell"></ui-dynamic-cell>
-            </th>
+          <th [nzWidth]="column.width" [nzFilters]="column.cell.filter.list" [nzFilterFn]="column.cell.filter.function">
+            <ui-dynamic-cell [cell]="column.cell"></ui-dynamic-cell>
+          </th>
           }
         }@else {
           @if(column.cell.sort){
@@ -37,7 +28,6 @@
             </th>
           }
         }
-
       }
     </tr>
   </thead>
@@ -57,7 +47,7 @@
   <div class="left">
     <div class="ui-table-title">{{table().title}}</div>
     @for(command of table().commands; track command.name){
-      <ui-icon [icon]="command"></ui-icon>
+    <ui-icon [icon]="command"></ui-icon>
     }
   </div>
   <div class="right">
