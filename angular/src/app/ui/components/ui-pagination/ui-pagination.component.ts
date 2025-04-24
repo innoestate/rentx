@@ -1,10 +1,10 @@
 import { Component, input, model, signal } from '@angular/core';
-import { UiIcon2Component } from '../ui-icon/ui-icon.component';
 import { UiIcon } from '../ui-icon/models/ui-icon.model';
+import { UiIconComponent } from '../ui-icon/ui-icon.component';
 
 @Component({
   selector: 'ui-pagination',
-  imports: [UiIcon2Component],
+  imports: [UiIconComponent],
   templateUrl: './ui-pagination.component.html',
   styleUrl: './ui-pagination.component.scss'
 })

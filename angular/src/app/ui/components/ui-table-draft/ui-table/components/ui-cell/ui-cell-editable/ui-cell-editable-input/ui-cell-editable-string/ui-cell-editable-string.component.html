@@ -1,0 +1,11 @@
+<div class="ui-cell-content">
+  @if(editing()){
+    <ng-container *ngTemplateOutlet="edit"></ng-container>
+  } @else {
+    <ui-label (onClick)="onclick()" [active]="true" [label]="label()" [loading]="!!loading()"></ui-label>
+  }
+</div>
+
+<ng-template #edit>
+  <ui-input (onEdit)="endEdit()" [label]="cell().label!"></ui-input>
+</ng-template>

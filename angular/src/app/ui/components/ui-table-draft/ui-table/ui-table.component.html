@@ -1,11 +1,7 @@
 @let columns = nzColumns();
 @let rows = nzRows();
 @if(rows){
-<nz-table #tableRef
-          (nzCurrentPageDataChange)="handleCurrentPageDataChange($event)"
-          [nzData]="rows"
-          [nzPageSize]="rowsPerPages()"
-          [nzPageIndex]="pageIndex()">
+<nz-table #tableRef [nzData]="rows">
   <thead>
     <tr>
       @for(column of columns; track column; let columnI = $index) {
@@ -43,7 +39,7 @@
     }
   </div>
   <div class="right">
-    <ui-pagination [(pageIndex)]="pageIndex" [total]="pages()"></ui-pagination>
+    <!-- <ui-pagination [(pageIndex)]="pageIndex" [total]="pages()"></ui-pagination> -->
   </div>
 </div>
 }

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, computed, ElementRef, input, output, signal, Signal } from '@angular/core';
+import { AfterViewInit, Component, computed, ElementRef, input, model, output, signal, Signal, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTableComponent, NzTableModule } from 'ng-zorro-antd/table';
 import { UiDynamicCellComponent } from "./components/ui-dynamic-cell/ui-dynamic-cell.component";
 import { NzUiCell } from './models/nz-ui-cell.model';
 import { NzUiTable2Column } from './models/nz-ui-table-column.model';
@@ -11,8 +11,10 @@ import { UiTable2Row } from './models/ui-table-row.model';
 import { UiTable2Column } from './models/ui-table.column.model';
 import { UiTable2 } from './models/ui-table.model';
 import { formatColumn } from './utils/ui-table.column.utils';
-import { from, take, tap } from 'rxjs';
+import { BehaviorSubject, from, take, tap } from 'rxjs';
 import { UiIconComponent } from '../ui-icon/ui-icon.component';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { UiPaginationComponent } from '../ui-pagination/ui-pagination.component';
 
 @Component({
   selector: 'ui-table',
@@ -21,18 +23,31 @@ import { UiIconComponent } from '../ui-icon/ui-icon.component';
     ReactiveFormsModule,
     NzTableModule,
     UiDynamicCellComponent,
-    UiIconComponent],
+    UiIconComponent,
+    UiPaginationComponent],
   templateUrl: './ui-table.component.html',
   styleUrl: './ui-table.component.scss'
 })
 export class UiTableComponent<T> implements AfterViewInit {
 
+  @ViewChild('tableRef') tableRef!: NzTableComponent<UiTable2Row>;
   table = input.required<UiTable2>();
   editCell = output<{ id: string, key: string, cell: UiCell }>();
   rowsPerPages = signal(10);
 
   protected nzRows: Signal<any[]> = this.buildNzRows();
   protected nzColumns: Signal<any[]> = this.buildNzColumns();
+  protected displayedTotal$ = new BehaviorSubject<number>(0);
+  protected displayedTotal = toSignal(this.displayedTotal$);
+  protected pageIndex = model<number>(1);
+
+
+
+  protected pages = computed(() => {
+    const rowsPerPage = this.rowsPerPages();
+    if (!this.displayedTotal()) return Math.ceil(this.nzRows().length / rowsPerPage);
+    return Math.ceil(this.displayedTotal()! / rowsPerPage);
+  })
 
   constructor(private elRef: ElementRef) { }
 
@@ -105,6 +120,13 @@ export class UiTableComponent<T> implements AfterViewInit {
         subtree: true
       });
     });
+  }
+
+  handleCurrentPageDataChange(changes: any): void {
+    if (this.tableRef?.nzTotal !== undefined) {
+      const total = this.tableRef.nzTotal;
+      this.displayedTotal$.next(total);
+    }
   }
 
 }
