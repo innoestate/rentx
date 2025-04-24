@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, input, output, Signal } from '@angular/core';
+import { AfterViewInit, Component, computed, ElementRef, input, output, signal, Signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { UiDynamicCellComponent } from "./components/ui-dynamic-cell/ui-dynamic-cell.component";
@@ -11,6 +11,8 @@ import { UiTable2Row } from './models/ui-table-row.model';
 import { UiTable2Column } from './models/ui-table.column.model';
 import { UiTable2 } from './models/ui-table.model';
 import { formatColumn } from './utils/ui-table.column.utils';
+import { from, take, tap } from 'rxjs';
+import { UiIconComponent } from '../ui-icon/ui-icon.component';
 
 @Component({
   selector: 'ui-table',
@@ -18,22 +20,29 @@ import { formatColumn } from './utils/ui-table.column.utils';
     FormsModule,
     ReactiveFormsModule,
     NzTableModule,
-    UiDynamicCellComponent],
+    UiDynamicCellComponent,
+    UiIconComponent],
   templateUrl: './ui-table.component.html',
   styleUrl: './ui-table.component.scss'
 })
-export class UiTableComponent<T> {
+export class UiTableComponent<T> implements AfterViewInit {
 
   table = input.required<UiTable2>();
-  editCell = output<{ id: string, key: string, cell: UiCell}>();
+  editCell = output<{ id: string, key: string, cell: UiCell }>();
+  rowsPerPages = signal(10);
 
   protected nzRows: Signal<any[]> = this.buildNzRows();
   protected nzColumns: Signal<any[]> = this.buildNzColumns();
 
+  constructor(private elRef: ElementRef) { }
+
+  ngAfterViewInit(): void {
+    this.iniSizing();
+  }
 
   edit(cell: NzUiCell, nzRow: NzUiTable2Row, columnIndex: number) {
     const key = nzRow.cells[columnIndex].key as string;
-    if(!key) throw new Error('Key not found');
+    if (!key) throw new Error('Key not found');
     this.editCell.emit({ id: nzRow.id, key, cell })
   }
 
@@ -45,6 +54,59 @@ export class UiTableComponent<T> {
     return computed(() => formatNzRows(this.table().rows(), this.table().columns()));
   }
 
+  private iniSizing() {
+    from(this.htmlRowsAreLoaded()).pipe(
+      take(1),
+      tap(() => {
+        const heights = this.getHeights();
+        this.calculateRowsPerPages(heights);
+        console.log('heights', heights);
+        console.log('rows per page', this.rowsPerPages());
+        // this.drawBackground(heights);
+      })).subscribe();
+  }
+
+  private getHeights() {
+
+    const rows = this.elRef.nativeElement.querySelectorAll('.ant-table-row');
+
+    const table = this.elRef.nativeElement.querySelector('.ant-table-wrapper')?.getBoundingClientRect().height || 0;
+    const head = this.elRef.nativeElement.querySelector('.ant-table-thead')?.getBoundingClientRect().height || 0;
+    const row = rows?.length ? rows[1]?.getBoundingClientRect().height : 40;
+    const footer = this.elRef.nativeElement.querySelector('.ui-table-footer')?.getBoundingClientRect().height || 0;
+
+    return { table, head, row, footer };
+  }
+
+  private calculateRowsPerPages(heights: { table: number, head: number, row: number, footer: number }) {
+    const bodyHeight = heights.table - heights.head - heights.footer;
+    const rowsPerPages = Math.floor(bodyHeight / heights.row);
+    this.rowsPerPages.set(rowsPerPages);
+  }
+
+  private hasRowsAfterHeader() {
+    let rows = document.querySelectorAll('.ant-table-row');
+    if (rows.length > 1) {
+      return true;
+    }
+    return false;
+  }
+
+  private htmlRowsAreLoaded(): Promise<any> {
+    return new Promise(resolve => {
+      const observer = new MutationObserver(() => {
+        if (this.hasRowsAfterHeader()) {
+          resolve(true)
+          observer.disconnect();
+        }
+      });
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+    });
+  }
+
 }
 
 export const formatNzRows = (rows: UiTable2Row[], columns: UiTable2Column[]): NzUiTable2Row[] => {
@@ -54,7 +116,7 @@ export const formatNzRows = (rows: UiTable2Row[], columns: UiTable2Column[]): Nz
 
       const cell: NzUiCell = { ...row.cells[column.key], key: column.key }
 
-      if(cell.label?.icon){
+      if (cell.label?.icon) {
         cell.label.icon = {
           size: 18,
           color: 'var(--color-tertiary-500)',

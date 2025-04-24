@@ -1,7 +1,9 @@
 @let columns = nzColumns();
 @let rows = nzRows();
 @if(rows){
-<nz-table #tableRef [nzData]="rows">
+<nz-table #tableRef
+          [nzData]="rows"
+          [nzPageSize]="rowsPerPages()">
   <thead>
     <tr>
       @for(column of columns; track column; let columnI = $index) {

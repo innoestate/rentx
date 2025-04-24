@@ -207,6 +207,7 @@ $row-selected-background-color: var(--color-basic-150);
   gap: 10px;
   width: 100%;
   padding: 16px;
+  border-top: 1px solid var(--color-basic-200);
 
   .left {
     display: flex;
