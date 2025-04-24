@@ -2,7 +2,6 @@ import { Estate } from "src/app/features/estates/models/estate.model";
 import { UiFormFieldData } from "src/app/ui/components/ui-form/models/ui-form.field-data.model";
 
 
-
 export const customizedFields: UiFormFieldData[] = [
   {
     key: 'startDate',
@@ -17,7 +16,6 @@ export const customizedFields: UiFormFieldData[] = [
     required: true
   }
 ];
-
 
 export const getMandatoryFieldsForDownload = (estate: Estate) => {
   const fields = [];

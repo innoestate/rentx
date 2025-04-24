@@ -30,6 +30,16 @@ export const Localizations: Record<string, Record<string, string>> = {
     personalize: 'Personnaliser',
     createCustomizedRentReceipt: 'Créer une quittance personnalisée'
   },
+  rentReceiptsCompleteData: {
+    street: 'Adresse (bailleur)',
+    city: 'Ville (bailleur)',
+    zip: 'Code postal (bailleur)',
+    signature: 'Signature',
+    rent: 'Loyer',
+    charges: 'Charges',
+    ownerEmail: 'Email propriétaire',
+    lodgerEmail: 'Email locataire'
+  },
   owners: {
     label: 'propriétaires',
     create: 'créer un propriétaire',

@@ -26,6 +26,7 @@ import { UiModule } from 'src/app/ui/ui.module';
 import { DesktopEstatesCommandsService } from './commands/desktop.estates.command';
 import { DesktopLodgersCommandsService } from './commands/deskop.lodgers.command';
 import { DesktopOwnersCommandsService } from './commands/desktop.owners.command';
+import { CompleteInformationsCommandService } from 'src/app/features/rents/commands/rents.complete.commands.service';
 
 
 
@@ -61,6 +62,7 @@ import { DesktopOwnersCommandsService } from './commands/desktop.owners.command'
       useClass: DesktopOwnersCommandsService
     },
     RentsCommandsService,
+    CompleteInformationsCommandService,
     PropertiesDisplayerManager,
     PropertiesDisplayAdapter,
     PropertiesDisplayStoreFacade,
