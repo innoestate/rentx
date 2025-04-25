@@ -6,13 +6,20 @@
     </p>
 
     <ui-button
-      nz-button
-      nzType="primary"
-      nzSize="large"
+      [type]="'primary'"
+      [icon]="{name: 'google', size: 22, color: 'var(--color-basic-100)'}"
+      [text]="'Continuer avec Google'"
       class="google-button"
       (click)="loginWithGoogle()">
-      Continuer avec Google
     </ui-button>
+
+    <div class="legal-links">
+      <div nz-button nzType="link" routerLink="/policies">Politique de confidentialité</div>
+      <div nz-button nzType="link" routerLink="/cdu">Conditions Générales d'Utilisation</div>
+    </div>
+
   </nz-card>
+
+
 </div>
 <app-legal-footer></app-legal-footer>

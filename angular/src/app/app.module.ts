@@ -24,6 +24,7 @@ import { CallbackComponent } from './displays/pages/callback/callback.component'
 import { LoginComponent } from './displays/pages/login/login.component';
 import { UserDataModule } from './features/user/data/module/user.data.module';
 import { LegalFooterComponent } from './displays/common/components/legal-footer/legal-footer.component';
+import { UiModule } from './ui/ui.module';
 
 registerLocaleData(en);
 
@@ -51,6 +52,7 @@ registerLocaleData(en);
       maxAge: 25,
       logOnly: !environment.production,
     }),
+    UiModule.forChild()
   ],
   exports: [
     LegalFooterComponent

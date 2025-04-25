@@ -52,7 +52,8 @@ export class UiIconService {
       'send',
       'people-replace',
       'person-in',
-      'file-invoice']).subscribe();
+      'file-invoice',
+      'google']).subscribe();
   }
 
   registerIcons(iconNames: string[]) {

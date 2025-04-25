@@ -1,18 +1,21 @@
 import { Component, computed, input, output, signal, Signal } from '@angular/core';
 import { NzButtonModule, NzButtonType } from 'ng-zorro-antd/button';
 import { UxButtonType } from './types/ui-button.type.type';
+import { UiIcon } from '../ui-icon/models/ui-icon.model';
+import { UiIconComponent } from '../ui-icon/ui-icon.component';
 
 @Component({
     selector: 'ui-button',
     templateUrl: './ui-button.component.html',
     styleUrl: './ui-button.component.scss',
     standalone: true,
-    imports: [NzButtonModule]
+    imports: [NzButtonModule, UiIconComponent]
 })
 export class UiButtonComponent {
 
   text = input.required<string>();
   testSelector = input<string>();
+  icon = input<UiIcon>();
   type = input<UxButtonType>('default');
   disabled = input<boolean>(false);
   click = output();

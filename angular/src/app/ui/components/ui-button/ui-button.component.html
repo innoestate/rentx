@@ -1,4 +1,9 @@
 <button [class]="this.type()"
         [disabled]="disabled()"
         test-selector="button"
-        (onClick)="onClick()">{{text()}}</button>
+        (onClick)="onClick()">
+        @if(this.icon() !== undefined) {
+          <ui-icon [icon]="this.icon()"></ui-icon>
+        }
+        {{text()}}
+      </button>
