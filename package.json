@@ -9,7 +9,9 @@
     "dev": "ts-node-dev src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "cy:open": "cypress open",
-    "build:prod": "node scripts/build.js"
+    "build:prod": "node scripts/build.js",
+    "build:test-prod": "node scripts/build-test-prod.js"
+
   },
   "author": "Innoesate Holdings",
   "license": "ISC",

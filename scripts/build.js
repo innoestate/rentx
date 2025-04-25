@@ -39,9 +39,10 @@ try {
     
     // Copy NestJS environment file
     console.log('Copying NestJS environment file...');
-    const envFile = path.join(process.cwd(), 'nestjs', '.env.production');
+    const envFile = path.join(process.cwd(), '', '.env');
     if (fs.existsSync(envFile)) {
         fs.copyFileSync(envFile, path.join(nestjsTargetPath, '.env.production'));
+        fs.copyFileSync(envFile, path.join(targetPath, '.env'));
     } else {
         console.warn('Warning: .env.production file not found in nestjs directory');
     }
