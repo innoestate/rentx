@@ -9,6 +9,7 @@ import { DashboardDesktopComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard.routing';
 import { MenuDesktopComponent } from './menu/menu.component';
 import { UiNestedDropdownActionsComponent } from "../../../ui/components/ui-nested-dropdown-actions/ui-nested-dropdown-actions.component";
+import { LegalFooterComponent } from '../../common/components/legal-footer/legal-footer.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { UiNestedDropdownActionsComponent } from "../../../ui/components/ui-nest
     NzButtonModule,
     NzDropDownModule,
     NzNotificationModule,
-    UiNestedDropdownActionsComponent
+    UiNestedDropdownActionsComponent,
+    LegalFooterComponent
 ]
 })
 export class DashboardModule { }

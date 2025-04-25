@@ -4,7 +4,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 @Component({
-  selector: 'app-legal-footer',
+  selector: 'legal-footer',
   standalone: true,
   imports: [RouterLink, NzButtonModule, NzDividerModule],
   templateUrl: './legal-footer.component.html',
