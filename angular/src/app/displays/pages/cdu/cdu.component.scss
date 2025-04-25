@@ -1,4 +1,4 @@
-.privacy-policy-container {
+.terms-of-use-container {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
@@ -27,6 +27,11 @@
   margin-bottom: 10px;
 }
 
+p {
+  font-size: 1.1em;
+  line-height: 1.6;
+}
+
 ul {
   padding-left: 20px;
 }
@@ -43,3 +48,4 @@ a {
 a:hover {
   text-decoration: underline;
 }
+

@@ -7,13 +7,24 @@ procédure:
 //si besoin lancer le scrip init-letsencrypt.sh en utilisant: "sudo ./init-letsencrypt.sh"
 5- aller sur l'instance et lancer docker-compose up -d 
 
+Une fois que tout est fait: 
+
+- aller sur le root, lancer:
+npm run build:prod <target_path> (exemple: npm run build:prod ../prod)  
+- aller dans le repo en question
+faire un commit et pusher sur main
+- aller dans l'instance AWS en se déplaçant dans le dosser avec la clé
+ssh -i "prod.pem" ec2-user@ec2-13-36-119-43.eu-west-3.compute.amazonaws.com
+- aller dans le repo
+sudo git pull origin main
+docker-compose down
+docker-compose up -d --build
 
 npm run build:prod <target_path> (exemple: npm run build:prod ../prod)
 
 - create a private git repository and push the repository
 - create an AWS Amazon Linux instance and connect in ssh
 
-ssh -i "prod.pem" ec2-user@ec2-35-180-210-208.eu-west-3.compute.amazonaws.com
 ssh -i "prod.pem" ec2-user@ec2-13-36-119-43.eu-west-3.compute.amazonaws.com
 
 sudo dnf update -y
