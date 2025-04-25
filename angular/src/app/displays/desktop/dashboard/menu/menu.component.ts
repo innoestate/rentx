@@ -3,6 +3,8 @@ import { Store } from '@ngrx/store';
 import { ThemeService } from 'src/app/core/design-system/services/theme.service';
 import { MenuComponent } from 'src/app/displays/common/components/menu.component';
 import { UiDropdownItem } from 'src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model';
+import { UiNestedDropdown2 } from 'src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model';
+import { UiNestedDropdownActionsComponent } from 'src/app/ui/components/ui-nested-dropdown-actions/ui-nested-dropdown-actions.component';
 
 @Component({
   selector: 'rentx-menu',
@@ -17,43 +19,64 @@ export class MenuDesktopComponent extends MenuComponent {
     value: 'Menu',
     label: ''
   }
-  dropDown: UiDropdownItem<any>[] = [
-    {
-      label: 'déconnexion',
-      value: 'logout',
-      command: () => this.logout()
-    },
-    {
-      label: 'thème',
-      value: [
-        {
-          label: 'mode',
-          value: [
-            {
-              label: 'jour',
-              value: 'light',
-              command: () => this.themeService.setMode('light')
-            },
-            {
-              label: 'nuit',
-              value: 'dark',
-              command: () => this.themeService.setMode('dark')
-            }
-          ]
-        },
-        {
-          label: 'default',
-          value: 'default',
-          command: () => this.themeService.setTheme('default')
-        },
-        {
-          label: 'pink',
-          value: 'pink',
-          command: () => this.themeService.setTheme('pink')
-        }
-      ]
-    }
-  ];
+
+  dropdown: UiNestedDropdown2 = {
+    label: { title: { label: ''}},
+    list: [
+      {
+        label: { title: { label: 'déconnexion'}, command: () => this.logout()},
+      },
+      {
+        label: { title: { label: 'thème'}},
+        list: [
+          {
+            label: { title: { label: 'dark'}, command: () => this.themeService.setMode('dark')},
+          },
+          {
+            label: { title: { label: 'light'}, command: () => this.themeService.setMode('light')},
+          }
+        ]
+      }
+    ]
+  };
+
+  // dropDown: UiDropdownItem<any>[] = [
+  //   {
+  //     label: 'déconnexion',
+  //     value: 'logout',
+  //     command: () => this.logout()
+  //   },
+  //   {
+  //     label: 'thème',
+  //     value: [
+  //       {
+  //         label: 'mode',
+  //         value: [
+  //           {
+  //             label: 'jour',
+  //             value: 'light',
+  //             command: () => this.themeService.setMode('light')
+  //           },
+  //           {
+  //             label: 'nuit',
+  //             value: 'dark',
+  //             command: () => this.themeService.setMode('dark')
+  //           }
+  //         ]
+  //       },
+  //       {
+  //         label: 'default',
+  //         value: 'default',
+  //         command: () => this.themeService.setTheme('default')
+  //       },
+  //       {
+  //         label: 'pink',
+  //         value: 'pink',
+  //         command: () => this.themeService.setTheme('pink')
+  //       }
+  //     ]
+  //   }
+  // ];
 
   constructor(protected override store: Store, protected override themeService: ThemeService, private elRef: ElementRef) {
     super(store, themeService);
