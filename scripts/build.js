@@ -52,7 +52,8 @@ try {
     const configFiles = [
         'docker-compose.yml',
         'default.conf',
-        'README.md'
+        'README.md',
+        'init-letsencrypt.sh'
     ];
     
     configFiles.forEach(file => {
@@ -61,7 +62,18 @@ try {
         
         if (fs.existsSync(sourcePath)) {
             fs.copyFileSync(sourcePath, targetFilePath);
+            // Make init-letsencrypt.sh executable
+            if (file === 'init-letsencrypt.sh') {
+                fs.chmodSync(targetFilePath, '755');
+            }
         }
+    });
+
+    // Create certbot directories
+    console.log('Creating certbot directories...');
+    const certbotDirs = ['certbot/conf', 'certbot/www'];
+    certbotDirs.forEach(dir => {
+        fs.ensureDirSync(path.join(targetPath, dir));
     });
 
     // Create directories and copy Dockerfiles
