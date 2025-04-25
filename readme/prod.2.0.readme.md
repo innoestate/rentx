@@ -1,3 +1,13 @@
+procédure: 
+
+1- créer un repertoire hors du projet et le connecter a github
+2- créer une instance AWS avec git, docker, docker-compose
+3- builder la prod en lancant build:prod <path du repertoire>
+4- pusher le repo sur github puis le puller sur l'instance
+//si besoin lancer le scrip init-letsencrypt.sh en utilisant: "sudo ./init-letsencrypt.sh"
+5- aller sur l'instance et lancer docker-compose up -d 
+
+
 npm run build:prod <target_path> (exemple: npm run build:prod ../prod)
 
 - create a private git repository and push the repository
