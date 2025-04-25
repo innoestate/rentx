@@ -83,6 +83,17 @@ try {
         }
     });
 
+    // Copy start.sh files for both angular and nestjs services
+    console.log('Copying start.sh files...');
+    ['angular', 'nestjs'].forEach(service => {
+        const startScriptPath = path.join(process.cwd(), 'prod', service, 'start.sh');
+        const targetServicePath = path.join(targetPath, service);
+        
+        if (fs.existsSync(startScriptPath)) {
+            fs.copyFileSync(startScriptPath, path.join(targetServicePath, 'start.sh'));
+        }
+    });
+
     // Copy other root files
     const rootFiles = ['keys'];
     rootFiles.forEach(file => {
