@@ -1,0 +1,62 @@
+.home-container {
+  min-height: 100vh;
+
+  .hero-section {
+    background: linear-gradient(135deg, var(--color-primary-500) 0%, var(--color-primary-600) 100%);
+    padding: 64px 24px;
+    text-align: center;
+    color: white;
+
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+
+      h1 {
+        font-size: 3em;
+        margin-bottom: 16px;
+        color: white;
+      }
+
+      h2 {
+        font-size: 1.5em;
+        margin-bottom: 24px;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      p {
+        font-size: 1.1em;
+        margin-bottom: 32px;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .button-group {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+
+        [nz-button] {
+          min-width: 140px;
+        }
+      }
+    }
+  }
+
+  .features-section {
+    padding: 64px 24px;
+    background: #f0f2f5;
+
+    nz-card {
+      height: 100%;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: translateY(-5px);
+      }
+
+      [nz-icon] {
+        font-size: 24px;
+        color: #1890ff;
+      }
+    }
+  }
+}

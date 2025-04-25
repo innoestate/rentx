@@ -2,8 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DeviceGuard } from './core/guards/device.guard';
 import { CallbackComponent } from './displays/pages/callback/callback.component';
+import { HomeComponent } from './displays/pages/home/home.component';
 
 const routes: Routes = [
+  { path: '', component: HomeComponent },
   { path: 'callback', component: CallbackComponent },
   {
     path: '',
