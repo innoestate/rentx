@@ -23,6 +23,7 @@ import { DeviceGuard } from './core/guards/device.guard';
 import { CallbackComponent } from './displays/pages/callback/callback.component';
 import { LoginComponent } from './displays/pages/login/login.component';
 import { UserDataModule } from './features/user/data/module/user.data.module';
+import { LegalFooterComponent } from './displays/common/components/legal-footer/legal-footer.component';
 
 registerLocaleData(en);
 
@@ -45,10 +46,14 @@ registerLocaleData(en);
     NzLayoutModule,
     NzDropDownModule,
     UserDataModule,
+    LegalFooterComponent,
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: !environment.production,
     }),
+  ],
+  exports: [
+    LegalFooterComponent
   ],
   providers: [
     DeviceGuard,

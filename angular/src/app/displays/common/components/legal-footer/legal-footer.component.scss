@@ -1,0 +1,45 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  padding: 16px;
+  background-color: var(--color-primary-500);
+}
+
+* {
+  color: var(--color-basic-500);
+}
+
+.legal-footer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  max-width: 1200px;
+  width: 100%;
+  text-align: center;
+}
+
+.company-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.legal-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  div {
+    cursor: pointer;
+    color: var(--color-basic-100) !important;
+    transition: 0.3s;
+  }
+  div:hover {
+    transform: scale(1.08);
+    color: var(--color-basic-200) !important;
+  }
+}
