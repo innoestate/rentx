@@ -37,6 +37,15 @@ try {
     fs.copySync('nestjs/package.json', path.join(nestjsTargetPath, 'package.json'));
     fs.copySync('nestjs/package-lock.json', path.join(nestjsTargetPath, 'package-lock.json'));
     
+    // Copy NestJS environment file
+    console.log('Copying NestJS environment file...');
+    const envFile = path.join(process.cwd(), 'nestjs', '.env.production');
+    if (fs.existsSync(envFile)) {
+        fs.copyFileSync(envFile, path.join(nestjsTargetPath, '.env.production'));
+    } else {
+        console.warn('Warning: .env.production file not found in nestjs directory');
+    }
+    
     // Copy configuration files from prod folder
     console.log('Copying configuration files...');
     const configFiles = [
@@ -54,16 +63,20 @@ try {
         }
     });
 
-    // Copy Dockerfiles and create directories
+    // Create directories and copy Dockerfiles
     console.log('Copying Dockerfiles...');
     const dockerFiles = [
         { src: 'prod/angular/Dockerfile', dest: 'angular/Dockerfile' },
-        { src: 'prod/nestjs/Dockerfile', dest: 'nestjs/Dockerfile' }
+        { src: 'prod/nestjs/Dockerfile', dest: 'nestjs/Dockerfile' },
+        { src: 'prod/postgres/Dockerfile', dest: 'postgres/Dockerfile' }
     ];
 
     dockerFiles.forEach(({ src, dest }) => {
         const sourcePath = path.join(process.cwd(), src);
         const targetFilePath = path.join(targetPath, dest);
+        
+        // Ensure the directory exists
+        fs.ensureDirSync(path.dirname(targetFilePath));
         
         if (fs.existsSync(sourcePath)) {
             fs.copyFileSync(sourcePath, targetFilePath);
@@ -71,7 +84,7 @@ try {
     });
 
     // Copy other root files
-    const rootFiles = ['.env', 'keys'];
+    const rootFiles = ['keys'];
     rootFiles.forEach(file => {
         const sourcePath = path.join(process.cwd(), file);
         const targetFilePath = path.join(targetPath, file);

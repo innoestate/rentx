@@ -21,7 +21,11 @@ import * as bodyParser from 'body-parser';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: `.env.${process.env.NODE_ENV || 'development'}`,
+      envFilePath: [
+        `.env.${process.env.NODE_ENV || 'development'}`,
+        '.env.production',
+        '.env'
+      ],
       isGlobal: true,
     }),
     AuthModule,
