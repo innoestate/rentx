@@ -5,7 +5,6 @@ import { CallbackComponent } from './displays/pages/callback/callback.component'
 import { HomeComponent } from './displays/pages/home/home.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
   { path: 'callback', component: CallbackComponent },
   {
     path: '',
@@ -18,6 +17,10 @@ const routes: Routes = [
       {
         path: 'desktop',
         loadChildren: () => import('./displays/desktop/desktop.module').then(m => m.DesktopModule),
+      },
+      {
+        path: 'home',
+        component: HomeComponent
       },
       {
         path: 'cdu',

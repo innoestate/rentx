@@ -35,6 +35,7 @@ export class AuthService {
   }
 
   isAuthenticated(token: string | null): Observable<any> {
+    console.log('isAuthenticated')
     if (token) {
       return this.http.get(`${this.API_URL}/user/profile`).pipe(
         catchError(err => {
