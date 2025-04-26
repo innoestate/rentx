@@ -5,7 +5,7 @@ import { CallbackComponent } from './displays/pages/callback/callback.component'
 import { HomeComponent } from './displays/pages/home/home.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'callback', component: CallbackComponent },
   {
     path: '',
@@ -36,7 +36,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'desktop/login',
+    redirectTo: 'home',
     pathMatch: 'full'
   }
 

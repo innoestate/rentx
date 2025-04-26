@@ -4,13 +4,14 @@
     <div class="hero-section">
       <div class="hero-content">
         <h1 nz-typography>Bienvenue sur RentX</h1>
-        <h2 nz-typography>Votre Solution de Gestion Immobilière Intelligente</h2>
+        <h2 nz-typography>le CRM de l'investisseur immobilier</h2>
         <p nz-typography>
-          RentX est une application complète conçue pour optimiser la gestion immobilière et faciliter vos prospections.
-          Notre plateforme vous offre tous les outils nécessaires pour gérer efficacement votre portefeuille immobilier.
+          RentX est une application gratuite et opensource conçue pour optimiser la gestion immobilière et faciliter vos prospections.
+          Elle vous permet d'avoir un visuel mensuel sur vos locations et de générer ou d'envoyer en 1 clic vos quittances de loyers.
+          Vous pouvez aussi centraliser vos prospection en assignant des status utiles pour vous organiser plus efficacement.
         </p>
         <div class="button-group">
-          <button nz-button nzType="primary" nzSize="large" routerLink="/login">Se connecter</button>
+          <button nz-button nzType="primary" nzSize="large" routerLink="/desktop/login">Se connecter</button>
         </div>
       </div>
     </div>
@@ -18,16 +19,13 @@
     <!-- Features Section -->
     <div class="features-section">
       <nz-row [nzGutter]="[24, 24]">
-        <nz-col [nzXs]="24" [nzSm]="24" [nzMd]="8" *ngFor="let feature of features">
+        <nz-col [nzXs]="24" [nzSm]="24" [nzMd]="12" *ngFor="let feature of features">
           <nz-card>
+            <img nz-image [nzSrc]="feature.image" [alt]="feature.alt" class="feature-image" />
             <nz-card-meta
               [nzTitle]="feature.title"
-              [nzDescription]="feature.description"
-              [nzAvatar]="avatarTemplate">
+              [nzDescription]="feature.description">
             </nz-card-meta>
-            <ng-template #avatarTemplate>
-              <span nz-icon [nzType]="feature.icon" nzTheme="outline"></span>
-            </ng-template>
           </nz-card>
         </nz-col>
       </nz-row>
