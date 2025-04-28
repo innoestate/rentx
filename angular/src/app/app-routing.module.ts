@@ -5,15 +5,15 @@ import { CallbackComponent } from './displays/pages/callback/callback.component'
 import { HomeComponent } from './displays/pages/home/home.component';
 
 const routes: Routes = [
-  {
-    path: 'home',
-    component: HomeComponent
-  },
   { path: 'callback', component: CallbackComponent },
   {
     path: '',
     canActivate: [DeviceGuard],
     children: [
+      {
+        path: 'home',
+        component: HomeComponent
+      },
       {
         path: 'mobile',
         loadChildren: () => import('./displays/mobile/mobile.module').then(m => m.MobileModule),

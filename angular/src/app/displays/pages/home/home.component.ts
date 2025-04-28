@@ -37,6 +37,12 @@ export class HomeComponent {
       alt: 'Gestion des biens'
     },
     {
+      title: 'Synchronisation Google sheets',
+      description: 'Des tableaux excels sont automatiquement synchronisés sur votre google sheet avec toutes vos quittances, organisés par années.',
+      image: 'assets/images/visuel_excel.png',
+      alt: 'Synchronization excel'
+    },
+    {
       title: 'Gestion prospective',
       description: 'Centralisez vos prospections immobilières, gérer les vendeurs et les status de vos recherches.',
       image: 'assets/images/visuel_prospections.png',
