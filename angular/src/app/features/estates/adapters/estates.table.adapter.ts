@@ -5,13 +5,13 @@ import { Owner } from "src/app/features/owners/models/owner.model";
 import { UiNestedDropdown } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
 import { UiLabel } from "src/app/ui/components/ui-label/models/ui-label.model";
 import { UiCellBasic, UiCellDropdown } from "src/app/ui/components/ui-table/models/ui-cell.model";
-import { UiTable2Row } from "src/app/ui/components/ui-table/models/ui-table-row.model";
+import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumn } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { Lodger } from "../../lodgers/models/lodger.model";
 import { Estate } from "../models/estate.model";
 import { createLodgerDropdown } from "./estates.lodgers.adapter.helper";
 
-interface EstateTableRow extends UiTable2Row {
+interface EstateTableRow extends UiTableRow {
   cells: {
     address: UiCellBasic;
     plot: UiCellBasic;
@@ -69,7 +69,7 @@ export class EstatesTableAdapterService {
     ];
   }
 
-  createRows(estates: Estate[], owners: Owner[], lodgers: Lodger[]): UiTable2Row[] {
+  createRows(estates: Estate[], owners: Owner[], lodgers: Lodger[]): UiTableRow[] {
     return estates.map(estate => this.formatUiTableRow(estate, owners, lodgers));
   }
 

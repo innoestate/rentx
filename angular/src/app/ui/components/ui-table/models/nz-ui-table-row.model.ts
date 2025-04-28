@@ -1,6 +1,6 @@
 import { NzUiCell } from "./nz-ui-cell.model";
 
-export interface NzUiTable2Row {
+export interface NzUiTableRow {
   inputRowIndex: number;
   id: string;
   cells: NzUiCell[];

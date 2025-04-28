@@ -3,10 +3,10 @@ import { LocalizationsService } from "src/app/core/localizations/localizations.s
 import { Owner } from "src/app/features/owners/models/owner.model";
 import { UiNestedDropdown } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
 import { UiCellBasic } from "src/app/ui/components/ui-table/models/ui-cell.model";
-import { UiTable2Row } from "src/app/ui/components/ui-table/models/ui-table-row.model";
+import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumn } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 
-interface OwnerTable extends UiTable2Row {
+interface OwnerTable extends UiTableRow {
   cells: {
     name: UiCellBasic,
     street: UiCellBasic,
@@ -58,7 +58,7 @@ export class OwnersTableAdapterService {
     ];
   }
 
-  createRows(owners: Owner[]): UiTable2Row[] {
+  createRows(owners: Owner[]): UiTableRow[] {
     return owners.map(owner => this.formatUiTableRow(owner));
   }
 

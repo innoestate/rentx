@@ -1,19 +1,18 @@
 import { Injectable } from "@angular/core";
+import { NzTableFilterValue } from "ng-zorro-antd/table";
 import { LocalizationsService } from "src/app/core/localizations/localizations.service";
+import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
+import { PropertyCategory } from "src/app/shared/models/property-category.model";
+import { UiNestedDropdown } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
+import { NzUiCell } from "src/app/ui/components/ui-table/models/nz-ui-cell.model";
+import { NzUiTableRow } from "src/app/ui/components/ui-table/models/nz-ui-table-row.model";
+import { UiCellBasic, UiCellDropdown } from "src/app/ui/components/ui-table/models/ui-cell.model";
+import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumn } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 import { Prospection_Dto } from "../../models/prospection.dto.model";
-import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
-import { PropertyStatusTypes, PROSPECTION_STATUS, ProspectionStatus } from "../../models/prospection.status.model";
-import { UiCellBasic, UiCellDropdown } from "src/app/ui/components/ui-table/models/ui-cell.model";
-import { UiTable2Row } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { UiNestedDropdown } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
-import { UiTableRow } from "src/app/ui/components/ui-table-draft/models/ui-table-row.model";
-import { NzTableFilterValue } from "ng-zorro-antd/table";
-import { NzUiCell } from "src/app/ui/components/ui-table/models/nz-ui-cell.model";
-import { NzUiTable2Row } from "src/app/ui/components/ui-table/models/nz-ui-table-row.model";
-import { PropertyCategory } from "src/app/shared/models/property-category.model";
+import { PROSPECTION_STATUS } from "../../models/prospection.status.model";
 
-interface ProspectionTableRow extends UiTable2Row {
+interface ProspectionTableRow extends UiTableRow {
   data: { id: string };
   cells: {
     property_category: UiCellDropdown,
@@ -52,7 +51,7 @@ export class ProspectionsTable2AdapterService {
           label: { title: { label: 'Ville' } },
           filter: {
             list: this.buildCityFilters(prospections),
-            function: (values: NzTableFilterValue, row: NzUiTable2Row) => {
+            function: (values: NzTableFilterValue, row: NzUiTableRow) => {
               if (row.cells[0]) {
                 return (values as string[]).includes((row.cells[0] as NzUiCell)!.label!.title!.label! as string);
               } else {
@@ -118,7 +117,7 @@ export class ProspectionsTable2AdapterService {
     ];
   }
 
-  createRows(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTable2Row[] {
+  createRows(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTableRow[] {
     return prospections.map(prospection => this.formatUiTableRow(prospection, sellers));
   }
 
@@ -293,7 +292,7 @@ export class ProspectionsTable2AdapterService {
   private buildStatusFilter() {
     return {
       list: this.buildStatusFilters(),
-      function: (values: NzTableFilterValue, row: NzUiTable2Row) => {
+      function: (values: NzTableFilterValue, row: NzUiTableRow) => {
         if (row.cells[6]) {
           const shortLabel = (row.cells[6] as UiCellDropdown).dropdown?.label?.title?.label as string || '';
           const key = PROSPECTION_STATUS.find(status => status.shortLabel === shortLabel)?.key;
@@ -307,7 +306,7 @@ export class ProspectionsTable2AdapterService {
 
   private buildStatusSorting() {
     return {
-      function: (a: NzUiTable2Row, b: NzUiTable2Row) => {
+      function: (a: NzUiTableRow, b: NzUiTableRow) => {
         const shortLabelA = a.cells[6].dropdown?.label?.title?.label as string || '';
         const shortLabelB = b.cells[6].dropdown?.label?.title?.label as string || '';
         return shortLabelA.localeCompare(shortLabelB);

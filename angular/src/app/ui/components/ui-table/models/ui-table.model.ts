@@ -1,11 +1,11 @@
 import { Signal } from "@angular/core";
-import { UiTable2Row } from "./ui-table-row.model";
+import { UiTableRow } from "./ui-table-row.model";
 import { UiTableColumn } from "./ui-table.column.model";
 import { UiIcon } from "../../ui-icon/models/ui-icon.model";
 
-export interface UiTable2 {
+export interface UiTable {
   columns: Signal<UiTableColumn[]>;
-  rows: Signal<UiTable2Row[]>;
+  rows: Signal<UiTableRow[]>;
   title?: string;
   commands?: UiIcon[];
   // fixedColumns?: { left: number, right: number };

@@ -3,10 +3,10 @@ import { LocalizationsService } from "src/app/core/localizations/localizations.s
 import { Seller } from "src/app/features/sellers/models/seller.model";
 import { UiNestedDropdown } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
 import { UiCellBasic } from "src/app/ui/components/ui-table/models/ui-cell.model";
-import { UiTable2Row } from "src/app/ui/components/ui-table/models/ui-table-row.model";
+import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumn } from "src/app/ui/components/ui-table/models/ui-table.column.model";
 
-interface SellerTable extends UiTable2Row {
+interface SellerTable extends UiTableRow {
   cells: {
     name: UiCellBasic,
     address: UiCellBasic,
@@ -63,7 +63,7 @@ export class SellersTableAdapterService {
     ];
   }
 
-  createRows(sellers: Seller[]): UiTable2Row[] {
+  createRows(sellers: Seller[]): UiTableRow[] {
     return sellers.map(seller => this.formatUiTableRow(seller));
   }
 

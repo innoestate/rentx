@@ -14,7 +14,7 @@ $row-selected-background-color: var(--color-basic-150);
   ::ng-deep {
 
     * {
-      background-color: transparent !important;
+      // background-color: transparent !important;
     }
 
     nz-table {
@@ -151,7 +151,13 @@ $row-selected-background-color: var(--color-basic-150);
   .ant-table-filter-dropdown-btns {
     background-color: transparent !important;
   }
+  .selected {
+    .ant-table-cell {
+      background-color: var(--color-basic-200) !important;
+    }
+  }
 }
+
 
 
 .ui-table-background-image {

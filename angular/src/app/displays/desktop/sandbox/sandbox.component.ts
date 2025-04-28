@@ -3,9 +3,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { cloneDeep } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 import { UiCell } from 'src/app/ui/components/ui-table/models/ui-cell.model';
-import { UiTable2Row } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
+import { UiTableRow } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
 import { UiTableColumn } from 'src/app/ui/components/ui-table/models/ui-table.column.model';
-import { UiTable2 } from 'src/app/ui/components/ui-table/models/ui-table.model';
+import { UiTable } from 'src/app/ui/components/ui-table/models/ui-table.model';
 
 @Component({
   selector: 'app-sandbox',
@@ -229,9 +229,9 @@ export class SandboxComponent {
     },
   ])
 
-  table: UiTable2 = {
+  table: UiTable = {
     columns: toSignal(this.columns$) as Signal<UiTableColumn[]>,
-    rows: toSignal(this.rows$) as Signal<UiTable2Row[]>
+    rows: toSignal(this.rows$) as Signal<UiTableRow[]>
   }
 
   editCell(event: { id: string, key: string, cell: UiCell }) {

@@ -5,9 +5,9 @@ import { OwnersTableAdapterService } from 'src/app/features/owners/adapters/tabl
 import { OwnersDataService } from 'src/app/features/owners/data/owners.data.service';
 import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
 import { UiCell } from 'src/app/ui/components/ui-table/models/ui-cell.model';
-import { UiTable2Row } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
+import { UiTableRow } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
 import { UiTableColumn } from 'src/app/ui/components/ui-table/models/ui-table.column.model';
-import { UiTable2 } from 'src/app/ui/components/ui-table/models/ui-table.model';
+import { UiTable } from 'src/app/ui/components/ui-table/models/ui-table.model';
 import { DesktopOwnersCommandsService } from '../../commands/desktop.owners.command';
 
 @Component({
@@ -19,7 +19,7 @@ import { DesktopOwnersCommandsService } from '../../commands/desktop.owners.comm
 export class DesktopOwnersTableComponent extends UiDisplayerComponent {
 
   owners = this.ownersData.getOwners();
-  table: UiTable2 = {
+  table: UiTable = {
     columns: signal<UiTableColumn[]>(this.adapter.createColumns()),
     rows: this.getRows(),
     title: this.localization.getLocalization('owners', 'tableTitle'),
@@ -36,7 +36,7 @@ export class DesktopOwnersTableComponent extends UiDisplayerComponent {
     super(elRef);
   }
 
-  getRows(): Signal<UiTable2Row[]> {
+  getRows(): Signal<UiTableRow[]> {
     return computed(() => {
       const rows = this.adapter.createRows(this.owners());
       this.bindColumnsCommands(this.table.columns());
@@ -60,7 +60,7 @@ export class DesktopOwnersTableComponent extends UiDisplayerComponent {
     columns.find(c => c.key === 'actions')!.cell.dropdown!.list![0].label!.command = () => this.ownersCommands.createOwner();
   }
 
-  bindRowsCommands(rows: UiTable2Row[]) {
+  bindRowsCommands(rows: UiTableRow[]) {
     rows.forEach(row => {
       const id = row.data.id;
       row.cells['actions']!.dropdown!.list![0].label!.command = () => this.ownersCommands.deleteOwner(id);

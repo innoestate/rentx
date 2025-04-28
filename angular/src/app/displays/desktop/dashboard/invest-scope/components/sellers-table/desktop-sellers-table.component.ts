@@ -2,9 +2,9 @@ import { Component, ElementRef, computed, signal } from '@angular/core';
 import { SellersTableAdapterService } from 'src/app/features/sellers/adapters/sellers.table.adapter';
 import { SellersDataService } from 'src/app/features/sellers/data/services/sellers.data.service';
 import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
-import { UiTable2 } from 'src/app/ui/components/ui-table/models/ui-table.model';
+import { UiTable } from 'src/app/ui/components/ui-table/models/ui-table.model';
 import { SellersCommandsService } from 'src/app/features/sellers/commands/table/sellers.commands.service';
-import { UiTable2Row } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
+import { UiTableRow } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
 import { UiCell } from 'src/app/ui/components/ui-table/models/ui-cell.model';
 import { catchError, of, take } from 'rxjs';
 
@@ -17,7 +17,7 @@ import { catchError, of, take } from 'rxjs';
 export class DesktopSellersTableComponent extends UiDisplayerComponent {
 
   sellers = this.sellersData.getSellers();
-  table: UiTable2 = {
+  table: UiTable = {
     columns: signal(this.adapter.createColumns()),
     rows: this.getRows(),
     title: 'Table des vendeurs',
@@ -57,7 +57,7 @@ export class DesktopSellersTableComponent extends UiDisplayerComponent {
     columns.find(c => c.key === 'actions')!.cell.dropdown!.list![0].label!.command = () => this.sellersCommands.createNew();
   }
 
-  bindRowsCommands(rows: UiTable2Row[]) {
+  bindRowsCommands(rows: UiTableRow[]) {
     rows.forEach(row => {
       const id = row.data.id;
       row.cells['actions']!.dropdown!.list![0].label!.command = () => this.sellersCommands.delete(id);

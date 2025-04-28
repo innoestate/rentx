@@ -1,4 +1,4 @@
-import { NzUiTable2Row } from "../models/nz-ui-table-row.model";
+import { NzUiTableRow } from "../models/nz-ui-table-row.model";
 import { UiCell, UiCellBasic, UiCellDropdown } from "../models/ui-cell.model";
 import { UiTableColumn } from "../models/ui-table.column.model";
 
@@ -13,7 +13,7 @@ export const getSort = (column: UiTableColumn, columnIndex: number) => {
   return undefined;
 }
 
-const sortRows = (rowA: NzUiTable2Row, rowB: NzUiTable2Row, columnIndex: number): number => {
+const sortRows = (rowA: NzUiTableRow, rowB: NzUiTableRow, columnIndex: number): number => {
   const cellA = rowA.cells[columnIndex];
   const cellB = rowB.cells[columnIndex];
   if (isDropDownCell(cellA, cellB)) return sortDropdown(rowA.cells, rowB.cells, columnIndex);

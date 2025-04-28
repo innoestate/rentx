@@ -7,7 +7,7 @@ import { ProspectionsDataService } from 'src/app/features/prospections/data/serv
 import { SellersDataService } from 'src/app/features/sellers/data/services/sellers.data.service';
 import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
 import { UiCell } from 'src/app/ui/components/ui-table/models/ui-cell.model';
-import { UiTable2 } from 'src/app/ui/components/ui-table/models/ui-table.model';
+import { UiTable } from 'src/app/ui/components/ui-table/models/ui-table.model';
 
 @Component({
   standalone: false,
@@ -16,7 +16,7 @@ import { UiTable2 } from 'src/app/ui/components/ui-table/models/ui-table.model';
 })
 export class DesktopProspectionsTableComponent extends UiDisplayerComponent {
 
-  table: UiTable2 = {
+  table: UiTable = {
     columns: computed(() => (this.adapter.createColumns(this.prospectionsDto()))),
     rows: this.getRows(),
     title: this.localization.getLocalization('prospections', 'tableTitle'),

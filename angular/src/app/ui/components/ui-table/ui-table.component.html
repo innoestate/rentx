@@ -33,7 +33,7 @@
   </thead>
   <tbody>
     @for(nzRow of tableRef.data; let rowI = $index; track nzRow.id){
-    <tr>
+    <tr (click)="select(nzRow)" [class.selected]="selectedNzRow() === nzRow">
       @for(cell of nzRow.cells; let colI = $index; track colI) {
       <td>
         <ui-dynamic-cell (onEdit)="edit($event, nzRow, colI)" [cell]="cell"></ui-dynamic-cell>

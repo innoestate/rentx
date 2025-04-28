@@ -5,9 +5,9 @@ import { LodgersDataService } from 'src/app/features/lodgers/data/lodgers.data.s
 import { Lodger } from 'src/app/features/lodgers/models/lodger.model';
 import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
 import { UiTableColumn } from 'src/app/ui/components/ui-table/models/ui-table.column.model';
-import { UiTable2 } from 'src/app/ui/components/ui-table/models/ui-table.model';
+import { UiTable } from 'src/app/ui/components/ui-table/models/ui-table.model';
 import { DesktopLodgersCommandsService } from '../../commands/deskop.lodgers.command';
-import { UiTable2Row } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
+import { UiTableRow } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
 import { LocalizationsService } from 'src/app/core/localizations/localizations.service';
 import { UiCell } from 'src/app/ui/components/ui-table/models/ui-cell.model';
 
@@ -20,7 +20,7 @@ import { UiCell } from 'src/app/ui/components/ui-table/models/ui-cell.model';
 export class DesktopLodgersTableComponent extends UiDisplayerComponent {
 
   lodgers = this.lodgerData.getLodgers();
-  table2: UiTable2 = {
+  table2: UiTable = {
     columns: signal<UiTableColumn[]>(this.adapter.createColumns()),
     rows: this.getRows(),
     title: this.localization.getLocalization('lodgers', 'tableTitle'),
@@ -42,7 +42,7 @@ export class DesktopLodgersTableComponent extends UiDisplayerComponent {
     super(elRef);
   }
 
-  getRows(): Signal<UiTable2Row[]> {
+  getRows(): Signal<UiTableRow[]> {
     return computed(() => {
       const rows = this.adapter.createRows(this.lodgers());
       this.bindColumnsCommands(this.table2.columns());
@@ -55,7 +55,7 @@ export class DesktopLodgersTableComponent extends UiDisplayerComponent {
     columns.find(c => c.key === 'actions')!.cell.dropdown!.list![0].label!.command = () => this.lodgersCommands.createLodger();
   }
 
-  bindRowsCommands(rows: UiTable2Row[]) {
+  bindRowsCommands(rows: UiTableRow[]) {
     rows.forEach(row => {
       const id = row.data.id;
       row.cells['actions']!.dropdown!.list![0].label!.command = () => this.lodgersCommands.deleteLodger(id);

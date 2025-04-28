@@ -1,6 +1,6 @@
 import { UiCell } from "./ui-cell.model";
 
-export interface UiTable2Row {
-  data: any,
+export interface UiTableRow {
+  data: any,//CAREFULL: need at least an id
   cells: { [key: string]: UiCell }
 }

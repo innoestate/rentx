@@ -11,9 +11,9 @@ import { RentsCommandsService } from 'src/app/features/rents/commands/rents.comm
 import { RentsDataService } from 'src/app/features/rents/data/service/rents.data.service';
 import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
 import { UiCell } from 'src/app/ui/components/ui-table/models/ui-cell.model';
-import { UiTable2Row } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
+import { UiTableRow } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
 import { UiTableColumn } from 'src/app/ui/components/ui-table/models/ui-table.column.model';
-import { UiTable2 } from 'src/app/ui/components/ui-table/models/ui-table.model';
+import { UiTable } from 'src/app/ui/components/ui-table/models/ui-table.model';
 import { DesktopLodgersCommandsService } from '../../commands/deskop.lodgers.command';
 import { DesktopEstatesCommandsService } from '../../commands/desktop.estates.command';
 
@@ -26,7 +26,7 @@ import { DesktopEstatesCommandsService } from '../../commands/desktop.estates.co
 export class DesktopEstatesTableComponent extends UiDisplayerComponent {
 
 
-  table: UiTable2 = {
+  table: UiTable = {
     columns: signal<UiTableColumn[]>(this.adapter.createColumns()),
     rows: this.getRows(),
     title: this.localization.getLocalization('estates', 'tableTitle'),
@@ -63,7 +63,7 @@ export class DesktopEstatesTableComponent extends UiDisplayerComponent {
     super(elRef);
   }
 
-  getRows(): Signal<UiTable2Row[]> {
+  getRows(): Signal<UiTableRow[]> {
     return computed(() => {
       const rows = this.adapter.createRows(this.estates(), this.ownersDto(), this.lodgersDto());
       this.bindColumnsCommands(this.table.columns());
@@ -76,7 +76,7 @@ export class DesktopEstatesTableComponent extends UiDisplayerComponent {
     columns.find(c => c.key === 'actions')!.cell.dropdown!.list![0].label!.command = () => this.estatesCommands.createEstate();
   }
 
-  bindRowsCommands(rows: UiTable2Row[]) {
+  bindRowsCommands(rows: UiTableRow[]) {
     rows.forEach(row => {
 
       const estate = this.estates().find(e => e.id === row.data.id)!;
