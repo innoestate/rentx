@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { LocalizationsService } from 'src/app/core/localizations/localizations.service';
 import { InvestScopeDisplayStoreFacade } from 'src/app/features/invest-scope/states/display/facades/invest-scope.display-store.facade';
@@ -14,7 +14,9 @@ import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-disp
 export class DesktopProspectionDescriptionComponent extends UiDisplayerComponent {
 
   prospection = toSignal(this.facade.onSelectedItem());
-  descriptionLabel = this.localizations.getLocalization('commons', 'description')
+  descriptionLabel = this.localizations.getLocalization('commons', 'description');
+  iconOffer = signal({ name: 'edit-file', size: 24, color: "var(--color-basic-100)" });
+  offerButtonText = signal<string>(this.localizations.getLocalization('prospections', 'makeOffer'));
 
   constructor(private facade: InvestScopeDisplayStoreFacade,
               private prospectionsData: ProspectionsDataService,
@@ -22,6 +24,7 @@ export class DesktopProspectionDescriptionComponent extends UiDisplayerComponent
               protected override elRef: ElementRef) {
     super(elRef);
   }
+
 
   updateDescription(description: string) {
     this.prospectionsData.updateProspection(this.prospection()?.id!, { resume: description });

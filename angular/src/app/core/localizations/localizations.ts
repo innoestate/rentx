@@ -87,7 +87,8 @@ export const Localizations: Record<string, Record<string, string>> = {
     updateProspectionSuccess: 'Prospection modifiée avec succès!',
     updateProspectionFailure: 'Echec de la modification de la prospection!',
     deleteProspectionSuccess: 'Prospection supprimée avec succès!',
-    deleteProspectionFailure: 'Echec de la suppression de la prospection!'
+    deleteProspectionFailure: 'Echec de la suppression de la prospection!',
+    makeOffer: 'Faire une offre'
   },
   sellers: {
     label: 'vendeurs',
