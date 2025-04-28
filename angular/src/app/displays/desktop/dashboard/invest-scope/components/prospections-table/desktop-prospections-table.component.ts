@@ -7,6 +7,7 @@ import { ProspectionsDataService } from 'src/app/features/prospections/data/serv
 import { SellersDataService } from 'src/app/features/sellers/data/services/sellers.data.service';
 import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
 import { UiCell } from 'src/app/ui/components/ui-table/models/ui-cell.model';
+import { UiTableRow } from 'src/app/ui/components/ui-table/models/ui-table-row.model';
 import { UiTable } from 'src/app/ui/components/ui-table/models/ui-table.model';
 
 @Component({
@@ -31,6 +32,7 @@ export class DesktopProspectionsTableComponent extends UiDisplayerComponent {
               private SellersData: SellersDataService,
               private localization: LocalizationsService,
               private prospectionsCommands: ProspectionsCommandsService,
+              private displayAdapter: InvestScopeDisplayManager,
               protected override elRef: ElementRef) {
     super(elRef);
   }
@@ -38,6 +40,11 @@ export class DesktopProspectionsTableComponent extends UiDisplayerComponent {
   editCell(event: { id: string, key: string, cell: UiCell} ){
     const value = this.adapter.getUpdatableValue(this.sellersDto(), event.key, event.cell);
     this.prospectionsData.updateProspection(event.id, value);
+  }
+
+  selectItem(tableRow: UiTableRow){
+    const item = this.prospectionsDto().find(p => p.id === tableRow.data.id);
+    this.displayAdapter.selectItem(item!);
   }
 
   getRows(){

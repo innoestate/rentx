@@ -43,6 +43,8 @@ export class InvestScopeDisplayerAdapter {
 
   private buildMapping(dynamicComponents: UiDynamicComponent[][], componentsList: string[]) {
 
+    console.log('buildMapping', componentsList);
+
     if (componentsList.includes('navigation') && dynamicComponents[0][0].name === '') {
       this.emitReplacement(dynamicComponents[0][0], 'navigation');
     }
@@ -58,9 +60,9 @@ export class InvestScopeDisplayerAdapter {
       this.emitReplacement(dynamicComponents[1][0], 'prospections');
     }
 
-    if (componentsList.includes('prospectionDescription')) {
+    if (componentsList.includes('prospections') && !dynamicComponents[1].find(item => item.name === 'prospectionDescription')) {
       this.emitReplacement(dynamicComponents[2][1], 'prospectionDescription');
-    } else {
+    } else if (!componentsList.includes('prospections')){
       this.emitReplacement(dynamicComponents[2][1], '');
     }
   }

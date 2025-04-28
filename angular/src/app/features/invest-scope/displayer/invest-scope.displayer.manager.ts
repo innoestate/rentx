@@ -28,9 +28,9 @@ export class InvestScopeDisplayManager extends DisplayerManager {
         this.facade.setNavigation(navigation);
         this.facade.deselectItem();
 
-        if(actualNavigation === 'prospections' && navigation === 'prospections'){
+        if (navigation === 'prospections') {
           this.facade.addComponent('prospectionDescription');
-        }else{
+        } else {
           this.facade.removeComponent('prospectionDescription');
         }
 

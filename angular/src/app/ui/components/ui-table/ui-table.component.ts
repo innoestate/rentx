@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, ElementRef, input, model, output, signal, Signal, ViewChild } from '@angular/core';
+import { Component, computed, effect, ElementRef, input, model, output, signal, Signal, ViewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzTableComponent, NzTableModule } from 'ng-zorro-antd/table';
@@ -44,7 +44,9 @@ export class UiTableComponent<T> {
   protected pageIndex = model<number>(1);
   protected pagesNumber = computed(() => this.pagination.getPageNumber(this.nzRows().length, this.rowsPerPages() ?? 1))
 
-  constructor(private elRef: ElementRef, protected pagination: Pagination) {}
+  constructor(private elRef: ElementRef, protected pagination: Pagination) {
+    this.initSelectedRowEffect();
+  }
 
   edit(cell: NzUiCell, nzRow: NzUiTableRow, columnIndex: number) {
     const key = nzRow.cells[columnIndex].key as string;
@@ -66,6 +68,14 @@ export class UiTableComponent<T> {
 
   private buildNzRows(): Signal<NzUiTableRow[]> {
     return computed(() => formatNzRows(this.table().rows(), this.table().columns()));
+  }
+
+  private initSelectedRowEffect(){
+    effect(() => {
+      if(this.table().rows().length > 0 && this.selectedNzRow()){
+        this.select(this.selectedNzRow()!);
+      }
+    })
   }
 
   handleCurrentPageDataChange(): void {
