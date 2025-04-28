@@ -7,9 +7,9 @@ export const Localizations: Record<string, Record<string, string>> = {
   },
   propertyCategories: {
     parking: 'parking',
-    terran: 'terran',
+    terran: 'terrain',
     box: 'box',
-    house: 'house',
+    estate: 'maison',
     building: 'appartement'
   },
   estates: {

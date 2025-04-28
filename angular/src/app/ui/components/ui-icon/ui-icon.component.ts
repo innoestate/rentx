@@ -1,5 +1,5 @@
 // icon.component.ts
-import { AfterViewInit, Component, computed, ElementRef, HostListener, input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, computed, effect, ElementRef, HostListener, input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Observable, take, tap } from 'rxjs';
 import { UiIconService } from './service/ui-icon.service';
@@ -31,7 +31,11 @@ export class UiIconComponent implements OnInit, AfterViewInit {
     private sanitizer: DomSanitizer,
     private elRef: ElementRef,
     private iconService: UiIconService,
-  ) {}
+  ) {
+    effect(() => {
+      this.renderIcon();
+    })
+  }
 
   ngOnInit() {
     this.renderIcon();

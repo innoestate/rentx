@@ -144,20 +144,7 @@ export class ProspectionsTable2AdapterService {
     return {
       data: { id: prospection.id || '' },
       cells: {
-        property_category: {
-          editable: true,
-          type: 'dropdown-select',
-          dropdown: {
-            label: { icon: { name: prospection.property_category || 'building', size: 24, color: 'var(--color-secondary-500)' } },
-            list: [
-              { label: { icon: { name: 'parking', size: 24, color: 'var(--color-secondary-500)' } } },
-              { label: { icon: { name: 'terran', size: 24, color: 'var(--color-secondary-500)' } } },
-              { label: { icon: { name: 'box', size: 24, color: 'var(--color-secondary-500)' } } },
-              { label: { icon: { name: 'estate', size: 24, color: 'var(--color-secondary-500)' } } },
-              { label: { icon: { name: 'building', size: 24, color: 'var(--color-secondary-500)' } } }
-            ]
-          }
-        },
+        property_category: this.getPropertyCategory(prospection),
         city: {
           editable: true,
           type: 'string',
@@ -199,6 +186,23 @@ export class ProspectionsTable2AdapterService {
         }
       }
     };
+  }
+
+  private getPropertyCategory(prospection: Prospection_Dto): UiCellDropdown {
+    return {
+      editable: true,
+      type: 'dropdown-select',
+      dropdown: {
+        label: { icon: { name: prospection.property_category || 'building', size: 24, color: 'var(--color-secondary-500)' } },
+        list: [
+          { label: { icon: { name: 'parking', size: 24, color: 'var(--color-secondary-500)' }, title: { label: this.localization.getLocalization('propertyCategories', 'parking') } } },
+          { label: { icon: { name: 'terran', size: 24, color: 'var(--color-secondary-500)' }, title: { label: this.localization.getLocalization('propertyCategories', 'terran') } } },
+          { label: { icon: { name: 'box', size: 24, color: 'var(--color-secondary-500)' }, title: { label: this.localization.getLocalization('propertyCategories', 'box') } } },
+          { label: { icon: { name: 'estate', size: 24, color: 'var(--color-secondary-500)' }, title: { label: this.localization.getLocalization('propertyCategories', 'estate') } } },
+          { label: { icon: { name: 'building', size: 24, color: 'var(--color-secondary-500)' }, title: { label: this.localization.getLocalization('propertyCategories', 'building') } } }
+        ]
+      }
+    }
   }
 
   private buildSellerDropdown(sellers: Seller_Dto[], prospection: Prospection_Dto) {
