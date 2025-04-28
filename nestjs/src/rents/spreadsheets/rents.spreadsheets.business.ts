@@ -19,7 +19,6 @@ export const buildSpreadsheetContext2 = async (sheetStrategy: SpreadSheetStrateg
         if (spreadSheet) {
             spreadSheet = await createMissingSheets(sheetStrategy, spreadSheet, estatesGoogleSheet.estates, years);
             spreadSheet = await addMissingEstatesInSheets(sheetStrategy, spreadSheet, estatesGoogleSheet.estates);
-            console.log('after add missing estates', spreadSheet);
             // spreadSheet = await removeEstatesInSheets(sheetStrategy, spreadSheet, estatesGoogleSheet.estates);
         } else {
             spreadSheet = await sheetStrategy.createSpreadSheet('biens_locatifs');
