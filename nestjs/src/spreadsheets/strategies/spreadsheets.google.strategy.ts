@@ -1,6 +1,7 @@
 import { google, sheets_v4 } from 'googleapis';
 import { Cell, Sheet, SpreadSheet, SpreadSheetUpdate } from "../models/spreadsheets.model";
 import { SpreadSheetStrategy } from "./spreadsheets.strategy";
+import { GoogleConnect } from 'src/google/models/google.connect.model';
 
 export const MONTHS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 
@@ -31,8 +32,8 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
         super();
     }
 
-    async init(ccessToken: string, refreshToken: string, clientId: string, clientSecret: string) {
-        this.oauth2Client = await getOath2Client(ccessToken, refreshToken, clientId, clientSecret);
+    async init(googleConnect: GoogleConnect) {
+        this.oauth2Client = await getOath2Client(googleConnect.accessToken, googleConnect.refreshToken, googleConnect.clientId, googleConnect.clientSecret);
         this.sheets = await google.sheets('v4');
         return true;
     }

@@ -1,20 +1,29 @@
 import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { combineLatest, from, map, of, switchMap, take, tap } from 'rxjs';
+import { catchError, combineLatest, from, map, Observable, of, switchMap, take, tap } from 'rxjs';
+import { DocsDbService } from 'src/docs/docs.db.service';
+import { Estate_filled_Db } from 'src/estates/estate-filled-db.model';
+import { GoogleConnect } from 'src/google/models/google.connect.model';
 import { JwtAuthGuard } from '../auth/auth.guard';
-import { sendEmail } from '../emails/emails.buisness';
 import { EstatesService } from '../estates/estates.service';
 import { UserMidleweare } from '../guards/user-midleweare.guard';
 import { LodgersService } from '../lodgers/lodgers.service';
 import { OwnersService } from '../owners/owners.service';
-import { createRentReceiptEmail, createRentReciptPdf } from './rent-receipts/rent-receipts.business';
+import { createRentReciptPdf } from './rent-receipts/rent-receipts.business';
+import { RentsDbService } from './services/rents.db.service';
 import { RentsService } from './services/rents.service';
 
 
 @Controller('api/rents')
 export class RentsController {
 
-    constructor(private estateService: EstatesService, private ownerService: OwnersService, private lodgerService: LodgersService, private configService: ConfigService, private rentsService: RentsService) { }
+    constructor(private estateService: EstatesService,
+        private ownerService: OwnersService,
+        private lodgerService: LodgersService,
+        private configService: ConfigService,
+        private rentsDbService: RentsDbService,
+        private docsDbService: DocsDbService,
+        private rentsService: RentsService) { }
 
     @Post('downloadPdf')
     downloadPdfRentReceipt(@Req() req, @Res() res) {
@@ -53,6 +62,13 @@ export class RentsController {
         const clientId = this.configService.get('GOOGLE_CLIENT_ID');
         const clientSecret = this.configService.get('GOOGLE_CLIENT_SECRET');
 
+        const google: GoogleConnect = {
+            accessToken,
+            refreshToken: refresh_token,
+            clientId,
+            clientSecret
+        }
+
         return combineLatest([
             this.estateService.getById(id),
             this.ownerService.getByUser(req.user.id),
@@ -61,7 +77,9 @@ export class RentsController {
             switchMap(([estate, owners, lodgers]) => {
                 const owner = owners.find(owner => owner.id === estate.owner_id);
                 const lodger = lodgers.find(lodger => lodger.id === estate.lodger_id);
-                return this.rentsService.buildRentReciptPdf(req.user.id, estate, owner, { ...lodger, email: req.user.email }, startDate, endDate, accessToken, refresh_token, clientId, clientSecret);
+                return this.rentsService.buildRentReceiptPdf(req.user.id, estate, owner, { ...lodger, email: req.user.email }, startDate, endDate, accessToken, refresh_token, clientId, clientSecret).pipe(
+                    tap(() => this.synchronizeGoogleSheets(req.user.id, google).subscribe())
+                );
             }),
             map(rentReceipt => {
                 res.setHeader('Content-Type', 'application/pdf');
@@ -82,8 +100,16 @@ export class RentsController {
         const clientId = this.configService.get('GOOGLE_CLIENT_ID');
         const clientSecret = this.configService.get('GOOGLE_CLIENT_SECRET');
 
+        const google: GoogleConnect = {
+            accessToken,
+            refreshToken: refresh_token,
+            clientId,
+            clientSecret
+        }
+
         return this.rentsService.SendRentReceiptByEmail(req.user.id, estateId, accessToken, refresh_token, clientId, clientSecret, startDate, endDate).pipe(
-            map(_ => res.send({ statusCode: 200, body: 'email sent' })) 
+            tap(() => this.synchronizeGoogleSheets(req.user.id, google).subscribe()),
+            map(_ => res.send({ statusCode: 200, body: 'email sent' }))
         );
 
     }
@@ -91,11 +117,83 @@ export class RentsController {
     @UseGuards(JwtAuthGuard, UserMidleweare)
     @Get('sheets')
     synchronizeSheets(@Req() req, @Res() res) {
-        return this.rentsService.synchronizeRentsInGoogleSheet(req.user.id,req.user.accessToken, req.user.refresh_token,this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET')).pipe(
-            map( result => {
-                res.setHeader('Content-Type', 'application/pdf');
-                res.setHeader('Content-Disposition', 'attachment; filename=quittance.pdf');
-                res.send(result)
+
+        const { accessToken, refresh_token } = req.user;
+        const clientId = this.configService.get('GOOGLE_CLIENT_ID');
+        const clientSecret = this.configService.get('GOOGLE_CLIENT_SECRET');
+
+        const google: GoogleConnect = {
+            accessToken,
+            refreshToken: refresh_token,
+            clientId,
+            clientSecret
+        }
+
+        return this.synchronizeGoogleSheets(req.user.id, google).pipe(
+            map(_ => res.send({ statusCode: 200, body: 'sheets synchronized' }))
+        );
+        // return this.rentsService.synchronizeRentsInGoogleSheet(req.user.id, req.user.accessToken, req.user.refresh_token, this.configService.get('GOOGLE_CLIENT_ID'), this.configService.get('GOOGLE_CLIENT_SECRET')).pipe(
+        //     map(result => {
+        //         res.setHeader('Content-Type', 'application/pdf');
+        //         res.setHeader('Content-Disposition', 'attachment; filename=quittance.pdf');
+        //         res.send(result)
+        //     })
+        // );
+    }
+
+    synchronizeGoogleSheets(userId: string, google: GoogleConnect) {
+        return combineLatest([
+            this.getFullEstates(userId),
+            this.rentsDbService.getByUserId(userId),
+            this.getSpreadSheetId(userId)
+        ]).pipe(
+            take(1),
+            switchMap(([estates, rents, spreadSheetId]) => {
+                return this.rentsService.synchronizeRentsInGoogleSheet2({ estates, rents, spreadSheetId, google });
+            }),
+            switchMap(spreadSheet => this.updateSpreadSheetId(userId, spreadSheet?.id))
+        );
+    }
+
+    private getFullEstates(userId: string): Observable<Estate_filled_Db[]> {
+        return combineLatest([this.estateService.getByUser(userId), this.ownerService.getByUser(userId), this.lodgerService.getByUser(userId)]).pipe(
+            take(1),
+            map(([estates, owners, lodgers]) => estates.map(estate => {
+                const owner = owners.find(owner => owner.id === estate.owner_id);
+                const lodger = lodgers.find(lodger => lodger.id === estate.lodger_id);
+                return { ...estate, owner, lodger };
+            })
+            )
+        );
+    }
+
+    private updateSpreadSheetId(userId: string, spreadSheetId: string) {
+        try {
+            console.log('updateSpreadSheetId', userId, spreadSheetId);
+            return this.docsDbService.getByUser(userId).pipe(
+                take(1),
+                switchMap(docs => {
+                    if(docs?.length > 0){
+                        return this.docsDbService.update({ id: docs[0].id, rents_google_sheet_id: spreadSheetId });
+                    }else{
+                        return this.docsDbService.create({ user_id: userId, rents_google_sheet_id: spreadSheetId });
+                    }
+                }),
+                catchError(e => {
+                    console.log('error fetching user doc by userId', e);
+                    return of(null);
+                })
+            );
+        }catch(e){
+            console.log('error updating user doc by userId', e);
+            return of(null);
+        }
+    }
+
+    private getSpreadSheetId(userId: string) {
+        return this.docsDbService.getByUser(userId).pipe(
+            map(docs => {
+                return docs[0]?.rents_google_sheet_id;
             })
         );
     }

@@ -1,5 +1,5 @@
 import { INestApplication } from '@nestjs/common';
-import { UserDbService } from 'src/user/data/user.db.service';
+import { UserDbService } from '../user/data/user.db.service';
 import { DocsDbService } from '../docs/docs.db.service';
 import { EstatesService } from '../estates/estates.service';
 import { LodgersService } from '../lodgers/lodgers.service';

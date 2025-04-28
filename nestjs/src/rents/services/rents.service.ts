@@ -13,8 +13,10 @@ import { createRentReceiptEmail, createRentReciptPdf, getRentReceiptInfos } from
 import { RentsDbService } from './rents.db.service';
 import { fusionateRents, getRentsByMonth, getStartAndEnDatesFromRents } from '../rents.utils';
 import { SpreadSheet } from '../../spreadsheets/models/spreadsheets.model';
-import { buildSpreadsheetContext, fillSpreadSheetCells } from '../spreadsheets/rents.spreadsheets.business';
+import { buildSpreadsheetContext, buildSpreadsheetContext2, fillSpreadSheetCells } from '../spreadsheets/rents.spreadsheets.business';
 import { SpreadSheetGoogleStrategy } from '../../spreadsheets/strategies/spreadsheets.google.strategy';
+import { GoogleConnect } from '../../google/models/google.connect.model';
+import { EstatesGoogleSheet } from './model/estates.google.sheet.model';
 
 
 @Injectable()
@@ -23,12 +25,11 @@ export class RentsService {
   constructor(private config: ConfigService, private rentsDbService: RentsDbService, private docsDbService: DocsDbService, private estateService: EstatesService, private ownerService: OwnersService, private lodgerService: LodgersService
   ) { }
 
-  buildRentReciptPdf(userId: string, estate: any, owner: any, lodger: any, startDate_: string, endDate_: string, accessToken: string, refreshToken: string, clientId: string, clientSecret: string): Observable<any> {
+  buildRentReceiptPdf(userId: string, estate: any, owner: any, lodger: any, startDate_: string, endDate_: string, accessToken: string, refreshToken: string, clientId: string, clientSecret: string): Observable<any> {
 
     const { startDate, endDate, rent, charges } = getRentReceiptInfos(estate, owner, lodger, startDate_, endDate_);
 
     return from(this.rentsDbService.create({ user_id: userId, estate_id: estate.id, lodger_id: lodger.id, start_date: startDate, end_date: endDate, rent, charges })).pipe(
-      tap(_ => this.synchronizeRentsInGoogleSheet(userId, accessToken, refreshToken, clientId, clientSecret).pipe(take(1)).subscribe()),
       switchMap(_ => from(createRentReciptPdf(estate, owner, lodger, startDate_, endDate_))),
       catchError(_ => from(createRentReciptPdf(estate, owner, lodger, startDate_, endDate_)))
     );
@@ -43,7 +44,7 @@ export class RentsService {
         const { startDate, endDate } = getRentReceiptInfos(estate, estate.owner, estate.lodger, startDate_, endDate_);
 
         return from(this.rentsDbService.create({ user_id: userId, estate_id: estate.id, lodger_id: estate.lodger_id, start_date: startDate, end_date: endDate, rent: estate.rent, charges: estate.charges, sent: true })).pipe(
-          tap(_ => this.synchronizeRentsInGoogleSheet(userId, accessToken, refreshToken, clientId, clientSecret).pipe(take(1)).subscribe()),
+          // tap(_ => this.synchronizeRentsInGoogleSheet(userId, accessToken, refreshToken, clientId, clientSecret).pipe(take(1)).subscribe()),
           switchMap(_ => from(createRentReceiptEmail(estate, startDate, endDate))),
           switchMap(base64EncodedEmail => sendEmail(accessToken, refreshToken, base64EncodedEmail, clientId, clientSecret)),
           catchError(_ => of(null))
@@ -54,10 +55,18 @@ export class RentsService {
 
   }
 
-  synchronizeRentsInGoogleSheet(userId: string, accessToken: string, refreshToken: string, clientId: string, clientSecret: string): Observable<Docs_Db> {
-    if (!accessToken || !refreshToken || !clientId || !clientSecret) return of(null);
+  synchronizeRentsInGoogleSheet2(estatesGoogleSheet: EstatesGoogleSheet) {
+    const strategy = new SpreadSheetGoogleStrategy();
+    return from(strategy.init(estatesGoogleSheet.google)).pipe(
+      switchMap( () => from(buildSpreadsheetContext2(strategy, estatesGoogleSheet))),
+      switchMap( spreadSheet => from(fillSpreadSheetCells(strategy, spreadSheet, estatesGoogleSheet.rents, estatesGoogleSheet.estates)))
+    );
+  }
+
+  synchronizeRentsInGoogleSheet(userId: string, google: GoogleConnect): Observable<Docs_Db> {
+    if (!google.accessToken || !google.refreshToken || !google.clientId || !google.clientSecret) return of(null);
     const spreadSheetStrategy = new SpreadSheetGoogleStrategy();
-    return from(spreadSheetStrategy.init(accessToken, refreshToken, clientId, clientSecret)).pipe(
+    return from(spreadSheetStrategy.init(google)).pipe(
       switchMap(_ => this.getFullEstates(userId)),
       switchMap((estates) => combineLatest([of(estates), this.rentsDbService.getByUserId(userId), this.getSpreadSheetId(userId)])),
       switchMap(([estates, rents, spreadSheetId]) => combineLatest([of(estates), of(rents), from(buildSpreadsheetContext(spreadSheetStrategy, spreadSheetId, estates, getStartAndEnDatesFromRents(rents).startDate, getStartAndEnDatesFromRents(rents).endDate))])),
@@ -68,6 +77,22 @@ export class RentsService {
         return of(null);
       })
     )
+  }
+
+  synchronizeRentsInGoogleSheetDraft(userId: string, accessToken: string, refreshToken: string, clientId: string, clientSecret: string): any {//} Observable<Docs_Db> {
+    // if (!accessToken || !refreshToken || !clientId || !clientSecret) return of(null);
+    // const spreadSheetStrategy = new SpreadSheetGoogleStrategy();
+    // return from(spreadSheetStrategy.init(accessToken, refreshToken, clientId, clientSecret)).pipe(
+    //   switchMap(_ => this.getFullEstates(userId)),
+    //   switchMap((estates) => combineLatest([of(estates), this.rentsDbService.getByUserId(userId), this.getSpreadSheetId(userId)])),
+    //   switchMap(([estates, rents, spreadSheetId]) => combineLatest([of(estates), of(rents), from(buildSpreadsheetContext(spreadSheetStrategy, spreadSheetId, estates, getStartAndEnDatesFromRents(rents).startDate, getStartAndEnDatesFromRents(rents).endDate))])),
+    //   switchMap(([estates, rents, { spreadSheet, hasBeenRemoved }]) => combineLatest([of(hasBeenRemoved), from(fillSpreadSheetCells(spreadSheetStrategy, spreadSheet, rents, estates))])),
+    //   switchMap(([hasBeenRemoved, spreadSheet]) => this.saveSpreadSheetId(userId, spreadSheet, hasBeenRemoved)),
+    //   catchError(err => {
+    //     console.error(err);
+    //     return of(null);
+    //   })
+    // )
   }
 
   getMonthlyRents(userId: string): Observable<MonthlyRents[]> {

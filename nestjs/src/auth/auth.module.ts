@@ -9,7 +9,7 @@ import { JwtStrategy } from './jwt.strategy';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../user/data/user.entity';
 import { UserModule } from '../user/user.module';
-import { OwnersModule } from 'src/owners/owners.module';
+import { OwnersModule } from '../owners/owners.module';
 
 @Module({
   imports: [

@@ -3,6 +3,39 @@ import { SpreadSheetStrategy } from "../../spreadsheets/strategies/spreadsheets.
 import { convertEstatesToSheetRows, EstatesSheetsHeader, getMissingRows, getMissingSheetsTitles, getPaidUpdatesRentsCells, getUnusedEstates, getYearsFromDates } from "./rents.spreadsheets.utils";
 import { SpreadSheet, SpreadSheetUpdate } from "../../spreadsheets/models/spreadsheets.model";
 import { Rent_Db } from "../models/rents.db.model";
+import { EstatesGoogleSheet } from "../services/model/estates.google.sheet.model";
+import { getStartAndEnDatesFromRents } from "../rents.utils";
+
+
+export const buildSpreadsheetContext2 = async (sheetStrategy: SpreadSheetStrategy, estatesGoogleSheet: EstatesGoogleSheet): Promise<SpreadSheet> => {
+    try {
+        let spreadSheet = null;
+        if(estatesGoogleSheet.spreadSheetId) {
+            spreadSheet = await sheetStrategy.getSpreadSheet(estatesGoogleSheet.spreadSheetId);
+        }
+        const { startDate, endDate } = getStartAndEnDatesFromRents(estatesGoogleSheet.rents);
+        const years = getYearsFromDates(startDate, endDate);
+
+        console.log('actual spreadsheet', spreadSheet);
+
+        if (spreadSheet) {
+            spreadSheet = await createMissingSheets(sheetStrategy, spreadSheet, estatesGoogleSheet.estates, years);
+            spreadSheet = await addMissingEstatesInSheets(sheetStrategy, spreadSheet, estatesGoogleSheet.estates);
+            console.log('after add missing estates', spreadSheet);
+            // spreadSheet = await removeEstatesInSheets(sheetStrategy, spreadSheet, estatesGoogleSheet.estates);
+        } else {
+            spreadSheet = await sheetStrategy.createSpreadSheet('biens_locatifs');
+            const sheets = years.map( year => ({ title: year, header: [...EstatesSheetsHeader], rows: convertEstatesToSheetRows(estatesGoogleSheet.estates) }));
+            console.log(sheets);
+            spreadSheet = await sheetStrategy.addSheets(spreadSheet.id, sheets);
+        }
+
+        return spreadSheet;
+    } catch (e) {
+        console.error(e);
+        return null;
+    }    
+}
 
 /**
  * build a spreadsheet context with all needed years and estates.
