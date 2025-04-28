@@ -1,3 +1,4 @@
+import { PropertyCategory } from "src/app/shared/models/property-category.model";
 import { PropertyStatusTypes } from "./prospection.status.model";
 
 export interface Prospection_Dto {
@@ -17,4 +18,5 @@ export interface Prospection_Dto {
   rents?: number;
   resume?: string;
   comment?: string;
+  property_category?: PropertyCategory;
 }

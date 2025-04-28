@@ -53,7 +53,12 @@ export class UiIconService {
       'people-replace',
       'person-in',
       'file-invoice',
-      'google']).subscribe();
+      'google',
+      'terran',
+      'parking',
+      'box',
+      'house',
+      'building']).subscribe();
   }
 
   registerIcons(iconNames: string[]) {

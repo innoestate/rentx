@@ -1,0 +1,1 @@
+export type PropertyCategory = 'building' | 'house' | 'box' | 'terran' | 'parking' ;

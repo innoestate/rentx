@@ -5,6 +5,13 @@ export const Localizations: Record<string, Record<string, string>> = {
     delete: "Supprimer",
     description: "Description"
   },
+  propertyCategories: {
+    parking: 'parking',
+    terran: 'terran',
+    box: 'box',
+    house: 'house',
+    building: 'appartement'
+  },
   estates: {
     label: 'biens',
     create: 'créer un bien',

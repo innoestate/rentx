@@ -11,10 +11,12 @@ import { UiTableRow } from "src/app/ui/components/ui-table-draft/models/ui-table
 import { NzTableFilterValue } from "ng-zorro-antd/table";
 import { NzUiCell } from "src/app/ui/components/ui-table/models/nz-ui-cell.model";
 import { NzUiTable2Row } from "src/app/ui/components/ui-table/models/nz-ui-table-row.model";
+import { PropertyCategory } from "src/app/shared/models/property-category.model";
 
 interface ProspectionTableRow extends UiTable2Row {
   data: { id: string };
   cells: {
+    property_category: UiCellDropdown,
     city: UiCellBasic,
     zip: UiCellBasic,
     address: UiCellBasic,
@@ -35,6 +37,13 @@ export class ProspectionsTable2AdapterService {
 
   createColumns(prospections: Prospection_Dto[]): UiTableColumn[] {
     return [
+      {
+        key: 'property_category',
+        cell: {
+          type: 'string',
+          label: { title: { label: 'Type' } }
+        }
+      },
       {
         key: 'city',
         cell: {
@@ -110,6 +119,7 @@ export class ProspectionsTable2AdapterService {
   }
 
   createRows(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTable2Row[] {
+    console.log('create rows', prospections)
     return prospections.map(prospection => this.formatUiTableRow(prospection, sellers));
   }
 
@@ -122,6 +132,9 @@ export class ProspectionsTable2AdapterService {
       const status = PROSPECTION_STATUS.find(status => status.shortLabel === (cell as UiCellDropdown)!.dropdown!.label!.title!.label);
       if (!status) throw new Error('Status not found');
       return { status: status.key };
+    } else if (key === 'property_category') {
+      const iconName = (cell as UiCellDropdown)!.dropdown!.label!.icon!.name as PropertyCategory;
+      return { property_category: iconName };
     } else {
       return { [key]: (cell as UiCellBasic)!.label!.title!.label };
     }
@@ -131,6 +144,20 @@ export class ProspectionsTable2AdapterService {
     return {
       data: { id: prospection.id || '' },
       cells: {
+        property_category: {
+          editable: true,
+          type: 'dropdown-select',
+          dropdown: {
+            label: { icon: { name: prospection.property_category || 'building', size: 24, color: 'var(--color-secondary-500)' } },
+            list: [
+              { label: { icon: { name: 'parking', size: 24, color: 'var(--color-secondary-500)' } } },
+              { label: { icon: { name: 'terran', size: 24, color: 'var(--color-secondary-500)' } } },
+              { label: { icon: { name: 'box', size: 24, color: 'var(--color-secondary-500)' } } },
+              { label: { icon: { name: 'estate', size: 24, color: 'var(--color-secondary-500)' } } },
+              { label: { icon: { name: 'building', size: 24, color: 'var(--color-secondary-500)' } } }
+            ]
+          }
+        },
         city: {
           editable: true,
           type: 'string',
@@ -255,7 +282,7 @@ export class ProspectionsTable2AdapterService {
       }, [] as { text: string, value: string }[])
   }
 
-  private buildStatusFilter(){
+  private buildStatusFilter() {
     return {
       list: this.buildStatusFilters(),
       function: (values: NzTableFilterValue, row: NzUiTable2Row) => {
@@ -270,7 +297,7 @@ export class ProspectionsTable2AdapterService {
     }
   }
 
-  private buildStatusSorting(){
+  private buildStatusSorting() {
     return {
       function: (a: NzUiTable2Row, b: NzUiTable2Row) => {
         const shortLabelA = a.cells[6].dropdown?.label?.title?.label as string || '';
