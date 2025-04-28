@@ -59,7 +59,11 @@ export class RentsService {
     const strategy = new SpreadSheetGoogleStrategy();
     return from(strategy.init(estatesGoogleSheet.google)).pipe(
       switchMap( () => from(buildSpreadsheetContext2(strategy, estatesGoogleSheet))),
-      switchMap( spreadSheet => from(fillSpreadSheetCells(strategy, spreadSheet, estatesGoogleSheet.rents, estatesGoogleSheet.estates)))
+      switchMap( spreadSheet => from(fillSpreadSheetCells(strategy, spreadSheet, estatesGoogleSheet.rents, estatesGoogleSheet.estates))),
+      catchError(err => {
+        console.error('fail synchronize rents in google sheet', err);
+        return of(null);
+      })
     );
   }
 
@@ -77,22 +81,6 @@ export class RentsService {
         return of(null);
       })
     )
-  }
-
-  synchronizeRentsInGoogleSheetDraft(userId: string, accessToken: string, refreshToken: string, clientId: string, clientSecret: string): any {//} Observable<Docs_Db> {
-    // if (!accessToken || !refreshToken || !clientId || !clientSecret) return of(null);
-    // const spreadSheetStrategy = new SpreadSheetGoogleStrategy();
-    // return from(spreadSheetStrategy.init(accessToken, refreshToken, clientId, clientSecret)).pipe(
-    //   switchMap(_ => this.getFullEstates(userId)),
-    //   switchMap((estates) => combineLatest([of(estates), this.rentsDbService.getByUserId(userId), this.getSpreadSheetId(userId)])),
-    //   switchMap(([estates, rents, spreadSheetId]) => combineLatest([of(estates), of(rents), from(buildSpreadsheetContext(spreadSheetStrategy, spreadSheetId, estates, getStartAndEnDatesFromRents(rents).startDate, getStartAndEnDatesFromRents(rents).endDate))])),
-    //   switchMap(([estates, rents, { spreadSheet, hasBeenRemoved }]) => combineLatest([of(hasBeenRemoved), from(fillSpreadSheetCells(spreadSheetStrategy, spreadSheet, rents, estates))])),
-    //   switchMap(([hasBeenRemoved, spreadSheet]) => this.saveSpreadSheetId(userId, spreadSheet, hasBeenRemoved)),
-    //   catchError(err => {
-    //     console.error(err);
-    //     return of(null);
-    //   })
-    // )
   }
 
   getMonthlyRents(userId: string): Observable<MonthlyRents[]> {

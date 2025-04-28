@@ -36,7 +36,7 @@ export class RentsController {
                     res.send(rentReceipt)
                 }));
         } catch (error) {
-            console.log('error', error);
+            console.error('error', error);
             return of(res.send({ statusCode: 500, body: 'error' }));
         }
     }
@@ -151,7 +151,11 @@ export class RentsController {
             switchMap(([estates, rents, spreadSheetId]) => {
                 return this.rentsService.synchronizeRentsInGoogleSheet2({ estates, rents, spreadSheetId, google });
             }),
-            switchMap(spreadSheet => this.updateSpreadSheetId(userId, spreadSheet?.id))
+            switchMap(spreadSheet => this.updateSpreadSheetId(userId, spreadSheet?.id)),
+            catchError(err => {
+                console.error('fail synchronize and save rents google sheets', err);
+                return of(null);
+            })
         );
     }
 
@@ -169,7 +173,6 @@ export class RentsController {
 
     private updateSpreadSheetId(userId: string, spreadSheetId: string) {
         try {
-            console.log('updateSpreadSheetId', userId, spreadSheetId);
             return this.docsDbService.getByUser(userId).pipe(
                 take(1),
                 switchMap(docs => {
@@ -180,12 +183,12 @@ export class RentsController {
                     }
                 }),
                 catchError(e => {
-                    console.log('error fetching user doc by userId', e);
+                    console.error('error fetching user doc by userId', e);
                     return of(null);
                 })
             );
         }catch(e){
-            console.log('error updating user doc by userId', e);
+            console.error('error updating user doc by userId', e);
             return of(null);
         }
     }

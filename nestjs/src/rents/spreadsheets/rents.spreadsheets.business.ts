@@ -16,8 +16,6 @@ export const buildSpreadsheetContext2 = async (sheetStrategy: SpreadSheetStrateg
         const { startDate, endDate } = getStartAndEnDatesFromRents(estatesGoogleSheet.rents);
         const years = getYearsFromDates(startDate, endDate);
 
-        console.log('actual spreadsheet', spreadSheet);
-
         if (spreadSheet) {
             spreadSheet = await createMissingSheets(sheetStrategy, spreadSheet, estatesGoogleSheet.estates, years);
             spreadSheet = await addMissingEstatesInSheets(sheetStrategy, spreadSheet, estatesGoogleSheet.estates);
@@ -26,13 +24,12 @@ export const buildSpreadsheetContext2 = async (sheetStrategy: SpreadSheetStrateg
         } else {
             spreadSheet = await sheetStrategy.createSpreadSheet('biens_locatifs');
             const sheets = years.map( year => ({ title: year, header: [...EstatesSheetsHeader], rows: convertEstatesToSheetRows(estatesGoogleSheet.estates) }));
-            console.log(sheets);
             spreadSheet = await sheetStrategy.addSheets(spreadSheet.id, sheets);
         }
 
         return spreadSheet;
     } catch (e) {
-        console.error(e);
+        console.error('fail create spreadsheet rents context', e);
         return null;
     }    
 }
@@ -78,17 +75,25 @@ const removeEstatesInSheets = async (sheetStrategy: SpreadSheetStrategy, spreadS
 }
 
 const addMissingEstatesInSheets = async (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, estates: Estate_filled_Db[]): Promise<SpreadSheet> => {
-    const missingRows = getMissingRows(spreadSheet, estates);
-    spreadSheet = await sheetStrategy.addRowsInSheets(spreadSheet.id, missingRows);
-    return spreadSheet;
+    try {
+        const missingRows = getMissingRows(spreadSheet, estates);
+        spreadSheet = await sheetStrategy.addRowsInSheets(spreadSheet.id, missingRows);
+        return spreadSheet;
+    }catch( err ){
+        throw(new Error('fail adding missing estates in sheets: ' +  err));
+    }
 }
 
 const createMissingSheets = async (sheetStrategy: SpreadSheetStrategy, spreadSheet: SpreadSheet, estates: Estate_filled_Db[], years: string[]): Promise<SpreadSheet> => {
-    const sheets = await sheetStrategy.getSheets(spreadSheet.id);
-    const missingSheetsTitles = getMissingSheetsTitles(sheets, years);
-    while (missingSheetsTitles.length > 0) {
-        spreadSheet = await sheetStrategy.addSheet(spreadSheet.id, missingSheetsTitles.pop(), EstatesSheetsHeader, convertEstatesToSheetRows(estates));
+    try {
+        const sheets = await sheetStrategy.getSheets(spreadSheet.id);
+        const missingSheetsTitles = getMissingSheetsTitles(sheets, years);
+        while (missingSheetsTitles.length > 0) {
+            spreadSheet = await sheetStrategy.addSheet(spreadSheet.id, missingSheetsTitles.pop(), EstatesSheetsHeader, convertEstatesToSheetRows(estates));
+        }
+        return spreadSheet;
+    }catch( err ){
+        throw(new Error('fail create missing sheets: ' +  err));
     }
-    return spreadSheet;
 }
 

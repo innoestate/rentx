@@ -5,16 +5,16 @@ import { fusionateRents, getRentsByMonth } from "../rents.utils";
 
 export const MONTHS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 
-export const EstatesSheetsHeader = ['Propriétaire', 'Adresse', 'Ville', 'Lot', 'Locataire', ...MONTHS].map(value => ({ value, backgroundColor: {red: 0.75, blue: 0.75, green: 0.75} }));
+export const EstatesSheetsHeader = ['Propriétaire', 'Adresse', 'Ville', 'Lot', 'Locataire', ...MONTHS].map(value => ({ value, backgroundColor: { red: 0.75, blue: 0.75, green: 0.75 } }));
 
 export const convertEstatesToSheetRows = (estates: Estate_filled_Db[]): Cell[][] => {
     return estates.map(estate => [
-        { value: estate.owner.name },
-        { value: estate.street },
-        { value: estate.city },
-        { value: estate.plot },
-        { value: estate.lodger.name },
-        ...MONTHS.map(month => ({ value: '', backgroundColor: {red: 1, blue: 1, green: 1} }) as any)
+        { value: estate.owner?.name ?? '' },
+        { value: estate.street?? '' },
+        { value: estate.city?? '' },
+        { value: estate.plot?? '' },
+        { value: estate.lodger?.name ?? '' },
+        ...MONTHS.map(month => ({ value: '', backgroundColor: { red: 1, blue: 1, green: 1 } }) as any)
     ])
 }
 
@@ -44,7 +44,7 @@ export const getPaidUpdatesRentsCells = (spreadSheetContext: SpreadSheet, rents:
                 spreadSheetUpdates.push({
                     sheetTitle: sheet.title,
                     cell: String.fromCharCode(65 + monthIndex) + rowEstateIndex,
-                    backgroundColor:{ red: 0, green: 1, blue: 0},
+                    backgroundColor: { red: 0, green: 1, blue: 0 },
                     value: rent.rent
                 })
             }

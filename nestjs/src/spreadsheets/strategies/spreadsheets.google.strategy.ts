@@ -33,9 +33,14 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
     }
 
     async init(googleConnect: GoogleConnect) {
-        this.oauth2Client = await getOath2Client(googleConnect.accessToken, googleConnect.refreshToken, googleConnect.clientId, googleConnect.clientSecret);
-        this.sheets = await google.sheets('v4');
-        return true;
+        try{
+            this.oauth2Client = await getOath2Client(googleConnect.accessToken, googleConnect.refreshToken, googleConnect.clientId, googleConnect.clientSecret);
+            this.sheets = await google.sheets('v4');
+            return true;
+        }catch(e){
+            console.error('fail ini google Oauth2 and creating sheets', e)
+            return false;
+        }
     }
 
     async getSpreadSheet(id: string): Promise<SpreadSheet> {
@@ -72,9 +77,6 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
     }
 
     async createSpreadSheet(title: string): Promise<SpreadSheet> {
-
-        console.log('createSpreadSheet', title);
-
         try {
             const sheets = google.sheets('v4');
             const request = {
@@ -99,103 +101,108 @@ export class SpreadSheetGoogleStrategy extends SpreadSheetStrategy {
     }
 
     async addSheet(id: string, title: string, header: Cell[], rows: Cell[][]): Promise<SpreadSheet> {
-
-        const response = await this.sheets.spreadsheets.get({
-            spreadsheetId: id,
-            auth: this.oauth2Client,
-            includeGridData: true
-        });
-        const ranges = await response.data.sheets;
-
-        let sheetId = ranges.map(range => range.properties.sheetId).reduce((acc, cur) => Math.max(acc, cur), 0) + 1;
-
-        if (ranges.length === 1 && !ranges[0].data[0].rowData) {
-            sheetId = 0;
-        }
-
-        let sheetProperty = {}
-        if (sheetId === 0) {
-            sheetProperty = {
-                updateSheetProperties: {
-                    properties: {
-                        sheetId: sheetId,
-                        title,
-                    },
-                    fields: 'title',
-                }
-            };
-        } else {
-            sheetProperty = {
-                addSheet: {
-                    properties: {
-                        sheetId: sheetId,
-                        title,
-                    },
-                }
-            };
-        }
-
-        const requests: sheets_v4.Schema$Request[] = [
-            sheetProperty,
-            {
-                updateCells: {
-                    rows: [
-                        {
-                            values: header.map(cell => this.convertCellToSchemaCellData(cell)),
-                        },
-                    ],
-                    fields: '*',
-                    start: { sheetId, rowIndex: 0, columnIndex: 0 },
-                },
-            },
-            {
-                appendCells: {
-                    rows: [
-                        ...rows.map(cells => (
-                            {
-                                values: [...cells.map(cell => this.convertCellToSchemaCellData(cell))],
-                            })),
-                    ],
-                    fields: '*',
-                    sheetId,
-                },
-            },
-            {
-                updateSheetProperties: {
-                    properties: {
-                        sheetId: sheetId,
-                        gridProperties: {
-                            frozenRowCount: 1, // Freeze the first row
-                        },
-                    },
-                    fields: 'gridProperties.frozenRowCount',
-                },
-            },
-            {
-                updateDimensionProperties: {
-                    range: {
-                        sheetId: sheetId,
-                        dimension: 'COLUMNS',
-                        startIndex: 1,
-                        endIndex: 2,
-                    },
-                    properties: {
-                        pixelSize: 300,
-                    },
-                    fields: 'pixelSize',
-                },
+        try{
+            const response = await this.sheets.spreadsheets.get({
+                spreadsheetId: id,
+                auth: this.oauth2Client,
+                includeGridData: true
+            });
+            const ranges = await response.data.sheets;
+    
+            let sheetId = ranges.map(range => range.properties.sheetId).reduce((acc, cur) => Math.max(acc, cur), 0) + 1;
+    
+            if (ranges.length === 1 && !ranges[0].data[0].rowData) {
+                sheetId = 0;
             }
-        ];
-
-        await this.sheets.spreadsheets.batchUpdate({
-            spreadsheetId: id,
-            requestBody: {
-                requests,
-            },
-            auth: this.oauth2Client,
-        });
-
-        return await this.getSpreadSheet(id);
+    
+            let sheetProperty = {}
+            if (sheetId === 0) {
+                sheetProperty = {
+                    updateSheetProperties: {
+                        properties: {
+                            sheetId: sheetId,
+                            title,
+                        },
+                        fields: 'title',
+                    }
+                };
+            } else {
+                sheetProperty = {
+                    addSheet: {
+                        properties: {
+                            sheetId: sheetId,
+                            title,
+                        },
+                    }
+                };
+            }
+    
+            const requests: sheets_v4.Schema$Request[] = [
+                sheetProperty,
+                {
+                    updateCells: {
+                        rows: [
+                            {
+                                values: header.map(cell => this.convertCellToSchemaCellData(cell)),
+                            },
+                        ],
+                        fields: '*',
+                        start: { sheetId, rowIndex: 0, columnIndex: 0 },
+                    },
+                },
+                {
+                    appendCells: {
+                        rows: [
+                            ...rows.map(cells => (
+                                {
+                                    values: [...cells.map(cell => this.convertCellToSchemaCellData(cell))],
+                                })),
+                        ],
+                        fields: '*',
+                        sheetId,
+                    },
+                },
+                {
+                    updateSheetProperties: {
+                        properties: {
+                            sheetId: sheetId,
+                            gridProperties: {
+                                frozenRowCount: 1, // Freeze the first row
+                            },
+                        },
+                        fields: 'gridProperties.frozenRowCount',
+                    },
+                },
+                {
+                    updateDimensionProperties: {
+                        range: {
+                            sheetId: sheetId,
+                            dimension: 'COLUMNS',
+                            startIndex: 1,
+                            endIndex: 2,
+                        },
+                        properties: {
+                            pixelSize: 300,
+                        },
+                        fields: 'pixelSize',
+                    },
+                }
+            ];
+    
+            await this.sheets.spreadsheets.batchUpdate({
+                spreadsheetId: id,
+                requestBody: {
+                    requests,
+                },
+                auth: this.oauth2Client,
+            });
+    
+            return await this.getSpreadSheet(id);
+        }catch(e){
+            console.error('fail add sheet', e);
+            return null;
+        }
+        
     }
 
     async addSheets(id: string, sheets: { title: string, header: Cell[], rows: Cell[][] }[]): Promise<SpreadSheet> {
