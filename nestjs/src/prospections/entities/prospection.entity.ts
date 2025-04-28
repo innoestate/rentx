@@ -18,6 +18,9 @@ export class Prospection_Entity {
     user_id: string;
 
     @Column({ nullable: true })
+    property_category: string;
+
+    @Column({ nullable: true })
     zip: string;
 
     @Column({ nullable: true})

@@ -16,6 +16,9 @@ export class Estate {
     @Column({ type: 'uuid'})
     user_id: string;
 
+    @Column({ nullable: true })
+    property_category: string;
+
     @Column()
     owner_id: string;
 
