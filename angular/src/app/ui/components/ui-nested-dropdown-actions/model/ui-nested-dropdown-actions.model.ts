@@ -1,6 +1,7 @@
-import { UiLabel2 } from "../../ui-label/models/ui-label.model";
+import { UiLabel, UiLabelMatrix } from "../../ui-label/models/ui-label.model";
 
-export interface UiNestedDropdown2 {
-  label: UiLabel2;
-  list?: UiNestedDropdown2[];
+export interface UiNestedDropdown {
+  labelMatrix?: UiLabelMatrix;
+  label: UiLabel;
+  list?: UiNestedDropdown[];
 }

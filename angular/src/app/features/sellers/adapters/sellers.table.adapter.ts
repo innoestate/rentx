@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { LocalizationsService } from "src/app/core/localizations/localizations.service";
 import { Seller } from "src/app/features/sellers/models/seller.model";
-import { UiNestedDropdown2 } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
+import { UiNestedDropdown } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
 import { UiCellBasic } from "src/app/ui/components/ui-table/models/ui-cell.model";
 import { UiTable2Row } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumn } from "src/app/ui/components/ui-table/models/ui-table.column.model";
@@ -73,7 +73,7 @@ export class SellersTableAdapterService {
     return updates;
   }
 
-  private buildRowActions(): UiNestedDropdown2 {
+  private buildRowActions(): UiNestedDropdown {
     return {
       label: {
         icon: { name: 'down', size: 18, color: 'var(--color-tertiary-500)' },
@@ -93,7 +93,7 @@ export class SellersTableAdapterService {
     }
   }
 
-  private buildColumnActions(): UiNestedDropdown2 {
+  private buildColumnActions(): UiNestedDropdown {
     return {
       label: {
         icon: { name: 'gear', size: 24, color: 'var(--color-secondary-500)' },

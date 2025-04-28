@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, output, signal, ViewChild } from '@angular/core';
-import { NzDropdownMenuComponent, NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { Component } from '@angular/core';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { UiLabelComponent } from '../ui-label/ui-label.component';
-import { UiNestedDropdown2 } from './model/ui-nested-dropdown-actions.model';
 import { UiNestedDropdownComponent } from '../ui-nested-dropdown/ui-nested-dropdown.component';
 
 @Component({

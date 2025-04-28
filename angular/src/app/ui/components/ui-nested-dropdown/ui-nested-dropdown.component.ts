@@ -1,6 +1,6 @@
-import { Component, input, output, signal, ViewChild } from '@angular/core';
+import { Component, computed, input, output, signal, ViewChild } from '@angular/core';
 import { NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
-import { UiNestedDropdown2 } from '../ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model';
+import { UiNestedDropdown } from '../ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model';
 
 @Component({
   imports: [],
@@ -10,25 +10,41 @@ import { UiNestedDropdown2 } from '../ui-nested-dropdown-actions/model/ui-nested
 export class UiNestedDropdownComponent {
 
   @ViewChild('dropdownMenu') dropdownRef!: NzDropdownMenuComponent;
-  dropdown = input<UiNestedDropdown2>();
+  dropdown = input<UiNestedDropdown>();
+  formatedDropdown = this.formatDropdown();
   triggerType = input<'click' | 'hover'>('click');
   onHide = output<void>();
   visible = signal(false);
 
   visibleChangeHandler(visible_: boolean) {
     this.visible.set(visible_);
-    if(!visible_){
+    if (!visible_) {
       this.hide();
     }
   }
 
   hide() {
     this.onHide.emit();
-    if(this.triggerType() === 'click'){
+    if (this.triggerType() === 'click') {
       this.visible.set(false);
-    }else{
+    } else {
       this.dropdownRef.setMouseState(false);
     }
+  }
+
+  protected formatDropdown() {
+    return computed(() => {
+      const dropdown = this.dropdown();
+      if (dropdown?.labelMatrix) {
+        if (dropdown?.labelMatrix?.title === false && dropdown?.label?.title) {
+          dropdown.label.title = undefined;
+        }
+        if (dropdown?.labelMatrix?.icon === false && dropdown?.label?.icon) {
+          dropdown.label.icon = undefined;
+        }
+      }
+      return dropdown;
+    });
   }
 
 }

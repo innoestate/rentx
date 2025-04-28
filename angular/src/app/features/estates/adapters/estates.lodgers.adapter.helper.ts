@@ -1,11 +1,11 @@
 import { LocalizationsService } from "src/app/core/localizations/localizations.service";
-import { UiNestedDropdown2 } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
+import { UiNestedDropdown } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
 import { Lodger } from "../../lodgers/models/lodger.model";
 import { Estate } from "../models/estate.model";
 
 
 
-export const createLodgerDropdown = (estate: Estate, lodgers: Lodger[], localization: LocalizationsService): UiNestedDropdown2 => {
+export const createLodgerDropdown = (estate: Estate, lodgers: Lodger[], localization: LocalizationsService): UiNestedDropdown => {
 
   const hasPay = (estate.lodger?.name && estate.actualMonthPaid) ?? false;
 
@@ -15,8 +15,8 @@ export const createLodgerDropdown = (estate: Estate, lodgers: Lodger[], localiza
   };
 }
 
-const getLodgerDropdownList = (lodgers: Lodger[], lodgerName: string | undefined, localization: LocalizationsService): UiNestedDropdown2[] => {
-  const list: UiNestedDropdown2[] = [];
+const getLodgerDropdownList = (lodgers: Lodger[], lodgerName: string | undefined, localization: LocalizationsService): UiNestedDropdown[] => {
+  const list: UiNestedDropdown[] = [];
   if (lodgers.length > 0) {
     list.push(assignLodgers(lodgers, lodgerName, localization));
   }
@@ -30,7 +30,7 @@ const getLodgerDropdownList = (lodgers: Lodger[], lodgerName: string | undefined
   return list;
 }
 
-const rentReceipt = (localization: LocalizationsService): UiNestedDropdown2 => {
+const rentReceipt = (localization: LocalizationsService): UiNestedDropdown => {
   return {
     label: {
       title: { label: localization.getLocalization('rentReceipts', 'label') },
@@ -71,7 +71,7 @@ const rentReceipt = (localization: LocalizationsService): UiNestedDropdown2 => {
   }
 }
 
-const exitLodger = (localization: LocalizationsService): UiNestedDropdown2 => {
+const exitLodger = (localization: LocalizationsService): UiNestedDropdown => {
   return {
     label: {
       icon: { name: 'empty-house', size: 24, color: 'var(--color-secondary-500)' },
@@ -83,7 +83,7 @@ const exitLodger = (localization: LocalizationsService): UiNestedDropdown2 => {
   }
 }
 
-const createNewLodger = (localization: LocalizationsService): UiNestedDropdown2 => {
+const createNewLodger = (localization: LocalizationsService): UiNestedDropdown => {
   return {
     label: {
       icon: { name: 'add-lodger', size: 24, color: 'var(--color-secondary-500)' },
@@ -95,7 +95,7 @@ const createNewLodger = (localization: LocalizationsService): UiNestedDropdown2 
   }
 }
 
-const assignLodgers = (lodgers: Lodger[], lodgerName: string | undefined, localization: LocalizationsService): UiNestedDropdown2 => {
+const assignLodgers = (lodgers: Lodger[], lodgerName: string | undefined, localization: LocalizationsService): UiNestedDropdown => {
 
   const iconName = lodgerName ? 'people-replace' : 'person-in';
   const title = lodgerName ? localization.getLocalization('lodgers', 'change') : localization.getLocalization('lodgers', 'set');

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, model, output } from '@angular/core';
 import { NzUiCell } from '../../models/nz-ui-cell.model';
 import { UiLabelComponent } from '../../../ui-label/ui-label.component';
-import { UiLabel2 } from '../../../ui-label/models/ui-label.model';
+import { UiLabel } from '../../../ui-label/models/ui-label.model';
 
 @Component({
   selector: 'ui-cell',
@@ -15,7 +15,7 @@ export class UiCellComponent {
   cell = model.required<NzUiCell>();
   onEdit = output<NzUiCell>();
 
-  label = computed<UiLabel2>(() => this.cell().label!);
+  label = computed<UiLabel>(() => this.cell().label!);
   active = computed(() => {
     return this.cell().dropdown || this.cell().editable || !!(this.label()?.command || this.label()?.icon?.command);
   });

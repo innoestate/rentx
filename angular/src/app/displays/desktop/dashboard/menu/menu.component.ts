@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { ThemeService } from 'src/app/core/design-system/services/theme.service';
 import { MenuComponent } from 'src/app/displays/common/components/menu.component';
 import { UiDropdownItem } from 'src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model';
-import { UiNestedDropdown2 } from 'src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model';
+import { UiNestedDropdown } from 'src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model';
 import { UiNestedDropdownActionsComponent } from 'src/app/ui/components/ui-nested-dropdown-actions/ui-nested-dropdown-actions.component';
 
 @Component({
@@ -20,7 +20,7 @@ export class MenuDesktopComponent extends MenuComponent {
     label: ''
   }
 
-  dropdown: UiNestedDropdown2 = {
+  dropdown: UiNestedDropdown = {
     label: { title: { label: ''}},
     list: [
       {

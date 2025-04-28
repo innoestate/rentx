@@ -1,5 +1,5 @@
 import { Component, computed, ElementRef, input, output, ViewChild } from '@angular/core';
-import { UiLabel2 } from '../ui-label/models/ui-label.model';
+import { UiLabel } from '../ui-label/models/ui-label.model';
 import { UiIconComponent } from '../ui-icon/ui-icon.component';
 
 @Component({
@@ -11,7 +11,7 @@ import { UiIconComponent } from '../ui-icon/ui-icon.component';
 export class UiInputComponent {
 
   @ViewChild('inputRef') inputRef!: ElementRef;
-  label = input.required<UiLabel2>();
+  label = input.required<UiLabel>();
   type = input<string>('text');
   onEdit = output<void>();
 

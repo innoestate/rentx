@@ -1,5 +1,5 @@
-import { UiNestedDropdown2 } from "../../ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
-import { UiLabel2 } from "../../ui-label/models/ui-label.model";
+import { UiNestedDropdown } from "../../ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
+import { UiLabel } from "../../ui-label/models/ui-label.model";
 import { NzTableFilterFn, NzTableFilterList } from "ng-zorro-antd/table";
 import { UiTable2Row } from "./ui-table-row.model";
 import { NzUiTable2Row } from "./nz-ui-table-row.model";
@@ -18,9 +18,9 @@ export type ColumnCellType = 'icon' |
 
 export interface UiColumnCell {
   type: ColumnCellType;
-  label?: UiLabel2;
+  label?: UiLabel;
   editable?: boolean;
-  dropdown?: UiNestedDropdown2;
+  dropdown?: UiNestedDropdown;
   sort?: {
     priority: number;
     function?: (a: any, b: any) => number;

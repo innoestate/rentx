@@ -1,5 +1,5 @@
 import { Component, computed, HostListener, input, output } from '@angular/core';
-import { UiLabel2 } from './models/ui-label.model';
+import { UiLabel } from './models/ui-label.model';
 import { UiIconComponent } from '../ui-icon/ui-icon.component';
 
 @Component({
@@ -10,7 +10,7 @@ import { UiIconComponent } from '../ui-icon/ui-icon.component';
 })
 export class UiLabelComponent {
 
-  label = input.required<UiLabel2>();
+  label = input.required<UiLabel>();
   loading = input<boolean>(false);
   active = input<boolean>(false);
   onClick = output<void>();

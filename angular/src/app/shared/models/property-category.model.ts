@@ -1,1 +1,1 @@
-export type PropertyCategory = 'building' | 'house' | 'box' | 'terran' | 'parking' ;
+export type PropertyCategory = 'building' | 'flat' | 'house' | 'box' | 'terran' | 'parking' ;

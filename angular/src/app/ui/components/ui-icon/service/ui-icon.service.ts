@@ -58,7 +58,8 @@ export class UiIconService {
       'parking',
       'box',
       'house',
-      'building']).subscribe();
+      'building',
+      'flat']).subscribe();
   }
 
   registerIcons(iconNames: string[]) {

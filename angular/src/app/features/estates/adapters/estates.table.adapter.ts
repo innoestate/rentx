@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import { LocalizationsService } from "src/app/core/localizations/localizations.service";
 import { OwnersCommandsService } from "src/app/features/owners/commands/owners.command.service";
 import { Owner } from "src/app/features/owners/models/owner.model";
-import { UiNestedDropdown2 } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
-import { UiLabel2 } from "src/app/ui/components/ui-label/models/ui-label.model";
+import { UiNestedDropdown } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
+import { UiLabel } from "src/app/ui/components/ui-label/models/ui-label.model";
 import { UiCellBasic, UiCellDropdown } from "src/app/ui/components/ui-table/models/ui-cell.model";
 import { UiTable2Row } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { UiTableColumn } from "src/app/ui/components/ui-table/models/ui-table.column.model";
@@ -87,7 +87,7 @@ export class EstatesTableAdapterService {
     return updates;
   }
 
-  private buildRowActions(): UiNestedDropdown2 {
+  private buildRowActions(): UiNestedDropdown {
     return {
       label: {
         icon: { name: 'down', size: 18, color: 'var(--color-tertiary-500)' },
@@ -107,7 +107,7 @@ export class EstatesTableAdapterService {
     }
   }
 
-  private buildColumnActions(): UiNestedDropdown2 {
+  private buildColumnActions(): UiNestedDropdown {
     return {
       label: {
         icon: { name: 'gear', size: 24, color: 'var(--color-secondary-500)' },
@@ -129,7 +129,7 @@ export class EstatesTableAdapterService {
 
   formatUiTableRow(estate: Estate, owners: Owner[], lodgers: Lodger[]): EstateTableRow {
     const ownerDropdown = this.createOwnerDropdown(owners);
-    const selectedOwnerLabel: UiLabel2 = {
+    const selectedOwnerLabel: UiLabel = {
       title: { label: estate.owner?.name ?? 'Propriétaire' }
     };
 
@@ -153,7 +153,7 @@ export class EstatesTableAdapterService {
     }
   }
 
-  private createOwnerDropdown(owners: Owner[]): UiNestedDropdown2 {
+  private createOwnerDropdown(owners: Owner[]): UiNestedDropdown {
     const ownerItems = owners.map(owner => ({
       label: {
         title: { label: owner.name }

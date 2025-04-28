@@ -1,5 +1,5 @@
-import { UiNestedDropdown2 } from "../../ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
-import { UiLabel2 } from "../../ui-label/models/ui-label.model";
+import { UiNestedDropdown } from "../../ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
+import { UiLabel } from "../../ui-label/models/ui-label.model";
 
 /**
  * The cell definition.
@@ -10,15 +10,15 @@ export interface UiCell {
   type: 'icon' | 'string' | 'number' | 'dropdown-actions' | 'dropdown-select' | 'dropdown-actions-icon';
   // label?: UiLabel2;//do not use if `dropdown` is used
   editable?: boolean;
-  dropdown?: UiNestedDropdown2;
+  dropdown?: UiNestedDropdown;
 }
 
 export interface UiCellBasic extends UiCell {
-  label?: UiLabel2;//do not use if `dropdown` is used
+  label?: UiLabel;//do not use if `dropdown` is used
   editable?: boolean;
 }
 
 export interface UiCellDropdown extends UiCell {
   editable?: boolean;
-  dropdown?: UiNestedDropdown2;
+  dropdown?: UiNestedDropdown;
 }

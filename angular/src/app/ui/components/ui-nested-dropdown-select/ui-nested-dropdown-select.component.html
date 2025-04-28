@@ -4,7 +4,7 @@
     [nzPlacement]="'bottomLeft'"
     [nzVisible]="visible()"
     [nzTrigger]="triggerType()">
-  <ui-label [loading]="loading()" [label]="dropdown()!.label" [active]="true"></ui-label>
+  <ui-label [loading]="loading()" [label]="formatedDropdown()!.label" [active]="true"></ui-label>
 </div>
 <nz-dropdown-menu #dropdownMenu="nzDropdownMenu">
   <ul nz-menu>
