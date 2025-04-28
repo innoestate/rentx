@@ -10,7 +10,8 @@ export const Localizations: Record<string, Record<string, string>> = {
     terran: 'terrain',
     box: 'box',
     estate: 'maison',
-    building: 'appartement'
+    building: 'immeuble',
+    flat: 'appartement'
   },
   estates: {
     label: 'biens',

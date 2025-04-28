@@ -6,7 +6,7 @@ import { Seller_Dto } from "src/app/features/sellers/models/seller.dto.model";
 import { PropertyStatusTypes, PROSPECTION_STATUS, ProspectionStatus } from "../../models/prospection.status.model";
 import { UiCellBasic, UiCellDropdown } from "src/app/ui/components/ui-table/models/ui-cell.model";
 import { UiTable2Row } from "src/app/ui/components/ui-table/models/ui-table-row.model";
-import { UiNestedDropdown2 } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
+import { UiNestedDropdown } from "src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model";
 import { UiTableRow } from "src/app/ui/components/ui-table-draft/models/ui-table-row.model";
 import { NzTableFilterValue } from "ng-zorro-antd/table";
 import { NzUiCell } from "src/app/ui/components/ui-table/models/nz-ui-cell.model";
@@ -119,7 +119,6 @@ export class ProspectionsTable2AdapterService {
   }
 
   createRows(prospections: Prospection_Dto[], sellers: Seller_Dto[]): UiTable2Row[] {
-    console.log('create rows', prospections)
     return prospections.map(prospection => this.formatUiTableRow(prospection, sellers));
   }
 
@@ -193,13 +192,18 @@ export class ProspectionsTable2AdapterService {
       editable: true,
       type: 'dropdown-select',
       dropdown: {
+        labelMatrix: {
+          icon: true,
+          title: false
+        },
         label: { icon: { name: prospection.property_category || 'building', size: 24, color: 'var(--color-secondary-500)' } },
         list: [
           { label: { icon: { name: 'parking', size: 24, color: 'var(--color-secondary-500)' }, title: { label: this.localization.getLocalization('propertyCategories', 'parking') } } },
           { label: { icon: { name: 'terran', size: 24, color: 'var(--color-secondary-500)' }, title: { label: this.localization.getLocalization('propertyCategories', 'terran') } } },
           { label: { icon: { name: 'box', size: 24, color: 'var(--color-secondary-500)' }, title: { label: this.localization.getLocalization('propertyCategories', 'box') } } },
           { label: { icon: { name: 'estate', size: 24, color: 'var(--color-secondary-500)' }, title: { label: this.localization.getLocalization('propertyCategories', 'estate') } } },
-          { label: { icon: { name: 'building', size: 24, color: 'var(--color-secondary-500)' }, title: { label: this.localization.getLocalization('propertyCategories', 'building') } } }
+          { label: { icon: { name: 'building', size: 24, color: 'var(--color-secondary-500)' }, title: { label: this.localization.getLocalization('propertyCategories', 'building') } } },
+          { label: { icon: { name: 'flat', size: 24, color: 'var(--color-secondary-500)' }, title: { label: this.localization.getLocalization('propertyCategories', 'flat') } } }
         ]
       }
     }
@@ -218,7 +222,7 @@ export class ProspectionsTable2AdapterService {
     }
   }
 
-  private buildStatusDropdown(prospection: Prospection_Dto): UiNestedDropdown2 {
+  private buildStatusDropdown(prospection: Prospection_Dto): UiNestedDropdown {
 
     const targetStatus = PROSPECTION_STATUS.find(status => status.key === prospection.status);
 
@@ -237,7 +241,7 @@ export class ProspectionsTable2AdapterService {
     }
   }
 
-  private buildRowActions(): UiNestedDropdown2 {
+  private buildRowActions(): UiNestedDropdown {
     return {
       label: {
         icon: { name: 'down', size: 18, color: 'var(--color-tertiary-500)' },
@@ -257,7 +261,7 @@ export class ProspectionsTable2AdapterService {
     }
   }
 
-  private buildColumnActions(): UiNestedDropdown2 {
+  private buildColumnActions(): UiNestedDropdown {
     return {
       label: {
         icon: { name: 'gear', size: 24, color: 'var(--color-secondary-500)' },
