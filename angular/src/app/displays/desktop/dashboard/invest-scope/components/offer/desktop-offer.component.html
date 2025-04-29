@@ -1,6 +1,9 @@
 <div class="card-content">
-    {{prospectionId()}} - {{offers()}}
-    <h2>Offre</h2>
+    <div class="offer-header">
+        <app-offer-icons [offers]="prospectionOffers()" [(selected)]="selectedOffer"></app-offer-icons>
+        <h2>Offre</h2>
+    </div>
+    selected: {{selectedOffer()?.markdown}}
     <div class="editor-container">
         <quill-editor [(ngModel)]="editorContent" [modules]="quillConfig"></quill-editor>
     </div>

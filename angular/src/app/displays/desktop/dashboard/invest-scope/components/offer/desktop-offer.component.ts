@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ElementRef, computed, Signal, signal, effect } from '@angular/core';
+import { Component, Input, OnInit, ElementRef, computed, Signal, signal, effect, model } from '@angular/core';
 import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
 import { QuillModule } from 'ngx-quill';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -9,13 +9,21 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { InvestScopeDisplayStoreFacade } from 'src/app/features/invest-scope/states/display/facades/invest-scope.display-store.facade';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { take, tap } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { OfferIconsComponent } from './offer-icons/offer-icons.component';
 
 @Component({
   selector: 'app-desktop-offer',
-  standalone: true,
-  imports: [QuillModule, NzButtonModule, FormsModule],
   templateUrl: './desktop-offer.component.html',
-  styleUrls: ['./desktop-offer.component.scss']
+  styleUrls: ['./desktop-offer.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    QuillModule,
+    NzButtonModule,
+    FormsModule,
+    OfferIconsComponent
+  ]
 })
 export class DesktopOfferComponent extends UiDisplayerComponent implements OnInit {
 
@@ -23,12 +31,12 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
   prospectionId = computed(() => this.prospection()?.id);
   offers: Signal<{ [prospectionId: string]: OfferDto[] }> = this.offersService.getOffers();
 
-  prospectionOffers = computed(() => this.offers()[this.prospectionId()!]);
+  prospectionOffers: Signal<OfferDto[]> = computed(() => this.offers()[this.prospectionId()!]);
 
   selectedOfferId = signal<string | null>(null);
 
   editorContent: string = '';
-  selectedOffer: OfferDto | null = null;
+  selectedOffer = model<OfferDto | null>(null);
   isEditing = false;
 
   constructor(
@@ -79,9 +87,6 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
         markdown: this.editorContent
       }).subscribe();
     }
-  }
-
-  selectOffer(offer: OfferDto) {
   }
 
   quillConfig = {

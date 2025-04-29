@@ -1,0 +1,29 @@
+:host {
+  width: 100%;
+}
+
+.offer-icons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.offer-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: var(--color-basic-300);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: var(--color-primary-100);
+  }
+
+  &.selected {
+    background-color: var(--color-primary-500);
+  }
+}

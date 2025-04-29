@@ -1,0 +1,12 @@
+<div class="offer-icons">
+  @if (!offers()) {
+    <div class="offer-icon" [class.selected]="!selected()" (click)="onSelectOffer(null)">
+      <ui-icon [icon]="getIconConfig(null)"></ui-icon>
+    </div>
+  }
+  @for (offer of offers() ?? []; track offer) {
+    <div class="offer-icon" [class.selected]="selected() === offer" (click)="onSelectOffer(offer)">
+      <ui-icon [icon]="getIconConfig(offer)"></ui-icon>
+    </div>
+  }
+</div>

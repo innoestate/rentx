@@ -6,29 +6,41 @@
 }
 
 .card-content {
-    padding: 20px;
+  padding: 1.5rem;
+
+  .offer-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
 
     h2 {
-        margin-bottom: 20px;
+      margin: 0;
     }
+  }
 
-    .editor-container {
-        margin-bottom: 20px;
-        border: 1px solid #d9d9d9;
-        border-radius: 4px;
+  h2 {
+    margin-bottom: 20px;
+  }
 
-        quill-editor {
-            display: block;
+  .editor-container {
+    margin-bottom: 1.5rem;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
 
-            ::ng-deep .ql-container {
-                min-height: 200px;
-            }
-        }
+    quill-editor {
+      display: block;
+
+      ::ng-deep .ql-container {
+        min-height: 200px;
+      }
     }
+  }
 
-    .export-buttons {
-        display: flex;
-        gap: 10px;
-        margin-top: 20px;
-    }
+  .export-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 20px;
+  }
 }
