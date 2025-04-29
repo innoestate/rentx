@@ -4,4 +4,5 @@ export interface OfferDto {
     prospection_id: string;
     file?: any;
     google_drive_id?: string;
+    markdown?: string;
 }

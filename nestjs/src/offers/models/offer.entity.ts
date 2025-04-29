@@ -21,6 +21,9 @@ export class Offer_Entity {
     @Column({ type: 'uuid' })
     prospection_id: string;
 
+    @Column({ type: 'text' })
+    markdown: string;
+
     @Column()
     google_drive_id: string;
 
