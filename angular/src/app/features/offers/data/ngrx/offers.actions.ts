@@ -16,7 +16,7 @@ export const loadProspectionOffersError = createAction(
 
 export const createOffer = createAction(
     '[Offers] Create Offer',
-    props<{ offer: OfferDto }>()
+    props<{ offer: {prospection_id: string, markdown?: string} }>()
 );
 export const createOfferSuccess = createAction(
     '[Offers] Create Offer Success',

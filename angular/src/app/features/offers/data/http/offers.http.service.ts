@@ -16,15 +16,15 @@ export class OffersHttpService {
         return this.http.get<OfferDto[]>(`${this.apiUrl}/by-prospection/${prospectionId}`);
     }
 
-    createOffer(offer: OfferDto): Observable<OfferDto> {
-        return this.http.post<OfferDto>(this.apiUrl, offer);
+    createOffer(offer: {prospection_id: string, markdown?: string}): Observable<OfferDto> {
+        return this.http.post<OfferDto>(`${this.apiUrl}/add`, offer);
     }
 
     updateOffer(offer: Partial<OfferDto>): Observable<OfferDto> {
-        return this.http.patch<OfferDto>(`${this.apiUrl}/${offer.id}`, offer);
+        return this.http.patch<OfferDto>(`${this.apiUrl}/update/${offer.id}`, offer);
     }
 
     deleteOffer(id: string): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/${id}`);
+        return this.http.delete<void>(`${this.apiUrl}/delete/${id}`);
     }
 }

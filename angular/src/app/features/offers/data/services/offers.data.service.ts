@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 import { DataNgrxService } from "src/app/shared/data/ngrx/data.ngrx.service";
 import { OfferDto } from "../../models/offer.dto.model";
 import * as OffersActions from "../ngrx/offers.actions";
-import { selectOffersErrors, selectProspectionOffers } from "../ngrx/offers.selectors";
+import { selectOffers, selectOffersErrors, selectProspectionOffers } from "../ngrx/offers.selectors";
 
 @Injectable({
     providedIn: 'root'
@@ -24,7 +24,7 @@ export class OffersDataService {
         );
     }
 
-    createOffer(offer: OfferDto): Observable<OfferDto> {
+    createOffer(offer: {prospection_id: string, markdown?: string}): Observable<OfferDto> {
         return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(
             OffersActions.createOffer,
             OffersActions.createOfferSuccess,
@@ -49,6 +49,10 @@ export class OffersDataService {
             OffersActions.deleteOfferError,
             { id, prospection_id }
         );
+    }
+
+    getOffers(): Signal<{ [prospectionId: string]: OfferDto[] }> {
+      return this.store.selectSignal(selectOffers);
     }
 
     getProspectionOffers(prospectionId: string): Signal<OfferDto[]> {

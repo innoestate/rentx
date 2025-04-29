@@ -38,7 +38,6 @@ export class InvestScopeDisplayerAdapter {
   }
 
   private emitReplacement(dynamicComponent: UiDynamicComponent, component: string): void {
-    console.log('remove', dynamicComponent.name, '->', component);
     if(dynamicComponent.name !== component){
       dynamicComponent.replace.emit(component);
     }
@@ -108,7 +107,6 @@ export class InvestScopeDisplayerAdapter {
   private resetEmitting(dynamicComponents: UiDynamicComponent[][]){
     dynamicComponents.forEach(components => {
       components.forEach(component => {
-        console.log('emitting to false', component.emitting);
         component.emitting = false;
       });
     });
@@ -117,7 +115,6 @@ export class InvestScopeDisplayerAdapter {
   private clearDynamicComponents(dynamicComponents: UiDynamicComponent[][], list: string[]){
     dynamicComponents.forEach(components => {
       components.filter(component => !component.emitting).forEach(item => {
-        console.log('remove comp', item.name);
         this.emitReplacement(item, '');
       });
     });
