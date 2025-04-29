@@ -15,6 +15,7 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { QuillModule } from 'ngx-quill';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthInterceptor } from './core/auth/auth.interceptor';
@@ -25,6 +26,7 @@ import { LoginComponent } from './displays/pages/login/login.component';
 import { UserDataModule } from './features/user/data/module/user.data.module';
 import { LegalFooterComponent } from './displays/common/components/legal-footer/legal-footer.component';
 import { UiModule } from './ui/ui.module';
+import { FormsModule } from '@angular/forms';
 
 registerLocaleData(en);
 
@@ -38,6 +40,8 @@ registerLocaleData(en);
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    FormsModule,
+    QuillModule.forRoot(),
     NzButtonModule,
     NzCardModule,
     NzSpinModule,

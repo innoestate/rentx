@@ -4,3 +4,31 @@
   background-color: var(--color-basic-100);
   border-radius: var(--radius-large);
 }
+
+.card-content {
+    padding: 20px;
+
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    .editor-container {
+        margin-bottom: 20px;
+        border: 1px solid #d9d9d9;
+        border-radius: 4px;
+
+        quill-editor {
+            display: block;
+
+            ::ng-deep .ql-container {
+                min-height: 200px;
+            }
+        }
+    }
+
+    .export-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+}
