@@ -24,15 +24,21 @@ export class InvestScopeDisplayManager extends DisplayerManager {
     this.facade.onNavigation().pipe(
       take(1),
       tap(actualNavigation => {
+
         this.facade.removeComponent(actualNavigation);
-        this.facade.addComponent(navigation);
+        // this.facade.addComponent(navigation);
         this.facade.setNavigation(navigation);
         this.facade.deselectItem();
 
-        if (navigation === 'prospections') {
-          this.facade.addComponent('prospectionDescription');
-        } else {
-          this.facade.removeComponent('prospectionDescription');
+        console.log('navigation', navigation);
+
+        this.facade.clearComponents();
+        if(navigation === 'prospections'){
+          this.facade.addComponents(['navigation', 'prospections', 'actions', 'prospectionDescription']);
+        }else if(navigation === 'sellers'){
+          this.facade.addComponents(['navigation', 'sellers', 'actions']);
+        }else if(navigation === 'offer'){
+          this.facade.addComponents(['backToProspectionNavigation', 'prospectionsTableMini', 'prospectionDescription', 'offer']);
         }
 
       })

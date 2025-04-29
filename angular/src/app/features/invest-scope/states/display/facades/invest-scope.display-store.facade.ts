@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { InvestScopeDisplayedElement } from "../../../models/invest-scope.display-map.model";
-import { addDisplayedComponent, clearDisplayedComponents, navigate, removeDisplayedComponent, selectItem } from "../ngrx/invest-scope.actions";
+import { addDisplayedComponent, addDisplayedComponents, clearDisplayedComponents, navigate, removeDisplayedComponent, selectItem } from "../ngrx/invest-scope.actions";
 import { onInvestScopeDisplayedComponents, onInvestScopeNavigation, onInvestScopeSelectedItem } from "../ngrx/invest-scope.selectors";
 import { Prospection } from "src/app/features/prospections/models/prospection.model";
 import { InvestScopeNavigation } from "../../../models/invest-scope.navigation.model";
@@ -18,6 +18,10 @@ export class InvestScopeDisplayStoreFacade {
 
   addComponent(component: InvestScopeDisplayedElement) {
     this.store.dispatch(addDisplayedComponent({ component }));
+  }
+
+  addComponents(components: InvestScopeDisplayedElement[]) {
+    this.store.dispatch(addDisplayedComponents({ components }));
   }
 
   removeComponent(component: string) {

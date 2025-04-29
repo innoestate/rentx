@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { InvestScopeDisplayedElement } from "../../../models/invest-scope.display-map.model";
-import { addDisplayedComponent, clearDisplayedComponents, navigate, removeDisplayedComponent, selectItem } from "./invest-scope.actions";
+import { addDisplayedComponent, addDisplayedComponents, clearDisplayedComponents, navigate, removeDisplayedComponent, selectItem } from "./invest-scope.actions";
 import { Prospection } from '../../../../prospections/models/prospection.model'
 import { InvestScopeNavigation } from "../../../models/invest-scope.navigation.model";
 
@@ -23,6 +23,10 @@ export const investScopeReducer = createReducer<InvestScopeState>(
   on(addDisplayedComponent, (state, { component }) => ({
     ...state,
     displayedComponents: [...state.displayedComponents, component]
+  })),
+  on(addDisplayedComponents, (state, { components }) => ({
+    ...state,
+    displayedComponents: [...state.displayedComponents, ...components]
   })),
   on(removeDisplayedComponent, (state, { component }) => ({
     ...state,

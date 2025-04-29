@@ -12,12 +12,14 @@ import { InvestScopeComponent } from './invest-scope.component';
 import { InvestScopeDesktopRoutingModule } from './invest-scope.routing';
 import { DesktopProspectionsModule } from './modules/prospections/desktop-prospections.module';
 import { DesktopSellersModule } from './modules/sellers/desktop-sellers.module';
+import { DesktopProspectionsTableMiniComponent } from './components/desktop-prospections-table-mini/desktop-prospections-table-mini.component';
 
 
 
 @NgModule({
   declarations: [
-    InvestScopeComponent
+    InvestScopeComponent,
+    DesktopProspectionsTableMiniComponent
   ],
   imports: [
     StoreModule.forFeature('investScope', investScopeReducer),

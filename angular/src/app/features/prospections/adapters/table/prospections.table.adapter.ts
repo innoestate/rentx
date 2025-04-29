@@ -30,7 +30,7 @@ interface ProspectionTableRow extends UiTableRow {
 @Injectable({
   providedIn: 'root'
 })
-export class ProspectionsTable2AdapterService {
+export class ProspectionsTableAdapterService {
 
   constructor(private localization: LocalizationsService) { }
 

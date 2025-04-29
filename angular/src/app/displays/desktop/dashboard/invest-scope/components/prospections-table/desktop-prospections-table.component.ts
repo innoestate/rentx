@@ -1,7 +1,7 @@
 import { Component, computed, ElementRef } from '@angular/core';
 import { LocalizationsService } from 'src/app/core/localizations/localizations.service';
 import { InvestScopeDisplayManager } from 'src/app/features/invest-scope/displayer/invest-scope.displayer.manager';
-import { ProspectionsTable2AdapterService } from 'src/app/features/prospections/adapters/table/prospections.table2.adapter';
+import { ProspectionsTableAdapterService } from 'src/app/features/prospections/adapters/table/prospections.table.adapter';
 import { ProspectionsCommandsService } from 'src/app/features/prospections/commands/prospections.commands.service';
 import { ProspectionsDataService } from 'src/app/features/prospections/data/services/prospections.data.service';
 import { SellersDataService } from 'src/app/features/sellers/data/services/sellers.data.service';
@@ -27,7 +27,7 @@ export class DesktopProspectionsTableComponent extends UiDisplayerComponent {
   prospectionsDto = this.prospectionsData.getProspections();
   sellersDto = this.SellersData.getSellers();
 
-  constructor(private adapter: ProspectionsTable2AdapterService,
+  constructor(private adapter: ProspectionsTableAdapterService,
               private prospectionsData: ProspectionsDataService,
               private SellersData: SellersDataService,
               private localization: LocalizationsService,

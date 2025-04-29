@@ -38,6 +38,7 @@ export class InvestScopeDisplayerAdapter {
   }
 
   private emitReplacement(dynamicComponent: UiDynamicComponent, component: string): void {
+    console.log('remove', dynamicComponent.name, '->', component);
     if(dynamicComponent.name !== component){
       dynamicComponent.replace.emit(component);
     }
@@ -46,6 +47,11 @@ export class InvestScopeDisplayerAdapter {
 
   private buildMapping(dynamicComponents: UiDynamicComponent[][], componentsList: string[]) {
     this.resetEmitting(dynamicComponents);
+
+    // dynamicComponents[0][0].emitting = false;
+
+    console.log('componentList', componentsList);
+    console.log('dynamicComponents', dynamicComponents[0][1].emitting);
     if(componentsList.includes('prospections')){
       this.emitReplacement(dynamicComponents[0][0], 'navigation');
       this.emitReplacement(dynamicComponents[1][0], 'prospections');
@@ -57,10 +63,12 @@ export class InvestScopeDisplayerAdapter {
       this.emitReplacement(dynamicComponents[2][0], 'actions');
     }else if (componentsList.includes('offer')){
       this.emitReplacement(dynamicComponents[0][0], 'backToProspectionNavigation');
-      // this.emitReplacement(dynamicComponents[0][1], 'prospectionSmallTable');
+      this.emitReplacement(dynamicComponents[0][1], 'prospectionsTableMini');
       this.emitReplacement(dynamicComponents[0][2], 'prospectionDescription');
       // this.emitReplacement(dynamicComponents[1][0], 'offer');
     }
+    console.log('dynamicComponents', dynamicComponents[0][1].emitting);
+
     this.clearDynamicComponents(dynamicComponents, componentsList);
   }
 
@@ -100,6 +108,7 @@ export class InvestScopeDisplayerAdapter {
   private resetEmitting(dynamicComponents: UiDynamicComponent[][]){
     dynamicComponents.forEach(components => {
       components.forEach(component => {
+        console.log('emitting to false', component.emitting);
         component.emitting = false;
       });
     });
@@ -108,6 +117,7 @@ export class InvestScopeDisplayerAdapter {
   private clearDynamicComponents(dynamicComponents: UiDynamicComponent[][], list: string[]){
     dynamicComponents.forEach(components => {
       components.filter(component => !component.emitting).forEach(item => {
+        console.log('remove comp', item.name);
         this.emitReplacement(item, '');
       });
     });

@@ -5,6 +5,7 @@ import { InvestScopeNavigation } from "../../../models/invest-scope.navigation.m
 
 export const clearDisplayedComponents = createAction('[Invest-scope] Clear displayed components');
 export const addDisplayedComponent = createAction('[Invest-scope] Add displayed element', props<{ component : InvestScopeDisplayedElement}>());
+export const addDisplayedComponents = createAction('[Invest-scope] Add displayed elements', props<{ components : InvestScopeDisplayedElement[]}>());
 export const removeDisplayedComponent = createAction('[Invest-scope] Remove displayed element', props<{ component : string}>());
 
 export const selectItem = createAction('[Invest-scope] Select item', props<{ item : Prospection | null}>())

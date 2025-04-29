@@ -1,6 +1,8 @@
 import { Injectable, Type } from "@angular/core";
 import { FactoryComponentData } from "./models/build-component-data.model";
 
+
+//!important! All components must inherit from UiDisplayerComponent
 @Injectable()
 export abstract class DynamicComponentFactoryService {
 

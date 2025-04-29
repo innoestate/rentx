@@ -10,6 +10,7 @@ import { DesktopProspectionDescriptionComponent } from "../components/descriptio
 import { DesktopProspectionsTableComponent } from "../components/prospections-table/desktop-prospections-table.component";
 import { DesktopSellersTableComponent } from "../components/sellers-table/desktop-sellers-table.component";
 import { InvestScopeDisplayManager } from "src/app/features/invest-scope/displayer/invest-scope.displayer.manager";
+import { DesktopProspectionsTableMiniComponent } from "../components/desktop-prospections-table-mini/desktop-prospections-table-mini.component";
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class InvestScopeFactory extends DynamicComponentFactoryService {
   protected override componentMap: { [key: string]: { component: Type<any>, values?: any } } = {
     'navigation': this.getNavigationComponent(),
     'prospections': this.getProspectionComponent(),
+    'prospectionsTableMini': this.getProspectionTableMiniComponent(),
     'prospectionDescription': this.getProspectionDescription(),
     'sellers': this.getSellersComponent(),
     'actions': this.getActionsComponent(),
@@ -60,6 +62,10 @@ export class InvestScopeFactory extends DynamicComponentFactoryService {
 
   private getProspectionComponent() {
     return { component: DesktopProspectionsTableComponent }
+  }
+
+  private getProspectionTableMiniComponent() {
+    return { component: DesktopProspectionsTableMiniComponent }
   }
 
   private getProspectionDescription() {
