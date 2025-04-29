@@ -7,7 +7,7 @@ import { OfferDto } from './models/offer.dto';
 import { JwtAuthGuard } from '../auth/auth.guard';
 import { UserMidleweare } from '../guards/user-midleweare.guard';
 
-@Controller('offers')
+@Controller('api/offers')
 export class OffersController {
     constructor(
         private readonly offersService: OffersService,

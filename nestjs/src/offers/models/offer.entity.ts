@@ -15,16 +15,16 @@ export class Offer_Entity {
     @Column({ type: 'uuid' })
     user_id: string;
 
-    @Column()
+    @Column({ nullable: true})
     price: number;
 
     @Column({ type: 'uuid' })
     prospection_id: string;
 
-    @Column({ type: 'text' })
+    @Column({ type: 'text', nullable: true})
     markdown: string;
 
-    @Column()
+    @Column({ nullable: true})
     google_drive_id: string;
 
     @ManyToOne(() => Prospection_Entity, prospection => prospection.offers, { onDelete: 'CASCADE' })
