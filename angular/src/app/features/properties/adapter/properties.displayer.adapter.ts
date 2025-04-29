@@ -15,7 +15,7 @@ export class PropertiesDisplayAdapter {
     for (let i = 0; i < 3; i++) {
       const array: UiDynamicComponent[] = [];
       for (let i = 0; i < 3; i++) {
-        array.push({ name: '', replace: new EventEmitter<string>() });
+        array.push({ name: '', replace: new EventEmitter<string>(), emitting: false });
       }
       dynamicComponents.push(array);
     }

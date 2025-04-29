@@ -2,10 +2,11 @@ import { createReducer, on } from "@ngrx/store";
 import { InvestScopeDisplayedElement } from "../../../models/invest-scope.display-map.model";
 import { addDisplayedComponent, clearDisplayedComponents, navigate, removeDisplayedComponent, selectItem } from "./invest-scope.actions";
 import { Prospection } from '../../../../prospections/models/prospection.model'
+import { InvestScopeNavigation } from "../../../models/invest-scope.navigation.model";
 
 export interface InvestScopeState {
   displayedComponents: InvestScopeDisplayedElement[];
-  navigation: '' | 'prospections' | 'sellers';
+  navigation: '' | InvestScopeNavigation;
   selectedItem: Prospection | null;
 }
 

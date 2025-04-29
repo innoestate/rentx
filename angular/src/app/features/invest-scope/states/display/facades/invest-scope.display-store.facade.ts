@@ -5,6 +5,7 @@ import { InvestScopeDisplayedElement } from "../../../models/invest-scope.displa
 import { addDisplayedComponent, clearDisplayedComponents, navigate, removeDisplayedComponent, selectItem } from "../ngrx/invest-scope.actions";
 import { onInvestScopeDisplayedComponents, onInvestScopeNavigation, onInvestScopeSelectedItem } from "../ngrx/invest-scope.selectors";
 import { Prospection } from "src/app/features/prospections/models/prospection.model";
+import { InvestScopeNavigation } from "../../../models/invest-scope.navigation.model";
 
 @Injectable()
 export class InvestScopeDisplayStoreFacade {
@@ -23,7 +24,7 @@ export class InvestScopeDisplayStoreFacade {
     this.store.dispatch(removeDisplayedComponent({ component }));
   }
 
-  setNavigation(navigation: 'prospections' | 'sellers') {
+  setNavigation(navigation: InvestScopeNavigation) {
     this.store.dispatch(navigate({ navigation }));
   }
 

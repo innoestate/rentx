@@ -1,0 +1,1 @@
+export type InvestScopeNavigation = 'prospections' | 'sellers' | 'offer';

@@ -9,6 +9,7 @@ import { DynamicComponentFactoryService } from "src/app/ui/services/factory/dyna
 import { DesktopProspectionDescriptionComponent } from "../components/description/desktop-prospection-description.component";
 import { DesktopProspectionsTableComponent } from "../components/prospections-table/desktop-prospections-table.component";
 import { DesktopSellersTableComponent } from "../components/sellers-table/desktop-sellers-table.component";
+import { InvestScopeDisplayManager } from "src/app/features/invest-scope/displayer/invest-scope.displayer.manager";
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +17,12 @@ import { DesktopSellersTableComponent } from "../components/sellers-table/deskto
 export class InvestScopeFactory extends DynamicComponentFactoryService {
 
   protected override componentMap: { [key: string]: { component: Type<any>, values?: any } } = {
-    'navigation': this.getNavigationComponent() ,
+    'navigation': this.getNavigationComponent(),
     'prospections': this.getProspectionComponent(),
     'prospectionDescription': this.getProspectionDescription(),
     'sellers': this.getSellersComponent(),
-    'actions': this.getActionsComponent()
+    'actions': this.getActionsComponent(),
+    'backToProspectionNavigation': this.getBackToProspectionNavigationComponent()
   };
   private sellers = this.sellersData.getSellers();
 
@@ -28,6 +30,7 @@ export class InvestScopeFactory extends DynamicComponentFactoryService {
   constructor(private localizations: LocalizationsService,
     private sellersData: SellersDataService,
     private prospectionsCommands: ProspectionsCommandsService,
+    private displayAdapter: InvestScopeDisplayManager,
     private sellersCommands: SellersCommandsService) {
     super();
   }
@@ -40,6 +43,19 @@ export class InvestScopeFactory extends DynamicComponentFactoryService {
       ]
     };
     return { component: UiNavigationComponent, values };
+  }
+
+  private getBackToProspectionNavigationComponent() {
+    const values = {
+      actions: [
+        {
+          label: this.localizations.getLocalization('common', 'back'),
+          icon: { name: 'back', size: 24 },
+          command: () => this.displayAdapter.navigate('prospections')
+        },
+      ]
+    };
+    return { component: UiActionsComponent, values };
   }
 
   private getProspectionComponent() {

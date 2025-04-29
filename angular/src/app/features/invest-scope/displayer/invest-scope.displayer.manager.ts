@@ -4,6 +4,7 @@ import { DisplayerManager } from "src/app/ui/displayers/displayer.manager";
 import { Prospection } from "../../prospections/models/prospection.model";
 import { InvestScopeDisplayedElement } from "../models/invest-scope.display-map.model";
 import { InvestScopeDisplayStoreFacade } from "../states/display/facades/invest-scope.display-store.facade";
+import { InvestScopeNavigation } from "../models/invest-scope.navigation.model";
 
 @Injectable()
 export class InvestScopeDisplayManager extends DisplayerManager {
@@ -19,7 +20,7 @@ export class InvestScopeDisplayManager extends DisplayerManager {
     this.navigate('prospections');
   }
 
-  override navigate(navigation: 'prospections' | 'sellers') {
+  override navigate(navigation: InvestScopeNavigation) {
     this.facade.onNavigation().pipe(
       take(1),
       tap(actualNavigation => {

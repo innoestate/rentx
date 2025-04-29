@@ -3,7 +3,8 @@ export const Localizations: Record<string, Record<string, string>> = {
   commons: {
     validationButton: "OK",
     delete: "Supprimer",
-    description: "Description"
+    description: "Description",
+    back: "Retour"
   },
   propertyCategories: {
     parking: 'parking',

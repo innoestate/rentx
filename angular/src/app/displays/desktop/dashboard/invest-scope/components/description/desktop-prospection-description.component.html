@@ -4,6 +4,6 @@
     <ui-editable-text [text]="prospection()?.resume" [maxHeight]="400" (onEdit)="updateDescription($event)"></ui-editable-text>
   </div>
   <div class="footer">
-    <ui-button [icon]="iconOffer()" [text]="offerButtonText()"></ui-button>
+    <ui-button (click)="navigateToOffer()" [icon]="iconOffer()" [text]="offerButtonText()"></ui-button>
   </div>
 </div>
