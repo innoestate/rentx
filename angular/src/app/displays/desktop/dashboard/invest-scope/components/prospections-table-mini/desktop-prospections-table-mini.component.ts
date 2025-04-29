@@ -1,6 +1,8 @@
-import { Component, computed, ElementRef } from '@angular/core';
+import { Component, computed, effect, ElementRef, model } from '@angular/core';
+import { take, tap } from 'rxjs';
 import { LocalizationsService } from 'src/app/core/localizations/localizations.service';
 import { InvestScopeDisplayManager } from 'src/app/features/invest-scope/displayer/invest-scope.displayer.manager';
+import { InvestScopeDisplayStoreFacade } from 'src/app/features/invest-scope/states/display/facades/invest-scope.display-store.facade';
 import { ProspectionsTableMiniAdapterService } from 'src/app/features/prospections/adapters/table/prospections.table-mini.adapter';
 import { ProspectionsDataService } from 'src/app/features/prospections/data/services/prospections.data.service';
 import { SellersDataService } from 'src/app/features/sellers/data/services/sellers.data.service';
@@ -26,13 +28,43 @@ export class DesktopProspectionsTableMiniComponent extends UiDisplayerComponent 
   prospectionsDto = this.prospectionsData.getProspections();
   sellersDto = this.sellersData.getSellers();
 
+  select = model<UiTableRow | undefined>();
+
   constructor(private prospectionsData: ProspectionsDataService,
     private sellersData: SellersDataService,
+    private investScopeDisplayStoreFacade: InvestScopeDisplayStoreFacade,
     private adapter: ProspectionsTableMiniAdapterService,
     private displayAdapter: InvestScopeDisplayManager,
     private localization: LocalizationsService,
     protected override elRef: ElementRef) {
     super(elRef)
+    this.initSelection();
+  }
+
+  initSelection(){
+    this.initSelectionAtStart();
+    this.initSelectionEffects();
+  }
+
+  private initSelectionAtStart(){
+    this.investScopeDisplayStoreFacade.onSelectedItem().pipe(
+      take(1),
+      tap(prospection => {
+        const row = this.table.rows().find(row => row.data.id === prospection?.id);
+        if(row){
+          this.select.set(row!);
+        }
+      })
+    ).subscribe();
+  }
+
+  private initSelectionEffects(){
+    effect(() => {
+      if(this.select()){
+        const item = this.prospectionsDto().find(p => p.id === this.select()!.data.id);
+        this.displayAdapter.selectItem(item!);
+      }
+    })
   }
 
 

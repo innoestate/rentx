@@ -1,6 +1,8 @@
-import { Component, computed, ElementRef } from '@angular/core';
+import { Component, computed, effect, ElementRef, model } from '@angular/core';
+import { take, tap } from 'rxjs';
 import { LocalizationsService } from 'src/app/core/localizations/localizations.service';
 import { InvestScopeDisplayManager } from 'src/app/features/invest-scope/displayer/invest-scope.displayer.manager';
+import { InvestScopeDisplayStoreFacade } from 'src/app/features/invest-scope/states/display/facades/invest-scope.display-store.facade';
 import { ProspectionsTableAdapterService } from 'src/app/features/prospections/adapters/table/prospections.table.adapter';
 import { ProspectionsCommandsService } from 'src/app/features/prospections/commands/prospections.commands.service';
 import { ProspectionsDataService } from 'src/app/features/prospections/data/services/prospections.data.service';
@@ -27,14 +29,44 @@ export class DesktopProspectionsTableComponent extends UiDisplayerComponent {
   prospectionsDto = this.prospectionsData.getProspections();
   sellersDto = this.SellersData.getSellers();
 
+  select = model<UiTableRow>();
+
   constructor(private adapter: ProspectionsTableAdapterService,
               private prospectionsData: ProspectionsDataService,
               private SellersData: SellersDataService,
               private localization: LocalizationsService,
               private prospectionsCommands: ProspectionsCommandsService,
+              private investScopeDisplayStoreFacade: InvestScopeDisplayStoreFacade,
               private displayAdapter: InvestScopeDisplayManager,
               protected override elRef: ElementRef) {
     super(elRef);
+    this.initSelection();
+  }
+
+  initSelection(){
+    this.initSelectionAtStart();
+    this.initSelectionEffects();
+  }
+
+  private initSelectionAtStart(){
+    this.investScopeDisplayStoreFacade.onSelectedItem().pipe(
+      take(1),
+      tap(prospection => {
+        const row = this.table.rows().find(row => row.data.id === prospection?.id);
+        if(row){
+          this.select.set(row!);
+        }
+      })
+    ).subscribe();
+  }
+
+  private initSelectionEffects(){
+    effect(() => {
+      if(this.select()){
+        const item = this.prospectionsDto().find(p => p.id === this.select()!.data.id);
+        this.displayAdapter.selectItem(item!);
+      }
+    })
   }
 
   editCell(event: { id: string, key: string, cell: UiCell} ){

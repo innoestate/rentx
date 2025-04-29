@@ -37,7 +37,7 @@ export class UiTableComponent<T> {
   editCell = output<{ id: string, key: string, cell: UiCell }>();
   rowsPerPages = toSignal(getSizing(this.elRef));
   selectedNzRow = signal<NzUiTableRow | null>(null);
-  onSelect = output<UiTableRow>();
+  onSelect = model<UiTableRow>();
 
   protected nzRows: Signal<NzUiTableRow[]> = this.buildNzRows();
   protected nzColumns: Signal<NzUiTable2Column[]> = this.buildNzColumns();
@@ -45,7 +45,8 @@ export class UiTableComponent<T> {
   protected pagesNumber = computed(() => this.pagination.getPageNumber(this.nzRows().length, this.rowsPerPages() ?? 1))
 
   constructor(private elRef: ElementRef, protected pagination: Pagination) {
-    this.initSelectedRowEffect();
+    this.initSelectRowOutEffect();
+    this.initSelectRowInEffect();
   }
 
   edit(cell: NzUiCell, nzRow: NzUiTableRow, columnIndex: number) {
@@ -58,7 +59,7 @@ export class UiTableComponent<T> {
     const selectedRow = this.table().rows().find(r => r.data.id === nzRow.id);
     if(selectedRow){
       this.selectedNzRow.set(nzRow);
-      this.onSelect.emit(selectedRow);
+      this.onSelect.set(selectedRow);
     }
   }
 
@@ -70,7 +71,17 @@ export class UiTableComponent<T> {
     return computed(() => formatNzRows(this.table().rows(), this.table().columns()));
   }
 
-  private initSelectedRowEffect(){
+  private initSelectRowInEffect(){
+    effect(() => {
+      const selected = this.onSelect();
+      if(selected){
+        const selectedRow = this.nzRows().find(r => r.id === selected.data.id);
+        this.selectedNzRow.set(selectedRow || null);
+      }
+    })
+  }
+
+  private initSelectRowOutEffect(){
     effect(() => {
       if(this.table().rows().length > 0 && this.selectedNzRow()){
         this.select(this.selectedNzRow()!);
