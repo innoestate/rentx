@@ -65,7 +65,7 @@ export class InvestScopeDisplayerAdapter {
       this.emitReplacement(dynamicComponents[0][0], 'backToProspectionNavigation');
       this.emitReplacement(dynamicComponents[0][1], 'prospectionsTableMini');
       this.emitReplacement(dynamicComponents[0][2], 'prospectionDescription');
-      // this.emitReplacement(dynamicComponents[1][0], 'offer');
+      this.emitReplacement(dynamicComponents[1][0], 'offer');
     }
     console.log('dynamicComponents', dynamicComponents[0][1].emitting);
 

@@ -10,7 +10,8 @@ import { DesktopProspectionDescriptionComponent } from "../components/descriptio
 import { DesktopProspectionsTableComponent } from "../components/prospections-table/desktop-prospections-table.component";
 import { DesktopSellersTableComponent } from "../components/sellers-table/desktop-sellers-table.component";
 import { InvestScopeDisplayManager } from "src/app/features/invest-scope/displayer/invest-scope.displayer.manager";
-import { DesktopProspectionsTableMiniComponent } from "../components/desktop-prospections-table-mini/desktop-prospections-table-mini.component";
+import { DesktopProspectionsTableMiniComponent } from "../components/prospections-table-mini/desktop-prospections-table-mini.component";
+import { DesktopOfferComponent } from "../components/offer/desktop-offer.component";
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,8 @@ export class InvestScopeFactory extends DynamicComponentFactoryService {
     'prospectionDescription': this.getProspectionDescription(),
     'sellers': this.getSellersComponent(),
     'actions': this.getActionsComponent(),
-    'backToProspectionNavigation': this.getBackToProspectionNavigationComponent()
+    'backToProspectionNavigation': this.getBackToProspectionNavigationComponent(),
+    'offer': this.getOfferComponent()
   };
   private sellers = this.sellersData.getSellers();
 
@@ -92,6 +94,10 @@ export class InvestScopeFactory extends DynamicComponentFactoryService {
       ]
     };
     return { component: UiActionsComponent, values };
+  }
+
+  private getOfferComponent() {
+    return { component: DesktopOfferComponent };
   }
 
 }

@@ -1,13 +1,12 @@
 :host {
-  height: 100%;
   width: 100%;
   max-width: 400px;
   display: flex;
   flex-flow: column nowrap;
   justify-content: stretch;
   align-items: stretch;
-  background-color: var(--color-basic-100);
-  border-radius: var(--radius-large);
+  // background-color: var(--color-basic-100);
+  // border-radius: var(--radius-large);
 }
 
 .prospection-table {

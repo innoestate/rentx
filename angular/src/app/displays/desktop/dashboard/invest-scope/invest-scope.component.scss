@@ -18,3 +18,7 @@
   align-items: flex-start;
   gap: 4px;
 }
+
+.column:first-child {
+  align-items: flex-end;
+}
