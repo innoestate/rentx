@@ -33,10 +33,10 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
 
   prospectionOffers: Signal<OfferDto[]> = computed(() => this.offers()[this.prospectionId()!]);
 
-  selectedOfferId = signal<string | null>(null);
-
   editorContent: string = '';
   selectedOffer = model<OfferDto | null>(null);
+  selectedOfferId = computed(() => this.selectedOffer()?.id ?? null);
+
   isEditing = false;
 
   constructor(
@@ -47,10 +47,8 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
     super(elementRef);
 
     effect(() => {
-
       const offers = this.prospectionOffers();
       console.log('offers', offers);
-
     })
 
     effect(() => {
@@ -70,13 +68,24 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
       }
     })
 
+    effect(() => {
+      const offers = this.prospectionOffers();
+      if (offers?.length > 0 && !this.selectedOffer()) {
+        this.selectedOffer.set(offers[0]);
+      }
+    });
+
+    effect(() => {
+      const offer = this.selectedOffer();
+      if (offer) {
+        this.editorContent = offer.markdown ?? '';
+      }
+    });
   }
 
   ngOnInit() {}
 
   saveOffer(){
-
-    const content = this.editorContent;
     if(this.selectedOfferId() === null){
       this.offersService.createOffer({
         prospection_id: this.prospectionId()!,
