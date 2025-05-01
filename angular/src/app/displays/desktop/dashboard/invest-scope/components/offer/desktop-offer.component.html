@@ -1,7 +1,8 @@
 <div class="card-content">
     <div class="offer-header">
         <app-offer-icons [offers]="prospectionOffers()" [(selected)]="selectedOffer"></app-offer-icons>
-        <h2>Offre</h2>
+        <ui-dropdown (select)="selectOwner($event)" placeHolder="propriétaire" [list]="ownersDropdown()?.list??[]"></ui-dropdown>
+        <h2 lang="fr">Offre</h2>
     </div>
     <div class="editor-container">
         <quill-editor [(ngModel)]="editorContent" [modules]="quillConfig"></quill-editor>

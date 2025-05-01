@@ -1,78 +1,43 @@
-FAIRE UNE OFFRE.
+MODULE OFFRE
 
-Quand on clique sur le bouton faire une offre,
-Un nouveau composant apparaît à la place du grand tableau avec une page qui contient l'offre.
-Le tableau des biens est affiché dans un petit composant à gauche avec seulement
-l'adresse, le nom du vendeur et le status.
-Le bouton de navigation est transformé en bouton "back" pour revenir sur les tableaux
-la fenêtre de description est affichée en dessous du tableau et on ne voit plus le bouton "faire une offre"
+Quand je clique sur créer une offre, je veux voir les informations du owner et du seller.
 
+Pour l'instant, quand on clique sur offre, l'offre n'existe pas en backend.
+Il faut la sauvegarder depuis le front pour ensuite l'envoyer au back.
 
-réalisation:
+Est-ce un problème?
+A prioris non mais j'ai le sentiment que le plus propre serait de le faire côté back...
 
-navigation:
-on peut ajouter un type "offer" aux types de navigation ("prospections", "sellers").
-En cliquant sur faire une offre on bascule navigation sur "offer".
-On ajoute la condition "offer" dans le displayer navigate qui va transformer la liste comme suit:
-['backToInvest', 'prospectionsSmall', 'descriptions', 'offer']
+En tous cas, restons là dessus.
 
+Quand on constuit le composant offer:
 
-=> on en conclu qu'il y a certainement un problème d'archi.
-En voulant centraliser la navigation basée sur un useClass Displayer custom,
-on part du principe qu'il y a forcément une navigation.
-  -> il faudrait revenir en arrière et faire un bouton de navigation custom
-      il pourrait être la navigation des tableau, on un back.
+-on va chercher les offres qui existent pour la prospection concerné.
+Si on en trouve aucune, alors on lance une fonction initOffer
+-> elle va créer une offre et sauvegarder avec par défaut les informations du vendeur.
 
-  -> de plus, le fait de faire une liste simple de string peu importe l'ordre peut paraître bizare.
-    Mais au fond c'est pas mal: ce qui compte vraiment ce sont les composants qu'on affiche...
-    Et en fonction des cas (par exemple desktop, grand écran, petit écran, mobile etc...) on les affiche différemment.
-    Ceci dit, on est censé afficher parfois différents éléments.
-    Par exemple en version mobile, dans offer on affichera peut être pas le petit tableau.
-    Or actuellement, le InvestScopeDisplayerManager est dans features...
-    mais bon ça on pourra aisément le bouger et customiser donc c'est pas vraiment un problème.
+Pour l'instant restons là dessus.
 
-OK revenons à nos moutons.
+ah oui alors justement si on a le module de l'IA a ce moment là des choses se passeront.
+Mais on en rediscutera plus tard.
+(on peut immaginer que dans cette fonction init, on appel l'API de l'IA, qui va déjà créer une offre de proposition)
 
-Pour l'instant on va pas refactoriser mais simplement ajouter le bouton back en plus.
--> c'est un bouton de navigation -> il vaut mieux refactoriser non ?
--> il y a un problème: on avait fait tout ça car le bouton doit avoir des données en input.
-Or avec l'archi de factory on peut pas vraiment le faire, il faut utiliser le store.
-  => aucun problème avec l'héritage!
-    on fait un composant InvestStorageTablesNavigation qui a les tables et un qui a le bouton back.
-    -> mais on conserve l'utilisation de DisplayManager comme ça on gère la navigation en dehors du navigator
-      dont la seule responsabilité est d'indiquer où naviguer et d'afficher un ou plusieurs boutons!
+problème:
+si on navigue d'une prospection à une autre, cela implique de recréer systématiquement par le comportement par défaut s'il
+n'y a aucune offre
+-> faux problème ?
+  -> en effet, on le fait par contre, on ne sauvegarde pas pour ne pas enregistrer une offre inutilement.
 
-Donc reprenons:
+OK.
+Maintenant se pose la question de l'entête.
 
-1- refactoriser la navigation en re-créant InvestScopeTablesNavigation (ou InvestScopeMainNavigation)
-2- on créer un nouveau navigation OfferNavigation avec le bouton back -> bonus on ajoute et utilise l'icone back
-3- on créer un nouveau composant prospections-table-small avec uniquement les champs adresse, vendeur et status
-4- on créer un nouveau composant prospection-offer qui permet de créer et éditer une offre
-    -> il va falloir certainement revoir le back car actuellement l'offre est un objet à part.
-      Car actuellement, c'est un "file" qui est stocké en base.
-      Ou alors il faudra créer un file côté front comme le fait le back.
+Ce qui va se passer c'est qu'on va mettre par défaut les informations de l'utilisateur (le owner) et le seller.
+Mais il va falloir potentiellement choisir un owner.
 
-    -> côté UX, l'objectif étant de toujours simplifier à l'extrême:
-      on est pas censé avoir besoin d'éditer l'offre en dehors du SAAS (ou en tout cas pas en MVP)
-      -> on peut donc créer le pdf côté front et ne stocker que le PDF.
-      -> l'important est de pouvoir lire et éditer le PDF
+Donc on pourrait ajouter une dropdown dans le header avec les owners.
+-> en changeant de owner, on reprends la partie owner telle qu'elle est censée être et si on la retrouve,
+on applique le changement.
+Si on la retrouve pas, on envoie un message d'erreur.
 
-      => en fait le plus simple (et optimisé) serait d'utiliser du markdown
-        (donc stocker du markdown plutôt qu'un pdf)
-        et rendre le pdf côté back à l'aide du markdown
-        (ou éventuellement aussi côté front)
-
-        Pour ça on pourrait utiliser:
-        ngx-markdown-editor et markdown-pdf
-
-        à tester!
-
-  5- ajouter le bouton "générer une offre" dans descriptionProspection
-
-  6- on gère displayAdapter et de sorte à ce qu'il affiche les bons composants quand on clique
-    sur "générer une offre"
-
-
-Faire ça en 2 étapes:
-d'abord gérer l'affichage de l'ensemble
-ensuite approfondir en gérant l'éditeur d'offre.
+problématique principale:
+comment mettre le texte à droite ?

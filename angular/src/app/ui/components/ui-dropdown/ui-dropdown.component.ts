@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, effect, forwardRef, input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, effect, forwardRef, input, output, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { NzSelectComponent, NzSelectModule } from 'ng-zorro-antd/select';
 import { UiDropdownItem } from './model/ui-dropdown-item.model';
@@ -24,6 +24,8 @@ export class UiDropdownComponent implements ControlValueAccessor, AfterViewInit{
   onChange: any = () => { };
   onTouched = () => { };
 
+  select = output<any>();
+
   placeHolder = input<string>('');
   list = input.required<UiDropdownItem<any>[]>();
   openAtInit = input<boolean>(false);
@@ -32,6 +34,7 @@ export class UiDropdownComponent implements ControlValueAccessor, AfterViewInit{
   constructor() {
     this.nzFormControl.valueChanges.subscribe(value => {
       this.onChange(value);
+      this.select.emit(value);
     });
 
     effect(() => {

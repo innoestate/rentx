@@ -3,9 +3,11 @@ import { take, tap } from 'rxjs';
 import { LocalizationsService } from 'src/app/core/localizations/localizations.service';
 import { InvestScopeDisplayManager } from 'src/app/features/invest-scope/displayer/invest-scope.displayer.manager';
 import { InvestScopeDisplayStoreFacade } from 'src/app/features/invest-scope/states/display/facades/invest-scope.display-store.facade';
+import { filledProspection } from 'src/app/features/prospections/adapters/prospections.adapter.utils';
 import { ProspectionsTableAdapterService } from 'src/app/features/prospections/adapters/table/prospections.table.adapter';
 import { ProspectionsCommandsService } from 'src/app/features/prospections/commands/prospections.commands.service';
 import { ProspectionsDataService } from 'src/app/features/prospections/data/services/prospections.data.service';
+import { Prospection } from 'src/app/features/prospections/models/prospection.model';
 import { SellersDataService } from 'src/app/features/sellers/data/services/sellers.data.service';
 import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
 import { UiCell } from 'src/app/ui/components/ui-table/models/ui-cell.model';
@@ -63,8 +65,9 @@ export class DesktopProspectionsTableComponent extends UiDisplayerComponent {
   private initSelectionEffects(){
     effect(() => {
       if(this.select()){
-        const item = this.prospectionsDto().find(p => p.id === this.select()!.data.id);
-        this.displayAdapter.selectItem(item!);
+        const prospectionDto = this.prospectionsDto().find(p => p.id === this.select()!.data.id);
+        const prospection = filledProspection(prospectionDto, this.sellersDto())
+        this.displayAdapter.selectItem(prospection!);
       }
     })
   }

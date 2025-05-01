@@ -12,6 +12,9 @@ import { StoreModule } from '@ngrx/store';
 import { offersReducer } from 'src/app/features/offers/data/ngrx/offers.reducers';
 import { OffersEffects } from 'src/app/features/offers/data/ngrx/offers.effects';
 import { EffectsModule } from '@ngrx/effects';
+import { OwnersModule } from '../../../properties/modules/owners/owners.module';
+import { OwnersEffects } from 'src/app/features/owners/data/ngrx/owners.effects';
+import { ownersReducer } from 'src/app/features/owners/data/ngrx/owners.reducers';
 
 
 
@@ -24,7 +27,10 @@ import { EffectsModule } from '@ngrx/effects';
     ProspectionsDataModule,
     UiModule.forChild(),
     StoreModule.forFeature('offers', offersReducer),
-    EffectsModule.forFeature(OffersEffects)
+    EffectsModule.forFeature(OffersEffects),
+    StoreModule.forFeature('owners', ownersReducer),
+    EffectsModule.forFeature(OwnersEffects),
+    OwnersModule
   ],
   providers: [
     {

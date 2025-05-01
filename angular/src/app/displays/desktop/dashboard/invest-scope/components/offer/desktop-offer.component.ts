@@ -7,7 +7,11 @@ import { QuillModule } from 'ngx-quill';
 import { InvestScopeDisplayStoreFacade } from 'src/app/features/invest-scope/states/display/facades/invest-scope.display-store.facade';
 import { OffersDataService } from 'src/app/features/offers/data/services/offers.data.service';
 import { OfferDto } from 'src/app/features/offers/models/offer.dto.model';
+import { OwnersDataService } from 'src/app/features/owners/data/owners.data.service';
+import { Owner } from 'src/app/features/owners/models/owner.model';
 import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
+import { UiDropdown } from 'src/app/ui/components/ui-dropdown/model/ui-dropdown.model';
+import { UiDropdownComponent } from 'src/app/ui/components/ui-dropdown/ui-dropdown.component';
 import { OfferIconsComponent } from './offer-icons/offer-icons.component';
 
 @Component({
@@ -20,7 +24,11 @@ import { OfferIconsComponent } from './offer-icons/offer-icons.component';
     QuillModule,
     NzButtonModule,
     FormsModule,
-    OfferIconsComponent
+    OfferIconsComponent,
+    UiDropdownComponent,
+  ],
+  providers: [
+    OwnersDataService
   ]
 })
 export class DesktopOfferComponent extends UiDisplayerComponent implements OnInit {
@@ -31,6 +39,8 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
   prospectionOffers: Signal<OfferDto[]> = computed(() => this.offers()[this.prospectionId()!]);
   selectedOffer = model<OfferDto | null>(null);
   selectedOfferId = computed(() => this.selectedOffer()?.id ?? null);
+  owners = this.ownersData.getOwners();
+  ownersDropdown = this.buildOwnersDropdown()
 
   editorContent: string = '';
   isEditing = false;
@@ -38,74 +48,57 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
   constructor(
     private offersService: OffersDataService,
     private investScopeStore: InvestScopeDisplayStoreFacade,
+    private ownersData: OwnersDataService,
     private elementRef: ElementRef
   ) {
     super(elementRef);
 
+    this.ownersData.loadOwners();
+
     this.initChangeProspectionEffect();
     this.initLoadOffersEffect();
-    // this.initSelectedOfferEffect();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
-  initChangeProspectionEffect(){
+  initChangeProspectionEffect() {
     effect(() => {
       const prospectionId = this.prospectionId();
       this.selectedOffer.set(null);
-      if(prospectionId){
+      if (prospectionId) {
         this.offersService.loadProspectionOffers(prospectionId);
       }
     })
   }
 
-  initLoadOffersEffect(){
+  initLoadOffersEffect() {
     effect(() => {
       const offers = this.prospectionOffers();
 
-      //IF already working in an offer and it is just an update,
-      //Don't change the selected offer.
+      if (this.selectedOffer()) {
 
-      //ELSE We have to reselection the offers.
-
-      //So how to know it ?
-      //-> if the selectedOffer is null, the it is the 2nd case
-      console.log('load offers', offers)
-
-      if(this.selectedOffer()){
-
-      }else if(offers?.length){
+      } else if (offers?.length) {
         this.selectedOffer.set(offers[0]);
         this.editorContent = offers[0].markdown ?? '';
-      }else{
+      } else {
         this.editorContent = 'init';
-      }
-
-      if (offers?.length > 0 && !this.selectedOffer()) {
-        // this.selectedOffer.set(offers[0]);
       }
     });
   }
 
-  // initSelectedOfferEffect(){
-  //   effect(() => {
-  //     const offers = this.prospectionOffers();
-  //     if (offers?.length > 0 && !this.selectedOffer()) {
-  //       this.selectedOffer.set(offers[0]);
-  //       this.editorContent = offers[0].markdown ?? '';
-  //     }else{
-  //       this.editorContent = 'init';
-  //     }
-  //   });
-  // }
+  CreateDefaultHeader(owner: Owner) {
 
-  saveOffer(){
-    if(this.selectedOfferId() === null){
+    console.log('seller', this.prospection()?.seller)
+
+  }
+
+  saveOffer() {
+    if (this.selectedOfferId() === null) {
       this.offersService.createOffer({
         prospection_id: this.prospectionId()!,
         markdown: this.editorContent
       }).subscribe();
-    }else{
+    } else {
       this.offersService.updateOffer(this.selectedOfferId()!, {
         markdown: this.editorContent
       }).subscribe();
@@ -117,8 +110,8 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
       ['bold', 'italic', 'underline', 'strike'],
       ['blockquote', 'code-block'],
       [{ 'header': 1 }, { 'header': 2 }],
-      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-      [{ 'script': 'sub'}, { 'script': 'super' }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'script': 'sub' }, { 'script': 'super' }],
       [{ 'size': ['small', false, 'large', 'huge'] }],
       [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
       [{ 'color': [] }, { 'background': [] }],
@@ -169,5 +162,24 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
         window.URL.revokeObjectURL(markdownUrl);
         break;
     }
+  }
+
+  private selectOwner(owner: any){
+    this.CreateDefaultHeader(owner);
+  }
+
+  private buildOwnersDropdown(): Signal<UiDropdown<Owner>> {
+    return computed(() => {
+      const owners = this.owners();
+      return {
+        value: '',
+        list: owners.map(owner => {
+          return {
+            label: owner.name,
+            value: owner
+          }
+        })
+      }
+    })
   }
 }
