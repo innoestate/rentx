@@ -1,15 +1,13 @@
-import { Component, Input, OnInit, ElementRef, computed, Signal, signal, effect, model } from '@angular/core';
-import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
-import { QuillModule } from 'ngx-quill';
-import { NzButtonModule } from 'ng-zorro-antd/button';
+import { CommonModule } from '@angular/common';
+import { Component, computed, effect, ElementRef, model, OnInit, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { QuillModule } from 'ngx-quill';
+import { InvestScopeDisplayStoreFacade } from 'src/app/features/invest-scope/states/display/facades/invest-scope.display-store.facade';
 import { OffersDataService } from 'src/app/features/offers/data/services/offers.data.service';
 import { OfferDto } from 'src/app/features/offers/models/offer.dto.model';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { InvestScopeDisplayStoreFacade } from 'src/app/features/invest-scope/states/display/facades/invest-scope.display-store.facade';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { take, tap } from 'rxjs';
-import { CommonModule } from '@angular/common';
+import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
 import { OfferIconsComponent } from './offer-icons/offer-icons.component';
 
 @Component({
@@ -30,13 +28,11 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
   prospection = toSignal(this.investScopeStore.onSelectedItem());
   prospectionId = computed(() => this.prospection()?.id);
   offers: Signal<{ [prospectionId: string]: OfferDto[] }> = this.offersService.getOffers();
-
   prospectionOffers: Signal<OfferDto[]> = computed(() => this.offers()[this.prospectionId()!]);
-
-  editorContent: string = '';
   selectedOffer = model<OfferDto | null>(null);
   selectedOfferId = computed(() => this.selectedOffer()?.id ?? null);
 
+  editorContent: string = '';
   isEditing = false;
 
   constructor(
@@ -46,44 +42,62 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
   ) {
     super(elementRef);
 
-    effect(() => {
-      const offers = this.prospectionOffers();
-      console.log('offers', offers);
-    })
+    this.initChangeProspectionEffect();
+    this.initLoadOffersEffect();
+    // this.initSelectedOfferEffect();
+  }
 
+  ngOnInit() {}
+
+  initChangeProspectionEffect(){
     effect(() => {
-      const prospectionId = this.prospectionId()
+      const prospectionId = this.prospectionId();
+      this.selectedOffer.set(null);
       if(prospectionId){
         this.offersService.loadProspectionOffers(prospectionId);
-
-        // this.offersService.getProspectionOffers(prospectionId).pipe(
-        //   take(1),
-        //   tap(offers => {
-        //     console.log('offers', offers)
-        //   })
-        // ).subscribe((offers: OfferDto[]) => {
-        //   console.log('offers', offers);
-        //   // this.offers.set(offers);
-        // });
       }
     })
+  }
 
+  initLoadOffersEffect(){
     effect(() => {
       const offers = this.prospectionOffers();
-      if (offers?.length > 0 && !this.selectedOffer()) {
-        this.selectedOffer.set(offers[0]);
-      }
-    });
 
-    effect(() => {
-      const offer = this.selectedOffer();
-      if (offer) {
-        this.editorContent = offer.markdown ?? '';
+      //IF already working in an offer and it is just an update,
+      //Don't change the selected offer.
+
+      //ELSE We have to reselection the offers.
+
+      //So how to know it ?
+      //-> if the selectedOffer is null, the it is the 2nd case
+      console.log('load offers', offers)
+
+      if(this.selectedOffer()){
+
+      }else if(offers?.length){
+        this.selectedOffer.set(offers[0]);
+        this.editorContent = offers[0].markdown ?? '';
+      }else{
+        this.editorContent = 'init';
+      }
+
+      if (offers?.length > 0 && !this.selectedOffer()) {
+        // this.selectedOffer.set(offers[0]);
       }
     });
   }
 
-  ngOnInit() {}
+  // initSelectedOfferEffect(){
+  //   effect(() => {
+  //     const offers = this.prospectionOffers();
+  //     if (offers?.length > 0 && !this.selectedOffer()) {
+  //       this.selectedOffer.set(offers[0]);
+  //       this.editorContent = offers[0].markdown ?? '';
+  //     }else{
+  //       this.editorContent = 'init';
+  //     }
+  //   });
+  // }
 
   saveOffer(){
     if(this.selectedOfferId() === null){

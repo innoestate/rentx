@@ -7,7 +7,7 @@ import { UiDynamicComponent } from './models/ui-dynamic-component.model';
 @Component({
   selector: 'ui-dynamic-component',
   standalone: true,
-  styles: ``,
+  styles: `:host { display: none}`,
   template: '',
 })
 export class UiDynamicComponentComponent implements AfterViewInit {

@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: flex-start;
   gap: 8px;
-  margin-bottom: 16px;
+  // margin-bottom: 16px;
   transition: width 0.5s ease-out;
 }
 
@@ -17,6 +17,7 @@
   justify-content: flex-start;
   align-items: flex-start;
   gap: 4px;
+  padding-bottom: 16px;
 }
 
 .column:first-child {

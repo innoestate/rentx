@@ -1,3 +1,21 @@
-<div class="card-content">
+<!-- <div class="card-content">
   <ui-table [table]="table" (editCell)="editCell($event)"></ui-table>
+</div> -->
+
+<div class="page">
+  <div class="header">HEADER</div>
+  <div class="content">
+    <div class="content-header">
+      CONTENT HEADER
+      CONTENT HEADER
+      CONTENT HEADER
+
+    </div>
+      <div class="content-container">
+        @for (item of [].constructor(100); track $index) {
+          <p>test</p>
+        }
+      </div>
+  </div>
+  <div class="footer">FOOTER</div>
 </div>
