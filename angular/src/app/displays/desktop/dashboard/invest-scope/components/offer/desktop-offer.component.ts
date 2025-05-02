@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, ElementRef, model, OnInit, Signal } from '@angular/core';
+import { Component, computed, effect, ElementRef, model, OnInit, signal, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -13,6 +13,7 @@ import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-disp
 import { UiDropdown } from 'src/app/ui/components/ui-dropdown/model/ui-dropdown.model';
 import { UiDropdownComponent } from 'src/app/ui/components/ui-dropdown/ui-dropdown.component';
 import { OfferIconsComponent } from './offer-icons/offer-icons.component';
+import { Seller } from 'src/app/features/sellers/models/seller.model';
 
 @Component({
   selector: 'app-desktop-offer',
@@ -40,7 +41,8 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
   selectedOffer = model<OfferDto | null>(null);
   selectedOfferId = computed(() => this.selectedOffer()?.id ?? null);
   owners = this.ownersData.getOwners();
-  ownersDropdown = this.buildOwnersDropdown()
+  ownersDropdown = this.buildOwnersDropdown();
+  selectedOwner = signal<Owner | undefined>(undefined)
 
   editorContent: string = '';
   isEditing = false;
@@ -57,6 +59,20 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
 
     this.initChangeProspectionEffect();
     this.initLoadOffersEffect();
+
+
+    effect(() => {
+
+      const owner = this.selectedOwner();
+      const seller = this.prospection()?.seller;
+      const selectedOffer = this.selectedOffer();
+
+      if(owner && !selectedOffer){
+        this.createDefaultHeader(this.selectedOwner()!);
+      }
+
+    })
+
   }
 
   ngOnInit() { }
@@ -81,15 +97,41 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
         this.selectedOffer.set(offers[0]);
         this.editorContent = offers[0].markdown ?? '';
       } else {
-        this.editorContent = 'init';
+        // this.createDefaultHeader();
+        // this.editorContent = 'init';
       }
     });
   }
 
-  CreateDefaultHeader(owner: Owner) {
+  createDefaultHeader(owner: Owner) {
+    const seller: Seller = this.prospection()?.seller;
 
-    console.log('seller', this.prospection()?.seller)
+    // Create a two-column header using HTML table
+    const headerHtml = `
+      <table style="width: 100%; margin-bottom: 20px;">
+        <tr>
+          <td style="width: 50%; vertical-align: top;">
+            ${owner.name}
+            ${owner.street || ''}<br>
+            ${owner.zip || ''}<br>
+            ${owner.city || ''}<br>
+            ${owner.email || ''}<br>
+            ${owner.phone || ''}
+          </td>
+          <td style="width: 50%; vertical-align: top;">
+            ${seller?.name || ''}<br>
+            ${seller?.address || ''}<br>
+            ${seller?.zip || ''}<br>
+            ${seller?.city || ''}<br>
+            ${seller?.email || ''}<br>
+            ${seller?.phone || ''}
+          </td>
+        </tr>
+      </table>
+    `;
 
+    // Add the header to the beginning of the editor content
+    this.editorContent = headerHtml + (this.editorContent || '');
   }
 
   saveOffer() {
@@ -164,8 +206,9 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
     }
   }
 
-  private selectOwner(owner: any){
-    this.CreateDefaultHeader(owner);
+  protected selectOwner(owner: any){
+    console.log('select owner', owner);
+    this.selectedOwner.set(owner);
   }
 
   private buildOwnersDropdown(): Signal<UiDropdown<Owner>> {
