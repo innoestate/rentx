@@ -15,6 +15,9 @@ import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-disp
 import { UiDropdown } from 'src/app/ui/components/ui-dropdown/model/ui-dropdown.model';
 import { UiDropdownComponent } from 'src/app/ui/components/ui-dropdown/ui-dropdown.component';
 import { OfferIconsComponent } from './offer-icons/offer-icons.component';
+// @ts-ignore
+import html2pdf from "html2pdf.js/dist/html2pdf.bundle.min.js"
+
 
 @Component({
   selector: 'app-desktop-offer',
@@ -60,23 +63,8 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
     super(elementRef);
 
     this.ownersData.loadOwners();
-
     this.initChangeProspectionEffect();
     this.initLoadOffersEffect();
-
-
-    effect(() => {
-
-      const owner = this.selectedOwner();
-      const seller = this.prospection()?.seller;
-      const selectedOffer = this.selectedOffer();
-
-      if (owner && !selectedOffer) {
-        this.createDefaultHeader(this.selectedOwner()!);
-      }
-
-    })
-
   }
 
   ngOnInit() { }
@@ -106,8 +94,6 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
       }
     });
   }
-
-  createDefaultHeader(owner: Owner) { }
 
   saveOffer() {
     if (this.selectedOfferId() === null) {
@@ -189,14 +175,10 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
 
   downloadPdf() {
     if (!this.editorContent) return;
-
     const header = this.getHeader();
     const content = this.editorContent;
     const footer = this.getFooter();
-
-    const printWindow = window.open('', '_blank');
-    if (printWindow) {
-      printWindow.document.write(`
+    const element = `
             <html>
               <head><title>Export PDF</title></head>
               <body>
@@ -205,10 +187,19 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
               ${footer}
               </body>
             </html>
-          `);
-      printWindow.document.close();
-      printWindow.print();
-    }
+          `
+    const options = {
+      margin: 10,
+      filename: 'document.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    // blob to send to backend (WIP)
+    // const blob =  html2pdf().set(options).from(element).outputPdf('blob');
+
+    html2pdf().set(options).from(element).save();
   }
 
   private getHeader() {
