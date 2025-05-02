@@ -1,43 +1,46 @@
 MODULE OFFRE
 
-Quand je clique sur créer une offre, je veux voir les informations du owner et du seller.
-
-Pour l'instant, quand on clique sur offre, l'offre n'existe pas en backend.
-Il faut la sauvegarder depuis le front pour ensuite l'envoyer au back.
-
-Est-ce un problème?
-A prioris non mais j'ai le sentiment que le plus propre serait de le faire côté back...
-
-En tous cas, restons là dessus.
-
-Quand on constuit le composant offer:
-
--on va chercher les offres qui existent pour la prospection concerné.
-Si on en trouve aucune, alors on lance une fonction initOffer
--> elle va créer une offre et sauvegarder avec par défaut les informations du vendeur.
-
-Pour l'instant restons là dessus.
-
-ah oui alors justement si on a le module de l'IA a ce moment là des choses se passeront.
-Mais on en rediscutera plus tard.
-(on peut immaginer que dans cette fonction init, on appel l'API de l'IA, qui va déjà créer une offre de proposition)
-
-problème:
-si on navigue d'une prospection à une autre, cela implique de recréer systématiquement par le comportement par défaut s'il
-n'y a aucune offre
--> faux problème ?
-  -> en effet, on le fait par contre, on ne sauvegarde pas pour ne pas enregistrer une offre inutilement.
-
 OK.
-Maintenant se pose la question de l'entête.
+Donc on a un module offre.
+Avant de passer à l'IA il faut déjà qu'il soit en mode MVP.
 
-Ce qui va se passer c'est qu'on va mettre par défaut les informations de l'utilisateur (le owner) et le seller.
-Mais il va falloir potentiellement choisir un owner.
+TODO:
+- envoyer l'offre dirrectement par email.
 
-Donc on pourrait ajouter une dropdown dans le header avec les owners.
--> en changeant de owner, on reprends la partie owner telle qu'elle est censée être et si on la retrouve,
-on applique le changement.
-Si on la retrouve pas, on envoie un message d'erreur.
+- que ce passe-t-il si on a déjà envoyé l'offre ou qu'elle est acceptée ?
 
-problématique principale:
-comment mettre le texte à droite ?
+
+=> gérer l'action de faire une offre en fonction du status:
+
+- si j'ai une offre envoyée => je peux avoir un bouton "refaire une offre"
+- si j'ai une offre contrée => le bouton est "faire une contre-offre"
+
+
+problématique: cela peut être brouillier.
+
+-> en fait il faudrait qu'on puisse changer le status sur l'offre
+-> par exemple si je mets offre refusée le status de la prospection est actuélisée
+    on ne voit plus "visité, ou planifié etc..."
+
+  => c'est une refonte assez profonde du système de prospection.
+    -> actuellement, restons sur la simple offre, et l'utilisateur gère lui même
+
+
+en revanche:
+on mets en + un status sur l'offre.
+Si l'offre est envoyée on mets une enveloppe verte comme sur les quittances envoyées par email.
+C'est à l'utilisateur par la suite de gérer le status.
+-> on peut peut être simplement passer automatiquement en "offre envoyée" sans pour autant bloquer
+le changement.
+
+
+
+Ce qu'il reste concrêtement à faire:
+
+- gérer la sauvegarde auto
+- ajouter un message de sauvegarde
+- mettre un status de l'offre pour envoyée
+- ajouter une popup d'adaptation qui permet d'enregistrer les données manquantes
+si on télécharge ou envoie une offre (ex: adresse du vendeur)
+- créer une popup de prévue avec un email par défaut quand on envoie l'offre.
+

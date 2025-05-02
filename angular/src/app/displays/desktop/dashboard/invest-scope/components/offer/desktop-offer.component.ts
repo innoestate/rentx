@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, ElementRef, model, OnInit, signal, Signal } from '@angular/core';
+import { Component, computed, effect, ElementRef, model, OnDestroy, OnInit, signal, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -16,7 +16,8 @@ import { UiDropdown } from 'src/app/ui/components/ui-dropdown/model/ui-dropdown.
 import { UiDropdownComponent } from 'src/app/ui/components/ui-dropdown/ui-dropdown.component';
 import { OfferIconsComponent } from './offer-icons/offer-icons.component';
 // @ts-ignore
-import html2pdf from "html2pdf.js/dist/html2pdf.bundle.min.js"
+import html2pdf from "html2pdf.js/dist/html2pdf.bundle.min.js";
+import { BehaviorSubject, debounceTime, Subject, takeUntil, tap } from 'rxjs';
 
 
 @Component({
@@ -37,7 +38,7 @@ import html2pdf from "html2pdf.js/dist/html2pdf.bundle.min.js"
     OwnersDataService
   ]
 })
-export class DesktopOfferComponent extends UiDisplayerComponent implements OnInit {
+export class DesktopOfferComponent extends UiDisplayerComponent implements OnInit, OnDestroy {
 
   prospection = toSignal(this.investScopeStore.onSelectedItem());
   sellers = this.sellersData.getSellers();
@@ -48,7 +49,10 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
   selectedOfferId = computed(() => this.selectedOffer()?.id ?? null);
   owners = this.ownersData.getOwners();
   ownersDropdown = this.buildOwnersDropdown();
-  selectedOwner = signal<Owner | undefined>(undefined)
+  selectedOwner = signal<Owner | undefined>(undefined);
+  lastChange = signal<string | null>(null);
+  editorChanges = new BehaviorSubject<string | null>(null);
+  destroyed$ = new Subject();
 
   editorContent: string = '';
   isEditing = false;
@@ -65,9 +69,27 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
     this.ownersData.loadOwners();
     this.initChangeProspectionEffect();
     this.initLoadOffersEffect();
+    this.initAutoSave();
   }
 
   ngOnInit() { }
+
+  editorContentUpdated(change: any) {
+    this.editorChanges.next(change.html);
+  }
+
+  initAutoSave() {
+    this.editorChanges.pipe(
+      takeUntil(this.destroyed$),
+      debounceTime(1000),
+      tap(change => {
+        if (change !== this.lastChange() && this.lastChange() !== null && change !== null) {
+          this.lastChange.set(change);
+          this.saveOffer();
+        }
+      })
+    ).subscribe();
+  }
 
   initChangeProspectionEffect() {
     effect(() => {
@@ -87,9 +109,10 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
 
       } else if (offers?.length) {
         this.selectedOffer.set(offers[0]);
+        this.lastChange.set(offers[0].markdown ?? '');
         this.editorContent = offers[0].markdown ?? '';
       } else {
-        // this.createDefaultHeader();
+        this.lastChange.set('');
         this.editorContent = '';
       }
     });
@@ -202,6 +225,11 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
     html2pdf().set(options).from(element).save();
   }
 
+  ngOnDestroy(): void {
+    this.destroyed$.complete();
+    this.destroyed$.unsubscribe();
+  }
+
   private getHeader() {
 
     const owner = this.selectedOwner()!;
@@ -244,7 +272,6 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
   }
 
   protected selectOwner(owner: any) {
-    console.log('select owner', owner);
     this.selectedOwner.set(owner);
   }
 
