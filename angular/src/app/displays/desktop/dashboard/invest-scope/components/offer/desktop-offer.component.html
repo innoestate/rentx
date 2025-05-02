@@ -8,7 +8,8 @@
         <quill-editor [(ngModel)]="editorContent" [modules]="quillConfig"></quill-editor>
     </div>
     <div class="export-buttons">
-        <button nz-button nzType="primary" (click)="exportToFormat('pdf')">Export PDF</button>
+        <ui-button (click)="downloadPdf()" [text]="'télécharger'"></ui-button>
+        <!-- <button nz-button nzType="primary" (click)="exportToFormat('pdf')">Export PDF</button> -->
         <!-- <button nz-button nzType="default" (click)="exportToFormat('docx')">Export DOCX</button> -->
         <button nz-button nzType="default" (click)="saveOffer()">Export Markdown</button>
     </div>

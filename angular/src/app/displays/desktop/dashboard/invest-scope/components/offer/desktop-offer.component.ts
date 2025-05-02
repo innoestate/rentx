@@ -9,11 +9,12 @@ import { OffersDataService } from 'src/app/features/offers/data/services/offers.
 import { OfferDto } from 'src/app/features/offers/models/offer.dto.model';
 import { OwnersDataService } from 'src/app/features/owners/data/owners.data.service';
 import { Owner } from 'src/app/features/owners/models/owner.model';
+import { SellersDataService } from 'src/app/features/sellers/data/services/sellers.data.service';
+import { UiButtonComponent } from 'src/app/ui/components/ui-button/ui-button.component';
 import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-displayer.component';
 import { UiDropdown } from 'src/app/ui/components/ui-dropdown/model/ui-dropdown.model';
 import { UiDropdownComponent } from 'src/app/ui/components/ui-dropdown/ui-dropdown.component';
 import { OfferIconsComponent } from './offer-icons/offer-icons.component';
-import { Seller } from 'src/app/features/sellers/models/seller.model';
 
 @Component({
   selector: 'app-desktop-offer',
@@ -27,6 +28,7 @@ import { Seller } from 'src/app/features/sellers/models/seller.model';
     FormsModule,
     OfferIconsComponent,
     UiDropdownComponent,
+    UiButtonComponent
   ],
   providers: [
     OwnersDataService
@@ -35,6 +37,7 @@ import { Seller } from 'src/app/features/sellers/models/seller.model';
 export class DesktopOfferComponent extends UiDisplayerComponent implements OnInit {
 
   prospection = toSignal(this.investScopeStore.onSelectedItem());
+  sellers = this.sellersData.getSellers();
   prospectionId = computed(() => this.prospection()?.id);
   offers: Signal<{ [prospectionId: string]: OfferDto[] }> = this.offersService.getOffers();
   prospectionOffers: Signal<OfferDto[]> = computed(() => this.offers()[this.prospectionId()!]);
@@ -51,6 +54,7 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
     private offersService: OffersDataService,
     private investScopeStore: InvestScopeDisplayStoreFacade,
     private ownersData: OwnersDataService,
+    private sellersData: SellersDataService,
     private elementRef: ElementRef
   ) {
     super(elementRef);
@@ -67,7 +71,7 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
       const seller = this.prospection()?.seller;
       const selectedOffer = this.selectedOffer();
 
-      if(owner && !selectedOffer){
+      if (owner && !selectedOffer) {
         this.createDefaultHeader(this.selectedOwner()!);
       }
 
@@ -98,41 +102,12 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
         this.editorContent = offers[0].markdown ?? '';
       } else {
         // this.createDefaultHeader();
-        // this.editorContent = 'init';
+        this.editorContent = '';
       }
     });
   }
 
-  createDefaultHeader(owner: Owner) {
-    const seller: Seller = this.prospection()?.seller;
-
-    // Create a two-column header using HTML table
-    const headerHtml = `
-      <table style="width: 100%; margin-bottom: 20px;">
-        <tr>
-          <td style="width: 50%; vertical-align: top;">
-            ${owner.name}
-            ${owner.street || ''}<br>
-            ${owner.zip || ''}<br>
-            ${owner.city || ''}<br>
-            ${owner.email || ''}<br>
-            ${owner.phone || ''}
-          </td>
-          <td style="width: 50%; vertical-align: top;">
-            ${seller?.name || ''}<br>
-            ${seller?.address || ''}<br>
-            ${seller?.zip || ''}<br>
-            ${seller?.city || ''}<br>
-            ${seller?.email || ''}<br>
-            ${seller?.phone || ''}
-          </td>
-        </tr>
-      </table>
-    `;
-
-    // Add the header to the beginning of the editor content
-    this.editorContent = headerHtml + (this.editorContent || '');
-  }
+  createDefaultHeader(owner: Owner) { }
 
   saveOffer() {
     if (this.selectedOfferId() === null) {
@@ -167,7 +142,9 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
   exportToFormat(format: 'pdf' | 'docx' | 'markdown') {
     if (!this.editorContent) return;
 
+    const header = this.getHeader();
     const content = this.editorContent;
+    const footer = this.getFooter();
 
     switch (format) {
       case 'pdf':
@@ -176,7 +153,11 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
           printWindow.document.write(`
             <html>
               <head><title>Export PDF</title></head>
-              <body>${content}</body>
+              <body>
+              ${header}
+              ${content}
+              ${footer}
+              </body>
             </html>
           `);
           printWindow.document.close();
@@ -206,7 +187,72 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
     }
   }
 
-  protected selectOwner(owner: any){
+  downloadPdf() {
+    if (!this.editorContent) return;
+
+    const header = this.getHeader();
+    const content = this.editorContent;
+    const footer = this.getFooter();
+
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(`
+            <html>
+              <head><title>Export PDF</title></head>
+              <body>
+              ${header}
+              ${content}
+              ${footer}
+              </body>
+            </html>
+          `);
+      printWindow.document.close();
+      printWindow.print();
+    }
+  }
+
+  private getHeader() {
+
+    const owner = this.selectedOwner()!;
+    const seller = this.sellers().find(seller => seller.id === this.prospection()?.seller_id);
+
+    const headerHtml = `
+          <table style="width: 100%; margin-bottom: 20px;">
+            <tr>
+              <td style="width: 50%; vertical-align: top;">
+                ${owner?.name}<br>
+                ${owner?.street || ''}<br>
+                ${owner?.zip || ''}<br>
+                ${owner?.city || ''}<br>
+                ${owner?.email || ''}<br>
+                ${owner?.phone || ''}
+              </td>
+              <td style="width: 50%; vertical-align: top; text-align: right">
+                ${seller?.name || ''}<br>
+                ${seller?.address || ''}<br>
+                ${seller?.zip || ''}<br>
+                ${seller?.city || ''}<br>
+                ${seller?.email || ''}<br>
+                ${seller?.phone || ''}
+              </td>
+            </tr>
+          </table>
+        `;
+    return headerHtml;
+  }
+
+  private getFooter() {
+    const owner = this.selectedOwner()!;
+    const footerHtml = `
+      <div style="margin-top: 20px;">
+        <div>${owner?.name}</div>
+        ${owner?.signature ? `<img src="${owner.signature}" alt="Signature" style="max-height: 100px; margin-top: 10px;">` : ''}
+      </div>
+    `;
+    return footerHtml;
+  }
+
+  protected selectOwner(owner: any) {
     console.log('select owner', owner);
     this.selectedOwner.set(owner);
   }
