@@ -148,54 +148,6 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
     ]
   };
 
-  exportToFormat(format: 'pdf' | 'docx' | 'markdown') {
-    if (!this.editorContent) return;
-
-    const header = this.getHeader();
-    const content = this.editorContent;
-    const footer = this.getFooter();
-
-    switch (format) {
-      case 'pdf':
-        const printWindow = window.open('', '_blank');
-        if (printWindow) {
-          printWindow.document.write(`
-            <html>
-              <head><title>Export PDF</title></head>
-              <body>
-              ${header}
-              ${content}
-              ${footer}
-              </body>
-            </html>
-          `);
-          printWindow.document.close();
-          printWindow.print();
-        }
-        break;
-
-      case 'docx':
-        const blob = new Blob([content], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'document.docx';
-        a.click();
-        window.URL.revokeObjectURL(url);
-        break;
-
-      case 'markdown':
-        const markdownBlob = new Blob([content], { type: 'text/markdown' });
-        const markdownUrl = window.URL.createObjectURL(markdownBlob);
-        const markdownLink = document.createElement('a');
-        markdownLink.href = markdownUrl;
-        markdownLink.download = 'document.md';
-        markdownLink.click();
-        window.URL.revokeObjectURL(markdownUrl);
-        break;
-    }
-  }
-
   downloadPdf() {
     if (!this.editorContent) return;
     const header = this.getHeader();
@@ -221,8 +173,11 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
 
     // blob to send to backend (WIP)
     // const blob =  html2pdf().set(options).from(element).outputPdf('blob');
-
-    html2pdf().set(options).from(element).save();
+    setTimeout(() => {
+      requestAnimationFrame(() => {
+        html2pdf().set(options).from(element).save();
+      });
+    }, 0);
   }
 
   ngOnDestroy(): void {
