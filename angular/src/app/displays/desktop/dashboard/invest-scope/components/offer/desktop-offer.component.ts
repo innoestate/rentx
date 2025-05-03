@@ -160,37 +160,7 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
       delay(0),
       tap(() => {
 
-        const updatedOwner = this.ownersData.getOwners()().find(owner => owner.id === this.selectedOwner()?.id);
-        this.selectedOwner.set(updatedOwner);
-
-        const header = this.getHeader();
-        const content = this.editorContent;
-        const footer = this.getFooter();
-        const element = `
-                <html>
-                  <head><title>Export PDF</title></head>
-                  <body>
-                  ${header}
-                  ${content}
-                  ${footer}
-                  </body>
-                </html>
-              `
-        const options = {
-          margin: 10,
-          filename: 'document.pdf',
-          image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: { scale: 2 },
-          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-
-        // blob to send to backend (WIP)
-        // const blob =  html2pdf().set(options).from(element).outputPdf('blob');
-        setTimeout(() => {
-          requestAnimationFrame(() => {
-            html2pdf().set(options).from(element).save();
-          });
-        }, 0);
+        this.buildPdf().save();
 
       })
     ).subscribe();
@@ -200,6 +170,36 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
   ngOnDestroy(): void {
     this.destroyed$.complete();
     this.destroyed$.unsubscribe();
+  }
+
+  private buildPdf(){
+
+    const updatedOwner = this.ownersData.getOwners()().find(owner => owner.id === this.selectedOwner()?.id);
+    this.selectedOwner.set(updatedOwner);
+
+    const header = this.getHeader();
+    const content = this.editorContent;
+    const footer = this.getFooter();
+    const element = `
+            <html>
+              <head><title>Export PDF</title></head>
+              <body>
+              ${header}
+              ${content}
+              ${footer}
+              </body>
+            </html>
+          `
+    const options = {
+      margin: 10,
+      filename: 'document.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+
+   return html2pdf().set(options).from(element);
   }
 
   private getHeader() {
