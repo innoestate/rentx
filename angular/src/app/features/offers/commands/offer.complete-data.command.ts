@@ -87,6 +87,12 @@ export class OfferDownloadCompleteDataCommand {
       required: true
     },
     {
+      key: 'sellerAgency',
+      label: 'sellerAgency',
+      type: 'text',
+      required: false
+    },
+    {
       key: 'sellerPhone',
       label: 'sellerPhone',
       type: 'text',
@@ -168,7 +174,6 @@ export class OfferDownloadCompleteDataCommand {
   private buildFormFields(owner: Owner, prospection: Prospection): UiFormFieldData[] {
     const formFields: UiFormFieldData[] = [];
 
-    console.log('buildFormFields', owner, prospection);
     const ownerFields = [
       { prop: 'name', fieldKey: 'ownerName' },
       { prop: 'street', fieldKey: 'ownerStreet' },
@@ -193,6 +198,7 @@ export class OfferDownloadCompleteDataCommand {
       { prop: 'address', fieldKey: 'sellerStreet' },
       { prop: 'zip', fieldKey: 'sellerZip' },
       { prop: 'city', fieldKey: 'sellerCity' },
+      { prop: 'agency', fieldKey: 'sellerAgency' },
       { prop: 'phone', fieldKey: 'sellerPhone' },
       { prop: 'email', fieldKey: 'sellerEmail' }
     ];
@@ -230,6 +236,7 @@ export class OfferDownloadCompleteDataCommand {
     if (formData.sellerStreet) sellerUpdates.address = formData.sellerStreet;
     if (formData.sellerZip) sellerUpdates.zip = formData.sellerZip;
     if (formData.sellerCity) sellerUpdates.city = formData.sellerCity;
+    if (formData.sellerAgency) sellerUpdates.agency = formData.sellerAgency;
     if (formData.sellerPhone) sellerUpdates.phone = formData.sellerPhone;
     if (formData.sellerEmail) sellerUpdates.email = formData.sellerEmail;
 

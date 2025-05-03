@@ -19,6 +19,7 @@ import { OfferIconsComponent } from './offer-icons/offer-icons.component';
 import html2pdf from "html2pdf.js/dist/html2pdf.bundle.min.js";
 import { BehaviorSubject, debounceTime, delay, Subject, take, takeUntil, tap } from 'rxjs';
 import { OfferDownloadCompleteDataCommand } from 'src/app/features/offers/commands/offer.complete-data.command';
+import { filledProspection } from 'src/app/features/prospections/adapters/prospections.adapter.utils';
 
 
 @Component({
@@ -41,7 +42,8 @@ import { OfferDownloadCompleteDataCommand } from 'src/app/features/offers/comman
 })
 export class DesktopOfferComponent extends UiDisplayerComponent implements OnInit, OnDestroy {
 
-  prospection = toSignal(this.investScopeStore.onSelectedItem());
+  prospectionDto = toSignal(this.investScopeStore.onSelectedItem());
+  prospection = computed(() => filledProspection(this.prospectionDto()!, this.sellers()));
   sellers = this.sellersData.getSellers();
   prospectionId = computed(() => this.prospection()?.id);
   offers: Signal<{ [prospectionId: string]: OfferDto[] }> = this.offersService.getOffers();
@@ -153,20 +155,12 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
   downloadPdf() {
     if (!this.editorContent) return;
 
-    let filedProspection = {...this.prospection()!};
-    filedProspection.seller = this.sellers().find(seller => seller.id === filedProspection.seller_id);
-
-    console.log('filedProspection', filedProspection);
-    console.log('selectedOwner', this.selectedOwner());
-
-    this.offerDownloadCompleteDataCommand.completeData(this.selectedOwner()!, filedProspection!).pipe(
+    this.offerDownloadCompleteDataCommand.completeData(this.selectedOwner()!, this.prospection()!).pipe(
       take(1),
       delay(0),
       tap(() => {
 
-        console.log('selectedOwner', this.selectedOwner());
         const updatedOwner = this.ownersData.getOwners()().find(owner => owner.id === this.selectedOwner()?.id);
-
         this.selectedOwner.set(updatedOwner);
 
         const header = this.getHeader();
@@ -209,32 +203,37 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
   }
 
   private getHeader() {
-
     const owner = this.selectedOwner()!;
     const seller = this.sellers().find(seller => seller.id === this.prospection()?.seller_id);
 
+    const buildAddressBlock = (entity: any) => {
+      if (!entity) return '';
+
+      return [
+        entity.name,
+        entity.agency,
+        entity.street || entity.address,
+        entity.zip,
+        entity.city,
+        entity.email,
+        entity.phone
+      ]
+      .filter(value => value) // Remove falsy values (undefined, null, empty string)
+      .join('<br>');
+    };
+
     const headerHtml = `
-          <table style="width: 100%; margin-bottom: 20px;">
-            <tr>
-              <td style="width: 50%; vertical-align: top;">
-                ${owner?.name}<br>
-                ${owner?.street || ''}<br>
-                ${owner?.zip || ''}<br>
-                ${owner?.city || ''}<br>
-                ${owner?.email || ''}<br>
-                ${owner?.phone || ''}
-              </td>
-              <td style="width: 50%; vertical-align: top; text-align: right">
-                ${seller?.name || ''}<br>
-                ${seller?.address || ''}<br>
-                ${seller?.zip || ''}<br>
-                ${seller?.city || ''}<br>
-                ${seller?.email || ''}<br>
-                ${seller?.phone || ''}
-              </td>
-            </tr>
-          </table>
-        `;
+      <table style="width: 100%; margin-bottom: 20px;">
+        <tr>
+          <td style="width: 50%; vertical-align: top;">
+            ${buildAddressBlock(owner)}
+          </td>
+          <td style="width: 50%; vertical-align: top; text-align: right">
+            ${buildAddressBlock(seller)}
+          </td>
+        </tr>
+      </table>
+    `;
     return headerHtml;
   }
 

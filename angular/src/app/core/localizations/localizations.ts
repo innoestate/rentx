@@ -64,6 +64,7 @@ export const Localizations: Record<string, Record<string, string>> = {
     sellerName: 'Nom (vendeur)',
     sellerZip: 'Code postal (vendeur)',
     sellerCity: 'Ville (vendeur)',
+    sellerAgency: 'Agence (vendeur)',
     sellerEmail: 'Email (vendeur)',
     sellerPhone: 'Téléphone (vendeur)'
   },
