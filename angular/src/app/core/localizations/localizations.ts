@@ -49,6 +49,22 @@ export const Localizations: Record<string, Record<string, string>> = {
     ownerEmail: 'Email propriétaire',
     lodgerEmail: 'Email locataire'
   },
+  offerCompleteData: {
+    popupTitle: 'Compléter les données manquantes',
+    ownerStreet: 'Adresse (acheteur)',
+    ownerName: 'Nom (acheteur)',
+    ownerZip: 'Code postal (acheteur)',
+    ownerCity: 'Ville (acheteur)',
+    ownerPhone: 'Téléphone (acheteur)',
+    ownerSignature: 'Signature (acheteur)',
+    ownerEmail: 'Email (acheteur)',
+    sellerStreet: 'Adresse (acheteur)',
+    sellerName: 'Nom (vendeur)',
+    sellerZip: 'Code postal (vendeur)',
+    sellerCity: 'Ville (vendeur)',
+    sellerEmail: 'Email (vendeur)',
+    sellerPhone: 'Téléphone (vendeur)'
+  },
   owners: {
     label: 'propriétaires',
     create: 'créer un propriétaire',
