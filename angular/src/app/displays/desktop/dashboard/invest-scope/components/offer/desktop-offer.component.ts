@@ -17,7 +17,8 @@ import { UiDropdownComponent } from 'src/app/ui/components/ui-dropdown/ui-dropdo
 import { OfferIconsComponent } from './offer-icons/offer-icons.component';
 // @ts-ignore
 import html2pdf from "html2pdf.js/dist/html2pdf.bundle.min.js";
-import { BehaviorSubject, debounceTime, Subject, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, debounceTime, delay, Subject, take, takeUntil, tap } from 'rxjs';
+import { OfferDownloadCompleteDataCommand } from 'src/app/features/offers/commands/offer.complete-data.command';
 
 
 @Component({
@@ -62,6 +63,7 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
     private investScopeStore: InvestScopeDisplayStoreFacade,
     private ownersData: OwnersDataService,
     private sellersData: SellersDataService,
+    private offerDownloadCompleteDataCommand: OfferDownloadCompleteDataCommand,
     private elementRef: ElementRef
   ) {
     super(elementRef);
@@ -150,34 +152,55 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
 
   downloadPdf() {
     if (!this.editorContent) return;
-    const header = this.getHeader();
-    const content = this.editorContent;
-    const footer = this.getFooter();
-    const element = `
-            <html>
-              <head><title>Export PDF</title></head>
-              <body>
-              ${header}
-              ${content}
-              ${footer}
-              </body>
-            </html>
-          `
-    const options = {
-      margin: 10,
-      filename: 'document.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
 
-    // blob to send to backend (WIP)
-    // const blob =  html2pdf().set(options).from(element).outputPdf('blob');
-    setTimeout(() => {
-      requestAnimationFrame(() => {
-        html2pdf().set(options).from(element).save();
-      });
-    }, 0);
+    let filedProspection = {...this.prospection()!};
+    filedProspection.seller = this.sellers().find(seller => seller.id === filedProspection.seller_id);
+
+    console.log('filedProspection', filedProspection);
+    console.log('selectedOwner', this.selectedOwner());
+
+    this.offerDownloadCompleteDataCommand.completeData(this.selectedOwner()!, filedProspection!).pipe(
+      take(1),
+      delay(0),
+      tap(() => {
+
+        console.log('selectedOwner', this.selectedOwner());
+        const updatedOwner = this.ownersData.getOwners()().find(owner => owner.id === this.selectedOwner()?.id);
+
+        this.selectedOwner.set(updatedOwner);
+
+        const header = this.getHeader();
+        const content = this.editorContent;
+        const footer = this.getFooter();
+        const element = `
+                <html>
+                  <head><title>Export PDF</title></head>
+                  <body>
+                  ${header}
+                  ${content}
+                  ${footer}
+                  </body>
+                </html>
+              `
+        const options = {
+          margin: 10,
+          filename: 'document.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        // blob to send to backend (WIP)
+        // const blob =  html2pdf().set(options).from(element).outputPdf('blob');
+        setTimeout(() => {
+          requestAnimationFrame(() => {
+            html2pdf().set(options).from(element).save();
+          });
+        }, 0);
+
+      })
+    ).subscribe();
+
   }
 
   ngOnDestroy(): void {

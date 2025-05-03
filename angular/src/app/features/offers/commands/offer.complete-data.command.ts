@@ -6,16 +6,17 @@ import { SellersDataService } from "../../sellers/data/services/sellers.data.ser
 import { UiFormFieldData } from "src/app/ui/components/ui-form/models/ui-form.field-data.model";
 import { Prospection } from "../../prospections/models/prospection.model";
 import { Owner } from "../../owners/models/owner.model";
-import { Observable, from } from 'rxjs';
+import { Observable, forkJoin, from } from 'rxjs';
 import { OwnersDataService } from "../../owners/data/owners.data.service";
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { UiPopupCustomizedComponent } from "src/app/ui/components/ui-popup/ui-popup-customized/ui-popup-customized.component";
 import { UiButton } from "src/app/ui/components/ui-button/models/ui-buttons.model";
+import { Seller } from "../../sellers/models/seller.model";
 
 
 
 @Injectable()
-export class OfferCompleteDataCommand {
+export class OfferDownloadCompleteDataCommand {
 
   neededFields: UiFormFieldData[] = [
     {
@@ -37,7 +38,7 @@ export class OfferCompleteDataCommand {
       required: true
     },
     {
-      key: 'ownercity',
+      key: 'ownerCity',
       label: 'ownerCity',
       type: 'text',
       required: true
@@ -105,7 +106,7 @@ export class OfferCompleteDataCommand {
     protected sellersData: SellersDataService,
     protected localizationService: LocalizationsService){
       this.initNeededFields();
-    }
+  }
 
 
   completeData(owner: Owner, prospection: Prospection): Observable<void> {
@@ -118,7 +119,7 @@ export class OfferCompleteDataCommand {
     let popup!: UiPopupCustomizedComponent<any>;
     const buttons: UiButton<{ [key: string]: string }>[] = [
       {
-        text: 'Submit',
+        text: this.localizationService.getLocalization('commons', 'complete'),
         type: 'default',
         command: (formData: any) => {
           this.updateData(formData, owner, prospection).pipe(
@@ -129,8 +130,19 @@ export class OfferCompleteDataCommand {
       }
     ];
 
+    const passButton: UiButton<{ [key: string]: string }> = {
+      text: this.localizationService.getLocalization('commons', 'pass'),
+      type: 'default',
+      keepEnableOnValidForm: true,
+      command: () => popup.onClose.emit()
+    }
+
+    if(formFields.filter(f => f.required).length <= 0) {
+      buttons.push(passButton);
+    }
+
     popup = this.popupService.openCustomizedPopup<any>(
-      'Complete Missing Data',
+      this.localizationService.getLocalization('offerCompleteData', 'popupTitle'),
       formFields,
       buttons
     );
@@ -156,34 +168,37 @@ export class OfferCompleteDataCommand {
   private buildFormFields(owner: Owner, prospection: Prospection): UiFormFieldData[] {
     const formFields: UiFormFieldData[] = [];
 
-    const ownerFieldMappings = {
-      street: 'ownerStreet',
-      name: 'ownerName',
-      zip: 'ownerZip',
-      city: 'ownerCity',
-      phone: 'ownerPhone',
-      email: 'ownerEmail'
-    };
+    console.log('buildFormFields', owner, prospection);
+    const ownerFields = [
+      { prop: 'name', fieldKey: 'ownerName' },
+      { prop: 'street', fieldKey: 'ownerStreet' },
+      { prop: 'zip', fieldKey: 'ownerZip' },
+      { prop: 'city', fieldKey: 'ownerCity' },
+      { prop: 'phone', fieldKey: 'ownerPhone' },
+      { prop: 'email', fieldKey: 'ownerEmail' },
+      { prop: 'signature', fieldKey: 'ownerSignature' }
+    ];
 
-    Object.entries(ownerFieldMappings).forEach(([ownerProp, fieldKey]) => {
-      if (!owner[ownerProp as keyof Owner]) {
-        formFields.push(this.neededFields.find(f => f.key === fieldKey)!);
+    ownerFields.forEach(({ prop, fieldKey }) => {
+      if (!owner[prop as keyof Owner] || owner[prop as keyof Owner] === '') {
+        let field = this.neededFields.find(f => f.key === fieldKey)!;
+        if(field){
+          formFields.push(field);
+        }
       }
     });
 
-    formFields.push(this.neededFields.find(f => f.key === 'ownerSignature')!);
+    const sellerFields = [
+      { prop: 'name', fieldKey: 'sellerName' },
+      { prop: 'address', fieldKey: 'sellerStreet' },
+      { prop: 'zip', fieldKey: 'sellerZip' },
+      { prop: 'city', fieldKey: 'sellerCity' },
+      { prop: 'phone', fieldKey: 'sellerPhone' },
+      { prop: 'email', fieldKey: 'sellerEmail' }
+    ];
 
-    const sellerFieldMappings = {
-      name: 'sellerName',
-      street: 'sellerStreet',
-      zip: 'sellerZip',
-      city: 'sellerCity',
-      phone: 'sellerPhone',
-      email: 'sellerEmail'
-    };
-
-    Object.entries(sellerFieldMappings).forEach(([sellerProp, fieldKey]) => {
-      if (!prospection.seller?.[sellerProp]) {
+    sellerFields.forEach(({ prop, fieldKey }) => {
+      if (!prospection.seller?.[prop] || prospection.seller?.[prop] === '') {
         formFields.push(this.neededFields.find(f => f.key === fieldKey)!);
       }
     });
@@ -210,9 +225,9 @@ export class OfferCompleteDataCommand {
       }));
     }
 
-    const sellerUpdates: any = {};
+    const sellerUpdates: Partial<Seller> = {};
     if (formData.sellerName) sellerUpdates.name = formData.sellerName;
-    if (formData.sellerStreet) sellerUpdates.street = formData.sellerStreet;
+    if (formData.sellerStreet) sellerUpdates.address = formData.sellerStreet;
     if (formData.sellerZip) sellerUpdates.zip = formData.sellerZip;
     if (formData.sellerCity) sellerUpdates.city = formData.sellerCity;
     if (formData.sellerPhone) sellerUpdates.phone = formData.sellerPhone;
@@ -229,7 +244,7 @@ export class OfferCompleteDataCommand {
       return from(Promise.resolve());
     }
 
-    return from(updates).pipe(
+    return forkJoin(updates).pipe(
       switchMap(update => update),
       map(() => void 0)
     );

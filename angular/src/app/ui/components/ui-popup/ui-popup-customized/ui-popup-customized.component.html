@@ -6,6 +6,6 @@
 </div>
 <div class="ui-popup-footer">
   @for(button of buttons; track button.text){
-    <ui-button [text]="button.text" [type]="button.type" (click)="click(button)" [disabled]="!valid()"></ui-button>
+    <ui-button [text]="button.text" [type]="button.type" (click)="click(button)" [disabled]="!valid() && !button.keepEnableOnValidForm"></ui-button>
   }
 </div>

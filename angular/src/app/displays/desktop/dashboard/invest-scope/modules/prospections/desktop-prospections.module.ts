@@ -14,6 +14,7 @@ import { OwnersModule } from '../../../properties/modules/owners/owners.module';
 import { DesktopProspectionsCommandsService } from '../../commands/desktop.prospections.commands.service';
 import { DesktopProspectionDescriptionComponent } from '../../components/description/desktop-prospection-description.component';
 import { DesktopProspectionsTableComponent } from '../../components/prospections-table/desktop-prospections-table.component';
+import { OfferDownloadCompleteDataCommand } from 'src/app/features/offers/commands/offer.complete-data.command';
 
 
 
@@ -36,7 +37,8 @@ import { DesktopProspectionsTableComponent } from '../../components/prospections
       useClass: DesktopProspectionsCommandsService
     },
     ProspectionsTableAdapterService,
-    InvestScopeDisplayManager
+    InvestScopeDisplayManager,
+    OfferDownloadCompleteDataCommand
   ]
 })
 export class DesktopProspectionsModule {

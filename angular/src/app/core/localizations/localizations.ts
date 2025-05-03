@@ -4,7 +4,9 @@ export const Localizations: Record<string, Record<string, string>> = {
     validationButton: "OK",
     delete: "Supprimer",
     description: "Description",
-    back: "Retour"
+    back: "Retour",
+    complete: "Compléter",
+    pass: "Passer"
   },
   propertyCategories: {
     parking: 'parking',
@@ -58,7 +60,7 @@ export const Localizations: Record<string, Record<string, string>> = {
     ownerPhone: 'Téléphone (acheteur)',
     ownerSignature: 'Signature (acheteur)',
     ownerEmail: 'Email (acheteur)',
-    sellerStreet: 'Adresse (acheteur)',
+    sellerStreet: 'Adresse (vendeur)',
     sellerName: 'Nom (vendeur)',
     sellerZip: 'Code postal (vendeur)',
     sellerCity: 'Ville (vendeur)',

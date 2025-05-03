@@ -1,4 +1,4 @@
-import { Component, computed, effect, ElementRef, model } from '@angular/core';
+import { Component, computed, effect, ElementRef, model, Signal } from '@angular/core';
 import { take, tap } from 'rxjs';
 import { LocalizationsService } from 'src/app/core/localizations/localizations.service';
 import { InvestScopeDisplayManager } from 'src/app/features/invest-scope/displayer/invest-scope.displayer.manager';
@@ -22,12 +22,13 @@ export class DesktopProspectionsTableMiniComponent extends UiDisplayerComponent 
 
   table: UiTable = {
     columns: computed(() => (this.adapter.createColumns(this.prospectionsDto()))),
-    rows: computed(() => (this.adapter.createRows(this.prospectionsDto()))),
+    rows: computed(() => (this.adapter.createRows(this.prospections()))),
     title: this.localization.getLocalization('prospections', 'tableTitle'),
     // commands: this.getCommands()
   };
 
   prospectionsDto = this.prospectionsData.getProspections();
+  prospections = this.fillProspections();
   sellersDto = this.sellersData.getSellers();
 
   select = model<UiTableRow | undefined>();
@@ -46,6 +47,13 @@ export class DesktopProspectionsTableMiniComponent extends UiDisplayerComponent 
   initSelection(){
     this.initSelectionAtStart();
     this.initSelectionEffects();
+  }
+
+  private fillProspections(): Signal<(Prospection | undefined)[]> {
+    return computed(() => {
+      const sellers = this.sellersDto();
+      return this.prospectionsDto().map(p => filledProspection(p, sellers))
+    })
   }
 
   private initSelectionAtStart(){
