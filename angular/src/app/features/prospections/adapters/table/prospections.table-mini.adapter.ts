@@ -3,6 +3,7 @@ import { LocalizationsService } from "src/app/core/localizations/localizations.s
 import { UiTableRow } from "src/app/ui/components/ui-table/models/ui-table-row.model";
 import { Prospection_Dto } from "../../models/prospection.dto.model";
 import { UiTableColumn } from "src/app/ui/components/ui-table/models/ui-table.column.model";
+import { Prospection } from "../../models/prospection.model";
 
 @Injectable({
   providedIn: 'root'
@@ -37,8 +38,9 @@ export class ProspectionsTableMiniAdapterService {
     ]
   }
 
-  createRows(prospections: Prospection_Dto[]): UiTableRow[] {
-    return prospections.map(
+  createRows(prospections?: (Prospection | undefined)[] | undefined): UiTableRow[] {
+    if(!prospections) return [];
+    return prospections.filter(p => p !== undefined).map(
       prospection => ({
         data: { id: prospection.id || '' },
         cells: {
@@ -55,7 +57,7 @@ export class ProspectionsTableMiniAdapterService {
           seller: {
             editable: true,
             type: 'string',
-            label: { title: { label: prospection.seller_id || '' } }
+            label: { title: { label: prospection.seller?.name || '' } }
           }
         }
       })
