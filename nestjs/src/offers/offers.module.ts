@@ -11,6 +11,8 @@ import { Offer_Entity } from './models/offer.entity';
 import { OffersController } from './offers.controler';
 import { OffersDbService } from './services/offers.db.service';
 import { OffersService } from './services/offers.service';
+import { Seller_Entity } from 'src/sellers/models/seller.entity';
+import { SellersDbService } from 'src/prospections/services/sellers.db.service';
 
 @Module({
     imports: [
@@ -20,11 +22,12 @@ import { OffersService } from './services/offers.service';
             User,
             Offer_Entity, 
             Prospection_Entity,
+            Seller_Entity,
             Owner_Entity
         ])
     ],
     controllers: [OffersController],
-    providers: [ StorageService, OffersService, OffersDbService, ProspectionsDbService],
-    exports: [ StorageService, OffersService, OffersDbService, ProspectionsDbService]
+    providers: [ StorageService, OffersService, OffersDbService, ProspectionsDbService, SellersDbService],
+    exports: [ StorageService, OffersService, OffersDbService, ProspectionsDbService, SellersDbService]
 })
 export class OffersModule {}

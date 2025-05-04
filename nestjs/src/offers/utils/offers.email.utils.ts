@@ -8,7 +8,7 @@
  */
 export const createOfferEmail = (
     emailBody: string,
-    pdfFile: string,
+    pdfFile: Buffer,
     recipientEmail: string,
     subject: string
 ): string => {
@@ -21,7 +21,7 @@ export const createOfferEmail = (
         {
             mimeType: 'application/pdf',
             filename: 'offre.pdf',
-            content: pdfFile
+            content: pdfFile.toString('base64')
         }
     ];
 

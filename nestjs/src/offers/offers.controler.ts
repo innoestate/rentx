@@ -99,6 +99,7 @@ export class OffersController {
         @Req() req,
         @Res() res
     ) {
+
         try {
             const { accessToken, refresh_token } = req.user;
             const clientId = this.configService.get('GOOGLE_CLIENT_ID');
@@ -122,6 +123,7 @@ export class OffersController {
             if (!seller || !seller.email) {
                 return res.status(400).send({ statusCode: 400, message: 'Seller email not found' });
             }
+            console.log('seller', seller);
 
             // Check the pdf file provided in the request
             if (!body.pdfFile) {
@@ -135,13 +137,17 @@ export class OffersController {
 
             const subject = `Offre pour votre bien`;
 
+
+            console.log('pdfFile', !!body.pdfFile);
             // Create the email with attachment
             const base64Email = createOfferEmail(
                 body.emailBody,
-                body.pdfFile,
+                Buffer.from(body.pdfFile, 'base64'),
                 seller.email,
                 subject
             );
+
+            console.log('send email', !!base64Email);
 
             // Send the email
             return sendEmail(
