@@ -20,6 +20,7 @@ import html2pdf from "html2pdf.js/dist/html2pdf.bundle.min.js";
 import { BehaviorSubject, debounceTime, delay, Subject, take, takeUntil, tap } from 'rxjs';
 import { OfferDownloadCompleteDataCommand } from 'src/app/features/offers/commands/offer.complete-data.command';
 import { filledProspection } from 'src/app/features/prospections/adapters/prospections.adapter.utils';
+import { OffersEmailHttpService } from 'src/app/features/offers/service/offers.email.http.service';
 
 
 @Component({
@@ -66,7 +67,8 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
     private ownersData: OwnersDataService,
     private sellersData: SellersDataService,
     private offerDownloadCompleteDataCommand: OfferDownloadCompleteDataCommand,
-    private elementRef: ElementRef
+    private offersEmailHttpService: OffersEmailHttpService,
+    private elementRef: ElementRef,
   ) {
     super(elementRef);
 
@@ -158,18 +160,38 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
     this.offerDownloadCompleteDataCommand.completeData(this.selectedOwner()!, this.prospection()!).pipe(
       take(1),
       delay(0),
-      tap(() => {
-
-        this.buildPdf().save();
-
-      })
+      tap(() => this.buildPdf().save())
     ).subscribe();
 
+  }
+
+  sendPdfByEmail() {
+    if (!this.editorContent) return;
+    this.offerDownloadCompleteDataCommand.completeData(this.selectedOwner()!, this.prospection()!).pipe(
+      take(1),
+      delay(0),
+      tap(() => {
+        this.buildPdf().toPdf().get('pdf').then((pdf: any) => {
+          const pdfData = pdf.output('arraybuffer');
+          this.offersEmailHttpService.sendOfferPdf(this.prospectionId()!, this.arrayBufferToBase64(pdfData), this.editorContent).subscribe();
+        });
+      })
+    ).subscribe();
   }
 
   ngOnDestroy(): void {
     this.destroyed$.complete();
     this.destroyed$.unsubscribe();
+  }
+
+  private arrayBufferToBase64(buffer: ArrayBuffer): string {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    const len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
   }
 
   private buildPdf(){
@@ -194,7 +216,7 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
       margin: 10,
       filename: 'document.pdf',
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
+      html2canvas: { scale: 4 },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
 
@@ -223,12 +245,12 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
     };
 
     const headerHtml = `
-      <table style="width: 100%; margin-bottom: 20px;">
+      <table style="width: calc(100% - 20px); padding: 10px; margin-bottom: 20px; table-layout: fixed;">
         <tr>
-          <td style="width: 50%; vertical-align: top;">
+          <td style="width: 48%; vertical-align: top; padding-right: 2%;">
             ${buildAddressBlock(owner)}
           </td>
-          <td style="width: 50%; vertical-align: top; text-align: right">
+          <td style="width: 48%; vertical-align: top; text-align: right; padding-left: 2%;">
             ${buildAddressBlock(seller)}
           </td>
         </tr>
@@ -242,7 +264,7 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
     const footerHtml = `
       <div style="margin-top: 20px;">
         <div>${owner?.name}</div>
-        ${owner?.signature ? `<img src="${owner.signature}" alt="Signature" style="max-height: 100px; margin-top: 10px;">` : ''}
+        ${owner?.signature ? `<img id="ownerSignatureImage" src="${owner.signature}" alt="Signature" style="max-height: 100px; margin-top: 10px;">` : ''}
       </div>
     `;
     return footerHtml;

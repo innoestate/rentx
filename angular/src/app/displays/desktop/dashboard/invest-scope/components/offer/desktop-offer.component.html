@@ -8,6 +8,7 @@
         <quill-editor (onContentChanged)="editorContentUpdated($event)" [(ngModel)]="editorContent" [modules]="quillConfig"></quill-editor>
     </div>
     <div class="export-buttons">
-        <ui-button (click)="downloadPdf()" [text]="'télécharger'"></ui-button>
+        <ui-button (click)="downloadPdf()" [icon]="{ name: 'download-file', color: 'var(--color-basic-100)'}" [text]="'télécharger'"></ui-button>
+        <ui-button (click)="sendPdfByEmail()" [icon]="{ name: 'send', color: 'var(--color-basic-100)'}" [text]="'envoyer'"></ui-button>
     </div>
 </div>
