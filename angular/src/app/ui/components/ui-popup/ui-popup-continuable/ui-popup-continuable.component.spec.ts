@@ -7,7 +7,7 @@ import { UiDropdownComponent } from '../../ui-dropdown/ui-dropdown.component';
 import { UiSpinnerComponent } from '../../ui-spinner/ui-spinner.component';
 import { CommonModule } from '@angular/common';
 import { UiButtonComponent } from '../../ui-button/ui-button.component';
-import { UiFormComponent2 } from '../../ui-form/ui-form.component';
+import { UiFormComponent } from '../../ui-form/ui-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -21,7 +21,7 @@ describe('UiPopupContinuableComponent', () => {
         BrowserAnimationsModule,
         ReactiveFormsModule,
         FormsModule,
-        UiFormComponent2,
+        UiFormComponent,
         UiButtonComponent,
         CommonModule,
         UiSpinnerComponent,

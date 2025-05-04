@@ -21,6 +21,7 @@ import { BehaviorSubject, debounceTime, delay, Subject, take, takeUntil, tap } f
 import { OfferDownloadCompleteDataCommand } from 'src/app/features/offers/commands/offer.complete-data.command';
 import { filledProspection } from 'src/app/features/prospections/adapters/prospections.adapter.utils';
 import { OffersEmailHttpService } from 'src/app/features/offers/service/offers.email.http.service';
+import { OfferSendEmailCommand } from 'src/app/features/offers/commands/offer.send-email.command';
 
 
 @Component({
@@ -67,7 +68,7 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
     private ownersData: OwnersDataService,
     private sellersData: SellersDataService,
     private offerDownloadCompleteDataCommand: OfferDownloadCompleteDataCommand,
-    private offersEmailHttpService: OffersEmailHttpService,
+    private OfferSendEmailCommand: OfferSendEmailCommand,
     private elementRef: ElementRef,
   ) {
     super(elementRef);
@@ -173,7 +174,7 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
       tap(() => {
         this.buildPdf().toPdf().get('pdf').then((pdf: any) => {
           const pdfData = pdf.output('arraybuffer');
-          this.offersEmailHttpService.sendOfferPdf(this.prospectionId()!, this.arrayBufferToBase64(pdfData), this.editorContent).subscribe();
+          this.OfferSendEmailCommand.send(this.prospectionId()!, pdfData);
         });
       })
     ).subscribe();
@@ -182,16 +183,6 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
   ngOnDestroy(): void {
     this.destroyed$.complete();
     this.destroyed$.unsubscribe();
-  }
-
-  private arrayBufferToBase64(buffer: ArrayBuffer): string {
-    let binary = '';
-    const bytes = new Uint8Array(buffer);
-    const len = bytes.byteLength;
-    for (let i = 0; i < len; i++) {
-      binary += String.fromCharCode(bytes[i]);
-    }
-    return window.btoa(binary);
   }
 
   private buildPdf(){
@@ -240,7 +231,7 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
         entity.email,
         entity.phone
       ]
-      .filter(value => value) // Remove falsy values (undefined, null, empty string)
+      .filter(value => value)
       .join('<br>');
     };
 

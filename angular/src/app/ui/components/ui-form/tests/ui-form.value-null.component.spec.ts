@@ -5,16 +5,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SignatureComponent } from 'src/app/displays/common/components/signature-pad/signature.component';
 import { UiDropdownComponent } from 'src/app/ui/components/ui-dropdown/ui-dropdown.component';
-import { UiFormComponent2 } from '../ui-form.component';
+import { UiFormComponent } from '../ui-form.component';
 
 describe('UiFormComponent test with null values', () => {
-  let component: UiFormComponent2<any>;
-  let fixture: ComponentFixture<UiFormComponent2<any>>;
+  let component: UiFormComponent<any>;
+  let fixture: ComponentFixture<UiFormComponent<any>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        UiFormComponent2,
+        UiFormComponent,
         CommonModule,
         ReactiveFormsModule,
         UiDropdownComponent,
@@ -24,7 +24,7 @@ describe('UiFormComponent test with null values', () => {
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(UiFormComponent2);
+    fixture = TestBed.createComponent(UiFormComponent);
     fixture.componentRef.setInput('fields', [{key: 'test', label: 'test', type: 'text'}]);
     component = fixture.componentInstance;
     fixture.detectChanges();

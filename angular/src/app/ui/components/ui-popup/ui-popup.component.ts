@@ -3,12 +3,12 @@ import { Component, model, output, signal } from '@angular/core';
 import { LocalizationsService } from 'src/app/core/localizations/localizations.service';
 import { UiButtonComponent } from 'src/app/ui/components/ui-button/ui-button.component';
 import { UiFormFieldData } from 'src/app/ui/components/ui-form/models/ui-form.field-data.model';
-import { UiFormComponent2 } from 'src/app/ui/components/ui-form/ui-form.component';
+import { UiFormComponent } from 'src/app/ui/components/ui-form/ui-form.component';
 import { UiSpinnerComponent } from 'src/app/ui/components/ui-spinner/ui-spinner.component';
 
 @Component({
   selector: 'app-ui-popup',
-  imports: [UiButtonComponent, UiFormComponent2, CommonModule, UiSpinnerComponent],
+  imports: [UiButtonComponent, UiFormComponent, CommonModule, UiSpinnerComponent],
   templateUrl: './ui-popup.component.html',
   styleUrl: './ui-popup.component.scss'
 })

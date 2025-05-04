@@ -21,7 +21,7 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
   styleUrls: ['./ui-form.component.scss'],
   standalone: true
 })
-export class UiFormComponent2<T extends Object> implements OnInit, OnDestroy {
+export class UiFormComponent<T extends Object> implements OnInit, OnDestroy {
   private destroyed$ = new Subject<void>();
   formGroup!: FormGroup<{ [K in keyof UiFormObject]: AbstractControl<any, any> }>;
   fields = input<UiFormFieldData[]>([]);

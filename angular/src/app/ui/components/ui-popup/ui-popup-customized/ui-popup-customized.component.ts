@@ -1,6 +1,6 @@
 import { Component, input, model, output, signal } from '@angular/core';
 import { UiFormFieldData } from '../../ui-form/models/ui-form.field-data.model';
-import { UiFormComponent2 } from '../../ui-form/ui-form.component';
+import { UiFormComponent } from '../../ui-form/ui-form.component';
 import { UiButtonComponent } from '../../ui-button/ui-button.component';
 import { UiButton } from '../../ui-button/models/ui-buttons.model';
 import { UiSpinnerComponent } from '../../ui-spinner/ui-spinner.component';
@@ -8,7 +8,7 @@ import { UiFormPopupComponent } from '../ui-popup.component';
 
 @Component({
   selector: 'app-ui-popup-customized',
-  imports: [UiFormComponent2, UiButtonComponent, UiSpinnerComponent],
+  imports: [UiFormComponent, UiButtonComponent, UiSpinnerComponent],
   templateUrl: './ui-popup-customized.component.html',
   styleUrl: './ui-popup-customized.component.scss'
 })

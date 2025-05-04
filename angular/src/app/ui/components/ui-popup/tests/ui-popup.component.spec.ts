@@ -3,7 +3,7 @@ import { UiFormPopupComponent } from '../ui-popup.component';
 import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { UiSpinnerComponent } from 'src/app/ui/components/ui-spinner/ui-spinner.component';
 import { CommonModule } from '@angular/common';
-import { UiFormComponent2 } from 'src/app/ui/components/ui-form/ui-form.component';
+import { UiFormComponent } from 'src/app/ui/components/ui-form/ui-form.component';
 import { UiButtonComponent } from 'src/app/ui/components/ui-button/ui-button.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UiDropdownComponent } from 'src/app/ui/components/ui-dropdown/ui-dropdown.component';
@@ -19,7 +19,7 @@ describe('UiPopupComponent', () => {
       imports: [UiFormPopupComponent,
         ReactiveFormsModule,
         FormsModule,
-        UiFormComponent2,
+        UiFormComponent,
         UiButtonComponent,
         CommonModule,
         UiSpinnerComponent,
