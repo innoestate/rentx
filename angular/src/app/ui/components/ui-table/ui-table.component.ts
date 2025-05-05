@@ -55,9 +55,9 @@ export class UiTableComponent<T> {
     this.editCell.emit({ id: nzRow.id, key, cell })
   }
 
-  protected select(nzRow: NzUiTableRow){
+  protected select(nzRow: NzUiTableRow) {
     const selectedRow = this.table().rows().find(r => r.data.id === nzRow.id);
-    if(selectedRow){
+    if (selectedRow) {
       this.selectedNzRow.set(nzRow);
       this.onSelect.set(selectedRow);
     }
@@ -71,19 +71,28 @@ export class UiTableComponent<T> {
     return computed(() => formatNzRows(this.table().rows(), this.table().columns()));
   }
 
-  private initSelectRowInEffect(){
+  private initSelectRowInEffect() {
     effect(() => {
       const selected = this.onSelect();
-      if(selected){
+      if (selected) {
         const selectedRow = this.nzRows().find(r => r.id === selected.data.id);
         this.selectedNzRow.set(selectedRow || null);
+        this.setPageIndexFromSelectedRow(selectedRow);
       }
     })
   }
 
-  private initSelectRowOutEffect(){
+  private setPageIndexFromSelectedRow(selectedRow: NzUiTableRow | undefined) {
+    if (selectedRow) {
+      const index = this.nzRows().indexOf(selectedRow);
+      const page = Math.floor(index / (this.rowsPerPages() ?? 1)) + 1;
+      this.pageIndex.set(page);
+    }
+  }
+
+  private initSelectRowOutEffect() {
     effect(() => {
-      if(this.table().rows().length > 0 && this.selectedNzRow()){
+      if (this.table().rows().length > 0 && this.selectedNzRow()) {
         this.select(this.selectedNzRow()!);
       }
     })
