@@ -9,6 +9,7 @@ import { UiMessageService } from 'src/app/ui/services/message/message.service';
 import { UiPopupService } from 'src/app/ui/services/popup/popup.service';
 import { OffersFacadeService } from '../facades/offers.facade';
 import { generatePdf } from '../pdf/utils/offers.pdf.utils';
+import { ProspectionsDataService } from '../../prospections/data/services/prospections.data.service';
 
 interface EmailFormData {
   emailBody: string;
@@ -21,6 +22,7 @@ export class OfferPdfCommand {
   constructor(
     private uiPopupService: UiPopupService,
     private offersDataService: OffersFacadeService,
+    private prospectionsData: ProspectionsDataService,
     private message: UiMessageService,
   ) { }
 
@@ -31,6 +33,7 @@ export class OfferPdfCommand {
   generateAndSendPdf(owner: Owner, prospection: Prospection, content: string, prospectionId: string): Observable<any> {
     return from(generatePdf(owner, prospection, content)).pipe(
       switchMap(pdfData => this.send(prospectionId, pdfData as ArrayBuffer)),
+      switchMap(() => this.prospectionsData.updateProspection(prospectionId, { status: 'Pending' })),
       catchError(error => {
         this.message.error('error sending offer.');
         return of(null);
