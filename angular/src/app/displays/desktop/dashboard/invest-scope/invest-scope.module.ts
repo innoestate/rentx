@@ -14,7 +14,7 @@ import { DesktopProspectionsModule } from './modules/prospections/desktop-prospe
 import { DesktopSellersModule } from './modules/sellers/desktop-sellers.module';
 import { DesktopProspectionsTableMiniComponent } from './components/prospections-table-mini/desktop-prospections-table-mini.component';
 import { OffersEmailHttpService } from 'src/app/features/offers/service/offers.email.http.service';
-import { OfferSendEmailCommand } from 'src/app/features/offers/commands/offer.send-email.command';
+import { OfferPdfCommand } from 'src/app/features/offers/commands/offer.pdf.command';
 
 
 
@@ -35,7 +35,7 @@ import { OfferSendEmailCommand } from 'src/app/features/offers/commands/offer.se
     InvestScopeDisplayerAdapter,
     InvestScopeDisplayStoreFacade,
     OffersEmailHttpService,
-    OfferSendEmailCommand,
+    OfferPdfCommand,
     {
       provide: DynamicComponentFactoryService,
       useClass: InvestScopeFactory

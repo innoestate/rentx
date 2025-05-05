@@ -15,13 +15,11 @@ import { UiDisplayerComponent } from 'src/app/ui/components/ui-displayer/ui-disp
 import { UiDropdown } from 'src/app/ui/components/ui-dropdown/model/ui-dropdown.model';
 import { UiDropdownComponent } from 'src/app/ui/components/ui-dropdown/ui-dropdown.component';
 import { OfferIconsComponent } from './offer-icons/offer-icons.component';
-// @ts-ignore
-import html2pdf from "html2pdf.js/dist/html2pdf.bundle.min.js";
-import { BehaviorSubject, debounceTime, delay, from, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, debounceTime, delay, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
 import { OfferDownloadCompleteDataCommand } from 'src/app/features/offers/commands/offer.complete-data.command';
-import { OfferSendEmailCommand } from 'src/app/features/offers/commands/offer.send-email.command';
+import { OfferPdfCommand } from 'src/app/features/offers/commands/offer.pdf.command';
 import { filledProspection } from 'src/app/features/prospections/adapters/prospections.adapter.utils';
-import { loadImage } from 'src/app/core/utils/image.utils';
+import { Prospection } from 'src/app/features/prospections/models/prospection.model';
 
 
 @Component({
@@ -68,7 +66,7 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
     private ownersData: OwnersDataService,
     private sellersData: SellersDataService,
     private offerDownloadCompleteDataCommand: OfferDownloadCompleteDataCommand,
-    private OfferSendEmailCommand: OfferSendEmailCommand,
+    private offerPdfCommands: OfferPdfCommand,
     private elementRef: ElementRef,
   ) {
     super(elementRef);
@@ -157,13 +155,15 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
 
   downloadPdf() {
     if (!this.editorContent) return;
-    const options = this.getHtml2PdfOptions();
     this.offerDownloadCompleteDataCommand.completeData(this.selectedOwner()!, this.prospection()!).pipe(
       take(1),
       delay(0),
-      switchMap(() => from(this.buildPdfElement())),
-      tap((htmlElement) => {
-        html2pdf().set(options).from(htmlElement).save();
+      switchMap(() => {
+        return this.offerPdfCommands.downloadPdf(
+          this.selectedOwner()!,
+          this.fillProspection(this.prospection()!, this.sellers()),
+          this.editorContent
+        );
       })
     ).subscribe();
   }
@@ -173,14 +173,12 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
     this.offerDownloadCompleteDataCommand.completeData(this.selectedOwner()!, this.prospection()!).pipe(
       take(1),
       delay(0),
-      switchMap(() => from(this.buildPdfElement())),
-      tap((htmlElement) => {
-        const options = this.getHtml2PdfOptions();
-        html2pdf().set(options).from(htmlElement).toPdf().get('pdf').then((pdf: any) => {
-          const pdfData = pdf.output('arraybuffer');
-          this.OfferSendEmailCommand.send(this.prospectionId()!, pdfData);
-        });
-      })
+      switchMap(() => this.offerPdfCommands.generateAndSendPdf(
+        this.selectedOwner()!,
+        this.fillProspection(this.prospection()!, this.sellers()),
+        this.editorContent,
+        this.prospectionId()!
+      ))
     ).subscribe();
   }
 
@@ -189,84 +187,9 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
     this.destroyed$.unsubscribe();
   }
 
-  private async buildPdfElement(){
-
-    const updatedOwner = this.ownersData.getOwners()().find(owner => owner.id === this.selectedOwner()?.id);
-    this.selectedOwner.set(updatedOwner);
-
-    const header = this.getHeader();
-    const content = this.editorContent;
-    const footer = await this.getFooter();
-    const element = `
-            <html>
-              <head><title>Export PDF</title></head>
-              <body>
-              ${header}
-              ${content}
-              ${footer}
-              </body>
-            </html>
-          `
-   return element;
-  }
-
-  private getHtml2PdfOptions(){
-    return {
-      margin: 10,
-      filename: 'document.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 4 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-  }
-
-  private getHeader() {
-    const owner = this.selectedOwner()!;
-    const seller = this.sellers().find(seller => seller.id === this.prospection()?.seller_id);
-
-    const buildAddressBlock = (entity: any) => {
-      if (!entity) return '';
-
-      return [
-        entity.name,
-        entity.agency,
-        entity.street || entity.address,
-        entity.zip,
-        entity.city,
-        entity.email,
-        entity.phone
-      ]
-      .filter(value => value)
-      .join('<br>');
-    };
-
-    const headerHtml = `
-      <table style="width: calc(100% - 20px); padding: 10px; margin-bottom: 20px; table-layout: fixed;">
-        <tr>
-          <td style="width: 48%; vertical-align: top; padding-right: 2%;">
-            ${buildAddressBlock(owner)}
-          </td>
-          <td style="width: 48%; vertical-align: top; text-align: right; padding-left: 2%;">
-            ${buildAddressBlock(seller)}
-          </td>
-        </tr>
-      </table>
-    `;
-    return headerHtml;
-  }
-
-  private async getFooter(): Promise<string> {
-    return new Promise( async (resolve) => {
-      const owner = this.selectedOwner()!;
-      const footerHtml = `
-        <div style="margin-top: 20px;">
-          <div>${owner?.name}</div>
-          ${owner?.signature ? `<img id="ownerSignatureImage" src="${owner.signature}" alt="Signature" style="max-height: 100px; margin-top: 10px;">` : ''}
-        </div>
-      `;
-      await loadImage(owner.signature);
-      resolve(footerHtml);
-    });
+  private fillProspection(prospection: Prospection, sellers: any[]): Prospection {
+    const seller = sellers.find(s => s.id === prospection.seller_id);
+    return { ...prospection, seller };
   }
 
   protected selectOwner(owner: Owner) {

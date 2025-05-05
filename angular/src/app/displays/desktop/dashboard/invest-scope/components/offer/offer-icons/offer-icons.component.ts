@@ -1,6 +1,6 @@
-import { Component, input, model, output } from '@angular/core';
-import { UiIconComponent } from '../../../../../../../ui/components/ui-icon/ui-icon.component';
 import { CommonModule } from '@angular/common';
+import { Component, input, model } from '@angular/core';
+import { UiIconComponent } from '../../../../../../../ui/components/ui-icon/ui-icon.component';
 
 @Component({
   selector: 'app-offer-icons',
