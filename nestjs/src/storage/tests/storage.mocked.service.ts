@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { StorageService } from "../services/storage.service";
+import { ProspectionsStorageService } from "../services/storage.service";
 import { FolderStorageMockedStrategy } from "../strategy/folder-storage.mock.strategy";
 
 @Injectable()
-export class StorageMockedService extends StorageService{
+export class StorageMockedService extends ProspectionsStorageService{
 
     public override folderStrategy = new FolderStorageMockedStrategy()
 

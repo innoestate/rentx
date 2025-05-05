@@ -7,7 +7,7 @@ import { FolderStorageMockedStrategy } from "../strategy/folder-storage.mock.str
 import { ProspectionDb } from "src/prospections/dto/prospection.db";
 
 @Injectable()
-export class StorageService {
+export class ProspectionsStorageService {
 
     public folderStrategy;
 

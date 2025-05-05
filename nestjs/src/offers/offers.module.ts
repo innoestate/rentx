@@ -4,7 +4,7 @@ import { Owner_Entity } from '../owners/owners.entity';
 import { OwnersModule } from '../owners/owners.module';
 import { Prospection_Entity } from '../prospections/entities/prospection.entity';
 import { ProspectionsDbService } from '../prospections/services/prospections.db.service';
-import { StorageService } from '../storage/services/storage.service';
+import { ProspectionsStorageService } from '../storage/services/storage.service';
 import { User } from '../user/data/user.entity';
 import { UserModule } from '../user/user.module';
 import { Offer_Entity } from './models/offer.entity';
@@ -27,7 +27,7 @@ import { SellersDbService } from 'src/prospections/services/sellers.db.service';
         ])
     ],
     controllers: [OffersController],
-    providers: [ StorageService, OffersService, OffersDbService, ProspectionsDbService, SellersDbService],
-    exports: [ StorageService, OffersService, OffersDbService, ProspectionsDbService, SellersDbService]
+    providers: [ ProspectionsStorageService, OffersService, OffersDbService, ProspectionsDbService, SellersDbService],
+    exports: [ ProspectionsStorageService, OffersService, OffersDbService, ProspectionsDbService, SellersDbService]
 })
 export class OffersModule {}

@@ -5,7 +5,7 @@ import { UserDbService } from '../../user/data/user.db.service';
 import { AppModule } from '../../app.module';
 import { JwtAuthGuard } from '../../auth/auth.guard';
 import { MockJwtAuthGuard } from '../../guards/auth.guard.mock';
-import { StorageService } from '../../storage/services/storage.service';
+import { ProspectionsStorageService } from '../../storage/services/storage.service';
 import { StorageMockedService } from '../../storage/tests/storage.mocked.service';
 
 export const buildApp = async (user: {email: string, name: string}) => {
@@ -14,7 +14,7 @@ export const buildApp = async (user: {email: string, name: string}) => {
     })
         .overrideGuard(JwtAuthGuard)
         .useValue(new MockJwtAuthGuard(user as any))
-        .overrideProvider(StorageService)
+        .overrideProvider(ProspectionsStorageService)
         .useClass(StorageMockedService)
         .compile();
 

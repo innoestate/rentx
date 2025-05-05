@@ -5,7 +5,7 @@ import { EstatesService } from '../estates/estates.service';
 import { LodgersService } from '../lodgers/lodgers.service';
 import { OwnersService } from '../owners/owners.service';
 import { RentsDbService } from '../rents/services/rents.db.service';
-import { StorageService } from '../storage/services/storage.service';
+import { ProspectionsStorageService } from '../storage/services/storage.service';
 import { User_Db } from '../user/models/user-db.model';
 import { alphaUserTests } from './e2e/alpha-users';
 import { estateTests } from './e2e/estates-tests';
@@ -29,7 +29,7 @@ describe('/api', () => {
     let lodgerService: LodgersService;
     let estateService: EstatesService;
     let rentsDbService: RentsDbService;
-    let storageService: StorageService;
+    let storageService: ProspectionsStorageService;
     let docsDbService: DocsDbService;
 
     beforeAll(async () => {
@@ -60,7 +60,7 @@ describe('/api', () => {
         lodgerService = app.get<LodgersService>(LodgersService);
         estateService = app.get<EstatesService>(EstatesService);
         rentsDbService = app.get<RentsDbService>(RentsDbService);
-        storageService = app.get<StorageService>(StorageService);
+        storageService = app.get<ProspectionsStorageService>(ProspectionsStorageService);
         docsDbService = app.get<DocsDbService>(DocsDbService);
     }
 
