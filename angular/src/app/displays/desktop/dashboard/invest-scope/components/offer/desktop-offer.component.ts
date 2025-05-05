@@ -19,9 +19,8 @@ import { OfferIconsComponent } from './offer-icons/offer-icons.component';
 import html2pdf from "html2pdf.js/dist/html2pdf.bundle.min.js";
 import { BehaviorSubject, debounceTime, delay, Subject, take, takeUntil, tap } from 'rxjs';
 import { OfferDownloadCompleteDataCommand } from 'src/app/features/offers/commands/offer.complete-data.command';
-import { filledProspection } from 'src/app/features/prospections/adapters/prospections.adapter.utils';
-import { OffersEmailHttpService } from 'src/app/features/offers/service/offers.email.http.service';
 import { OfferSendEmailCommand } from 'src/app/features/offers/commands/offer.send-email.command';
+import { filledProspection } from 'src/app/features/prospections/adapters/prospections.adapter.utils';
 
 
 @Component({
@@ -261,7 +260,7 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
     return footerHtml;
   }
 
-  protected selectOwner(owner: any) {
+  protected selectOwner(owner: Owner) {
     this.selectedOwner.set(owner);
   }
 
