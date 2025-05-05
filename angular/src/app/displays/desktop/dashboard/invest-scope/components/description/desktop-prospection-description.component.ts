@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, signal } from '@angular/core';
+import { AfterViewInit, Component, computed, ElementRef, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { LocalizationsService } from 'src/app/core/localizations/localizations.service';
 import { InvestScopeDisplayManager } from 'src/app/features/invest-scope/displayer/invest-scope.displayer.manager';
@@ -18,6 +18,8 @@ export class DesktopProspectionDescriptionComponent extends UiDisplayerComponent
   descriptionLabel = this.localizations.getLocalization('commons', 'description');
   iconOffer = signal({ name: 'edit-file', size: 24, color: "var(--color-basic-100)" });
   offerButtonText = signal<string>(this.localizations.getLocalization('prospections', 'makeOffer'));
+  navigation = toSignal(this.facade.onNavigation());
+  showOfferButton = computed(() => this.navigation() !== 'offer');
 
   constructor(private facade: InvestScopeDisplayStoreFacade,
               private prospectionsData: ProspectionsDataService,
