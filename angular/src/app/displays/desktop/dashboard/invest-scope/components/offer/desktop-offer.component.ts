@@ -54,7 +54,7 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
   ownersDropdown = this.buildOwnersDropdown();
   selectedOwner = signal<Owner | undefined>(undefined);
   lastChange = signal<string | null>(null);
-  editorChanges = new BehaviorSubject<string | null>(null);
+  editorChanges$ = new BehaviorSubject<string | null>(null);
   destroyed$ = new Subject();
 
   editorContent: string = '';
@@ -80,11 +80,11 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
   ngOnInit() { }
 
   editorContentUpdated(change: any) {
-    this.editorChanges.next(change.html);
+    this.editorChanges$.next(change.html);
   }
 
   initAutoSave() {
-    this.editorChanges.pipe(
+    this.editorChanges$.pipe(
       takeUntil(this.destroyed$),
       debounceTime(1000),
       tap(change => {
