@@ -17,10 +17,11 @@ import { UiDropdownComponent } from 'src/app/ui/components/ui-dropdown/ui-dropdo
 import { OfferIconsComponent } from './offer-icons/offer-icons.component';
 // @ts-ignore
 import html2pdf from "html2pdf.js/dist/html2pdf.bundle.min.js";
-import { BehaviorSubject, debounceTime, delay, Subject, take, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, debounceTime, delay, from, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
 import { OfferDownloadCompleteDataCommand } from 'src/app/features/offers/commands/offer.complete-data.command';
 import { OfferSendEmailCommand } from 'src/app/features/offers/commands/offer.send-email.command';
 import { filledProspection } from 'src/app/features/prospections/adapters/prospections.adapter.utils';
+import { loadImage } from 'src/app/core/utils/image.utils';
 
 
 @Component({
@@ -156,13 +157,15 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
 
   downloadPdf() {
     if (!this.editorContent) return;
-
+    const options = this.getHtml2PdfOptions();
     this.offerDownloadCompleteDataCommand.completeData(this.selectedOwner()!, this.prospection()!).pipe(
       take(1),
       delay(0),
-      tap(() => this.buildPdf().save())
+      switchMap(() => from(this.buildPdfElement())),
+      tap((htmlElement) => {
+        html2pdf().set(options).from(htmlElement).save();
+      })
     ).subscribe();
-
   }
 
   sendPdfByEmail() {
@@ -170,8 +173,10 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
     this.offerDownloadCompleteDataCommand.completeData(this.selectedOwner()!, this.prospection()!).pipe(
       take(1),
       delay(0),
-      tap(() => {
-        this.buildPdf().toPdf().get('pdf').then((pdf: any) => {
+      switchMap(() => from(this.buildPdfElement())),
+      tap((htmlElement) => {
+        const options = this.getHtml2PdfOptions();
+        html2pdf().set(options).from(htmlElement).toPdf().get('pdf').then((pdf: any) => {
           const pdfData = pdf.output('arraybuffer');
           this.OfferSendEmailCommand.send(this.prospectionId()!, pdfData);
         });
@@ -184,14 +189,14 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
     this.destroyed$.unsubscribe();
   }
 
-  private buildPdf(){
+  private async buildPdfElement(){
 
     const updatedOwner = this.ownersData.getOwners()().find(owner => owner.id === this.selectedOwner()?.id);
     this.selectedOwner.set(updatedOwner);
 
     const header = this.getHeader();
     const content = this.editorContent;
-    const footer = this.getFooter();
+    const footer = await this.getFooter();
     const element = `
             <html>
               <head><title>Export PDF</title></head>
@@ -202,16 +207,17 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
               </body>
             </html>
           `
-    const options = {
+   return element;
+  }
+
+  private getHtml2PdfOptions(){
+    return {
       margin: 10,
       filename: 'document.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 4 },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
-
-
-   return html2pdf().set(options).from(element);
   }
 
   private getHeader() {
@@ -249,15 +255,18 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
     return headerHtml;
   }
 
-  private getFooter() {
-    const owner = this.selectedOwner()!;
-    const footerHtml = `
-      <div style="margin-top: 20px;">
-        <div>${owner?.name}</div>
-        ${owner?.signature ? `<img id="ownerSignatureImage" src="${owner.signature}" alt="Signature" style="max-height: 100px; margin-top: 10px;">` : ''}
-      </div>
-    `;
-    return footerHtml;
+  private async getFooter(): Promise<string> {
+    return new Promise( async (resolve) => {
+      const owner = this.selectedOwner()!;
+      const footerHtml = `
+        <div style="margin-top: 20px;">
+          <div>${owner?.name}</div>
+          ${owner?.signature ? `<img id="ownerSignatureImage" src="${owner.signature}" alt="Signature" style="max-height: 100px; margin-top: 10px;">` : ''}
+        </div>
+      `;
+      await loadImage(owner.signature);
+      resolve(footerHtml);
+    });
   }
 
   protected selectOwner(owner: Owner) {
