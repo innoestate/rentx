@@ -59,7 +59,8 @@ export class UiIconService {
       'box',
       'house',
       'building',
-      'flat']).subscribe();
+      'flat',
+      'left-arrow']).subscribe();
   }
 
   registerIcons(iconNames: string[]) {

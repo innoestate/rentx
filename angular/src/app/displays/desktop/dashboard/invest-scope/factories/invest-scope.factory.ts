@@ -54,7 +54,7 @@ export class InvestScopeFactory extends DynamicComponentFactoryService {
       actions: [
         {
           label: this.localizations.getLocalization('common', 'back'),
-          icon: { name: 'back', size: 24 },
+          icon: { name: 'left-arrow', size: 24 },
           command: () => this.displayAdapter.navigate('prospections')
         },
       ]
