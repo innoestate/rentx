@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { from, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { downloadPdf } from '../../utils/offers.pdf.utils';
+import { downloadPdf } from '../utils/offers.pdf.utils';
 import { downloadOffer, downloadOfferError, downloadOfferSuccess } from './offers.pdf.actions';
 
 @Injectable()

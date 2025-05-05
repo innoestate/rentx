@@ -5,11 +5,10 @@ import { createOfferError,
           deleteOfferError,
           deleteOfferSuccess,
           loadProspectionOffersError,
-          sendOfferByEmailError,
-          sendOfferByEmailSuccess,
           updateOfferError,
           updateOfferSuccess } from "../data/ngrx/offers.data.actions";
 import { downloadOfferError, downloadOfferSuccess } from "../pdf/ngrx/offers.pdf.actions";
+import { sendOfferByEmailError, sendOfferByEmailSuccess } from "../email/ngrx/offers.email.actions";
 
 @Injectable({
   providedIn: 'root'

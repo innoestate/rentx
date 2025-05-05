@@ -4,10 +4,11 @@ import { from, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { OffersEmailHttpService } from '../../email/services/offers.email.http.service';
 import { OfferDto } from '../../models/offer.dto.model';
-import { downloadPdf } from '../../utils/offers.pdf.utils';
+import { downloadPdf } from '../../pdf/utils/offers.pdf.utils';
 import { OffersHttpService } from '../http/offers.http.service';
 import * as OffersActions from './offers.data.actions';
 import { downloadOffer, downloadOfferError, downloadOfferSuccess } from '../../pdf/ngrx/offers.pdf.actions';
+import { sendOfferByEmail, sendOfferByEmailError, sendOfferByEmailSuccess } from '../../email/ngrx/offers.email.actions';
 
 @Injectable()
 export class OffersDataEffects {
@@ -65,26 +66,4 @@ export class OffersDataEffects {
         )
     );
 
-    sendOfferByEmail$ = createEffect(() =>
-        this.actions$.pipe(
-            ofType(OffersActions.sendOfferByEmail),
-            mergeMap(({ prospectionId, pdfData, emailBody }) => {
-                const base64Pdf = this.arrayBufferToBase64(pdfData);
-                return this.offersEmailHttpService.sendOfferPdf(prospectionId, base64Pdf, emailBody).pipe(
-                    map(() => OffersActions.sendOfferByEmailSuccess()),
-                    catchError(error => of(OffersActions.sendOfferByEmailError({ error })))
-                );
-            })
-        )
-    );
-
-    private arrayBufferToBase64(buffer: ArrayBuffer): string {
-        let binary = '';
-        const bytes = new Uint8Array(buffer);
-        const len = bytes.byteLength;
-        for (let i = 0; i < len; i++) {
-            binary += String.fromCharCode(bytes[i]);
-        }
-        return window.btoa(binary);
-    }
 }

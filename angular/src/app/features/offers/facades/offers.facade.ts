@@ -3,11 +3,12 @@ import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { DataNgrxService } from "src/app/shared/data/ngrx/data.ngrx.service";
 import { OfferDto } from "../models/offer.dto.model";
-import * as OffersActions from "../data/ngrx/offers.data.actions";
+import * as OffersDataActions from "../data/ngrx/offers.data.actions";
 import { selectOffers, selectOffersErrors, selectProspectionOffers } from "../data/ngrx/offers.data.selectors";
 import { Prospection } from "src/app/features/prospections/models/prospection.model";
 import { Owner } from "src/app/features/owners/models/owner.model";
 import { downloadOffer, downloadOfferError, downloadOfferSuccess } from "../pdf/ngrx/offers.pdf.actions";
+import { sendOfferByEmail, sendOfferByEmailError, sendOfferByEmailSuccess } from "../email/ngrx/offers.email.actions";
 
 @Injectable({
   providedIn: 'root'
@@ -20,36 +21,36 @@ export class OffersFacadeService {
 
   loadProspectionOffers(prospection_id: string): Observable<OfferDto[]> {
     return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(
-      OffersActions.loadProspectionOffers,
-      OffersActions.loadProspectionOffersSuccess,
-      OffersActions.loadProspectionOffersError,
+      OffersDataActions.loadProspectionOffers,
+      OffersDataActions.loadProspectionOffersSuccess,
+      OffersDataActions.loadProspectionOffersError,
       { prospection_id }
     );
   }
 
   createOffer(offer: { prospection_id: string, markdown?: string }): Observable<OfferDto> {
     return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(
-      OffersActions.createOffer,
-      OffersActions.createOfferSuccess,
-      OffersActions.createOfferError,
+      OffersDataActions.createOffer,
+      OffersDataActions.createOfferSuccess,
+      OffersDataActions.createOfferError,
       { offer }
     );
   }
 
   updateOffer(id: string, offer: Partial<OfferDto>): Observable<OfferDto> {
     return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(
-      OffersActions.updateOffer,
-      OffersActions.updateOfferSuccess,
-      OffersActions.updateOfferError,
+      OffersDataActions.updateOffer,
+      OffersDataActions.updateOfferSuccess,
+      OffersDataActions.updateOfferError,
       { offer: { ...offer, id } }
     );
   }
 
   deleteOffer(id: string, prospection_id: string): Observable<void> {
     return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(
-      OffersActions.deleteOffer,
-      OffersActions.deleteOfferSuccess,
-      OffersActions.deleteOfferError,
+      OffersDataActions.deleteOffer,
+      OffersDataActions.deleteOfferSuccess,
+      OffersDataActions.deleteOfferError,
       { id, prospection_id }
     );
   }
@@ -77,9 +78,9 @@ export class OffersFacadeService {
 
   sendOfferByEmail(prospectionId: string, pdfData: ArrayBuffer, emailBody: string): Observable<void> {
     return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(
-      OffersActions.sendOfferByEmail,
-      OffersActions.sendOfferByEmailSuccess,
-      OffersActions.sendOfferByEmailError,
+      sendOfferByEmail,
+      sendOfferByEmailSuccess,
+      sendOfferByEmailError,
       { prospectionId, pdfData, emailBody }
     );
   }

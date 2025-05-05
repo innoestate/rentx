@@ -114,7 +114,6 @@ export class OfferDownloadCompleteDataCommand {
       this.initNeededFields();
   }
 
-
   completeData(owner: Owner, prospection: Prospection): Observable<void> {
     const formFields = this.buildFormFields(owner, prospection);
 

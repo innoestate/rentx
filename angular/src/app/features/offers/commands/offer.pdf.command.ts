@@ -8,7 +8,7 @@ import { UiPopupCustomizedComponent } from 'src/app/ui/components/ui-popup/ui-po
 import { UiMessageService } from 'src/app/ui/services/message/message.service';
 import { UiPopupService } from 'src/app/ui/services/popup/popup.service';
 import { OffersFacadeService } from '../facades/offers.facade';
-import { generatePdf } from '../utils/offers.pdf.utils';
+import { generatePdf } from '../pdf/utils/offers.pdf.utils';
 
 interface EmailFormData {
   emailBody: string;
