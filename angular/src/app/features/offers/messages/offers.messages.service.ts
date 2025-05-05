@@ -1,6 +1,15 @@
 import { Injectable } from "@angular/core";
 import { DataMessagesService } from "src/app/shared/data/message/data.message.service";
-import { createOfferError, createOfferSuccess, deleteOfferError, deleteOfferSuccess, downloadOfferError, downloadOfferSuccess, loadProspectionOffersError, sendOfferByEmailError, sendOfferByEmailSuccess, updateOfferError, updateOfferSuccess } from "../ngrx/offers.actions";
+import { createOfferError,
+          createOfferSuccess,
+          deleteOfferError,
+          deleteOfferSuccess,
+          loadProspectionOffersError,
+          sendOfferByEmailError,
+          sendOfferByEmailSuccess,
+          updateOfferError,
+          updateOfferSuccess } from "../data/ngrx/offers.data.actions";
+import { downloadOfferError, downloadOfferSuccess } from "../pdf/ngrx/offers.pdf.actions";
 
 @Injectable({
   providedIn: 'root'

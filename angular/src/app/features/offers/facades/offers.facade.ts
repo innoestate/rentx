@@ -2,16 +2,17 @@ import { Injectable, Signal } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { DataNgrxService } from "src/app/shared/data/ngrx/data.ngrx.service";
-import { OfferDto } from "../../models/offer.dto.model";
-import * as OffersActions from "../ngrx/offers.actions";
-import { selectOffers, selectOffersErrors, selectProspectionOffers } from "../ngrx/offers.selectors";
+import { OfferDto } from "../models/offer.dto.model";
+import * as OffersActions from "../data/ngrx/offers.data.actions";
+import { selectOffers, selectOffersErrors, selectProspectionOffers } from "../data/ngrx/offers.data.selectors";
 import { Prospection } from "src/app/features/prospections/models/prospection.model";
 import { Owner } from "src/app/features/owners/models/owner.model";
+import { downloadOffer, downloadOfferError, downloadOfferSuccess } from "../pdf/ngrx/offers.pdf.actions";
 
 @Injectable({
   providedIn: 'root'
 })
-export class OffersDataService {
+export class OffersFacadeService {
   constructor(
     private dataNgrxService: DataNgrxService,
     private store: Store
@@ -67,9 +68,9 @@ export class OffersDataService {
 
   downloadOffer(owner: Owner, prospection: Prospection, content: string): Observable<void> {
     return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(
-      OffersActions.downloadOffer,
-      OffersActions.downloadOfferSuccess,
-      OffersActions.downloadOfferError,
+      downloadOffer,
+      downloadOfferSuccess,
+      downloadOfferError,
       { owner, prospection, content }
     );
   }

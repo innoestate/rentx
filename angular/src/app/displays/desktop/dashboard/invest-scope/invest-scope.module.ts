@@ -13,7 +13,7 @@ import { InvestScopeDesktopRoutingModule } from './invest-scope.routing';
 import { DesktopProspectionsModule } from './modules/prospections/desktop-prospections.module';
 import { DesktopSellersModule } from './modules/sellers/desktop-sellers.module';
 import { DesktopProspectionsTableMiniComponent } from './components/prospections-table-mini/desktop-prospections-table-mini.component';
-import { OffersEmailHttpService } from 'src/app/features/offers/service/offers.email.http.service';
+import { OffersEmailHttpService } from 'src/app/features/offers/email/services/offers.email.http.service';
 import { OfferPdfCommand } from 'src/app/features/offers/commands/offer.pdf.command';
 
 

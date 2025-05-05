@@ -2,13 +2,14 @@ import { NgModule } from "@angular/core";
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
 import { OffresDataMessagesService } from "../messages/offers.messages.service";
-import { OffersEffects } from "../ngrx/offers.effects";
-import { offersReducer } from "../ngrx/offers.reducers";
+import { OffersDataEffects } from "../data/ngrx/offers.data.effects";
+import { offersDataReducer } from "../data/ngrx/offers.data.reducers";
+import { OffersPdfEffects } from "../pdf/ngrx/offers.pdf.effects";
 
 @NgModule({
   imports: [
-    StoreModule.forFeature('offers', offersReducer),
-    EffectsModule.forFeature(OffersEffects),
+    StoreModule.forFeature('offers', offersDataReducer),
+    EffectsModule.forFeature([OffersDataEffects, OffersPdfEffects]),
   ]
 })
 export class OffersDataModule {

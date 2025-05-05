@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { QuillModule } from 'ngx-quill';
 import { InvestScopeDisplayStoreFacade } from 'src/app/features/invest-scope/states/display/facades/invest-scope.display-store.facade';
-import { OffersDataService } from 'src/app/features/offers/data/services/offers.data.service';
+import { OffersFacadeService } from 'src/app/features/offers/facades/offers.facade';
 import { OfferDto } from 'src/app/features/offers/models/offer.dto.model';
 import { OwnersDataService } from 'src/app/features/owners/data/owners.data.service';
 import { Owner } from 'src/app/features/owners/models/owner.model';
@@ -61,7 +61,7 @@ export class DesktopOfferComponent extends UiDisplayerComponent implements OnIni
   isEditing = false;
 
   constructor(
-    private offersService: OffersDataService,
+    private offersService: OffersFacadeService,
     private investScopeStore: InvestScopeDisplayStoreFacade,
     private ownersData: OwnersDataService,
     private sellersData: SellersDataService,

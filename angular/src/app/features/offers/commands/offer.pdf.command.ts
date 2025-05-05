@@ -7,7 +7,7 @@ import { UiFormFieldData } from 'src/app/ui/components/ui-form/models/ui-form.fi
 import { UiPopupCustomizedComponent } from 'src/app/ui/components/ui-popup/ui-popup-customized/ui-popup-customized.component';
 import { UiMessageService } from 'src/app/ui/services/message/message.service';
 import { UiPopupService } from 'src/app/ui/services/popup/popup.service';
-import { OffersDataService } from '../data/services/offers.data.service';
+import { OffersFacadeService } from '../facades/offers.facade';
 import { generatePdf } from '../utils/offers.pdf.utils';
 
 interface EmailFormData {
@@ -20,7 +20,7 @@ interface EmailFormData {
 export class OfferPdfCommand {
   constructor(
     private uiPopupService: UiPopupService,
-    private offersDataService: OffersDataService,
+    private offersDataService: OffersFacadeService,
     private message: UiMessageService,
   ) { }
 

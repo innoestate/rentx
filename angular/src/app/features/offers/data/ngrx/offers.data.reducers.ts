@@ -1,24 +1,21 @@
 import { createReducer, on } from '@ngrx/store';
 import { Offer } from '../../models/offer.model';
-import * as OffersActions from './offers.actions';
+import * as OffersActions from './offers.data.actions';
 
-export interface OffersState {
+export interface OffersDataState {
     prospectionOffers: { [prospectionId: string]: Offer[] };
     errors: { [key: string]: any };
-    loading: boolean;
     error: any;
 }
 
-export const initialState: OffersState = {
+export const initialState: OffersDataState = {
     prospectionOffers: {},
     errors: {},
-    loading: false,
     error: null
 };
 
-export const offersReducer = createReducer(
+export const offersDataReducer = createReducer(
     initialState,
-
     on(OffersActions.loadProspectionOffersSuccess, (state, { offers }) => {
         if (!offers.length) return state;
         const prospectionId = offers[0].prospection_id;
@@ -125,34 +122,4 @@ export const offersReducer = createReducer(
             delete: error
         }
     })),
-
-    on(OffersActions.downloadOffer, state => ({
-        ...state,
-        loading: true,
-        error: null
-    })),
-    on(OffersActions.downloadOfferSuccess, state => ({
-        ...state,
-        loading: false
-    })),
-    on(OffersActions.downloadOfferError, (state, { error }) => ({
-        ...state,
-        loading: false,
-        error
-    })),
-
-    on(OffersActions.sendOfferByEmail, state => ({
-        ...state,
-        loading: true,
-        error: null
-    })),
-    on(OffersActions.sendOfferByEmailSuccess, state => ({
-        ...state,
-        loading: false
-    })),
-    on(OffersActions.sendOfferByEmailError, (state, { error }) => ({
-        ...state,
-        loading: false,
-        error
-    }))
 );

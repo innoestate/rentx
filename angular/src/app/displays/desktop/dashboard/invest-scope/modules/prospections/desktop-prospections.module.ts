@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { InvestScopeDisplayManager } from 'src/app/features/invest-scope/displayer/invest-scope.displayer.manager';
 import { OfferDownloadCompleteDataCommand } from 'src/app/features/offers/commands/offer.complete-data.command';
-import { OffersDataModule } from 'src/app/features/offers/data/modules/offres.data.module';
+import { OffersDataModule } from 'src/app/features/offers/modules/offres.data.module';
 import { OwnersDataModule } from 'src/app/features/owners/data/owners.data.module';
 import { ProspectionsTableAdapterService } from 'src/app/features/prospections/adapters/table/prospections.table.adapter';
 import { ProspectionsCommandsService } from 'src/app/features/prospections/commands/prospections.commands.service';

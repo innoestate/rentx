@@ -53,20 +53,6 @@ export const deleteOfferError = createAction(
     props<{ error: any }>()
 );
 
-export const downloadOffer = createAction(
-    '[Offers] Download Offer',
-    props<{ owner: any, prospection: any, content: string }>()
-);
-
-export const downloadOfferSuccess = createAction(
-    '[Offers] Download Offer Success'
-);
-
-export const downloadOfferError = createAction(
-    '[Offers] Download Offer Error',
-    props<{ error: any }>()
-);
-
 export const sendOfferByEmail = createAction(
     '[Offers] Send Offer By Email',
     props<{ prospectionId: string, pdfData: ArrayBuffer, emailBody: string }>()

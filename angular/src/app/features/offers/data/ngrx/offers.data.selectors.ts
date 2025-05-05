@@ -1,19 +1,19 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { OffersState } from './offers.reducers';
+import { OffersDataState } from './offers.data.reducers';
 
-export const selectOffersState = createFeatureSelector<OffersState>('offers');
+export const selectOffersState = createFeatureSelector<OffersDataState>('offers');
 
 export const selectOffers = createSelector(
     selectOffersState,
-    (state: OffersState) => state.prospectionOffers
+    (state: OffersDataState) => state.prospectionOffers
 );
 
 export const selectProspectionOffers = (prospectionId: string) => createSelector(
     selectOffersState,
-    (state: OffersState) => state.prospectionOffers[prospectionId] || []
+    (state: OffersDataState) => state.prospectionOffers[prospectionId] || []
 );
 
 export const selectOffersErrors = createSelector(
     selectOffersState,
-    (state: OffersState) => state.errors
+    (state: OffersDataState) => state.errors
 );

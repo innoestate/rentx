@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { of, from } from 'rxjs';
+import { from, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { OffersHttpService } from '../http/offers.http.service';
-import { OfferPdfCommand } from '../../commands/offer.pdf.command';
-import { OffersEmailHttpService } from '../../service/offers.email.http.service';
-import * as OffersActions from './offers.actions';
+import { OffersEmailHttpService } from '../../email/services/offers.email.http.service';
 import { OfferDto } from '../../models/offer.dto.model';
 import { downloadPdf } from '../../utils/offers.pdf.utils';
+import { OffersHttpService } from '../http/offers.http.service';
+import * as OffersActions from './offers.data.actions';
+import { downloadOffer, downloadOfferError, downloadOfferSuccess } from '../../pdf/ngrx/offers.pdf.actions';
 
 @Injectable()
-export class OffersEffects {
+export class OffersDataEffects {
     constructor(
         private actions$: Actions,
         private offersService: OffersHttpService,
-        private offerPdfCommand: OfferPdfCommand,
         private offersEmailHttpService: OffersEmailHttpService
     ) { }
 
@@ -61,18 +60,6 @@ export class OffersEffects {
                 this.offersService.deleteOffer(id).pipe(
                     map(() => OffersActions.deleteOfferSuccess({ id, prospection_id })),
                     catchError(error => of(OffersActions.deleteOfferError({ error })))
-                )
-            )
-        )
-    );
-
-    downloadOffer$ = createEffect(() =>
-        this.actions$.pipe(
-            ofType(OffersActions.downloadOffer),
-            mergeMap(({ owner, prospection, content }) =>
-                from(downloadPdf(owner, prospection, content)).pipe(
-                    map(() => OffersActions.downloadOfferSuccess()),
-                    catchError(error => of(OffersActions.downloadOfferError({ error })))
                 )
             )
         )
