@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { DataMessagesService } from "src/app/shared/data/message/data.message.service";
-import { createOfferError, createOfferSuccess, deleteOfferError, deleteOfferSuccess, loadProspectionOffersError, updateOfferError, updateOfferSuccess } from "../ngrx/offers.actions";
+import { createOfferError, createOfferSuccess, deleteOfferError, deleteOfferSuccess, downloadOfferError, downloadOfferSuccess, loadProspectionOffersError, sendOfferByEmailError, sendOfferByEmailSuccess, updateOfferError, updateOfferSuccess } from "../ngrx/offers.actions";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,12 @@ export class OffresDataMessagesService extends DataMessagesService {
 
     this.displaySuccessMessageOnAction(deleteOfferSuccess, 'Offre supprimée avec succès!');
     this.displayFailureMessageOnAction(deleteOfferError, 'Échec de la suppression de l\'offre!');
+
+    this.displaySuccessMessageOnAction(sendOfferByEmailSuccess, 'Offre envoyée avec succès!');
+    this.displayFailureMessageOnAction(sendOfferByEmailError, 'Échec de l\'envoi de l\'offre!');
+
+    this.displaySuccessMessageOnAction(downloadOfferSuccess, 'Offre téléchargée avec succès!');
+    this.displayFailureMessageOnAction(downloadOfferError, 'Échec du téléchargement de l\'offre!');
   }
 
 }

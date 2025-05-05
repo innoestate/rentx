@@ -1,16 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { of } from 'rxjs';
+import { of, from } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { OffersHttpService } from '../http/offers.http.service';
+import { OfferPdfCommand } from '../../commands/offer.pdf.command';
+import { OffersEmailHttpService } from '../../service/offers.email.http.service';
 import * as OffersActions from './offers.actions';
 import { OfferDto } from '../../models/offer.dto.model';
+import { downloadPdf } from '../../utils/offers.pdf.utils';
 
 @Injectable()
 export class OffersEffects {
     constructor(
         private actions$: Actions,
-        private offersService: OffersHttpService
+        private offersService: OffersHttpService,
+        private offerPdfCommand: OfferPdfCommand,
+        private offersEmailHttpService: OffersEmailHttpService
     ) { }
 
     loadProspectionOffers$ = createEffect(() =>
@@ -60,4 +65,39 @@ export class OffersEffects {
             )
         )
     );
+
+    downloadOffer$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(OffersActions.downloadOffer),
+            mergeMap(({ owner, prospection, content }) =>
+                from(downloadPdf(owner, prospection, content)).pipe(
+                    map(() => OffersActions.downloadOfferSuccess()),
+                    catchError(error => of(OffersActions.downloadOfferError({ error })))
+                )
+            )
+        )
+    );
+
+    sendOfferByEmail$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(OffersActions.sendOfferByEmail),
+            mergeMap(({ prospectionId, pdfData, emailBody }) => {
+                const base64Pdf = this.arrayBufferToBase64(pdfData);
+                return this.offersEmailHttpService.sendOfferPdf(prospectionId, base64Pdf, emailBody).pipe(
+                    map(() => OffersActions.sendOfferByEmailSuccess()),
+                    catchError(error => of(OffersActions.sendOfferByEmailError({ error })))
+                );
+            })
+        )
+    );
+
+    private arrayBufferToBase64(buffer: ArrayBuffer): string {
+        let binary = '';
+        const bytes = new Uint8Array(buffer);
+        const len = bytes.byteLength;
+        for (let i = 0; i < len; i++) {
+            binary += String.fromCharCode(bytes[i]);
+        }
+        return window.btoa(binary);
+    }
 }

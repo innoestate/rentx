@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
 import { InvestScopeDisplayManager } from 'src/app/features/invest-scope/displayer/invest-scope.displayer.manager';
+import { OfferDownloadCompleteDataCommand } from 'src/app/features/offers/commands/offer.complete-data.command';
 import { OffersDataModule } from 'src/app/features/offers/data/modules/offres.data.module';
-import { OwnersEffects } from 'src/app/features/owners/data/ngrx/owners.effects';
-import { ownersReducer } from 'src/app/features/owners/data/ngrx/owners.reducers';
+import { OwnersDataModule } from 'src/app/features/owners/data/owners.data.module';
 import { ProspectionsTableAdapterService } from 'src/app/features/prospections/adapters/table/prospections.table.adapter';
 import { ProspectionsCommandsService } from 'src/app/features/prospections/commands/prospections.commands.service';
 import { ProspectionsDataMessagesService } from 'src/app/features/prospections/data/messages/prospections.data.messages.service';
@@ -14,7 +12,6 @@ import { OwnersModule } from '../../../properties/modules/owners/owners.module';
 import { DesktopProspectionsCommandsService } from '../../commands/desktop.prospections.commands.service';
 import { DesktopProspectionDescriptionComponent } from '../../components/description/desktop-prospection-description.component';
 import { DesktopProspectionsTableComponent } from '../../components/prospections-table/desktop-prospections-table.component';
-import { OfferDownloadCompleteDataCommand } from 'src/app/features/offers/commands/offer.complete-data.command';
 
 
 
@@ -27,8 +24,7 @@ import { OfferDownloadCompleteDataCommand } from 'src/app/features/offers/comman
     ProspectionsDataModule,
     UiModule.forChild(),
     OffersDataModule,
-    StoreModule.forFeature('owners', ownersReducer),
-    EffectsModule.forFeature(OwnersEffects),
+    OwnersDataModule,
     OwnersModule
   ],
   providers: [

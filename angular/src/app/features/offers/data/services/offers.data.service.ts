@@ -5,61 +5,81 @@ import { DataNgrxService } from "src/app/shared/data/ngrx/data.ngrx.service";
 import { OfferDto } from "../../models/offer.dto.model";
 import * as OffersActions from "../ngrx/offers.actions";
 import { selectOffers, selectOffersErrors, selectProspectionOffers } from "../ngrx/offers.selectors";
+import { Prospection } from "src/app/features/prospections/models/prospection.model";
+import { Owner } from "src/app/features/owners/models/owner.model";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class OffersDataService {
-    constructor(
-        private dataNgrxService: DataNgrxService,
-        private store: Store
-    ) { }
+  constructor(
+    private dataNgrxService: DataNgrxService,
+    private store: Store
+  ) { }
 
-    loadProspectionOffers(prospection_id: string): Observable<OfferDto[]> {
-        return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(
-            OffersActions.loadProspectionOffers,
-            OffersActions.loadProspectionOffersSuccess,
-            OffersActions.loadProspectionOffersError,
-            { prospection_id }
-        );
-    }
+  loadProspectionOffers(prospection_id: string): Observable<OfferDto[]> {
+    return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(
+      OffersActions.loadProspectionOffers,
+      OffersActions.loadProspectionOffersSuccess,
+      OffersActions.loadProspectionOffersError,
+      { prospection_id }
+    );
+  }
 
-    createOffer(offer: {prospection_id: string, markdown?: string}): Observable<OfferDto> {
-        return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(
-            OffersActions.createOffer,
-            OffersActions.createOfferSuccess,
-            OffersActions.createOfferError,
-            { offer }
-        );
-    }
+  createOffer(offer: { prospection_id: string, markdown?: string }): Observable<OfferDto> {
+    return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(
+      OffersActions.createOffer,
+      OffersActions.createOfferSuccess,
+      OffersActions.createOfferError,
+      { offer }
+    );
+  }
 
-    updateOffer(id: string, offer: Partial<OfferDto>): Observable<OfferDto> {
-        return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(
-            OffersActions.updateOffer,
-            OffersActions.updateOfferSuccess,
-            OffersActions.updateOfferError,
-            { offer: { ...offer, id } }
-        );
-    }
+  updateOffer(id: string, offer: Partial<OfferDto>): Observable<OfferDto> {
+    return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(
+      OffersActions.updateOffer,
+      OffersActions.updateOfferSuccess,
+      OffersActions.updateOfferError,
+      { offer: { ...offer, id } }
+    );
+  }
 
-    deleteOffer(id: string, prospection_id: string): Observable<void> {
-        return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(
-            OffersActions.deleteOffer,
-            OffersActions.deleteOfferSuccess,
-            OffersActions.deleteOfferError,
-            { id, prospection_id }
-        );
-    }
+  deleteOffer(id: string, prospection_id: string): Observable<void> {
+    return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(
+      OffersActions.deleteOffer,
+      OffersActions.deleteOfferSuccess,
+      OffersActions.deleteOfferError,
+      { id, prospection_id }
+    );
+  }
 
-    getOffers(): Signal<{ [prospectionId: string]: OfferDto[] }> {
-      return this.store.selectSignal(selectOffers);
-    }
+  getOffers(): Signal<{ [prospectionId: string]: OfferDto[] }> {
+    return this.store.selectSignal(selectOffers);
+  }
 
-    getProspectionOffers(prospectionId: string): Signal<OfferDto[]> {
-        return this.store.selectSignal(selectProspectionOffers(prospectionId));
-    }
+  getProspectionOffers(prospectionId: string): Signal<OfferDto[]> {
+    return this.store.selectSignal(selectProspectionOffers(prospectionId));
+  }
 
-    getOffersErrors(): Signal<{ [key: string]: any }> {
-        return this.store.selectSignal(selectOffersErrors);
-    }
+  getOffersErrors(): Signal<{ [key: string]: any }> {
+    return this.store.selectSignal(selectOffersErrors);
+  }
+
+  downloadOffer(owner: Owner, prospection: Prospection, content: string): Observable<void> {
+    return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(
+      OffersActions.downloadOffer,
+      OffersActions.downloadOfferSuccess,
+      OffersActions.downloadOfferError,
+      { owner, prospection, content }
+    );
+  }
+
+  sendOfferByEmail(prospectionId: string, pdfData: ArrayBuffer, emailBody: string): Observable<void> {
+    return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(
+      OffersActions.sendOfferByEmail,
+      OffersActions.sendOfferByEmailSuccess,
+      OffersActions.sendOfferByEmailError,
+      { prospectionId, pdfData, emailBody }
+    );
+  }
 }
