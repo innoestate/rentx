@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { from, tap } from "rxjs";
-import { StorageService } from "../../storage/services/storage.service";
+import { ProspectionsStorageService } from "../../storage/services/storage.service";
 import { ProspectionDto } from "../dto/prospection.dto";
 import { SpreadSheetsProspectionsService } from "../spreadsheets/services/spreadsheets.prospections.service";
 import { ProspectionsDbService } from "./prospections.db.service";
@@ -8,7 +8,7 @@ import { ProspectionsDbService } from "./prospections.db.service";
 @Injectable()
 export class ProspectionsService {
 
-    constructor(private ProspectionsDbService: ProspectionsDbService, private storageService: StorageService, private spreadsheetsService: SpreadSheetsProspectionsService) { }
+    constructor(private ProspectionsDbService: ProspectionsDbService, private storageService: ProspectionsStorageService, private spreadsheetsService: SpreadSheetsProspectionsService) { }
 
     async createNewProspection(prospection: ProspectionDto, accessToken, refreshToken, clientId, clientSecret) {
         const result = await this.ProspectionsDbService.create(prospection);
