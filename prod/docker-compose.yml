@@ -63,7 +63,8 @@ services:
 
 networks:
   prod:
-    driver: bridge
+    external: true
+    name: prod
 
 volumes:
   pg_data:
