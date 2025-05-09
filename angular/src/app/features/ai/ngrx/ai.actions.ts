@@ -43,3 +43,18 @@ export const buildInvestorProfileFailure = createAction(
   '[AI] Build Investor Profile Failure',
   props<{ error: any }>()
 );
+
+export const buildOffer = createAction(
+  '[AI] Build Offer',
+  props<{ propsection_id: string; userPrompt: string }>()
+);
+
+export const buildOfferSuccess = createAction(
+  '[AI] Build Offer Success',
+  props<{ result: string }>()
+);
+
+export const buildOfferFailure = createAction(
+  '[AI] Build Offer Failure',
+  props<{ error: any }>()
+);

@@ -11,6 +11,10 @@ interface BuildInvestorProfileResponse {
   fields: Record<string, any>;
 }
 
+interface BuildOfferResponse {
+  result: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -56,6 +60,15 @@ export class AiFacadeService {
       AiActions.buildInvestorProfileSuccess,
       AiActions.buildInvestorProfileFailure,
       { prompt }
+    );
+  }
+
+  buildOffer(propsection_id: string, userPrompt: string): Observable<BuildOfferResponse> {
+    return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(
+      AiActions.buildOffer,
+      AiActions.buildOfferSuccess,
+      AiActions.buildOfferFailure,
+      { propsection_id, userPrompt }
     );
   }
 }

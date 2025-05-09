@@ -46,6 +46,18 @@ export class AiEffects {
     )
   );
 
+  buildOffer$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AiActions.buildOffer),
+      mergeMap(({ propsection_id, userPrompt }) =>
+        this.aiService.buildOffer(propsection_id, userPrompt).pipe(
+          map(response => AiActions.buildOfferSuccess({ result: response.result })),
+          catchError(error => of(AiActions.buildOfferFailure({ error })))
+        )
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private aiService: AiHttpService

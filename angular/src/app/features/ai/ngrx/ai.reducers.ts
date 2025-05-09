@@ -6,12 +6,14 @@ export interface AiState {
   tokens: number;
   active: boolean;
   investorProfile: InvestorProfileField[];
+  fields?: Record<string, any>;
 }
 
 export const initialState: AiState = {
   tokens: 0,
   active: false,
-  investorProfile: []
+  investorProfile: [],
+  fields: undefined,
 };
 
 export const aiReducer = createReducer(
@@ -32,5 +34,5 @@ export const aiReducer = createReducer(
   on(AiActions.buildInvestorProfileSuccess, (state, { fields }) => ({
     ...state,
     fields
-  }))
+  })),
 );

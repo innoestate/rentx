@@ -9,6 +9,10 @@ interface BuildInvestorProfileResponse {
   fields: Record<string, any>;
 }
 
+interface BuildOfferResponse {
+  result: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -27,5 +31,9 @@ export class AiHttpService {
 
   buildInvestorProfile(prompt: string): Observable<BuildInvestorProfileResponse> {
     return this.http.post<BuildInvestorProfileResponse>(`${this.baseUrl}/investor/profile`, { userPrompt: prompt });
+  }
+
+  buildOffer(prospection_id: string, userPrompt: string): Observable<BuildOfferResponse> {
+    return this.http.post<BuildOfferResponse>(`${this.baseUrl}/offer`, { prospection_id, userPrompt });
   }
 }
