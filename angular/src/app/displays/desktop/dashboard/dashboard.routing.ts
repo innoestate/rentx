@@ -14,6 +14,10 @@ const routes: Routes = [
         loadChildren: () => import('./invest-scope/invest-scope.module').then(m => m.InvestScopeModule),
       },
       {
+        path: 'ai',
+        loadChildren: () => import('./ai/ai.module').then(m => m.AiModule),
+      },
+      {
         path: '',
         pathMatch: 'full',
         redirectTo: 'own'
