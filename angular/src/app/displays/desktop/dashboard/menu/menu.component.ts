@@ -1,10 +1,11 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, computed, ElementRef, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ThemeService } from 'src/app/core/design-system/services/theme.service';
 import { MenuComponent } from 'src/app/displays/common/components/menu.component';
 import { UiDropdownItem } from 'src/app/ui/components/ui-dropdown/model/ui-dropdown-item.model';
 import { UiNestedDropdown } from 'src/app/ui/components/ui-nested-dropdown-actions/model/ui-nested-dropdown-actions.model';
 import { UiNestedDropdownActionsComponent } from 'src/app/ui/components/ui-nested-dropdown-actions/ui-nested-dropdown-actions.component';
+import { AiFacadeService } from 'src/app/features/ai/facades/ai.facade';
 
 @Component({
   selector: 'rentx-menu',
@@ -78,7 +79,15 @@ export class MenuDesktopComponent extends MenuComponent {
   //   }
   // ];
 
-  constructor(protected override store: Store, protected override themeService: ThemeService, private elRef: ElementRef) {
+  tokens = this.aiFacade.getTokens();
+  displayTokens = computed(() => this.tokens() ? this.tokens()/10000 : null);
+
+  constructor(
+    protected override store: Store,
+    protected override themeService: ThemeService,
+    private elRef: ElementRef,
+    private aiFacade: AiFacadeService
+  ) {
     super(store, themeService);
     this.updateMenuSize();
   }

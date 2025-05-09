@@ -11,6 +11,7 @@
       <img [src]="user()?.picture">
     </div>
     <div class="user-menu">
+      <div class="token-count">{{ displayTokens() | number:'1.0-1' }}</div>
       <ui-nested-dropdown-actions [dropdown]="dropdown"></ui-nested-dropdown-actions>
     </div>
   </div>
