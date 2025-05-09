@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class AiService {
+export class AiHttpService {
   private readonly baseUrl = environment.aiURL;
 
   constructor(private http: HttpClient) {}

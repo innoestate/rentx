@@ -27,7 +27,12 @@ export const aiReducer = createReducer(
   initialState,
   on(AiActions.getUserTokensSuccess, (state, { tokens }) => ({
     ...state,
-    tokens
+    tokens,
+    active: true
+  })),
+  on(AiActions.getUserTokensFailure, (state) => ({
+    ...state,
+    active: false
   })),
   on(AiActions.getInvestorProfileSuccess, (state, { profile }) => ({
     ...state,

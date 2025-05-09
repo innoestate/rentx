@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as AiActions from './ai.actions';
-import { AiService } from '../services/ai.service';
+import { AiHttpService } from '../services/ai.http.service';
 
 @Injectable()
 export class AiEffects {
@@ -33,6 +33,6 @@ export class AiEffects {
 
   constructor(
     private actions$: Actions,
-    private aiService: AiService
+    private aiService: AiHttpService
   ) {}
 }
