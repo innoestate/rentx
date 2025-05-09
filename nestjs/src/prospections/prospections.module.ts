@@ -15,6 +15,7 @@ import { ProspectionsDbService } from './services/prospections.db.service';
 import { ProspectionsService } from './services/prospections.service';
 import { SellersDbService } from './services/sellers.db.service';
 import { SpreadSheetsProspectionsService } from './spreadsheets/services/spreadsheets.prospections.service';
+import { Prospector_Ai_InvestorProfile_Entity } from 'src/prospector/entities/prospector_ai_investor_profile.entity';
 
 @Module({
     imports: [
@@ -26,7 +27,8 @@ import { SpreadSheetsProspectionsService } from './spreadsheets/services/spreads
             Seller_Entity,
             Offer_Entity, 
             Owner_Entity,
-            Docs_Entity
+            Docs_Entity,
+            Prospector_Ai_InvestorProfile_Entity
         ])
     ],
     controllers: [ProspectionsController],
