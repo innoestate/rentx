@@ -200,7 +200,7 @@ export class ProspectionsTableAdapterService {
           { label: { icon: { name: 'parking', size: 24, color: 'var(--color-secondary-500)' }, title: { label: this.localization.getLocalization('propertyCategories', 'parking') } } },
           { label: { icon: { name: 'terran', size: 24, color: 'var(--color-secondary-500)' }, title: { label: this.localization.getLocalization('propertyCategories', 'terran') } } },
           { label: { icon: { name: 'box', size: 24, color: 'var(--color-secondary-500)' }, title: { label: this.localization.getLocalization('propertyCategories', 'box') } } },
-          { label: { icon: { name: 'estate', size: 24, color: 'var(--color-secondary-500)' }, title: { label: this.localization.getLocalization('propertyCategories', 'estate') } } },
+          { label: { icon: { name: 'house', size: 24, color: 'var(--color-secondary-500)' }, title: { label: this.localization.getLocalization('propertyCategories', 'house') } } },
           { label: { icon: { name: 'building', size: 24, color: 'var(--color-secondary-500)' }, title: { label: this.localization.getLocalization('propertyCategories', 'building') } } },
           { label: { icon: { name: 'flat', size: 24, color: 'var(--color-secondary-500)' }, title: { label: this.localization.getLocalization('propertyCategories', 'flat') } } }
         ]

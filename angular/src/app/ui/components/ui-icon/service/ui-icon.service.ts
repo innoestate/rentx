@@ -60,7 +60,8 @@ export class UiIconService {
       'house',
       'building',
       'flat',
-      'left-arrow']).subscribe();
+      'left-arrow',
+      'house']).subscribe();
   }
 
   registerIcons(iconNames: string[]) {
