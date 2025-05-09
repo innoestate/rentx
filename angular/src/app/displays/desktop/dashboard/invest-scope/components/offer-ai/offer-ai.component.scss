@@ -1,0 +1,10 @@
+/* Styles for Offer AI component */
+:host{
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  width: 400px;
+  box-shadow: var(--shadow);
+  border: var(--border-large);
+
+}

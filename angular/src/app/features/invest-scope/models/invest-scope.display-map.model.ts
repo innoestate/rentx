@@ -5,4 +5,5 @@ export type InvestScopeDisplayedElement = InvestScopeNavigation |
                                           'actions' |
                                           'prospectionDescription' |
                                           'backToProspectionNavigation' |
-                                          'prospectionsTableMini';
+                                          'prospectionsTableMini' |
+                                          'offerAi';

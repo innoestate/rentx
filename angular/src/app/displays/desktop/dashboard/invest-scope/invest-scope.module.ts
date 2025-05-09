@@ -15,6 +15,7 @@ import { DesktopSellersModule } from './modules/sellers/desktop-sellers.module';
 import { DesktopProspectionsTableMiniComponent } from './components/prospections-table-mini/desktop-prospections-table-mini.component';
 import { OffersEmailHttpService } from 'src/app/features/offers/email/services/offers.email.http.service';
 import { OfferPdfCommand } from 'src/app/features/offers/commands/offer.pdf.command';
+import { AiModule } from 'src/app/features/ai/ai.module';
 
 
 
@@ -28,7 +29,8 @@ import { OfferPdfCommand } from 'src/app/features/offers/commands/offer.pdf.comm
     InvestScopeDesktopRoutingModule,
     UiModule.forChild(),
     DesktopProspectionsModule,
-    DesktopSellersModule
+    DesktopSellersModule,
+    AiModule
   ],
   providers: [
     InvestScopeDisplayManager,

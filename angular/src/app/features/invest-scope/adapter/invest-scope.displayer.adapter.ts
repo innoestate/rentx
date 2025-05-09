@@ -11,7 +11,7 @@ export class InvestScopeDisplayerAdapter {
   constructor() { }
 
   static fillDynamicComponents(dynamicComponents: UiDynamicComponent[][]){
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
       const array: UiDynamicComponent[] = [];
       for (let i = 0; i < 3; i++) {
         array.push({ name: '', replace: new EventEmitter<string>(), emitting: false });
@@ -65,6 +65,7 @@ export class InvestScopeDisplayerAdapter {
       this.emitReplacement(dynamicComponents[1][0], 'prospectionsTableMini');
       this.emitReplacement(dynamicComponents[1][1], 'prospectionDescription');
       this.emitReplacement(dynamicComponents[2][0], 'offer');
+      this.emitReplacement(dynamicComponents[3][0], 'offerAi');
     }
     console.log('dynamicComponents', dynamicComponents[0][1].emitting);
 

@@ -34,7 +34,7 @@ export class InvestScopeDisplayManager extends DisplayerManager {
         }else if(navigation === 'sellers'){
           this.facade.addComponents(['navigation', 'sellers', 'actions']);
         }else if(navigation === 'offer'){
-          this.facade.addComponents(['backToProspectionNavigation', 'prospectionsTableMini', 'prospectionDescription', 'offer']);
+          this.facade.addComponents(['backToProspectionNavigation', 'prospectionsTableMini', 'prospectionDescription', 'offer', 'offerAi']);
         }
 
       })

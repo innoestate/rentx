@@ -12,6 +12,7 @@ import { DesktopSellersTableComponent } from "../components/sellers-table/deskto
 import { InvestScopeDisplayManager } from "src/app/features/invest-scope/displayer/invest-scope.displayer.manager";
 import { DesktopProspectionsTableMiniComponent } from "../components/prospections-table-mini/desktop-prospections-table-mini.component";
 import { DesktopOfferComponent } from "../components/offer/desktop-offer.component";
+import { OfferAiComponent } from "../components/offer-ai/offer-ai.component";
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,8 @@ export class InvestScopeFactory extends DynamicComponentFactoryService {
     'sellers': this.getSellersComponent(),
     'actions': this.getActionsComponent(),
     'backToProspectionNavigation': this.getBackToProspectionNavigationComponent(),
-    'offer': this.getOfferComponent()
+    'offer': this.getOfferComponent(),
+    'offerAi': this.getOfferAiComponent()
   };
   private sellers = this.sellersData.getSellers();
 
@@ -98,6 +100,10 @@ export class InvestScopeFactory extends DynamicComponentFactoryService {
 
   private getOfferComponent() {
     return { component: DesktopOfferComponent };
+  }
+
+  private getOfferAiComponent() {
+    return { component: OfferAiComponent };
   }
 
 }
