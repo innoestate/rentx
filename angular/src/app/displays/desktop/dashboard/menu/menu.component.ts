@@ -81,6 +81,7 @@ export class MenuDesktopComponent extends MenuComponent {
 
   tokens = this.aiFacade.getTokens();
   displayTokens = computed(() => this.tokens() ? this.tokens()/10000 : null);
+  isAiActive = this.aiFacade.getActive();
 
   constructor(
     protected override store: Store,

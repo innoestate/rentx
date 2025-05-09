@@ -7,12 +7,16 @@
   <div class="right">
     <div class="nav-link" routerLinkActive="active" [routerLink]="['properties']">biens</div>
     <div class="nav-link" routerLinkActive="active" [routerLink]="['invest-scope']">prospection</div>
-    <div class="nav-link" routerLinkActive="active" [routerLink]="['ai']">ai</div>
+    @if(isAiActive()){
+      <div class="nav-link" routerLinkActive="active" [routerLink]="['ai']">ai</div>
+    }
     <div class="user-avatar">
       <img [src]="user()?.picture">
     </div>
     <div class="user-menu">
-      <div class="token-count">{{ displayTokens() | number:'1.0-1' }}</div>
+      @if(isAiActive()){
+        <div class="token-count">{{ displayTokens() | number:'1.0-1' }}</div>
+      }
       <ui-nested-dropdown-actions [dropdown]="dropdown"></ui-nested-dropdown-actions>
     </div>
   </div>
