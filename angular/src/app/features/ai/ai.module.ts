@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { StoreModule } from '@ngrx/store';
+import { StoreModule, Store } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { AiHttpService } from './services/ai.http.service';
 import { AiEffects } from './ngrx/ai.effects';
 import { aiReducer } from './ngrx/ai.reducers';
+import * as AiActions from './ngrx/ai.actions';
 
 @NgModule({
   declarations: [],
@@ -20,4 +21,8 @@ import { aiReducer } from './ngrx/ai.reducers';
     AiHttpService
   ]
 })
-export class AiModule { }
+export class AiModule {
+  constructor(private store: Store) {
+    this.store.dispatch(AiActions.getUserTokens());
+  }
+}
