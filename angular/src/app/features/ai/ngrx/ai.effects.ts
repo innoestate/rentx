@@ -3,6 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as AiActions from './ai.actions';
+import { AiService } from '../services/ai.service';
 
 @Injectable()
 export class AiEffects {
@@ -10,8 +11,7 @@ export class AiEffects {
     this.actions$.pipe(
       ofType(AiActions.getUserTokens),
       mergeMap(() =>
-        // Replace this with your actual API service call
-        of({ tokens: 100 }).pipe(
+        this.aiService.getUserTokens().pipe(
           map(response => AiActions.getUserTokensSuccess({ tokens: response.tokens })),
           catchError(error => of(AiActions.getUserTokensFailure({ error })))
         )
@@ -23,8 +23,7 @@ export class AiEffects {
     this.actions$.pipe(
       ofType(AiActions.getInvestorProfile),
       mergeMap(() =>
-        // Replace this with your actual API service call
-        of({ profile: ['profile1', 'profile2'] }).pipe(
+        this.aiService.getInvestorProfile().pipe(
           map(response => AiActions.getInvestorProfileSuccess({ profile: response.profile })),
           catchError(error => of(AiActions.getInvestorProfileFailure({ error })))
         )
@@ -32,5 +31,8 @@ export class AiEffects {
     )
   );
 
-  constructor(private actions$: Actions) {}
+  constructor(
+    private actions$: Actions,
+    private aiService: AiService
+  ) {}
 }
