@@ -1,7 +1,11 @@
 <div class="ai-container">
   <div class="content">
     <div class="ai-prompt-section">
-
+      <ui-ai-prompter
+        [aiMessage]="aiMessage"
+        [loading]="loading()"
+        (prompt)="onPrompt($event)"
+      ></ui-ai-prompter>
     </div>
     <div class="investor-profile-section">
 

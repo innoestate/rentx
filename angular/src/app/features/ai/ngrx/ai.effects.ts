@@ -31,6 +31,21 @@ export class AiEffects {
     )
   );
 
+  buildInvestorProfile$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AiActions.buildInvestorProfile),
+      mergeMap(({ prompt }) =>
+        this.aiService.buildInvestorProfile(prompt).pipe(
+          map(response => AiActions.buildInvestorProfileSuccess({
+            iaPrompt: response.iaPrompt,
+            fields: response.fields
+          })),
+          catchError(error => of(AiActions.buildInvestorProfileFailure({ error })))
+        )
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private aiService: AiHttpService

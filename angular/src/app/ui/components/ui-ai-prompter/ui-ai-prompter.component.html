@@ -1,0 +1,21 @@
+<div class="ai-prompter">
+  @if(aiMessage()) {
+    <div class="ai-message">
+      {{ aiMessage() }}
+    </div>
+  }
+  <div class="prompt-input">
+    <textarea
+      [(ngModel)]="promptText"
+      (keyup.enter)="emitPrompt()"
+      placeholder="Type your prompt here..."
+      rows="3"
+      [disabled]="loading()"
+    ></textarea>
+    <ui-button
+      [text]="'Prompt'"
+      (click)="emitPrompt()"
+      [disabled]="loading()"
+    ></ui-button>
+  </div>
+</div>

@@ -6,6 +6,11 @@ import * as AiActions from '../ngrx/ai.actions';
 import { selectTokens, selectInvestorProfile, selectActive, selectTarget } from '../ngrx/ai.selectors';
 import { Target } from '../ngrx/ai.reducers';
 
+interface BuildInvestorProfileResponse {
+  iaPrompt: string;
+  fields: Record<string, any>;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -33,7 +38,6 @@ export class AiFacadeService {
     );
   }
 
-  // Selectors as Signals
   getTokens(): Signal<number> {
     return this.store.selectSignal(selectTokens);
   }
@@ -48,5 +52,14 @@ export class AiFacadeService {
 
   getTarget(): Signal<Target> {
     return this.store.selectSignal(selectTarget);
+  }
+
+  buildInvestorProfile(prompt: string): Observable<BuildInvestorProfileResponse> {
+    return this.dataNgrxService.dispatchWithFailOrSuccessActionsInNgrx(
+      AiActions.buildInvestorProfile,
+      AiActions.buildInvestorProfileSuccess,
+      AiActions.buildInvestorProfileFailure,
+      { prompt }
+    );
   }
 }

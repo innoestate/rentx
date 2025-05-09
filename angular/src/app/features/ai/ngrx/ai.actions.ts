@@ -27,3 +27,18 @@ export const getInvestorProfileFailure = createAction(
   '[AI] Get Investor Profile Failure',
   props<{ error: any }>()
 );
+
+export const buildInvestorProfile = createAction(
+  '[AI] Build Investor Profile',
+  props<{ prompt: string }>()
+);
+
+export const buildInvestorProfileSuccess = createAction(
+  '[AI] Build Investor Profile Success',
+  props<{ iaPrompt: string; fields: Record<string, any> }>()
+);
+
+export const buildInvestorProfileFailure = createAction(
+  '[AI] Build Investor Profile Failure',
+  props<{ error: any }>()
+);
