@@ -1,0 +1,29 @@
+import { createAction, props } from '@ngrx/store';
+
+export const getUserTokens = createAction(
+  '[AI] Get User Tokens',
+);
+
+export const getUserTokensSuccess = createAction(
+  '[AI] Get User Tokens Success',
+  props<{ tokens: number }>()
+);
+
+export const getUserTokensFailure = createAction(
+  '[AI] Get User Tokens Failure',
+  props<{ error: any }>()
+);
+
+export const getInvestorProfile = createAction(
+  '[AI] Get Investor Profile',
+);
+
+export const getInvestorProfileSuccess = createAction(
+  '[AI] Get Investor Profile Success',
+  props<{ profile: string[] }>()
+);
+
+export const getInvestorProfileFailure = createAction(
+  '[AI] Get Investor Profile Failure',
+  props<{ error: any }>()
+);
