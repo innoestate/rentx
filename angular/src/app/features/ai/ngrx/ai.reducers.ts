@@ -1,26 +1,17 @@
 import { createReducer, on } from '@ngrx/store';
 import * as AiActions from './ai.actions';
-
-export interface Target {
-  url: string;
-  params: { key: string; value: string }[];
-}
+import { InvestorProfileField } from '../models/investor-profile-field.interface';
 
 export interface AiState {
   tokens: number;
   active: boolean;
-  investorProfile: string[];
-  target: Target;
+  investorProfile: InvestorProfileField[];
 }
 
 export const initialState: AiState = {
   tokens: 0,
   active: false,
-  investorProfile: [],
-  target: {
-    url: '',
-    params: []
-  }
+  investorProfile: []
 };
 
 export const aiReducer = createReducer(
@@ -34,8 +25,12 @@ export const aiReducer = createReducer(
     ...state,
     active: false
   })),
-  on(AiActions.getInvestorProfileSuccess, (state, { profile }) => ({
+  on(AiActions.getInvestorProfileSuccess, (state, { data }) => ({
     ...state,
-    investorProfile: profile
+    investorProfile: data
+  })),
+  on(AiActions.buildInvestorProfileSuccess, (state, { fields }) => ({
+    ...state,
+    fields
   }))
 );

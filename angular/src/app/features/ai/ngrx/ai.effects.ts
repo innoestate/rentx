@@ -24,7 +24,7 @@ export class AiEffects {
       ofType(AiActions.getInvestorProfile),
       mergeMap(() =>
         this.aiService.getInvestorProfile().pipe(
-          map(response => AiActions.getInvestorProfileSuccess({ profile: response.profile })),
+          map(response => AiActions.getInvestorProfileSuccess({ data: response.data })),
           catchError(error => of(AiActions.getInvestorProfileFailure({ error })))
         )
       )

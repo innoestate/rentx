@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { InvestorProfileField } from '../models/investor-profile-field.interface';
 
 export const getUserTokens = createAction(
   '[AI] Get User Tokens',
@@ -20,7 +21,7 @@ export const getInvestorProfile = createAction(
 
 export const getInvestorProfileSuccess = createAction(
   '[AI] Get Investor Profile Success',
-  props<{ profile: string[] }>()
+  props<{ data: InvestorProfileField[] }>()
 );
 
 export const getInvestorProfileFailure = createAction(

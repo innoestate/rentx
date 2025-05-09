@@ -8,7 +8,20 @@
       ></ui-ai-prompter>
     </div>
     <div class="investor-profile-section">
-
+      @if (fields(); as profileFields) {
+        <div class="fields-container">
+          @for (field of profileFields; track field.field) {
+            <div class="field-container">
+              <div class="field-title">
+                {{ field.field_fr }}
+              </div>
+              <div class="field-value">
+                {{ field.value }}
+              </div>
+            </div>
+          }
+        </div>
+      }
     </div>
   </div>
 </div>

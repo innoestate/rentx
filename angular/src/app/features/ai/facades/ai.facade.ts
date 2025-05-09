@@ -2,9 +2,9 @@ import { Injectable, Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { DataNgrxService } from 'src/app/shared/data/ngrx/data.ngrx.service';
+import { InvestorProfileField } from '../models/investor-profile-field.interface';
 import * as AiActions from '../ngrx/ai.actions';
-import { selectTokens, selectInvestorProfile, selectActive, selectTarget } from '../ngrx/ai.selectors';
-import { Target } from '../ngrx/ai.reducers';
+import { selectActive, selectInvestorProfile, selectTokens } from '../ngrx/ai.selectors';
 
 interface BuildInvestorProfileResponse {
   iaPrompt: string;
@@ -46,12 +46,8 @@ export class AiFacadeService {
     return this.store.selectSignal(selectActive);
   }
 
-  getCurrentInvestorProfile(): Signal<string[]> {
+  getCurrentInvestorProfile(): Signal<InvestorProfileField[]> {
     return this.store.selectSignal(selectInvestorProfile);
-  }
-
-  getTarget(): Signal<Target> {
-    return this.store.selectSignal(selectTarget);
   }
 
   buildInvestorProfile(prompt: string): Observable<BuildInvestorProfileResponse> {

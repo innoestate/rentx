@@ -17,8 +17,3 @@ export const selectInvestorProfile = createSelector(
   selectAiState,
   (state: AiState) => state.investorProfile
 );
-
-export const selectTarget = createSelector(
-  selectAiState,
-  (state: AiState) => state.target
-);

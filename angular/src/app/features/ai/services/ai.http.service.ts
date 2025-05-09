@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { InvestorProfileResponse } from '../models/investor-profile-field.interface';
 
 interface BuildInvestorProfileResponse {
   iaPrompt: string;
@@ -20,8 +21,8 @@ export class AiHttpService {
     return this.http.get<{ tokens: number }>(`${this.baseUrl}/tokens`);
   }
 
-  getInvestorProfile(): Observable<{ profile: string[] }> {
-    return this.http.get<{ profile: string[] }>(`${this.baseUrl}/investor/profile`);
+  getInvestorProfile(): Observable<InvestorProfileResponse> {
+    return this.http.get<InvestorProfileResponse>(`${this.baseUrl}/investor/profile`);
   }
 
   buildInvestorProfile(prompt: string): Observable<BuildInvestorProfileResponse> {
